@@ -1,6 +1,9 @@
 ﻿# basic_verilog
 ### Some basic must-have verilog modules
+####(licensed under CC BY-SA 4_0)
 
+
+**/Advanced Synthesis Cookbook/**		useful code from Altera`s cookbook
 
 **ClkDivider.v**		- wide reference clock divider
 **DeBounce.v**		- two-cycle debounce for input buttons
