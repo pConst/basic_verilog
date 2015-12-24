@@ -1,5 +1,5 @@
 //--------------------------------------------------------------------------------
-// Counter project, 201512
+// ***** project, 201512
 // Main_TB.v
 // Konstantin Pavlov, pavlovconst@gmail.com
 //--------------------------------------------------------------------------------
@@ -10,48 +10,52 @@
 
 `timescale 1ns / 1ps
 
-module Main_TB();
+module Main_tb();
 
-reg TB_clk200;
+reg clk200;
 initial begin
-        #0 TB_clk200 = 0;
+        #0 clk200 = 1;
         forever 
-            #5 TB_clk200 = ~TB_clk200;
+            #2.5 clk200 = ~clk200;
 end
 
-reg TB_rst;
+reg rst;
 initial begin
-        #40 TB_rst = 1;
-        #10 TB_rst = 0;
+        #10.2 rst = 1;
+        #5 rst = 0;
         //#10000;
         forever begin
-            #9950 TB_rst = ~TB_rst;
-            #50 TB_rst = ~TB_rst;
+            #9985 rst = ~rst;
+            #5 rst = ~rst;
         end
 end
 
-wire [31:0] TB_DerivedClocks;
+wire [31:0] DerivedClocks;
 ClkDivider CD1 (
-    .clk(TB_clk200),
+    .clk(clk200),
     .nrst(1'b1),
-    .out(TB_DerivedClocks[31:0]));
+    .out(DerivedClocks[31:0]));
 defparam CD1.WIDTH = 32;
 
-
-
-wire [15:0] TB_RandomNumber1;
-reg TB_rst1;
+wire [15:0] RandomNumber1;
+reg rst1;
 initial begin
-        #40 TB_rst1 = 1;
-        #10 TB_rst1 = 0;
+        #10.2 rst1 = 1;
+        #5 rst1 = 0;
 end
 
 c_rand RNG1 (
-    .clk(TB_clk200),
-    .rst(TB_rst1),
+    .clk(clk200),
+    .rst(rst1),
     .reseed(1'b0),
-    .seed_val(TB_DerivedClocks[15:0]),
-    .out(TB_RandomNumber1[15:0]));
+    .seed_val(DerivedClocks[15:0]),
+    .out(RandomNumber1[15:0]));
+
+reg start;
+initial begin
+        #100.2 start = 1;
+        #5 start = 0;
+end
 
 wire out1,out2;
 Main M(		// module under test
