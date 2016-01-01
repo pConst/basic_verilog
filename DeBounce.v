@@ -7,6 +7,16 @@
 //  Работает по двум отсчетам (медленного) клока. 
 //  Переключается в оба состояния с задержкой на два (медленных) клока
 
+
+/* DeBounce DB1 (
+	.clk(),
+	.nrst(),
+	.in(),
+	.out()
+	);
+defparam DB1.WIDTH = 1;*/
+
+
 module DeBounce(clk,nrst,in,out);
 
 input wire clk;

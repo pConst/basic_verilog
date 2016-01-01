@@ -1,12 +1,12 @@
 //--------------------------------------------------------------------------------
-// ***** project, 201512
-// Main_TB.v
+// SimplePulseGen_test project, 201512
+// Main_tb.v
 // Konstantin Pavlov, pavlovconst@gmail.com
 //--------------------------------------------------------------------------------
 
 // INFO --------------------------------------------------------------------------------
-//  Testbench template with basic clocking, periodic reset
-//  and random stimulus signals
+//
+//
 
 `timescale 1ns / 1ps
 
@@ -29,36 +29,24 @@ initial begin
             #5 rst = ~rst;
         end
 end
-wire nrst = ~rst;
 
 wire [31:0] DerivedClocks;
 ClkDivider CD1 (
     .clk(clk200),
-    .nrst,
+    .nrst(1'b1),
     .out(DerivedClocks[31:0]));
 defparam CD1.WIDTH = 32;
 
-wire [31:0] E_DerivedClocks;
-EdgeDetect ED1 (
-    .clk(clk200),
-    .nrst,
-    .in(DerivedClocks[31:0]),
-    .rising(E_DerivedClocks[31:0]),
-    .falling(),
-    .both()
-    );
-defparam ED1.WIDTH = 32;
-
 wire [15:0] RandomNumber1;
-reg rst_once;
+reg rst1;
 initial begin
-        #10.2 rst_once = 1;
-        #5 rst_once = 0;
+        #10.2 rst1 = 1;
+        #5 rst1 = 0;
 end
 
 c_rand RNG1 (
     .clk(clk200),
-    .rst(rst_once),
+    .rst(rst1),
     .reseed(1'b0),
     .seed_val(DerivedClocks[15:0]),
     .out(RandomNumber1[15:0]));
@@ -69,14 +57,11 @@ initial begin
         #5 start = 0;
 end
 
-//=================================================
+wire busy1,out1;
+SimplePulseGen SPG1 (clk200,~rst,1,start,busy1,out1);
 
-wire out1,out2;
-Main M(		// module under test
-    TB_clk,~TB_clk,
-    TB_rst,
-    out1,out2   // for compiler not to remove logic
-);
+wire busy2,out2;
+SimplePulseGen SPG2 (clk200,~rst,{28'b0,RandomNumber1[3:0]},&RandomNumber1[2:0],busy2,out2);
     
 endmodule
 	

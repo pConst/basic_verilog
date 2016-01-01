@@ -7,6 +7,17 @@
 //  Синхронизатор для входных сигналов.
 //  Стандартный метод подавления метастабильности.
 
+
+/*Synch S1 (
+    .clk(),
+    .nrst(),
+    .in(),
+    .out()
+    );
+defparam S1.LENGTH = 2;
+defparam S1.WIDTH = 1;*/
+
+
 //(* keep_hierarchy = "yes" *)
 module Synch(clk, nrst, in, out);		// aka "static delay"
 

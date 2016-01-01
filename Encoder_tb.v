@@ -1,12 +1,12 @@
 //--------------------------------------------------------------------------------
-// ***** project, 201512
-// Main_TB.v
+// Encoder_test project, 201601
+// Main_tb.v
 // Konstantin Pavlov, pavlovconst@gmail.com
 //--------------------------------------------------------------------------------
 
 // INFO --------------------------------------------------------------------------------
-//  Testbench template with basic clocking, periodic reset
-//  and random stimulus signals
+//
+//
 
 `timescale 1ns / 1ps
 
@@ -71,12 +71,15 @@ end
 
 //=================================================
 
-wire out1,out2;
-Main M(		// module under test
-    TB_clk,~TB_clk,
-    TB_rst,
-    out1,out2   // for compiler not to remove logic
-);
+wire p,m;
+Encoder E1(
+	.clk(clk200),
+	.nrst,
+	.incA(RandomNumber1[0]),
+	.incB(RandomNumber1[1]),
+	.plus1(p),
+	.minus1(m)
+	);
     
 endmodule
 	

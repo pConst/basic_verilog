@@ -7,12 +7,24 @@
 //  Версия SR-триггера. 
 //  Без метастабильности. Здесь сет важнее ресета.
 
+
+/* ResetSet RS1 (
+	.clk(),
+	.nrst(),
+	.s(),
+	.r(),
+	.q(),
+	.nq()
+	);
+defparam RS1.WIDTH = 1; */
+
+
 module ResetSet(clk,nrst,s,r,q,nq);
 
 input wire clk;
 input wire nrst;
-input wire [(WIDTH-1):0] r;
 input wire [(WIDTH-1):0] s;
+input wire [(WIDTH-1):0] r;
 output reg [(WIDTH-1):0] q = 0;   // also "present state"
 output wire [(WIDTH-1):0] nq;
 

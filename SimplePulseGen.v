@@ -7,6 +7,17 @@
 // ”прощенный генератор, 
 // импульс одноразовый, однотактный
 
+
+/* SimplePulseGen PG1 (
+	.clk(),
+	.nrst(),
+	.low_wdth(),
+	.start(),
+	.busy(),
+	.out()
+	); */
+
+
 module SimplePulseGen(clk,nrst,low_wdth,start,busy,out);
 
 input wire clk;

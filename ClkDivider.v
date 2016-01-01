@@ -7,6 +7,15 @@
 //  ƒелитель основного тактового сигнала.
 //  ѕозвол€ет получить производные медленные клоки синхронные с опорным.
 
+
+/*ClkDivider CD1 (
+    .clk(),
+    .nrst(),
+    .out()
+    );
+defparam CD1.WIDTH = 32;*/
+
+
 module ClkDivider(clk,nrst,out);
 
 input wire clk;

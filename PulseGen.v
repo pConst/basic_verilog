@@ -7,6 +7,19 @@
 //  Генератор импульса
 //  Работает начиная с low_wdth = 1, high_wdth = 1
 
+
+/*PulseGen PG1(
+    .clk(),
+    .nrst(),
+    .low_wdth(),
+    .high_wdth(),
+    .rpt(),
+    .start(),
+    .busy(),
+    .out()
+    );*/
+
+
 module PulseGen(clk,nrst,low_wdth,high_wdth,rpt,start,busy,out);
 
 input wire clk;

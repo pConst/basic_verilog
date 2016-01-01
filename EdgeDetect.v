@@ -8,7 +8,19 @@
 //  Выдает единичный импульс по фронту, спаду и комбинированный
 //  Задержка на один такт
 
-module EdgeDetect(clk, nrst, rising, falling, in, out);
+
+/*EdgeDetect ED1 (
+    .clk(),
+    .nrst(),
+    .in(),
+    .rising(),
+    .falling(),
+    .both()
+    );
+defparam ED1.WIDTH = 1;*/
+
+
+module EdgeDetect(clk, nrst, in, rising, falling, both);
 
 input wire clk;
 input wire nrst;
@@ -16,7 +28,7 @@ input wire nrst;
 input wire [(WIDTH-1):0] in;
 output reg [(WIDTH-1):0] rising = 0;
 output reg [(WIDTH-1):0] falling = 0;
-output wire [(WIDTH-1):0] out;
+output wire [(WIDTH-1):0] both;
 
 parameter WIDTH = 1;
 
@@ -38,6 +50,6 @@ always @ (posedge clk) begin
 end
 
 assign
-    out[(WIDTH-1):0] = rising[(WIDTH-1):0] | falling[(WIDTH-1):0];
+    both[(WIDTH-1):0] = rising[(WIDTH-1):0] | falling[(WIDTH-1):0];
 
 endmodule
