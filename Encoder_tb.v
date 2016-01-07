@@ -34,14 +34,14 @@ wire nrst = ~rst;
 wire [31:0] DerivedClocks;
 ClkDivider CD1 (
     .clk(clk200),
-    .nrst,
+    .nrst(nrst),
     .out(DerivedClocks[31:0]));
 defparam CD1.WIDTH = 32;
 
 wire [31:0] E_DerivedClocks;
 EdgeDetect ED1 (
     .clk(clk200),
-    .nrst,
+    .nrst(nrst),
     .in(DerivedClocks[31:0]),
     .rising(E_DerivedClocks[31:0]),
     .falling(),
@@ -74,7 +74,7 @@ end
 wire p,m;
 Encoder E1(
 	.clk(clk200),
-	.nrst,
+	.nrst(nrst),
 	.incA(RandomNumber1[0]),
 	.incB(RandomNumber1[1]),
 	.plus1(p),

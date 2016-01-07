@@ -11,7 +11,7 @@
 **DeBounce.v**		- two-cycle debounce for input buttons  
 **DynDelay.v**		- dynamic delay made on general-purpose trigger elements  
 **EdgeDetect.v**		- edge detector, gives one-tick pulses on every signal edge  
-**Encoder.v**		encoder input module
+**Encoder.v**		encoder input module  
 **PulseGen.v**		- generates pulses with given width and delay  
 **ResetSet.v**		- SR trigger variant w/o metastable state, set dominates here  
 **SetReset.v**		- SR trigger variant w/o metastable state, reset dominates here  
