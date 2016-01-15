@@ -5,7 +5,7 @@
 
 **/Advanced Synthesis Cookbook/**		useful code from Altera`s cookbook  
 
-**Main_TB.v**		- basic testbench template  
+**Main_tb.v**		- basic testbench template  
 
 **ClkDivider.v**		- wide reference clock divider  
 **DeBounce.v**		- two-cycle debounce for input buttons  
@@ -16,6 +16,7 @@
 **ResetSet.v**		- SR trigger variant w/o metastable state, set dominates here  
 **SetReset.v**		- SR trigger variant w/o metastable state, reset dominates here  
 **SimplePulseGen.v**		- generates one-cycle pulse with given delay  
+**StaticDelay.v**		static delay made on Xilinx`s SRL16E primitives  
 **Synch.v**		- input syncnronizer (and also "static delay module"), standard way to get rid of metastability issues  
 
 Also added some simple testbenches for selected modules

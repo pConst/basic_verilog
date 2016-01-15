@@ -16,7 +16,7 @@
 	.q(),
 	.nq()
 	);
-defparam RS1.WIDTH = 1; */
+defparam SR1.WIDTH = 1; */
 
 
 module SetReset(clk,nrst,s,r,q,nq);

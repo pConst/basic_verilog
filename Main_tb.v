@@ -1,11 +1,10 @@
 //--------------------------------------------------------------------------------
-// ***** project, 201512
 // Main_TB.v
 // Konstantin Pavlov, pavlovconst@gmail.com
 //--------------------------------------------------------------------------------
 
 // INFO --------------------------------------------------------------------------------
-//  Testbench template with basic clocking, periodic reset
+//  Testbench template with basic clocking, reset
 //  and random stimulus signals
 
 `timescale 1ns / 1ps
@@ -31,17 +30,28 @@ initial begin
 end
 wire nrst = ~rst;
 
+reg rst_once;
+initial begin       // initializing non-X data before PLL starts
+        #10.2 rst_once = 1;
+        #5 rst_once = 0;
+end
+initial begin
+        #510.2 rst_once = 1;    // PLL starts at 500ns, clock appears, so doing the reset for modules
+        #5 rst_once = 0;
+end
+wire nrst_once = ~rst_once;
+
 wire [31:0] DerivedClocks;
 ClkDivider CD1 (
     .clk(clk200),
-    .nrst(nrst),
+    .nrst(nrst_once),
     .out(DerivedClocks[31:0]));
 defparam CD1.WIDTH = 32;
 
 wire [31:0] E_DerivedClocks;
 EdgeDetect ED1 (
     .clk(clk200),
-    .nrst(nrst),
+    .nrst(nrst_once),
     .in(DerivedClocks[31:0]),
     .rising(E_DerivedClocks[31:0]),
     .falling(),
@@ -50,17 +60,11 @@ EdgeDetect ED1 (
 defparam ED1.WIDTH = 32;
 
 wire [15:0] RandomNumber1;
-reg rst_once;
-initial begin
-        #10.2 rst_once = 1;
-        #5 rst_once = 0;
-end
-
 c_rand RNG1 (
     .clk(clk200),
     .rst(rst_once),
     .reseed(1'b0),
-    .seed_val(DerivedClocks[15:0]),
+    .seed_val(DerivedClocks[31:0]),
     .out(RandomNumber1[15:0]));
 
 reg start;
@@ -72,9 +76,9 @@ end
 //=================================================
 
 wire out1,out2;
-Main M(		// module under test
-    TB_clk,~TB_clk,
-    TB_rst,
+Main M (		// module under test
+    clk200,~clk200,
+    rst_once,
     out1,out2   // for compiler not to remove logic
 );
     
