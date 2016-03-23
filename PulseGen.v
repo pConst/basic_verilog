@@ -62,7 +62,7 @@ always @ (posedge clk) begin
 			end
 		end
 		else begin
-		      if (cnt_low[31:0] < (max_low[31:0]-1)) begin    // compensation for firs initialization cycle
+		      if (cnt_low[31:0] < (max_low[31:0]-1)) begin    // compensation for first initialization cycle
 		          out <= 0;
 		          cnt_low[31:0] <= cnt_low[31:0] + 1;
 		      end

@@ -7,6 +7,7 @@
 
 **Main_tb.v**		- basic testbench template  
 
+**ActionBurst.v		- multichannel one-shot triggering module  
 **ClkDivider.v**		- wide reference clock divider  
 **DeBounce.v**		- two-cycle debounce for input buttons  
 **DynDelay.v**		- dynamic delay made on general-purpose trigger elements  

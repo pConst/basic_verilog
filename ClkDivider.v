@@ -26,10 +26,10 @@ parameter WIDTH = 32;
 
 always @ (posedge clk) begin
 	if (~nrst) begin
-		out <= 0;
+		out[(WIDTH-1):0] <= 0;
 	end
 	else begin
-		out <= out + 1;
+		out[(WIDTH-1):0] <= out[(WIDTH-1):0] + 1'b1;
 	end
 end
 
