@@ -1,0 +1,547 @@
+                           ;
+                           ;------------------------------------------------------------------------------------------
+                           ; Copyright © 2013-2014, Xilinx, Inc.
+                           ; This file contains confidential and proprietary information of Xilinx, Inc. and is
+                           ; protected under U.S. and international copyright and other intellectual property laws.
+                           ;------------------------------------------------------------------------------------------
+                           ;
+                           ; Disclaimer:
+                           ; This disclaimer is not a license and does not grant any rights to the materials
+                           ; distributed herewith. Except as otherwise provided in a valid license issued to
+                           ; you by Xilinx, and to the maximum extent permitted by applicable law: (1) THESE
+                           ; MATERIALS ARE MADE AVAILABLE "AS IS" AND WITH ALL FAULTS, AND XILINX HEREBY
+                           ; DISCLAIMS ALL WARRANTIES AND CONDITIONS, EXPRESS, IMPLIED, OR STATUTORY,
+                           ; INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, NON-INFRINGEMENT,
+                           ; OR FITNESS FOR ANY PARTICULAR PURPOSE; and (2) Xilinx shall not be liable
+                           ; (whether in contract or tort, including negligence, or under any other theory
+                           ; of liability) for any loss or damage of any kind or nature related to, arising
+                           ; under or in connection with these materials, including for any direct, or any
+                           ; indirect, special, incidental, or consequential loss or damage (including loss
+                           ; of data, profits, goodwill, or any type of loss or damage suffered as a result
+                           ; of any action brought by a third party) even if such damage or loss was
+                           ; reasonably foreseeable or Xilinx had been advised of the possibility of the same.
+                           ;
+                           ; CRITICAL APPLICATIONS
+                           ; Xilinx products are not designed or intended to be fail-safe, or for use in any
+                           ; application requiring fail-safe performance, such as life-support or safety
+                           ; devices or systems, Class III medical devices, nuclear facilities, applications
+                           ; related to the deployment of airbags, or any other applications that could lead
+                           ; to death, personal injury, or severe property or environmental damage
+                           ; (individually and collectively, "Critical Applications"). Customer assumes the
+                           ; sole risk and liability of any use of Xilinx products in Critical Applications,
+                           ; subject only to applicable laws and regulations governing limitations on product
+                           ; liability.
+                           ;
+                           ; THIS COPYRIGHT NOTICE AND DISCLAIMER MUST BE RETAINED AS PART OF THIS FILE AT ALL TIMES.
+                           ;
+                           ;------------------------------------------------------------------------------------------
+                           ;
+                           ;
+                           ;             _  ______ ____  ____  __  __  __
+                           ;            | |/ / ___|  _ \/ ___||  \/  |/ /_
+                           ;            | ' / |   | |_) \___ \| |\/| | '_ \
+                           ;            | . \ |___|  __/ ___) | |  | | (_) )
+                           ;            |_|\_\____|_|   |____/|_|  |_|\___/
+                           ;
+                           ;
+                           ;                PicoBlaze Reference Design.
+                           ;
+                           ;
+                           ; Routines for ICAPE2 Communication, Control and Monitoring
+                           ;
+                           ; Ken Chapman - Xilinx Ltd
+                           ;
+                           ; 18th August 2014 - Initial Version
+                           ;
+                           ;
+                           ;     NOTE - This is not a standalone PSM file. Include this file in a program that
+                           ;            then calls these routines and works with the values in scratch pad memory.
+                           ;
+                           ;                INCLUDE "ICAPE2_routines.psm"
+                           ;
+                           ;
+                           ;     IMPORTANT - These routines interact with input and output ports which must
+                           ;                 be appropriately defined to interface with ICAPE2. The CONSTANT
+                           ;                 directives defined below must correspond with the port assignments.
+                           ;
+                           ;
+                           ; INTRODUCTION
+                           ; ------------
+                           ;
+                           ; This file implements two routines that facilitates reads and writes from and to ICAPE2.
+                           ;
+                           ; This file also includes routines which help to implement ICAPE2 transactions.
+                           ;
+                           ;------------------------------------------------------------------------------------------
+                           ; Hardware Constants
+                           ;------------------------------------------------------------------------------------------
+                           ;
+                           ; The following constants define the input and output ports allocated to the ICAPE2
+                           ; interface. These constants reflect the ports used in the 'kc705_kcpsm6_icap.vhd'
+                           ; reference design file and should be modified if different ports are allocated in your
+                           ; own designs.
+                           ;
+                           ; Prior to initiating a write transaction a 32-bit data word should be present to
+                           ; ICAPE2 using the following output ports.
+                           ;
+                           CONSTANT icap_din0, 04                          ; icap_din[7:0]
+                           CONSTANT icap_din1, 05                          ; icap_din[15:8]
+                           CONSTANT icap_din2, 06                          ; icap_din[23:16]
+                           CONSTANT icap_din3, 07                          ; icap_din[31:24]
+                           ;
+                           ; Following a read transaction a 32-bit data word can be read from ICAPE2 using these
+                           ; input ports.
+                           ;
+                           CONSTANT icap_dout0, 04                         ; icap_dout[7:0]
+                           CONSTANT icap_dout1, 05                         ; icap_dout[15:8]
+                           CONSTANT icap_dout2, 06                         ; icap_dout[23:16]
+                           CONSTANT icap_dout3, 07                         ; icap_dout[31:24]
+                           ;
+                           ; An ICAPE2 word read or word write is initated by an OUTPUTK instruction to the
+                           ; following port which generates an active Low pulse on the CSIB input to ICAPE2.
+                           ; At the same time, Bit0 defines if the operation is read(1) or write(0) by setting
+                           ; then RDWRB input to ICAPE2.
+                           ;
+                           CONSTANT icap_trigger_port, 02
+                           CONSTANT icap_read_operation, 00000001'b        ; Read (RDWRB = 1)
+                           CONSTANT icap_write_operation, 00000000'b       ; Write (RDWRB = 0)
+                           ;
+                           ;
+                           ;------------------------------------------------------------------------------------------
+                           ; Scratch Pad Memory
+                           ;------------------------------------------------------------------------------------------
+                           ;
+                           ; The CONSTANT directives below define the allocation of scratch pad memory locations
+                           ; used to store information associated with ICAPE2.
+                           ;
+                           ;
+                           CONSTANT ICAPE2_word0, 20                       ; bits[7:0]
+                           CONSTANT ICAPE2_word1, 21                       ; bits[15:8]
+                           CONSTANT ICAPE2_word2, 22                       ; bits[23:16]
+                           CONSTANT ICAPE2_word3, 23                       ; bits[31:24]
+                           ;
+                           CONSTANT IDCODE_word0, 24                       ; bits[7:0]
+                           CONSTANT IDCODE_word1, 25                       ; bits[15:8]
+                           CONSTANT IDCODE_word2, 26                       ; bits[23:16]
+                           CONSTANT IDCODE_word3, 27                       ; bits[31:24]
+                           ;
+                           CONSTANT FAR_word0, 28                          ; bits[7:0]
+                           CONSTANT FAR_word1, 29                          ; bits[15:8]
+                           CONSTANT FAR_word2, 2A                          ; bits[23:16]
+                           CONSTANT FAR_word3, 2B                          ; bits[31:24]
+                           ;
+                           ;
+                           ;------------------------------------------------------------------------------------------
+                           ; Routine to read a 32-bit word from ICAPE2
+                           ;------------------------------------------------------------------------------------------
+                           ;
+                           ; The 32-bit word is returned in [sF,sE,sD,sC] and stored in scratch pad memory locations
+                           ; ICAPE2_word3, ICAPE2_word2, ICAPE2_word1 and ICAPE2_word0.
+                           ;
+                           ; As described and definded in 'kc705_kcpsm6_icap.vhd', ICAPE2 has a read latency of three
+                           ; clock cycles. The interface circuit captures the 32-bit value in a register so that
+                           ; KCPSM6 can then read it one byte at a time. Note the short delay present in the routine
+                           ; below that allows for the latency of ICAPE2 and the capture of the value being read.
+                           ;
+                           ; Registers used sC, sD, sE and sF.
+                           ;
+                           ;
+    read_word_from_ICAPE2: OUTPUTK icap_read_operation, icap_trigger_port
+                           LOAD sC, sC                                     ;time to complete read operation
+                           LOAD sC, sC
+                           INPUT sC, icap_dout0                            ;read 32-bit word
+                           INPUT sD, icap_dout1
+                           INPUT sE, icap_dout2
+                           INPUT sF, icap_dout3
+                           STORE sC, ICAPE2_word0                          ;store 32-bit word
+                           STORE sD, ICAPE2_word1
+                           STORE sE, ICAPE2_word2
+                           STORE sF, ICAPE2_word3
+                           RETURN 
+                           ;
+                           ;
+                           ;------------------------------------------------------------------------------------------
+                           ; Routine to write a 32-bit word to ICAPE2
+                           ;------------------------------------------------------------------------------------------
+                           ;
+                           ; A 32-bit word must be provided in [sF,sE,sD,sC].
+                           ;
+                           ; Registers used sC, sD, sE and sF (all preserved).
+                           ;
+     write_word_to_ICAPE2: OUTPUT sF, icap_din3
+                           OUTPUT sE, icap_din2
+                           OUTPUT sD, icap_din1
+                           OUTPUT sC, icap_din0
+                           OUTPUTK icap_write_operation, icap_trigger_port
+                           RETURN 
+                           ;
+                           ;
+                           ;------------------------------------------------------------------------------------------
+                           ; Routines to write various 32-bit words to ICAPE2
+                           ;------------------------------------------------------------------------------------------
+                           ;
+                           ; In each case the value of the 32-bit word is defined in [sF,sE,sD,sC] and then passed
+                           ; to the 'write_word_to_ICAPE2' routine (which includes RETURN).
+                           ;
+                           ; Registers used sC, sD, sE and sF.
+                           ;
+                           ;
+          Dummy_to_ICAPE2: LOAD sF, FF                                     ; Dummy (or idle) = FFFFFFFF
+                           LOAD sE, FF
+                           LOAD sD, FF
+                           LOAD sC, FF
+                           JUMP write_word_to_ICAPE2
+                           ;
+                           ;
+           NOOP_to_ICAPE2: LOAD sF, 20                                     ; NOOP = 20000000
+                           LOAD sE, 00
+                           LOAD sD, 00
+                           LOAD sC, 00
+                           JUMP write_word_to_ICAPE2
+                           ;
+                           ;
+           SYNC_to_ICAPE2: LOAD sF, AA                                     ; SYNC = AA995566
+                           LOAD sE, 99
+                           LOAD sD, 55
+                           LOAD sC, 66
+                           JUMP write_word_to_ICAPE2
+                           ;
+                           ;
+            CMD_to_ICAPE2: LOAD sF, 30                                     ; Type 1 write of one word to CMD = 30008001
+                           LOAD sE, 00
+                           LOAD sD, 80
+                           LOAD sC, 01
+                           JUMP write_word_to_ICAPE2
+                           ;
+                           ;
+         DESYNC_to_ICAPE2: LOAD sF, 00                                     ; DESYNC (write to CMD) = 0000000D
+                           LOAD sE, 00
+                           LOAD sD, 00
+                           LOAD sC, 0D
+                           JUMP write_word_to_ICAPE2
+                           ;
+                           ;
+    read_IDCODE_to_ICAPE2: LOAD sF, 28                                     ; Type 1 read of one word from IDCODE = 28018001
+                           LOAD sE, 01
+                           LOAD sD, 80
+                           LOAD sC, 01
+                           JUMP write_word_to_ICAPE2
+                           ;
+                           ;
+      read_CTL0_to_ICAPE2: LOAD sF, 28                                     ; Type 1 read of one word from CTL0 = 2800A001
+                           LOAD sE, 00
+                           LOAD sD, A0
+                           LOAD sC, 01
+                           JUMP write_word_to_ICAPE2
+                           ;
+                           ;
+      read_STAT_to_ICAPE2: LOAD sF, 28                                     ; Type 1 read of one word from STAT = 2800E001
+                           LOAD sE, 00
+                           LOAD sD, E0
+                           LOAD sC, 01
+                           JUMP write_word_to_ICAPE2
+                           ;
+                           ;
+      read_COR0_to_ICAPE2: LOAD sF, 28                                     ; Type 1 read of one word from COR0 = 28012001
+                           LOAD sE, 01
+                           LOAD sD, 20
+                           LOAD sC, 01
+                           JUMP write_word_to_ICAPE2
+                           ;
+                           ;
+      read_COR1_to_ICAPE2: LOAD sF, 28                                     ; Type 1 read of one word from COR1 = 2801C001
+                           LOAD sE, 01
+                           LOAD sD, C0
+                           LOAD sC, 01
+                           JUMP write_word_to_ICAPE2
+                           ;
+                           ;
+    read_WBSTAR_to_ICAPE2: LOAD sF, 28                                     ; Type 1 read of one word from WBSTAR = 28020001
+                           LOAD sE, 02
+                           LOAD sD, 00
+                           LOAD sC, 01
+                           JUMP write_word_to_ICAPE2
+                           ;
+                           ;
+   read_BOOTSTS_to_ICAPE2: LOAD sF, 28                                     ; Type 1 read of one word from BOOTSTS = 2802C001
+                           LOAD sE, 02
+                           LOAD sD, C0
+                           LOAD sC, 01
+                           JUMP write_word_to_ICAPE2
+                           ;
+                           ;
+       read_FAR_to_ICAPE2: LOAD sF, 28                                     ; Type 1 read of one word from FAR = 28002001
+                           LOAD sE, 00
+                           LOAD sD, 20
+                           LOAD sC, 01
+                           JUMP write_word_to_ICAPE2
+                           ;
+                           ;
+                           ;------------------------------------------------------------------------------------------
+                           ; SYNC sequence
+                           ;------------------------------------------------------------------------------------------
+                           ;
+                           ; Open communication with ICAP
+                           ;
+  SYNC_sequence_to_ICAPE2: CALL NOOP_to_ICAPE2                             ;NOOP
+                           CALL SYNC_to_ICAPE2                             ;SYNC
+                           CALL NOOP_to_ICAPE2                             ;NOOP
+                           JUMP NOOP_to_ICAPE2                             ;NOOP (includes RETURN)
+                           ;
+                           ;
+                           ;------------------------------------------------------------------------------------------
+                           ; DESYNC sequence
+                           ;------------------------------------------------------------------------------------------
+                           ;
+                           ; Close communication with ICAPE2
+                           ;
+DESYNC_sequence_to_ICAPE2: CALL NOOP_to_ICAPE2                             ;NOOP
+                           CALL CMD_to_ICAPE2                              ;Type 1 write of one word to CMD
+                           CALL DESYNC_to_ICAPE2                           ;DESYNC command
+                           CALL NOOP_to_ICAPE2                             ;NOOP
+                           CALL NOOP_to_ICAPE2                             ;NOOP
+                           JUMP Dummy_to_ICAPE2                            ;Dummy (idle) (includes RETURN)
+                           ;
+                           ;
+                           ;------------------------------------------------------------------------------------------
+                           ; Read IDCODE sequence
+                           ;------------------------------------------------------------------------------------------
+                           ;
+                           ; Complete sequence to open communication with ICAPE2, read the IDCODE register and close
+                           ; communication with ICAPE2
+                           ;
+                           ; The value of IDCODE is stored in scatch pad memory locations ICAPE2_word0, ICAPE2_word1,
+                           ; ICAPE2_word2 and ICAPE2_word3. This useful information is also stored in IDCODE_word0,
+                           ; IDCODE_word1, IDCODE_word2 and IDCODE_word3 for future used (i.e. when writing frames).
+                           ;
+     read_IDCODE_sequence: CALL SYNC_sequence_to_ICAPE2                    ;SYNC sequence
+                           CALL read_IDCODE_to_ICAPE2                      ;Type 1 read of one word from IDCODE
+                           CALL NOOP_to_ICAPE2                             ;NOOP
+                           CALL NOOP_to_ICAPE2                             ;NOOP
+                           CALL read_word_from_ICAPE2                      ;read and store word
+                           STORE sC, IDCODE_word0                          ;store copy of IDCODE
+                           STORE sD, IDCODE_word1
+                           STORE sE, IDCODE_word2
+                           STORE sF, IDCODE_word3
+                           JUMP DESYNC_sequence_to_ICAPE2                  ;DESYNC sequence (includes RETURN)
+                           ;
+                           ;
+                           ;------------------------------------------------------------------------------------------
+                           ; Read CTL0 sequence
+                           ;------------------------------------------------------------------------------------------
+                           ;
+                           ; Complete sequence to open communication with ICAPE2, read the CTL0 register and close
+                           ; communication with ICAPE2
+                           ;
+                           ; The value of CTL0 is stored in scatch pad memory locations ICAPE2_word3, ICAPE2_word2,
+                           ; ICAPE2_word1 and ICAPE2_word0.
+                           ;
+       read_CTL0_sequence: CALL SYNC_sequence_to_ICAPE2                    ;SYNC sequence
+                           CALL read_CTL0_to_ICAPE2                        ;Type 1 read of one word from CTL0
+                           CALL NOOP_to_ICAPE2                             ;NOOP
+                           CALL NOOP_to_ICAPE2                             ;NOOP
+                           CALL read_word_from_ICAPE2                      ;read and store word
+                           JUMP DESYNC_sequence_to_ICAPE2                  ;DESYNC sequence (includes RETURN)
+                           ;
+                           ;
+                           ;------------------------------------------------------------------------------------------
+                           ; Read STAT sequence
+                           ;------------------------------------------------------------------------------------------
+                           ;
+                           ; Complete sequence to open communication with ICAPE2, read the STAT register and close
+                           ; communication with ICAPE2
+                           ;
+                           ; The value of STAT is stored in scatch pad memory locations ICAPE2_word3, ICAPE2_word2,
+                           ; ICAPE2_word1 and ICAPE2_word0.
+                           ;
+       read_STAT_sequence: CALL SYNC_sequence_to_ICAPE2                    ;SYNC sequence
+                           CALL read_STAT_to_ICAPE2                        ;Type 1 read of one word from STAT
+                           CALL NOOP_to_ICAPE2                             ;NOOP
+                           CALL NOOP_to_ICAPE2                             ;NOOP
+                           CALL read_word_from_ICAPE2                      ;read and store word
+                           JUMP DESYNC_sequence_to_ICAPE2                  ;DESYNC sequence (includes RETURN)
+                           ;
+                           ;
+                           ;------------------------------------------------------------------------------------------
+                           ; Read COR0 sequence
+                           ;------------------------------------------------------------------------------------------
+                           ;
+                           ; Complete sequence to open communication with ICAPE2, read the COR0 register and close
+                           ; communication with ICAPE2
+                           ;
+                           ; The value of COR0 is stored in scatch pad memory locations ICAPE2_word3, ICAPE2_word2,
+                           ; ICAPE2_word1 and ICAPE2_word0.
+                           ;
+       read_COR0_sequence: CALL SYNC_sequence_to_ICAPE2                    ;SYNC sequence
+                           CALL read_COR0_to_ICAPE2                        ;Type 1 read of one word from COR0
+                           CALL NOOP_to_ICAPE2                             ;NOOP
+                           CALL NOOP_to_ICAPE2                             ;NOOP
+                           CALL read_word_from_ICAPE2                      ;read and store word
+                           JUMP DESYNC_sequence_to_ICAPE2                  ;DESYNC sequence (includes RETURN)
+                           ;
+                           ;
+                           ;------------------------------------------------------------------------------------------
+                           ; Read COR1 sequence
+                           ;------------------------------------------------------------------------------------------
+                           ;
+                           ; Complete sequence to open communication with ICAPE2, read the COR1 register and close
+                           ; communication with ICAPE2
+                           ;
+                           ; The value of COR1 is stored in scatch pad memory locations ICAPE2_word3, ICAPE2_word2,
+                           ; ICAPE2_word1 and ICAPE2_word0.
+                           ;
+       read_COR1_sequence: CALL SYNC_sequence_to_ICAPE2                    ;SYNC sequence
+                           CALL read_COR1_to_ICAPE2                        ;Type 1 read of one word from COR1
+                           CALL NOOP_to_ICAPE2                             ;NOOP
+                           CALL NOOP_to_ICAPE2                             ;NOOP
+                           CALL read_word_from_ICAPE2                      ;read and store word
+                           JUMP DESYNC_sequence_to_ICAPE2                  ;DESYNC sequence (includes RETURN)
+                           ;
+                           ;
+                           ;------------------------------------------------------------------------------------------
+                           ; Write COR1 sequence
+                           ;------------------------------------------------------------------------------------------
+                           ;
+                           ; Complete sequence to open communication with ICAPE2, write the COR1 register with a value
+                           ; and close communication with ICAPE2
+                           ;
+                           ; The value to be written to COR1 should be stored in scatch pad memory locations
+                           ; ICAPE2_word3, ICAPE2_word2, ICAPE2_word1 and ICAPE2_word0 before calling this routine.
+                           ;
+      write_COR1_sequence: CALL SYNC_sequence_to_ICAPE2                    ;SYNC sequence
+                           LOAD sF, 30                                     ;Type 1 write of one word to COR1 register
+                           LOAD sE, 01                                     ;03001C001
+                           LOAD sD, C0
+                           LOAD sC, 01
+                           CALL write_word_to_ICAPE2
+                           FETCH sF, ICAPE2_word3                          ;Fetch value to be written to COR1
+                           FETCH sE, ICAPE2_word2
+                           FETCH sD, ICAPE2_word1
+                           FETCH sC, ICAPE2_word0
+                           CALL write_word_to_ICAPE2
+                           CALL NOOP_to_ICAPE2                             ;NOOP
+                           CALL NOOP_to_ICAPE2                             ;NOOP
+                           JUMP DESYNC_sequence_to_ICAPE2                  ;DESYNC sequence (includes RETURN)
+                           ;
+                           ;
+                           ;------------------------------------------------------------------------------------------
+                           ; Read WBSTAR sequence
+                           ;------------------------------------------------------------------------------------------
+                           ;
+                           ; Complete sequence to open communication with ICAPE2, read the WBSTAR register and close
+                           ; communication with ICAPE2
+                           ;
+                           ; The value of WBSTAR is stored in scatch pad memory locations ICAPE2_word3, ICAPE2_word2,
+                           ; ICAPE2_word1 and ICAPE2_word0.
+                           ;
+     read_WBSTAR_sequence: CALL SYNC_sequence_to_ICAPE2                    ;SYNC sequence
+                           CALL read_WBSTAR_to_ICAPE2                      ;Type 1 read of one word from WBSTAR
+                           CALL NOOP_to_ICAPE2                             ;NOOP
+                           CALL NOOP_to_ICAPE2                             ;NOOP
+                           CALL read_word_from_ICAPE2                      ;read and store word
+                           JUMP DESYNC_sequence_to_ICAPE2                  ;DESYNC sequence (includes RETURN)
+                           ;
+                           ;
+                           ;------------------------------------------------------------------------------------------
+                           ; Read BOOTSTS sequence
+                           ;------------------------------------------------------------------------------------------
+                           ;
+                           ; Complete sequence to open communication with ICAPE2, read the BOOTSTS register and close
+                           ; communication with ICAPE2
+                           ;
+                           ; The value of BOOTSTS is stored in scatch pad memory locations ICAPE2_word3, ICAPE2_word2,
+                           ; ICAPE2_word1 and ICAPE2_word0.
+                           ;
+    read_BOOTSTS_sequence: CALL SYNC_sequence_to_ICAPE2                    ;SYNC sequence
+                           CALL read_BOOTSTS_to_ICAPE2                     ;Type 1 read of one word from BOOTSTS
+                           CALL NOOP_to_ICAPE2                             ;NOOP
+                           CALL NOOP_to_ICAPE2                             ;NOOP
+                           CALL read_word_from_ICAPE2                      ;read and store word
+                           JUMP DESYNC_sequence_to_ICAPE2                  ;DESYNC sequence (includes RETURN)
+                           ;
+                           ;
+                           ;------------------------------------------------------------------------------------------
+                           ; Read BOOTSTS sequence
+                           ;------------------------------------------------------------------------------------------
+                           ;
+                           ; Complete sequence to open communication with ICAPE2, read the FAR register and close
+                           ; communication with ICAPE2
+                           ;
+                           ; The value of FAR is stored in scatch pad memory locations ICAPE2_word3, ICAPE2_word2,
+                           ; ICAPE2_word1 and ICAPE2_word0.
+                           ;
+        read_FAR_sequence: CALL SYNC_sequence_to_ICAPE2                    ;SYNC sequence
+                           CALL read_FAR_to_ICAPE2                         ;Type 1 read of one word from FAR
+                           CALL NOOP_to_ICAPE2                             ;NOOP
+                           CALL NOOP_to_ICAPE2                             ;NOOP
+                           CALL read_word_from_ICAPE2                      ;read and store word
+                           JUMP DESYNC_sequence_to_ICAPE2                  ;DESYNC sequence (includes RETURN)
+                           ;
+                           ;
+                           ;------------------------------------------------------------------------------------------
+                           ; Write FAR sequence
+                           ;------------------------------------------------------------------------------------------
+                           ;
+                           ; Complete sequence to open communication with ICAPE2, write the FAR register with a value
+                           ; and close communication with ICAPE2
+                           ;
+                           ; The value to be written to FAR should be stored in scatch pad memory locations
+                           ; FAR_word3, FAR_word2, FAR_word1 and FAR_word0 before calling this routine.
+                           ;
+                           ; NOTE - If Readback CRC scanning is enabled then the contents of FAR will be modified
+                           ;        after the DESYNC sequence.
+                           ;
+       write_FAR_sequence: CALL SYNC_sequence_to_ICAPE2                    ;SYNC sequence
+                           LOAD sF, 30                                     ;Type 1 write of one word to FAR register
+                           LOAD sE, 00                                     ;03002001
+                           LOAD sD, 20
+                           LOAD sC, 01
+                           CALL write_word_to_ICAPE2
+                           FETCH sF, FAR_word3                             ;Fetch value to be written to FAR
+                           FETCH sE, FAR_word2
+                           FETCH sD, FAR_word1
+                           FETCH sC, FAR_word0
+                           CALL write_word_to_ICAPE2
+                           CALL NOOP_to_ICAPE2                             ;NOOP
+                           CALL NOOP_to_ICAPE2                             ;NOOP
+                           JUMP DESYNC_sequence_to_ICAPE2                  ;DESYNC sequence (includes RETURN)
+                           ;
+                           ;
+                           ;------------------------------------------------------------------------------------------
+                           ; The following tables define 32-bit words that will written to ICAPE2
+                           ;------------------------------------------------------------------------------------------
+                           ;
+                           TABLE Dummy#, [FF,FF,FF,FF]                     ;Dummy word
+                           TABLE NOOP#, [20,00,00,00]                      ;NOOP
+                           TABLE Bus_Sync#, [00,00,00,BB]                  ;Bus width sync word
+                           TABLE Bus_Detect#, [11,22,00,44]                ;Bus width detect
+                           TABLE SYNC#, [AA,99,55,66]                      ;SYNC word
+                           TABLE CMD#, [30,00,80,01]                       ;Type 1 write of one word to CMD
+                           TABLE DESYNC#, [00,00,00,0D]                    ;DESYNC (write to CMD)
+                           TABLE read_IDCODE#, [28,01,80,01]               ;Type 1 read of one word from IDCODE
+                           TABLE read_STAT#, [28,00,E0,01]                 ;Type 1 read of one word from STAT
+                           TABLE read_FAR#, [28,00,20,01]                  ;Type 1 read of one word from FAR
+                           TABLE read_COR1#, [28,01,C0,01]                 ;Type 1 read of one word from COR1
+                           TABLE FAR#, [30,00,20,01]                       ;Type 1 write of one word to FAR
+                           ;
+                           ;
+                           ;------------------------------------------------------------------------------------------
+                           ; ICAPE2 Idle mode
+                           ;------------------------------------------------------------------------------------------
+                           ;
+              ICAPE2_idle: LOAD sF, FF
+                           LOAD sE, FF
+                           LOAD sD, FF
+                           LOAD sC, FF
+                           ;
+                           OUTPUT sF, icap_dout3
+                           OUTPUT sE, icap_dout2
+                           OUTPUT sD, icap_dout1
+                           OUTPUT sC, icap_dout0
+                           RETURN 
+                           ;
+                           ;
+                           ;------------------------------------------------------------------------------------------
+                           ; End of 'ICAPE2_routines.psm'
+                           ;------------------------------------------------------------------------------------------
+                           ;

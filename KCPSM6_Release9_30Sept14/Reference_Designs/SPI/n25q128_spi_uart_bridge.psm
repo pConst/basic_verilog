@@ -1,0 +1,840 @@
+                      ;
+                      ;------------------------------------------------------------------------------------------
+                      ; Copyright © 2011-2013, Xilinx, Inc.
+                      ; This file contains confidential and proprietary information of Xilinx, Inc. and is
+                      ; protected under U.S. and international copyright and other intellectual property laws.
+                      ;------------------------------------------------------------------------------------------
+                      ;
+                      ; Disclaimer:
+                      ; This disclaimer is not a license and does not grant any rights to the materials
+                      ; distributed herewith. Except as otherwise provided in a valid license issued to
+                      ; you by Xilinx, and to the maximum extent permitted by applicable law: (1) THESE
+                      ; MATERIALS ARE MADE AVAILABLE "AS IS" AND WITH ALL FAULTS, AND XILINX HEREBY
+                      ; DISCLAIMS ALL WARRANTIES AND CONDITIONS, EXPRESS, IMPLIED, OR STATUTORY,
+                      ; INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, NON-INFRINGEMENT,
+                      ; OR FITNESS FOR ANY PARTICULAR PURPOSE; and (2) Xilinx shall not be liable
+                      ; (whether in contract or tort, including negligence, or under any other theory
+                      ; of liability) for any loss or damage of any kind or nature related to, arising
+                      ; under or in connection with these materials, including for any direct, or any
+                      ; indirect, special, incidental, or consequential loss or damage (including loss
+                      ; of data, profits, goodwill, or any type of loss or damage suffered as a result
+                      ; of any action brought by a third party) even if such damage or loss was
+                      ; reasonably foreseeable or Xilinx had been advised of the possibility of the same.
+                      ;
+                      ; CRITICAL APPLICATIONS
+                      ; Xilinx products are not designed or intended to be fail-safe, or for use in any
+                      ; application requiring fail-safe performance, such as life-support or safety
+                      ; devices or systems, Class III medical devices, nuclear facilities, applications
+                      ; related to the deployment of airbags, or any other applications that could lead
+                      ; to death, personal injury, or severe property or environmental damage
+                      ; (individually and collectively, "Critical Applications"). Customer assumes the
+                      ; sole risk and liability of any use of Xilinx products in Critical Applications,
+                      ; subject only to applicable laws and regulations governing limitations on product
+                      ; liability.
+                      ;
+                      ; THIS COPYRIGHT NOTICE AND DISCLAIMER MUST BE RETAINED AS PART OF THIS FILE AT ALL TIMES.
+                      ;
+                      ;------------------------------------------------------------------------------------------
+                      ;
+                      ;
+                      ;             _  ______ ____  ____  __  __  __
+                      ;            | |/ / ___|  _ \/ ___||  \/  |/ /_
+                      ;            | ' / |   | |_) \___ \| |\/| | '_ \
+                      ;            | . \ |___|  __/ ___) | |  | | (_) )
+                      ;            |_|\_\____|_|   |____/|_|  |_|\___/
+                      ;
+                      ;
+                      ; KCPSM6 reference design: Communication with SPI Flash memory.
+                      ;
+                      ; Presented on the Xilinx KC705 Evaluation Board (www.xilinx.com) but easily ported to
+                      ; other platforms.
+                      ;
+                      ;
+                      ; Ken Chapman - Xilinx Ltd
+                      ;
+                      ; 25th September 2012 - Initial version
+                      ;     18th March 2013 - Constant directives defining ASCII control characters removed
+                      ;                       (pre-defined in KCPSM6 assembler v2.43 or later).
+                      ;
+                      ;
+                      ; INTRODUCTION
+                      ;
+                      ; The primary purpose of this reference design is to illustrate how KCPSM6 can implement
+                      ; the signaling and protocol required to communicate and control an SPI Flash memory
+                      ; that was initially connected to the device to facilitate device configuration.
+                      ;
+                      ; The design is based on the standard reference designs provided with KCPSM6 (PicoBlaze).
+                      ; These provide a UART-USB connection allowing messages to be displayed on a terminal and
+                      ; for keyboard entries to allow a degree of control and data input. Please refer to the
+                      ; documentation provided with KCPSM6 and the UART macros if you need to know more about
+                      ; PicoBlaze and UART communication. PicoTerm is also supplied with KCPSM6 and ideally
+                      ; suited to this application so please use it.
+                      ;
+                      ; In this example the aim is to communicate with the Micron/Numonyx N25Q128 device on the
+                      ; KC705 board. Please see 'kc705_kcpsm6_uart_spi_flash.vhd' for the hardware arrangement
+                      ; and the special requirement for the setting of the 'M0' switch on the KC705 board.
+                      ;
+                      ; The hardware defines a classic 4-wire SPI interface ready for serial communication...
+                      ;
+                      ;    spi_clk    Clock from FPGA (KCPSM6) to SPI Flash
+                      ;    spi_cs_b   Chip Select from FPGA (KCPSM6) to SPI Flash
+                      ;    spi_mosi   Data from FPGA (KCPSM6) to SPI Flash
+                      ;    spi_miso   Data from SPI Flash to FPGA (KCPSM6)
+                      ;
+                      ; The three output signals are driven directly by a single KCPSM6 output and the input
+                      ; signal is read by a single input port. Absolutely everything related to the generation
+                      ; of SPI signals and the communication protocol is implemented by KCPSM6 and defined
+                      ; within the PSM files provided (detailed descriptions are provided in the PSM code).
+                      ;
+                      ; This program is only intended to provide a simple example of communication with the
+                      ; SPI Flash. The terminal (PicoTerm) provides a convenient way to interact with the
+                      ; design and a useful way to develop and verify Flash memory operations. In most real
+                      ; application there is no compelling reason to retain the UART sections and certainly the
+                      ; SPI code has no dependence on the UART related code.
+                      ;
+                      ;
+                      ;
+                      ; NOTE - This PSM file includes further PSM files so these must also be present
+                      ;        when running the KCPSM6 assembler (v2.00 or later). It is hoped that the
+                      ;        included files will also be suitable for reuse and inclusion in your own
+                      ;        programs. For this reason each file contains descriptions of the routines
+                      ;        that are provided.
+                      ;
+                      ;            PicoTerm_routines.psm  - A set of routines to interface with the UART
+                      ;                                     macros and use the PicoTerm features.
+                      ;
+                      ;            soft_delays_100mhz.psm - Software delays based on 100MHz clock frequency.
+                      ;
+                      ;
+                      ;------------------------------------------------------------------------------------------
+                      ; Port definitions
+                      ;------------------------------------------------------------------------------------------
+                      ;
+                      ;
+                      ; SPI Interface to N25Q128 Configuration Flash Memory
+                      ; ---------------------------------------------------
+                      ;
+                      ; See 'N25Q128_SPI_routines.psm' for I/O ports used for SPI communication.
+                      ;
+                      ;
+                      ; UART (for connection with PicoTerm)
+                      ; -----------------------------------
+                      ;
+                      ; See 'PicoTerm_routines.psm' for I/O ports used with UART macros.
+                      ;
+                      ;
+                      ;------------------------------------------------------------------------------------------
+                      ; Special Register usage
+                      ;------------------------------------------------------------------------------------------
+                      ;
+                      ; No registers are given special names in this program.
+                      ;
+                      ;
+                      ;------------------------------------------------------------------------------------------
+                      ; Scratch Pad Memory Locations (256 Bytes)
+                      ;------------------------------------------------------------------------------------------
+                      ;
+                      ; Scratch pad memory can be reduced to 64 or 128 bytes if desired.
+                      ;
+                      ;
+                      ; PicoTerm features
+                      ; -----------------
+                      ;
+                      ; See 'PicoTerm_routines.psm' for allocation of 18 memory locations.
+                      ; These are currently set to memory locations 00 to 12 hex inclusive.
+                      ;
+                      ;
+                      ;------------------------------------------------------------------------------------------
+                      ; Useful data constants
+                      ;------------------------------------------------------------------------------------------
+                      ;
+                      ;
+                      ;
+                      ;------------------------------------------------------------------------------------------
+                      ; Initialise the system
+                      ;------------------------------------------------------------------------------------------
+                      ;
+                      ; A delay of 1 second is implemented which is intended to give time for all the hardware
+                      ; to settle into a stable condition before starting to doing anything. This can be
+                      ; particularly beneficial when dealing with long cables where serial lines can take some
+                      ; time to reach the initial idle state following power being applied.
+                      ;
+          cold_start: CALL delay_1s
+                      ;
+                      CALL reset_UART_macros            ;Reset buffers in UART macros
+                      ;
+                      CALL SPI_initialise               ;initialise SPI bus
+                      ;
+                      ; Initialised PicoTerm display and display welcome messages
+                      ;
+                      CALL PicoTerm_CLS
+                      CALL welcome_message
+                      ;
+                      ;
+                      ;------------------------------------------------------------------------------------------
+                      ; Confirm connection has been made with PicoTerm
+                      ;------------------------------------------------------------------------------------------
+                      ;
+                      ; Before attempting to use any of the special features provided by PicoTerm it is a good
+                      ; idea to check that PicoTerm really is connected. This is where the Device Control String
+                      ; (DCS) request for a 'Ping' can be used. If a different terminal is being used then the
+                      ; plain text messages will be displayed as normal but the 'Ping' request will fail to
+                      ; return the response expected. So if this should occur a message will be displayed and
+                      ; this program will halt.
+                      ;
+                      ; Calling the 'PicoTerm_Ping' routine will transmit the Device Control String (DCS)
+                      ; to request the 'Ping' from PicoTerm. If PicoTerm is connected then it should respond
+                      ; with a DCS containing the (upper case) character 'P'. The response will be intercepted
+                      ; by the UART_RX routine and stored in scratch pad memory location 'PicoTerm_Response0'.
+                      ; It will take a short while for PicoTerm to respond so the 'Ping' check must wait whilst
+                      ; repeatedly calling the UART_RX routine.
+                      ;
+                      ; The transmission and reception of the 'Ping' DCS sequences (6 characters in total) would
+                      ; take ~520us at 115,200 baud rate. Since the program is only going to halt if no response
+                      ; occurs it will actually wait much longer. Each call of the UART_RX routine that results
+                      ; in its timeout will take ~2,000 clock cycles (~20us at 100MHz) so up to 50,000 (C350 hex)
+                      ; calls of UART_RX are made before giving up after approximately one second.
+                      ;
+                      LOAD s0, 00                       ;clear 'Ping' response location
+                      STORE s0, PicoTerm_Response0
+                      ;
+                      CALL PicoTerm_Ping                ;request 'Ping' from PicoTerm
+                      ;
+                      LOAD sB, C3                       ;wait for 50,000 iterations
+                      LOAD sA, 50                       ;  (~1 second at 100MHz)
+                      ;
+        wait_PT_ping: CALL UART_RX                      ;discard any characters received
+                      FETCH s0, PicoTerm_Response0
+                      COMPARE s0, "P"                   ;Test for valid 'Ping' response
+                      JUMP Z, PicoTerm_detected         ;continue normally
+                      SUB sA, 01                        ;decrement [sB,sA]
+                      SUBCY sB, 00
+                      JUMP NZ, wait_PT_ping
+                      ;
+                      ; 'Ping' response not received so transmit a text message.
+                      ; Note this would still be displayed on other terminals.
+                      ;
+                      LOAD sB, no_detect_PT_msg'upper
+                      LOAD sA, no_detect_PT_msg'lower
+                      CALL send_message
+        PT_halt_here: JUMP PT_halt_here                 ;Halt program.
+                      ;
+                      ;
+                      STRING not_PT1$, "ERROR - Unable to detect PicoTerm."
+                      STRING not_PT2$, "Please use PicoTerm v1.30 or later with this design."
+                      ;
+                      ;
+    no_detect_PT_msg: LOAD&RETURN s5, CR
+                      LOAD&RETURN s5, not_PT1$
+                      LOAD&RETURN s5, CR
+                      LOAD&RETURN s5, not_PT2$
+                      LOAD&RETURN s5, CR
+                      LOAD&RETURN s5, NUL
+                      ;
+                      ; Once 'Ping' has confirmed that PicoTerm is present, close the 'PicoTerm DCS Transactions'
+                      ; window so that only the main window is open.
+                      ;
+   PicoTerm_detected: CALL PicoTerm_hide_DCS
+                      ;
+                      ;
+                      ;------------------------------------------------------------------------------------------
+                      ; Confirm SPI communication with Micron/Numonyx N25Q128 device
+                      ;------------------------------------------------------------------------------------------
+                      ;
+                      ; An attempt is made to read the ID of the N25Q128 device. The first 3 bytes of the
+                      ; response to an RDID instruction should be 20, BA, 18 hex for this device so these values
+                      ; will be displayed and tested.
+                      ;
+                      ; Note that on the KC705 board the 'M0' switch of SW13 must be set to '1' otherwise the
+                      ; 'spi_cs_b' signal will be routed to the parallel Flash memory on the board rather than
+                      ; N25Q128 SPI device. Hence the most likely reason for this test failing is due to the
+                      ; setting of the 'M0' switch and therefore the error message provides suitable advice.
+                      ; Of course the 'M0' switch also provides a good way to test this PSM code.
+                      ;
+                      LOAD sB, SPI_check1_msg'upper
+                      LOAD sA, SPI_check1_msg'lower
+                      CALL send_message
+                      ;
+                      ; N25Q128 'RDID' Instruction
+                      ;
+                      ;   The response can be up to 20-bytes long but only the first 3-bytes are used in
+                      ;   this design as they are the same for all N25Q128 devices. The remaining bytes
+                      ;   can be factory programmed to customer requirements.
+                      ;
+                      CALL read_spi_flash_ID            ;Read Flash ID into ; [s9,s8,s7]
+                      LOAD s4, s9                       ; display response
+                      CALL send_hex_byte
+                      CALL send_space
+                      LOAD s4, s8
+                      CALL send_hex_byte
+                      CALL send_space
+                      LOAD s4, s7
+                      CALL send_hex_byte
+                      ;
+                      COMPARE s9, 20                    ;test for expected response
+                      COMPARECY s8, BA
+                      COMPARECY s7, 18
+                      JUMP Z, N25Q128_detected
+                      ;
+                      ; Unexpected response from RDID attempt
+                      ;
+                      CALL PicoTerm_text_Red
+                      LOAD sB, SPI_fail_msg'upper
+                      LOAD sA, SPI_fail_msg'lower
+                      CALL send_message
+       SPI_halt_here: JUMP SPI_halt_here                ;Halt program.
+                      ;
+                      ;
+                      ; Text messages for this section
+                      ;
+                      STRING SPI_check1$, "Reading N25Q128 device ID... "
+                      STRING SPI_fail1$, "ERROR - Unable to detect N25Q128 device."
+                      STRING SPI_fail2$, "Please check that 'M0' switch on KC705 board is set to '1'."
+                      ;
+      SPI_check1_msg: LOAD&RETURN s5, CR
+                      LOAD&RETURN s5, SPI_check1$
+                      LOAD&RETURN s5, NUL
+                      ;
+        SPI_fail_msg: LOAD&RETURN s5, CR
+                      LOAD&RETURN s5, CR
+                      LOAD&RETURN s5, SPI_fail1$
+                      LOAD&RETURN s5, CR
+                      LOAD&RETURN s5, SPI_fail2$
+                      LOAD&RETURN s5, CR
+                      LOAD&RETURN s5, NUL
+                      ;
+    N25Q128_detected: 
+                      ;
+                      ;
+                      ;------------------------------------------------------------------------------------------
+                      ; Main Program
+                      ;------------------------------------------------------------------------------------------
+                      ;
+                      ; The 'main' program allows the user to read, write and erase the N25Q128 device.
+                      ;
+                      ;   WARNING - You are responsible for your own actions!
+                      ;
+                      ;
+      main_with_menu: CALL PicoTerm_text_Blue
+                      CALL display_menu
+                      ;
+                      ; Display prompt and wait for user input.
+                      ; Then test input for valid section and either invoke operation or display message.
+                      ;
+         main_prompt: CALL PicoTerm_text_Blue
+                      CALL send_CR                      ;prompt user to enter a command
+                      CALL send_CR
+                      LOAD s5, ">"
+                      CALL UART_TX
+                      CALL send_space
+                      ;
+           wait_main: CALL UART_RX                      ;wait for user input
+                      JUMP Z, wait_main
+                      CALL upper_case                   ;accept upper or lower case inputs
+                      CALL UART_TX                      ;echo user input
+                      ;
+                      COMPARE s5, "H"                   ;Help
+                      JUMP Z, main_with_menu
+                      ;
+                      COMPARE s5, "R"                   ;Read Page
+                      JUMP Z, read_page_command
+                      ;
+                      COMPARE s5, "W"                   ;Write Byte
+                      JUMP Z, write_byte_command
+                      ;
+                      COMPARE s5, "E"                   ;Erase Sector
+                      JUMP Z, erase_sector_command
+                      ;
+                      LOAD s5, "?"                      ;For all other inputs display ??
+                      CALL UART_TX
+                      CALL UART_TX
+                      JUMP main_prompt
+                      ;
+                      ;
+                      ;------------------------------------------------------------------------------------------
+                      ; 'R' Read Page Command
+                      ;------------------------------------------------------------------------------------------
+                      ;
+                      ; Obtain a 24-bit address from the user and then read and display the 256 bytes of Flash
+                      ; memory in which that address is present.
+                      ;
+                      ; There are 256 Sectors formed of 256 pages. So in practical terms...
+                      ;       address[23:16] = Sector       (Register 's9')
+                      ;       address[15:9]  = Page         (Register 's8')
+                      ;       address[7:0]   = Byte         (Register 's7')
+                      ;
+   read_page_command: CALL obtain_address               ;24-bit address in [s9,s8,s7]
+                      LOAD s7, 00                       ;clear byte address for start of page
+                      ;
+                      CALL PicoTerm_text_Magenta
+                      CALL send_CR
+      read_line_loop: LOAD s6, 16'd                     ;16 bytes per line
+                      CALL send_CR
+                      LOAD s4, s9                       ;display 24-bit address
+                      CALL send_hex_byte
+                      LOAD s4, s8
+                      CALL send_hex_byte
+                      LOAD s4, s7
+                      CALL send_hex_byte
+                      CALL send_space
+                      CALL send_space
+                      CALL send_space
+      read_byte_loop: CALL read_spi_byte                ;read byte into 's2'
+                      LOAD s4, s2                       ;display byte
+                      CALL send_hex_byte
+                      CALL send_space
+                      ADD s7, 01                        ;count bytes
+                      JUMP C, end_read_SPI_page
+                      SUB s6, 1'd
+                      JUMP NZ, read_byte_loop
+                      JUMP read_line_loop
+                      ;
+   end_read_SPI_page: CALL send_CR
+                      JUMP main_prompt
+                      ;
+                      ;
+                      ;------------------------------------------------------------------------------------------
+                      ; 'W' Write Byte Command
+                      ;------------------------------------------------------------------------------------------
+                      ;
+                      ; Obtain a 24-bit address and 8-bit data value from the user and then write to Flash
+                      ; memory. Remember that bits can only be changed from '1' to '0' when writing.
+                      ;
+  write_byte_command: CALL obtain_address               ;24-bit address in [s9,s8,s7]
+                      CALL obtain_data                  ;8-bit data in s2
+                      ;
+                      CALL write_spi_byte               ;write 's2' into [s9,s8,s7]
+                      ;
+                      CALL PicoTerm_text_Green
+                      CALL send_Ok
+                      JUMP main_prompt
+                      ;
+                      ;
+                      ;------------------------------------------------------------------------------------------
+                      ; 'E' Erase Sector Command
+                      ;------------------------------------------------------------------------------------------
+                      ;
+                      ; Obtain a 24-bit address from the user and then erase the sector in which that address
+                      ; falls. The N25Q128 memory is 16M-bytes and organised into 256 Sectors. Each Sector
+                      ; contains 256 Pages which in turn contain 256 Bytes. So in terms of the 24-bit address...
+                      ;
+                      ;       address[23:16] = Sector       (Register 's9')
+                      ;       address[15:9]  = Page         (Register 's8')
+                      ;       address[7:0]   = Byte         (Register 's7')
+                      ;
+                      ; Hence it is address[23:16] that defines the Sector that will be erased and will result
+                      ; in 65,536 bytes (64KB) being cleared to FF hex.
+                      ;
+erase_sector_command: CALL PicoTerm_text_Black
+                      LOAD sB, erase_msg'upper          ;prompt for address
+                      LOAD sA, erase_msg'lower
+                      CALL send_message
+                      ;
+                      CALL obtain_address               ;24-bit address in [s9,s8,s7]
+                      ;
+                      CALL erase_spi_sector             ;erase sector with address [s9,s8,s7]
+                      ;
+                      CALL PicoTerm_text_Green
+                      CALL send_Ok
+                      JUMP main_prompt
+                      ;
+                      ;
+                      ;
+                      ; Text message used in this section
+                      ;
+                      STRING erase1$, "WARNING - This command will erase 64KB (65,536 Bytes) of memory!"
+                      STRING erase2$, "          The whole of the sector in which the address falls will be erased."
+                      STRING erase3$, "          Press 'CPU RST' button if you want to stop now!"
+                      ;
+           erase_msg: LOAD&RETURN s5, CR
+                      LOAD&RETURN s5, CR
+                      LOAD&RETURN s5, erase1$
+                      LOAD&RETURN s5, CR
+                      LOAD&RETURN s5, erase2$
+                      LOAD&RETURN s5, CR
+                      LOAD&RETURN s5, erase3$
+                      LOAD&RETURN s5, NUL
+                      ;
+                      ;
+                      ;------------------------------------------------------------------------------------------
+                      ; Obtain 24-bit address from user
+                      ;------------------------------------------------------------------------------------------
+                      ;
+                      ; Prompt user to enter a 24-bit address and return it in [s9,s8,s7].
+                      ; If user makes a mistake then keep prompting until they get it right!
+                      ;
+      obtain_address: CALL PicoTerm_text_Black
+                      LOAD sB, prompt_address_msg'upper ;prompt for address
+                      LOAD sA, prompt_address_msg'lower
+                      CALL send_message
+                      ;
+                      LOAD sE, 6'd                      ;obtain 6-digit value
+                      CALL obtain_value                 ;24-bit value returned in [sC,sB,sA]
+                      JUMP C, bad_address_input         ;Carry set for a bad hex value
+                      LOAD s9, sC                       ;return address in [s9,s8,s7]
+                      LOAD s8, sB
+                      LOAD s7, sA
+                      RETURN 
+                      ;
+   bad_address_input: CALL PicoTerm_text_Red
+                      LOAD sB, bad_address_msg'upper
+                      LOAD sA, bad_address_msg'lower
+                      CALL send_message
+                      JUMP obtain_address
+                      ;
+                      ;
+                      ; Text messages used in this section
+                      ;
+                      STRING prompt_address$, "Please enter a 24-bit (6-digit hexadecimal) address  > "
+                      STRING bad_address$, "Sorry, that was not a valid 6-digit hexadecimal address!"
+                      ;
+  prompt_address_msg: LOAD&RETURN s5, CR
+                      LOAD&RETURN s5, CR
+                      LOAD&RETURN s5, prompt_address$
+                      LOAD&RETURN s5, NUL
+                      ;
+     bad_address_msg: LOAD&RETURN s5, CR
+                      LOAD&RETURN s5, bad_address$
+                      LOAD&RETURN s5, NUL
+                      ;
+                      ;
+                      ;------------------------------------------------------------------------------------------
+                      ; Obtain 8-bit data from user
+                      ;------------------------------------------------------------------------------------------
+                      ;
+                      ; Prompt user to enter an 8-bit data byte and return it in 's2'.
+                      ; If user makes a mistake then keep prompting until they get it right!
+                      ;
+         obtain_data: CALL PicoTerm_text_Black
+                      LOAD sB, prompt_data_msg'upper    ;prompt for address
+                      LOAD sA, prompt_data_msg'lower
+                      CALL send_message
+                      ;
+                      LOAD sE, 2'd                      ;obtain 2-digit value
+                      CALL obtain_value                 ;8-bit value returned in sA
+                      JUMP C, bad_data_input            ;Carry set for a bad hex value
+                      LOAD s2, sA                       ;return data in s2
+                      RETURN 
+                      ;
+      bad_data_input: CALL PicoTerm_text_Red
+                      LOAD sB, bad_data_msg'upper
+                      LOAD sA, bad_data_msg'lower
+                      CALL send_message
+                      JUMP obtain_data
+                      ;
+                      ;
+                      ; Text messages used in this section
+                      ;
+                      STRING prompt_data$, "Please enter an 8-bit data (2-digit hexadecimal) value > "
+                      STRING bad_data$, "Sorry, that was not a valid 2-digit hexadecimal value!"
+                      ;
+     prompt_data_msg: LOAD&RETURN s5, CR
+                      LOAD&RETURN s5, CR
+                      LOAD&RETURN s5, prompt_data$
+                      LOAD&RETURN s5, NUL
+                      ;
+        bad_data_msg: LOAD&RETURN s5, CR
+                      LOAD&RETURN s5, bad_data$
+                      LOAD&RETURN s5, NUL
+                      ;
+                      ;
+                      ;------------------------------------------------------------------------------------------
+                      ; Welcome Message.
+                      ;------------------------------------------------------------------------------------------
+                      ;
+                      ; The welcome message includes a display of the version information available from the
+                      ; assembler and the 'hwbuild' from the instantiation of KCPSM6 in the hardware design.
+                      ;
+     welcome_message: LOAD sB, welcome_msg'upper
+                      LOAD sA, welcome_msg'lower
+                      CALL send_message
+                      HWBUILD s5                        ;hardware version defines ASCII letter
+                      CALL UART_TX
+                      CALL send_CR
+                      RETURN 
+                      ;
+                      ; Welcome message
+                      ;
+                      STRING banner1$, "  _  ______ ____  ____  __  __  __"
+                      STRING banner2$, " | |/ / ___|  _ \/ ___||  \/  |/ /_"
+                      STRING banner3$, " | ' / |   | |_) \___ \| |\/| | '_ \"
+                      STRING banner4$, " | . \ |___|  __/ ___) | |  | | (_) )"
+                      STRING banner5$, " |_|\_\____|_|   |____/|_|  |_|\___/"
+                      ;
+                      ; Welcome message
+                      ;
+                      STRING welcome1$, "Reference Design: SPI Flash Memory Controller on KC705 Board"
+                      STRING welcome2$, "                  Memory initially used for device configuration"
+                      STRING welcome3$, "Assembly Date: "
+                      STRING welcome4$, "   Time: "
+                      STRING welcome5$, "Assembler Version: "
+                      STRING welcome6$, "Hardware Design: "
+                      ;
+                      ;
+         welcome_msg: LOAD&RETURN s5, banner1$
+                      LOAD&RETURN s5, CR
+                      LOAD&RETURN s5, banner2$
+                      LOAD&RETURN s5, CR
+                      LOAD&RETURN s5, banner3$
+                      LOAD&RETURN s5, CR
+                      LOAD&RETURN s5, banner4$
+                      LOAD&RETURN s5, CR
+                      LOAD&RETURN s5, banner5$
+                      LOAD&RETURN s5, CR
+                      LOAD&RETURN s5, CR
+                      LOAD&RETURN s5, welcome1$
+                      LOAD&RETURN s5, CR
+                      LOAD&RETURN s5, welcome2$
+                      LOAD&RETURN s5, CR
+                      LOAD&RETURN s5, CR
+                      LOAD&RETURN s5, welcome3$
+                      LOAD&RETURN s5, datestamp$
+                      LOAD&RETURN s5, welcome4$
+                      LOAD&RETURN s5, timestamp$
+                      LOAD&RETURN s5, CR
+                      LOAD&RETURN s5, welcome5$
+                      LOAD&RETURN s5, KCPSM6_version$
+                      LOAD&RETURN s5, CR
+                      LOAD&RETURN s5, welcome6$
+                      LOAD&RETURN s5, NUL
+                      ;
+                      ;
+                      ;------------------------------------------------------------------------------------------
+                      ; Routine to transmit a simple 'Menu'.
+                      ;------------------------------------------------------------------------------------------
+                      ;
+        display_menu: LOAD sB, menu_msg'upper
+                      LOAD sA, menu_msg'lower
+                      CALL send_message
+                      RETURN 
+                      ;
+                      ; Menu message
+                      ;
+                      STRING menu1$, "Menu"
+                      STRING menu2$, " H - Display this menu"
+                      STRING menu3$, " R - Read (Page)"
+                      STRING menu4$, " W - Write (Byte)"
+                      STRING menu5$, " E - Erase (Sector)"
+                      ;
+            menu_msg: LOAD&RETURN s5, CR
+                      LOAD&RETURN s5, CR
+                      LOAD&RETURN s5, menu1$
+                      LOAD&RETURN s5, CR
+                      LOAD&RETURN s5, menu2$
+                      LOAD&RETURN s5, CR
+                      LOAD&RETURN s5, menu3$
+                      LOAD&RETURN s5, CR
+                      LOAD&RETURN s5, menu4$
+                      LOAD&RETURN s5, CR
+                      LOAD&RETURN s5, menu5$
+                      LOAD&RETURN s5, CR
+                      LOAD&RETURN s5, NUL
+                      ;
+                      ;
+                      ;------------------------------------------------------------------------------------------
+                      ; Send a message to the UART
+                      ;------------------------------------------------------------------------------------------
+                      ;
+                      ; A message is transmitted to the USB-UART.
+                      ; The start address of the message must be provided in [sB,sA].
+                      ; Terminate the transmission with a NULL character (00 hex).
+                      ;
+        send_message: CALL@ (sB, sA)
+                      COMPARE s5, 00                    ;terminate on NUL character
+                      RETURN Z
+                      CALL UART_TX
+                      ADD sA, 1'd
+                      ADDCY sB, 0'd
+                      JUMP send_message
+                      ;
+                      ;
+                      ;------------------------------------------------------------------------------------------
+                      ; Send Carriage Return to UART
+                      ;------------------------------------------------------------------------------------------
+                      ;
+                      ; Registers used s0, s1, s2, and s5.
+                      ;
+             send_CR: LOAD s5, CR
+                      JUMP UART_TX                      ;includes RETURN
+                      ;
+                      ;
+                      ;------------------------------------------------------------------------------------------
+                      ; Send Carriage Return, 'Ok' and Carriage Return to UART
+                      ;------------------------------------------------------------------------------------------
+                      ;
+                      ; Registers used s0, s1, s2, and s5.
+                      ;
+             send_Ok: CALL send_CR
+                      LOAD s5, "O"
+                      CALL UART_TX
+                      LOAD s5, "k"
+                      CALL UART_TX
+                      JUMP send_CR                      ;includes RETURN
+                      ;
+                      ;
+                      ;------------------------------------------------------------------------------------------
+                      ; Send a Space to UART
+                      ;------------------------------------------------------------------------------------------
+                      ;
+                      ; Registers used s0, s1, s2, and s5.
+                      ;
+          send_space: LOAD s5, " "
+                      JUMP UART_TX                      ;includes RETURN
+                      ;
+                      ;
+                      ;------------------------------------------------------------------------------------------
+                      ; Send Hex Value of Byte to UART
+                      ;------------------------------------------------------------------------------------------
+                      ;
+                      ; Value provided in register 's4' is sent as ASCII HEX to the UART transmitter.
+                      ;
+                      ; Registers used s0, s4 (preserved) and s5.
+                      ;
+       send_hex_byte: LOAD s5, s4                       ;isolate upper nibble
+                      SR0 s5
+                      SR0 s5
+                      SR0 s5
+                      SR0 s5
+                      CALL hex_to_ASCII                 ; convert to ASCII
+                      CALL UART_TX                      ;send upper digit to UART
+                      LOAD s5, s4                       ;isolate lower nibble
+                      AND s5, 0F
+                      CALL hex_to_ASCII                 ; convert to ASCII
+                      CALL UART_TX                      ;send lower digit to UART
+                      RETURN 
+                      ;
+                      ; Convert value 00 to 0F provided in 's5' into ASCII character in 's5'
+                      ;
+                      ; Register used s5
+                      ;
+        hex_to_ASCII: SUB s5, 0A                        ;test if value is in range 0 to 9
+                      JUMP C, number_char
+                      ADD s5, 07                        ;ASCII char A to F in range 41 to 46
+         number_char: ADD s5, 3A                        ;ASCII char 0 to 9 in range 30 to 40
+                      RETURN 
+                      ;
+                      ;
+                      ;------------------------------------------------------------------------------------------
+                      ; Converts character to upper case
+                      ;------------------------------------------------------------------------------------------
+                      ;
+                      ; Tests and converts character in 's5' (if necessary).
+                      ;
+                      ; To convert character to upper case
+                      ;
+                      ; If the character is in the range 'a' to 'z', it is converted
+                      ; to the equivalent upper case character in the range 'A' to 'Z'.
+                      ; All other characters remain unchanged.
+                      ;
+          upper_case: COMPARE s5, "a"                   ;eliminate character codes below 'a' (61 hex)
+                      RETURN C
+                      COMPARE s5, 7B                    ;eliminate character codes above 'z' (7A hex)
+                      RETURN NC
+                      AND s5, 11011111'b                ;force bit5 Low to convert to upper case
+                      RETURN 
+                      ;
+                      ;
+                      ;------------------------------------------------------------------------------------------
+                      ; Convert ASCII character to an equivalent HEX value.
+                      ;------------------------------------------------------------------------------------------
+                      ;
+                      ; Converts the ASCII character presented in 's5' to an equivalent HEX value.
+                      ; If character is not valid for hex, then CARRY is set on return.
+                      ;
+                      ; Register used s5
+                      ;
+        ASCII_to_hex: ADD s5, B9                        ;test for above ASCII code 46 ('F')
+                      RETURN C
+                      SUB s5, E9                        ;normalise 0 to 9 with A-F in 11 to 16 hex
+                      RETURN C                          ;reject below ASCII code 30 ('0')
+                      SUB s5, 11                        ;isolate A-F down to 00 to 05 hex
+                      JUMP NC, ASCII_letter
+                      ADD s5, 07                        ;test for above ASCII code 46 ('F')
+                      RETURN C
+                      SUB s5, F6                        ;convert to range 00 to 09
+                      RETURN 
+        ASCII_letter: ADD s5, 0A                        ;convert to range 0A to 0F
+                      RETURN 
+                      ;
+                      ;
+                      ;------------------------------------------------------------------------------------------
+                      ; Read ASCII-HEX value up to 8-digits (for 32-bit value) from UART
+                      ;------------------------------------------------------------------------------------------
+                      ;
+                      ; Read up to 8 hex characters from UART and convert to a binary value in the [sD,sC,sB,sA]
+                      ; register set. The number of characters to be read must be defined in sE. When less than
+                      ; 8 characters are read the value is returned in the least significant bits of the register
+                      ; set with the 8-bits above the defined value being zero to ensure ensuring that the upper
+                      ; nibble will be zero if an odd number of digits are read.
+                      ;
+                      ; If any character received from the UART is not in the range 0 to F then the routine will
+                      ; end immediately with the CARRY flag set and this should be checked my the calling process
+                      ; upon return.
+                      ;
+        obtain_value: LOAD sA, 00                       ;initialise potentially unused bits to zero
+        obtain_digit: CALL UART_RX                      ;wait for a character and return in s5
+                      JUMP Z, obtain_digit              ;continue to wait if timeout occurs
+                      CALL UART_TX                      ;echo character as entered
+                      CALL upper_case                   ;convert to upper case if necessary
+                      CALL ASCII_to_hex                 ;convert value in s5 to hex nibble
+                      RETURN C                          ;If invalid hex digit then return immediately
+                      LOAD s0, 4'd                      ;shift [sD,sC,sB,sA] left by 4 bits
+         build_value: SL0 sA                            ;  to make space for new digit value
+                      SLA sB
+                      SLA sC
+                      SLA sD
+                      SUB s0, 1'd
+                      JUMP NZ, build_value
+                      OR sA, s5                         ;merge value of new digit into existing value
+                      SUB sE, 01                        ;count number of digits obtained
+                      JUMP NZ, obtain_digit
+                      RETURN 
+                      ;
+                      ;
+                      ;------------------------------------------------------------------------------------------
+                      ; Include PSM files
+                      ;------------------------------------------------------------------------------------------
+                      ;
+                      ; The INCLUDE directive enables commonly routines to be kept in their own PSM files and
+                      ; easily reused in different programs (i.e. avoiding 'cut and paste'). It also allows
+                      ; each PSM to remain a more manageable size.
+                      ;
+                      ;
+                      ; Routines that implement interface with UART macros and control PicoTerm.
+                      ; ------------------------------------------------------------------------
+                      ;
+                      INCLUDE "PicoTerm_routines.psm"
+                      ;
+                      ;
+                      ; Software Delays
+                      ; ---------------
+                      ;
+                      INCLUDE "soft_delays_100mhz.psm"
+                      ;
+                      ;
+                      ; SPI communication with Micron/Numonyx N25Q128 device
+                      ; ----------------------------------------------------
+                      ;
+                      INCLUDE "N25Q128_SPI_routines.psm"
+                      ;
+                      ;
+                      ;------------------------------------------------------------------------------------------
+                      ; Interrupt Service Routine (ISR)
+                      ;------------------------------------------------------------------------------------------
+                      ;
+                      ; Interrupts are not currently used in this program but in preparation the location of
+                      ; the ISR has been defined to corresponding with the 'interrupt_vector' address defined
+                      ; in the instantiation of KCPSM6. In this instance the vector is 7F0 hex which means there
+                      ; are 16 instructions available before reaching the end of a 2K program memory. Of course
+                      ; this can all be modified.
+                      ;
+                      ADDRESS 7F0
+                      ;
+                      ;
+                 ISR: RETURNI DISABLE
+                      ;
+                      ;
+                      ;------------------------------------------------------------------------------------------
+                      ; End of Program
+                      ;------------------------------------------------------------------------------------------
+                      ;

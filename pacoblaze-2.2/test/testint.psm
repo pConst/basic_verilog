@@ -1,0 +1,25 @@
+
+	address $0
+start:
+	load s0, 0
+	load sE, 0
+	load sF, 0
+	interrupt enable
+
+loop:
+	addcy s0, $f0
+	call nc, func
+	jump loop
+
+func:
+	add sE, 3
+	return
+
+isr:
+	addcy sF, 1
+	returni enable
+
+
+	address $3ff
+irq:
+	jump isr

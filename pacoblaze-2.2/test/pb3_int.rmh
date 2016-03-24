@@ -1,0 +1,36 @@
+/* Symbol Table */
+// foo = LABEL: 4
+// irq = LABEL: 1023
+// isr = LABEL: 5
+// s0 = REGISTER: 0
+// s1 = REGISTER: 1
+// s2 = REGISTER: 2
+// s3 = REGISTER: 3
+// s4 = REGISTER: 4
+// s5 = REGISTER: 5
+// s6 = REGISTER: 6
+// s7 = REGISTER: 7
+// s8 = REGISTER: 8
+// s9 = REGISTER: 9
+// sA = REGISTER: 10
+// sB = REGISTER: 11
+// sC = REGISTER: 12
+// sD = REGISTER: 13
+// sE = REGISTER: 14
+// sF = REGISTER: 15
+// start = LABEL: 0
+
+/* Program Code */
+// #1: ; pb3_int.psm
+// @000 #3: [start]
+2c297 // @000 #4: output(s2,151)
+3c001 // @001 #5: interrupt(enable)
+00200 // @002 #6: load(s2,0)
+30004 // @003 #7: call(foo)
+// @004 #9: [foo]
+34004 // @004 #10: jump(foo)
+// @005 #12: [isr]
+38000 // @005 #13: returni(disable)
+// @006 #15: [irq]
+@3ff // #15: address(1023)
+34005 // @3ff #16: jump(isr)

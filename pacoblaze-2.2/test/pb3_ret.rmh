@@ -1,0 +1,28 @@
+/* Symbol Table */
+// func = LABEL: 3
+// s0 = REGISTER: 0
+// s1 = REGISTER: 1
+// s2 = REGISTER: 2
+// s3 = REGISTER: 3
+// s4 = REGISTER: 4
+// s5 = REGISTER: 5
+// s6 = REGISTER: 6
+// s7 = REGISTER: 7
+// s8 = REGISTER: 8
+// s9 = REGISTER: 9
+// sA = REGISTER: 10
+// sB = REGISTER: 11
+// sC = REGISTER: 12
+// sD = REGISTER: 13
+// sE = REGISTER: 14
+// sF = REGISTER: 15
+// start = LABEL: 0
+
+/* Program Code */
+// @000 #3: [start]
+00000 // @000 #4: load(s0,0)
+30003 // @001 #5: call(func)
+01100 // @002 #6: load(s1,s0)
+// @003 #8: [func]
+18001 // @003 #9: add(s0,1)
+2a000 // @004 #10: return

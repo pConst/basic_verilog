@@ -1,0 +1,1262 @@
+/* Symbol Table */
+// BS_edit = LABEL: 211
+// ISR = LABEL: 1020
+// UART_data = REGISTER: 15
+// UART_read_port = CONSTANT: 1
+// UART_status_port = CONSTANT: 0
+// UART_write = LABEL: 162
+// UART_write_port = CONSTANT: 1
+// _1char_to_value = LABEL: 488
+// _2char_to_value = LABEL: 492
+// alarm_active = CONSTANT: 1
+// alarm_armed = CONSTANT: 2
+// alarm_control = CONSTANT: 1
+// alarm_drive = LABEL: 164
+// alarm_is_off = LABEL: 186
+// alarm_port = CONSTANT: 0
+// alarm_status = CONSTANT: 12
+// alarm_time_hours = CONSTANT: 9
+// alarm_time_minutes = CONSTANT: 10
+// alarm_time_seconds = CONSTANT: 11
+// bad_input_command = LABEL: 28
+// character_0 = CONSTANT: 48
+// character_1 = CONSTANT: 49
+// character_2 = CONSTANT: 50
+// character_3 = CONSTANT: 51
+// character_4 = CONSTANT: 52
+// character_5 = CONSTANT: 53
+// character_6 = CONSTANT: 54
+// character_7 = CONSTANT: 55
+// character_8 = CONSTANT: 56
+// character_9 = CONSTANT: 57
+// character_A = CONSTANT: 65
+// character_B = CONSTANT: 66
+// character_BS = CONSTANT: 8
+// character_C = CONSTANT: 67
+// character_CR = CONSTANT: 13
+// character_D = CONSTANT: 68
+// character_E = CONSTANT: 69
+// character_F = CONSTANT: 70
+// character_G = CONSTANT: 71
+// character_H = CONSTANT: 72
+// character_I = CONSTANT: 73
+// character_J = CONSTANT: 74
+// character_K = CONSTANT: 75
+// character_L = CONSTANT: 76
+// character_M = CONSTANT: 77
+// character_N = CONSTANT: 78
+// character_O = CONSTANT: 79
+// character_P = CONSTANT: 80
+// character_Q = CONSTANT: 81
+// character_R = CONSTANT: 82
+// character_S = CONSTANT: 83
+// character_T = CONSTANT: 84
+// character_U = CONSTANT: 85
+// character_V = CONSTANT: 86
+// character_W = CONSTANT: 87
+// character_X = CONSTANT: 88
+// character_Y = CONSTANT: 89
+// character_Z = CONSTANT: 90
+// character_a = CONSTANT: 97
+// character_b = CONSTANT: 98
+// character_c = CONSTANT: 99
+// character_colon = CONSTANT: 58
+// character_d = CONSTANT: 100
+// character_dollar = CONSTANT: 36
+// character_e = CONSTANT: 101
+// character_equals = CONSTANT: 61
+// character_f = CONSTANT: 102
+// character_g = CONSTANT: 103
+// character_greater_than = CONSTANT: 62
+// character_h = CONSTANT: 104
+// character_i = CONSTANT: 105
+// character_j = CONSTANT: 106
+// character_k = CONSTANT: 107
+// character_l = CONSTANT: 108
+// character_less_than = CONSTANT: 60
+// character_m = CONSTANT: 109
+// character_n = CONSTANT: 110
+// character_o = CONSTANT: 111
+// character_p = CONSTANT: 112
+// character_q = CONSTANT: 113
+// character_question = CONSTANT: 63
+// character_r = CONSTANT: 114
+// character_s = CONSTANT: 115
+// character_semi_colon = CONSTANT: 59
+// character_space = CONSTANT: 32
+// character_t = CONSTANT: 116
+// character_u = CONSTANT: 117
+// character_v = CONSTANT: 118
+// character_w = CONSTANT: 119
+// character_x = CONSTANT: 120
+// character_y = CONSTANT: 121
+// character_z = CONSTANT: 122
+// clear_UART_Rx_loop = LABEL: 223
+// cold_start = LABEL: 0
+// count_1000_lsb = CONSTANT: 232
+// count_1000_msb = CONSTANT: 3
+// decimal_to_ASCII = LABEL: 382
+// fetch_char_from_memory = LABEL: 145
+// finish_update = LABEL: 475
+// hours_in_a_day = CONSTANT: 24
+// inc_hours = LABEL: 447
+// inc_minutes = LABEL: 439
+// int_counter_lsb = REGISTER: 13
+// int_counter_msb = REGISTER: 12
+// invalid_time = LABEL: 139
+// minutes_in_an_hour = CONSTANT: 60
+// ms_time_lsb = CONSTANT: 4
+// ms_time_msb = CONSTANT: 5
+// next_char_tx = LABEL: 189
+// prompt_input = LABEL: 18
+// read_character = LABEL: 154
+// read_error = LABEL: 219
+// read_from_UART = LABEL: 149
+// real_time_hours = CONSTANT: 6
+// real_time_minutes = CONSTANT: 7
+// real_time_seconds = CONSTANT: 8
+// receive_full_test = LABEL: 198
+// receive_string = LABEL: 195
+// reset_hours = LABEL: 455
+// restore_ms_time = LABEL: 429
+// rx_data_present = CONSTANT: 16
+// rx_full = CONSTANT: 8
+// rx_half_full = CONSTANT: 4
+// s0 = REGISTER: 0
+// s1 = REGISTER: 1
+// s2 = REGISTER: 2
+// s3 = REGISTER: 3
+// s4 = REGISTER: 4
+// s5 = REGISTER: 5
+// s6 = REGISTER: 6
+// s7 = REGISTER: 7
+// s8 = REGISTER: 8
+// s9 = REGISTER: 9
+// sA = REGISTER: 10
+// sB = REGISTER: 11
+// sC = REGISTER: 12
+// sD = REGISTER: 13
+// sE = REGISTER: 14
+// sF = REGISTER: 15
+// seconds_in_a_minute = CONSTANT: 60
+// send_Active = LABEL: 339
+// send_Alarm = LABEL: 317
+// send_CR = LABEL: 228
+// send_Error = LABEL: 267
+// send_Invalid = LABEL: 293
+// send_OFF = LABEL: 328
+// send_ON = LABEL: 334
+// send_Overflow_Error = LABEL: 250
+// send_Syntax_Error = LABEL: 237
+// send_Time = LABEL: 308
+// send_backspace = LABEL: 234
+// send_greater_than = LABEL: 290
+// send_prompt = LABEL: 277
+// send_space = LABEL: 231
+// send_space_Error = LABEL: 266
+// send_to_UART = LABEL: 157
+// set_alarm_command = LABEL: 72
+// set_alarm_on_off = LABEL: 85
+// set_time_command = LABEL: 44
+// store_ms_time = LABEL: 431
+// store_pointer = REGISTER: 14
+// store_us_time = LABEL: 415
+// string_start = CONSTANT: 32
+// string_start_again = LABEL: 217
+// test_1000us = LABEL: 410
+// test_OFF = LABEL: 96
+// test_armed = LABEL: 182
+// test_for_ALARM = LABEL: 55
+// test_for_TIME = LABEL: 30
+// test_for_ten = LABEL: 383
+// test_time_string = LABEL: 109
+// time_preserve0 = CONSTANT: 16
+// time_preserve1 = CONSTANT: 17
+// time_preserve2 = CONSTANT: 18
+// time_preserve3 = CONSTANT: 19
+// time_preserve4 = CONSTANT: 20
+// time_preserve5 = CONSTANT: 21
+// time_to_ASCII = LABEL: 352
+// time_update_complete = LABEL: 457
+// transmit_alarm_time = LABEL: 172
+// transmit_string = LABEL: 188
+// transmit_time = LABEL: 168
+// tx_full = CONSTANT: 2
+// tx_half_full = CONSTANT: 1
+// update_time = LABEL: 389
+// upper_case = LABEL: 482
+// us_time_lsb = CONSTANT: 2
+// us_time_msb = CONSTANT: 3
+// us_time_stamp_lsb = CONSTANT: 0
+// us_time_stamp_msb = CONSTANT: 1
+
+/* Program Code */
+// #1: ;KCPSM3 Program - Real Time Clock with UART communication.
+// #2: ;
+// #3: ;Ken Chapman - Xilinx Ltd - October 2003
+// #4: ;
+// #5: ;
+// #6: ;Port definitions
+// #7: ;
+// #8: constant(UART_status_port,0) ;UART status input
+// #9: constant(tx_half_full,1) ;  Transmitter     half full - bit0
+// #10: constant(tx_full,2) ;    FIFO               full - bit1
+// #11: constant(rx_half_full,4) ;  Receiver        half full - bit2
+// #12: constant(rx_full,8) ;    FIFO               full - bit3
+// #13: constant(rx_data_present,16) ;               data present - bit4
+// #14: ;
+// #15: constant(UART_read_port,1) ;UART Rx data input
+// #16: ;
+// #17: constant(UART_write_port,1) ;UART Tx data output
+// #18: ;
+// #19: constant(alarm_port,0) ;Alarm output
+// #20: constant(alarm_control,1) ;     bit0
+// #21: ;
+// #22: ;Special Register usage
+// #23: ;
+// #24: register(UART_data,15) ;used to pass data to and from the UART
+// #25: ;
+// #26: register(store_pointer,14) ;used to pass location of data in scratch pad memory
+// #27: ;
+// #28: ;Two registers to form a 16-bit counter used to count
+// #29: ;interrupt pulses generated at 1us intervals.
+// #30: ;
+// #31: register(int_counter_lsb,13) ;lower 8-bits
+// #32: register(int_counter_msb,12) ;upper 8-bits
+// #33: ;
+// #34: ;
+// #35: ;Scratch Pad Memory Locations
+// #36: ;
+// #37: ;
+// #38: constant(us_time_stamp_lsb,0) ;16-bit micro-second time stamp
+// #39: constant(us_time_stamp_msb,1)
+// #40: ;
+// #41: constant(us_time_lsb,2) ;16-bit micro-second real time value
+// #42: constant(us_time_msb,3)
+// #43: ;
+// #44: constant(ms_time_lsb,4) ;16-bit milli-second real time value
+// #45: constant(ms_time_msb,5)
+// #46: ;
+// #47: constant(real_time_hours,6) ;Current clock time
+// #48: constant(real_time_minutes,7)
+// #49: constant(real_time_seconds,8)
+// #50: ;
+// #51: constant(alarm_time_hours,9) ;Alarm time
+// #52: constant(alarm_time_minutes,10)
+// #53: constant(alarm_time_seconds,11)
+// #54: ;
+// #55: constant(alarm_status,12) ;Alarm status
+// #56: constant(alarm_active,1) ;    bit0 - Alarm is active
+// #57: constant(alarm_armed,2) ;    bit1 - Alarm is armed
+// #58: ;
+// #59: constant(time_preserve0,16) ;storage for protection of registers
+// #60: constant(time_preserve1,17) ;used by the real time clock routine.
+// #61: constant(time_preserve2,18)
+// #62: constant(time_preserve3,19)
+// #63: constant(time_preserve4,20)
+// #64: constant(time_preserve5,21)
+// #65: ;
+// #66: ;UART character strings will be stored in scratch pad memory ending in carriage return.
+// #67: ;A string can be up to 16 characters with the start location defined by this constant.
+// #68: ;
+// #69: constant(string_start,32)
+// #70: ;
+// #71: ;
+// #72: ;Initialise the system
+// #73: ;
+// #74: ;
+// @000 #75: [cold_start]
+00000 // @000 #75: load(s0,0) ;clear all time values
+2e000 // @001 #76: store(s0,us_time_stamp_lsb)
+2e001 // @002 #77: store(s0,us_time_stamp_msb)
+2e002 // @003 #78: store(s0,us_time_lsb)
+2e003 // @004 #79: store(s0,us_time_msb)
+2e004 // @005 #80: store(s0,ms_time_lsb)
+2e005 // @006 #81: store(s0,ms_time_msb)
+2e006 // @007 #82: store(s0,real_time_hours)
+2e007 // @008 #83: store(s0,real_time_minutes)
+2e008 // @009 #84: store(s0,real_time_seconds)
+2e009 // @00a #85: store(s0,alarm_time_hours)
+2e00a // @00b #86: store(s0,alarm_time_minutes)
+2e00b // @00c #87: store(s0,alarm_time_seconds)
+2e00c // @00d #88: store(s0,alarm_status) ;clear and disable alarm
+300a4 // @00e #89: call(alarm_drive) ;turn off alarm control output port
+00d00 // @00f #90: load(int_counter_lsb,0) ;clear 'us' interrupt counter
+00c00 // @010 #91: load(int_counter_msb,0)
+3c001 // @011 #92: interrupt(enable) ;enable the 1us interrupts
+// #93: ;
+// #94: ;
+// #95: ;Start of the main program loop.
+// #96: ;
+// #97: ;A prompt is transmitted to the UART transmitter and then
+// #98: ;a command can be entered and interpreted.
+// #99: ;
+// #100: ;
+// @012 #101: [prompt_input]
+30115 // @012 #101: call(send_prompt) ;Prompt 'KCPSM3>'
+300c3 // @013 #102: call(receive_string) ;obtain input string and maintain the time
+// #103: ;
+// #104: ;
+// #105: ;Parse the string and perform actions as required
+// #106: ;
+// #107: ;
+// #108: ;
+00120 // @014 #109: load(s1,string_start)
+30091 // @015 #110: call(fetch_char_from_memory)
+1400d // @016 #111: compare(s0,character_CR) ;carriage return does nothing
+35012 // @017 #112: jump(z,prompt_input)
+14054 // @018 #113: compare(s0,character_T) ;start of 'TIME' command?
+3501e // @019 #114: jump(z,test_for_TIME)
+14041 // @01a #115: compare(s0,character_A) ;start of 'ALARM' command?
+35037 // @01b #116: jump(z,test_for_ALARM)
+// #117: ;
+// #118: ;trap other command starts here
+// #119: ;
+// @01c #120: [bad_input_command]
+300ed // @01c #120: call(send_Syntax_Error) ;no valid command
+35012 // @01d #121: jump(z,prompt_input)
+// #122: ;
+// #123: ;
+// @01e #124: [test_for_TIME]
+30091 // @01e #124: call(fetch_char_from_memory)
+14049 // @01f #125: compare(s0,character_I) ;test for rest of 'TIME'
+3541c // @020 #126: jump(nz,bad_input_command)
+30091 // @021 #127: call(fetch_char_from_memory)
+1404d // @022 #128: compare(s0,character_M)
+3541c // @023 #129: jump(nz,bad_input_command)
+30091 // @024 #130: call(fetch_char_from_memory)
+14045 // @025 #131: compare(s0,character_E)
+3541c // @026 #132: jump(nz,bad_input_command)
+// #133: ;now have a valid TIME command to process
+30091 // @027 #134: call(fetch_char_from_memory)
+1400d // @028 #135: compare(s0,character_CR) ;carriage return means display time
+3542c // @029 #136: jump(nz,set_time_command)
+300a8 // @02a #137: call(transmit_time) ;transmit time to UART
+34012 // @02b #138: jump(prompt_input)
+// @02c #139: [set_time_command]
+14020 // @02c #139: compare(s0,character_space)
+3541c // @02d #140: jump(nz,bad_input_command)
+3006d // @02e #141: call(test_time_string) ;interpret 'hh:mm:ss' string
+35812 // @02f #142: jump(c,prompt_input) ;test for invalid input
+2e606 // @030 #143: store(s6,real_time_hours) ;set new time into clock
+2e507 // @031 #144: store(s5,real_time_minutes)
+2e408 // @032 #145: store(s4,real_time_seconds)
+2e004 // @033 #146: store(s0,ms_time_lsb) ;clear 'ms' counter (s0=00)
+2e005 // @034 #147: store(s0,ms_time_msb)
+300a8 // @035 #148: call(transmit_time) ;transmit new time to UART
+34012 // @036 #149: jump(prompt_input)
+// #150: ;
+// #151: ;
+// @037 #152: [test_for_ALARM]
+30091 // @037 #152: call(fetch_char_from_memory)
+1404c // @038 #153: compare(s0,character_L) ;test for rest of 'ALARM'
+3541c // @039 #154: jump(nz,bad_input_command)
+30091 // @03a #155: call(fetch_char_from_memory)
+14041 // @03b #156: compare(s0,character_A)
+3541c // @03c #157: jump(nz,bad_input_command)
+30091 // @03d #158: call(fetch_char_from_memory)
+14052 // @03e #159: compare(s0,character_R)
+3541c // @03f #160: jump(nz,bad_input_command)
+30091 // @040 #161: call(fetch_char_from_memory)
+1404d // @041 #162: compare(s0,character_M)
+3541c // @042 #163: jump(nz,bad_input_command)
+// #164: ;now have a valid ALARM command to process
+30091 // @043 #165: call(fetch_char_from_memory)
+1400d // @044 #166: compare(s0,character_CR) ;carriage return means display alarm time
+35448 // @045 #167: jump(nz,set_alarm_command)
+300ac // @046 #168: call(transmit_alarm_time) ;transmit time to UART
+34012 // @047 #169: jump(prompt_input)
+// @048 #170: [set_alarm_command]
+14020 // @048 #170: compare(s0,character_space) ;test for ON or OFF command
+3541c // @049 #171: jump(nz,bad_input_command)
+30091 // @04a #172: call(fetch_char_from_memory)
+1404f // @04b #173: compare(s0,character_O)
+35055 // @04c #174: jump(z,set_alarm_on_off)
+1c101 // @04d #175: sub(s1,1) ;move memory pointer back to first character of 'hh:mm:ss' string
+3006d // @04e #176: call(test_time_string) ;interpret 'hh:mm:ss' string
+35812 // @04f #177: jump(c,prompt_input) ;test for invalid input
+2e609 // @050 #178: store(s6,alarm_time_hours) ;set new time into clock
+2e50a // @051 #179: store(s5,alarm_time_minutes)
+2e40b // @052 #180: store(s4,alarm_time_seconds)
+300ac // @053 #181: call(transmit_alarm_time) ;transmit new alarm time and status
+34012 // @054 #182: jump(prompt_input)
+// @055 #183: [set_alarm_on_off]
+30091 // @055 #183: call(fetch_char_from_memory)
+1404e // @056 #184: compare(s0,character_N) ;test for 'ON'
+35460 // @057 #185: jump(nz,test_OFF)
+30091 // @058 #186: call(fetch_char_from_memory)
+1400d // @059 #187: compare(s0,character_CR)
+3541c // @05a #188: jump(nz,bad_input_command)
+0600c // @05b #189: fetch(s0,alarm_status) ;turn alarm on
+0c002 // @05c #190: or(s0,alarm_armed)
+2e00c // @05d #191: store(s0,alarm_status)
+300ac // @05e #192: call(transmit_alarm_time) ;transmit alarm time and status
+34012 // @05f #193: jump(prompt_input)
+// @060 #194: [test_OFF]
+14046 // @060 #194: compare(s0,character_F) ;test for for 'OFF'
+3541c // @061 #195: jump(nz,bad_input_command)
+30091 // @062 #196: call(fetch_char_from_memory)
+14046 // @063 #197: compare(s0,character_F)
+3541c // @064 #198: jump(nz,bad_input_command)
+30091 // @065 #199: call(fetch_char_from_memory)
+1400d // @066 #200: compare(s0,character_CR)
+3541c // @067 #201: jump(nz,bad_input_command)
+00000 // @068 #202: load(s0,0) ;turn alarm off and stop an active alarm
+2e00c // @069 #203: store(s0,alarm_status)
+300a4 // @06a #204: call(alarm_drive) ;turn off alarm
+300ac // @06b #205: call(transmit_alarm_time) ;transmit alarm time and status
+34012 // @06c #206: jump(prompt_input)
+// #207: ;
+// #208: ;
+// #209: ;
+// #210: ;
+// #211: ;Read an 'hh:mm:ss' time string and provide new values.
+// #212: ;
+// #213: ;The string must be provided in successive scratch pad memory locations
+// #214: ;with the s1 register containing the location of the first character.
+// #215: ;
+// #216: ;A correct time specification will result in the return of new values
+// #217: ;as follows:-
+// #218: ;
+// #219: ;       s6 = hours
+// #220: ;       s5 = minutes
+// #221: ;       s4 = seconds
+// #222: ;
+// #223: ;If the syntax is incorrect or values are not in the correct ranges an
+// #224: ;'Invalid Time' message will be transmitted and the CARRY flag will be set
+// #225: ;
+// #226: ;Registers used s0, s1, s6, s5 and s4
+// #227: ;
+// @06d #228: [test_time_string]
+301ec // @06d #228: call(_2char_to_value) ;obtain hours value
+3588b // @06e #229: jump(c,invalid_time) ;test for non-decimal characters
+01620 // @06f #230: load(s6,s2) ;remember hours
+18101 // @070 #231: add(s1,1) ;increment memory pointer past hours
+30091 // @071 #232: call(fetch_char_from_memory)
+1403a // @072 #233: compare(s0,character_colon) ;test for colon
+3548b // @073 #234: jump(nz,invalid_time)
+301ec // @074 #235: call(_2char_to_value) ;obtain minutes value
+3588b // @075 #236: jump(c,invalid_time) ;test for non-decimal characters
+01520 // @076 #237: load(s5,s2) ;remember minutes
+18101 // @077 #238: add(s1,1) ;increment memory pointer past minutes
+30091 // @078 #239: call(fetch_char_from_memory)
+1403a // @079 #240: compare(s0,character_colon) ;test for colon
+3548b // @07a #241: jump(nz,invalid_time)
+301ec // @07b #242: call(_2char_to_value) ;obtain seconds value
+3588b // @07c #243: jump(c,invalid_time) ;test for non-decimal characters
+01420 // @07d #244: load(s4,s2) ;remember minutes
+18101 // @07e #245: add(s1,1) ;increment memory pointer past seconds
+30091 // @07f #246: call(fetch_char_from_memory)
+1400d // @080 #247: compare(s0,character_CR) ;finish with carriage return
+3548b // @081 #248: jump(nz,invalid_time)
+// #249: ;Have values for hh:mm:ss but need to test if each is valid range.
+14618 // @082 #250: compare(s6,hours_in_a_day)
+35c8b // @083 #251: jump(nc,invalid_time)
+1453c // @084 #252: compare(s5,minutes_in_an_hour)
+35c8b // @085 #253: jump(nc,invalid_time)
+1443c // @086 #254: compare(s4,seconds_in_a_minute)
+35c8b // @087 #255: jump(nc,invalid_time)
+00000 // @088 #256: load(s0,0)
+2000e // @089 #257: sr0(s0) ;reset CARRY flag (with s0=0)
+2a000 // @08a #258: return ;time string was OK
+// @08b #259: [invalid_time]
+30125 // @08b #259: call(send_Invalid)
+300e7 // @08c #260: call(send_space)
+30134 // @08d #261: call(send_Time)
+00001 // @08e #262: load(s0,1)
+2000e // @08f #263: sr0(s0) ;set CARRY flag
+2a000 // @090 #264: return ;time string was bad
+// #265: ;
+// #266: ;
+// #267: ;fetch character from memory, $Convert to upper case
+// #268: ;and increment memory pointer.
+// #269: ;
+// #270: ;The memory pointer is provided in register s1.
+// #271: ;The character obtained is returned in register s0.
+// #272: ;
+// #273: ;Registers used s0 and s1.
+// #274: ;
+// @091 #275: [fetch_char_from_memory]
+07010 // @091 #275: fetch(s0,s1) ;read character
+301e2 // @092 #276: call(upper_case) ;convert to upper case
+18101 // @093 #277: add(s1,1) ;increment memory pointer
+2a000 // @094 #278: return
+// #279: ;
+// #280: ;
+// #281: ;
+// #282: ;Read one character from the UART
+// #283: ;
+// #284: ;Character read will be returned in a register called 'UART_data' and will be
+// #285: ;echoed to the UART transmitter.
+// #286: ;
+// #287: ;The routine first tests the receiver FIFO buffer to see if data is present.
+// #288: ;If the FIFO is empty, the routine waits until there is a character to read.
+// #289: ;As this could take any amount of time the wait loop includes a call to the
+// #290: ;subroutine which updates the real time clock.
+// #291: ;
+// #292: ;Registers used s0 and UART_data
+// #293: ;
+// @095 #294: [read_from_UART]
+04000 // @095 #294: input(s0,UART_status_port) ;test Rx_FIFO buffer
+12010 // @096 #295: test(s0,rx_data_present)
+3549a // @097 #296: jump(nz,read_character)
+30185 // @098 #297: call(update_time) ;Perform useful operation whilst waiting
+34095 // @099 #298: jump(read_from_UART)
+// @09a #299: [read_character]
+04f01 // @09a #299: input(UART_data,UART_read_port) ;read from FIFO
+3009d // @09b #300: call(send_to_UART) ;echo received character
+2a000 // @09c #301: return
+// #302: ;
+// #303: ;
+// #304: ;
+// #305: ;Transmit one character to the UART
+// #306: ;
+// #307: ;Character supplied in register called 'UART_data'.
+// #308: ;
+// #309: ;The routine first tests the transmit FIFO buffer to see if it is full.
+// #310: ;If the FIFO is full, the routine waits until there is space which could
+// #311: ;be as long as it takes to transmit one complete character.
+// #312: ;
+// #313: ;    Baud Rate    Time per Character (10 bits)
+// #314: ;      9600           1,024us
+// #315: ;     19200             521us
+// #316: ;     38400             260us
+// #317: ;     57600             174us
+// #318: ;    115200              87us
+// #319: ;
+// #320: ;Since this is a relatively long duration, the wait loop includes a
+// #321: ;call to the subroutine which updates the real time clock.
+// #322: ;
+// #323: ;Registers used s0
+// #324: ;
+// @09d #325: [send_to_UART]
+04000 // @09d #325: input(s0,UART_status_port) ;test Tx_FIFO buffer
+12002 // @09e #326: test(s0,tx_full)
+350a2 // @09f #327: jump(z,UART_write)
+30185 // @0a0 #328: call(update_time) ;Perform useful operation whilst waiting
+3409d // @0a1 #329: jump(send_to_UART)
+// @0a2 #330: [UART_write]
+2cf01 // @0a2 #330: output(UART_data,UART_write_port)
+2a000 // @0a3 #331: return
+// #332: ;
+// #333: ;
+// #334: ;
+// #335: ;
+// #336: ;Alarm output
+// #337: ;
+// #338: ;Uses the alarm status scratch pad memory to set or reset the alarm
+// #339: ;control bit on the alarm output port.
+// #340: ;
+// #341: ;Registers used s0
+// #342: ;
+// @0a4 #343: [alarm_drive]
+0600c // @0a4 #343: fetch(s0,alarm_status) ;read status
+0a001 // @0a5 #344: and(s0,alarm_active) ;isolate bit0
+2c000 // @0a6 #345: output(s0,alarm_port)
+2a000 // @0a7 #346: return
+// #347: ;
+// #348: ;
+// #349: ;
+// #350: ;
+// #351: ;
+// #352: ;Transmit the time to the UART port in the format hh:mm:ss and end
+// #353: ;with a carriage return.
+// #354: ;
+// #355: ;The time to converted must be stored in 3 scratch pad memory locations as
+// #356: ;defined below. A register named 'store_pointer' must provide the address of
+// #357: ;first location.
+// #358: ;
+// #359: ;        Address                Data
+// #360: ;
+// #361: ;     store_pointer      ----> hours
+// #362: ;     store_pointer + 1  ----> minutes
+// #363: ;     store_pointer + 1  ----> seconds
+// #364: ;
+// #365: ;The routine first converts the time into an ASCII string stored in scratch
+// #366: ;pad memory starting at a location specified by a constant named 'string_start'.
+// #367: ;The string will then be transmitted.
+// #368: ;
+// #369: ;Registers used s0, s1, s2, 'store_pointer' and 'UART_data'.
+// #370: ;
+// @0a8 #371: [transmit_time]
+00e06 // @0a8 #371: load(store_pointer,real_time_hours) ;locate current time in memory
+30160 // @0a9 #372: call(time_to_ASCII)
+300bc // @0aa #373: call(transmit_string)
+2a000 // @0ab #374: return
+// #375: ;
+// #376: ;
+// #377: ;Transmit the alarm time and status to the UART port in the format hh:mm:ss and
+// #378: ;ending with carriage return.
+// #379: ;
+// #380: ;The alarm time to converted must be stored in 3 scratch pad memory locations as
+// #381: ;defined below. A register named 'store_pointer' must provide the address of
+// #382: ;first location.
+// #383: ;
+// #384: ;        Address                Data
+// #385: ;
+// #386: ;     store_pointer      ----> hours
+// #387: ;     store_pointer + 1  ----> minutes
+// #388: ;     store_pointer + 1  ----> seconds
+// #389: ;
+// #390: ;The routine first converts the time into an ASCII string stored in scratch
+// #391: ;pad memory starting at a location specified by a constant named 'string_start'.
+// #392: ;The string will then be transmitted.
+// #393: ;
+// #394: ;Registers used s0, s1, s2, 'store_pointer' and 'UART_data'.
+// #395: ;
+// @0ac #396: [transmit_alarm_time]
+00e09 // @0ac #396: load(store_pointer,alarm_time_hours) ;locate alarm time in memory
+30160 // @0ad #397: call(time_to_ASCII)
+300bc // @0ae #398: call(transmit_string)
+3013d // @0af #399: call(send_Alarm)
+300e7 // @0b0 #400: call(send_space)
+0600c // @0b1 #401: fetch(s0,alarm_status) ;read alarm status
+12001 // @0b2 #402: test(s0,alarm_active) ;test for active
+350b6 // @0b3 #403: jump(z,test_armed)
+30153 // @0b4 #404: call(send_Active)
+2a000 // @0b5 #405: return
+// @0b6 #406: [test_armed]
+12002 // @0b6 #406: test(s0,alarm_armed) ;test for on
+350ba // @0b7 #407: jump(z,alarm_is_off)
+3014e // @0b8 #408: call(send_ON)
+2a000 // @0b9 #409: return
+// @0ba #410: [alarm_is_off]
+30148 // @0ba #410: call(send_OFF)
+2a000 // @0bb #411: return
+// #412: ;
+// #413: ;
+// #414: ;Transmit ASCII string to UART
+// #415: ;
+// #416: ;An ASCII string must be provided in scratch pad memory commencing at the
+// #417: ;location specified by a constant named 'string_start'. The string must
+// #418: ;end with a carriage return (0D).
+// #419: ;
+// #420: ;Registers used s1 and 'UART_data'.
+// #421: ;               s0 is then used in subroutine 'send_to_UART'
+// #422: ;
+// @0bc #423: [transmit_string]
+00120 // @0bc #423: load(s1,string_start) ;locate start of string
+// @0bd #424: [next_char_tx]
+07f10 // @0bd #424: fetch(UART_data,s1) ;read character from memory
+3009d // @0be #425: call(send_to_UART) ;transmit character
+14f0d // @0bf #426: compare(UART_data,character_CR) ;test for last character
+2b000 // @0c0 #427: return(z)
+18101 // @0c1 #428: add(s1,1) ;move to next character
+340bd // @0c2 #429: jump(next_char_tx)
+// #430: ;
+// #431: ;
+// #432: ;Receive ASCII string from UART
+// #433: ;
+// #434: ;An ASCII string will be read from the UART and stored in scratch pad memory
+// #435: ;commencing at the location specified by a constant named 'string_start'.
+// #436: ;The string will will have a maximum length of 16 characters including a
+// #437: ;carriage return (0D) denoting the end of the string.
+// #438: ;
+// #439: ;As each character is read, it is echoed to the UART transmitter.
+// #440: ;Some minor editing is supported using backspace (BS=08) which is used
+// #441: ;to adjust what is stored in scratch pad memory and adjust the display
+// #442: ;on the terminal screen using characters sent to the UART transmitter.
+// #443: ;
+// #444: ;A test is made for the receiver FIFO becoming full. A full status is treated as
+// #445: ;a potential error situation and will result in a 'Overflow Error' message being
+// #446: ;transmitted to the UART, the receiver FIFO being purged of all data and an
+// #447: ;empty string being stored (carriage return at first location).
+// #448: ;
+// #449: ;Registers used s0, s1, s2 and 'UART_data'.
+// #450: ;
+// @0c3 #451: [receive_string]
+00120 // @0c3 #451: load(s1,string_start) ;locate start of string
+01210 // @0c4 #452: load(s2,s1) ;compute 16 character address
+18210 // @0c5 #453: add(s2,16)
+// @0c6 #454: [receive_full_test]
+04000 // @0c6 #454: input(s0,UART_status_port) ;test Rx_FIFO buffer for full
+12008 // @0c7 #455: test(s0,rx_full)
+354db // @0c8 #456: jump(nz,read_error)
+30095 // @0c9 #457: call(read_from_UART) ;obtain and echo character
+2ff10 // @0ca #458: store(UART_data,s1) ;write to memory
+14f0d // @0cb #459: compare(UART_data,character_CR) ;test for end of string
+2b000 // @0cc #460: return(z)
+14f08 // @0cd #461: compare(UART_data,character_BS) ;test for back space
+350d3 // @0ce #462: jump(z,BS_edit)
+18101 // @0cf #463: add(s1,1) ;increment memory pointer
+15120 // @0d0 #464: compare(s1,s2) ;test for pointer exceeding 16 characters
+354c6 // @0d1 #465: jump(nz,receive_full_test) ;next character
+300ea // @0d2 #466: call(send_backspace) ;hold end of string position on terminal display
+// @0d3 #467: [BS_edit]
+1c101 // @0d3 #467: sub(s1,1) ;memory pointer back one
+14120 // @0d4 #468: compare(s1,string_start) ;test for under flow
+358d9 // @0d5 #469: jump(c,string_start_again)
+300e7 // @0d6 #470: call(send_space) ;clear character at current position
+300ea // @0d7 #471: call(send_backspace) ;position cursor
+340c6 // @0d8 #472: jump(receive_full_test) ;next character
+// @0d9 #473: [string_start_again]
+30122 // @0d9 #473: call(send_greater_than) ;restore '>' at prompt
+340c3 // @0da #474: jump(receive_string) ;begin again
+// #475: ;Receiver buffer overflow condition
+// @0db #476: [read_error]
+300e4 // @0db #476: call(send_CR) ;Transmit error message
+2ef20 // @0dc #477: store(UART_data,string_start) ;empty string in memory (start with CR)
+300fa // @0dd #478: call(send_Overflow_Error)
+300e4 // @0de #479: call(send_CR)
+// @0df #480: [clear_UART_Rx_loop]
+04000 // @0df #480: input(s0,UART_status_port) ;test Rx_FIFO buffer for data
+12010 // @0e0 #481: test(s0,rx_data_present)
+2b000 // @0e1 #482: return(z) ;finish when buffer is empty
+04f01 // @0e2 #483: input(UART_data,UART_read_port) ;read from FIFO and ignore
+340df // @0e3 #484: jump(clear_UART_Rx_loop)
+// #485: ;
+// #486: ;
+// #487: ;
+// #488: ;Send Carriage Return to the UART
+// #489: ;
+// @0e4 #490: [send_CR]
+00f0d // @0e4 #490: load(UART_data,character_CR)
+3009d // @0e5 #491: call(send_to_UART)
+2a000 // @0e6 #492: return
+// #493: ;
+// #494: ;
+// #495: ;
+// #496: ;Send a space to the UART
+// #497: ;
+// @0e7 #498: [send_space]
+00f20 // @0e7 #498: load(UART_data,character_space)
+3009d // @0e8 #499: call(send_to_UART)
+2a000 // @0e9 #500: return
+// #501: ;
+// #502: ;
+// #503: ;Send a back space to the UART
+// #504: ;
+// @0ea #505: [send_backspace]
+00f08 // @0ea #505: load(UART_data,character_BS)
+3009d // @0eb #506: call(send_to_UART)
+2a000 // @0ec #507: return
+// #508: ;
+// #509: ;Send 'Syntax Error' to the UART
+// #510: ;
+// @0ed #511: [send_Syntax_Error]
+00f53 // @0ed #511: load(UART_data,character_S)
+3009d // @0ee #512: call(send_to_UART)
+00f79 // @0ef #513: load(UART_data,character_y)
+3009d // @0f0 #514: call(send_to_UART)
+00f6e // @0f1 #515: load(UART_data,character_n)
+3009d // @0f2 #516: call(send_to_UART)
+00f74 // @0f3 #517: load(UART_data,character_t)
+3009d // @0f4 #518: call(send_to_UART)
+00f61 // @0f5 #519: load(UART_data,character_a)
+3009d // @0f6 #520: call(send_to_UART)
+00f78 // @0f7 #521: load(UART_data,character_x)
+3009d // @0f8 #522: call(send_to_UART)
+3410a // @0f9 #523: jump(send_space_Error)
+// #524: ;
+// #525: ;Send 'Overflow Error' to the UART
+// #526: ;
+// @0fa #527: [send_Overflow_Error]
+00f4f // @0fa #527: load(UART_data,character_O)
+3009d // @0fb #528: call(send_to_UART)
+00f76 // @0fc #529: load(UART_data,character_v)
+3009d // @0fd #530: call(send_to_UART)
+00f65 // @0fe #531: load(UART_data,character_e)
+3009d // @0ff #532: call(send_to_UART)
+00f72 // @100 #533: load(UART_data,character_r)
+3009d // @101 #534: call(send_to_UART)
+00f66 // @102 #535: load(UART_data,character_f)
+3009d // @103 #536: call(send_to_UART)
+00f6c // @104 #537: load(UART_data,character_l)
+3009d // @105 #538: call(send_to_UART)
+00f6f // @106 #539: load(UART_data,character_o)
+3009d // @107 #540: call(send_to_UART)
+00f77 // @108 #541: load(UART_data,character_w)
+3009d // @109 #542: call(send_to_UART)
+// @10a #543: [send_space_Error]
+300e7 // @10a #543: call(send_space)
+// #544: ;
+// #545: ;Send 'Error' to the UART
+// #546: ;
+// @10b #547: [send_Error]
+00f45 // @10b #547: load(UART_data,character_E)
+3009d // @10c #548: call(send_to_UART)
+00f72 // @10d #549: load(UART_data,character_r)
+3009d // @10e #550: call(send_to_UART)
+3009d // @10f #551: call(send_to_UART)
+00f6f // @110 #552: load(UART_data,character_o)
+3009d // @111 #553: call(send_to_UART)
+00f72 // @112 #554: load(UART_data,character_r)
+3009d // @113 #555: call(send_to_UART)
+2a000 // @114 #556: return
+// #557: ;
+// #558: ;Send 'KCPSM3>' prompt to the UART
+// #559: ;
+// @115 #560: [send_prompt]
+300e4 // @115 #560: call(send_CR) ;start new line
+00f4b // @116 #561: load(UART_data,character_K)
+3009d // @117 #562: call(send_to_UART)
+00f43 // @118 #563: load(UART_data,character_C)
+3009d // @119 #564: call(send_to_UART)
+00f50 // @11a #565: load(UART_data,character_P)
+3009d // @11b #566: call(send_to_UART)
+00f53 // @11c #567: load(UART_data,character_S)
+3009d // @11d #568: call(send_to_UART)
+00f4d // @11e #569: load(UART_data,character_M)
+3009d // @11f #570: call(send_to_UART)
+00f33 // @120 #571: load(UART_data,character_3)
+3009d // @121 #572: call(send_to_UART)
+// #573: ;
+// #574: ;Send '>' character to the UART
+// #575: ;
+// @122 #576: [send_greater_than]
+00f3e // @122 #576: load(UART_data,character_greater_than)
+3009d // @123 #577: call(send_to_UART)
+2a000 // @124 #578: return
+// #579: ;
+// #580: ;Send 'Invalid' string to the UART
+// #581: ;
+// @125 #582: [send_Invalid]
+00f49 // @125 #582: load(UART_data,character_I)
+3009d // @126 #583: call(send_to_UART)
+00f6e // @127 #584: load(UART_data,character_n)
+3009d // @128 #585: call(send_to_UART)
+00f76 // @129 #586: load(UART_data,character_v)
+3009d // @12a #587: call(send_to_UART)
+00f61 // @12b #588: load(UART_data,character_a)
+3009d // @12c #589: call(send_to_UART)
+00f6c // @12d #590: load(UART_data,character_l)
+3009d // @12e #591: call(send_to_UART)
+00f69 // @12f #592: load(UART_data,character_i)
+3009d // @130 #593: call(send_to_UART)
+00f64 // @131 #594: load(UART_data,character_d)
+3009d // @132 #595: call(send_to_UART)
+2a000 // @133 #596: return
+// #597: ;
+// #598: ;Send 'Time' string to the UART
+// #599: ;
+// @134 #600: [send_Time]
+00f54 // @134 #600: load(UART_data,character_T)
+3009d // @135 #601: call(send_to_UART)
+00f69 // @136 #602: load(UART_data,character_i)
+3009d // @137 #603: call(send_to_UART)
+00f6d // @138 #604: load(UART_data,character_m)
+3009d // @139 #605: call(send_to_UART)
+00f65 // @13a #606: load(UART_data,character_e)
+3009d // @13b #607: call(send_to_UART)
+2a000 // @13c #608: return
+// #609: ;
+// #610: ;Send 'Alarm' string to the UART
+// #611: ;
+// @13d #612: [send_Alarm]
+00f41 // @13d #612: load(UART_data,character_A)
+3009d // @13e #613: call(send_to_UART)
+00f6c // @13f #614: load(UART_data,character_l)
+3009d // @140 #615: call(send_to_UART)
+00f61 // @141 #616: load(UART_data,character_a)
+3009d // @142 #617: call(send_to_UART)
+00f72 // @143 #618: load(UART_data,character_r)
+3009d // @144 #619: call(send_to_UART)
+00f6d // @145 #620: load(UART_data,character_m)
+3009d // @146 #621: call(send_to_UART)
+2a000 // @147 #622: return
+// #623: ;
+// #624: ;Send 'OFF' string to the UART
+// #625: ;
+// @148 #626: [send_OFF]
+00f4f // @148 #626: load(UART_data,character_O)
+3009d // @149 #627: call(send_to_UART)
+00f46 // @14a #628: load(UART_data,character_F)
+3009d // @14b #629: call(send_to_UART)
+3009d // @14c #630: call(send_to_UART)
+2a000 // @14d #631: return
+// #632: ;
+// #633: ;Send 'ON' string to the UART
+// #634: ;
+// @14e #635: [send_ON]
+00f4f // @14e #635: load(UART_data,character_O)
+3009d // @14f #636: call(send_to_UART)
+00f4e // @150 #637: load(UART_data,character_N)
+3009d // @151 #638: call(send_to_UART)
+2a000 // @152 #639: return
+// #640: ;
+// #641: ;Send 'Active' string to the UART
+// #642: ;
+// @153 #643: [send_Active]
+00f41 // @153 #643: load(UART_data,character_A)
+3009d // @154 #644: call(send_to_UART)
+00f63 // @155 #645: load(UART_data,character_c)
+3009d // @156 #646: call(send_to_UART)
+00f74 // @157 #647: load(UART_data,character_t)
+3009d // @158 #648: call(send_to_UART)
+00f69 // @159 #649: load(UART_data,character_i)
+3009d // @15a #650: call(send_to_UART)
+00f76 // @15b #651: load(UART_data,character_v)
+3009d // @15c #652: call(send_to_UART)
+00f65 // @15d #653: load(UART_data,character_e)
+3009d // @15e #654: call(send_to_UART)
+2a000 // @15f #655: return
+// #656: ;
+// #657: ;
+// #658: ;Convert time to ASCII string in scratch pad memory.
+// #659: ;
+// #660: ;The time to converted must be stored in 3 scratch pad memory locations as
+// #661: ;defined below. A register named 'store_pointer' must provide the address of
+// #662: ;first location.
+// #663: ;
+// #664: ;        Address                Data
+// #665: ;
+// #666: ;     store_pointer      ----> hours
+// #667: ;     store_pointer + 1  ----> minutes
+// #668: ;     store_pointer + 1  ----> seconds
+// #669: ;
+// #670: ;The resulting ASCII string will be stored in scratch pad memory starting at
+// #671: ;a location specified by a constant named 'string_start'. The string will
+// #672: ;take the format hh:mm:ss and end with a carriage return.
+// #673: ;
+// #674: ;Registers used s0, s1, s2 and 'store_pointer'.
+// #675: ;
+// @160 #676: [time_to_ASCII]
+00220 // @160 #676: load(s2,string_start) ;location for string
+070e0 // @161 #677: fetch(s0,store_pointer) ;read hours value
+3017e // @162 #678: call(decimal_to_ASCII) ;convert to ASCII
+2f120 // @163 #679: store(s1,s2) ;write hours to string
+18201 // @164 #680: add(s2,1)
+2f020 // @165 #681: store(s0,s2)
+18201 // @166 #682: add(s2,1)
+0003a // @167 #683: load(s0,character_colon) ;write ':' to string
+2f020 // @168 #684: store(s0,s2)
+18201 // @169 #685: add(s2,1)
+18e01 // @16a #686: add(store_pointer,1) ;move to minutes
+070e0 // @16b #687: fetch(s0,store_pointer) ;read minutes value
+3017e // @16c #688: call(decimal_to_ASCII) ;convert to ASCII
+2f120 // @16d #689: store(s1,s2) ;write minutes to string
+18201 // @16e #690: add(s2,1)
+2f020 // @16f #691: store(s0,s2)
+18201 // @170 #692: add(s2,1)
+0003a // @171 #693: load(s0,character_colon) ;write ':' to string
+2f020 // @172 #694: store(s0,s2)
+18201 // @173 #695: add(s2,1)
+18e01 // @174 #696: add(store_pointer,1) ;move to seconds
+070e0 // @175 #697: fetch(s0,store_pointer) ;read seconds value
+3017e // @176 #698: call(decimal_to_ASCII) ;convert to ASCII
+2f120 // @177 #699: store(s1,s2) ;write seconds to string
+18201 // @178 #700: add(s2,1)
+2f020 // @179 #701: store(s0,s2)
+18201 // @17a #702: add(s2,1)
+0000d // @17b #703: load(s0,character_CR) ;finish string with carriage return
+2f020 // @17c #704: store(s0,s2)
+2a000 // @17d #705: return
+// #706: ;
+// #707: ;Convert value provided in register s0 into ASCII characters
+// #708: ;
+// #709: ;The value provided must in the range 0 to 99 and will be converted into
+// #710: ;two ASCII characters.
+// #711: ;     The number of 'tens' will be representd by an ASCII character returned in register s1.
+// #712: ;     The number of 'units' will be representd by an ASCII character returned in register s0.
+// #713: ;
+// #714: ;The ASCII representations of '0' to '9' are 30 to 39 hexadecimal which is simply 30 hex added to
+// #715: ;the actual decimal value.
+// #716: ;
+// #717: ;Registers used s0 and s1.
+// #718: ;
+// @17e #719: [decimal_to_ASCII]
+00130 // @17e #719: load(s1,48) ;load 'tens' counter with ASCII for '0'
+// @17f #720: [test_for_ten]
+18101 // @17f #720: add(s1,1) ;increment 'tens' value
+1c00a // @180 #721: sub(s0,10) ;try to subtract 10 from the supplied value
+35d7f // @181 #722: jump(nc,test_for_ten) ;repeat if subtraction was possible without underflow.
+1c101 // @182 #723: sub(s1,1) ;'tens' value one less ten due to underflow
+1803a // @183 #724: add(s0,58) ;restore units value (the remainder) and convert to ASCII
+2a000 // @184 #725: return
+// #726: ;
+// #727: ;
+// #728: ;
+// #729: ;
+// #730: ;Real Time Clock
+// #731: ;
+// #732: ;Uses the 1us interrupt counter [int_counter_msb,int_counter_lsb] to determine how many
+// #733: ;micro-seconds have elapsed since the last update. This allows for just over 65ms between
+// #734: ;updates. Complete multiples of 1000us are used to update a 16-bit milli-second counter held
+// #735: ;in scratch pad memory locations [ms_time_stamp_msb,ms_time_stamp_msb] which in turn
+// #736: ;is used to update the real time hours, minutes and seconds clock held in scratch pad
+// #737: ;memory locations 'real_time_hours', 'real_time_minutes' and 'real_time_seconds'.
+// #738: ;
+// #739: ;The routine uses default register names s0,s1,s2,s3,s4,s5. These are preserved in scratch pad
+// #740: ;memory during the routine and restored before returning.
+// #741: ;
+// #742: ;Useful constants for real time clock operations
+// #743: ;
+// #744: constant(count_1000_lsb,232) ;lower 8-bits of 1000 count value
+// #745: constant(count_1000_msb,3) ;upper 8-bits of 1000 count value
+// #746: constant(hours_in_a_day,24) ;24 hours in a day
+// #747: constant(minutes_in_an_hour,60) ;60 minutes in an hour
+// #748: constant(seconds_in_a_minute,60) ;60 seconds in a minute
+// #749: ;
+// @185 #750: [update_time]
+2e010 // @185 #750: store(s0,time_preserve0) ;preserve contents of registers used during routine
+2e111 // @186 #751: store(s1,time_preserve1)
+2e212 // @187 #752: store(s2,time_preserve2)
+2e313 // @188 #753: store(s3,time_preserve3)
+2e414 // @189 #754: store(s4,time_preserve4)
+2e515 // @18a #755: store(s5,time_preserve5)
+// #756: ;
+06200 // @18b #757: fetch(s2,us_time_stamp_lsb) ;read the previous 'us' time stamp into [s3,s2]
+06301 // @18c #758: fetch(s3,us_time_stamp_msb)
+3c000 // @18d #759: interrupt(disable) ;Read and store current 'us' time stamp provided by the interrupt
+2ed00 // @18e #760: store(int_counter_lsb,us_time_stamp_lsb) ;counter. Interrupts are disabled to ensure that both bytes relate
+2ec01 // @18f #761: store(int_counter_msb,us_time_stamp_msb) ;to the same count value.
+3c001 // @190 #762: interrupt(enable)
+06400 // @191 #763: fetch(s4,us_time_stamp_lsb) ;read the new 'us' time stamp in [s5,s4]
+06501 // @192 #764: fetch(s5,us_time_stamp_msb) ;
+1d420 // @193 #765: sub(s4,s2) ;calculate 'us' time difference [s5,s4] = [s5,s4] - [s3,s2]
+1f530 // @194 #766: subcy(s5,s3) ;   (This works correctly even if counter has rolled over)
+06202 // @195 #767: fetch(s2,us_time_lsb) ;read current 'us' time into [s3,s2]
+06303 // @196 #768: fetch(s3,us_time_msb)
+19240 // @197 #769: add(s2,s4) ;add on the elapsed 'us' value [s3,s2] = [s3,s2] + [s5,s4]
+1b350 // @198 #770: addcy(s3,s5)
+// #771: ;determine how many 1000us (1ms) units there are (if any) in current 'us' time
+00000 // @199 #772: load(s0,0) ;reset 'ms' counter
+// @19a #773: [test_1000us]
+1c2e8 // @19a #773: sub(s2,count_1000_lsb) ;subtract 1000 from [s3,s2]
+1e303 // @19b #774: subcy(s3,count_1000_msb)
+3599f // @19c #775: jump(c,store_us_time) ;Carry indicates [s3,s2] was less than 1000us
+18001 // @19d #776: add(s0,1) ;increment 'ms' elapsed because [s3,s2] was more or equal to 1000us
+3419a // @19e #777: jump(test_1000us) ;repeat to see if more than 1ms has elapsed
+// @19f #778: [store_us_time]
+182e8 // @19f #778: add(s2,count_1000_lsb) ;add 1000 to restore 'us' value
+1a303 // @1a0 #779: addcy(s3,count_1000_msb)
+2e202 // @1a1 #780: store(s2,us_time_lsb) ;store the current value of 'us'
+2e303 // @1a2 #781: store(s3,us_time_msb)
+// #782: ;s0 holds the number of 'ms' elapsed since last update (if any).
+06204 // @1a3 #783: fetch(s2,ms_time_lsb) ;read current 'ms' time into [s3,s2]
+06305 // @1a4 #784: fetch(s3,ms_time_msb)
+19200 // @1a5 #785: add(s2,s0) ;add on the elapsed 'ms' value [s3,s2] = [s3,s2] + s0
+1a300 // @1a6 #786: addcy(s3,0)
+// #787: ;determine if there are now more than 1000ms to form 1 second.
+00000 // @1a7 #788: load(s0,0) ;reset 'second' counter
+1c2e8 // @1a8 #789: sub(s2,count_1000_lsb) ;subtract 1000 from [s3,s2]
+1e303 // @1a9 #790: subcy(s3,count_1000_msb)
+359ad // @1aa #791: jump(c,restore_ms_time) ;Carry indicates [s3,s2] was less than 1000ms
+18001 // @1ab #792: add(s0,1) ;increment 'second' elapsed because [s3,s2] was more or equal to 1000ms
+341af // @1ac #793: jump(store_ms_time) ;new value of 'ms' is remainder of subtraction
+// @1ad #794: [restore_ms_time]
+182e8 // @1ad #794: add(s2,count_1000_lsb) ;add 1000 to restore 'ms' value
+1a303 // @1ae #795: addcy(s3,count_1000_msb)
+// @1af #796: [store_ms_time]
+2e204 // @1af #796: store(s2,ms_time_lsb) ;store the current value of 'ms'
+2e305 // @1b0 #797: store(s3,ms_time_msb)
+// #798: ;s0 currently determines if one second needs to be added to the hh:mm:ss clock time
+06108 // @1b1 #799: fetch(s1,real_time_seconds) ;read seconds
+19100 // @1b2 #800: add(s1,s0) ;add one second if required by s0
+1413c // @1b3 #801: compare(s1,seconds_in_a_minute) ;test for 1 minute
+351b7 // @1b4 #802: jump(z,inc_minutes)
+2e108 // @1b5 #803: store(s1,real_time_seconds) ;store updated seconds
+341c9 // @1b6 #804: jump(time_update_complete)
+// @1b7 #805: [inc_minutes]
+00100 // @1b7 #805: load(s1,0) ;seconds become zero
+2e108 // @1b8 #806: store(s1,real_time_seconds)
+06107 // @1b9 #807: fetch(s1,real_time_minutes) ;read minutes
+18101 // @1ba #808: add(s1,1) ;increment minutes
+1413c // @1bb #809: compare(s1,minutes_in_an_hour) ;test for 1 hour
+351bf // @1bc #810: jump(z,inc_hours)
+2e107 // @1bd #811: store(s1,real_time_minutes) ;store updated minutes
+341c9 // @1be #812: jump(time_update_complete)
+// @1bf #813: [inc_hours]
+00100 // @1bf #813: load(s1,0) ;minutes become zero
+2e107 // @1c0 #814: store(s1,real_time_minutes)
+06106 // @1c1 #815: fetch(s1,real_time_hours) ;read hours
+18101 // @1c2 #816: add(s1,1) ;increment hours
+14118 // @1c3 #817: compare(s1,hours_in_a_day) ;test for 24 hours
+351c7 // @1c4 #818: jump(z,reset_hours)
+2e106 // @1c5 #819: store(s1,real_time_hours) ;store updated hours
+341c9 // @1c6 #820: jump(time_update_complete)
+// @1c7 #821: [reset_hours]
+00100 // @1c7 #821: load(s1,0) ;hours become zero
+2e106 // @1c8 #822: store(s1,real_time_hours)
+// #823: ;
+// #824: ;With the time updated, there is then a test for time=alarm time
+// #825: ;
+// @1c9 #826: [time_update_complete]
+06006 // @1c9 #826: fetch(s0,real_time_hours)
+06109 // @1ca #827: fetch(s1,alarm_time_hours) ;compare hours
+15010 // @1cb #828: compare(s0,s1)
+355db // @1cc #829: jump(nz,finish_update)
+06007 // @1cd #830: fetch(s0,real_time_minutes) ;compare minutes
+0610a // @1ce #831: fetch(s1,alarm_time_minutes)
+15010 // @1cf #832: compare(s0,s1)
+355db // @1d0 #833: jump(nz,finish_update)
+06008 // @1d1 #834: fetch(s0,real_time_seconds) ;compare seconds
+0610b // @1d2 #835: fetch(s1,alarm_time_seconds)
+15010 // @1d3 #836: compare(s0,s1)
+355db // @1d4 #837: jump(nz,finish_update)
+0600c // @1d5 #838: fetch(s0,alarm_status) ;test if alarm is turned on
+12002 // @1d6 #839: test(s0,alarm_armed)
+351db // @1d7 #840: jump(z,finish_update) ;alarm was off
+0c001 // @1d8 #841: or(s0,alarm_active) ;activate alarm
+2e00c // @1d9 #842: store(s0,alarm_status)
+300a4 // @1da #843: call(alarm_drive)
+// @1db #844: [finish_update]
+06010 // @1db #844: fetch(s0,time_preserve0) ;restore the register contents
+06111 // @1dc #845: fetch(s1,time_preserve1)
+06212 // @1dd #846: fetch(s2,time_preserve2)
+06313 // @1de #847: fetch(s3,time_preserve3)
+06414 // @1df #848: fetch(s4,time_preserve4)
+06515 // @1e0 #849: fetch(s5,time_preserve5)
+2a000 // @1e1 #850: return
+// #851: ;
+// #852: ;Convert character to upper case
+// #853: ;
+// #854: ;The character supplied in register s0.
+// #855: ;If the character is in the range 'a' to 'z', it is converted
+// #856: ;to the equivalent upper case character in the range 'A' to 'Z'.
+// #857: ;All other characters remain unchanged.
+// #858: ;
+// #859: ;Registers used s0.
+// #860: ;
+// @1e2 #861: [upper_case]
+14061 // @1e2 #861: compare(s0,97) ;eliminate character codes below 'a' (61 hex)
+2b800 // @1e3 #862: return(c)
+1407b // @1e4 #863: compare(s0,123) ;eliminate character codes above 'z' (7A hex)
+2bc00 // @1e5 #864: return(nc)
+0a0df // @1e6 #865: and(s0,223) ;mask bit5 to convert to upper case
+2a000 // @1e7 #866: return
+// #867: ;
+// #868: ;
+// #869: ;Convert character '0' to '9' to numerical value in range 0 to 9
+// #870: ;
+// #871: ;The character supplied in register s0. If the character is in the
+// #872: ;range '0' to '9', it is converted to the equivalent decimal value.
+// #873: ;Characters not in the range '0' to '9' are signified by the return
+// #874: ;with the CARRY flag set.
+// #875: ;
+// #876: ;Registers used s0.
+// #877: ;
+// @1e8 #878: [_1char_to_value]
+180c6 // @1e8 #878: add(s0,198) ;reject character codes above '9' (39 hex)
+2b800 // @1e9 #879: return(c) ;carry flag is set
+1c0f6 // @1ea #880: sub(s0,246) ;reject character codes below '0' (30 hex)
+2a000 // @1eb #881: return ;carry is set if value not in range
+// #882: ;
+// #883: ;
+// #884: ;Determine the numerical value of a two character decimal string held in
+// #885: ;scratch pad memory such the result is in the range 0 to 99 (00 to 63 hex).
+// #886: ;
+// #887: ;The string must be stored as in two consecutive memory locations and the
+// #888: ;location of the first (tens) character supplied in the s1 register.
+// #889: ;The result is provided in register s2. Strings not using characters in the
+// #890: ;range '0' to '9' are signified by the return with the CARRY flag set.
+// #891: ;
+// #892: ;Registers used s0, s1 and s2.
+// #893: ;
+// @1ec #894: [_2char_to_value]
+07010 // @1ec #894: fetch(s0,s1) ;read 'tens' character
+301e8 // @1ed #895: call(_1char_to_value) ;convert to numerical value
+2b800 // @1ee #896: return(c) ;bad character - CARRY set
+01200 // @1ef #897: load(s2,s0)
+20206 // @1f0 #898: sl0(s2) ;multiply 'tens' value by 10 (0A hex)
+20206 // @1f1 #899: sl0(s2)
+19200 // @1f2 #900: add(s2,s0)
+20206 // @1f3 #901: sl0(s2)
+18101 // @1f4 #902: add(s1,1) ;read 'units' character
+07010 // @1f5 #903: fetch(s0,s1)
+301e8 // @1f6 #904: call(_1char_to_value) ;convert to numerical value
+2b800 // @1f7 #905: return(c) ;bad character - CARRY set
+19200 // @1f8 #906: add(s2,s0) ;add units to result and clear CARRY flag
+2a000 // @1f9 #907: return
+// #908: ;
+// #909: ;
+// #910: ;Interrupt service routine (ISR)
+// #911: ;
+// #912: ;The interrupt is used to increment a 16-bit counter formed with two registers
+// #913: ;called [int_counter_msb,int_counter_lsb]. This provides a count of the number
+// #914: ;of micro-seconds elapsed. The counter is 'free running' in that it will count
+// #915: ;up to 65,535 and then roll over to zero. The count value is then used in other
+// #916: ;parts of the program as required and where it is less time critical.
+// #917: ;
+// #918: ;The ISR only uses the specified counter registers
+// #919: ;
+@3fc // #920: address(1020)
+// @3fc #921: [ISR]
+18d01 // @3fc #921: add(int_counter_lsb,1) ;add 1us to 16-bit counter
+1ac00 // @3fd #922: addcy(int_counter_msb,0)
+38001 // @3fe #923: returni(enable)
+// #924: ;
+// #925: ;Interrupt vector
+// #926: ;
+@3ff // #927: address(1023)
+343fc // @3ff #928: jump(ISR)
+// #929: ;
+// #930: ;
+// #931: ;Useful constants
+// #932: ;
+// #933: ;
+// #934: ;ASCII table
+// #935: ;
+// #936: constant(character_a,97)
+// #937: constant(character_b,98)
+// #938: constant(character_c,99)
+// #939: constant(character_d,100)
+// #940: constant(character_e,101)
+// #941: constant(character_f,102)
+// #942: constant(character_g,103)
+// #943: constant(character_h,104)
+// #944: constant(character_i,105)
+// #945: constant(character_j,106)
+// #946: constant(character_k,107)
+// #947: constant(character_l,108)
+// #948: constant(character_m,109)
+// #949: constant(character_n,110)
+// #950: constant(character_o,111)
+// #951: constant(character_p,112)
+// #952: constant(character_q,113)
+// #953: constant(character_r,114)
+// #954: constant(character_s,115)
+// #955: constant(character_t,116)
+// #956: constant(character_u,117)
+// #957: constant(character_v,118)
+// #958: constant(character_w,119)
+// #959: constant(character_x,120)
+// #960: constant(character_y,121)
+// #961: constant(character_z,122)
+// #962: constant(character_A,65)
+// #963: constant(character_B,66)
+// #964: constant(character_C,67)
+// #965: constant(character_D,68)
+// #966: constant(character_E,69)
+// #967: constant(character_F,70)
+// #968: constant(character_G,71)
+// #969: constant(character_H,72)
+// #970: constant(character_I,73)
+// #971: constant(character_J,74)
+// #972: constant(character_K,75)
+// #973: constant(character_L,76)
+// #974: constant(character_M,77)
+// #975: constant(character_N,78)
+// #976: constant(character_O,79)
+// #977: constant(character_P,80)
+// #978: constant(character_Q,81)
+// #979: constant(character_R,82)
+// #980: constant(character_S,83)
+// #981: constant(character_T,84)
+// #982: constant(character_U,85)
+// #983: constant(character_V,86)
+// #984: constant(character_W,87)
+// #985: constant(character_X,88)
+// #986: constant(character_Y,89)
+// #987: constant(character_Z,90)
+// #988: constant(character_0,48)
+// #989: constant(character_1,49)
+// #990: constant(character_2,50)
+// #991: constant(character_3,51)
+// #992: constant(character_4,52)
+// #993: constant(character_5,53)
+// #994: constant(character_6,54)
+// #995: constant(character_7,55)
+// #996: constant(character_8,56)
+// #997: constant(character_9,57)
+// #998: constant(character_colon,58)
+// #999: constant(character_semi_colon,59)
+// #1000: constant(character_less_than,60)
+// #1001: constant(character_greater_than,62)
+// #1002: constant(character_equals,61)
+// #1003: constant(character_space,32)
+// #1004: constant(character_CR,13) ;carriage return
+// #1005: constant(character_question,63) ;'?'
+// #1006: constant(character_dollar,36)
+// #1007: constant(character_BS,8) ;Back Space command character
+// #1008: ;

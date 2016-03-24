@@ -1,0 +1,312 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head>
+<title>int_test.v</title>
+<link rel="Stylesheet" title="v2html stylesheet" media="Screen" href="v2html.css">
+</head>
+<script language="JavaScript" type="text/javascript"><!--
+var agt=navigator.userAgent.toLowerCase(); 
+var is_nav  = ((agt.indexOf('mozilla')!=-1) &&
+(agt.indexOf('spoofer')==-1) &&
+(agt.indexOf('compatible') == -1) &&
+(agt.indexOf('opera')==-1) &&
+(agt.indexOf('webtv')==-1)); 
+var is_major = parseInt(navigator.appVersion); 
+var is_nav4up = (is_nav && (is_major >= 4)); 
+var is_ie     = (agt.indexOf("msie") != -1); 
+var is_ie4up  = (is_ie  && (is_major >= 4)); 
+var is_nav5up = (is_nav && (is_major >= 5));
+var dirSep = (window.location.pathname.indexOf('\\') != -1) ? '\\' : '/' ;
+function setbuttons (wndw) {
+var i;
+var sl=wndw.loc[ wndw.document.forms[0].elements[0].selectedIndex ];
+for (i=0;i<sl.length;i++) {
+if(sl[i]) wndw.document.images[i].src='v2html-b1.gif';
+else      wndw.document.images[i].src='v2html-b2.gif';
+}
+if ( wndw.document.forms[0].elements[0].options[ 
+wndw.document.forms[0].elements[0].selectedIndex ].text != '-') {
+wndw.document.images[i  ].src='v2html-b1.gif';
+wndw.document.images[i+1].src='v2html-b1.gif';
+}
+else {
+wndw.document.images[i  ].src='v2html-b2.gif';
+wndw.document.images[i+1].src='v2html-b2.gif';
+}
+}
+// Unindented and uncommented to save spave - look in v2html for a prettier version
+var disabled=1;
+if (!is_nav4up) {
+var event=false; 
+}
+var last_link=0;     
+var last_class=null; 
+function qs(e,t,extra_info_index) {
+var inc=0,bnum=0,i,j;
+if (disabled) return false;
+var sig_buttons = [ "Definition" , "Local Driver" , 
+"Up to Input Driver" , "Find Source" , "Index"];
+if (is_nav4up || is_ie4up) {
+if (((e.which==2) && (!(e.modifiers&Event.SHIFT_MASK))) ||
+((e.which==1) &&  (e.modifiers&Event.CONTROL_MASK)))   inc = 1;
+else if (((e.which==2) && (e.modifiers&Event.SHIFT_MASK)) ||
+((e.which==1) && (e.modifiers&Event.SHIFT_MASK))) inc = -1;
+if (inc == 0 && extra_info_index == 0) { 
+return true;  
+}
+var linkText = is_nav4up ? t.text : t.innerText;
+var linkY    = is_nav4up && ! is_nav5up ? t.y    : t.offsetTop;
+window.status="Searching...";
+if ((last_link==-1) || (document.links[last_link]!=t)) 
+for (last_link=0;last_link<document.links.length;last_link++) 
+if (document.links[last_link] == t)  
+break;
+if (inc != 0) { 
+return search(linkText,linkY,last_link,inc,1);
+}
+else { 
+window.status="";
+extra_info_index--; 
+if (extra_info[extra_info_index][0] != 'S') { 
+return true;
+}
+var w = window.open('','SignalPopUp','width=200,height=235');
+if (null != w.document.forms[0]) {
+if ((window.location.pathname.substring(0,window.location.pathname.lastIndexOf(dirSep)))!=
+(w.pn.substring(0,w.pn.lastIndexOf(dirSep)))) {
+w.close();
+w = window.open('','SignalPopUp','width=200,height=235');
+}
+}
+w.focus(); 
+if (null == w.document.forms[0]) { 
+var Text = '<html><head></head>';
+if (is_nav4up) { 
+w.loc = new Array(10);
+w.sel = null;
+w.pn  = window.location.pathname;
+}
+else {     
+Text += '<script>var loc = new Array(10);<\/script>\n';
+Text += '<script>var sel;<\/script>\n';
+Text += '<script>var pn = opener.location.pathname;<\/script>\n';
+}
+Text += '<body bgcolor="white">\n';
+Text += '<form>';
+Text += '  <select onchange="opener.setbuttons(window);">\n';
+Text += '  <option>---------------------------</option>\n';
+for (j=0;j<9;j++) Text += '  <option>-</option>\n';
+Text += '  </select>\n';
+Text += '</form>';
+Text += '<table cellspacing=0 cellpadding=0>\n';
+for (var i=0;i<(extra_info[extra_info_index].length-1);i++) {
+Text += hbutton(sig_buttons[i], 
+'opener.location=loc[sel.selectedIndex]['+i+'];',
+bnum++);
+}
+Text += hbutton("Search Backwards", 
+'opener.search(sel.options[ sel.selectedIndex ].text,' +
+'0,opener.last_link,-1,0);',bnum++);
+Text += hbutton("Search Forwards",
+'opener.search(sel.options[ sel.selectedIndex ].text,' +
+'0,opener.last_link, 1,0);',bnum++);
+Text += hbutton("Close","window.close();",bnum++);
+Text += '</table>\n';
+Text += '</body></html>\n';
+w.document.open();
+w.document.write(Text);
+w.document.close();
+w.document.forms[0].elements[0].options[0].text  = linkText;
+w.sel = w.document.forms[0].elements[0]; 
+for (j=0;j<10;j++) w.loc[j] = new Array(sig_buttons.length);  
+copy_into_loc0(w,extra_info_index);
+}
+else {
+var opts = w.document.forms[0].elements[0].options;
+if ( opts.length<10 ) { 
+w.loc[opts.length] = new Array;
+opts.length++; 
+}
+for (i=opts.length-2;i>=0;i--) {
+opts[i+1].text=opts[i].text;
+for (var j=0;j<w.loc[i].length;j++) w.loc[i+1][j] = w.loc[i][j];
+}
+opts[0].text  = linkText;
+copy_into_loc0(w,extra_info_index);
+}
+return false; 
+}
+}
+return true;
+}
+function hbutton (text,action,bnum) {
+return '  <tr><td><a href="" '+
+'onmousedown="'+
+'if (images['+bnum+'].src.match(/v2html-b2.gif/)) return false; ' +
+'images['+bnum+'].src=\'v2html-b3.gif\';" '+
+'onmouseup="'+
+'if (images['+bnum+'].src.match(/v2html-b2.gif/)) return false; ' +
+'images['+bnum+'].src=\'v2html-b1.gif\';" '+
+'onclick="'+
+'if (images['+bnum+'].src.match(/v2html-b2.gif/)) return false; ' +
+action + 
+' return false;">'+
+'<img border=0 src="v2html-b1.gif"></a></td>' +
+'<td style="font-family:sans-serif; font-weight:bold; font-size:14px;"> '+text+'</td></tr>\n';
+}
+function copy_into_loc0 (w,extra_info_index) {
+for (var i=1;i<extra_info[extra_info_index].length;i++) {
+w.loc[0][i-1] = extra_info[extra_info_index][i];
+}
+w.document.forms[0].elements[0].selectedIndex=1;
+w.document.forms[0].elements[0].selectedIndex=0;
+setbuttons(w);
+}
+function search(text,y,i,inc,relative) {
+var nextpage,wrappage,linkText,linkY;
+window.status="Searching...";
+if (last_class) document.links[i].className=last_class;
+while (1) {
+for (i+=inc;i<document.links.length && i>=0;i+=inc) {
+linkText = is_nav4up ? document.links[i].text : document.links[i].innerText;
+linkY    = is_nav4up && ! is_nav5up ? document.links[i].y    : document.links[i].offsetTop;
+if ((linkText == text) && (linkY != y)) {
+window.status="";
+if (is_nav4up) 
+if (relative) window.scrollBy(0,linkY - y);
+else          window.scrollTo(0,linkY); 
+else if (is_ie4up)
+document.links[i].scrollIntoView(true); 
+last_link=i;
+last_class=document.links[i].className;
+document.links[i].className='HI';
+return false;
+}
+}
+nextpage = (inc==1) ? next_page() : prev_page();
+wrappage = (inc==1) ? first_page() : last_page();
+if (nextpage!="" || wrappage!="") {
+if (nextpage=="") { 
+if (!confirm(text + " not found. Search again from "+((inc==1)?"first":"last")+" page?"))
+return false;
+nextpage=wrappage;
+}
+location=nextpage+ "?" + escape(text) + "&" + ( y - window.pageYOffset ) + "&" + inc;
+return false;
+}
+if (confirm(text + " not found. Search again from "+((inc==1)?"start":"end")+"?")) {
+if (inc==1) i=-1;
+else i=document.links.length;
+} else return false;
+}
+return true;
+}
+function loadqs() {
+var opt=location.search, text="", s="", y=0, si=0, inc=1;
+if (opt.length==0) return true;  
+for (var i=1;i<opt.length;i++) { 
+if (opt.charAt(i) != "&") 
+s += opt.charAt(i);
+else {
+if (text=="") text=unescape(s);
+else             y=s;
+s="";
+}
+}
+if (text=="") return true;
+if (s == "-1") { si=document.links.length-1; inc=-1; }
+window.scrollTo(0,0);
+search(text,y,si,inc);
+return true;
+}
+// -->
+</script>
+<body onload='loadqs();'>
+<script language="JavaScript"type="text/javascript"><!--
+function prev_page() { return ""; }
+function last_page() { return ""; }
+// -->
+</script>
+<center><table class=NB cols=7 ><tr><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index.html';"><a target="_top" href="index.html">Hierarchy</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-f.html';"><a target="_top" href="index-f.html">Files</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-m.html';"><a target="_top" href="index-m.html">Modules</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-s.html';"><a target="_top" href="index-s.html">Signals</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-t.html';"><a target="_top" href="index-t.html">Tasks</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-fn.html';"><a target="_top" href="index-fn.html">Functions</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='http://www.burbleland.com/v2html/help_7_30.html?htf-ni-s-';"><a target="_top" href="http://www.burbleland.com/v2html/help_7_30.html?htf-ni-s-">Help</a></td></tr></table></center>
+<pre>
+<a name="int_test"></a><span class=K>module</span> <span class=MM>int_test</span><a  href="index-m.html#int_test"><img align=top border=0 alt="Index" src="v2html-i.gif"></a>(<a  onClick="return qs(event,this,1)"  class=SI href="#2">address</a>, <a  onClick="return qs(event,this,2)"  class=SO href="#3">instruction</a>, <a  onClick="return qs(event,this,3)"  class=SI href="#4">clk</a>);
+<a name="2"></a><span class=K>input</span> [7:0] <a  onClick="return qs(event,this,1)"  class=SI href="#2">address</a>;
+<a name="3"></a><span class=K>output</span> [15:0] <a  onClick="return qs(event,this,2)"  class=SO href="#3">instruction</a>;
+<a name="4"></a><span class=K>input</span> <a  onClick="return qs(event,this,3)"  class=SI href="#4">clk</a>;
+<a name="int_test_ram_256_x_16"></a><span class=MM>RAMB4_S16</span> ram_256_x_16(
+  .DI  (16'b0),
+  .EN (1'b1),
+  .WE (1'b0),
+  .RST (1'b0),
+  .CLK (<a  onClick="return qs(event,this,3)"  class=SI href="#4">clk</a>),
+  .ADDR(<a  onClick="return qs(event,this,1)"  class=SI href="#2">address</a>),
+  .DO (<a  onClick="return qs(event,this,2)"  class=SO href="#3">instruction</a>)
+);
+<span class=C>// synthesis translate_off
+</span><span class=K>defparam</span> ram_256_x_16.INIT_00 = 256'h0000000000000000000000000000810332FF950560010007E202803002AA0A00;
+<span class=K>defparam</span> ram_256_x_16.INIT_01 = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_256_x_16.INIT_02 = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_256_x_16.INIT_03 = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_256_x_16.INIT_04 = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_256_x_16.INIT_05 = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_256_x_16.INIT_06 = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_256_x_16.INIT_07 = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_256_x_16.INIT_08 = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_256_x_16.INIT_09 = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_256_x_16.INIT_0A = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_256_x_16.INIT_0B = 256'h000000000000000000000000000000000000000000000000000080F0EA044A01;
+<span class=K>defparam</span> ram_256_x_16.INIT_0C = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_256_x_16.INIT_0D = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_256_x_16.INIT_0E = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_256_x_16.INIT_0F = 256'h81B0000000000000000000000000000000000000000000000000000000000000;
+<span class=C>// synthesis translate_on
+</span><span class=C>// synthesis attribute INIT_00 of ram_256_x_16 is &quot;0000000000000000000000000000810332FF950560010007E202803002AA0A00&quot;
+</span><span class=C>// synthesis attribute INIT_01 of ram_256_x_16 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_02 of ram_256_x_16 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_03 of ram_256_x_16 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_04 of ram_256_x_16 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_05 of ram_256_x_16 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_06 of ram_256_x_16 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_07 of ram_256_x_16 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_08 of ram_256_x_16 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_09 of ram_256_x_16 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_0A of ram_256_x_16 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_0B of ram_256_x_16 is &quot;000000000000000000000000000000000000000000000000000080F0EA044A01&quot;
+</span><span class=C>// synthesis attribute INIT_0C of ram_256_x_16 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_0D of ram_256_x_16 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_0E of ram_256_x_16 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_0F of ram_256_x_16 is &quot;81B0000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=K>endmodule</span>
+
+</pre>
+<center><table class=NB cols=7 ><tr><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index.html';"><a target="_top" href="index.html">Hierarchy</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-f.html';"><a target="_top" href="index-f.html">Files</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-m.html';"><a target="_top" href="index-m.html">Modules</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-s.html';"><a target="_top" href="index-s.html">Signals</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-t.html';"><a target="_top" href="index-t.html">Tasks</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-fn.html';"><a target="_top" href="index-fn.html">Functions</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='http://www.burbleland.com/v2html/help_7_30.html?htf-ni-s-';"><a target="_top" href="http://www.burbleland.com/v2html/help_7_30.html?htf-ni-s-">Help</a></td></tr></table></center>
+<script language="JavaScript"type="text/javascript"><!--
+function next_page() { return ""; }
+function first_page() { return ""; }
+var extra_info = [
+["S","int_test.v.html#2","","","int_test.v.html#2","index-s.html#address___int_test"],
+["S","int_test.v.html#3","","","","index-s.p2.html#instruction___int_test"],
+["S","int_test.v.html#4","","","int_test.v.html#4","index-s.html#clk___int_test"]
+];
+disabled=0;
+// -->
+</script>
+<hr>
+<table>
+ <tr><td><i>This page:</i></td>
+  <td><i>Maintained by:</i></td>
+  <td><i><a href="mailto:pablo.N@SPAM.bleyer.org">
+  pablo.N@SPAM.bleyer.org</a></i></tr>
+<tr>
+<td> </td>
+  <td><i>Created:</i></td><td><i>Tue May 29 02:37:53 2007</i></td></tr>
+<tr>
+ <td> </td>
+ <td><i>From:</i></td><td><i>
+  <a href="int_test.v">
+int_test.v</a></i></td></tr>
+</table>
+<hr>
+<table width="100%"><tr><td><i>Verilog converted to html by  <a target="_top" href="http://www.burbleland.com/v2html/v2html.html">  v2html 7.30</a> 
+ (written by <a href="mailto:v2html730@burbleland.com">Costas Calamvokis</a>).</i></td><td align="right"><b><a href="http://www.burbleland.com/v2html/help_7_30.html?htf-ni-s-">Help</a></b></td></tr></table><table height="90%"><tr><td></td></tr></table>
+</body>
+</html>

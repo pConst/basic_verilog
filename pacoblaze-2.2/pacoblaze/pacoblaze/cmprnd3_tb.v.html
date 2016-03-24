@@ -1,0 +1,425 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head>
+<title>cmprnd3_tb.v</title>
+<link rel="Stylesheet" title="v2html stylesheet" media="Screen" href="v2html.css">
+</head>
+<script language="JavaScript" type="text/javascript"><!--
+var agt=navigator.userAgent.toLowerCase(); 
+var is_nav  = ((agt.indexOf('mozilla')!=-1) &&
+(agt.indexOf('spoofer')==-1) &&
+(agt.indexOf('compatible') == -1) &&
+(agt.indexOf('opera')==-1) &&
+(agt.indexOf('webtv')==-1)); 
+var is_major = parseInt(navigator.appVersion); 
+var is_nav4up = (is_nav && (is_major >= 4)); 
+var is_ie     = (agt.indexOf("msie") != -1); 
+var is_ie4up  = (is_ie  && (is_major >= 4)); 
+var is_nav5up = (is_nav && (is_major >= 5));
+var dirSep = (window.location.pathname.indexOf('\\') != -1) ? '\\' : '/' ;
+function setbuttons (wndw) {
+var i;
+var sl=wndw.loc[ wndw.document.forms[0].elements[0].selectedIndex ];
+for (i=0;i<sl.length;i++) {
+if(sl[i]) wndw.document.images[i].src='v2html-b1.gif';
+else      wndw.document.images[i].src='v2html-b2.gif';
+}
+if ( wndw.document.forms[0].elements[0].options[ 
+wndw.document.forms[0].elements[0].selectedIndex ].text != '-') {
+wndw.document.images[i  ].src='v2html-b1.gif';
+wndw.document.images[i+1].src='v2html-b1.gif';
+}
+else {
+wndw.document.images[i  ].src='v2html-b2.gif';
+wndw.document.images[i+1].src='v2html-b2.gif';
+}
+}
+// Unindented and uncommented to save spave - look in v2html for a prettier version
+var disabled=1;
+if (!is_nav4up) {
+var event=false; 
+}
+var last_link=0;     
+var last_class=null; 
+function qs(e,t,extra_info_index) {
+var inc=0,bnum=0,i,j;
+if (disabled) return false;
+var sig_buttons = [ "Definition" , "Local Driver" , 
+"Up to Input Driver" , "Find Source" , "Index"];
+if (is_nav4up || is_ie4up) {
+if (((e.which==2) && (!(e.modifiers&Event.SHIFT_MASK))) ||
+((e.which==1) &&  (e.modifiers&Event.CONTROL_MASK)))   inc = 1;
+else if (((e.which==2) && (e.modifiers&Event.SHIFT_MASK)) ||
+((e.which==1) && (e.modifiers&Event.SHIFT_MASK))) inc = -1;
+if (inc == 0 && extra_info_index == 0) { 
+return true;  
+}
+var linkText = is_nav4up ? t.text : t.innerText;
+var linkY    = is_nav4up && ! is_nav5up ? t.y    : t.offsetTop;
+window.status="Searching...";
+if ((last_link==-1) || (document.links[last_link]!=t)) 
+for (last_link=0;last_link<document.links.length;last_link++) 
+if (document.links[last_link] == t)  
+break;
+if (inc != 0) { 
+return search(linkText,linkY,last_link,inc,1);
+}
+else { 
+window.status="";
+extra_info_index--; 
+if (extra_info[extra_info_index][0] != 'S') { 
+return true;
+}
+var w = window.open('','SignalPopUp','width=200,height=235');
+if (null != w.document.forms[0]) {
+if ((window.location.pathname.substring(0,window.location.pathname.lastIndexOf(dirSep)))!=
+(w.pn.substring(0,w.pn.lastIndexOf(dirSep)))) {
+w.close();
+w = window.open('','SignalPopUp','width=200,height=235');
+}
+}
+w.focus(); 
+if (null == w.document.forms[0]) { 
+var Text = '<html><head></head>';
+if (is_nav4up) { 
+w.loc = new Array(10);
+w.sel = null;
+w.pn  = window.location.pathname;
+}
+else {     
+Text += '<script>var loc = new Array(10);<\/script>\n';
+Text += '<script>var sel;<\/script>\n';
+Text += '<script>var pn = opener.location.pathname;<\/script>\n';
+}
+Text += '<body bgcolor="white">\n';
+Text += '<form>';
+Text += '  <select onchange="opener.setbuttons(window);">\n';
+Text += '  <option>---------------------------</option>\n';
+for (j=0;j<9;j++) Text += '  <option>-</option>\n';
+Text += '  </select>\n';
+Text += '</form>';
+Text += '<table cellspacing=0 cellpadding=0>\n';
+for (var i=0;i<(extra_info[extra_info_index].length-1);i++) {
+Text += hbutton(sig_buttons[i], 
+'opener.location=loc[sel.selectedIndex]['+i+'];',
+bnum++);
+}
+Text += hbutton("Search Backwards", 
+'opener.search(sel.options[ sel.selectedIndex ].text,' +
+'0,opener.last_link,-1,0);',bnum++);
+Text += hbutton("Search Forwards",
+'opener.search(sel.options[ sel.selectedIndex ].text,' +
+'0,opener.last_link, 1,0);',bnum++);
+Text += hbutton("Close","window.close();",bnum++);
+Text += '</table>\n';
+Text += '</body></html>\n';
+w.document.open();
+w.document.write(Text);
+w.document.close();
+w.document.forms[0].elements[0].options[0].text  = linkText;
+w.sel = w.document.forms[0].elements[0]; 
+for (j=0;j<10;j++) w.loc[j] = new Array(sig_buttons.length);  
+copy_into_loc0(w,extra_info_index);
+}
+else {
+var opts = w.document.forms[0].elements[0].options;
+if ( opts.length<10 ) { 
+w.loc[opts.length] = new Array;
+opts.length++; 
+}
+for (i=opts.length-2;i>=0;i--) {
+opts[i+1].text=opts[i].text;
+for (var j=0;j<w.loc[i].length;j++) w.loc[i+1][j] = w.loc[i][j];
+}
+opts[0].text  = linkText;
+copy_into_loc0(w,extra_info_index);
+}
+return false; 
+}
+}
+return true;
+}
+function hbutton (text,action,bnum) {
+return '  <tr><td><a href="" '+
+'onmousedown="'+
+'if (images['+bnum+'].src.match(/v2html-b2.gif/)) return false; ' +
+'images['+bnum+'].src=\'v2html-b3.gif\';" '+
+'onmouseup="'+
+'if (images['+bnum+'].src.match(/v2html-b2.gif/)) return false; ' +
+'images['+bnum+'].src=\'v2html-b1.gif\';" '+
+'onclick="'+
+'if (images['+bnum+'].src.match(/v2html-b2.gif/)) return false; ' +
+action + 
+' return false;">'+
+'<img border=0 src="v2html-b1.gif"></a></td>' +
+'<td style="font-family:sans-serif; font-weight:bold; font-size:14px;"> '+text+'</td></tr>\n';
+}
+function copy_into_loc0 (w,extra_info_index) {
+for (var i=1;i<extra_info[extra_info_index].length;i++) {
+w.loc[0][i-1] = extra_info[extra_info_index][i];
+}
+w.document.forms[0].elements[0].selectedIndex=1;
+w.document.forms[0].elements[0].selectedIndex=0;
+setbuttons(w);
+}
+function search(text,y,i,inc,relative) {
+var nextpage,wrappage,linkText,linkY;
+window.status="Searching...";
+if (last_class) document.links[i].className=last_class;
+while (1) {
+for (i+=inc;i<document.links.length && i>=0;i+=inc) {
+linkText = is_nav4up ? document.links[i].text : document.links[i].innerText;
+linkY    = is_nav4up && ! is_nav5up ? document.links[i].y    : document.links[i].offsetTop;
+if ((linkText == text) && (linkY != y)) {
+window.status="";
+if (is_nav4up) 
+if (relative) window.scrollBy(0,linkY - y);
+else          window.scrollTo(0,linkY); 
+else if (is_ie4up)
+document.links[i].scrollIntoView(true); 
+last_link=i;
+last_class=document.links[i].className;
+document.links[i].className='HI';
+return false;
+}
+}
+nextpage = (inc==1) ? next_page() : prev_page();
+wrappage = (inc==1) ? first_page() : last_page();
+if (nextpage!="" || wrappage!="") {
+if (nextpage=="") { 
+if (!confirm(text + " not found. Search again from "+((inc==1)?"first":"last")+" page?"))
+return false;
+nextpage=wrappage;
+}
+location=nextpage+ "?" + escape(text) + "&" + ( y - window.pageYOffset ) + "&" + inc;
+return false;
+}
+if (confirm(text + " not found. Search again from "+((inc==1)?"start":"end")+"?")) {
+if (inc==1) i=-1;
+else i=document.links.length;
+} else return false;
+}
+return true;
+}
+function loadqs() {
+var opt=location.search, text="", s="", y=0, si=0, inc=1;
+if (opt.length==0) return true;  
+for (var i=1;i<opt.length;i++) { 
+if (opt.charAt(i) != "&") 
+s += opt.charAt(i);
+else {
+if (text=="") text=unescape(s);
+else             y=s;
+s="";
+}
+}
+if (text=="") return true;
+if (s == "-1") { si=document.links.length-1; inc=-1; }
+window.scrollTo(0,0);
+search(text,y,si,inc);
+return true;
+}
+// -->
+</script>
+<body onload='loadqs();'>
+<script language="JavaScript"type="text/javascript"><!--
+function prev_page() { return ""; }
+function last_page() { return ""; }
+// -->
+</script>
+<center><table class=NB cols=7 ><tr><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index.html';"><a target="_top" href="index.html">Hierarchy</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-f.html';"><a target="_top" href="index-f.html">Files</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-m.html';"><a target="_top" href="index-m.html">Modules</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-s.html';"><a target="_top" href="index-s.html">Signals</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-t.html';"><a target="_top" href="index-t.html">Tasks</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-fn.html';"><a target="_top" href="index-fn.html">Functions</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='http://www.burbleland.com/v2html/help_7_30.html?htf-ni-s-';"><a target="_top" href="http://www.burbleland.com/v2html/help_7_30.html?htf-ni-s-">Help</a></td></tr></table></center>
+<pre>
+<span class=C>/*
+  Compare KCPSM3 and PacoBlaze3 with random code
+*/</span>
+
+<a name="5"></a><span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#5">PACOBLAZE3</a>
+
+<span class=M>`ifndef</span> <a  onClick="return qs(event,this,0)"  class=D href="#8">RANDOM_SEED</a>
+<a name="8"></a><span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#8">RANDOM_SEED</a> 0
+<span class=M>`endif</span>
+
+<span class=M>`ifndef</span> <a  onClick="return qs(event,this,0)"  class=D href="#12">TEST_CYCLES</a>
+<a name="12"></a><span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#12">TEST_CYCLES</a> 100
+<span class=M>`endif</span>
+
+<span class=M>`ifndef</span> <a  onClick="return qs(event,this,0)"  class=D href="#16">TEST_IRQ</a>
+<a name="16"></a><span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#16">TEST_IRQ</a> 50
+<span class=M>`endif</span>
+
+<span class=M>`include</span> <a  onClick="return qs(event,this,0)"  class=S href="timescale_inc.v.html">&quot;timescale_inc.v&quot;</a>
+<span class=M>`include</span> <a  onClick="return qs(event,this,0)"  class=S href="pacoblaze_inc.v.html">&quot;pacoblaze_inc.v&quot;</a>
+
+<a name="cmprnd3_tb"></a><span class=K>module</span> <span class=MM>cmprnd3_tb</span><a  href="index-m.html#cmprnd3_tb"><img align=top border=0 alt="Index" src="v2html-i.gif"></a>;
+
+<a name="24"></a><span class=K>parameter</span> <a  onClick="return qs(event,this,0)"  class=PA href="#24">tck</a> = 10, <a  onClick="return qs(event,this,0)"  class=PA href="#24">program_cycles</a> = <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#12">TEST_CYCLES</a>;
+
+<span class=K>defparam</span> glbl.ROC_WIDTH = 0;
+
+<a name="28"></a><span class=K>reg</span> <a  onClick="return qs(event,this,1)"  class=SR href="#90">clk</a>, <a  onClick="return qs(event,this,2)"  class=SR href="#129">rst</a>, <a  onClick="return qs(event,this,3)"  class=SR href="#129">irq</a>; <span class=C>// clock, reset, interrupt req
+</span><a name="29"></a><span class=K>wire</span> [<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#73">code_depth</a>-1:0] <a  onClick="return qs(event,this,4)"  class=SW href="#29">addr_0</a>, <a  onClick="return qs(event,this,5)"  class=SW href="#29">addr_1</a>; <span class=C>// instruction address
+</span><a name="30"></a><span class=K>reg</span> [<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#60">operand_width</a>-1:0] <a  onClick="return qs(event,this,6)"  class=SR href="#94">port_0</a>[0:<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#83">port_size</a>-1], <a  onClick="return qs(event,this,7)"  class=SR href="#95">port_1</a>[0:<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#83">port_size</a>-1];
+<a name="31"></a><span class=K>wire</span> [<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#60">operand_width</a>-1:0] <a  onClick="return qs(event,this,8)"  class=SW href="#31">pid_0</a>, <a  onClick="return qs(event,this,9)"  class=SW href="#31">pid_1</a>, <a  onClick="return qs(event,this,10)"  class=SW href="#31">pout_0</a>, <a  onClick="return qs(event,this,11)"  class=SW href="#31">pout_1</a>; <span class=C>// port id, port out
+</span><a name="32"></a><span class=K>wire</span> <a  onClick="return qs(event,this,12)"  class=SW href="#32">ren_0</a>, <a  onClick="return qs(event,this,13)"  class=SW href="#32">ren_1</a>, <a  onClick="return qs(event,this,14)"  class=SW href="#32">wen_0</a>, <a  onClick="return qs(event,this,15)"  class=SW href="#32">wen_1</a>, <a  onClick="return qs(event,this,16)"  class=SW href="#32">iak_0</a>, <a  onClick="return qs(event,this,17)"  class=SW href="#32">iak_1</a>; <span class=C>// read strobe, write strobe, interrupt ack
+</span>
+<a name="34"></a><span class=K>wire</span> [<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#72">code_width</a>-1:0] <a  onClick="return qs(event,this,18)"  class=SW href="#45">din_0</a>, <a  onClick="return qs(event,this,19)"  class=SW href="#71">din_1</a>;
+<a name="35"></a><span class=K>wire</span> [<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#60">operand_width</a>-1:0] <a  onClick="return qs(event,this,20)"  class=SW href="#35">pin_0</a> = <a  onClick="return qs(event,this,6)"  class=SR href="#94">port_0</a>[<a  onClick="return qs(event,this,8)"  class=SW href="#31">pid_0</a>], <a  onClick="return qs(event,this,21)"  class=SW href="#35">pin_1</a> = <a  onClick="return qs(event,this,7)"  class=SR href="#95">port_1</a>[<a  onClick="return qs(event,this,9)"  class=SW href="#31">pid_1</a>]; <span class=C>// port in
+</span>
+<span class=C>/* PacoBlaze program memory */</span>
+<a name="cmprnd3_tb_rom_0"></a><a  onClick="return qs(event,this,0)"  class=MM href="blockram.v.html#blockram">blockram</a> #(.width(<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#72">code_width</a>),.depth(<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#73">code_depth</a>)) rom_0(
+  <span class=SI>.clk</span>(<a  onClick="return qs(event,this,1)"  class=SR href="#90">clk</a>),
+  <span class=SI>.rst</span>(<a  onClick="return qs(event,this,2)"  class=SR href="#129">rst</a>),
+  <span class=SI>.enb</span>(1),
+  <span class=SI>.wen</span>(0),
+  <span class=SI>.addr</span>(<a  onClick="return qs(event,this,4)"  class=SW href="#29">addr_0</a>),
+  <span class=SI>.din</span>(0),
+<a name="45"></a>  <a  onClick="return qs(event,this,0)"  class=SOR href="blockram.v.html#47">.dout</a>(<a  onClick="return qs(event,this,18)"  class=SW href="#34">din_0</a>)
+);
+
+<span class=C>/* PacoBlaze dut */</span>
+<a name="cmprnd3_tb_dut_0"></a><span class=MM>pacoblaze3</span> dut_0(
+  .clk(<a  onClick="return qs(event,this,1)"  class=SR href="#28">clk</a>),
+  .reset(<a  onClick="return qs(event,this,2)"  class=SR href="#28">rst</a>),
+  .address(<a  onClick="return qs(event,this,4)"  class=SW href="#29">addr_0</a>),
+  .instruction(<a  onClick="return qs(event,this,18)"  class=SW href="#34">din_0</a>),
+  .port_id(<a  onClick="return qs(event,this,8)"  class=SW href="#31">pid_0</a>),
+  .read_strobe(<a  onClick="return qs(event,this,12)"  class=SW href="#32">ren_0</a>),
+  .write_strobe(<a  onClick="return qs(event,this,14)"  class=SW href="#32">wen_0</a>),
+  .in_port(<a  onClick="return qs(event,this,20)"  class=SW href="#35">pin_0</a>),
+  .out_port(<a  onClick="return qs(event,this,10)"  class=SW href="#31">pout_0</a>),
+  .interrupt(<a  onClick="return qs(event,this,3)"  class=SR href="#28">irq</a>),
+  .interrupt_ack(<a  onClick="return qs(event,this,16)"  class=SW href="#32">iak_0</a>)
+);
+
+<span class=C>/* KCPSM3 program memory */</span>
+<a name="cmprnd3_tb_rom_1"></a><a  onClick="return qs(event,this,0)"  class=MM href="blockram.v.html#blockram">blockram</a> #(.width(<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#72">code_width</a>),.depth(<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#73">code_depth</a>)) rom_1(
+  <span class=SI>.clk</span>(<a  onClick="return qs(event,this,1)"  class=SR href="#90">clk</a>),
+  <span class=SI>.rst</span>(<a  onClick="return qs(event,this,2)"  class=SR href="#129">rst</a>),
+  <span class=SI>.enb</span>(1),
+  <span class=SI>.wen</span>(0),
+  <span class=SI>.addr</span>(<a  onClick="return qs(event,this,5)"  class=SW href="#29">addr_1</a>),
+  <span class=SI>.din</span>(0),
+<a name="71"></a>  <a  onClick="return qs(event,this,0)"  class=SOR href="blockram.v.html#47">.dout</a>(<a  onClick="return qs(event,this,19)"  class=SW href="#34">din_1</a>)
+);
+
+<span class=C>/* KCPSM3 dut */</span>
+<a name="cmprnd3_tb_dut_1"></a><span class=MM>kcpsm3</span> dut_1(
+  .clk(<a  onClick="return qs(event,this,1)"  class=SR href="#28">clk</a>),
+  .reset(<a  onClick="return qs(event,this,2)"  class=SR href="#28">rst</a>),
+  .address(<a  onClick="return qs(event,this,5)"  class=SW href="#29">addr_1</a>),
+  .instruction(<a  onClick="return qs(event,this,19)"  class=SW href="#34">din_1</a>),
+  .port_id(<a  onClick="return qs(event,this,9)"  class=SW href="#31">pid_1</a>),
+  .read_strobe(<a  onClick="return qs(event,this,13)"  class=SW href="#32">ren_1</a>),
+  .write_strobe(<a  onClick="return qs(event,this,15)"  class=SW href="#32">wen_1</a>),
+  .in_port(<a  onClick="return qs(event,this,21)"  class=SW href="#35">pin_1</a>),
+  .out_port(<a  onClick="return qs(event,this,11)"  class=SW href="#31">pout_1</a>),
+  .interrupt(<a  onClick="return qs(event,this,3)"  class=SR href="#28">irq</a>),
+  .interrupt_ack(<a  onClick="return qs(event,this,17)"  class=SW href="#32">iak_1</a>)
+);
+
+<span class=C>/* Clocking device */</span>
+<a name="90"></a><span class=K>always</span> #(<a  onClick="return qs(event,this,0)"  class=PA href="#24">tck</a>/2) <a  onClick="return qs(event,this,1)"  class=SR href="#28">clk</a> = ~<a  onClick="return qs(event,this,1)"  class=SR href="#90">clk</a>;
+
+<span class=C>/* Watch external ports */</span>
+<span class=K>always</span> @(<span class=K>posedge</span> <a  onClick="return qs(event,this,1)"  class=SR href="#28">clk</a>) <span class=K>begin</span>
+<a name="94"></a>  <span class=K>if</span> (<a  onClick="return qs(event,this,14)"  class=SW href="#32">wen_0</a>) <a  onClick="return qs(event,this,6)"  class=SR href="#30">port_0</a>[<a  onClick="return qs(event,this,8)"  class=SW href="#31">pid_0</a>] &lt;= <a  onClick="return qs(event,this,10)"  class=SW href="#31">pout_0</a>;
+<a name="95"></a>  <span class=K>if</span> (<a  onClick="return qs(event,this,15)"  class=SW href="#32">wen_1</a>) <a  onClick="return qs(event,this,7)"  class=SR href="#30">port_1</a>[<a  onClick="return qs(event,this,9)"  class=SW href="#31">pid_1</a>] &lt;= <a  onClick="return qs(event,this,11)"  class=SW href="#31">pout_1</a>;
+<span class=K>end</span>
+
+<span class=K>always</span> @(<span class=K>negedge</span> <a  onClick="return qs(event,this,1)"  class=SR href="#28">clk</a>) <span class=K>begin</span>
+<span class=C>//`ifdef HAS_DEBUG
+</span><span class=C>//  $display(&quot;%h:%h:%s %h:%h:%s&quot;, addr_0, din_0, dut_0.idu.debug, addr_1, din_1, dut_1.kcpsm3_opcode);
+</span><span class=C>//`else
+</span>  <span class=ST>$display</span>(<span class=S>&quot;%h:%h %h:%h&quot;</span>, <a  onClick="return qs(event,this,4)"  class=SW href="#29">addr_0</a>, <a  onClick="return qs(event,this,18)"  class=SW href="#34">din_0</a>, <a  onClick="return qs(event,this,5)"  class=SW href="#29">addr_1</a>, <a  onClick="return qs(event,this,19)"  class=SW href="#34">din_1</a>);
+<span class=C>//`endif
+</span>  <span class=K>if</span> (<a  onClick="return qs(event,this,4)"  class=SW href="#29">addr_0</a> != <a  onClick="return qs(event,this,5)"  class=SW href="#29">addr_1</a>) <span class=ST>$display</span>(<span class=S>&quot;***address mismatch***&quot;</span>);
+<span class=K>end</span>
+
+<span class=C>/* Simulation setup */</span>
+<span class=K>initial</span> <span class=K>begin</span>
+  <span class=ST>$dumpvars</span>(-1, cmprnd3_tb);
+  <span class=ST>$dumpfile</span>(<span class=S>&quot;cmprnd3_tb.vcd&quot;</span>);
+<span class=K>end</span>
+
+<span class=C>/* Simulation */</span>
+<a name="114"></a><span class=K>integer</span> <a  onClick="return qs(event,this,22)"  class=SIT href="#114">i</a>;
+<span class=K>initial</span> <span class=K>begin</span>
+  <span class=C>/* Initialize code */</span>
+  <span class=C>// $random(`RANDOM_SEED);
+</span>  <span class=K>for</span> (<a  onClick="return qs(event,this,22)"  class=SIT href="#114">i</a>=0; <a  onClick="return qs(event,this,22)"  class=SIT href="#114">i</a>&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#79">code_size</a>; <a  onClick="return qs(event,this,22)"  class=SIT href="#114">i</a>=<a  onClick="return qs(event,this,22)"  class=SIT href="#114">i</a>+1) <span class=K>begin</span>
+    rom_0.ram[<a  onClick="return qs(event,this,22)"  class=SIT href="#114">i</a>] = {<span class=ST>$random</span>} % (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#72">code_width</a>);
+    rom_1.ram[<a  onClick="return qs(event,this,22)"  class=SIT href="#114">i</a>] = rom_0.ram[<a  onClick="return qs(event,this,22)"  class=SIT href="#114">i</a>];
+  <span class=K>end</span>
+
+  <span class=C>/* Initialize port memory */</span>
+  <span class=K>for</span> (<a  onClick="return qs(event,this,22)"  class=SIT href="#114">i</a>=0; <a  onClick="return qs(event,this,22)"  class=SIT href="#114">i</a>&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#83">port_size</a>; <a  onClick="return qs(event,this,22)"  class=SIT href="#114">i</a>=<a  onClick="return qs(event,this,22)"  class=SIT href="#114">i</a>+1) <span class=K>begin</span>
+    <a  onClick="return qs(event,this,6)"  class=SR href="#94">port_0</a>[<a  onClick="return qs(event,this,22)"  class=SIT href="#114">i</a>] = <a  onClick="return qs(event,this,22)"  class=SIT href="#114">i</a>;
+    <a  onClick="return qs(event,this,7)"  class=SR href="#30">port_1</a>[<a  onClick="return qs(event,this,22)"  class=SIT href="#114">i</a>] = <a  onClick="return qs(event,this,22)"  class=SIT href="#114">i</a>;
+  <span class=K>end</span>
+
+<a name="129"></a>  <a  onClick="return qs(event,this,1)"  class=SR href="#28">clk</a> = 0; <a  onClick="return qs(event,this,2)"  class=SR href="#28">rst</a> = 1; <a  onClick="return qs(event,this,3)"  class=SR href="#28">irq</a> = 0;
+  #(<a  onClick="return qs(event,this,0)"  class=PA href="#24">tck</a>*3);
+  @(<span class=K>negedge</span> <a  onClick="return qs(event,this,1)"  class=SR href="#28">clk</a>) <a  onClick="return qs(event,this,2)"  class=SR href="#28">rst</a> = 0; <span class=C>// free processor
+</span>
+
+  #(<a  onClick="return qs(event,this,0)"  class=PA href="#24">tck</a>*<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#16">TEST_IRQ</a>);
+  @(<span class=K>negedge</span> <a  onClick="return qs(event,this,1)"  class=SR href="#28">clk</a>) <a  onClick="return qs(event,this,3)"  class=SR href="#28">irq</a> = 1; <span class=C>// flag interrupt
+</span>  @(<span class=K>negedge</span> <a  onClick="return qs(event,this,1)"  class=SR href="#28">clk</a>) ;
+  @(<span class=K>negedge</span> <a  onClick="return qs(event,this,1)"  class=SR href="#28">clk</a>) <a  onClick="return qs(event,this,3)"  class=SR href="#28">irq</a> = 0;
+
+  #(<a  onClick="return qs(event,this,0)"  class=PA href="#24">program_cycles</a>*<a  onClick="return qs(event,this,0)"  class=PA href="#24">tck</a>) <span class=ST>$finish</span>;
+<span class=K>end</span>
+
+<span class=K>endmodule</span>
+
+</pre>
+<center><table class=NB cols=7 ><tr><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index.html';"><a target="_top" href="index.html">Hierarchy</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-f.html';"><a target="_top" href="index-f.html">Files</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-m.html';"><a target="_top" href="index-m.html">Modules</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-s.html';"><a target="_top" href="index-s.html">Signals</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-t.html';"><a target="_top" href="index-t.html">Tasks</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-fn.html';"><a target="_top" href="index-fn.html">Functions</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='http://www.burbleland.com/v2html/help_7_30.html?htf-ni-s-';"><a target="_top" href="http://www.burbleland.com/v2html/help_7_30.html?htf-ni-s-">Help</a></td></tr></table></center>
+<script language="JavaScript"type="text/javascript"><!--
+function next_page() { return ""; }
+function first_page() { return ""; }
+var extra_info = [
+["S","cmprnd3_tb.v.html#28","cmprnd3_tb.v.html#90","","cmprnd3_tb.v.html#90","index-s.html#clk___cmprnd3_tb"],
+["S","cmprnd3_tb.v.html#28","cmprnd3_tb.v.html#129","","cmprnd3_tb.v.html#129","index-s.p4.html#rst___cmprnd3_tb"],
+["S","cmprnd3_tb.v.html#28","cmprnd3_tb.v.html#129","","cmprnd3_tb.v.html#129","index-s.p2.html#irq___cmprnd3_tb"],
+["S","cmprnd3_tb.v.html#29","","","","index-s.html#addr_0___cmprnd3_tb"],
+["S","cmprnd3_tb.v.html#29","","","","index-s.html#addr_1___cmprnd3_tb"],
+["S","cmprnd3_tb.v.html#30","cmprnd3_tb.v.html#94","","cmprnd3_tb.v.html#94","index-s.p3.html#port_0___cmprnd3_tb"],
+["S","cmprnd3_tb.v.html#30","cmprnd3_tb.v.html#95","","cmprnd3_tb.v.html#95","index-s.p3.html#port_1___cmprnd3_tb"],
+["S","cmprnd3_tb.v.html#31","","","","index-s.p3.html#pid_0___cmprnd3_tb"],
+["S","cmprnd3_tb.v.html#31","","","","index-s.p3.html#pid_1___cmprnd3_tb"],
+["S","cmprnd3_tb.v.html#31","","","","index-s.p3.html#pout_0___cmprnd3_tb"],
+["S","cmprnd3_tb.v.html#31","","","","index-s.p3.html#pout_1___cmprnd3_tb"],
+["S","cmprnd3_tb.v.html#32","","","","index-s.p4.html#ren_0___cmprnd3_tb"],
+["S","cmprnd3_tb.v.html#32","","","","index-s.p4.html#ren_1___cmprnd3_tb"],
+["S","cmprnd3_tb.v.html#32","","","","index-s.p4.html#wen_0___cmprnd3_tb"],
+["S","cmprnd3_tb.v.html#32","","","","index-s.p4.html#wen_1___cmprnd3_tb"],
+["S","cmprnd3_tb.v.html#32","","","","index-s.p2.html#iak_0___cmprnd3_tb"],
+["S","cmprnd3_tb.v.html#32","","","","index-s.p2.html#iak_1___cmprnd3_tb"],
+["S","cmprnd3_tb.v.html#34","cmprnd3_tb.v.html#45","","blockram.v.html#47","index-s.p2.html#din_0___cmprnd3_tb"],
+["S","cmprnd3_tb.v.html#34","cmprnd3_tb.v.html#71","","blockram.v.html#47","index-s.p2.html#din_1___cmprnd3_tb"],
+["S","cmprnd3_tb.v.html#35","cmprnd3_tb.v.html#35","","cmprnd3_tb.v.html#35","index-s.p3.html#pin_0___cmprnd3_tb"],
+["S","cmprnd3_tb.v.html#35","cmprnd3_tb.v.html#35","","cmprnd3_tb.v.html#35","index-s.p3.html#pin_1___cmprnd3_tb"],
+["S","cmprnd3_tb.v.html#114","","","","index-s.p2.html#i___cmprnd3_tb"]
+];
+disabled=0;
+// -->
+</script>
+<hr>
+<table>
+ <tr><td><i>This page:</i></td>
+  <td><i>Maintained by:</i></td>
+  <td><i><a href="mailto:pablo.N@SPAM.bleyer.org">
+  pablo.N@SPAM.bleyer.org</a></i></tr>
+<tr>
+<td> </td>
+  <td><i>Created:</i></td><td><i>Tue May 29 02:37:53 2007</i></td></tr>
+<tr>
+ <td> </td>
+ <td><i>From:</i></td><td><i>
+  <a href="cmprnd3_tb.v">
+cmprnd3_tb.v</a></i></td></tr>
+</table>
+<hr>
+<table width="100%"><tr><td><i>Verilog converted to html by  <a target="_top" href="http://www.burbleland.com/v2html/v2html.html">  v2html 7.30</a> 
+ (written by <a href="mailto:v2html730@burbleland.com">Costas Calamvokis</a>).</i></td><td align="right"><b><a href="http://www.burbleland.com/v2html/help_7_30.html?htf-ni-s-">Help</a></b></td></tr></table><table height="90%"><tr><td></td></tr></table>
+</body>
+</html>

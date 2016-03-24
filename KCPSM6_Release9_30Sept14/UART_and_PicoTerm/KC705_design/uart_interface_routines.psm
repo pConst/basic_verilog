@@ -1,0 +1,188 @@
+                   ;
+                   ;------------------------------------------------------------------------------------------
+                   ; Copyright © 2011-2012, Xilinx, Inc.
+                   ; This file contains confidential and proprietary information of Xilinx, Inc. and is
+                   ; protected under U.S. and international copyright and other intellectual property laws.
+                   ;------------------------------------------------------------------------------------------
+                   ;
+                   ; Disclaimer:
+                   ; This disclaimer is not a license and does not grant any rights to the materials
+                   ; distributed herewith. Except as otherwise provided in a valid license issued to
+                   ; you by Xilinx, and to the maximum extent permitted by applicable law: (1) THESE
+                   ; MATERIALS ARE MADE AVAILABLE "AS IS" AND WITH ALL FAULTS, AND XILINX HEREBY
+                   ; DISCLAIMS ALL WARRANTIES AND CONDITIONS, EXPRESS, IMPLIED, OR STATUTORY,
+                   ; INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, NON-INFRINGEMENT,
+                   ; OR FITNESS FOR ANY PARTICULAR PURPOSE; and (2) Xilinx shall not be liable
+                   ; (whether in contract or tort, including negligence, or under any other theory
+                   ; of liability) for any loss or damage of any kind or nature related to, arising
+                   ; under or in connection with these materials, including for any direct, or any
+                   ; indirect, special, incidental, or consequential loss or damage (including loss
+                   ; of data, profits, goodwill, or any type of loss or damage suffered as a result
+                   ; of any action brought by a third party) even if such damage or loss was
+                   ; reasonably foreseeable or Xilinx had been advised of the possibility of the same.
+                   ;
+                   ; CRITICAL APPLICATIONS
+                   ; Xilinx products are not designed or intended to be fail-safe, or for use in any
+                   ; application requiring fail-safe performance, such as life-support or safety
+                   ; devices or systems, Class III medical devices, nuclear facilities, applications
+                   ; related to the deployment of airbags, or any other applications that could lead
+                   ; to death, personal injury, or severe property or environmental damage
+                   ; (individually and collectively, "Critical Applications"). Customer assumes the
+                   ; sole risk and liability of any use of Xilinx products in Critical Applications,
+                   ; subject only to applicable laws and regulations governing limitations on product
+                   ; liability.
+                   ;
+                   ; THIS COPYRIGHT NOTICE AND DISCLAIMER MUST BE RETAINED AS PART OF THIS FILE AT ALL TIMES.
+                   ;
+                   ;------------------------------------------------------------------------------------------
+                   ;
+                   ;             _  ______ ____  ____  __  __  __
+                   ;            | |/ / ___|  _ \/ ___||  \/  |/ /_
+                   ;            | ' / |   | |_) \___ \| |\/| | '_ \
+                   ;            | . \ |___|  __/ ___) | |  | | (_) )
+                   ;            |_|\_\____|_|   |____/|_|  |_|\___/
+                   ;
+                   ;
+                   ;                PicoBlaze Reference Design.
+                   ;
+                   ;
+                   ; Ken Chapman - Xilinx Ltd
+                   ;
+                   ; 23rd April 2012 - Initial Release
+                   ; 24th July 2012 - Corrections to comments only
+                   ;
+                   ; This file contains routines used to interface with the UART6 macros provided with KCPSM6
+                   ; and was first supplied with a reference design called 'uart6_605' included in the
+                   ; PicoBlaze package. The routines enable characters to be transmitted to and received
+                   ; from the UART macros as well as perform a reset of the FIFO the buffers.
+                   ;
+                   ;     NOTE - This is not a standalone PSM file. The 'uart_control.psm' file supplied with
+                   ;            the reference design stated above includes this file and calls the routines
+                   ;            contained in this file.
+                   ;
+                   ;                INCLUDE "uart_interface_routines.psm"
+                   ;
+                   ;     Hint - The INCLUDE directive was introduced in KCPSM6 Assembler v2.00.
+                   ;
+                   ;
+                   ; Whilst the reference design stated above was presented for the UART macros connected to
+                   ; the USB/UART interface on the Xilinx ML605 Evaluation Kit this file can be ported to
+                   ; any design for any board simply by setting the appropriate values in the CONSTANT
+                   ; directives described below.
+                   ;
+                   ;
+                   ;------------------------------------------------------------------------------------------
+                   ; Hardware Constants
+                   ;------------------------------------------------------------------------------------------
+                   ;
+                   ; The CONSTANT directives below define the input and output ports assigned to the UART
+                   ; macros that implement a 115,200 baud rate communication with the USB/UART on the board.
+                   ; Additional constants identify the allocation of signals to bits within a port.
+                   ;
+                   ;
+                   ;
+                   ; UART Status
+                   ; -----------
+                   ;
+                   CONSTANT UART_status_port, 00             ; Read status
+                   CONSTANT UART_Tx_data_present, 00000001'b ; Tx   data_present - bit0
+                   CONSTANT UART_Tx_half_full, 00000010'b    ;         half_full - bit1
+                   CONSTANT UART_Tx_full, 00000100'b         ;              full - bit2
+                   CONSTANT UART_Rx_data_present, 00001000'b ; Rx   data_present - bit3
+                   CONSTANT UART_Rx_half_full, 00010000'b    ;         half_full - bit4
+                   CONSTANT UART_Rx_full, 00100000'b         ;              full - bit5
+                   ;
+                   ; Write data to UART_TX6
+                   ; ----------------------
+                   ;
+                   CONSTANT UART_TX6_output_port, 01
+                   ;
+                   ; Read data from UART_RX6
+                   ; -----------------------
+                   ;
+                   CONSTANT UART_RX6_input_port, 01
+                   ;
+                   ; Reset UART buffers (Constant Optimised Port)
+                   ; --------------------------------------------
+                   ;
+                   CONSTANT reset_UART_port, 01
+                   CONSTANT UART_tx_reset, 00000001'b        ; uart_tx6 reset - bit0
+                   CONSTANT UART_rx_reset, 00000010'b        ; uart_rx6 reset - bit1
+                   CONSTANT UART_reset, 00000011'b           ; reset Tx and Rx
+                   CONSTANT UART_operate, 00000000'b         ; Tx and Rx free to operate
+                   ;
+                   ;
+                   ;--------------------------------------------------------------------------------------
+                   ; Routine to reset UART Buffers inside 'uart_tx6' and 'uart_rx6'
+                   ;--------------------------------------------------------------------------------------
+                   ;
+                   ; This routine will generate and apply an active High reset pulse to  the FIFO
+                   ; buffers in both the transmitter and receiver macros.
+                   ;
+                   ; Note that the reset signals have been assigned to a constant optimised output port
+                   ; so the 'OUTPUTK' instructions are used and no registers contents are affected.
+                   ;
+                   ;
+reset_UART_macros: OUTPUTK UART_reset, reset_UART_port
+                   OUTPUTK UART_operate, reset_UART_port
+                   RETURN 
+                   ;
+                   ;
+                   ;--------------------------------------------------------------------------------------
+                   ; Routine to send one character to the UART Transmitter 'uart_tx6'
+                   ;--------------------------------------------------------------------------------------
+                   ;
+                   ; This routine will transmit the character provided in register 's5'.
+                   ;
+                   ; Before the character is output to the 'UART_TX6' macro the status of the FIFO buffer
+                   ; is checked to see if there is space. If the buffer is full then this routine will
+                   ; wait for space to become available (e.g. the time required for a previous character
+                   ; to be transmitted by the UART).
+                   ;
+                   ; Registers used s0 and s5 for the data (which is preserved)
+                   ;
+          UART_TX: INPUT s0, UART_status_port                ;Check if buffer is full
+                   TEST s0, UART_Tx_full
+                   JUMP NZ, UART_TX                          ;wait if full
+                   OUTPUT s5, UART_TX6_output_port
+                   RETURN 
+                   ;
+                   ;
+                   ;--------------------------------------------------------------------------------------
+                   ; Routine to attempt to receive one character from the UART Receiver 'uart_rx6'
+                   ;--------------------------------------------------------------------------------------
+                   ;
+                   ; This routine will attempt to receive one character from the 'UART_RX6' macro, and if
+                   ; successful, will return that character in register 's5' and the Zero flag will be
+                   ; reset (Z=0).
+                   ;
+                   ; If there are no characters available to be read from the FIFO buffer within the
+                   ; 'UART_RX6' macro then this routine will timeout after ~2,000 clock cycles (which is
+                   ; 40us at 50MHz) with the Zero flag set (Z=1). This timeout scheme ensures that KCPSM6
+                   ; cannot become stuck in this routine if no characters are received. If you do want
+                   ; KCPSM6 to wait indefinitely for a character to be received then either modify this
+                   ; routine or perform a test of the Zero flag and repeat the call to this routine as
+                   ; shown in this example...
+                   ;
+                   ;          wait_for_UART_RX: CALL UART_RX
+                   ;                            JUMP Z, wait_for_UART_RX
+                   ;
+                   ;
+                   ; Registers used s0, s1 and s5.
+                   ;
+          UART_RX: LOAD s1, 167'd                            ;Timeout = 167 x (6 instructions x 2 clock cycles)
+       rx_timeout: INPUT s0, UART_status_port
+                   TEST s0, UART_Rx_data_present             ;Z=0 and C=1 when data present
+                   JUMP NZ, read_Rx
+                   SUB s1, 1'd
+                   RETURN Z                                  ;Timeout returns with Z=1 and C=0
+                   JUMP rx_timeout
+                   ;
+          read_Rx: INPUT s5, UART_RX6_input_port             ;read character from buffer
+                   RETURN 
+                   ;
+                   ;
+                   ;------------------------------------------------------------------------------------------
+                   ; End of 'uart_interface_routines.psm"'
+                   ;------------------------------------------------------------------------------------------
+                   ;

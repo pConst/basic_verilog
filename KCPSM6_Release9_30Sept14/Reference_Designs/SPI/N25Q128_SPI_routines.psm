@@ -1,0 +1,425 @@
+                       ;
+                       ;------------------------------------------------------------------------------------------
+                       ; Copyright © 2012-2013, Xilinx, Inc.
+                       ; This file contains confidential and proprietary information of Xilinx, Inc. and is
+                       ; protected under U.S. and international copyright and other intellectual property laws.
+                       ;------------------------------------------------------------------------------------------
+                       ;
+                       ; Disclaimer:
+                       ; This disclaimer is not a license and does not grant any rights to the materials
+                       ; distributed herewith. Except as otherwise provided in a valid license issued to
+                       ; you by Xilinx, and to the maximum extent permitted by applicable law: (1) THESE
+                       ; MATERIALS ARE MADE AVAILABLE "AS IS" AND WITH ALL FAULTS, AND XILINX HEREBY
+                       ; DISCLAIMS ALL WARRANTIES AND CONDITIONS, EXPRESS, IMPLIED, OR STATUTORY,
+                       ; INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, NON-INFRINGEMENT,
+                       ; OR FITNESS FOR ANY PARTICULAR PURPOSE; and (2) Xilinx shall not be liable
+                       ; (whether in contract or tort, including negligence, or under any other theory
+                       ; of liability) for any loss or damage of any kind or nature related to, arising
+                       ; under or in connection with these materials, including for any direct, or any
+                       ; indirect, special, incidental, or consequential loss or damage (including loss
+                       ; of data, profits, goodwill, or any type of loss or damage suffered as a result
+                       ; of any action brought by a third party) even if such damage or loss was
+                       ; reasonably foreseeable or Xilinx had been advised of the possibility of the same.
+                       ;
+                       ; CRITICAL APPLICATIONS
+                       ; Xilinx products are not designed or intended to be fail-safe, or for use in any
+                       ; application requiring fail-safe performance, such as life-support or safety
+                       ; devices or systems, Class III medical devices, nuclear facilities, applications
+                       ; related to the deployment of airbags, or any other applications that could lead
+                       ; to death, personal injury, or severe property or environmental damage
+                       ; (individually and collectively, "Critical Applications"). Customer assumes the
+                       ; sole risk and liability of any use of Xilinx products in Critical Applications,
+                       ; subject only to applicable laws and regulations governing limitations on product
+                       ; liability.
+                       ;
+                       ; THIS COPYRIGHT NOTICE AND DISCLAIMER MUST BE RETAINED AS PART OF THIS FILE AT ALL TIMES.
+                       ;
+                       ;------------------------------------------------------------------------------------------
+                       ;
+                       ;             _  ______ ____  ____  __  __  __
+                       ;            | |/ / ___|  _ \/ ___||  \/  |/ /_
+                       ;            | ' / |   | |_) \___ \| |\/| | '_ \
+                       ;            | . \ |___|  __/ ___) | |  | | (_) )
+                       ;            |_|\_\____|_|   |____/|_|  |_|\___/
+                       ;
+                       ;
+                       ;                PicoBlaze Reference Design.
+                       ;
+                       ;
+                       ; Ken Chapman - Xilinx Ltd
+                       ;
+                       ; 25th September 2012 - Initial version
+                       ;   23rd January 2013 - Adjustments to commensts only
+                       ;
+                       ; This file contains routines to implement classic 4-wire SPI communication with a
+                       ; Micron/Numonyx N25Q128 device. A limited number of the N25Q128 device instructions
+                       ; are covered to facilitate typical flash memory operations and to act as reference
+                       ; code for future additions if required. Whilst presented as being specifically for
+                       ; the N25Q128 device, SPI Flash memory devices have much in common particularly when
+                       ; reading memory contents. It is the internal organisation of the flash memory, and
+                       ; operations related to erasing and writing that tend to vary so always refer to the
+                       ; manufacturers data sheet.
+                       ;
+                       ;     NOTE - This is not a standalone PSM file. This file should be included in
+                       ;            an application PSM file from which these routines are then called.
+                       ;
+                       ;                INCLUDE "N25Q128_SPI_routines.psm"
+                       ;
+                       ;
+                       ;     IMPORTANT - This file contains routines to implement the SPI signaling used in
+                       ;                 the communication with the N25Q128 device so the CONSTANT directives
+                       ;                 defined below must be set to correspond with your I/O port and scratch
+                       ;                 pad memory assignments.
+                       ;
+                       ;
+                       ;------------------------------------------------------------------------------------------
+                       ; Hardware Constants
+                       ;------------------------------------------------------------------------------------------
+                       ;
+                       ; The hardware defines a classic 4-wire SPI interface with the N25Q128 device.
+                       ;
+                       ;    spi_clk    Clock from FPGA (KCPSM6) to SPI Flash
+                       ;    spi_cs_b   Chip Select from FPGA (KCPSM6) to SPI Flash
+                       ;    spi_mosi   Data from FPGA (KCPSM6) to SPI Flash
+                       ;    spi_miso   Data from SPI Flash to FPGA (KCPSM6)
+                       ;
+                       ; The three output signals are driven directly by a single KCPSM6 output and the input
+                       ; signal is read by a single input port. The CONSTANT directives below define the input
+                       ; port and output port assigned for SPI communication and should match the definition
+                       ; within the hardware.
+                       ;
+                       CONSTANT SPI_output_port, 04  ; Write controls and data to SPI Flash Memory
+                       CONSTANT SPI_data_in_port, 03 ; Read serial data from SPI Flash
+                       ;
+                       ; The following CONSTANT directives identify which bits of each 8-bit port are
+                       ; assigned to each signal. These constants and the hardware should NOT be modified
+                       ; unless these is a compelling reason to do so. In particular, the serial data input
+                       ; and serial data output have both been assigned to Bit7 as this simplifies the PSM
+                       ; code when implementing the most significant bit (MSB) protocol of the serial
+                       ; communication.
+                       ;
+                       CONSTANT spi_clk, 00000001'b  ;   spi_clk - bit0 (SPI_output_port)
+                       CONSTANT spi_cs_b, 00000010'b ;  spi_cs_b - bit1 (SPI_output_port)
+                       CONSTANT spi_mosi, 10000000'b ;  spi_mosi - bit7 (SPI_output_port)
+                       CONSTANT spi_miso, 10000000'b ;  spi_miso - bit7 (SPI_data_in_port)
+                       ;
+                       ;
+                       ;--------------------------------------------------------------------------------------
+                       ; Routine to Read the ID from SPI FLASH memory (N25Q128)
+                       ;--------------------------------------------------------------------------------------
+                       ;
+                       ; This routine transmits the 'RDID' instruction (9F hex) to the flash memory and then
+                       ; receives and returns the first 3 bytes of the response in registers [s9,s8,s7]. the
+                       ; expected response is shown below.
+                       ;
+                       ;   s9 = Manufacturer Identification = 20 hex
+                       ;   s8 = Memory Type = BA hex
+                       ;   s7 = Memory Capacity = 18 hex
+                       ;
+                       ; Note that the full response to an 'RDID' is 20-bytes. In this case only the
+                       ; first 3 bytes are taken because these should be the same for any N25Q128 device.
+                       ; The remaining bytes can contain be values uniquely defined by a customer and
+                       ; factory programmed. If these bytes are important to your application then please
+                       ; adjust this routine appropriately.
+                       ;
+    read_spi_flash_ID: CALL SPI_disable              ;ensure known state of bus and s0 register
+                       LOAD s2, 9F                   ;RDID instruction
+                       CALL SPI_FLASH_tx_rx          ;transmit instruction
+                       CALL SPI_FLASH_tx_rx          ;receive Manufacturer ID
+                       LOAD s9, s2
+                       CALL SPI_FLASH_tx_rx          ;receive Memory Type
+                       LOAD s8, s2
+                       CALL SPI_FLASH_tx_rx          ;receive Memory Capacity
+                       LOAD s7, s2
+                       JUMP SPI_disable              ;terminate transaction (includes return)
+                       ;
+                       ;
+                       ;--------------------------------------------------------------------------------------
+                       ; Routine to Read 1-Byte from SPI FLASH memory (N25Q128)
+                       ;--------------------------------------------------------------------------------------
+                       ;
+                       ; This routine transmits the 'READ' instruction (03 hex) to the flash memory followed
+                       ; by a 24-bit address supplied in register set [s9,s8,s7].. Then one byte of data is
+                       ; received and returned in register s2.
+                       ;
+        read_spi_byte: CALL SPI_disable              ;ensure known state of bus and s0 register
+                       LOAD s2, 03                   ;READ instruction
+                       CALL SPI_FLASH_tx_rx          ;transmit instruction
+                       LOAD s2, s9                   ;Transmit 24-bit address
+                       CALL SPI_FLASH_tx_rx
+                       LOAD s2, s8
+                       CALL SPI_FLASH_tx_rx
+                       LOAD s2, s7
+                       CALL SPI_FLASH_tx_rx
+                       CALL SPI_FLASH_tx_rx          ;read data byte **
+                       JUMP SPI_disable              ;terminate transaction (includes return)
+                       ;
+                       ; ** Note that after reading the first byte, it is actually possible to continue
+                       ; reading bytes of data from successive addresses until the device is disabled. This
+                       ; is a more efficient way of reading large amounts of sequential data but clearly a
+                       ; different arrangement to this routine would be required mainly to handle the
+                       ; additional data.
+                       ;
+                       ;
+                       ;--------------------------------------------------------------------------------------
+                       ; Routine to Write 1-Byte to SPI FLASH memory (N25Q128)
+                       ;--------------------------------------------------------------------------------------
+                       ;
+                       ; This routine writes one byte of information provided in register 's2' to the 24-bit
+                       ; address supplied in register set [s9,s8,s7]. This procedure involves setting the
+                       ; Write Enable Latch (WEL) bit before transmitting the 'PP' instruction (02 hex)
+                       ; followed by the 24-bit address and the data byte to be written. Finally the Write
+                       ; Enable Latch (WEL) is reset to return the Flash to normal operation.
+                       ;
+                       ; Note that when writing to Flash memory, each bit can only be changed from '1' to '0'
+                       ; and therefore it is normal practice to only write to previously erased locations
+                       ; that contain FF hex.
+                       ;
+                       ; Programming or writing can take up to 5ms to complete so this procedure also reads
+                       ; and tests the N25Q128 status resister to determine when the operation has completed.
+                       ;
+                       ;
+       write_spi_byte: LOAD sD, s2                   ; Preserve data to be written
+                       ;
+                       CALL SPI_disable              ;ensure known state of bus and s0 register
+                       CALL set_spi_flash_WREN       ;set write enable latch
+                       ;
+                       LOAD s2, 02                   ;PP instruction
+                       CALL SPI_FLASH_tx_rx          ;transmit instruction
+                       LOAD s2, s9                   ;Transmit 24-bit address
+                       CALL SPI_FLASH_tx_rx
+                       LOAD s2, s8
+                       CALL SPI_FLASH_tx_rx
+                       LOAD s2, s7
+                       CALL SPI_FLASH_tx_rx
+                       LOAD s2, sD                   ;Transmit data byte **
+                       CALL SPI_FLASH_tx_rx
+                       CALL SPI_disable              ;terminate PP transaction
+                       ;
+       page_prog_wait: CALL read_spi_flash_status    ;read N25Q128 status
+                       TEST s2, 00000001'b           ;test WIP bit until finished
+                       JUMP NZ, page_prog_wait
+                       ;
+                       CALL reset_spi_flash_WREN     ;clear write enable latch
+                       RETURN 
+                       ;
+                       ; ** Note that after writing the first byte, it is possible to continue writing
+                       ; bytes of data to successive addresses providing that they are within the same PAGE
+                       ; (e.g. write 256 bytes of data starting at address 'sspp00' and finishing at
+                       ; address 'ssppFF'). This is a more efficient way of writing large amounts of data
+                       ; especially as each program cycle takes up to 5ms to complete. Clearly a different
+                       ; arrangement to this routine would be required mainly to handle the additional data.
+                       ;
+                       ;
+                       ;--------------------------------------------------------------------------------------
+                       ; Routine to Erase One SECTOR (N25Q128)
+                       ;--------------------------------------------------------------------------------------
+                       ;
+                       ; The N25Q128 memory is 16M-bytes and organised into 256 Sectors. Each Sector contains
+                       ; 256 Pages which in turn contain 256 Bytes. So in terms of the 24-bit address...
+                       ;
+                       ;       address[23:16] = Sector       (Register 's9')
+                       ;       address[15:9]  = Page         (Register 's8')
+                       ;       address[7:0]   = Byte         (Register 's7')
+                       ;
+                       ; A Sector is generally the smallest zone of memory that can be erased (all bytes
+                       ; become FF hex) and therefore this routine will erase 65,536 bytes (64KB).
+                       ;
+                       ; This routine will erase the sector in which the address supplied in register set
+                       ; [s9,s8,s7] is located. In other words, the contents of 's9' define the Sector.
+                       ;
+                       ; The sector erase procedure involves setting the Write Enable Latch (WEL) bit
+                       ; before transmitting the 'SE' instruction (D8 hex) followed by the 24-bit address.
+                       ; In this case the Write Enable Latch (WEL) is automatically reset.
+                       ;
+                       ; Erasing a Sector can take up to 3 seconds (typically 0.7 seconds) to complete so this
+                       ; procedure also reads and tests the N25Q128 status resister to determine when the
+                       ; operation has completed.
+                       ;
+                       ;
+     erase_spi_sector: CALL SPI_disable              ;ensure known state of bus and s0 register
+                       CALL set_spi_flash_WREN       ;set write enable latch
+                       ;
+                       LOAD s2, D8                   ;SE instruction
+                       CALL SPI_FLASH_tx_rx          ;transmit instruction
+                       LOAD s2, s9                   ;Transmit 24-bit address
+                       CALL SPI_FLASH_tx_rx
+                       LOAD s2, s8
+                       CALL SPI_FLASH_tx_rx
+                       LOAD s2, s7
+                       CALL SPI_FLASH_tx_rx
+                       CALL SPI_disable              ;terminate SE transaction
+                       ;
+    sector_erase_wait: CALL read_spi_flash_status    ;read N25Q128 status
+                       TEST s2, 00000001'b           ;test WIP bit until finished
+                       JUMP NZ, sector_erase_wait
+                       RETURN 
+                       ;
+                       ;
+                       ;--------------------------------------------------------------------------------------
+                       ; Routine to Initialise the SPI bus
+                       ;--------------------------------------------------------------------------------------
+                       ;
+                       ; This routine should be used to initialise the SPI bus. It will deselect the SPI Flash
+                       ; memory and ensure a known state for the control signals and contents of register 's0'
+                       ; used during SPI routines to drive the SPI bus (see 'SPI_disable').
+                       ;
+                       ; IMPORTANT - The STARTUPE2 primitive provides the path from the 'spi_clk' signal to
+                       ;             the 'CCLK' pin on the device. However, it takes two rising edges to
+                       ;             be applied to the USRCCLKO input of the STARTUPE2 primitive before the
+                       ;             path becomes transparent. For this reason the initialisation routine
+                       ;             also pulses the 'spi_clk' signal several times as well as ensuring the
+                       ;             SPI device is disabled.
+                       ;
+                       ;
+       SPI_initialise: CALL SPI_disable
+                       LOAD s1, 8'd
+       SPI_init_burst: CALL SPI_clock_pulse
+                       SUB s1, 1'd
+                       JUMP NZ, SPI_init_burst
+                       RETURN 
+                       ;
+                       ;
+                       ;--------------------------------------------------------------------------------------
+                       ; Routine to Disable the SPI bus
+                       ;--------------------------------------------------------------------------------------
+                       ;
+                       ; This routine is used to disable the SPI bus as part of initialisation or to complete
+                       ; (or terminate) an SPI transaction. The routine is also used to ensure the known
+                       ; state for the SPI signals and 's0' register before the start of a new transaction.
+                       ;
+                       ; Content of 's0' and the SPI signals after execution of this routine.
+                       ;
+                       ;      spi_clk = 0 - bit0
+                       ;     spi_cs_b = 1 - bit1 (disabled)
+                       ;     spi_mosi = 0 - bit7
+                       ;
+          SPI_disable: LOAD s0, spi_cs_b
+                       OUTPUT s0, SPI_output_port
+                       RETURN 
+                       ;
+                       ;
+                       ;--------------------------------------------------------------------------------------
+                       ; Routine to Transmit and Receive One Byte
+                       ;--------------------------------------------------------------------------------------
+                       ;
+                       ; SPI communication is full duplex meaning that data can be simultaneously transmitted
+                       ; and received but in practice this capability is not widely exploited. As such, this
+                       ; routine will often be invoked only to transmit a byte or only to receive a byte; the
+                       ; fact that it actually always does both at the same time is generally ignored!
+                       ;
+                       ; This routine will be invoked as part of a complete transaction so the 'SPI_disable'
+                       ; routine should have been used at some point prior to this routine being called and
+                       ; therefore the states of the SPI signals and 's0' register contents are known. This
+                       ; routine will always drive the 'spi_cs_b' signal Low to enable communication to take
+                       ; place with the one slave device so there is no requirement to specifically enable
+                       ; the N25Q128 device at the start of a transaction but it will be necessary to
+                       ; disable it at the end.
+                       ;
+                       ; The instruction, address or data to be transmitted should be supplied in register
+                       ; 's2' and any received information will be returned in 's2' when the routine completes.
+                       ;
+                       ; The transmission and reception of each bit with an associated 'spi_clk' pulse
+                       ; is implemented by 14 instructions that take 28 clock cycles to execute. Hence the
+                       ; serial data rate is the KCPSM6 clock frequency divided by 24 (e.g. 3.57 Mbit/s with a
+                       ; 100MHz clock ). This is generally a much lower data rate than an SPI device can
+                       ; support so no special timing considerations are required. For higher data rates a
+                       ; hardware peripheral consisting of a shift register and pulse generator should be
+                       ; investigated.
+                       ;
+                       ; As a KCPSM6 is the SPI master the signal sequence implemented is as follows..
+                       ;
+                       ;   Receive data bit from spi_miso line (Flash transmits on previous falling edge)
+                       ;   Transmit data bit on spi_mosi line (data set up before rising edge of spi_clk)
+                       ;   Drive spi_clk transition from low to high (Flash captures data bit)
+                       ;   Drive spi_clk transition from high to low (Flash outputs next data bit)
+                       ;
+      SPI_FLASH_tx_rx: LOAD s1, 08                   ;8-bits to transmit and receive
+   next_SPI_FLASH_bit: LOAD s0, s2                   ;prepare next bit to transmit
+                       AND s0, spi_mosi              ;isolates data bit and spi_cs_b = 0
+                       OUTPUT s0, SPI_output_port    ;output data bit ready to be used on rising clock edge
+                       INPUT s3, SPI_data_in_port    ;read input bit
+                       TEST s3, spi_miso             ;carry flag becomes value of received bit
+                       SLA s2                        ;shift new data into result and move to next transmit bit
+                       CALL SPI_clock_pulse          ;pulse spi_clk High
+                       SUB s1, 01                    ;count bits
+                       JUMP NZ, next_SPI_FLASH_bit   ;repeat until last bit
+                       RETURN 
+                       ;
+                       ;
+                       ;--------------------------------------------------------------------------------------
+                       ; Routine to Generate One 'spi_clk' Pulse
+                       ;--------------------------------------------------------------------------------------
+                       ;
+                       ; This routine will generate one positive pulse on the 'spi_clk' line.
+                       ;
+                       ; Register 's0' is used and bit1 and bit7 must previously define the required states
+                       ; of 'spi_cs_b' and 'spi_mosi' which will remain unchanged.
+                       ;
+      SPI_clock_pulse: OR s0, spi_clk                ;clock High (bit0)
+                       OUTPUT s0, SPI_output_port    ;drive clock High
+                       AND s0, ~spi_clk              ;clock Low (bit0)
+                       OUTPUT s0, SPI_output_port    ;drive clock Low
+                       RETURN 
+                       ;
+                       ;
+                       ;--------------------------------------------------------------------------------------
+                       ; Routine to Read Status Register from SPI FLASH memory (N25Q128)
+                       ;--------------------------------------------------------------------------------------
+                       ;
+                       ; This routine transmits the 'RDSR' instruction (05 hex) to the flash memory and then
+                       ; receives the one byte response which is returned in register s2. A summary of the
+                       ; status bits are shown below but please see the N25Q128 data sheet for details.
+                       ;
+                       ; Hint - The 'WIP' bit is generally the bit of most interest.
+                       ;
+                       ;   bit    meaning
+                       ;    7    SRWD  Status Register Write Protect
+                       ;    6    BP3   Block protect bit*
+                       ;    5    TB    Top/bottom bit
+                       ;    4    BP2   Block protect bit*
+                       ;    3    BP1   Block protect bit*
+                       ;    2    BP0   Block protect bit*
+                       ;    1    WEL   Write Enable Latch Bit (1 = Latch is Set)
+                       ;    0    WIP   Write In Progress bit (1 = busy)
+                       ;
+                       ;      * Block protect bits are non-volatile (written by WRSR instruction) and
+                       ;        define the size of memory protected against writes and erase operations.
+                       ;
+read_spi_flash_status: CALL SPI_disable              ;ensure known state of bus and s0 register
+                       LOAD s2, 05                   ;RDSR instruction
+                       CALL SPI_FLASH_tx_rx          ;transmit instruction
+                       CALL SPI_FLASH_tx_rx          ;Receive status register information
+                       JUMP SPI_disable              ;end transaction (includes return)
+                       ;
+                       ;
+                       ;--------------------------------------------------------------------------------------
+                       ; Routine to Set the Write Enable Latch (N25Q128)
+                       ;--------------------------------------------------------------------------------------
+                       ;
+                       ; This routine transmits the 'WREN' instruction (06 hex) that will set the Write Enable
+                       ; Latch (WEL) bit. This bit must be set prior to any program or erase operations.
+                       ;
+   set_spi_flash_WREN: CALL SPI_disable              ;ensure known state of bus and s0 register
+                       LOAD s2, 06                   ;Set write enable mode instruction
+                       CALL SPI_FLASH_tx_rx          ;transmit instruction
+                       JUMP SPI_disable              ;terminate transaction (includes return)
+                       ;
+                       ;
+                       ;--------------------------------------------------------------------------------------
+                       ; Routine to Reset the Write Enable Latch (N25Q128)
+                       ;--------------------------------------------------------------------------------------
+                       ;
+                       ; This routine transmits the 'WRDI' instruction (04 hex) that will reset (clear) the
+                       ; Write Enable Latch (WEL) bit.
+                       ;
+ reset_spi_flash_WREN: CALL SPI_disable              ;ensure known state of bus and s0 register
+                       LOAD s2, 04                   ;Reset write enable mode instruction
+                       CALL SPI_FLASH_tx_rx          ;transmit instruction
+                       JUMP SPI_disable              ;terminate transaction (includes return)
+                       ;
+                       ;
+                       ;------------------------------------------------------------------------------------------
+                       ; End of 'N25Q128_SPI_routines.psm'
+                       ;------------------------------------------------------------------------------------------
+                       ;

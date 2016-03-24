@@ -1,0 +1,1501 @@
+                         ;
+                         ;------------------------------------------------------------------------------------------
+                         ; Copyright © 2013, Xilinx, Inc.
+                         ; This file contains confidential and proprietary information of Xilinx, Inc. and is
+                         ; protected under U.S. and international copyright and other intellectual property laws.
+                         ;------------------------------------------------------------------------------------------
+                         ;
+                         ; Disclaimer:
+                         ; This disclaimer is not a license and does not grant any rights to the materials
+                         ; distributed herewith. Except as otherwise provided in a valid license issued to
+                         ; you by Xilinx, and to the maximum extent permitted by applicable law: (1) THESE
+                         ; MATERIALS ARE MADE AVAILABLE "AS IS" AND WITH ALL FAULTS, AND XILINX HEREBY
+                         ; DISCLAIMS ALL WARRANTIES AND CONDITIONS, EXPRESS, IMPLIED, OR STATUTORY,
+                         ; INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, NON-INFRINGEMENT,
+                         ; OR FITNESS FOR ANY PARTICULAR PURPOSE; and (2) Xilinx shall not be liable
+                         ; (whether in contract or tort, including negligence, or under any other theory
+                         ; of liability) for any loss or damage of any kind or nature related to, arising
+                         ; under or in connection with these materials, including for any direct, or any
+                         ; indirect, special, incidental, or consequential loss or damage (including loss
+                         ; of data, profits, goodwill, or any type of loss or damage suffered as a result
+                         ; of any action brought by a third party) even if such damage or loss was
+                         ; reasonably foreseeable or Xilinx had been advised of the possibility of the same.
+                         ;
+                         ; CRITICAL APPLICATIONS
+                         ; Xilinx products are not designed or intended to be fail-safe, or for use in any
+                         ; application requiring fail-safe performance, such as life-support or safety
+                         ; devices or systems, Class III medical devices, nuclear facilities, applications
+                         ; related to the deployment of airbags, or any other applications that could lead
+                         ; to death, personal injury, or severe property or environmental damage
+                         ; (individually and collectively, "Critical Applications"). Customer assumes the
+                         ; sole risk and liability of any use of Xilinx products in Critical Applications,
+                         ; subject only to applicable laws and regulations governing limitations on product
+                         ; liability.
+                         ;
+                         ; THIS COPYRIGHT NOTICE AND DISCLAIMER MUST BE RETAINED AS PART OF THIS FILE AT ALL TIMES.
+                         ;
+                         ;------------------------------------------------------------------------------------------
+                         ;
+                         ;
+                         ;             _  ______ ____  ____  __  __  __
+                         ;            | |/ / ___|  _ \/ ___||  \/  |/ /_
+                         ;            | ' / |   | |_) \___ \| |\/| | '_ \
+                         ;            | . \ |___|  __/ ___) | |  | | (_) )
+                         ;            |_|\_\____|_|   |____/|_|  |_|\___/
+                         ;
+                         ;
+                         ; KCPSM6 reference design: Communication with XADC and simple PicoTerm graphics.
+                         ;
+                         ; Presented on the Xilinx KC705 Evaluation Board (www.xilinx.com) but easily ported to
+                         ; other platforms.
+                         ;
+                         ;
+                         ; Ken Chapman - Xilinx Ltd
+                         ;
+                         ; 11th January 2013 - Initial version
+                         ;    10th June 2013 - Correction to comments only
+                         ;
+                         ;
+                         ; INTRODUCTION
+                         ;
+                         ; The primary purpose of this reference design is to illustrate how KCPSM6 can communicate
+                         ; with XADC in a 7-Series device and then to interpret and present the sample values
+                         ; which it provides.
+                         ;
+                         ; This PSM file is provided with a hardware reference design file 'kc705_kcpsm6_xadc.vhd'
+                         ; Please refer to the descriptions in this file to fully appreciate the hardware
+                         ; arrangements. The interface to XADC is via the Dynamic Reconfiguration Port (DRP) with
+                         ; which the PSM code provided in 'xadc_routines.psm' is defined to work with. Together they
+                         ; enable KCPSM6 to read any of the XADC status registers as well as to read or write any
+                         ; of the XADC configuration registers.
+                         ;
+                         ; As provided, the reference design is presented for the KC705 Evaluation Board so the
+                         ; hardware arrangement is suitable for observing 3 of the external analog inputs only and
+                         ; then these will depend on what you attached to the XADC Header (J46). However, internally
+                         ; to the device, XADC can be used to monitor the VCCINT, VCCBRAM and VCCAUX power supplies
+                         ; and the die temperature which should always be meaningful values.
+                         ;
+                         ; XADC is instantiated in the 'kc705_kcpsm6_xadc.vhd' file with the configuration registers
+                         ; initialised. Once again please refer to the comprehensive descriptions in the hardware
+                         ; file to understand more. However, the key point is that XADC has been pre-configured to
+                         ; operate with automatic channel sequencing of the valid channels. As such, this program
+                         ; does not need to write to any of the configuration registers (although the routine to do
+                         ; so if you wish has been included in 'xadc_routines.psm') and XADC will be automatically
+                         ; collecting samples of the analogue inputs, internal supplies and die temperature.
+                         ;
+                         ; This program interacts with the user via PicoTerm. The normal terminal window provides
+                         ; some simple options which enable the user to observe the contents of the XADC registers.
+                         ; In all cases KCPSM6 reads the contents of the registers from XADC and presents them
+                         ; either as raw 16-bit values or interpreted into their equivalent voltage or temperature.
+                         ; In so doing, this PSM code provides you with conversion routines suitable for reuse in
+                         ; your own designs. Note that all code contains descriptions and comments to help you.
+                         ;
+                         ; To make this reference design a bit more exciting it also plots a simple graph of die
+                         ; temperature over time. This illustrates the PicoTerm Graphic Display and provides
+                         ; examples of each device control string (DCS) that can be used with it. The temperature
+                         ; graph is plotted and maintained in response to interrupts generated by the hardware at
+                         ; one second intervals so this code is also an example of interrupt handling (i.e. note
+                         ; how the user can be requesting and displaying information in the main terminal window
+                         ; but the temperature graph continues to update).
+                         ;
+                         ;
+                         ;
+                         ; NOTE - This PSM file includes further PSM files so these must also be present
+                         ;        when running the KCPSM6 assembler (v2.43 or later). It is hoped that the
+                         ;        included files will also be suitable for reuse and inclusion in your own
+                         ;        programs. For this reason each file contains descriptions of the routines
+                         ;        that are provided.
+                         ;
+                         ;            XADC_routines.psm      - A set of routines to interface with XADC and to
+                         ;                                     convert sample values into voltages and temperatures.
+                         ;
+                         ;            PicoTerm_routines.psm  - A set of routines to interface with the UART
+                         ;                                     macros and use the PicoTerm features.
+                         ;
+                         ;            soft_delays_200mhz.psm - Software delays based on 200MHz clock frequency.
+                         ;
+                         ;
+                         ; The design is based on the standard reference designs provided with KCPSM6 (PicoBlaze).
+                         ; These provide a UART-USB connection allowing messages to be displayed on a terminal and
+                         ; for keyboard entries to allow a degree of control and data input. Please refer to the
+                         ; documentation provided with KCPSM6 and the UART macros if you need to know more about
+                         ; PicoBlaze and UART communication. PicoTerm is also supplied with KCPSM6 and must be
+                         ; used with this design.
+                         ;
+                         ;
+                         ;------------------------------------------------------------------------------------------
+                         ; Port definitions
+                         ;------------------------------------------------------------------------------------------
+                         ;
+                         ;
+                         ; XADC Interface
+                         ; --------------
+                         ;
+                         ; See 'xadc_routines.psm' for I/O ports used for XADC DRP based communication.
+                         ;
+                         ;
+                         ; UART (for connection with PicoTerm)
+                         ; -----------------------------------
+                         ;
+                         ; See 'PicoTerm_routines.psm' for I/O ports used with UART macros.
+                         ;
+                         ;
+                         ;------------------------------------------------------------------------------------------
+                         ; Special Register usage
+                         ;------------------------------------------------------------------------------------------
+                         ;
+                         ; No registers are given special names in this program.
+                         ;
+                         ;
+                         ;------------------------------------------------------------------------------------------
+                         ; Scratch Pad Memory Locations (256 Bytes)
+                         ;------------------------------------------------------------------------------------------
+                         ;
+                         ; Scratch pad memory can be reduced to 64 or 128 bytes if desired.
+                         ;
+                         ;
+                         ; PicoTerm features
+                         ; -----------------
+                         ;
+                         ; See 'PicoTerm_routines.psm' for allocation of 18 memory locations.
+                         ; These are currently set to memory locations 00 to 12 hex inclusive.
+                         ;
+                         ;
+                         ; Decimal value store
+                         ; -------------------
+                         ;
+                         CONSTANT decimal0, 02              ;5 digit decimal value
+                         CONSTANT decimal1, 03              ;  Suitable for 16-bit values up to
+                         CONSTANT decimal2, 04              ;   65,536
+                         CONSTANT decimal3, 05
+                         CONSTANT decimal4, 06
+                         ;
+                         ;
+                         ;------------------------------------------------------------------------------------------
+                         ; Useful data constants
+                         ;------------------------------------------------------------------------------------------
+                         ;
+                         ;
+                         ;
+                         ;------------------------------------------------------------------------------------------
+                         ; Initialise the system
+                         ;------------------------------------------------------------------------------------------
+                         ;
+                         ; A delay of 1 second is implemented which is intended to give time for all the hardware
+                         ; to settle into a stable condition before starting to doing anything. This can be
+                         ; particularly beneficial when dealing with long cables where serial lines can take some
+                         ; time to reach the initial idle state following power being applied.
+                         ;
+             cold_start: CALL delay_1s
+                         ;
+                         CALL reset_UART_macros             ;Reset buffers in UART macros
+                         ;
+                         ;
+                         ; Initialised PicoTerm display and display welcome messages
+                         ;
+                         CALL PicoTerm_CLS
+                         CALL PicoTerm_text_Blue
+                         CALL welcome_message
+                         CALL PicoTerm_text_Black
+                         ;
+                         ;
+                         ; Confirm connection has been made with PicoTerm
+                         ; ----------------------------------------------
+                         ;
+                         ; Before attempting to use any of the special features provided by PicoTerm it is a good
+                         ; idea to check that PicoTerm really is connected. This is where the Device Control String
+                         ; (DCS) request for a 'Ping' can be used. If a different terminal is being used then the
+                         ; plain text messages will be displayed as normal but the 'Ping' request will fail to
+                         ; return the response expected. So if this should occur a message will be displayed and
+                         ; this program will halt.
+                         ;
+                         ; Calling the 'PicoTerm_Ping' routine will transmit the Device Control String (DCS)
+                         ; to request the 'Ping' from PicoTerm. If PicoTerm is connected then it should respond
+                         ; with a DCS containing the (upper case) character 'P'. The response will be intercepted
+                         ; by the UART_RX routine and stored in scratch pad memory location 'PicoTerm_Response0'.
+                         ; It will take a short while for PicoTerm to respond so the 'Ping' check must wait whilst
+                         ; repeatedly calling the UART_RX routine.
+                         ;
+                         ; The transmission and reception of the 'Ping' DCS sequences (6 characters in total) would
+                         ; take ~520us at 115,200 baud rate. Since the program is only going to halt if no response
+                         ; occurs it will actually wait much longer. Each call of the UART_RX routine that results
+                         ; in its timeout will take ~2,000 clock cycles (~20us at 100MHz) so up to 50,000 (C350 hex)
+                         ; calls of UART_RX are made before giving up after approximately one second.
+                         ;
+                         LOAD s0, 00                        ;clear 'Ping' response location
+                         STORE s0, PicoTerm_Response0
+                         ;
+                         CALL PicoTerm_Ping                 ;request 'Ping' from PicoTerm
+                         ;
+                         LOAD sB, C3                        ;wait for 50,000 iterations
+                         LOAD sA, 50                        ;  (~1 second at 100MHz)
+                         ;
+           wait_PT_ping: CALL UART_RX                       ;discard any characters received
+                         FETCH s0, PicoTerm_Response0
+                         COMPARE s0, "P"                    ;Test for valid 'Ping' response
+                         JUMP Z, PicoTerm_detected          ;continue normally
+                         SUB sA, 01                         ;decrement [sB,sA]
+                         SUBCY sB, 00
+                         JUMP NZ, wait_PT_ping
+                         ;
+                         ; 'Ping' response not received so transmit a text message.
+                         ; Note this would still be displayed on other terminals.
+                         ;
+                         LOAD sB, no_detect_PT_msg'upper
+                         LOAD sA, no_detect_PT_msg'lower
+                         CALL send_message
+           PT_halt_here: JUMP PT_halt_here                  ;Halt program.
+                         ;
+                         ;
+                         STRING not_PT1$, "ERROR - Unable to detect PicoTerm."
+                         STRING not_PT2$, "Please use PicoTerm v1.64 or later with this design."
+                         ;
+                         ;
+       no_detect_PT_msg: LOAD&RETURN s5, CR
+                         LOAD&RETURN s5, not_PT1$
+                         LOAD&RETURN s5, CR
+                         LOAD&RETURN s5, not_PT2$
+                         LOAD&RETURN s5, CR
+                         LOAD&RETURN s5, NUL
+                         ;
+                         ; For a cleaner display on the PC the 'PicoTerm DCS Transactions' window will be closed.
+                         ; Note that it is recommended that the transaction window is kept open until an
+                         ; application has been developed and tested as it is mainly a diagnostic feature of
+                         ; PicoTerm to help you.
+                         ;
+      PicoTerm_detected: CALL PicoTerm_hide_DCS
+                         ;
+                         ; Define and initialise PicoTerm Graphic Window
+                         ;
+                         CALL graph_setup
+                         ;
+                         ; Interrupts are generated at one second intervals.
+                         ; Register bank 'B' is used by the interrupt service routine and register sF needs to
+                         ; be initialised for the temperature graph to work correctly (see ISR for details).
+                         ;
+                         LOAD s0, 50'd                      ;initialise sF of bank B
+                         STAR sF, s0
+                         ;
+                         ;
+                         ;------------------------------------------------------------------------------------------
+                         ; Main Program
+                         ;------------------------------------------------------------------------------------------
+                         ;
+                         ;
+         main_with_menu: CALL display_menu
+                         ;
+                         ; Display prompt and wait for user input.
+                         ; Then test input for valid section and either invoke operation or display message.
+                         ;
+                         ;   Menu
+                         ;    H - Display this menu
+                         ;    R - Read all XADC registers
+                         ;    S - Supply Voltages
+                         ;    A - Alarm signals
+                         ;    E - External Inputs
+                         ;
+            main_prompt: ENABLE INTERRUPT
+                         CALL send_CR                       ;prompt user to enter a command
+                         CALL send_CR
+                         LOAD s5, ">"
+                         CALL UART_TX
+                         CALL send_space
+                         ;
+              wait_main: CALL UART_RX                       ;wait for user input
+                         JUMP Z, wait_main
+                         CALL upper_case                    ;accept upper or lower case inputs
+                         CALL UART_TX                       ;echo user input
+                         ;
+                         ; The interrupt service routine (ISR) will read temperature from XADC so there is
+                         ; a potential for that read to collide with a read made from XADC whilst implementing
+                         ; any of the commands. For this reason interrupts are temporarily disabled whilst a
+                         ; command executes preventing any XADC access collisions. Can you think of an
+                         ; alternative and potentially better solution?
+                         ;
+                         DISABLE INTERRUPT
+                         ;
+                         COMPARE s5, "H"                    ;Help
+                         JUMP Z, main_with_menu
+                         ;
+                         COMPARE s5, "R"                    ;Read all XADC registers
+                         JUMP Z, read_all_XADC_registers
+                         ;
+                         COMPARE s5, "S"                    ;Display active supply voltages
+                         JUMP Z, supply_voltages
+                         ;
+                         COMPARE s5, "A"                    ;Alarm signals
+                         JUMP Z, alarm_signals
+                         ;
+                         COMPARE s5, "E"                    ;Read active external analogue inputs
+                         JUMP Z, external_voltages
+                         ;
+                         LOAD s5, "?"                       ;For all other choices display ??
+                         CALL UART_TX
+                         CALL UART_TX
+                         JUMP main_prompt
+                         ;
+                         ;
+                         ;------------------------------------------------------------------------------------------
+                         ; 'R' Read All XADC Registers Command
+                         ;------------------------------------------------------------------------------------------
+                         ;
+                         ; Read and display the 64 XADC Status Registers and 32 XADC Configuration Registers as raw
+                         ; 16-bit hexadecimal values. The display presented in three columns so that all 96
+                         ; registers fit in the PicoTerm window. Refer to the 'XADC Register Interface' section of
+                         ; UG480 for a complete lists and descriptions of all the status and control registers.
+                         ;
+                         ; Hint - The values displayed for the 32 configuration registers should match those defined
+                         ;        by the values assigned to INIT_40 through to INIT_5F during the instantiation of
+                         ;        XADC in 'kc705_kcpsm6_xadc.vhd'
+                         ;
+                         ; Hint - Different values can be written to the configuration registers by KCPSM6 using the
+                         ;        'write_XADC' routine provided in 'xadc_routines.psm'. Obviously you should
+                         ;        understand what the values in each register actually define before changing any
+                         ;        of them but adjusting a temperature or voltage threshold would be a good
+                         ;        first exercise (see descriptions in 'kc705_kcpsm6_xadc.vhd').
+                         ;
+read_all_XADC_registers: CALL send_CR                       ;display column headers
+                         CALL send_HT
+                         CALL send_Status_msg
+                         CALL send_HT
+                         CALL send_HT
+                         CALL send_Value_msg
+                         CALL send_HT
+                         CALL send_HT
+                         CALL send_HT
+                         CALL send_Status_msg
+                         CALL send_HT
+                         CALL send_HT
+                         CALL send_Value_msg
+                         CALL send_HT
+                         CALL send_HT
+                         CALL send_HT
+                         CALL send_Configuration_msg
+                         CALL send_HT
+                         CALL send_Value_msg
+                         CALL send_CR
+                         CALL send_HT
+                         CALL send_Register_msg
+                         CALL send_HT
+                         CALL send_Hex_msg
+                         CALL send_HT
+                         CALL send_HT
+                         CALL send_HT
+                         CALL send_Register_msg
+                         CALL send_HT
+                         CALL send_Hex_msg
+                         CALL send_HT
+                         CALL send_HT
+                         CALL send_HT
+                         CALL send_Register_msg
+                         CALL send_HT
+                         CALL send_Hex_msg
+                         CALL send_CR
+                         ;
+                         LOAD sA, 00                        ;first status register
+                         ;
+     read_register_loop: CALL send_CR
+                         CALL send_HT                       ;first column range 00 to 1F
+                         CALL display_register_value        ;display status register address and value
+                         CALL send_HT
+                         CALL send_HT
+                         CALL send_HT
+                         ADD sA, 20                         ;second column range 20 to 3F
+                         CALL display_register_value        ;display status register address and value
+                         CALL send_HT
+                         CALL send_HT
+                         CALL send_HT
+                         ADD sA, 20                         ;third column range 40 to 5F
+                         CALL display_register_value        ;display configuration register address and value
+                         ;
+                         COMPARE sA, 5F                     ;last configuration register?
+                         JUMP Z, main_prompt
+                         SUB sA, 3F                         ;next register in first column
+                         JUMP read_register_loop
+                         ;
+                         ;
+                         JUMP main_prompt
+                         ;
+                         ;
+                         ; Display XADC register address and then read and display the XADC register contents.
+                         ; All values displayed in hex.
+                         ; The address of the XADC register must be provided in 'sA'.
+                         ;
+ display_register_value: LOAD s4, sA                        ;display status register address
+                         CALL send_hex_byte
+                         CALL send_HT
+                         CALL send_HT
+                         CALL read_XADC                     ;read register into [s9:s8]
+                         LOAD s4, s9                        ;display value
+                         CALL send_hex_byte
+                         LOAD s4, s8
+                         CALL send_hex_byte
+                         RETURN 
+                         ;
+                         ;
+                         ; Text strings used in this section
+                         ;
+        send_Status_msg: LOAD sB, Status_msg'upper
+                         LOAD sA, Status_msg'lower
+                         JUMP send_message                  ;includes return
+                         ;
+ send_Configuration_msg: LOAD sB, Configuration_msg'upper
+                         LOAD sA, Configuration_msg'lower
+                         JUMP send_message                  ;includes return
+                         ;
+      send_Register_msg: LOAD sB, Register_msg'upper
+                         LOAD sA, Register_msg'lower
+                         JUMP send_message                  ;includes return
+                         ;
+         send_Value_msg: LOAD sB, Value_msg'upper
+                         LOAD sA, Value_msg'lower
+                         JUMP send_message                  ;includes return
+                         ;
+           send_Hex_msg: LOAD sB, Hex_msg'upper
+                         LOAD sA, Hex_msg'lower
+                         JUMP send_message                  ;includes return
+                         ;
+                         ;
+                         STRING Status$, "Status"
+                         STRING Configuration$, "Configuration"
+                         STRING Register$, "Register"
+                         STRING Value$, "Value"
+                         STRING Hex$, "(Hex)"
+                         ;
+             Status_msg: LOAD&RETURN s5, Status$
+                         LOAD&RETURN s5, NUL
+                         ;
+      Configuration_msg: LOAD&RETURN s5, Configuration$
+                         LOAD&RETURN s5, NUL
+                         ;
+           Register_msg: LOAD&RETURN s5, Register$
+                         LOAD&RETURN s5, NUL
+                         ;
+              Value_msg: LOAD&RETURN s5, Value$
+                         LOAD&RETURN s5, NUL
+                         ;
+                Hex_msg: LOAD&RETURN s5, Hex$
+                         LOAD&RETURN s5, NUL
+                         ;
+                         ;
+                         ;------------------------------------------------------------------------------------------
+                         ; 'D' Display Supply Voltages Command
+                         ;------------------------------------------------------------------------------------------
+                         ;
+                         ; Consistent with the Kintex device on the KC705 board this code will read and display the
+                         ; voltages associated with the VCCINT, VCCAUX and VCCBRAM power supply rails (VCCPINT,
+                         ; VCCPAUX and VCCO_DDR are only applicable to Zynq devices).
+                         ;
+                         ; In this reference design XADC has been configured to automatically sequence through the
+                         ; analogue channels including the power supplies. Therefore the present (or at least the
+                         ; most recent) sample of each supply can be read from a set of status registers. XADC also
+                         ; automatically records the minimum and maximum voltages observed since it became active
+                         ; and these values can also be read from a set of status registers.
+                         ;
+                         ;   Power                 Status Registers (Hex addresses)
+                         ;   Supply           Last sample       Minimum        Maximum
+                         ;
+                         ;   VCCINT               01              25             21
+                         ;   VCCAUX               02              26             22
+                         ;   VCCBRAM              06              27             23
+                         ;
+                         ; The code in this section invokes the 'read_XADC' routine to read each 16-bit value and
+                         ; then invokes the 'convert_XADC_supply_voltage' routine which scales the raw value into
+                         ; a voltage. Please see 'xadc_routines.psm' for details of these routines. Finally a
+                         ; routine contained in this file called 'send_voltage' is used to convert to decimal and
+                         ; display the voltage in the PicoTerm window.
+                         ;
+        supply_voltages: LOAD sB, Supply_msg'upper          ;display column headers
+                         LOAD sA, Supply_msg'lower
+                         CALL send_message
+                         ;
+                         CALL send_HT
+                         LOAD sB, VCCINT_msg'upper
+                         LOAD sA, VCCINT_msg'lower
+                         CALL send_message
+                         LOAD sA, 01                        ;VCCINT status register
+                         CALL display_supply_voltage
+                         LOAD sA, 25                        ;VCCINT Minimum status register
+                         CALL display_supply_voltage
+                         LOAD sA, 21                        ;VCCINT Maximum status register
+                         CALL display_supply_voltage
+                         CALL send_CR
+                         ;
+                         CALL send_HT
+                         LOAD sB, VCCAUX_msg'upper
+                         LOAD sA, VCCAUX_msg'lower
+                         CALL send_message
+                         LOAD sA, 02                        ;VCCAUX status register
+                         CALL display_supply_voltage
+                         LOAD sA, 26                        ;VCCAUX Minimum status register
+                         CALL display_supply_voltage
+                         LOAD sA, 22                        ;VCCAUX Maximum status register
+                         CALL display_supply_voltage
+                         CALL send_CR
+                         ;
+                         CALL send_HT
+                         LOAD sB, VCCBRAM_msg'upper
+                         LOAD sA, VCCBRAM_msg'lower
+                         CALL send_message
+                         LOAD sA, 06                        ;VCCBRAM status register
+                         CALL display_supply_voltage
+                         LOAD sA, 27                        ;VCCBRAM Minimum status register
+                         CALL display_supply_voltage
+                         LOAD sA, 23                        ;VCCBRAM Maximum status register
+                         CALL display_supply_voltage
+                         ;
+                         JUMP main_prompt
+                         ;
+                         ;
+                         ; Read status register containing a supply voltage figure and then convert to a voltage
+                         ; and display on the terminal. Address of XADC status register must be provided in 'sA'.
+                         ;
+ display_supply_voltage: CALL send_HT
+                         CALL send_HT
+                         CALL read_XADC                     ;read register into [s9:s8]
+                         CALL convert_XADC_supply_voltage   ;convert to mV in [s3,s2]
+                         CALL send_voltage                  ;display in decimal
+                         RETURN 
+                         ;
+                         ;
+                         ; Text strings used in this section
+                         ; (Messages for 'VCCINT', 'VCCAUX' and 'VCCBRAM' are part of the alarm messages)
+                         ;
+                         STRING Supply$, "Supply"
+                         STRING Present$, "Present"
+                         STRING Minimum$, "Minimum"
+                         STRING Maximum$, "Maximum"
+                         ;
+             Supply_msg: LOAD&RETURN s5, CR
+                         LOAD&RETURN s5, HT
+                         LOAD&RETURN s5, Supply$
+                         LOAD&RETURN s5, HT
+                         LOAD&RETURN s5, HT
+                         LOAD&RETURN s5, Present$
+                         LOAD&RETURN s5, HT
+                         LOAD&RETURN s5, HT
+                         LOAD&RETURN s5, Minimum$
+                         LOAD&RETURN s5, HT
+                         LOAD&RETURN s5, HT
+                         LOAD&RETURN s5, Maximum$
+                         LOAD&RETURN s5, CR
+                         LOAD&RETURN s5, CR
+                         LOAD&RETURN s5, NUL
+                         ;
+                         ;
+                         ;------------------------------------------------------------------------------------------
+                         ; 'A' Alarm signals Command
+                         ;------------------------------------------------------------------------------------------
+                         ;
+                         ; Reads and presents the alarm signals relevant to the Kintex device. Please see
+                         ; 'xadc_routines.psm' for definition of the constants used in the code below.
+                         ;
+                         ; Hint - Each alarm should only be active if its corresponding parameter exceeds the
+                         ;        thresholds defined by the configuration registers. As provided, the XADC
+                         ;        configuration registers have be initialised (see 'kc705_kcpsm6_xadc.vhd') to
+                         ;        define thresholds consistent with the device specification and therefore these
+                         ;        should not be exceeded during normal operation and no alarms should become active.
+                         ;
+                         ; Hint - Try adjusting a threshold so that an alarm will become active. For example set
+                         ;        the VCCINT lower threshold to a higher level such as 1.01v by writing 5630 hex
+                         ;        to configuration register 55 hex using the 'write_XADC' routine provided in
+                         ;        'xadc_routines.psm' as shown below. This will probably trigger ALM(1) because
+                         ;        the nominal supply voltage is 1.00v.
+                         ;
+                         ;          LOAD sA, 55
+                         ;          LOAD s9, 56
+                         ;          LOAD s8, 30
+                         ;          CALL write_XADC
+                         ;
+                         ; Hint - The states of alarms can also be determined by reading XADC Status register 3F.
+                         ;        This would avoid the need for physical signals read via an input port. However,
+                         ;        the physical signals are immediately observable and could be used to control
+                         ;        other circuits or arranged to interrupt KCPSM6.
+                         ;
+          alarm_signals: CALL send_CR
+                         ;
+                         CALL read_XADC_status              ;status and alarms in 's8' and 's9'
+                         ;
+                         CALL send_CR
+                         CALL send_HT
+                         LOAD s5, "0"
+                         TEST s9, XADC_OT_alarm             ;isolate OT alarm in 's9'
+                         ADDCY s5, 00                       ;convert to ASCII 0 or 1
+                         CALL UART_TX
+                         CALL send_HT
+                         LOAD sB, OT_msg'upper
+                         LOAD sA, OT_msg'lower
+                         CALL send_message
+                         ;
+                         CALL send_CR
+                         CALL send_HT
+                         LOAD s5, "0"
+                         TEST s8, XADC_ALM0_Temperature     ;isolate ALM(0) alarm in 's8'
+                         ADDCY s5, 00                       ;convert to ASCII 0 or 1
+                         CALL UART_TX
+                         CALL send_HT
+                         LOAD sB, ALM0_msg'upper
+                         LOAD sA, ALM0_msg'lower
+                         CALL send_message
+                         ;
+                         CALL send_CR
+                         CALL send_HT
+                         LOAD s5, "0"
+                         TEST s8, XADC_ALM1_VCCINT          ;isolate ALM(1) alarm in 's8'
+                         ADDCY s5, 00                       ;convert to ASCII 0 or 1
+                         CALL UART_TX
+                         CALL send_HT
+                         LOAD sB, ALM1_msg'upper
+                         LOAD sA, ALM1_msg'lower
+                         CALL send_message
+                         ;
+                         CALL send_CR
+                         CALL send_HT
+                         LOAD s5, "0"
+                         TEST s8, XADC_ALM2_VCCAUX          ;isolate ALM(2) alarm in 's8'
+                         ADDCY s5, 00                       ;convert to ASCII 0 or 1
+                         CALL UART_TX
+                         CALL send_HT
+                         LOAD sB, ALM2_msg'upper
+                         LOAD sA, ALM2_msg'lower
+                         CALL send_message
+                         ;
+                         CALL send_CR
+                         CALL send_HT
+                         LOAD s5, "0"
+                         TEST s8, XADC_ALM3_VCCBRAM         ;isolate ALM(3) alarm in 's8'
+                         ADDCY s5, 00                       ;convert to ASCII 0 or 1
+                         CALL UART_TX
+                         CALL send_HT
+                         LOAD sB, ALM3_msg'upper
+                         LOAD sA, ALM3_msg'lower
+                         CALL send_message
+                         ;
+                         JUMP main_prompt
+                         ;
+                         ;
+                         ; Text strings used in this section
+                         ;
+                         STRING OT$, "OT      Over Temperature"
+                         STRING ALM0$, "ALM(0)  Temperature"
+                         STRING ALM1$, "ALM(1)  "
+                         STRING VCCINT$, "VCCINT"
+                         STRING ALM2$, "ALM(2)  "
+                         STRING VCCAUX$, "VCCAUX"
+                         STRING ALM3$, "ALM(3)  "
+                         STRING VCCBRAM$, "VCCBRAM"
+                         ;
+                 OT_msg: LOAD&RETURN s5, OT$
+                         LOAD&RETURN s5, NUL
+                         ;
+               ALM0_msg: LOAD&RETURN s5, ALM0$
+                         LOAD&RETURN s5, NUL
+                         ;
+               ALM1_msg: LOAD&RETURN s5, ALM1$
+             VCCINT_msg: LOAD&RETURN s5, VCCINT$
+                         LOAD&RETURN s5, NUL
+                         ;
+               ALM2_msg: LOAD&RETURN s5, ALM2$
+             VCCAUX_msg: LOAD&RETURN s5, VCCAUX$
+                         LOAD&RETURN s5, NUL
+                         ;
+               ALM3_msg: LOAD&RETURN s5, ALM3$
+            VCCBRAM_msg: LOAD&RETURN s5, VCCBRAM$
+                         LOAD&RETURN s5, NUL
+                         ;
+                         ;
+                         ;------------------------------------------------------------------------------------------
+                         ; 'E' Read External Analogue Inputs Command
+                         ;------------------------------------------------------------------------------------------
+                         ;
+                         ; On the KC705 board is a an 'XADC Header' (J46) which provides the ability to connect
+                         ; analogue signals to VP/VN, VAUXP[0]/VAUXN[0] and VAUXP[8]/VAUXN[8]. This header is
+                         ; described in UG810. Obviously something needs to supply signals to this header in
+                         ; order that XADC can make any meaningful measurements but the PSM code provided does
+                         ; work with the hardware reference design to show how the voltages associated with these
+                         ; analogue inputs can be read, converted and displayed.
+                         ;
+                         ; To increase the value of this reference design the dedicated analogue input
+                         ; (VP/VN) has been set to Unipolar mode whilst the two auxiliary external inputs
+                         ; (VAUXP[0]/VAUXN[0] and VAUXP[8]/VAUXN[8]) have been defined as Bipolar. Hence the
+                         ; code provided handles the different ranges of voltage providing you will both of the
+                         ; conversion routines that you may need in the future.
+                         ;
+                         ; In this reference design XADC has been configured to automatically sequence through the
+                         ; analogue channels including the relevant external analogue inputs. Therefore the most
+                         ; recent sample of each analogue input can be read from the status registers shown below.
+                         ;
+                         ;   Analogue            Status Register                       Voltage
+                         ;   Input               (Hex addresses)       Mode            Range
+                         ;
+                         ;   VP/VN                     03              Unipolar         0.0v to +1.0v
+                         ;   VAUXP[0]/VAUXN[0]         10              Bipolar         -0.5v to +0.5v
+                         ;   VAUXP[8]/VAUXN[8]         18              Bipolar         -0.5v to +0.5v
+                         ;
+                         ; The code in this section invokes the 'read_XADC' routine to read each 16-bit value and
+                         ; then invokes either the 'convert_XADC_unipolar_voltage' or 'convert_XADC_bipolar_voltage'
+                         ; routine which scales the raw value into a voltage. Please see 'xadc_routines.psm' for
+                         ; details of these routines. Finally a routine contained in this file called 'send_voltage'
+                         ; is used to convert to decimal and display the voltage in the PicoTerm window.
+                         ;
+      external_voltages: LOAD sB, External_msg'upper        ;display column headers
+                         LOAD sA, External_msg'lower
+                         CALL send_message
+                         ;
+                         CALL send_HT
+                         LOAD sB, Dedicated_msg'upper
+                         LOAD sA, Dedicated_msg'lower
+                         CALL send_message
+                         CALL send_HT
+                         CALL send_HT
+                         CALL send_HT
+                         CALL send_space
+                         LOAD sA, 03                        ;VP/VN status register
+                         CALL read_XADC                     ;read register into [s9:s8]
+                         CALL convert_XADC_unipolar_voltage ;convert to mV in [s3,s2]
+                         CALL send_voltage                  ;display in decimal
+                         CALL send_CR
+                         ;
+                         CALL send_HT
+                         LOAD sB, Auxiliary0_msg'upper
+                         LOAD sA, Auxiliary0_msg'lower
+                         CALL send_message
+                         LOAD sA, 10                        ;VAUXP[0]/VAUXN[0] status register
+                         CALL send_bipolar_voltage
+                         ;
+                         CALL send_CR
+                         ;
+                         CALL send_HT
+                         LOAD sB, Auxiliary8_msg'upper
+                         LOAD sA, Auxiliary8_msg'lower
+                         CALL send_message
+                         LOAD sA, 18                        ;VAUXP[8]/VAUXN[8] status register
+                         CALL send_bipolar_voltage
+                         ;
+                         JUMP main_prompt
+                         ;
+                         ;
+                         ; Read status register containing a bipolar value and then convert to a voltage and
+                         ; display on the terminal. Address of XADC status register must be provided in 'sA'.
+                         ;
+   send_bipolar_voltage: CALL send_HT
+                         CALL read_XADC                     ;read register into [s9:s8]
+                         CALL convert_XADC_bipolar_voltage  ;convert to signed mV in [s3,s2]
+                         LOAD s5, "+"                       ;assume positive to begin with
+                         TEST s3, 10000000'b                ;test sign
+                         JUMP Z, send_sign_and_voltage      ;if positive then continue
+                         ;
+                         LOAD s5, "-"                       ;otherwise change sign
+                         XOR s2, FF                         ;twos complement value to make positive
+                         XOR s3, FF
+                         ADD s2, 01
+                         ADDCY s3, 00
+                         ;
+  send_sign_and_voltage: CALL UART_TX                       ;display sign
+                         CALL send_voltage                  ;display in decimal
+                         RETURN 
+                         ;
+                         ;
+                         ; Text strings used in this section
+                         ;
+                         STRING External$, "External Input"
+                         STRING Dedicated$, "VP/VN"
+                         STRING Auxiliary0$, "VAUXP[0]/VAUXN[0]"
+                         STRING Auxiliary8$, "VAUXP[8]/VAUXN[8]"
+                         ;
+           External_msg: LOAD&RETURN s5, CR
+                         LOAD&RETURN s5, HT
+                         LOAD&RETURN s5, External$
+                         LOAD&RETURN s5, CR
+                         LOAD&RETURN s5, CR
+                         LOAD&RETURN s5, NUL
+                         ;
+          Dedicated_msg: LOAD&RETURN s5, Dedicated$
+                         LOAD&RETURN s5, NUL
+                         ;
+         Auxiliary0_msg: LOAD&RETURN s5, Auxiliary0$
+                         LOAD&RETURN s5, NUL
+                         ;
+         Auxiliary8_msg: LOAD&RETURN s5, Auxiliary8$
+                         LOAD&RETURN s5, NUL
+                         ;
+                         ;
+                         ;------------------------------------------------------------------------------------------
+                         ; Welcome Message.
+                         ;------------------------------------------------------------------------------------------
+                         ;
+                         ; The welcome message includes a display of the version information available from the
+                         ; assembler and the 'hwbuild' from the instantiation of KCPSM6 in the hardware design.
+                         ;
+        welcome_message: LOAD sB, welcome_msg'upper
+                         LOAD sA, welcome_msg'lower
+                         CALL send_message
+                         HWBUILD s5                         ;hardware version defines ASCII letter
+                         CALL UART_TX
+                         CALL send_CR
+                         RETURN 
+                         ;
+                         ; Welcome message
+                         ;
+                         STRING banner1$, "  _  ______ ____  ____  __  __  __"
+                         STRING banner2$, " | |/ / ___|  _ \/ ___||  \/  |/ /_"
+                         STRING banner3$, " | ' / |   | |_) \___ \| |\/| | '_ \"
+                         STRING banner4$, " | . \ |___|  __/ ___) | |  | | (_) )"
+                         STRING banner5$, " |_|\_\____|_|   |____/|_|  |_|\___/"
+                         ;
+                         ; Welcome message
+                         ;
+                         STRING welcome1$, "Reference Design: XADC Monitor on KC705 Board"
+                         STRING welcome2$, "                  Including PicoTerm die temperature graph"
+                         STRING welcome3$, "Assembly Date: "
+                         STRING welcome4$, "   Time: "
+                         STRING welcome5$, "Assembler Version: "
+                         STRING welcome6$, "Hardware Design: "
+                         ;
+                         ;
+            welcome_msg: LOAD&RETURN s5, banner1$
+                         LOAD&RETURN s5, CR
+                         LOAD&RETURN s5, banner2$
+                         LOAD&RETURN s5, CR
+                         LOAD&RETURN s5, banner3$
+                         LOAD&RETURN s5, CR
+                         LOAD&RETURN s5, banner4$
+                         LOAD&RETURN s5, CR
+                         LOAD&RETURN s5, banner5$
+                         LOAD&RETURN s5, CR
+                         LOAD&RETURN s5, CR
+                         LOAD&RETURN s5, welcome1$
+                         LOAD&RETURN s5, CR
+                         LOAD&RETURN s5, welcome2$
+                         LOAD&RETURN s5, CR
+                         LOAD&RETURN s5, CR
+                         LOAD&RETURN s5, welcome3$
+                         LOAD&RETURN s5, datestamp$
+                         LOAD&RETURN s5, welcome4$
+                         LOAD&RETURN s5, timestamp$
+                         LOAD&RETURN s5, CR
+                         LOAD&RETURN s5, welcome5$
+                         LOAD&RETURN s5, KCPSM6_version$
+                         LOAD&RETURN s5, CR
+                         LOAD&RETURN s5, welcome6$
+                         LOAD&RETURN s5, NUL
+                         ;
+                         ;
+                         ;------------------------------------------------------------------------------------------
+                         ; Routine to transmit a simple 'Menu'.
+                         ;------------------------------------------------------------------------------------------
+                         ;
+           display_menu: LOAD sB, menu_msg'upper
+                         LOAD sA, menu_msg'lower
+                         CALL send_message
+                         RETURN 
+                         ;
+                         ; Menu message
+                         ;
+                         STRING menu1$, "Menu"
+                         STRING menu2$, " H - Display this menu"
+                         STRING menu3$, " R - Read all XADC registers"
+                         STRING menu4$, " S - Supply Voltages"
+                         STRING menu5$, " A - Alarm signals"
+                         STRING menu6$, " E - External Inputs"
+                         ;
+               menu_msg: LOAD&RETURN s5, CR
+                         LOAD&RETURN s5, CR
+                         LOAD&RETURN s5, menu1$
+                         LOAD&RETURN s5, CR
+                         LOAD&RETURN s5, menu2$
+                         LOAD&RETURN s5, CR
+                         LOAD&RETURN s5, menu3$
+                         LOAD&RETURN s5, CR
+                         LOAD&RETURN s5, menu4$
+                         LOAD&RETURN s5, CR
+                         LOAD&RETURN s5, menu5$
+                         LOAD&RETURN s5, CR
+                         LOAD&RETURN s5, menu6$
+                         LOAD&RETURN s5, CR
+                         LOAD&RETURN s5, NUL
+                         ;
+                         ;
+                         ;------------------------------------------------------------------------------------------
+                         ; Send a message to the UART
+                         ;------------------------------------------------------------------------------------------
+                         ;
+                         ; A message is transmitted to the USB-UART.
+                         ; The start address of the message must be provided in [sB,sA].
+                         ; Terminate the transmission with a NULL character (00 hex).
+                         ;
+           send_message: CALL@ (sB, sA)
+                         COMPARE s5, 00                     ;terminate on NUL character
+                         RETURN Z
+                         CALL UART_TX
+                         ADD sA, 1'd
+                         ADDCY sB, 0'd
+                         JUMP send_message
+                         ;
+                         ;
+                         ;------------------------------------------------------------------------------------------
+                         ; Send Carriage Return to UART
+                         ;------------------------------------------------------------------------------------------
+                         ;
+                         ; Registers used s0, s1, s2 and s5.
+                         ;
+                send_CR: LOAD s5, CR
+                         JUMP UART_TX                       ;includes RETURN
+                         ;
+                         ;
+                         ;------------------------------------------------------------------------------------------
+                         ; Send HT (Horizontal Tab) to UART
+                         ;------------------------------------------------------------------------------------------
+                         ;
+                         ; Registers used s0, s1, s2 and s5.
+                         ;
+                send_HT: LOAD s5, HT
+                         JUMP UART_TX                       ;includes RETURN
+                         ;
+                         ;
+                         ;------------------------------------------------------------------------------------------
+                         ; Send a Space to UART
+                         ;------------------------------------------------------------------------------------------
+                         ;
+                         ; Registers used s0, s1, s2, and s5.
+                         ;
+             send_space: LOAD s5, " "
+                         JUMP UART_TX                       ;includes RETURN
+                         ;
+                         ;
+                         ;------------------------------------------------------------------------------------------
+                         ; Send Hex Value of Byte to UART
+                         ;------------------------------------------------------------------------------------------
+                         ;
+                         ; Value provided in register 's4' is sent as ASCII HEX to the UART transmitter.
+                         ;
+                         ; Registers used s0, s4 (preserved) and s5.
+                         ;
+          send_hex_byte: LOAD s5, s4                        ;isolate upper nibble
+                         SR0 s5
+                         SR0 s5
+                         SR0 s5
+                         SR0 s5
+                         CALL hex_to_ASCII                  ; convert to ASCII
+                         CALL UART_TX                       ;send upper digit to UART
+                         LOAD s5, s4                        ;isolate lower nibble
+                         AND s5, 0F
+                         CALL hex_to_ASCII                  ; convert to ASCII
+                         CALL UART_TX                       ;send lower digit to UART
+                         RETURN 
+                         ;
+                         ; Convert value 00 to 0F provided in 's5' into ASCII character in 's5'
+                         ;
+                         ; Register used s5
+                         ;
+           hex_to_ASCII: SUB s5, 0A                         ;test if value is in range 0 to 9
+                         JUMP C, number_char
+                         ADD s5, 07                         ;ASCII char A to F in range 41 to 46
+            number_char: ADD s5, 3A                         ;ASCII char 0 to 9 in range 30 to 40
+                         RETURN 
+                         ;
+                         ;
+                         ;------------------------------------------------------------------------------------------
+                         ; Converts character to upper case
+                         ;------------------------------------------------------------------------------------------
+                         ;
+                         ; Tests and converts character in 's5' (if necessary).
+                         ;
+                         ; To convert character to upper case
+                         ;
+                         ; If the character is in the range 'a' to 'z', it is converted
+                         ; to the equivalent upper case character in the range 'A' to 'Z'.
+                         ; All other characters remain unchanged.
+                         ;
+             upper_case: COMPARE s5, "a"                    ;eliminate character codes below 'a' (61 hex)
+                         RETURN C
+                         COMPARE s5, 7B                     ;eliminate character codes above 'z' (7A hex)
+                         RETURN NC
+                         AND s5, 11011111'b                 ;force bit5 Low to convert to upper case
+                         RETURN 
+                         ;
+                         ;
+                         ;------------------------------------------------------------------------------------------
+                         ; Send voltage value to UART Tx
+                         ;------------------------------------------------------------------------------------------
+                         ;
+                         ; A 16-bit value provided in [s3,s2] should be a unsigned integer representing voltage in
+                         ; milli-volts. This will be converted and sent to the UART as a decimal representation.
+                         ; For this application all voltages will be covered by the range 0.000v to 9.999v so the
+                         ; the display will always result in 6 characters.
+                         ;
+                         ;  Examples    Hex            Display
+                         ;              270F     ->    9.999v     Maximum value supported by this routine
+                         ;              0000     ->    0.000v
+                         ;              03E8     ->    1.000v
+                         ;
+           send_voltage: CALL integer16_to_BCD              ;Convert to BCD in scratch pad memory
+                         ;
+                         FETCH s5, decimal3                 ;fetch BCD
+                         ADD s5, "0"                        ;convert to ASCII
+                         CALL UART_TX                       ;send digit
+                         ;
+                         LOAD s5, "."
+                         CALL UART_TX
+                         ;
+                         FETCH s5, decimal2                 ;fetch BCD
+                         ADD s5, "0"                        ;convert to ASCII
+                         CALL UART_TX                       ;send digit
+                         ;
+                         FETCH s5, decimal1                 ;fetch BCD
+                         ADD s5, "0"                        ;convert to ASCII
+                         CALL UART_TX                       ;send digit
+                         ;
+                         FETCH s5, decimal0                 ;fetch BCD
+                         ADD s5, "0"                        ;convert to ASCII
+                         CALL UART_TX                       ;send digit
+                         ;
+                         LOAD s5, "v"
+                         CALL UART_TX
+                         RETURN 
+                         ;
+                         ;------------------------------------------------------------------------------------------
+                         ; 16-bit integer to BCD conversion
+                         ;------------------------------------------------------------------------------------------
+                         ;
+                         ; Convert the 16 bit value up to FFFF hex in register set [s3,s2]
+                         ; into the BCD decimal equivalent up to 65,535 located in the scratch pad memory
+                         ; locations 'decimal0' to 'decimal4' which must be in ascending locations.
+                         ;
+                         ; Each digit is formed in turn starting with the least significant. The value
+                         ; contained in [s3,s2] is divided by 10 and the remainder of that integer division
+                         ; is the value of each digit in the range 0 to 9.
+                         ;
+                         ; Registers used s0,s2,s3,s4,s8,s9,sA,sB
+                         ;
+       integer16_to_BCD: LOAD s4, decimal0                  ;pointer for LS-Digit in scratch pad memory
+        int_to_BCD_loop: CALL divide_16bit_by_10
+                         STORE sA, (s4)                     ;remainder is the digit value
+                         COMPARE s4, decimal4               ;test for MS-Digit completed
+                         RETURN Z
+                         ADD s4, 1'd                        ;advance pointer to next digit
+                         JUMP int_to_BCD_loop
+                         ;
+                         ; Divide 16-bit binary integer by 10
+                         ;
+                         ; The value to be divided by 10 should be provided in register set [s3,s2].
+                         ; The routine will return the integer result [s3,s2]/10 back in[s3,s2]
+                         ; with any remainder in (0 to 9) in register sA.
+                         ;
+                         ; Registers used s0,s2,s3,s8,s9,sA,sB
+                         ;
+     divide_16bit_by_10: LOAD sA, s2                        ;copy input value into [sB,sA]
+                         LOAD sB, s3
+                         LOAD s2, 00                        ;clear division result
+                         LOAD s3, 00
+                         LOAD s9, A0                        ;initialise [s9,s8] with '10' in MSBs
+                         LOAD s8, 00
+                         LOAD s0, 13'd                      ;13 subtract and shift iterations to be performed
+             div10_loop: SUB sA, s8                         ;perform 16-bit subtract [sB,sA]-[s9,s8]
+                         SUBCY sB, s9
+                         JUMP C, div10_restore              ;if carry then could not subtract from total
+                         SL1 s2                             ;shift '1' into result because subtract ok
+                         JUMP div10_shifts
+          div10_restore: ADD sA, s8                         ;perform 16-bit addition [sB,sA]+[s9,s8]
+                         ADDCY sB, s9                       ;to restore total
+                         SL0 s2                             ;shift '0' into result because could no subtract
+           div10_shifts: SLA s3                             ;complete 16-bit shift left into [s3,s2]
+                         SR0 s9                             ;divide '10' value by 2 (shift right 1 place)
+                         SRA s8
+                         SUB s0, 01                         ;count iterations
+                         RETURN Z                           ;on return the remainder of division is in sA
+                         JUMP div10_loop
+                         ;
+                         ;
+                         ;------------------------------------------------------------------------------------------
+                         ; Temperature graph in PicoTerm Graphic Window
+                         ;------------------------------------------------------------------------------------------
+                         ;
+                         ; Define graphical workspace in PicoTerm Graphic Window. The main temperature plot will
+                         ; use one pixel per degree in the vertical (Y) direction and represent the extended
+                         ; commercial operating range of 0 to +100degC. In the horizontal (X) direction each pixel
+                         ; represents once second of elapsed time and will form a rolling time window of 3 minutes
+                         ; (180 seconds).
+                         ;
+            graph_setup: CALL send_DCS                      ;open and/or clear graphic window
+                         LOAD s5, "V"                       ;(fill whole window with white)
+                         CALL UART_TX
+                         LOAD s5, 0'd                       ;bottom-left at (0,0)
+                         CALL UART_TX
+                         CALL UART_TX
+                         LOAD s5, 255'd                     ;upper-right at (255,255)
+                         CALL UART_TX
+                         CALL UART_TX
+                         LOAD s5, White
+                         CALL UART_TX
+                         CALL send_ST
+                         ;
+                         LOAD sB, die_temp_msg'upper        ;graph title
+                         LOAD sA, die_temp_msg'lower
+                         LOAD s9, 80'd                      ;X
+                         LOAD s8, 240'd                     ;Y
+                         LOAD sC, Blue
+                         LOAD s7, 80                        ;large
+                         CALL graphic_text
+                         ;
+                         CALL send_DCS                      ;Grey background for plotting area
+                         LOAD s5, "V"
+                         CALL UART_TX
+                         LOAD s5, 50'd                      ;bottom-left at (50,130)
+                         CALL UART_TX
+                         LOAD s5, 130'd
+                         CALL UART_TX
+                         LOAD s5, 229'd                     ;upper-right at (229,230)
+                         CALL UART_TX
+                         LOAD s5, 230'd
+                         CALL UART_TX
+                         LOAD s5, Grey
+                         CALL UART_TX
+                         CALL send_ST
+                         ;
+                         CALL send_DCS                      ;X axis
+                         LOAD s5, "v"
+                         CALL UART_TX
+                         LOAD s5, 47'd                      ;left at (47,129)
+                         CALL UART_TX
+                         LOAD s5, 129'd
+                         CALL UART_TX
+                         LOAD s5, 229'd                     ;right at (229,129)
+                         CALL UART_TX
+                         LOAD s5, 129'd
+                         CALL UART_TX
+                         LOAD s5, Black
+                         CALL UART_TX
+                         CALL send_ST
+                         ;
+                         LOAD sB, time_window_msg'upper     ;X axis label
+                         LOAD sA, time_window_msg'lower
+                         LOAD s9, 110'd                     ;X
+                         LOAD s8, 120'd                     ;Y
+                         LOAD sC, Black
+                         LOAD s7, 00                        ;small
+                         CALL graphic_text
+                         ;
+                         CALL send_DCS                      ;Y axis
+                         LOAD s5, "v"
+                         CALL UART_TX
+                         LOAD s5, 49'd                      ;bottom at (49,126)
+                         CALL UART_TX
+                         LOAD s5, 126'd
+                         CALL UART_TX
+                         LOAD s5, 49'd                      ;top at (49,230)
+                         CALL UART_TX
+                         LOAD s5, 230'd
+                         CALL UART_TX
+                         LOAD s5, Black
+                         CALL UART_TX
+                         CALL send_ST
+                         ;
+                         LOAD sF, 130'd                     ;Y offset for zero degC
+                         LOAD sE, 0'd                       ;marker value (tens)
+                         ;
+                         CALL send_DCS                      ;0 digit only at the bottom marker
+                         LOAD s5, "g"
+                         CALL UART_TX
+                         LOAD s5, 43'd                      ;X
+                         CALL UART_TX
+                         LOAD s5, sF                        ;Y
+                         CALL UART_TX
+                         LOAD s5, Black
+                         CALL UART_TX
+                         LOAD s5, "0"
+                         CALL UART_TX
+                         CALL send_ST
+                         ;
+            Y_axis_loop: ADD sF, 5'd                        ;increase Y to next '5' marker
+                         CALL send_DCS                      ;plot single point for '5' marker
+                         LOAD s5, "G"
+                         CALL UART_TX
+                         LOAD s5, 48'd                      ;X
+                         CALL UART_TX
+                         LOAD s5, sF                        ;Y
+                         CALL UART_TX
+                         LOAD s5, Black
+                         CALL UART_TX
+                         CALL send_ST
+                         ;
+                         ADD sF, 5'd                        ;increase Y to next '10' marker
+                         ADD sE, 1'd                        ;increment tens digit
+                         CALL send_DCS                      ;tens digit
+                         LOAD s5, "g"
+                         CALL UART_TX
+                         LOAD s5, 40'd                      ;X
+                         CALL UART_TX
+                         LOAD s5, sF                        ;Y
+                         CALL UART_TX
+                         LOAD s5, Black
+                         CALL UART_TX
+                         LOAD s5, sE                        ;digit
+                         COMPARE s5, 10'd
+                         JUMP NZ, tens_mark
+                         LOAD s5, 0'd                       ;roll over
+              tens_mark: ADD s5, "0"                        ;convert to ASCII
+                         CALL UART_TX
+                         CALL send_ST
+                         ;
+                         CALL send_DCS                      ;units digit
+                         LOAD s5, "g"
+                         CALL UART_TX
+                         LOAD s5, 43'd                      ;X
+                         CALL UART_TX
+                         LOAD s5, sF                        ;Y
+                         CALL UART_TX
+                         LOAD s5, Black
+                         CALL UART_TX
+                         LOAD s5, "0"                       ;units always '0'
+                         CALL UART_TX
+                         CALL send_ST
+                         ;
+                         CALL send_DCS                      ;tens marker line
+                         LOAD s5, "v"
+                         CALL UART_TX
+                         LOAD s5, 47'd                      ;left at (47,Y)
+                         CALL UART_TX
+                         LOAD s5, sF
+                         CALL UART_TX
+                         LOAD s5, 48'd                      ;right at (48,Y)
+                         CALL UART_TX
+                         LOAD s5, sF
+                         CALL UART_TX
+                         LOAD s5, Black
+                         CALL UART_TX
+                         CALL send_ST
+                         ;
+                         COMPARE sE, 10'd
+                         JUMP NZ, Y_axis_loop
+                         ;
+                         CALL send_DCS                      ;100 digit only at the top marker
+                         LOAD s5, "g"
+                         CALL UART_TX
+                         LOAD s5, 37'd                      ;X
+                         CALL UART_TX
+                         LOAD s5, sF                        ;Y
+                         CALL UART_TX
+                         LOAD s5, Black
+                         CALL UART_TX
+                         LOAD s5, "1"
+                         CALL UART_TX
+                         CALL send_ST
+                         ;
+                         CALL send_DCS                      ;Y axis label 'degC'
+                         LOAD s5, "g"
+                         CALL UART_TX
+                         LOAD s5, 20'd                      ;X
+                         CALL UART_TX
+                         LOAD s5, 218'd                     ;Y
+                         CALL UART_TX
+                         LOAD s5, Black
+                         CALL UART_TX
+                         LOAD s5, 85                        ;large degrees symbol
+                         CALL UART_TX
+                         CALL send_ST
+                         ;
+                         CALL send_DCS
+                         LOAD s5, "g"
+                         CALL UART_TX
+                         LOAD s5, 26'd                      ;X
+                         CALL UART_TX
+                         LOAD s5, 218'd                     ;Y
+                         CALL UART_TX
+                         LOAD s5, Black
+                         CALL UART_TX
+                         LOAD s5, C3                        ;large C
+                         CALL UART_TX
+                         CALL send_ST
+                         ;
+                         RETURN 
+                         ;
+                         ;
+                         ; Routine to display a text message in the graphics window
+                         ;
+                         ; The start address of the message must be provided in [sB,sA].
+                         ; Characters must be returned in register s5 using LOAD&RETURN instructions.
+                         ; Terminate the message with a NULL character (00 hex).
+                         ;
+                         ; The X-Y coordinates for the first character must be defined in [s9,s8].
+                         ; The colour is defined by sC.
+                         ; Character size is defined by s7 with 00 for small and 80 hex for large.
+                         ;
+           graphic_text: CALL@ (sB, sA)
+                         COMPARE s5, NUL                    ;terminate on NUL character
+                         RETURN Z
+                         LOAD s6, s5                        ;remember character
+                         ;
+                         CALL send_DCS                      ;display character
+                         LOAD s5, "g"
+                         CALL UART_TX
+                         LOAD s5, s9                        ;X
+                         CALL UART_TX
+                         LOAD s5, s8                        ;Y
+                         CALL UART_TX
+                         LOAD s5, sC                        ;colour
+                         CALL UART_TX
+                         LOAD s5, s6                        ;character
+                         ADD s5, s7                         ;size
+                         CALL UART_TX
+                         CALL send_ST
+                         ;
+                         ADD s9, 3'd                        ;spacing for small size is 3 pixels
+                         COMPARE s7, 00
+                         JUMP Z, next_graph_char
+                         ADD s9, 3'd                        ;spacing for large size is 6 pixels
+                         ;
+        next_graph_char: ADD sA, 1'd                        ;next character in message
+                         ADDCY sB, 0'd
+                         JUMP graphic_text
+                         ;
+                         ;
+                         ; Text strings used in this section
+                         ;
+                         STRING die_temp$, "Die Temperature"
+                         STRING time_window$, "3 Minute Time Window"
+                         ;
+           die_temp_msg: LOAD&RETURN s5, die_temp$
+                         LOAD&RETURN s5, NUL
+                         ;
+        time_window_msg: LOAD&RETURN s5, time_window$
+                         LOAD&RETURN s5, NUL
+                         ;
+                         ;
+                         ;------------------------------------------------------------------------------------------
+                         ; Include PSM files
+                         ;------------------------------------------------------------------------------------------
+                         ;
+                         ; The INCLUDE directive enables commonly routines to be kept in their own PSM files and
+                         ; easily reused in different programs (i.e. avoiding 'cut and paste'). It also allows
+                         ; each PSM to remain a more manageable size.
+                         ;
+                         ;
+                         ; Routines that implement interface with UART macros and control PicoTerm.
+                         ; ------------------------------------------------------------------------
+                         ;
+                         INCLUDE "PicoTerm_routines.psm"
+                         ;
+                         ;
+                         ; Software Delays
+                         ; ---------------
+                         ;
+                         ; Software delay routines for a 200MHz clock.
+                         ;
+                         INCLUDE "soft_delays_200mhz.psm"
+                         ;
+                         ;
+                         ; XADC Communication, Control and Monitoring
+                         ; ------------------------------------------
+                         ;
+                         INCLUDE "xadc_routines.psm"
+                         ;
+                         ;
+                         ;------------------------------------------------------------------------------------------
+                         ; Interrupt Service Routine (ISR)
+                         ;------------------------------------------------------------------------------------------
+                         ;
+                         ; Interrupts are generated by the hardware at one second intervals. The ISR reads the die
+                         ; temperature from XADC and presents a simple graphical plot over time.
+                         ;
+                         ; Each interrupt appears to advance a yellow vertical line (which wraps back to the start
+                         ; every 3 minutes). The line appears to move by drawing a grey vertical over the existing
+                         ; yellow line and then drawing a new line yellow line one pixel to the right. The drawing
+                         ; of the grey line also 'clears' the pixels in that column ready for the new temperature
+                         ; point to be plotted.
+                         ;
+                         ; Register bank B is used during the ISR. This preserves all the values held in the
+                         ; registers of bank A which are being used by the main program. It also enables consecutive
+                         ; interrupts to keep track of the 3 minute window when plotting the die temperature graph.
+                         ; In particular, 'sF' is used to track the position of the yellow line which runs from X=50
+                         ; to X=229(180 pixels for 180 seconds). Note that 'sF; in bank B was initialised at the
+                         ; very beginning of the program.
+                         ;
+                         ;
+                         ADDRESS 700
+                         ;
+                    ISR: REGBANK B
+                         ;
+                         CALL send_DCS                      ;grey vertical line
+                         LOAD s5, "v"
+                         CALL UART_TX
+                         LOAD s5, sF                        ;bottom at (sF,130)
+                         CALL UART_TX
+                         LOAD s5, 130'd
+                         CALL UART_TX
+                         LOAD s5, sF                        ;top at (sF,230)
+                         CALL UART_TX
+                         LOAD s5, 230'd
+                         CALL UART_TX
+                         LOAD s5, Grey
+                         CALL UART_TX
+                         CALL send_ST
+                         ;
+                         LOAD sE, sF                        ;remember X for temp plot
+                         ADD sF, 1'd                        ;advance or wrap time pointer
+                         COMPARE sF, 230'd
+                         JUMP NZ, yellow_line
+                         LOAD sF, 50'd
+                         ;
+            yellow_line: CALL send_DCS                      ;yellow vertical line
+                         LOAD s5, "v"
+                         CALL UART_TX
+                         LOAD s5, sF                        ;bottom at (sF,130)
+                         CALL UART_TX
+                         LOAD s5, 130'd
+                         CALL UART_TX
+                         LOAD s5, sF                        ;top at (sF,230)
+                         CALL UART_TX
+                         LOAD s5, 230'd
+                         CALL UART_TX
+                         LOAD s5, Yellow
+                         CALL UART_TX
+                         CALL send_ST
+                         ;
+                         ; Obtain die temperature from XADC and round the value to the nearest whole degree.
+                         ; This application expects die temperature to be in the commercial extended temperature
+                         ; range of 0 to +100degC only.
+                         ;
+                         LOAD sA, 00                        ;temperature status register is 00 hex
+                         CALL read_XADC                     ;read register into [s9:s8]
+                         CALL convert_XADC_temperature      ;die temperature [s3,s2]
+                         ;
+                         ; [s3,s2] holds a 16-bit signed value representing die temperature in <9.7> fixed point
+                         ; format. First round the integer section by adding 0.5 if the fraction is 0.5 or greater.
+                         ; Then shift right by 7-bits such that die temperature in degC is in s2 only.
+                         ;
+                         LOAD s0, s2                        ;round to nearest degree
+                         AND s0, 01000000'b                 ;isolate bit worth 0.5degC
+                         ADD s2, s0
+                         ADDCY s3, 00
+                         ;
+                         LOAD s0, 7'd                       ;shift by 7 bits
+        div_temp_by_128: SR0 s3
+                         SRA s2
+                         SUB s0, 1'd
+                         JUMP NZ, div_temp_by_128
+                         LOAD sD, s2                        ;remember temperature
+                         ;
+                         ; Plot temperature point in red.
+                         ;
+                         ; Each Y pixel represents one degree with zero offset by 130.
+                         ;
+                         CALL send_DCS                      ;plot point
+                         LOAD s5, "G"
+                         CALL UART_TX
+                         LOAD s5, sE                        ;X = sE
+                         CALL UART_TX
+                         LOAD s5, sD                        ;Y = sD + 130
+                         ADD s5, 130'd
+                         CALL UART_TX
+                         LOAD s5, Red
+                         CALL UART_TX
+                         CALL send_ST
+                         ;
+                         RETURNI ENABLE                     ;automatically restores Bank A
+                         ;
+                         ;
+                         ;------------------------------------------------------------------------------------------
+                         ; End of Program
+                         ;------------------------------------------------------------------------------------------
+                         ;

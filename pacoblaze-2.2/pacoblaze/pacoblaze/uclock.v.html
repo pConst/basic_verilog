@@ -1,0 +1,428 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head>
+<title>uclock.v</title>
+<link rel="Stylesheet" title="v2html stylesheet" media="Screen" href="v2html.css">
+</head>
+<script language="JavaScript" type="text/javascript"><!--
+var agt=navigator.userAgent.toLowerCase(); 
+var is_nav  = ((agt.indexOf('mozilla')!=-1) &&
+(agt.indexOf('spoofer')==-1) &&
+(agt.indexOf('compatible') == -1) &&
+(agt.indexOf('opera')==-1) &&
+(agt.indexOf('webtv')==-1)); 
+var is_major = parseInt(navigator.appVersion); 
+var is_nav4up = (is_nav && (is_major >= 4)); 
+var is_ie     = (agt.indexOf("msie") != -1); 
+var is_ie4up  = (is_ie  && (is_major >= 4)); 
+var is_nav5up = (is_nav && (is_major >= 5));
+var dirSep = (window.location.pathname.indexOf('\\') != -1) ? '\\' : '/' ;
+function setbuttons (wndw) {
+var i;
+var sl=wndw.loc[ wndw.document.forms[0].elements[0].selectedIndex ];
+for (i=0;i<sl.length;i++) {
+if(sl[i]) wndw.document.images[i].src='v2html-b1.gif';
+else      wndw.document.images[i].src='v2html-b2.gif';
+}
+if ( wndw.document.forms[0].elements[0].options[ 
+wndw.document.forms[0].elements[0].selectedIndex ].text != '-') {
+wndw.document.images[i  ].src='v2html-b1.gif';
+wndw.document.images[i+1].src='v2html-b1.gif';
+}
+else {
+wndw.document.images[i  ].src='v2html-b2.gif';
+wndw.document.images[i+1].src='v2html-b2.gif';
+}
+}
+// Unindented and uncommented to save spave - look in v2html for a prettier version
+var disabled=1;
+if (!is_nav4up) {
+var event=false; 
+}
+var last_link=0;     
+var last_class=null; 
+function qs(e,t,extra_info_index) {
+var inc=0,bnum=0,i,j;
+if (disabled) return false;
+var sig_buttons = [ "Definition" , "Local Driver" , 
+"Up to Input Driver" , "Find Source" , "Index"];
+if (is_nav4up || is_ie4up) {
+if (((e.which==2) && (!(e.modifiers&Event.SHIFT_MASK))) ||
+((e.which==1) &&  (e.modifiers&Event.CONTROL_MASK)))   inc = 1;
+else if (((e.which==2) && (e.modifiers&Event.SHIFT_MASK)) ||
+((e.which==1) && (e.modifiers&Event.SHIFT_MASK))) inc = -1;
+if (inc == 0 && extra_info_index == 0) { 
+return true;  
+}
+var linkText = is_nav4up ? t.text : t.innerText;
+var linkY    = is_nav4up && ! is_nav5up ? t.y    : t.offsetTop;
+window.status="Searching...";
+if ((last_link==-1) || (document.links[last_link]!=t)) 
+for (last_link=0;last_link<document.links.length;last_link++) 
+if (document.links[last_link] == t)  
+break;
+if (inc != 0) { 
+return search(linkText,linkY,last_link,inc,1);
+}
+else { 
+window.status="";
+extra_info_index--; 
+if (extra_info[extra_info_index][0] != 'S') { 
+return true;
+}
+var w = window.open('','SignalPopUp','width=200,height=235');
+if (null != w.document.forms[0]) {
+if ((window.location.pathname.substring(0,window.location.pathname.lastIndexOf(dirSep)))!=
+(w.pn.substring(0,w.pn.lastIndexOf(dirSep)))) {
+w.close();
+w = window.open('','SignalPopUp','width=200,height=235');
+}
+}
+w.focus(); 
+if (null == w.document.forms[0]) { 
+var Text = '<html><head></head>';
+if (is_nav4up) { 
+w.loc = new Array(10);
+w.sel = null;
+w.pn  = window.location.pathname;
+}
+else {     
+Text += '<script>var loc = new Array(10);<\/script>\n';
+Text += '<script>var sel;<\/script>\n';
+Text += '<script>var pn = opener.location.pathname;<\/script>\n';
+}
+Text += '<body bgcolor="white">\n';
+Text += '<form>';
+Text += '  <select onchange="opener.setbuttons(window);">\n';
+Text += '  <option>---------------------------</option>\n';
+for (j=0;j<9;j++) Text += '  <option>-</option>\n';
+Text += '  </select>\n';
+Text += '</form>';
+Text += '<table cellspacing=0 cellpadding=0>\n';
+for (var i=0;i<(extra_info[extra_info_index].length-1);i++) {
+Text += hbutton(sig_buttons[i], 
+'opener.location=loc[sel.selectedIndex]['+i+'];',
+bnum++);
+}
+Text += hbutton("Search Backwards", 
+'opener.search(sel.options[ sel.selectedIndex ].text,' +
+'0,opener.last_link,-1,0);',bnum++);
+Text += hbutton("Search Forwards",
+'opener.search(sel.options[ sel.selectedIndex ].text,' +
+'0,opener.last_link, 1,0);',bnum++);
+Text += hbutton("Close","window.close();",bnum++);
+Text += '</table>\n';
+Text += '</body></html>\n';
+w.document.open();
+w.document.write(Text);
+w.document.close();
+w.document.forms[0].elements[0].options[0].text  = linkText;
+w.sel = w.document.forms[0].elements[0]; 
+for (j=0;j<10;j++) w.loc[j] = new Array(sig_buttons.length);  
+copy_into_loc0(w,extra_info_index);
+}
+else {
+var opts = w.document.forms[0].elements[0].options;
+if ( opts.length<10 ) { 
+w.loc[opts.length] = new Array;
+opts.length++; 
+}
+for (i=opts.length-2;i>=0;i--) {
+opts[i+1].text=opts[i].text;
+for (var j=0;j<w.loc[i].length;j++) w.loc[i+1][j] = w.loc[i][j];
+}
+opts[0].text  = linkText;
+copy_into_loc0(w,extra_info_index);
+}
+return false; 
+}
+}
+return true;
+}
+function hbutton (text,action,bnum) {
+return '  <tr><td><a href="" '+
+'onmousedown="'+
+'if (images['+bnum+'].src.match(/v2html-b2.gif/)) return false; ' +
+'images['+bnum+'].src=\'v2html-b3.gif\';" '+
+'onmouseup="'+
+'if (images['+bnum+'].src.match(/v2html-b2.gif/)) return false; ' +
+'images['+bnum+'].src=\'v2html-b1.gif\';" '+
+'onclick="'+
+'if (images['+bnum+'].src.match(/v2html-b2.gif/)) return false; ' +
+action + 
+' return false;">'+
+'<img border=0 src="v2html-b1.gif"></a></td>' +
+'<td style="font-family:sans-serif; font-weight:bold; font-size:14px;"> '+text+'</td></tr>\n';
+}
+function copy_into_loc0 (w,extra_info_index) {
+for (var i=1;i<extra_info[extra_info_index].length;i++) {
+w.loc[0][i-1] = extra_info[extra_info_index][i];
+}
+w.document.forms[0].elements[0].selectedIndex=1;
+w.document.forms[0].elements[0].selectedIndex=0;
+setbuttons(w);
+}
+function search(text,y,i,inc,relative) {
+var nextpage,wrappage,linkText,linkY;
+window.status="Searching...";
+if (last_class) document.links[i].className=last_class;
+while (1) {
+for (i+=inc;i<document.links.length && i>=0;i+=inc) {
+linkText = is_nav4up ? document.links[i].text : document.links[i].innerText;
+linkY    = is_nav4up && ! is_nav5up ? document.links[i].y    : document.links[i].offsetTop;
+if ((linkText == text) && (linkY != y)) {
+window.status="";
+if (is_nav4up) 
+if (relative) window.scrollBy(0,linkY - y);
+else          window.scrollTo(0,linkY); 
+else if (is_ie4up)
+document.links[i].scrollIntoView(true); 
+last_link=i;
+last_class=document.links[i].className;
+document.links[i].className='HI';
+return false;
+}
+}
+nextpage = (inc==1) ? next_page() : prev_page();
+wrappage = (inc==1) ? first_page() : last_page();
+if (nextpage!="" || wrappage!="") {
+if (nextpage=="") { 
+if (!confirm(text + " not found. Search again from "+((inc==1)?"first":"last")+" page?"))
+return false;
+nextpage=wrappage;
+}
+location=nextpage+ "?" + escape(text) + "&" + ( y - window.pageYOffset ) + "&" + inc;
+return false;
+}
+if (confirm(text + " not found. Search again from "+((inc==1)?"start":"end")+"?")) {
+if (inc==1) i=-1;
+else i=document.links.length;
+} else return false;
+}
+return true;
+}
+function loadqs() {
+var opt=location.search, text="", s="", y=0, si=0, inc=1;
+if (opt.length==0) return true;  
+for (var i=1;i<opt.length;i++) { 
+if (opt.charAt(i) != "&") 
+s += opt.charAt(i);
+else {
+if (text=="") text=unescape(s);
+else             y=s;
+s="";
+}
+}
+if (text=="") return true;
+if (s == "-1") { si=document.links.length-1; inc=-1; }
+window.scrollTo(0,0);
+search(text,y,si,inc);
+return true;
+}
+// -->
+</script>
+<body onload='loadqs();'>
+<script language="JavaScript"type="text/javascript"><!--
+function prev_page() { return ""; }
+function last_page() { return ""; }
+// -->
+</script>
+<center><table class=NB cols=7 ><tr><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index.html';"><a target="_top" href="index.html">Hierarchy</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-f.html';"><a target="_top" href="index-f.html">Files</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-m.html';"><a target="_top" href="index-m.html">Modules</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-s.html';"><a target="_top" href="index-s.html">Signals</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-t.html';"><a target="_top" href="index-t.html">Tasks</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-fn.html';"><a target="_top" href="index-fn.html">Functions</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='http://www.burbleland.com/v2html/help_7_30.html?htf-ni-s-';"><a target="_top" href="http://www.burbleland.com/v2html/help_7_30.html?htf-ni-s-">Help</a></td></tr></table></center>
+<pre>
+<a name="uclock"></a><a  href="uclock_ti.v.html#uclock_ti_rom"><img alt="[Up: uclock_ti rom]" align=bottom border=0 src="v2html-up.gif"></a>
+<span class=K>module</span> <span class=MM>uclock</span><a  href="index-m.html#uclock"><img align=top border=0 alt="Index" src="v2html-i.gif"></a> (<a  onClick="return qs(event,this,1)"  class=SI href="#2">address</a>, <a  onClick="return qs(event,this,2)"  class=SO href="#4">instruction</a>, <a  onClick="return qs(event,this,3)"  class=SI href="#3">clk</a>);
+<a name="2"></a><span class=K>input</span> [9:0] <a  onClick="return qs(event,this,1)"  class=SI href="uclock_ti.v.html#66">address</a>;
+<a name="3"></a><span class=K>input</span> <a  onClick="return qs(event,this,3)"  class=SI href="uclock_ti.v.html#65">clk</a>;
+<a name="4"></a><span class=K>output</span> [17:0] <a  onClick="return qs(event,this,2)"  class=SO href="#4">instruction</a>;
+<a name="uclock_ram_1024_x_18"></a><span class=MM>RAMB16_S18</span> ram_1024_x_18(
+       .DI  (16'b0),
+       .DIP (2'b0),
+       .EN (1'b1),
+       .WE (1'b0),
+       .SSR (1'b0),
+       .CLK (<a  onClick="return qs(event,this,3)"  class=SI href="#3">clk</a>),
+       .ADDR(<a  onClick="return qs(event,this,1)"  class=SI href="#2">address</a>),
+       .DO (<a  onClick="return qs(event,this,2)"  class=SO href="#4">instruction</a>[15:0]),
+       .DOP (<a  onClick="return qs(event,this,2)"  class=SO href="#4">instruction</a>[17:16])
+       );
+<span class=C>// synthesis translate_off
+</span><span class=K>defparam</span> ram_1024_x_18.INIT_00  = 256'h0D0000A4E00CE00BE00AE009E008E007E006E005E004E003E002E001E0000000;
+<span class=K>defparam</span> ram_1024_x_18.INIT_01  = 256'h40490091501200ED50374041501E40545012400D0091012000C30115C0010C00;
+<span class=K>defparam</span> ram_1024_x_18.INIT_02  = 256'h5812006D541C4020401200A8542C400D0091541C40450091541C404D0091541C;
+<span class=K>defparam</span> ram_1024_x_18.INIT_03  = 256'h541C40520091541C40410091541C404C0091401200A8E005E004E408E507E606;
+<span class=K>defparam</span> ram_1024_x_18.INIT_04  = 256'h5812006DC1015055404F0091541C4020401200AC5448400D0091541C404D0091;
+<span class=K>defparam</span> ram_1024_x_18.INIT_05  = 256'h401200ACE00CC002600C541C400D00915460404E0091401200ACE40BE50AE609;
+<span class=K>defparam</span> ram_1024_x_18.INIT_06  = 256'h1620588B01EC401200AC00A4E00C0000541C400D0091541C40460091541C4046;
+<span class=K>defparam</span> ram_1024_x_18.INIT_07  = 256'h009181011420588B01EC548B403A009181011520588B01EC548B403A00918101;
+<span class=K>defparam</span> ram_1024_x_18.INIT_08  = 256'h000E0001013400E70125A000000E00005C8B443C5C8B453C5C8B4618548B400D;
+<span class=K>defparam</span> ram_1024_x_18.INIT_09  = 256'h50A220024000A000009D4F0140950185549A20104000A000810101E27010A000;
+<span class=K>defparam</span> ram_1024_x_18.INIT_0A  = 256'h013D00BC01600E09A00000BC01600E06A000C000A001600CA000CF01409D0185;
+<span class=K>defparam</span> ram_1024_x_18.INIT_0B  = 256'h4F0D009D7F100120A0000148A000014E50BA2002A000015350B62001600C00E7;
+<span class=K>defparam</span> ram_1024_x_18.INIT_0C  = 256'h810150D34F08B0004F0DFF10009554DB2008400082101210012040BD8101B000;
+<span class=K>defparam</span> ram_1024_x_18.INIT_0D  = 256'h400000E400FAEF2000E440C3012240C600EA00E758D94120C10100EA54C65120;
+<span class=K>defparam</span> ram_1024_x_18.INIT_0E  = 256'h0F79009D0F53A000009D0F08A000009D0F20A000009D0F0D40DF4F01B0002010;
+<span class=K>defparam</span> ram_1024_x_18.INIT_0F  = 256'h009D0F65009D0F76009D0F4F410A009D0F78009D0F61009D0F74009D0F6E009D;
+<span class=K>defparam</span> ram_1024_x_18.INIT_10  = 256'h009D009D0F72009D0F4500E7009D0F77009D0F6F009D0F6C009D0F66009D0F72;
+<span class=K>defparam</span> ram_1024_x_18.INIT_11  = 256'h009D0F4D009D0F53009D0F50009D0F43009D0F4B00E4A000009D0F72009D0F6F;
+<span class=K>defparam</span> ram_1024_x_18.INIT_12  = 256'h0F69009D0F6C009D0F61009D0F76009D0F6E009D0F49A000009D0F3E009D0F33;
+<span class=K>defparam</span> ram_1024_x_18.INIT_13  = 256'h0F6C009D0F41A000009D0F65009D0F6D009D0F69009D0F54A000009D0F64009D;
+<span class=K>defparam</span> ram_1024_x_18.INIT_14  = 256'h009D0F4FA000009D009D0F46009D0F4FA000009D0F6D009D0F72009D0F61009D;
+<span class=K>defparam</span> ram_1024_x_18.INIT_15  = 256'hA000009D0F65009D0F76009D0F69009D0F74009D0F63009D0F41A000009D0F4E;
+<span class=K>defparam</span> ram_1024_x_18.INIT_16  = 256'hF0208201F120017E70E08E018201F020003A8201F0208201F120017E70E00220;
+<span class=K>defparam</span> ram_1024_x_18.INIT_17  = 256'h81010130A000F020000D8201F0208201F120017E70E08E018201F020003A8201;
+<span class=K>defparam</span> ram_1024_x_18.INIT_18  = 256'hEC01ED00C00063016200E515E414E313E212E111E010A000803AC1015D7FC00A;
+<span class=K>defparam</span> ram_1024_x_18.INIT_19  = 256'h82E8419A8001599FE303C2E80000B350924063036202F530D42065016400C001;
+<span class=K>defparam</span> ram_1024_x_18.INIT_1A  = 256'hE204A30382E841AF800159ADE303C2E80000A300920063056204E303E202A303;
+<span class=K>defparam</span> ram_1024_x_18.INIT_1B  = 256'h010041C9E10751BF413C81016107E108010041C9E10851B7413C91006108E305;
+<span class=K>defparam</span> ram_1024_x_18.INIT_1C  = 256'h5010610A600755DB501061096006E106010041C9E10651C7411881016106E107;
+<span class=K>defparam</span> ram_1024_x_18.INIT_1D  = 256'h6414631362126111601000A4E00CC00151DB2002600C55DB5010610B600855DB;
+<span class=K>defparam</span> ram_1024_x_18.INIT_1E  = 256'h1200B80001E87010A000C0F6B80080C6A000A0DFBC00407BB8004061A0006515;
+<span class=K>defparam</span> ram_1024_x_18.INIT_1F  = 256'h000000000000000000000000A0009200B80001E8701081010206920002060206;
+<span class=K>defparam</span> ram_1024_x_18.INIT_20  = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_1024_x_18.INIT_21  = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_1024_x_18.INIT_22  = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_1024_x_18.INIT_23  = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_1024_x_18.INIT_24  = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_1024_x_18.INIT_25  = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_1024_x_18.INIT_26  = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_1024_x_18.INIT_27  = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_1024_x_18.INIT_28  = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_1024_x_18.INIT_29  = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_1024_x_18.INIT_2A  = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_1024_x_18.INIT_2B  = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_1024_x_18.INIT_2C  = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_1024_x_18.INIT_2D  = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_1024_x_18.INIT_2E  = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_1024_x_18.INIT_2F  = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_1024_x_18.INIT_30  = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_1024_x_18.INIT_31  = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_1024_x_18.INIT_32  = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_1024_x_18.INIT_33  = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_1024_x_18.INIT_34  = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_1024_x_18.INIT_35  = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_1024_x_18.INIT_36  = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_1024_x_18.INIT_37  = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_1024_x_18.INIT_38  = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_1024_x_18.INIT_39  = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_1024_x_18.INIT_3A  = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_1024_x_18.INIT_3B  = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_1024_x_18.INIT_3C  = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_1024_x_18.INIT_3D  = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_1024_x_18.INIT_3E  = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_1024_x_18.INIT_3F  = 256'h43FC8001AC008D01000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_1024_x_18.INITP_00 = 256'hD3F74FDD3FF8DF7DF837DFEAF77DFDF7DF7DFEAAFDFDF7DF7FDDDCFC3AAAAAA8;
+<span class=K>defparam</span> ram_1024_x_18.INITP_01 = 256'hCCCF333332CB2CC93EFFFD7D766F443670BBDBD3FCBCA0AFD2CFD2728FE8DDDD;
+<span class=K>defparam</span> ram_1024_x_18.INITP_02 = 256'h4A19B1619B1619B0B333332CCBCCB33332CCCCB3333332CCCCCCCECCF33CCCCC;
+<span class=K>defparam</span> ram_1024_x_18.INITP_03 = 256'h0009B19A2C9989980038D34343423B523B523B529775142977514143AC2AAA5D;
+<span class=K>defparam</span> ram_1024_x_18.INITP_04 = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_1024_x_18.INITP_05 = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_1024_x_18.INITP_06 = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+<span class=K>defparam</span> ram_1024_x_18.INITP_07 = 256'hF500000000000000000000000000000000000000000000000000000000000000;
+<span class=C>// synthesis translate_on
+</span><span class=C>// synthesis attribute INIT_00  of ram_1024_x_18 is &quot;0D0000A4E00CE00BE00AE009E008E007E006E005E004E003E002E001E0000000&quot;
+</span><span class=C>// synthesis attribute INIT_01  of ram_1024_x_18 is &quot;40490091501200ED50374041501E40545012400D0091012000C30115C0010C00&quot;
+</span><span class=C>// synthesis attribute INIT_02  of ram_1024_x_18 is &quot;5812006D541C4020401200A8542C400D0091541C40450091541C404D0091541C&quot;
+</span><span class=C>// synthesis attribute INIT_03  of ram_1024_x_18 is &quot;541C40520091541C40410091541C404C0091401200A8E005E004E408E507E606&quot;
+</span><span class=C>// synthesis attribute INIT_04  of ram_1024_x_18 is &quot;5812006DC1015055404F0091541C4020401200AC5448400D0091541C404D0091&quot;
+</span><span class=C>// synthesis attribute INIT_05  of ram_1024_x_18 is &quot;401200ACE00CC002600C541C400D00915460404E0091401200ACE40BE50AE609&quot;
+</span><span class=C>// synthesis attribute INIT_06  of ram_1024_x_18 is &quot;1620588B01EC401200AC00A4E00C0000541C400D0091541C40460091541C4046&quot;
+</span><span class=C>// synthesis attribute INIT_07  of ram_1024_x_18 is &quot;009181011420588B01EC548B403A009181011520588B01EC548B403A00918101&quot;
+</span><span class=C>// synthesis attribute INIT_08  of ram_1024_x_18 is &quot;000E0001013400E70125A000000E00005C8B443C5C8B453C5C8B4618548B400D&quot;
+</span><span class=C>// synthesis attribute INIT_09  of ram_1024_x_18 is &quot;50A220024000A000009D4F0140950185549A20104000A000810101E27010A000&quot;
+</span><span class=C>// synthesis attribute INIT_0A  of ram_1024_x_18 is &quot;013D00BC01600E09A00000BC01600E06A000C000A001600CA000CF01409D0185&quot;
+</span><span class=C>// synthesis attribute INIT_0B  of ram_1024_x_18 is &quot;4F0D009D7F100120A0000148A000014E50BA2002A000015350B62001600C00E7&quot;
+</span><span class=C>// synthesis attribute INIT_0C  of ram_1024_x_18 is &quot;810150D34F08B0004F0DFF10009554DB2008400082101210012040BD8101B000&quot;
+</span><span class=C>// synthesis attribute INIT_0D  of ram_1024_x_18 is &quot;400000E400FAEF2000E440C3012240C600EA00E758D94120C10100EA54C65120&quot;
+</span><span class=C>// synthesis attribute INIT_0E  of ram_1024_x_18 is &quot;0F79009D0F53A000009D0F08A000009D0F20A000009D0F0D40DF4F01B0002010&quot;
+</span><span class=C>// synthesis attribute INIT_0F  of ram_1024_x_18 is &quot;009D0F65009D0F76009D0F4F410A009D0F78009D0F61009D0F74009D0F6E009D&quot;
+</span><span class=C>// synthesis attribute INIT_10  of ram_1024_x_18 is &quot;009D009D0F72009D0F4500E7009D0F77009D0F6F009D0F6C009D0F66009D0F72&quot;
+</span><span class=C>// synthesis attribute INIT_11  of ram_1024_x_18 is &quot;009D0F4D009D0F53009D0F50009D0F43009D0F4B00E4A000009D0F72009D0F6F&quot;
+</span><span class=C>// synthesis attribute INIT_12  of ram_1024_x_18 is &quot;0F69009D0F6C009D0F61009D0F76009D0F6E009D0F49A000009D0F3E009D0F33&quot;
+</span><span class=C>// synthesis attribute INIT_13  of ram_1024_x_18 is &quot;0F6C009D0F41A000009D0F65009D0F6D009D0F69009D0F54A000009D0F64009D&quot;
+</span><span class=C>// synthesis attribute INIT_14  of ram_1024_x_18 is &quot;009D0F4FA000009D009D0F46009D0F4FA000009D0F6D009D0F72009D0F61009D&quot;
+</span><span class=C>// synthesis attribute INIT_15  of ram_1024_x_18 is &quot;A000009D0F65009D0F76009D0F69009D0F74009D0F63009D0F41A000009D0F4E&quot;
+</span><span class=C>// synthesis attribute INIT_16  of ram_1024_x_18 is &quot;F0208201F120017E70E08E018201F020003A8201F0208201F120017E70E00220&quot;
+</span><span class=C>// synthesis attribute INIT_17  of ram_1024_x_18 is &quot;81010130A000F020000D8201F0208201F120017E70E08E018201F020003A8201&quot;
+</span><span class=C>// synthesis attribute INIT_18  of ram_1024_x_18 is &quot;EC01ED00C00063016200E515E414E313E212E111E010A000803AC1015D7FC00A&quot;
+</span><span class=C>// synthesis attribute INIT_19  of ram_1024_x_18 is &quot;82E8419A8001599FE303C2E80000B350924063036202F530D42065016400C001&quot;
+</span><span class=C>// synthesis attribute INIT_1A  of ram_1024_x_18 is &quot;E204A30382E841AF800159ADE303C2E80000A300920063056204E303E202A303&quot;
+</span><span class=C>// synthesis attribute INIT_1B  of ram_1024_x_18 is &quot;010041C9E10751BF413C81016107E108010041C9E10851B7413C91006108E305&quot;
+</span><span class=C>// synthesis attribute INIT_1C  of ram_1024_x_18 is &quot;5010610A600755DB501061096006E106010041C9E10651C7411881016106E107&quot;
+</span><span class=C>// synthesis attribute INIT_1D  of ram_1024_x_18 is &quot;6414631362126111601000A4E00CC00151DB2002600C55DB5010610B600855DB&quot;
+</span><span class=C>// synthesis attribute INIT_1E  of ram_1024_x_18 is &quot;1200B80001E87010A000C0F6B80080C6A000A0DFBC00407BB8004061A0006515&quot;
+</span><span class=C>// synthesis attribute INIT_1F  of ram_1024_x_18 is &quot;000000000000000000000000A0009200B80001E8701081010206920002060206&quot;
+</span><span class=C>// synthesis attribute INIT_20  of ram_1024_x_18 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_21  of ram_1024_x_18 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_22  of ram_1024_x_18 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_23  of ram_1024_x_18 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_24  of ram_1024_x_18 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_25  of ram_1024_x_18 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_26  of ram_1024_x_18 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_27  of ram_1024_x_18 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_28  of ram_1024_x_18 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_29  of ram_1024_x_18 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_2A  of ram_1024_x_18 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_2B  of ram_1024_x_18 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_2C  of ram_1024_x_18 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_2D  of ram_1024_x_18 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_2E  of ram_1024_x_18 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_2F  of ram_1024_x_18 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_30  of ram_1024_x_18 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_31  of ram_1024_x_18 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_32  of ram_1024_x_18 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_33  of ram_1024_x_18 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_34  of ram_1024_x_18 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_35  of ram_1024_x_18 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_36  of ram_1024_x_18 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_37  of ram_1024_x_18 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_38  of ram_1024_x_18 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_39  of ram_1024_x_18 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_3A  of ram_1024_x_18 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_3B  of ram_1024_x_18 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_3C  of ram_1024_x_18 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_3D  of ram_1024_x_18 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_3E  of ram_1024_x_18 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INIT_3F  of ram_1024_x_18 is &quot;43FC8001AC008D01000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INITP_00 of ram_1024_x_18 is &quot;D3F74FDD3FF8DF7DF837DFEAF77DFDF7DF7DFEAAFDFDF7DF7FDDDCFC3AAAAAA8&quot;
+</span><span class=C>// synthesis attribute INITP_01 of ram_1024_x_18 is &quot;CCCF333332CB2CC93EFFFD7D766F443670BBDBD3FCBCA0AFD2CFD2728FE8DDDD&quot;
+</span><span class=C>// synthesis attribute INITP_02 of ram_1024_x_18 is &quot;4A19B1619B1619B0B333332CCBCCB33332CCCCB3333332CCCCCCCECCF33CCCCC&quot;
+</span><span class=C>// synthesis attribute INITP_03 of ram_1024_x_18 is &quot;0009B19A2C9989980038D34343423B523B523B529775142977514143AC2AAA5D&quot;
+</span><span class=C>// synthesis attribute INITP_04 of ram_1024_x_18 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INITP_05 of ram_1024_x_18 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INITP_06 of ram_1024_x_18 is &quot;0000000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=C>// synthesis attribute INITP_07 of ram_1024_x_18 is &quot;F500000000000000000000000000000000000000000000000000000000000000&quot;
+</span><span class=K>endmodule</span>
+<span class=C>// END OF FILE uclock.v
+</span>
+</pre>
+<center><table class=NB cols=7 ><tr><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index.html';"><a target="_top" href="index.html">Hierarchy</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-f.html';"><a target="_top" href="index-f.html">Files</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-m.html';"><a target="_top" href="index-m.html">Modules</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-s.html';"><a target="_top" href="index-s.html">Signals</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-t.html';"><a target="_top" href="index-t.html">Tasks</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-fn.html';"><a target="_top" href="index-fn.html">Functions</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='http://www.burbleland.com/v2html/help_7_30.html?htf-ni-s-';"><a target="_top" href="http://www.burbleland.com/v2html/help_7_30.html?htf-ni-s-">Help</a></td></tr></table></center>
+<script language="JavaScript"type="text/javascript"><!--
+function next_page() { return ""; }
+function first_page() { return ""; }
+var extra_info = [
+["S","uclock.v.html#2","","uclock_ti.v.html#66","","index-s.html#address___uclock"],
+["S","uclock.v.html#4","","","","index-s.p2.html#instruction___uclock"],
+["S","uclock.v.html#3","","uclock_ti.v.html#65","uclock_ti.v.html#56","index-s.html#clk___uclock"]
+];
+disabled=0;
+// -->
+</script>
+<hr>
+<table>
+ <tr><td><i>This page:</i></td>
+  <td><i>Maintained by:</i></td>
+  <td><i><a href="mailto:pablo.N@SPAM.bleyer.org">
+  pablo.N@SPAM.bleyer.org</a></i></tr>
+<tr>
+<td> </td>
+  <td><i>Created:</i></td><td><i>Tue May 29 02:37:53 2007</i></td></tr>
+<tr>
+ <td> </td>
+ <td><i>From:</i></td><td><i>
+  <a href="uclock.v">
+uclock.v</a></i></td></tr>
+</table>
+<hr>
+<table width="100%"><tr><td><i>Verilog converted to html by  <a target="_top" href="http://www.burbleland.com/v2html/v2html.html">  v2html 7.30</a> 
+ (written by <a href="mailto:v2html730@burbleland.com">Costas Calamvokis</a>).</i></td><td align="right"><b><a href="http://www.burbleland.com/v2html/help_7_30.html?htf-ni-s-">Help</a></b></td></tr></table><table height="90%"><tr><td></td></tr></table>
+</body>
+</html>

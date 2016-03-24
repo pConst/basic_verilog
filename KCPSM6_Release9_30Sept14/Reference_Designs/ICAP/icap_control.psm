@@ -1,0 +1,2393 @@
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; Copyright © 2011-2014, Xilinx, Inc.
+                              ; This file contains confidential and proprietary information of Xilinx, Inc. and is
+                              ; protected under U.S. and international copyright and other intellectual property laws.
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                              ; Disclaimer:
+                              ; This disclaimer is not a license and does not grant any rights to the materials
+                              ; distributed herewith. Except as otherwise provided in a valid license issued to
+                              ; you by Xilinx, and to the maximum extent permitted by applicable law: (1) THESE
+                              ; MATERIALS ARE MADE AVAILABLE "AS IS" AND WITH ALL FAULTS, AND XILINX HEREBY
+                              ; DISCLAIMS ALL WARRANTIES AND CONDITIONS, EXPRESS, IMPLIED, OR STATUTORY,
+                              ; INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, NON-INFRINGEMENT,
+                              ; OR FITNESS FOR ANY PARTICULAR PURPOSE; and (2) Xilinx shall not be liable
+                              ; (whether in contract or tort, including negligence, or under any other theory
+                              ; of liability) for any loss or damage of any kind or nature related to, arising
+                              ; under or in connection with these materials, including for any direct, or any
+                              ; indirect, special, incidental, or consequential loss or damage (including loss
+                              ; of data, profits, goodwill, or any type of loss or damage suffered as a result
+                              ; of any action brought by a third party) even if such damage or loss was
+                              ; reasonably foreseeable or Xilinx had been advised of the possibility of the same.
+                              ;
+                              ; CRITICAL APPLICATIONS
+                              ; Xilinx products are not designed or intended to be fail-safe, or for use in any
+                              ; application requiring fail-safe performance, such as life-support or safety
+                              ; devices or systems, Class III medical devices, nuclear facilities, applications
+                              ; related to the deployment of airbags, or any other applications that could lead
+                              ; to death, personal injury, or severe property or environmental damage
+                              ; (individually and collectively, "Critical Applications"). Customer assumes the
+                              ; sole risk and liability of any use of Xilinx products in Critical Applications,
+                              ; subject only to applicable laws and regulations governing limitations on product
+                              ; liability.
+                              ;
+                              ; THIS COPYRIGHT NOTICE AND DISCLAIMER MUST BE RETAINED AS PART OF THIS FILE AT ALL TIMES.
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                              ;
+                              ;             _  ______ ____  ____  __  __  __
+                              ;            | |/ / ___|  _ \/ ___||  \/  |/ /_
+                              ;            | ' / |   | |_) \___ \| |\/| | '_ \
+                              ;            | . \ |___|  __/ ___) | |  | | (_) )
+                              ;            |_|\_\____|_|   |____/|_|  |_|\___/
+                              ;
+                              ;
+                              ; KCPSM6 reference design 'kc705_kcpsm6_icap.vhd'.
+                              ;
+                              ; Ken Chapman - Xilinx Ltd
+                              ;
+                              ; 21st August 2014 - Initial version.
+                              ;
+                              ;
+                              ; INTRODUCTION
+                              ;
+                              ; The primary purpose of this reference design is to show how KCPSM6 can communicate with
+                              ; the Internal Configuration Access Port (ICAP) inside a 7-Series device. Please look at
+                              ; 'kc705_kcpsm6_icap.vhd' to see the physical interface requirements which include key
+                              ; items that make it possible for KCPSM6 to communicate with ICAP (e.g. the way that the
+                              ; output of ICAPE2 is captured into a register so that it can be read by KCPSM6).
+                              ;
+                              ; The code presented implements a reasonable set of operations and should provide adequate
+                              ; reference material for those wanting to implement other procedures (e.g. MultiBoot
+                              ; schemes also require interaction with the configuration registers and KCPSM6 would be
+                              ; and idea way to implement the ICAP communication as well as the MultiBoot control).
+                              ; Please refer to the '7 Series FPGA Configuration User Guide' (UG470) for more details.
+                              ; Although this reference design is not intended to be a definitive description of how
+                              ; ICAP transactions are implemented, the fact that this is a known good working example
+                              ; can help to add 'colour' to the official documentation!
+                              ;
+                              ; Features of this reference design will be of particular interest to those interested in
+                              ; the Soft Event Upset (SEU) detection and correction mechanisms built in to the 7-Series
+                              ; devices. Interaction with ICAP will enable you to deliberately corrupt the contents of
+                              ; the configuration memory in order to observe the detection and correction capability of
+                              ; the device. Additional circuits and code provide further monitoring and information
+                              ; related to the Readback CRC scanning mechanism.
+                              ;
+                              ; This design is based on the 'uart6_kc705.vhd' reference design provided in the KCPSM6
+                              ; package. Please see the 'UART_and_PicoTerm' section for documentation and code containing
+                              ; longer descriptions and educational code relating to the UART communications. In this
+                              ; case, the design has been set to operate with a clock frequency of 100MHz because that
+                              ; is the maximum frequency that can be used with ICAPE2. KCPSM6 then determines the clock
+                              ; division factor required to implement UART communication at 115200 BAUD.
+                              ;
+                              ; All PSM code provided includes comprehensive descriptions which can be useful reference
+                              ; even if this design is not used directly.
+                              ;
+                              ; This program makes use of features provided by the PicoTerm terminal application which
+                              ; is also provided in the KCSPM6 package. This includes the automatic logging of all
+                              ; activity which can be very useful when conducting error injection experiments to
+                              ; evaluate and test the error detection and correction mechanisms. The initialisation
+                              ; sequence in this program checks that PicoTerm is connected before continuing so...
+                              ; PicoTerm (v1.97 or later) MUST BE USED.
+                              ;
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; Port definitions
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                              ; ICAPE2 communication.
+                              ; ---------------------
+                              ;
+                              ; See 'ICAPE2_routines.psm' for I/O ports used with ICAPE2 interface.
+                              ;
+                              ;
+                              ; FRAME_ECCE2 Ports
+                              ; -----------------
+                              ;
+                              ; The following outputs from the FRAME_ECCE2 primitive can be read directly.
+                              ;
+                              ; Note that all FRAME_ECCE2 signals are connected to KCPSM6 input ports in the
+                              ; 'kc705_kcpsm6_icap.vhd' reference design but only these signals are currently
+                              ; used in this KCPSM6 program.
+                              ;
+                              CONSTANT frame_ecc_far_port0, 10         ;FAR[7:0]
+                              CONSTANT frame_ecc_far_port1, 11         ;FAR[15:8]
+                              CONSTANT frame_ecc_far_port2, 12         ;FAR[23:16]
+                              CONSTANT frame_ecc_far_port3, 13         ;FAR[25:24]
+                              ;
+                              CONSTANT frame_ecc_status_port, 08
+                              CONSTANT frame_ecc_crcerr, 00000001'b    ;Readback CRCERROR - bit0
+                              ;
+                              ;
+                              ; UART communication (with PicoTerm)
+                              ; ----------------------------------
+                              ;
+                              ; See 'PicoTerm_routines.psm' for I/O ports used with UART macros.
+                              ;
+                              ;
+                              ; 4096 x 8-bit RAM communication
+                              ; ------------------------------
+                              ;
+                              ; See 'RAM_2048x8_routines.psm' for I/O ports used to access a BRAM.
+                              ;
+                              ;
+                              ; Frequency Constant Port
+                              ; -----------------------
+                              ;
+                              ; The initialisation code contained in this program will read this port to discover the
+                              ; clock frequency that the user has declared is being applied to KCPSM6 and the UART
+                              ; macros. This code will compute values which will define a UART communication BAUD
+                              ; rate of 115200 and reasonably accurate real time internal software delays.
+                              ;
+                              CONSTANT clock_frequency_in_MHz_port, 02
+                              ;
+                              ;
+                              ; UART BAUD rate setting
+                              ; ----------------------
+                              ;
+                              ; The initialisation code contained in this program computes a value that will be applied
+                              ; to a clock division circuit so that the UART communication occur at the desired BAUD
+                              ; rate. In this example the BAUD rate is set to 115200. See 'UART baud rate' section of
+                              ; 'uart6_kc705.vhd' for details of the clock division circuit.
+                              ;
+                              CONSTANT set_baud_rate_port, 02
+                              ;
+                              ;
+                              ; Readback CRC Scan Monitor
+                              ; -------------------------
+                              ;
+                              CONSTANT scan_monitor_port, 15
+                              CONSTANT end_of_scan, 00000001'b         ; bit0 - end_of_scan
+                              CONSTANT end_of_frame, 00000010'b        ; bit1 - end_of_scan
+                              ;
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; Special Register usage
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                              ; No registers are given special names in this program.
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; Scratch Pad Memory Locations
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                              ;
+                              ; PicoTerm features
+                              ; -----------------
+                              ;
+                              ; See 'PicoTerm_routines.psm' for allocation of 18 memory locations.
+                              ; These are currently set to memory locations 00 to 12 hex inclusive.
+                              ;
+                              ;
+                              ; ICAPE2 communication.
+                              ; ---------------------
+                              ;
+                              ; See "ICAPE2_routines.psm" for allocation of 8 memory locations.
+                              ; These are currently set to memory locations 20 to 2B hex inclusive.
+                              ;
+                              ;
+                              ; Storage for routines in this PSM file
+                              ; -------------------------------------
+                              ;
+                              ; 32-bit storage for number of frames in a Readback CRC scan.
+                              ; Note that Maximum Linear Address (MF) will be one less than frame count because
+                              ; first linear frame address is zero (e.g. the XC7K325T has 00005AE2 frames with
+                              ; linear frame addresses 00000000 to 00005AE1)
+                              ;
+                              CONSTANT frame_count0, 30
+                              CONSTANT frame_count1, 31
+                              CONSTANT frame_count2, 32
+                              CONSTANT frame_count3, 33
+                              ;
+                              ; 32-bit storage for the physical address of the 'target' frame. The value stored
+                              ; in this location will be used to set the frame address register (FAR) before reading
+                              ; or writing a configuration frame. Note that Readback CRC scanning of the device
+                              ; modifies the value of FAR during operation so it is necessary to reload FAR prior
+                              ; to other operations. Likewise, the very act of reading or writing a frame causes
+                              ; the value in FAR to be automatically incremented (i.e. advance to the next frame).
+                              ;
+                              CONSTANT target_frame0, 34
+                              CONSTANT target_frame1, 35
+                              CONSTANT target_frame2, 36
+                              CONSTANT target_frame3, 37
+                              ;
+                              ;
+                              ; Line Buffer
+                              ; -----------
+                              ;
+                              ; See "line_input_and_editing.psm" for allocation of 32 memory locations that can store
+                              ; a line of up to 32 characters (including a terminating carriage return) read from the
+                              ; terminal connected to the UART. These are currently set to memory locations E0 to FF
+                              ; hex inclusive.
+                              ;
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; Useful data constants
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                              ;
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; Code to skip over address location 003 to avoid corruption caused by 'Hardware
+                              ; Session' following configuration.
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                              JUMP cold_start                          ;Avoid address 003 on start up
+                              JUMP cold_start
+                              JUMP cold_start
+                              JUMP cold_start                          ;Address 003
+                              ;
+                  cold_start: 
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; Initialise UART - Setting BAUD Rate to Reflect Clock Frequency
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                              ; This design is based on the 'uart6_kc705.vhd' reference design provided in the KCPSM6
+                              ; package. Please see the 'UART_and_PicoTerm' section for documentation and more code
+                              ; containing longer descriptions of the following process. In this case the design
+                              ; (kc705_kcpsm6_icap.vhd) an integer constant has been defined and set to '100' to reflect
+                              ; the 100MHz clock.
+                              ;
+                              ; An 8-bit value is read from the 'clock_frequency_in_MHz_port' to observe the clock
+                              ; frequency (in MHz) value defined in the hardware design. This is used to compute a
+                              ; a clock division value that is output to the 'set_baud_rate_port' so that UART
+                              ; communication occurs at a BAUD rate of 115200 (i.e. the default rate of PicoTerm).
+                              ; This enables this reference design to be easily ported to hardware in which a
+                              ; different clock frequency is used. This code could also be modified to define
+                              ; different BAUD rates.
+                              ;
+                              ; The hardware circuit effectively divides the clock in order to generate pulses that
+                              ; are applied to the 'en_16_x_baud' input of the UART macros. The pulse rate needs to
+                              ; be 16 times the desired baud rate. In this case the target baud rate is 115200 so the
+                              ; target pulse rate is 1,843,200Hz. The hardware circuit is formed of a simple 8-bit
+                              ; counter which increments every clock cycle. When the counter reaches the value that
+                              ; KCPSM6 has set on 'set_baud_rate_port' the counter is reset and an 'en_16_x_baud' pulse
+                              ; is generated. Therefore, the value of KCPSM6 needs to compute and output to
+                              ; 'set_baud_rate_port' is fundamentally the clock frequency (in Hz) divided by 1,843,200.
+                              ;
+                              INPUT s0, clock_frequency_in_MHz_port    ;read clock frequency value (MHz)
+                              ;
+                              ; Convert the frequency value in MHz to an absolute frequency value in Hz. The highest
+                              ; frequency value that can be read from the input port is '255' so the largest value that
+                              ; needs to be represented is 255,000,000 = 0F32FDC0 hex and requires 32-bits. The simple
+                              ; way to compute the Hz value is to repeatedly add 1,000,000 (0F4240 hex) to an
+                              ; accumulated total. This avoids the need for a full multiplication routine and the time
+                              ; taken to execute will not be significant because of the limited range of MHz frequency
+                              ; values that can be read from the input port. Besides, it is useful to have some delay
+                              ; at the start of a program as this gives time for signals to stabilise before the real
+                              ; actions begins.
+                              ;
+                              LOAD sF, 00                              ;clear 32-bit accumulator [sF,sE,sD,sC]
+                              LOAD sE, 00
+                              LOAD sD, 00
+                              LOAD sC, 00
+                              ;
+            clock_to_Hz_loop: ADD sC, 40                               ;add 1,000,000 to accumulator
+                              ADDCY sD, 42
+                              ADDCY sE, 0F
+                              ADDCY sF, 00
+                              SUB s0, 1'd                              ;decrement MHz to go
+                              JUMP NZ, clock_to_Hz_loop
+                              ;
+                              ; The easiest way to implement the division of the clock frequency by the 'en_16_x_baud'
+                              ; target pulse rate is simply to count the number of times that 1,843,200Hz (1C2000 hex)
+                              ; can be subtracted from the frequency value [sF,sE,sD,sC] until it becomes negative. This
+                              ; avoids the need for a full division routine and the time taken to execute will not be
+                              ; significant as there can only be a maximum of 139 subtractions.
+                              ;
+                              ; To improve the accuracy of 'en_16_x_baud' pulse generation, the result of the division
+                              ; is reduced by one. This accounts for the fact that clock division counter also spends
+                              ; one clock cycle in state zero. Rather than actually decrement the result of division,
+                              ; the result 's0' is initialised with -1 (FF hex).
+                              ;
+                              LOAD s0, FF                              ;initialise for division result
+                              ;
+          set_baud_rate_loop: ADD s0, 1'd                              ;increment division result
+                              SUB sC, 00                               ;subtract 1,843,200
+                              SUBCY sD, 20
+                              SUBCY sE, 1C
+                              SUBCY sF, 00
+                              JUMP NC, set_baud_rate_loop
+                              ;
+                              ; Output the computed value to the clock division circuit.
+                              ;
+                              OUTPUT s0, set_baud_rate_port
+                              ;
+                              ; The 'reset_UART_macros' routine is contained in 'PicoTerm_routines.psm'.
+                              ;
+                              CALL reset_UART_macros
+                              ;
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; Confirm connection has been made with PicoTerm
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                              ; This program must be used with PicoTerm v1.93 or later. The following process will
+                              ; make a 'Ping' with version request to PicoTerm and then wait for up to ~1 second
+                              ; for a response. If a response is received then the version information is verified.
+                              ;
+                              LOAD s0, 00                              ;clear DCS response location
+                              STORE s0, PicoTerm_Response0
+                              CALL send_DCS                            ;'Ping' with version request
+                              LOAD s5, "P"
+                              CALL UART_TX
+                              CALL send_ST
+                              ;
+                              ; It will take a short while for PicoTerm to respond so KCPSM6 must repeatedly call the
+                              ; UART_RX routine such that it will intercept the DCS response when it does arrive. Each
+                              ; call of the UART_RX routine that results in its timeout will take ~2,000 clock cycles
+                              ; (~40us at 50MHz) so up to 25,000 (61A8 hex) calls of UART_RX are made before the
+                              ; process gives up and reports that PicoTerm was not found.
+                              ;
+                              LOAD sB, 61                              ;[sB,sA] = 25,000 iterations
+                              LOAD sA, A8                              ;  (~1 second at 50MHz)
+                              ;
+                              ; Call UART_RX and check to see if a DCS response has been intercepted and stored in
+                              ; scratch pad memory. Repeat until response has been intercepted or timeout occurs.
+                              ; If any other characters received during this time are discarded
+                              ;
+                wait_PT_ping: CALL UART_RX                             ;attempt to read from UART
+                              FETCH s0, PicoTerm_Response0             ;Fetch from DCS response location
+                              COMPARE s0, "p"                          ;Test for valid 'Ping' response
+                              JUMP Z, PicoTerm_detected
+                              SUB sA, 01                               ;decrement [sB,sA]
+                              SUBCY sB, 00
+                              JUMP NZ, wait_PT_ping
+                              ;
+                              ; PicoTerm was not detected so something was wrong and a message is displayed and the
+                              ; program and this design halts.
+                              ;   Possible reasons for failure are:-
+                              ;     USB/UART connection is not working (check cables and virtual COM port driver).
+                              ;     A terminal other than PicoTerm is being used (PicoTerm must be used).
+                              ;     PicoTerm is not running or has been assigned to the wrong COM port
+                              ;        (check PicoTerm is running with correct COM port and default settings).
+                              ;
+                              LOAD sB, no_detect_PT_msg'upper          ;Display error message
+                              LOAD sA, no_detect_PT_msg'lower
+                              CALL send_message
+                     PT_halt: JUMP PT_halt                             ;Halt program.
+                              ;
+                              ;
+                              STRING not_PT1$, "ERROR - Unable to detect PicoTerm."
+                              ;
+            no_detect_PT_msg: LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, not_PT1$
+                              LOAD&RETURN s5, NUL
+                              ;
+                              ;
+                              ; The 'Ping' response has confirmed that PicoTerm is connected. Now to verify that the
+                              ; version of PicoTerm is v1.97 or later. The intercepted DCS response is held in scratch
+                              ; pad memory as follows...
+                              ;
+                              ;    scratch pad location         Contents (example showing minimum version)
+                              ;
+                              ;    PicoTerm_Response0              'p'
+                              ;    PicoTerm_Response1              'v'
+                              ;    PicoTerm_Response2              '1'
+                              ;    PicoTerm_Response3              '.'
+                              ;    PicoTerm_Response4              '9'
+                              ;    PicoTerm_Response5              '7'
+                              ;
+                              ; Each 'digit' of the version is expressed as a numerical ASCII character. The codes for
+                              ; '0' to '9' are 30 to 39 hex so direct comparison with the required version numbers can
+                              ; be made without conversion.
+                              ;
+           PicoTerm_detected: FETCH s2, PicoTerm_Response2             ;Read digits into [s2,s1,s0]
+                              FETCH s1, PicoTerm_Response4
+                              FETCH s0, PicoTerm_Response5
+                              COMPARE s0, "7"                          ;Test for version v1.97
+                              COMPARECY s1, "9"                        ; compare operation equivalent
+                              COMPARECY s2, "1"                        ;  to [s2,s1,s0] - [31, 39, 37]
+                              JUMP NC, PicoTerm_Ok                     ;continue if v1.97 or later
+                              ;
+                              ; PicoTerm version was too low so a message is displayed and the
+                              ; program and this design halts.
+                              ;
+                              CALL PicoTerm_text_Red                   ;change to red
+                              LOAD sB, PT_version_msg'upper            ;Display error message
+                              LOAD sA, PT_version_msg'lower
+                              CALL send_message
+                              JUMP PT_halt                             ;Halt program.
+                              ;
+                              STRING not_PT2$, "ERROR - Please use PicoTerm v1.97 or later with this design."
+                              ;
+              PT_version_msg: LOAD&RETURN s5, not_PT2$
+                              LOAD&RETURN s5, NUL
+                              ;
+                              ;
+                              ;
+                              ; PicoTerm is connected so start main application
+                              ; -----------------------------------------------
+                              ;
+                              ; For a cleaner display on the PC the 'PicoTerm DCS Transactions' window can be closed.
+                              ; However, it is recommended that the transaction window is kept open until an
+                              ; application has been fully developed and tested as it is a very useful diagnostic
+                              ; feature.
+                              ;
+                 PicoTerm_Ok: CALL PicoTerm_hide_DCS
+                              ;
+                              ;
+                              ; Start PicoTerm LOG file displaying date and time message so that it appears in the
+                              ; the first line of the file as well.
+                              ;
+                              CALL open_LOG_file
+                              ;
+                              ;
+                              ; Welcome message and version information
+                              ; ---------------------------------------
+                              ;
+                              CALL clear_screen
+                              CALL welcome_message
+                              ;
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; Read Device ID and confirm communication with ICAPE2
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                              ; Being able to read the IDCODE register from ICAPE2 confirms that communication with
+                              ; ICAPE2 is possible. As well as confirming the integrity of the design (hardware and
+                              ; PicoBlaze software) it also confirms that ICAPE2 is truly available for communication.
+                              ; JTAG has the highest priority, so if JTAG is actively accessing device configuration
+                              ; or the configuration registers then ICAPE2 will not provide access. IDCODE is the only
+                              ; register value that can be predicted with certainty and is therefore the best register
+                              ; to read and verify.
+                              ;
+                              ; Note - To implement a valid write of data to configuration memory, the write sequence
+                              ;        must include an IDCODE value that matches the IDECODE of the device. If the
+                              ;        value does not match and initialisation of the whole device will occur. For this
+                              ;        reason the IDCODE value read from ICAPE2 will also be stored in scratch pad memory
+                              ;        locations ICAPE2_word0, ICAPE2_word1, ICAPE2_word2 and ICAPE2_word3 so that it
+                              ;        is available for configuration write operations later on.
+                              ;
+                              LOAD sB, ICAPE2_test_msg'upper           ;Display message
+                              LOAD sA, ICAPE2_test_msg'lower
+                              CALL send_message
+                              ;
+                              CALL read_IDCODE_sequence                ;Attempt to read IDCODE and store value
+                              ;
+                              ; In all Xilinx devices the least significant byte of the IDCODE is 93 hex so this
+                              ; is the byte to verify.
+                              ;
+                              FETCH s0, IDCODE_word0
+                              COMPARE s0, 93
+                              JUMP NZ, ICAP_failed
+                              CALL send_Ok
+                              JUMP enable_RCRC
+                              ;
+                              ;
+                              ; If communication with ICAPE2 is not possible the report and stop.
+                              ; User would be expected to press CPU_RST or reconfigure device.
+                              ;
+                 ICAP_failed: CALL send_Failed
+                        Halt: JUMP Halt
+                              ;
+                              ;
+                              ;
+                              ; Text message used in this section
+                              ; ----------------------------------
+                              ;
+                              STRING ICAPE2_test$, " Communication with ICAPE2 "
+                              ;
+             ICAPE2_test_msg: LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, ICAPE2_test$
+                              LOAD&RETURN s5, NUL
+                              ;
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; Enable Readback CRC and determine number of frames in a device scan
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                              ; Readback CRC is enabled by setting the COR1 register to 00000100. As well as enabling
+                              ; SEU detection (without correction) it also causes the built-in circuits of the device
+                              ; to 'calibrate' all the ECC values in every frame and the device level CRC value. This
+                              ; initialisation procedure effectively says that whatever image is in the configuration of
+                              ; the device at that time is the golden (correct) image against which any deviations are
+                              ; detected as errors and to which the correction mechanism will attempt to restore bits
+                              ; too (when enabled).
+                              ;
+                              ; COR1 = 00000100  (32-bit register [31:0])
+                              ;
+                              ;     Bit
+                              ;      8      1     RBCRC_EN
+                              ;                      0 - Disable continuous Readback CRC scanning (default)
+                              ;                      1 - Enable continuous Readback CRC scanning
+                              ;      9      0     RBCRC_NO_PIN
+                              ;                      0 - Enable INIT_B pin as CRC error status (default)
+                              ;                      1 - Disable INIT_B pin as CRC error status
+                              ;   [16:15]  00     RBCRC_ACTION
+                              ;                     00 - Continue (no correction)
+                              ;                     01 - Halt (no correction)
+                              ;                     10 - Correct and Continue
+                              ;                     11 - Correct and Halt
+                              ;     23      0     NOCRC (marked as being a 'Reserved' bit in UG470)
+                              ;                      0 - Enable CRC/ECC calibration following DESYNC(default)
+                              ;                      1 - Disable hardware CRC/ECC calibration (for error injection)
+                              ;
+                              ; Bit23 of COR1 defines if the device will automatically calculate the frame ECC and device
+                              ; CRC values for the current image. Following initial configuration this is required in
+                              ; order that there is a correct starting point for Readback CRC used to detect SEU events
+                              ; (with the frame ECC values subsequently used for error correction if desired and
+                              ; enabled). The 'calibration' of frame ECC and device CRC values is also required
+                              ; following a partial reconfiguration so that once again all values correspond with
+                              ; the 'live' image. For this reason, Bit23 is normally '0' as it is in this case.
+                              ;
+                              ; Later in this program you will see that Bit23 is set to '1' so that partial
+                              ; reconfiguration can be used to deliberately corrupt configuration memory contents
+                              ; in order to inject errors that can be detected and possibly corrected.
+                              ;
+                 enable_RCRC: LOAD sF, 00                              ;Set COR1 = 00000100
+                              LOAD sE, 00
+                              LOAD sD, 01
+                              LOAD sC, 00
+                              STORE sF, ICAPE2_word3                   ;Store value to be written to COR1
+                              STORE sE, ICAPE2_word2
+                              STORE sD, ICAPE2_word1
+                              STORE sC, ICAPE2_word0
+                              CALL write_COR1_sequence                 ;write to COR1
+                              ;
+                              ;
+                              ; When Readback CRC is enabled, 'SYNDROMEVALID' pulses are generated by the
+                              ; 'FRAME_ECCE2' primitive. Careful observation of these reveals the number of frames
+                              ; in a scan of the device and confirms that Readback CRC is indeed active. For more
+                              ; detailed descriptions, please see the 'count_frames' routine.
+                              ;
+                              LOAD sB, frame_count_msg'upper           ;Display message
+                              LOAD sA, frame_count_msg'lower
+                              CALL send_message
+                              CALL count_frames                        ;count frames in a scan and store value
+                              CALL send_hex_word                       ;display count
+                              CALL send_Hex_CR                         ;followed by ' Hex'
+                              JUMP main_with_menu
+                              ;
+                              ;
+                              ; Text messages used in this section
+                              ; ----------------------------------
+                              ;
+                              STRING enable_RBCRC$, " Enabling Readback CRC for detection only"
+                              STRING frame_count$, " Number of Readback CRC Frames in this device = "
+                              ;
+             frame_count_msg: LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, enable_RBCRC$
+                              LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, frame_count$
+                              LOAD&RETURN s5, NUL
+                              ;
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; Main Program
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                              ;
+              main_with_menu: CALL display_menu
+                              ;
+                              ; Display prompt and wait for user input.
+                              ; Then test input for valid section and either invoke operation or display message.
+                              ;
+                 main_prompt: CALL send_CR                             ;prompt user to enter a command
+                              CALL send_CR
+                              LOAD s5, ">"
+                              CALL UART_TX
+                              CALL send_space
+                              ;
+                   wait_main: CALL UART_RX                             ;wait for user input
+                              JUMP Z, wait_main
+                              CALL upper_case                          ;convert any input to upper case
+                              CALL UART_TX                             ;echo user input
+                              ;
+                              ; The menu of commands provided in this reference design is as follows.
+                              ;
+                              ;    H - Display this menu
+                              ;    I - Read Information (ICAPE2 Registers and CRCERROR status)
+                              ;    D - Enable detection only (COR1=00800100)
+                              ;    C - Enable detection and correction (COR1=00810100)
+                              ;    N - Disable detection and correction (COR1=00000000)
+                              ;    L - Look up Physical frame Address (PA) corresponding with Linear Address (LA)
+                              ;    F - Specify physical address of target frame (used to set FAR)
+                              ;    R - Read target configuration frame to RAM buffer
+                              ;    B - Display frame held in RAM buffer
+                              ;    T - Toggle bit in RAM buffer
+                              ;    W - Write RAM buffer to target configuration frame
+                              ;    M - Generate address map of all Readback CRC frames in device
+                              ;
+                              ; To help you navigate this file, each command is implemented (at least initially) by
+                              ; code arranged in sections organised in the same order as the menu above.
+                              ;
+                              ;
+                              COMPARE s5, "H"                          ;Display this menu (i.e. Help)
+                              JUMP Z, main_with_menu
+                              ;
+                              COMPARE s5, "I"                          ;Read ICAP registers
+                              JUMP Z, read_information_command
+                              ;
+                              COMPARE s5, "D"                          ;Set COR1 = 00800100
+                              JUMP Z, enable_detection_command
+                              ;
+                              COMPARE s5, "C"                          ;Set COR1 = 00810100
+                              JUMP Z, enable_correction_command
+                              ;
+                              COMPARE s5, "N"                          ;Set COR1 = 00000000
+                              JUMP Z, disable_readback_CRC_command
+                              ;
+                              COMPARE s5, "L"                          ;Look up Physical frame Address (PA)
+                              JUMP Z, LA_to_PA_command
+                              ;
+                              COMPARE s5, "F"                          ;Specify target frame for FAR
+                              JUMP Z, set_target_FAR_command
+                              ;
+                              COMPARE s5, "R"                          ;Read Frame from device to RAM buffer
+                              JUMP Z, read_frame_command
+                              ;
+                              COMPARE s5, "B"                          ;Display frame held in RAM buffer
+                              JUMP Z, display_frame_command
+                              ;
+                              COMPARE s5, "T"                          ;Toggle bit in RAM buffer
+                              JUMP Z, toggle_bit_command
+                              ;
+                              COMPARE s5, "W"                          ;Write Frame from RAM buffer to Device
+                              JUMP Z, write_frame_command
+                              ;
+                              COMPARE s5, "M"                          ;Address Map of Readback CRC frames
+                              JUMP Z, map_device_command
+                              ;
+                              ;
+                              LOAD s5, "?"                             ;For all input choices display ??
+                              CALL UART_TX
+                              CALL UART_TX
+                              JUMP main_prompt
+                              ;
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; 'I' Command - Read and display various register values from ICAPE2 and CRCERROR status
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                              ; The routines defined in 'ICAPE2_routines.psm' show how KCPSM6 can communicate with ICAPE2
+                              ; in order to read various registers. Which registers are of interest really depends on a
+                              ; particular application. This command reads and displays 7 registers which generally
+                              ; contain static information. The reference PSM code provided should make it relatively
+                              ; easy to read any of the other registers.
+                              ;
+                              ; Please refer to the '7 Series FPGAs Configuration User Guide' (UG470) for more details.
+                              ; In particular, the 'Configuration Registers' section of chapter 5: Configuration Details
+                              ; lists each of the registers and then expands each register to explain the purpose of
+                              ; each bit.
+                              ;
+                              ; If there is a Readback CRC Error the INIT_B pin of the device will be driven Low and
+                              ; this will turn the LED on the KC705 board from green to red. Internally to the device,
+                              ; the CRCERROR signal presented on the FRAME_ECCE2 primitive will be driven High when
+                              ; there is a Readback CRC Error and this signal is observed by KCPSM6 to generate a
+                              ; message when active.
+                              ;
+                              ; NOTE - Any ICAPE2 transaction ends with a DESYNC sequence. When DESYNC happens and
+                              ;        Readback CRC scanning is enabled the CRCERROR status is reset (INIT_B goes
+                              ;        High and the internal CRCERROR signal goes Low). If there is an error within the
+                              ;        configuration memory then a CRCERROR will be reported at the end of the first
+                              ;        complete scan of the device and INIT_B will go Low and then internal CRCERROR
+                              ;        signal will go High. This command will read configuration registers from ICAPE2
+                              ;        using a series of transactions each of which end with the DESYNC sequence. If an
+                              ;        error was previously detected and Readback CRC scanning is enabled then each of
+                              ;        these DESYNC sequences will reset the CRCERROR signal until the next scan is
+                              ;        completed (which takes ~23.5ms in an XC7K325T device). If you look closely at
+                              ;        the INIT LED on the KC705 board you will actually see it flicker green whilst
+                              ;        this command executes.
+                              ;
+                              ;        In order to report the correct status of CRCERROR the internal signal is read
+                              ;        prior to any ICAPE2 transactions being performed. (The alternative would have
+                              ;        been to wait for at least one scan of the device to complete following the last
+                              ;        DESYNC but that either requires a long enough delay or to wait for 'end_of_scan'
+                              ;        but that will only work if scanning is enabled).
+                              ;
+    read_information_command: INPUT s0, frame_ecc_status_port          ;read and test CRCERROR signal
+                              TEST s0, frame_ecc_crcerr
+                              JUMP Z, read_ICAP_registers              ;Nothing to report if Low
+                              ;
+                              CALL PicoTerm_text_Red                   ;When CRCERROR is High
+                              LOAD sB, CRCERROR_msg'upper              ;  display message in red
+                              LOAD sA, CRCERROR_msg'lower
+                              CALL send_message
+                              CALL PicoTerm_text_Black
+                              ;
+                              ; Each ICAP register is read in a separate transaction and its value displayed.
+                              ; If desired, a single ICAP transaction could be made to read multiple registers
+                              ; (in fact, a transaction could consist of any number of different operations).
+                              ;
+         read_ICAP_registers: LOAD sB, register_intro_msg'upper        ;Display message
+                              LOAD sA, register_intro_msg'lower
+                              CALL send_message
+                              CALL read_IDCODE_sequence                ;read IDCODE
+                              CALL send_ICAP_word                      ;Display value
+                              ;
+                              LOAD sB, CTL0_msg'upper                  ;Display message
+                              LOAD sA, CTL0_msg'lower
+                              CALL send_message
+                              CALL read_CTL0_sequence                  ;read CTL0
+                              CALL send_ICAP_word                      ;Display value
+                              ;
+                              LOAD sB, STAT_msg'upper                  ;Display message
+                              LOAD sA, STAT_msg'lower
+                              CALL send_message
+                              CALL read_STAT_sequence                  ;read STAT
+                              CALL send_ICAP_word                      ;Display value
+                              ;
+                              LOAD sB, COR0_msg'upper                  ;Display message
+                              LOAD sA, COR0_msg'lower
+                              CALL send_message
+                              CALL read_COR0_sequence                  ;read COR0
+                              CALL send_ICAP_word                      ;Display value
+                              ;
+                              LOAD sB, COR1_msg'upper                  ;Display message
+                              LOAD sA, COR1_msg'lower
+                              CALL send_message
+                              CALL read_COR1_sequence                  ;read COR1
+                              CALL send_ICAP_word                      ;Display value
+                              ;
+                              LOAD sB, WBSTAR_msg'upper                ;Display message
+                              LOAD sA, WBSTAR_msg'lower
+                              CALL send_message
+                              CALL read_WBSTAR_sequence                ;read WBSTAR
+                              CALL send_ICAP_word                      ;Display value
+                              ;
+                              LOAD sB, BOOTSTS_msg'upper               ;Display message
+                              LOAD sA, BOOTSTS_msg'lower
+                              CALL send_message
+                              CALL read_BOOTSTS_sequence               ;read BOOTSTS
+                              CALL send_ICAP_word                      ;Display value
+                              ;
+                              JUMP main_prompt
+                              ;
+                              ;
+                              ; Text messages used in this section
+                              ;
+                              STRING register_intro$, " ICAPE2 Registers "
+                              STRING IDCODE$, "  IDCODE = "
+                              STRING CTL0$, "    CTL0 = "
+                              STRING STAT$, "    STAT = "
+                              STRING COR0$, "    COR0 = "
+                              STRING COR1$, "    COR1 = "
+                              STRING WBSTAR$, "  WBSTAR = "
+                              STRING BOOTSTS$, " BOOTSTS = "
+                              STRING CRCERROR$, " CRCERROR"
+                              ;
+          register_intro_msg: LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, register_intro$
+                              LOAD&RETURN s5, CR
+                  IDCODE_msg: LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, IDCODE$
+                              LOAD&RETURN s5, NUL
+                              ;
+                    CTL0_msg: LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, CTL0$
+                              LOAD&RETURN s5, NUL
+                              ;
+                    STAT_msg: LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, STAT$
+                              LOAD&RETURN s5, NUL
+                              ;
+                    COR0_msg: LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, COR0$
+                              LOAD&RETURN s5, NUL
+                              ;
+                    COR1_msg: LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, COR1$
+                              LOAD&RETURN s5, NUL
+                              ;
+                  WBSTAR_msg: LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, WBSTAR$
+                              LOAD&RETURN s5, NUL
+                              ;
+                 BOOTSTS_msg: LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, BOOTSTS$
+                              LOAD&RETURN s5, NUL
+                              ;
+                CRCERROR_msg: LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, CRCERROR$
+                              LOAD&RETURN s5, NUL
+                              ;
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; 'D' Command - Enable Readback CRC for Detection Only (no CRC/ECC calibration)
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                              ; This command sets the COR1 register to 00800100 which will enable the built-in Readback
+                              ; CRC scanning mechanism. Each scan will detect any configuration errors, i.e. differences
+                              ; between the current configuration memory contents and the 'golden' image that was
+                              ; present when this KCPSM6 program first executed. In this case the primary detection
+                              ; mechanism in the device level CRC and an incorrect value will result in the INIT_B pin
+                              ; being driven Low (this will make the LED on the KC705 board turns from green to red).
+                              ;
+                              ; Note - It is vital to appreciate that a 'calibration' process occurred during the
+                              ;        initialisation phase of this program so do review the comments included in the
+                              ;        'Enable Readback CRC and determine number of frames in a device scan' section
+                              ;        earlier in this file. You will see that on that occasion the  COR1 register was
+                              ;        set to 00000100 which means that bit23 was set to '0' rather than being set to
+                              ;        '1' as it is in this command.
+                              ;
+                              ; With reference to UG470 the bits of COR1 can be decoded. As shown below, Bit8 enables
+                              ; Readback CRC scanning, Bits[16:15] have been set for detection only (but to continue
+                              ; scanning) and Bit23 has disabled calibration. An objective of this reference design is
+                              ; to monitor the behaviour of the Readback CRC detection when an error is detected. Since
+                              ; real Single Event Upsets (SEU) are rare the only practical way to test the capability is
+                              ; to deliberately modify (i.e. corrupt) configuration memory contents. This program
+                              ; can read, modify and write frames to do this but we must specifically tell the device
+                              ; not to 'calibrate' to the new image (i.e. we wouldn't normally configure a device with
+                              ; a bad image).
+                              ;
+                              ; COR1 = 00800100
+                              ;
+                              ;     Bit
+                              ;      8      1     RBCRC_EN
+                              ;                      0 - Disable continuous Readback CRC scanning (default)
+                              ;                      1 - Enable continuous Readback CRC scanning
+                              ;      9      0     RBCRC_NO_PIN
+                              ;                      0 - Enable INIT_B pin as CRC error status (default)
+                              ;                      1 - Disable INIT_B pin as CRC error status
+                              ;   [16:15]  00     RBCRC_ACTION
+                              ;                     00 - Continue (no correction)
+                              ;                     01 - Halt (no correction)
+                              ;                     10 - Correct and Continue
+                              ;                     11 - Correct and Halt
+                              ;     23      1     NOCRC (marked as being a 'Reserved' bit in UG470)
+                              ;                      0 - Enable CRC/ECC calibration following DESYNC(default)
+                              ;                      1 - Disable hardware CRC/ECC calibration (for error injection)
+                              ;
+    enable_detection_command: LOAD sF, 00                              ;Set COR1 = 00800100
+                              LOAD sE, 80
+                              LOAD sD, 01
+                              LOAD sC, 00
+                              STORE sF, ICAPE2_word3                   ;Store value to be written to COR1
+                              STORE sE, ICAPE2_word2
+                              STORE sD, ICAPE2_word1
+                              STORE sC, ICAPE2_word0
+                              CALL write_COR1_sequence                 ;write to COR1
+                              ;
+                              CALL send_CR
+                              CALL send_Ok
+                              JUMP main_prompt
+                              ;
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; 'C' Command - Enable Readback CRC for Detection and Correction (no CRC/ECC calibration)
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                              ; This command sets the COR1 register to 00810100 which will enable the built-in Readback
+                              ; CRC scanning mechanism with error correction capability. In this case the primary
+                              ; detection mechanism will be frame level ECC. The majority of naturally occurring SEUs
+                              ; will result in a single bit error within a frame (i.e. only 1 bit of the 3,232 bits
+                              ; in a frame is flipped). The syndrome calculated as each frame is being scanned will
+                              ; reveal the exact bit that has been flipped and the built-in correction mechanism will
+                              ; perform the read, modify and write operations to correct the frame to its original
+                              ; value. Due to the frame level detection of an error and its almost immediate correction
+                              ; the device level CRC only acts as a back-up for more serious errors (i.e. multiple bit
+                              ; errors in the same frame that cannot be corrected using standard ECC techniques) and
+                              ; therefore the INIT_B pin would be expected to remain High (LED on the KC705 board
+                              ; remains green). This reference design enables you to create errors of any number of bits
+                              ; to observe the different behaviours. Just remember that the majority of naturally
+                              ; occurring SEUs in Xilinx 7-Series devices will result is single bit upsets to a frame.
+                              ; Double bit errors are rare but do occur so Xilinx has physically interleaved the
+                              ; configuration cells of adjacent frames so that the majority of these double bit errors
+                              ; actually result in two single bit errors each of which can be detected and corrected.
+                              ; Hence, there are few may occasionally
+                              ; result in
+                              ;
+                              ; Note - It is vital to appreciate that a 'calibration' process occurred during the
+                              ;        initialisation phase of this program so do review the comments included in the
+                              ;        'Enable Readback CRC and determine number of frames in a device scan' section
+                              ;        earlier in this file. You will see that on that occasion the  COR1 register was
+                              ;        set to 00000100 which means that bit23 was set to '0' rather than being set to
+                              ;        '1' as it is in this command.
+                              ;
+                              ; With reference to UG470 the bits of COR1 can be decoded. As shown below, Bit8 enables
+                              ; Readback CRC scanning, Bits[16:15] have been set to correct errors (and continue
+                              ; scanning) and Bit23 has disabled calibration. An objective of this reference design is
+                              ; to monitor the error detection and correction capability. Since real Single Event Upsets
+                              ; (SEU) are rare the only practical way to test the capability is to deliberately modify
+                              ; (i.e. corrupt) configuration memory contents. This program can read, modify and write
+                              ; frames to do this but we must specifically tell the device not to 'calibrate' to the
+                              ; new image (i.e. we wouldn't normally configure a device with a bad image).
+                              ;
+                              ; COR1 = 00810100
+                              ;
+                              ;     Bit
+                              ;      8      1     RBCRC_EN
+                              ;                      0 - Disable continuous Readback CRC scanning (default)
+                              ;                      1 - Enable continuous Readback CRC scanning
+                              ;      9      0     RBCRC_NO_PIN
+                              ;                      0 - Enable INIT_B pin as CRC error status (default)
+                              ;                      1 - Disable INIT_B pin as CRC error status
+                              ;   [16:15]  10     RBCRC_ACTION
+                              ;                     00 - Continue (no correction)
+                              ;                     01 - Halt (no correction)
+                              ;                     10 - Correct and Continue
+                              ;                     11 - Correct and Halt
+                              ;     23      1     NOCRC (marked as being a 'Reserved' bit in UG470)
+                              ;                      0 - Enable CRC/ECC calibration following DESYNC(default)
+                              ;                      1 - Disable hardware CRC/ECC calibration (for error injection)
+                              ;
+   enable_correction_command: LOAD sF, 00                              ;Set COR1 = 00810100
+                              LOAD sE, 81
+                              LOAD sD, 01
+                              LOAD sC, 00
+                              STORE sF, ICAPE2_word3                   ;Store value to be written to COR1
+                              STORE sE, ICAPE2_word2
+                              STORE sD, ICAPE2_word1
+                              STORE sC, ICAPE2_word0
+                              CALL write_COR1_sequence                 ;write to COR1
+                              ;
+                              CALL send_CR
+                              CALL send_Ok
+                              JUMP main_prompt
+                              ;
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; 'N' Command - Disable Readback CRC Detection and ECC Correction
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                              ; This command sets the COR1 register to 000000000 which turns off the built-in Readback
+                              ; CRC scanning mechanism. Without scanning taking place no errors will be detected and
+                              ; therefore no errors will be corrected. With reference to UG470 the bits of COR1 can be
+                              ; decoded. As shown below, Bit8 enables or disables Readback CRC scanning.
+                              ;
+                              ; Set COR1 = 00000000
+                              ;
+                              ;     Bit
+                              ;      8      0     RBCRC_EN
+                              ;                      0 - Disable continuous Readback CRC scanning (default)
+                              ;                      1 - Enable continuous Readback CRC scanning
+                              ;      9      0     RBCRC_NO_PIN
+                              ;                      0 - Enable INIT_B pin as CRC error status (default)
+                              ;                      1 - Disable INIT_B pin as CRC error status
+                              ;   [16:15]  00     RBCRC_ACTION
+                              ;                     00 - Continue (no correction)
+                              ;                     01 - Halt (no correction)
+                              ;                     10 - Correct and Continue
+                              ;                     11 - Correct and Halt
+                              ;     23      0     NOCRC (marked as being a 'Reserved' bit in UG470)
+                              ;                      0 - Enable CRC/ECC calibration following DESYNC(default)
+                              ;                      1 - Disable hardware CRC/ECC calibration (for error injection)
+                              ;
+                              ; As previously described in the 'C' command, this reference design enables you to create
+                              ; errors of any number of bits to observe the different behaviours and capabilities of
+                              ; the built-in detection and correction circuits. If you disable the Readback CRC scanning
+                              ; of the device you can deliberately corrupt the contents of more than one configuration
+                              ; frame enabling the Readback CRC and correction mechanisms once again and observing what
+                              ; happens.
+                              ;
+disable_readback_CRC_command: LOAD sF, 00                              ;Set COR1 = 00000000
+                              LOAD sE, 00
+                              LOAD sD, 00
+                              LOAD sC, 00
+                              STORE sF, ICAPE2_word3                   ;Store value to be written to COR1
+                              STORE sE, ICAPE2_word2
+                              STORE sD, ICAPE2_word1
+                              STORE sC, ICAPE2_word0
+                              CALL write_COR1_sequence                 ;write to COR1
+                              ;
+                              CALL send_CR
+                              CALL send_Ok
+                              JUMP main_prompt
+                              ;
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; 'L' Command - Look up Physical frame Address (PA) corresponding with Linear Address (LA)
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                              ; The Linear Frame Address (LA) is considered to be the position of the frame in the
+                              ; Readback CRC scan of the device starting with the first frame being LA=00000000. The
+                              ; Physical Frame Address (PA) is the actual 32-bit address of each frame within the
+                              ; configuration memory map of the device. At the very start of the device the LA and PA
+                              ; addresses match but very soon they start to become quite different. There are two main
+                              ; reasons for these differences. Firstly, the memory map of the device is non-contiguous
+                              ; as it relates to the physical layout of the device and its various block types. Secondly,
+                              ; the Readback CRC scan only scans the configuration frames containing static information;
+                              ; frames associated with BRAM contents are skipped as they probably contain variable data.
+                              ;
+                              ; Once this command has acquired the LA from the user the 'linear_to_physical_address'
+                              ; performs the look-up of the corresponding PA. Please see that routine for a description
+                              ; of how this conversion is implemented. The conversion will only work if Readback CRC
+                              ; scanning of the device is active. So first of all a test of scanning activity is
+                              ; performed. If no activity is detected then an error message is generated.
+                              ;
+            LA_to_PA_command: CALL send_CR
+                              ;
+                              CALL wait_end_of_frame                   ;check for Readback CRC activity
+                              JUMP C, obtain_LA
+                              ;
+                              CALL send_Failed                         ;Report command failure
+                              LOAD sB, LA_to_PA_scan_error_msg'upper
+                              LOAD sA, LA_to_PA_scan_error_msg'lower
+                              CALL send_message
+                              JUMP main_prompt
+                              ;
+                              ; Readback CRC is active so request a Linear frame address in the range of the device
+                              ;
+                   obtain_LA: LOAD sB, LA_request_msg'upper            ;Display message
+                              LOAD sA, LA_request_msg'lower
+                              CALL send_message
+                              FETCH sC, frame_count0                   ;fetch number of frames in this device
+                              FETCH sD, frame_count1
+                              FETCH sE, frame_count2
+                              FETCH sF, frame_count3
+                              SUB sC, 01                               ;maximum LA is one less than total
+                              SUBCY sD, 00
+                              SUBCY sE, 00
+                              SUBCY sF, 00
+                              CALL send_hex_word                       ;display maximum
+                              CALL send_Hex_CR                         ;followed by ' Hex'
+                              ;
+                              ; Obtain a hexadecimal value defined by up to 8-digits
+                              ;
+                              CALL read_line                           ;read characters into scratch pad buffer
+                              CALL line_32bit_hex                      ;convert line to 32-bit value [sF,sE,sD,sC]
+                              JUMP C, obtain_LA                        ;ask for input again if anything is wrong with line
+                              ;
+                              ;Check that LA specified is in the valid range of this device
+                              ;
+                              FETCH s6, frame_count0                   ;fetch number of frames in this device
+                              FETCH s7, frame_count1
+                              FETCH s8, frame_count2
+                              FETCH s9, frame_count3
+                              COMPARE sC, s6                           ;In range value will result in a carry
+                              COMPARECY sD, s7
+                              COMPARECY sE, s8
+                              COMPARECY sF, s9
+                              JUMP NC, obtain_LA                       ;ask for input again if value was too big
+                              ;
+                              CALL send_CR
+                              LOAD s5, "L"                             ;Display 'LA='
+                              CALL UART_TX
+                              LOAD s5, "A"
+                              CALL UART_TX
+                              LOAD s5, "="
+                              CALL UART_TX
+                              CALL send_hex_word                       ;display LA value
+                              CALL send_CR
+                              ;
+                              ; The 'linear_to_physical_address' procedure converts [sF,sE,sD,sC] from a Linear Frame
+                              ; Address (LA) to its corresponding Physical Frame Address (PA). Please see the routine
+                              ; for a description of how this conversion is implemented.
+                              ;
+                              CALL linear_to_physical_address
+                              LOAD s5, "P"                             ;Display 'PA='
+                              CALL UART_TX
+                              LOAD s5, "A"
+                              CALL UART_TX
+                              LOAD s5, "="
+                              CALL UART_TX
+                              CALL send_hex_word                       ;display PA value
+                              ;
+                              JUMP main_prompt
+                              ;
+                              ;
+                              ; Text messages used in this section
+                              ;
+                              STRING LA_to_PA_scan_error$, "Readback CRC scanning must be enabled to use this command"
+                              STRING LA_request$, "Enter a Linear Address (LA) in the range 00000000 to "
+                              ;
+     LA_to_PA_scan_error_msg: LOAD&RETURN s5, LA_to_PA_scan_error$
+                              LOAD&RETURN s5, NUL
+                              ;
+              LA_request_msg: LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, LA_request$
+                              LOAD&RETURN s5, NUL
+                              ;
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; 'F' Command - Specify Physical frame Address (PA) of Target Frame for FAR
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                              ; This command simply prompts the user to specify a physical frame address which is then
+                              ; stored in scratch pad memory for use with the frame read and frame write commands. The
+                              ; user is free to enter any value formed of 8 hexadecimal digits.
+                              ;
+                              ; NOTE - There is no checking of the address entered; the user is responsible!
+                              ;        Ideally the user will know of valid physical addresses based on the 'N'
+                              ;        and 'G' commands and will enter them correctly.
+                              ;
+                              ;
+                              ; This command does not interact with ICAPE2 to set the frame address register (FAR). The
+                              ; value stored in scratch pad memory will be used to set FAR during every frame read and
+                              ; and frame write operation. This is necessary because Readback CRC scanning of the device
+                              ; modifies the value of FAR during operation. Likewise, the very act of reading or writing
+                              ; a frame causes the value held in FAR to be automatically incremented (i.e. advance to
+                              ; the next frame).
+                              ;
+      set_target_FAR_command: LOAD sB, FAR_request_msg'upper           ;Display message
+                              LOAD sA, FAR_request_msg'lower
+                              CALL send_message
+                              ;
+                              ; Obtain a hexadecimal value defined by up to 8-digits
+                              ;
+                              CALL read_line                           ;read characters into scratch pad buffer
+                              CALL line_32bit_hex                      ;convert line to 32-bit value [sF,sE,sD,sC]
+                              JUMP C, set_target_FAR_command           ;ask for input again if anything is wrong with line
+                              ;
+                              STORE sC, target_frame0                  ;Store specified value
+                              STORE sD, target_frame1
+                              STORE sE, target_frame2
+                              STORE sF, target_frame3
+                              ;
+                              CALL send_FAR_msg                        ;display value to confirm entry
+                              CALL send_hex_word
+                              ;
+                              JUMP main_prompt
+                              ;
+                              ;
+                              ; Text message used in this section
+                              ;
+                              STRING FAR_request$, "Enter a 32-bit Physical Address (PA)"
+                              ;
+             FAR_request_msg: LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, FAR_request$
+                              LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, NUL
+                              ;
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; 'R' Command - Read One Frame from ICAPE2 into the RAM Buffer
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                              ; This command communicates with ICAP and implements the sequence required to read one
+                              ; complete frame of configuration memory from the device. The frame to be read is defined
+                              ; by setting the Frame Address Register (FAR) to the target address currently held in
+                              ; scratch pad memory (previously defined using 'F' command). Note that the act of reading
+                              ; a frame will automatically increment the value held in FAR and Readback CRC will modify
+                              ; the value of FAR during operation so it is always necessary to set FAR as part of the
+                              ; frame reading sequence.
+                              ;
+                              ; Each 7-Series configuration frame consists of 101 words each of 32-bits. This is a total
+                              ; of 404 bytes and too large to be stored in scratch pad memory so it will be stored in
+                              ; a separate RAM (BRAM) connected to KCPSM6 ports. The frame is stored in byte locations
+                              ; 000 to 193 hex of the RAM buffer. Storage would not be required if the frame contents
+                              ; were only to be displayed but this reference design also allows the contents of a frame
+                              ; to be modified and written back into the configuration memory.
+                              ;
+                              ; The command begins by displaying the target address. Once the frame has been copied to
+                              ; the RAM buffer it will be displayed (using the same procedure as the 'D' command).
+                              ;
+                              ; The frame read sequence is described in the comments provided with the code below.
+                              ;
+          read_frame_command: CALL send_CR
+                              CALL send_FAR_msg                        ;Display message
+                              FETCH sC, target_frame0                  ;fetch target address
+                              FETCH sD, target_frame1
+                              FETCH sE, target_frame2
+                              FETCH sF, target_frame3
+                              CALL send_hex_word                       ;display value
+                              ;
+                              ; Open communication with ICAPE2
+                              ;
+                              CALL SYNC_sequence_to_ICAPE2             ;SYNC sequence
+                              ;
+                              ; Set FAR with address of target
+                              ;
+                              LOAD sF, 30                              ;Type 1 write of one word to FAR register
+                              LOAD sE, 00
+                              LOAD sD, 20
+                              LOAD sC, 01
+                              CALL write_word_to_ICAPE2
+                              FETCH sC, target_frame0                  ;fetch target address
+                              FETCH sD, target_frame1
+                              FETCH sE, target_frame2
+                              FETCH sF, target_frame3
+                              CALL write_word_to_ICAPE2                ;Set FAR
+                              CALL NOOP_to_ICAPE2
+                              CALL NOOP_to_ICAPE2
+                              ;
+                              ; Issue the read configuration command.
+                              ;
+                              CALL NOOP_to_ICAPE2
+                              LOAD sF, 30                              ;Type 1 write of one word to CMD register
+                              LOAD sE, 00
+                              LOAD sD, 80
+                              LOAD sC, 01
+                              CALL write_word_to_ICAPE2
+                              LOAD sF, 00                              ;RCFG command
+                              LOAD sE, 00
+                              LOAD sD, 00
+                              LOAD sC, 04
+                              CALL write_word_to_ICAPE2
+                              CALL NOOP_to_ICAPE2
+                              CALL NOOP_to_ICAPE2
+                              ;
+                              ; In order to read one frame you actually need to read two!
+                              ;    The first 101 words are a dummy frame.
+                              ;    The second 101 words are the target frame data.
+                              ;
+                              LOAD sF, 28                              ;Type 1 read (of 0 words) from FDRO
+                              LOAD sE, 00
+                              LOAD sD, 60
+                              LOAD sC, 00
+                              CALL write_word_to_ICAPE2
+                              LOAD sF, 48                              ;Type 2 read of (2x101) 202 words = 0000CA
+                              LOAD sE, 00
+                              LOAD sD, 00
+                              LOAD sC, CA
+                              CALL write_word_to_ICAPE2
+                              ;
+                              ; ICAPE2 requires some 'no-operations' whilst it prepares for the frames to be read
+                              ;
+                              LOAD sB, 32'd                            ;32x NOOP
+              read_prep_loop: CALL NOOP_to_ICAPE2
+                              SUB sB, 1'd
+                              JUMP NZ, read_prep_loop
+                              ;
+                              ; Set FFFFFFFF on ICAPE2 input during read
+                              ;
+                              CALL ICAPE2_idle
+                              ;
+                              ; Read and discard Dummy frame (101 words)
+                              ;
+                              LOAD sB, 101'd
+             read_dummy_loop: CALL read_word_from_ICAPE2
+                              SUB sB, 1'd
+                              JUMP NZ, read_dummy_loop
+                              ;
+                              ; Read target frame (101 words) and store in RAM locations 000 to 193 hex.
+                              ;
+                              CALL reset_RAM_address                   ;RAM address in [s9,s8]
+                              ;
+                              LOAD sB, 101'd
+            read_target_loop: CALL read_word_from_ICAPE2
+                              CALL write_word_to_RAM
+                              SUB sB, 1'd
+                              JUMP NZ, read_target_loop
+                              ;
+                              ; End communication with ICAPE2 (Readback CRC will resume if enabled)
+                              ;
+                              CALL DESYNC_sequence_to_ICAPE2           ;DESYNC sequence
+                              ;
+                              ; Display frame contents now in the RAM buffer
+                              ;
+                              CALL display_frame
+                              ;
+                              JUMP main_prompt
+                              ;
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; 'D' Command - Display frame currently held in RAM
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                              ; This command displays the configuration frame data currently held in the RAM buffer
+                              ; (BRAM) connected to KCPSM6 ports. A 7-Series configuration frame consists of 101 words
+                              ; each of 32-bits. This is a total of 404 bytes stored at addresses 000 to 193 hex.
+                              ;
+                              ; As stated above, each 7-Series frame consists of 101 words. The display presents 10
+                              ; words per line except for the middle word which is isolated. As well as making the
+                              ; display nicely 'symmetrical' in appearance, the isolation of the middle word has some
+                              ; merit because it contains the ECC value whereas all the other words are associated with
+                              ; traditional device configuration.
+                              ;
+                              ; To aid identification, the display labels each word (WD) in the range 00 to 64 hex.
+                              ; These labels are in a different colour to the data values.
+                              ;
+                              ; The contents of a frame are also displayed as part of the read frame ('R') command so
+                              ; the frame display routine has been somewhat separated from the actual command.
+                              ;
+       display_frame_command: CALL display_frame
+                              JUMP main_prompt
+                              ;
+                              ;
+                              ;
+                              ; Routine to Display Frame held in RAM Buffer
+                              ; -------------------------------------------
+                              ;
+                              ;   Read buffer and display
+                              ;     5 lines of 10 words
+                              ;     1 word
+                              ;     5 lines of 10 words
+                              ;
+               display_frame: CALL send_CR
+                              CALL reset_RAM_address                   ;RAM address in [s9,s8] = 0000
+                              LOAD s7, 00                              ;initialise word (WD) number
+                              CALL frame_read_50_words                 ;Display 5 lines of 10 words
+                              CALL send_CR                             ;Display middle word
+                              CALL display_word
+                              CALL frame_read_50_words                 ;Display 5 lines of 10 words
+                              RETURN 
+                              ;
+                              ; Routine to read and display the next 5 lines of 10 words
+                              ;
+         frame_read_50_words: LOAD sA, 5'd
+         frame_read_10_words: LOAD sB, 10'd
+                              CALL send_CR
+        frame_read_word_loop: CALL display_word
+                              SUB sB, 1'd
+                              JUMP NZ, frame_read_word_loop
+                              SUB sA, 1'd
+                              JUMP NZ, frame_read_10_words
+                              RETURN 
+                              ;
+                              ; Routine to display word (WD) identifier followed by the next 32-bit word.
+                              ; The WD is displayed in blue followed by a semi-colon to distinguish it from data.
+                              ;
+                display_word: CALL send_space
+                              CALL PicoTerm_text_Blue
+                              LOAD s4, s7                              ;disply WD
+                              CALL send_hex_byte
+                              LOAD s5, ":"                             ;semicolon
+                              CALL UART_TX
+                              CALL PicoTerm_text_Black
+                              ADD s7, 01                               ;increment WD
+                              CALL read_word_from_RAM
+                              CALL send_hex_word
+                              RETURN 
+                              ;
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; 'T' Command - Toggle one bit of the frame held in RAM
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                              ; The user is prompted to enter the location of the word (WD) and bit (BT) to be toggled.
+                              ; When the user input is within valid ranges, the bit at that location is read from the
+                              ; RAM buffer, inverted and then written back to the RAM.
+                              ;
+                              ; Note that the change is only made in the RAM. The device configuration is only modified
+                              ; by the write frame command (and then only if the frame held in RAM is different to the
+                              ; configuration frame being written to). This scheme enables multiple bit changes to be
+                              ; made before the frame is written (e.g. emulation of adjacent double bit errors in the
+                              ; same frame.
+                              ;
+          toggle_bit_command: LOAD sB, T_intro_msg'upper               ;Display message
+                              LOAD sA, T_intro_msg'lower
+                              CALL send_message
+                              ;
+                              ; Obtain WD in range 00 to 64 hex
+                              ;
+                   obtain_WD: LOAD sB, WD_request_msg'upper            ;Display message
+                              LOAD sA, WD_request_msg'lower
+                              CALL send_message
+                              ;
+                              CALL read_line                           ;read characters into scratch pad buffer
+                              CALL line_32bit_hex                      ;convert line to 32-bit value [sF,sE,sD,sC]
+                              JUMP C, obtain_WD                        ;ask for input again if anything is wrong with line
+                              ;
+                              COMPARE sC, 65                           ;In range value will result in a carry
+                              COMPARECY sD, 00
+                              COMPARECY sE, 00
+                              COMPARECY sF, 00
+                              JUMP NC, obtain_WD                       ;ask for input again if value was too big
+                              ;
+                              LOAD s8, sC                              ;remember WD
+                              ;
+                              ; Obtain BT in range 00 to 1F hex
+                              ;
+                   obtain_BT: LOAD sB, BT_request_msg'upper            ;Display message
+                              LOAD sA, BT_request_msg'lower
+                              CALL send_message
+                              ;
+                              CALL read_line                           ;read characters into scratch pad buffer
+                              CALL line_32bit_hex                      ;convert line to 32-bit value [sF,sE,sD,sC]
+                              JUMP C, obtain_BT                        ;ask for input again if anything is wrong with line
+                              ;
+                              COMPARE sC, 20                           ;In range value will result in a carry
+                              COMPARECY sD, 00
+                              COMPARECY sE, 00
+                              COMPARECY sF, 00
+                              JUMP NC, obtain_BT                       ;ask for input again if value was too big
+                              ;
+                              LOAD s7, sC                              ;remember BT
+                              ;
+                              ; Display WD and BT values to confirm entry
+                              ;
+                              CALL send_CR
+                              LOAD s5, "W"                             ;Display 'WD='
+                              CALL UART_TX
+                              LOAD s5, "D"
+                              CALL UART_TX
+                              LOAD s5, "="
+                              CALL UART_TX
+                              LOAD s4, s8                              ;display WD value
+                              CALL send_hex_byte
+                              CALL send_space
+                              CALL send_space
+                              LOAD s5, "B"                             ;Display 'BT='
+                              CALL UART_TX
+                              LOAD s5, "T"
+                              CALL UART_TX
+                              LOAD s5, "="
+                              CALL UART_TX
+                              LOAD s4, s7                              ;display BT value
+                              CALL send_hex_byte
+                              CALL send_CR
+                              ;
+                              ; The frame is stored in the external RAM buffer at addresses 000 to 193 hex. Each word
+                              ; requires 4 bytes (and locations) so the base address of the word (WD) to be modified
+                              ; is located at 4 times the WD value held in 's8'. The base address is prepared in [s9,s8].
+                              ;
+                              LOAD s9, 00                              ;[s9,s8] = 00,WD
+                              SL0 s8                                   ;multiply by 4
+                              SLA s9
+                              SL0 s8
+                              SLA s9
+                              ;
+                              ; Each word is 32-bits (4 bytes) so the location to be modified depends on the bit (BT)
+                              ; value held in 's7'.
+                              ;
+                              ;        BT range       s7 max         s7 min        Address [s9,s8]
+                              ;                    [765 43 210]   [765 43 210]
+                              ;
+                              ;           7-0       000 00 111     000 00 000         base + 0
+                              ;          15-8       000 01 111     000 01 000         base + 1
+                              ;          23-16      000 10 111     000 10 000         base + 2
+                              ;          31-24      000 11 111     000 11 000         base + 3
+                              ;
+                              ; Looking at this table to becomes clear that 's7' bits[2:0] identify the bit position
+                              ; within each byte location and 's7' bits[4:3] identify the address offset relative to
+                              ; the base address.
+                              ;
+                              ; Isolate address offset and add to base address
+                              ;
+                              LOAD s6, s7
+                              SR0 s6                                   ;convert BT[4:3] to address offset
+                              SR0 s6
+                              SR0 s6
+                              ADD s8, s6                               ;add offset to base address
+                              ADDCY s9, 00
+                              ;
+                              ; Convert BT[2:0] value (0 to 7) into a bit mask in 's6'.
+                              ;  e.g. if BT[2:0] = 101 (5) then bit mask should be 00100000.
+                              ;
+                              AND s7, 00000111'b                       ;isolate BT[2:0]
+                              LOAD s6, 00000001'b                      ;start with bit-mask for bit0
+                BT_mask_loop: SUB s7, 01                               ;decrement BT value
+                              JUMP C, toggle_RAM_bit                   ;complete when s7 becomes negative
+                              SL0 s6                                   ;shift bit mask to next bit
+                              JUMP BT_mask_loop
+                              ;
+                              ; Read byte from RAM, toggle bit and write back to RAM
+                              ;
+              toggle_RAM_bit: CALL read_byte_from_RAM                  ;read from RAM address [s9,s8] into 's5'
+                              XOR s5, s6                               ;toggle bit indicated by bit mask in 's6'
+                              CALL write_byte_to_RAM                   ;Write 's5' to RAM address [s9,s8]
+                              ;
+                              CALL send_Ok
+                              JUMP main_prompt
+                              ;
+                              ;
+                              ; Text messages used in this section
+                              ;
+                              STRING T_intro$, "Specify the bit to be toggled in the RAM buffer"
+                              STRING WD_request$, "Enter a Word (WD) in the range 00 to 64"
+                              STRING BT_request$, "Enter a Bit (BT) in the range 00 to 1F"
+                              ;
+                 T_intro_msg: LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, T_intro$
+                              LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, NUL
+                              ;
+              WD_request_msg: LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, WD_request$
+                              LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, NUL
+                              ;
+              BT_request_msg: LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, BT_request$
+                              LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, NUL
+                              ;
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; 'W' Command - Write Frame contained in RAM Buffer to ICAPE2
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                              ; This command communicates with ICAP and implements the sequence required to write one
+                              ; complete frame of configuration memory to the device. The frame to be read is defined
+                              ; by setting the Frame Address Register (FAR) to the target address currently held in
+                              ; scratch pad memory (previously defined using 'F' command). Note that the act of writing
+                              ; a frame will automatically increment the value held in FAR and Readback CRC will modify
+                              ; the value of FAR during operation so it is always necessary to set FAR as part of the
+                              ; frame writing sequence.
+                              ;
+                              ; Each 7-Series configuration frame consists of 101 words each of 32-bits. This is a total
+                              ; of 404 bytes and too large to be stored in scratch pad memory so the frame to be written
+                              ; to the configuration memory is stored in a separate RAM (BRAM) connected to KCPSM6 ports.
+                              ; The frame is stored at byte locations 000 to 193 hex of the RAM buffer.
+                              ;
+                              ; The command begins by displaying the target address. Once the frame has been copied from
+                              ; the RAM buffer and written to the device a simple 'Ok' is displayed to indicate the
+                              ; completion of the frame write command.
+                              ;
+                              ; The frame write sequence is described in the comments provided with the code below.
+                              ;
+         write_frame_command: CALL send_CR
+                              CALL send_FAR_msg                        ;Display message
+                              FETCH sC, target_frame0                  ;fetch target address
+                              FETCH sD, target_frame1
+                              FETCH sE, target_frame2
+                              FETCH sF, target_frame3
+                              CALL send_hex_word                       ;display value
+                              ;
+                              ; Open communication with ICAPE2
+                              ;
+                              CALL SYNC_sequence_to_ICAPE2             ;SYNC sequence
+                              ;
+                              ; Set FAR with address of target
+                              ;
+                              LOAD sF, 30                              ;Type 1 write of one word to FAR register
+                              LOAD sE, 00
+                              LOAD sD, 20
+                              LOAD sC, 01
+                              CALL write_word_to_ICAPE2
+                              FETCH sC, target_frame0                  ;fetch target address
+                              FETCH sD, target_frame1
+                              FETCH sE, target_frame2
+                              FETCH sF, target_frame3
+                              CALL write_word_to_ICAPE2                ;Set FAR
+                              CALL NOOP_to_ICAPE2
+                              CALL NOOP_to_ICAPE2
+                              ;
+                              ; Writing one configuration frame is actually an example of Partial Reconfiguration (PR).
+                              ; One frame happens to be the smallest configuration 'image' that can be written. However,
+                              ; whether an 'image' is written to one frame, many frames or configures a whole device it
+                              ; should be an 'image' intended for that device. In order to prevent the inadvertent
+                              ; configuration of a device with an 'image' intended for a completely different device
+                              ; (e.g. configuring an XC7K325T device with a BIT file prepared for an XC6SLX100T), the
+                              ; 'image' must include the IDCODE of the intended device. If the IDCODE does not match,
+                              ; the device will initialise (i.e. INIT_B pin will go Low) and clear all configuration
+                              ; memory. This scheme avoids any possibility of damage being caused to the device by
+                              ; such severely incorrect configuration.
+                              ;
+                              ; In order that this one frame partial reconfiguration does not cause the device to
+                              ; initialise it too must be presented as an 'image' containing the correct IDCODE that
+                              ; matches the device. During the initialisation sequence of this KCPSM6 program the
+                              ; IDCODE was read to confirm communication with ICAPE2 was possible and opportunity was
+                              ; also taken to store that IDCODE in scratch pad memory so that it could be used now.
+                              ;
+                              CALL NOOP_to_ICAPE2
+                              LOAD sF, 30                              ;Type 1 write of one word to IDCODE register
+                              LOAD sE, 01
+                              LOAD sD, 80
+                              LOAD sC, 01
+                              CALL write_word_to_ICAPE2
+                              FETCH sC, IDCODE_word0                   ;Fetch IDCODE matching device
+                              FETCH sD, IDCODE_word1
+                              FETCH sE, IDCODE_word2
+                              FETCH sF, IDCODE_word3
+                              CALL write_word_to_ICAPE2                ;writing IDCODE actually executes an ID check
+                              CALL NOOP_to_ICAPE2
+                              CALL NOOP_to_ICAPE2
+                              ;
+                              ; Issue the write configuration command.
+                              ;
+                              LOAD sF, 30                              ;Type 1 write of one word to CMD register
+                              LOAD sE, 00
+                              LOAD sD, 80
+                              LOAD sC, 01
+                              CALL write_word_to_ICAPE2
+                              LOAD sF, 00                              ;WCFG command
+                              LOAD sE, 00
+                              LOAD sD, 00
+                              LOAD sC, 01
+                              CALL write_word_to_ICAPE2
+                              CALL NOOP_to_ICAPE2
+                              CALL NOOP_to_ICAPE2
+                              ;
+                              ; In order to write one frame you actually need to write two!
+                              ;    The first 101 words are the real data for the target frame.
+                              ;    The second 101 words are to a dummy frame to complete the process.
+                              ;
+                              LOAD sF, 30                              ;Type 1 write (of 0 words) to FDRI
+                              LOAD sE, 00
+                              LOAD sD, 40
+                              LOAD sC, 00
+                              CALL write_word_to_ICAPE2
+                              LOAD sF, 50                              ;Type 2 write of (2x101) 202 words
+                              LOAD sE, 00
+                              LOAD sD, 00
+                              LOAD sC, CA
+                              CALL write_word_to_ICAPE2
+                              ;
+                              ; Read frame from RAM buffer locations 000 to 193 hex and write to ICAP
+                              ;
+                              CALL reset_RAM_address                   ;RAM address in [s9,s8] = 0000
+                              LOAD sB, 101'd                           ;101 words to copy and write
+                              ;
+           write_target_loop: CALL read_word_from_RAM                  ;read next word from RAM
+                              CALL write_word_to_ICAPE2                ;write to ICAP
+                              SUB sB, 1'd                              ;count words
+                              JUMP NZ, write_target_loop
+                              ;
+                              ;
+                              ; Write dummy data (FFFFFFFF) to the dummy frame (101 words)
+                              ;
+                              LOAD sB, 101'd                           ;101 dummy words to write
+                              ;
+            write_dummy_loop: CALL Dummy_to_ICAPE2                     ;write FFFFFFFF to ICAP
+                              SUB sB, 1'd                              ;count words
+                              JUMP NZ, write_dummy_loop
+                              ;
+                              CALL NOOP_to_ICAPE2
+                              ;
+                              ; End communication with ICAPE2 (Readback CRC will resume if enabled)
+                              ;
+                              CALL DESYNC_sequence_to_ICAPE2           ;DESYNC sequence
+                              ;
+                              ;
+                              CALL send_CR
+                              CALL send_space
+                              CALL send_Ok
+                              JUMP main_prompt
+                              ;
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; 'M' Command - Generate address Map of the Readback CRC frames in the device
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                              ; This command generates a complete list of Linear (LA) and Physical (PA) frame addresses
+                              ; in a Readback CRC scan of the device. It is effectively an automated recursive version
+                              ; of the 'L' command in this program.
+                              ;
+                              ; Note - Due to the large number of frames in a device this command really does take quite
+                              ;        some time to complete! For example it takes 9m15s to generate the map of an
+                              ;        XC7K325T device.  If you do accidentally execute this command then you can press
+                              ;        the CPU_RST button to escape!
+                              ;
+                              ; Hint - In theory, you should only need to use this command once in order to generate the
+                              ;        Readback CRC memory map of a particular device (i.e. the map of an XC7K325T will
+                              ;        always be the same and does not depend on the design it is configured with). This
+                              ;        KCPSM6 program automatically instructs PicoTerm to open a LOG file so all the
+                              ;        information displayed on PicoTerm, including this memory map, will also be
+                              ;        written to the LOG file. Hence you can copy and edit the LOG file to extract the
+                              ;        Readback CRC memory map of the device you are using and thereafter refer to that.
+                              ;
+                              ; It is known that the first Linear Address is zero and that is where the map will begin.
+                              ; The number of frames in the device was determined during the initialisation phase of
+                              ; this program and stored in scratch pad memory so that number is used to end the map.
+                              ;
+                              ; The 'linear_to_physical_address' routine performs the look-up of the corresponding PA.
+                              ; Please see that routine for a description of how the conversion is implemented. The
+                              ; conversion will only work if Readback CRC scanning of the device is active. So first of
+                              ; all a test of scanning activity is performed. If no activity is detected then an error
+                              ; message is generated.
+                              ;
+          map_device_command: CALL send_CR
+                              ;
+                              CALL wait_end_of_frame                   ;check for Readback CRC activity
+                              JUMP C, map_headings
+                              ;
+                              CALL send_Failed                         ;Report command failure
+                              LOAD sB, LA_to_PA_scan_error_msg'upper   ;Message defined in 'L' command
+                              LOAD sA, LA_to_PA_scan_error_msg'lower
+                              CALL send_message
+                              JUMP main_prompt
+                              ;
+                              ; Readback CRC is active so display column headings
+                              ;
+                map_headings: LOAD sB, map_headings_msg'upper          ;Display headings
+                              LOAD sA, map_headings_msg'lower
+                              CALL send_message
+                              CALL count_frames                        ;count frames in a scan
+                              ;
+                              ; Generate Readback CRC map starting at Linear Address (LA) of zero.
+                              ;  [sB,sA,s9,s8] is used to scan through all LA values in the device.
+                              ;  [sF,sE,sD,sC] is used for the conversion of each LA to PA.
+                              ;
+                              LOAD s8, 00                              ;[sB,sA,s9,s8] = 00000000
+                              LOAD s9, 00
+                              LOAD sA, 00
+                              LOAD sB, 00
+                              ;
+             map_device_loop: LOAD sC, s8                              ;next Linear Frame (LA) in [sF,sE,sD,sC]
+                              LOAD sD, s9
+                              LOAD sE, sA
+                              LOAD sF, sB
+                              ;
+                              CALL send_hex_word                       ;display LA
+                              CALL send_space
+                              LOAD s5, "="
+                              CALL UART_TX
+                              CALL send_space
+                              CALL linear_to_physical_address          ;convert to physical address
+                              CALL send_hex_word                       ;display PA
+                              CALL send_CR
+                              ;
+                              ADD s8, 01                               ;increment LA
+                              ADDCY s9, 00
+                              ADDCY sA, 00
+                              ADDCY sB, 00
+                              ;
+                              FETCH sC, frame_count0                   ;test for last frame
+                              FETCH sD, frame_count1                   ; Last LA is number of frames less 1
+                              FETCH sE, frame_count2
+                              FETCH sF, frame_count3
+                              COMPARE sC, s8                           ;Stop when [sB,sA,s9,s8] increments to
+                              COMPARECY sD, s9                         ; reach the number of frames in device
+                              COMPARECY sE, sA
+                              COMPARECY sF, sB
+                              JUMP NZ, map_device_loop
+                              ;
+                              JUMP main_prompt
+                              ;
+                              ;
+                              ; Text messages used in this section
+                              ; ----------------------------------
+                              ;
+                              STRING map_headings$, "  [LA]       [PA]"
+                              ;
+            map_headings_msg: LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, map_headings$
+                              LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, NUL
+                              ;
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; Determine Physical Address (PA) Corresponding With Linear Address (LA)
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                              ; This routine exploits the Readback CRC scanning of the device and the 'FRAME_ECCE2'
+                              ; primitive to find the Physical Address (PA)of a configuration frame based on its
+                              ; Linear Address(LA).
+                              ;
+                              ; The routine waits for an 'end_of_scan' pulse and then counts the 'end_of_frame' pulses
+                              ; until the desired Linear Address (LA) has been reached. The 26-bit Physical Address (PA)
+                              ; can then be read from the 'FAR' output of the 'FRAME_ECCE2' primitive. It takes 101
+                              ; clock cycles for the Readback CRC to scan each frame so KCPSM6 has a maximum of 50
+                              ; instructions to capture this information.
+                              ;
+                              ; Obviously it is vital to associate the correct 'end_of_frame' pulses with a Linear
+                              ; Address so it is important to understand both the behaviour of the 'FRAME_ECCE2'
+                              ; primitive and the 'end_of_scan' and 'end_of_frame' pulses the hardware design generates
+                              ; based on the 'SYNDROMEVALID' pulses from it.
+                              ;
+                              ; When a 'SYNDROMEVALID' pulse occurs, the 'FAR' output of the 'FRAME_ECCE2' primitive
+                              ; will change to reflect the physical address (PA) of the configuration frame that has
+                              ; just been scanned. The hardware design generates an 'end_of_frame' pulse that lasts
+                              ; for 16 clock cycles following each 'SYNDROMEVALID' pulse so that KCPSM6 is able to
+                              ; reliably detect it. When KCPSM6 detects an 'end_of_frame' pulse it will read the 'FAR'
+                              ; output and therefore know the physical address (PA) of the previous frame (i.e. not the
+                              ; address of the frame that is currently being scanned by the Readback CRC mechanism).
+                              ;
+                              ; The hardware design generates an 'end_of_scan' pulse when it detects the longer gap of
+                              ; 140 clock cycles (rather than 101 cycles) between 'SYNDROMEVALID' pulses. However, this
+                              ; means that when the 'end_of_scan' pulse is generated and detected by KCPSM6 the
+                              ; Readback CRC mechanism is already scanning the first frame of the device as the diagram
+                              ; below attempts to illustrate.
+                              ;
+                              ;
+                              ;  Scanning            <--- frame 0 ----><--- frame 1 ----><--- frame 2 ---->
+                              ;              _                          _                 _                 _
+                              ;  EOFrame  __| |________________________| |_______________| |_______________| |___
+                              ;                                ________
+                              ;  EOScan   ____________________|        |_________________________________________
+                              ;
+                              ;  FAR        |    FAR=last_frame        |       FAR=0     |      FAR=1      |
+                              ;
+                              ;
+                              ; It should now be clear that when KCPSM6 detects an 'end_of_scan' pulse it should
+                              ; immediately start counting 'end_of_frame' pulses. The first 'end_of_frame' pulse
+                              ; will occur almost immediately and the value of 'FAR' presented by the 'FRAME_ECCE2'
+                              ; primitive will change to the physical address (PA) of the very first frame. The key
+                              ; point being that the very first frame has the linear address (LA) of zero. So when
+                              ; KCPSM6 detects the first 'end_of_scan' pulse it must correlate that with linear address
+                              ; zero (i.e. not linear address 1).
+                              ;
+                              ;
+                              ; Supply Linear Frame Address (LA) in [sF,sE,sD,sC].
+                              ; Returns Physical Address (PA) in [sF,sE,sD,sC].
+                              ;
+                              ;
+                              ; Note - Only call this routine when Readback CRC is known to be active.
+                              ;        Only call this routine with a Linear Address within the range of the device.
+                              ;
+  linear_to_physical_address: CALL wait_end_of_scan                    ;wait for 'end_of_scan' pulse
+                              ;
+           count_linear_loop: INPUT s0, scan_monitor_port              ;wait for 'end_of_frame' pulse
+                              TEST s0, end_of_frame
+                              JUMP Z, count_linear_loop
+                              ;
+                              SUB sC, 01                               ;decrement frame count in [sF,sE,sD,sC]
+                              SUBCY sD, 00
+                              SUBCY sE, 00
+                              SUBCY sF, 00
+                              JUMP C, read_physical_address            ;[sF,sE,sD,sC] = -1 indicates LA reached
+                              ;
+                              LOAD s0, s0                              ;short delay to ensure that the 'end_of_frame'
+                              LOAD s0, s0                              ; pulse of 16 clock cycles has gone back Low
+                              JUMP count_linear_loop
+                              ;
+       read_physical_address: INPUT sC, frame_ecc_far_port0            ;read FAR from FRAME_ECCE2
+                              INPUT sD, frame_ecc_far_port1
+                              INPUT sE, frame_ecc_far_port2
+                              INPUT sF, frame_ecc_far_port3
+                              AND sF, 00000011'b                       ;26-bit value so clean other bits
+                              ;
+                              RETURN 
+                              ;
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; Routine to wait for a 'end_of_frame'
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                              ; If a 'end_of_frame' is observed this routine will return with the carry flag set (C=1).
+                              ; When Readback CRC is active an 'end_of_frame' pulse should be observed within 140 clock
+                              ; cycles (typically intervals of 101 clock cycles but 140 clock cycles at the end of each
+                              ; scan of the whole device). If Readback CRC is not active this routine will timeout after
+                              ; 150 clock cycles and return with the carry flag reset (C=0).
+                              ;
+                              ; Note - 'end_of_frame' will only occur when a frame is read and is therefore a good
+                              ;        indicator of Readback CRC activity.
+                              ;
+                              ; Registers used: s0, s1, s2 and s3
+                              ;
+                              ; Polling loop consists of 5 instructions executing in 10 clock cycles. This guarantees
+                              ; observation of a 'end_of_frame' which has a duration of 16 clock cycles. 30 iterations
+                              ; of the polling loop equates to a timeout of 150 clock cycles.
+                              ;
+           wait_end_of_frame: LOAD s1, 30'd
+                              ;
+           end_of_frame_loop: INPUT s0, scan_monitor_port
+                              TEST s0, end_of_frame
+                              RETURN C                                 ;pulse observed (C=1)
+                              SUB s1, 01
+                              JUMP NZ, end_of_frame_loop
+                              ;
+                              RETURN                                   ;timeout with C=0
+                              ;
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; Count Frames in a Readback CRC Scan of the Device
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                              ; The number of frames in a scan of the device is determined by counting the 'end_of_frame'
+                              ; pulses occurring between 'end_of_scan' pulses. Therefore, this routine waits for an
+                              ; 'end_of_scan' pulse and then counts 'end_of_frame' pulses until the next 'end_of_scan'
+                              ; pulse is observed.
+                              ;
+                              ; When Readback CRC is active there will be a 'end_of_frame' every 101 clock cycles which
+                              ; means that KCPSM6 has up to 50 instructions to implement the counting and other tests.
+                              ;
+                              ; Note - Only call this routine when Readback CRC is known to be active.
+                              ;
+                              ; Note - The number of frames counted and reported should not be confused with the linear
+                              ;        address (LA) of the maximum frame (MF) reported by the SEM IP. For example, an
+                              ;        XC7K325T device has 00005AE2 frames with linear address range 00000000 to
+                              ;        00005AE1. As is often the case, linear address zero is the first frame!
+                              ;
+                              ; This routine returns the frame count in [sF,sE,sD,sC].
+                              ; The frame count is also stored in scratch pad memory locations frame_count0,
+                              ; frame_count1, frame_count2 and frame_count3.
+                              ;
+                              ;
+                count_frames: CALL wait_end_of_scan                    ;wait for 'end_of_scan' pulse
+                              ;
+                              LOAD sC, 00                              ;Reset frame count in [sF,sE,sD,sC]
+                              LOAD sD, 00
+                              LOAD sE, 00
+                              LOAD sF, 00
+                              ;
+                              ; When Readback CRC is active an 'end_of_scan' pulse will have a duration of 39 clock
+                              ; cycles so KCPSM6 must wait for this signal to become Low before entering the main
+                              ; polling and counting loop (otherwise it will react to the first 'end_of_scan' pulse
+                              ; rather than the second one!).
+                              ;
+             end_of_scan_low: INPUT s0, scan_monitor_port
+                              TEST s0, end_of_scan
+                              JUMP NZ, end_of_scan_low
+                              ;
+                              ; Polling loop consists of 5 instructions executing in 10 clock cycles. This guarantees
+                              ; observation of a 'end_of_frame' which has a duration of 16 clock cycles.
+                              ;
+           count_frames_loop: INPUT s0, scan_monitor_port
+                              TEST s0, end_of_scan
+                              JUMP C, store_frame_count                ;End of scan reached?
+                              TEST s0, end_of_frame
+                              JUMP NC, count_frames_loop
+                              ;
+                              ADD sC, 01                               ;increment frame count in [sF,sE,sD,sC]
+                              ADDCY sD, 00
+                              ADDCY sE, 00
+                              ADDCY sF, 00
+                              ;
+                              JUMP count_frames_loop
+                              ;
+           store_frame_count: STORE sC, frame_count0                   ;store count value
+                              STORE sD, frame_count1
+                              STORE sE, frame_count2
+                              STORE sF, frame_count3
+                              RETURN 
+                              ;
+                              ;
+                              ; Routine to wait for an 'end_of_scan' pulse
+                              ; ------------------------------------------
+                              ;
+                              ; This routine will wait for an 'end_of_scan' pulse to be observed and then return.
+                              ;
+                              ; Note that the 'end_of_scan' signal will be permanently High if Readback CRC is NOT
+                              ; active so this routine is not suitable for checking Readback CRC activity.
+                              ;
+                              ; Polling loop consists of 3 instructions executing in 6 clock cycles. This guarantees
+                              ; observation of the 'end_of_scan' pulse which has a duration of 39 clock cycles.
+                              ;
+                              ; Registers used: s0
+                              ;
+            wait_end_of_scan: INPUT s0, scan_monitor_port
+                              TEST s0, end_of_scan
+                              JUMP NC, wait_end_of_scan
+                              RETURN                                   ;timeout with C=0
+                              ;
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; Clear terminal and home cursor sequences for PicoTerm (or similar)
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                              ; ANSI Escape Sequences/codes (VT100)
+                              ;
+                              ; Note: PicoTerm accepts these sequences without any issues but some other terminals
+                              ;       may require some additional time to implement the task before further characters
+                              ;       can be accepted. So if you experience missing or corrupted communication then
+                              ;       try inserting the 1ms delays where indicated. However, in this reference design
+                              ;       you will also need to reorder the initialisation code such that the 1ms delay
+                              ;       is correctly defined before these subroutines are called.
+                              ;
+                clear_screen: LOAD s5, ESC                             ;clear terminal sequence
+                              CALL UART_TX
+                              LOAD s5, "["
+                              CALL UART_TX
+                              LOAD s5, "2"
+                              CALL UART_TX
+                              LOAD s5, "J"
+                              CALL UART_TX
+                              ;CALL delay_1ms                           ;Delay for reliable operation?
+                              RETURN 
+                              ;
+                 cursor_home: LOAD s5, ESC                             ;Send cursor to upper-left of display
+                              CALL UART_TX
+                              LOAD s5, "["
+                              CALL UART_TX
+                              LOAD s5, "H"
+                              CALL UART_TX
+                              ;CALL delay_1ms                           ;Delay for reliable operation?
+                              RETURN 
+                              ;
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; Welcome Message.
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                              ; The welcome message includes a display of the version information available from the
+                              ; assembler and the 'hwbuild' from the instantiation of KCPSM6 in the hardware design.
+                              ; This introduction is displayed in blue.
+                              ;
+             welcome_message: CALL PicoTerm_text_Blue
+                              LOAD sB, welcome_msg'upper
+                              LOAD sA, welcome_msg'lower
+                              CALL send_message
+                              HWBUILD s5                               ;hardware version defines ASCII letter
+                              CALL UART_TX
+                              CALL send_CR
+                              CALL PicoTerm_text_Black
+                              RETURN 
+                              ;
+                              ; Welcome message
+                              ;
+                              STRING banner1$, "  _  ______ ____  ____  __  __  __"
+                              STRING banner2$, " | |/ / ___|  _ \/ ___||  \/  |/ /_"
+                              STRING banner3$, " | ' / |   | |_) \___ \| |\/| | '_ \"
+                              STRING banner4$, " | . \ |___|  __/ ___) | |  | | (_) )"
+                              STRING banner5$, " |_|\_\____|_|   |____/|_|  |_|\___/"
+                              ;
+                              ; Welcome message
+                              ;
+                              STRING welcome1$, "ICAP Control and Readback CRC Monitor"
+                              STRING welcome2$, "Assembly Date: "
+                              STRING welcome3$, "   Time: "
+                              STRING welcome4$, "Assembler Version: "
+                              STRING welcome5$, "Hardware Design: "
+                              ;
+                              ;
+                 welcome_msg: LOAD&RETURN s5, banner1$
+                              LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, banner2$
+                              LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, banner3$
+                              LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, banner4$
+                              LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, banner5$
+                              LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, welcome1$
+                              LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, welcome2$
+                              LOAD&RETURN s5, datestamp$
+                              LOAD&RETURN s5, welcome3$
+                              LOAD&RETURN s5, timestamp$
+                              LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, welcome4$
+                              LOAD&RETURN s5, KCPSM6_version$
+                              LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, welcome5$
+                              LOAD&RETURN s5, NUL
+                              ;
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; Routine to transmit a simple 'Menu'.
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                display_menu: LOAD sB, menu_msg'upper
+                              LOAD sA, menu_msg'lower
+                              CALL send_message
+                              RETURN 
+                              ;
+                              ; Menu message
+                              ;
+                              STRING menu1$, "Menu"
+                              STRING menu2$, " H - Display this menu"
+                              STRING menu3$, " I - Read Information (ICAPE2 Registers and CRCERROR status)"
+                              STRING menu4$, " D - Enable detection only (COR1=00800100)"
+                              STRING menu5$, " C - Enable detection and correction (COR1=00810100)"
+                              STRING menu6$, " N - Disable detection and correction (COR1=00000000)"
+                              STRING menu7$, " L - Look up Physical frame Address (PA) corresponding with Linear Address (LA)"
+                              STRING menu8$, " F - Specify physical address of target frame (used to set FAR)"
+                              STRING menu9$, " R - Read target configuration frame to RAM buffer"
+                              STRING menu10$, " B - Display frame held in RAM buffer"
+                              STRING menu11$, " T - Toggle bit in RAM buffer"
+                              STRING menu12$, " W - Write RAM buffer to target configuration frame"
+                              STRING menu13$, " M - Generate address map of all Readback CRC frames in device"
+                              ;
+                    menu_msg: LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, menu1$
+                              LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, menu2$
+                              LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, menu3$
+                              LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, menu4$
+                              LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, menu5$
+                              LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, menu6$
+                              LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, menu7$
+                              LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, menu8$
+                              LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, menu9$
+                              LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, menu10$
+                              LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, menu11$
+                              LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, menu12$
+                              LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, menu13$
+                              LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, NUL
+                              ;
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; Send a message to the UART
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                              ; A message is transmitted to the USB-UART.
+                              ; The start address of the message must be provided in [sB,sA].
+                              ; Terminate the transmission with a NULL character (00 hex).
+                              ;
+                              ; Registers used s0, s5, sA and sB.
+                              ;
+                send_message: CALL@ (sB, sA)
+                              COMPARE s5, 00                           ;terminate on NUL character
+                              RETURN Z
+                              CALL UART_TX
+                              ADD sA, 1'd
+                              ADDCY sB, 0'd
+                              JUMP send_message
+                              ;
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; Send Carriage Return to UART
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                              ; Registers used s0 and s5.
+                              ;
+                     send_CR: LOAD s5, CR
+                              JUMP UART_TX                             ;includes RETURN
+                              ;
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; Send a Space to UART
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                              ; Registers used s0 and s5.
+                              ;
+                  send_space: LOAD s5, " "
+                              JUMP UART_TX                             ;includes RETURN
+                              ;
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; Send 'Ok' and Carriage Return to UART
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                              ; Registers used s0 and s5.
+                              ;
+                     send_Ok: LOAD s5, "O"
+                              CALL UART_TX
+                              LOAD s5, "k"
+                              CALL UART_TX
+                              JUMP send_CR                             ;includes RETURN
+                              ;
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; Send ' Hex' followed by Carriage Return to UART
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                              ; Registers used s0 and s5.
+                              ;
+                 send_Hex_CR: LOAD sB, Hex_msg'upper
+                              LOAD sA, Hex_msg'lower
+                              JUMP send_message                        ;includes RETURN
+                              ;
+                              ; Text message used in this section
+                              ;
+                              STRING Hex$, " Hex"
+                              ;
+                     Hex_msg: LOAD&RETURN s5, Hex$
+                              LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, NUL
+                              ;
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; Send 'Failed' (in Red) and Carriage Return to UART
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                              ; Registers used s0, s5, sA and sB.
+                              ;
+                 send_Failed: CALL PicoTerm_text_Red
+                              LOAD sB, Failed_msg'upper                ;Display message
+                              LOAD sA, Failed_msg'lower
+                              CALL send_message
+                              JUMP PicoTerm_text_Black                 ;includes RETURN
+                              ;
+                              ;
+                              ; Text message used in this section
+                              ;
+                              STRING Failed$, "Failed"
+                              ;
+                  Failed_msg: LOAD&RETURN s5, Failed$
+                              LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, NUL
+                              ;
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; Send ' FAR = ' to UART
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                              ; Registers used s0, s5, sA and sB.
+                              ;
+                send_FAR_msg: LOAD sB, FAR_msg'upper
+                              LOAD sA, FAR_msg'lower
+                              JUMP send_message                        ;includes RETURN
+                              ; Text message used in this section
+                              ;
+                              STRING FAR$, " FAR = "
+                              ;
+                     FAR_msg: LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, FAR$
+                              LOAD&RETURN s5, NUL
+                              ;
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; Send Hex Value of Byte to UART
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                              ; Value provided in register 's4' is sent as ASCII HEX to the UART transmitter.
+                              ;
+                              ; Registers used s0, s4 (preserved) and s5.
+                              ;
+               send_hex_byte: LOAD s5, s4                              ;isolate upper nibble
+                              SR0 s5
+                              SR0 s5
+                              SR0 s5
+                              SR0 s5
+                              CALL hex_to_ASCII                        ; convert to ASCII
+                              CALL UART_TX                             ;send upper digit to UART
+                              LOAD s5, s4                              ;isolate lower nibble
+                              AND s5, 0F
+                              CALL hex_to_ASCII                        ; convert to ASCII
+                              CALL UART_TX                             ;send lower digit to UART
+                              RETURN 
+                              ;
+                              ; Convert value 00 to 0F provided in 's5' into ASCII character in 's5'
+                              ;
+                              ; Register used s5
+                              ;
+                hex_to_ASCII: SUB s5, 0A                               ;test if value is in range 0 to 9
+                              JUMP C, number_char
+                              ADD s5, 07                               ;ASCII char A to F in range 41 to 46
+                 number_char: ADD s5, 3A                               ;ASCII char 0 to 9 in range 30 to 40
+                              RETURN 
+                              ;
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; Send Hex Value of 32-bite word to UART
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                              ; Value provided in register set [sF,sE,sD,sC].
+                              ;
+                              ; Registers used s0, s4 and s5 ( [sF,sE,sD,sC] are preserved).
+                              ;
+               send_hex_word: LOAD s4, sF
+                              CALL send_hex_byte
+                              LOAD s4, sE
+                              CALL send_hex_byte
+                              LOAD s4, sD
+                              CALL send_hex_byte
+                              LOAD s4, sC
+                              CALL send_hex_byte
+                              RETURN 
+                              ;
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; Fetch ICAPE2 value from scratch pad and send to UART
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                              ; Registers used s0, s4, s5, sC, sD, sE and sF.
+                              ;
+              send_ICAP_word: FETCH sC, ICAPE2_word0
+                              FETCH sD, ICAPE2_word1
+                              FETCH sE, ICAPE2_word2
+                              FETCH sF, ICAPE2_word3
+                              JUMP send_hex_word                       ;includes return
+                              ;
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; Converts character to upper case
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                              ; Tests and converts character in 's5' (if necessary).
+                              ;
+                              ; To convert character to upper case
+                              ;
+                              ; If the character is in the range 'a' to 'z', it is converted
+                              ; to the equivalent upper case character in the range 'A' to 'Z'.
+                              ; All other characters remain unchanged.
+                              ;
+                  upper_case: COMPARE s5, "a"                          ;eliminate character codes below 'a' (61 hex)
+                              RETURN C
+                              COMPARE s5, 7B                           ;eliminate character codes above 'z' (7A hex)
+                              RETURN NC
+                              AND s5, 11011111'b                       ;force bit5 Low to convert to upper case
+                              RETURN 
+                              ;
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; Routine to open a PicoTerm LOG file with date and time stamp on first line
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                              ; Opening a new LOG file will also close a previous one if already open. The message
+                              ; displayed will also appear as the first line of the new file.
+                              ;
+               open_LOG_file: CALL PicoTerm_open_log_file
+                              ;
+                              LOAD sB, log_msg'upper
+                              LOAD sA, log_msg'lower
+                              CALL send_message
+                              ;
+                              ; Obtain date
+                              ;
+                              LOAD s0, 00                              ;clear DCS response location
+                              STORE s0, PicoTerm_Response0
+                              CALL PicoTerm_Date_String
+                              ;
+                              ; Wait for DCS response discarding any other characters
+                              ;
+               wait_DCS_date: CALL UART_RX
+                              FETCH s0, PicoTerm_Response0             ;wait for response
+                              COMPARE s0, "D"
+                              JUMP NZ, wait_DCS_date
+                              ;
+                              LOAD s1, PicoTerm_Response1              ;display response
+                   send_date: FETCH s5, (s1)
+                              CALL UART_TX
+                              COMPARE s1, PicoTerm_Response11
+                              JUMP Z, obtain_time
+                              ADD s1, 1'd
+                              JUMP send_date
+                              ;
+                              ; Obtain time
+                              ;
+                 obtain_time: CALL send_space
+                              LOAD s5, "-"
+                              CALL UART_TX
+                              CALL send_space
+                              LOAD s0, 00                              ;clear DCS response location
+                              STORE s0, PicoTerm_Response0
+                              CALL PicoTerm_Time_String
+                              ;
+                              ; Wait for DCS response discarding any other characters
+                              ;
+               wait_DCS_time: CALL UART_RX
+                              FETCH s0, PicoTerm_Response0             ;wait for response
+                              COMPARE s0, "T"
+                              JUMP NZ, wait_DCS_time
+                              ;
+                              LOAD s1, PicoTerm_Response1              ;display response
+                   send_time: FETCH s5, (s1)
+                              CALL UART_TX
+                              COMPARE s1, PicoTerm_Response8
+                              JUMP Z, log_is_open
+                              ADD s1, 1'd
+                              JUMP send_time
+                              ;
+                 log_is_open: CALL send_CR
+                              CALL send_CR
+                              RETURN 
+                              ;
+                              ;
+                              ; Text strings required in this section
+                              ;
+                              STRING log$, "LOG file opened: "
+                              ;
+                              ;
+                     log_msg: LOAD&RETURN s5, CR
+                              LOAD&RETURN s5, log$
+                              LOAD&RETURN s5, NUL
+                              ;
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; Include PSM files
+                              ;------------------------------------------------------------------------------------------
+                              ;
+                              ; The INCLUDE directive enables commonly routines to be kept in their own PSM files and
+                              ; easily reused in different programs (i.e. avoiding 'cut and paste'). It also allows
+                              ; each PSM to remain a more manageable size.
+                              ;
+                              ;
+                              ; Include routines that implement communication with ICAPE2.
+                              ; ----------------------------------------------------------
+                              ;
+                              INCLUDE "ICAPE2_routines.psm"
+                              ;
+                              ;
+                              ; Routines that implement interface with UART macros and control PicoTerm.
+                              ; ------------------------------------------------------------------------
+                              ;
+                              INCLUDE "PicoTerm_routines.psm"
+                              ;
+                              ;
+                              ; Routines that implement communication with a RAM of 2048 bytes.
+                              ; ---------------------------------------------------------------
+                              ;
+                              INCLUDE "RAM_2048x8_routines.psm"
+                              ;
+                              ;
+                              ; Include routines that implement line entry and analysis.
+                              ; --------------------------------------------------------
+                              ;
+                              INCLUDE "line_input_and_editing.psm"
+                              ;
+                              ;
+                              ;------------------------------------------------------------------------------------------
+                              ; End of Program
+                              ;------------------------------------------------------------------------------------------
+                              ;

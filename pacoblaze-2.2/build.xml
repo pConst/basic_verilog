@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+
+<project
+	name="KCAsm"
+	default="jar"
+	basedir="."
+>
+
+<description>
+KCAsm: PacoBlaze Assembler in Java.
+</description>
+
+<property name="src.dir" value="kcasm"/>
+<property name="bld.dir" value="build"/>
+<property name="kcasm.jar" value="KCAsm.jar"/>
+
+<target name="prepare">
+	<mkdir dir="${bld.dir}"/>
+</target>
+
+<target name="clean">
+	<delete dir="${bld.dir}"/>
+	<delete file="${kcasm.jar}"/>
+</target>
+
+<target name="compile" depends="prepare">
+	<javac srcdir="${src.dir}" destdir="${bld.dir}"/>
+</target>
+
+<target name="jar" depends="compile">
+	<jar destfile="${kcasm.jar}" basedir="."
+	includes="${bld.dir}/*.class ${src.dir}/MANIFEST.MF"
+	/>
+</target>
+
+</project>

@@ -1,0 +1,451 @@
+                      ;
+                      ;------------------------------------------------------------------------------------------
+                      ; Copyright © 2014, Xilinx, Inc.
+                      ; This file contains confidential and proprietary information of Xilinx, Inc. and is
+                      ; protected under U.S. and international copyright and other intellectual property laws.
+                      ;------------------------------------------------------------------------------------------
+                      ;
+                      ; Disclaimer:
+                      ; This disclaimer is not a license and does not grant any rights to the materials
+                      ; distributed herewith. Except as otherwise provided in a valid license issued to
+                      ; you by Xilinx, and to the maximum extent permitted by applicable law: (1) THESE
+                      ; MATERIALS ARE MADE AVAILABLE "AS IS" AND WITH ALL FAULTS, AND XILINX HEREBY
+                      ; DISCLAIMS ALL WARRANTIES AND CONDITIONS, EXPRESS, IMPLIED, OR STATUTORY,
+                      ; INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, NON-INFRINGEMENT,
+                      ; OR FITNESS FOR ANY PARTICULAR PURPOSE; and (2) Xilinx shall not be liable
+                      ; (whether in contract or tort, including negligence, or under any other theory
+                      ; of liability) for any loss or damage of any kind or nature related to, arising
+                      ; under or in connection with these materials, including for any direct, or any
+                      ; indirect, special, incidental, or consequential loss or damage (including loss
+                      ; of data, profits, goodwill, or any type of loss or damage suffered as a result
+                      ; of any action brought by a third party) even if such damage or loss was
+                      ; reasonably foreseeable or Xilinx had been advised of the possibility of the same.
+                      ;
+                      ; CRITICAL APPLICATIONS
+                      ; Xilinx products are not designed or intended to be fail-safe, or for use in any
+                      ; application requiring fail-safe performance, such as life-support or safety
+                      ; devices or systems, Class III medical devices, nuclear facilities, applications
+                      ; related to the deployment of airbags, or any other applications that could lead
+                      ; to death, personal injury, or severe property or environmental damage
+                      ; (individually and collectively, "Critical Applications"). Customer assumes the
+                      ; sole risk and liability of any use of Xilinx products in Critical Applications,
+                      ; subject only to applicable laws and regulations governing limitations on product
+                      ; liability.
+                      ;
+                      ; THIS COPYRIGHT NOTICE AND DISCLAIMER MUST BE RETAINED AS PART OF THIS FILE AT ALL TIMES.
+                      ;
+                      ;------------------------------------------------------------------------------------------
+                      ;
+                      ;             _  ______ ____  ____  __  __  __
+                      ;            | |/ / ___|  _ \/ ___||  \/  |/ /_
+                      ;            | ' / |   | |_) \___ \| |\/| | '_ \
+                      ;            | . \ |___|  __/ ___) | |  | | (_) )
+                      ;            |_|\_\____|_|   |____/|_|  |_|\___/
+                      ;
+                      ;
+                      ;         PicoBlaze Reference Design - Line Editor.
+                      ;
+                      ;
+                      ; Ken Chapman - Xilinx Ltd
+                      ;
+                      ; 18th August 2014 - Initial version.
+                      ;
+                      ;
+                      ; The primary routine provided in this file enables the user of the terminal connected
+                      ; to the UART communication link to enter a line consisting of multiple characters. Simple
+                      ; editing of the characters on a line can be performed using the back space key prior to
+                      ; line entry being terminated by a carriage return (CR). The 'read_line' routine has been
+                      ; developed to work with PicoTerm provided in the PicoTerm package. If you require further
+                      ; information about PicoTerm then please refer to 'PicoTerm_README.txt' which describes
+                      ; basic usage as well as the control characters and control sequences that can be used
+                      ; with it. The 'read_line' routine will probably work with other terminal applications but
+                      ; the ability to edit a line does depend of the way a terminal reacts to the back space
+                      ; character.
+                      ;
+                      ; The line if characters entered are stored in scratch pad memory. The amount of scratch
+                      ; pad memory defined for the line buffer defines the maximum number of characters allowed
+                      ; on a line.
+                      ;
+                      ;     IMPORTANT - Two CONSTANT directives are described and defined below and these must
+                      ;                 be set to allocate the area of scratch pad memory used to store the
+                      ;                 characters forming a line. All other code must respect the purpose of
+                      ;                 these memory locations.
+                      ;
+                      ; The other routines provided in this file can be used to analyse or modify the characters
+                      ; of a line stored in the scratch pad memory line buffer. For example, there are routines
+                      ; to report the number of characters on the line, display the line and convert an ASCII
+                      ; hexadecimal value of up to 8-digits into a 32-bit value.
+                      ;
+                      ;
+                      ;   NOTE - This is not a standalone PSM file. This file should be included in
+                      ;          an application PSM file from which these routines are then called.
+                      ;
+                      ;                INCLUDE "line_input_and_editing.psm"
+                      ;
+                      ;
+                      ;   NOTE - The code in this file uses UART communication routines that are defined and
+                      ;          provided in 'PicoTerm_routines.psm'. Therefore that file should also be
+                      ;          included in an application PSM file (or copy the routines within it).
+                      ;
+                      ; Obviously communication with PicoTerm requires the UART macros to be connected to
+                      ; KCPSM6 and for PicoTerm to be connected and active.
+                      ;
+                      ;
+                      ;------------------------------------------------------------------------------------------
+                      ; Scratch Pad Memory
+                      ;------------------------------------------------------------------------------------------
+                      ;
+                      ; The CONSTANT directives below define the allocation of scratch pad memory locations
+                      ; used to store a line of characters terminated by a carriage return (CR).
+                      ;
+                      ; The difference between 'line_buffer_start' and 'line_buffer_end' defines the maximum
+                      ; number of characters that can be entered on the line.
+                      ;
+                      ; It vital that the memory location specified for 'line_buffer_end' is greater than the
+                      ; memory location specified for 'line_buffer_start'. This should feel obvious and natural
+                      ; but it is worth double checking your definitions because a failure to do this will result
+                      ; in a buffer that will wrap round from the last memory location to the first memory
+                      ; location (i.e. probably occupying every memory location except that the locations you
+                      ; that you originally intended it to!).
+                      ;
+                      ; A buffer to store up to 32 characters (including a terminating carriage return).
+                      ;
+                      CONSTANT line_buffer_start, E0
+                      CONSTANT line_buffer_end, FF
+                      ;
+                      ;
+                      ;------------------------------------------------------------------------------------------
+                      ; Read one 'line' from the keyboard
+                      ;------------------------------------------------------------------------------------------
+                      ;
+                      ; This routine will allow the user to enter characters at the keyboard until terminated by
+                      ; a carriage return (CR). The backspace (BS) key will be recognised and facilitate some
+                      ; simple editing of characters on the line prior to submission.
+                      ;
+                      ; If the user enters enough characters to fill the line buffer the user will be unable to
+                      ; enter any more characters. The back space key can be used to delete characters thereby
+                      ; creating space in the line buffer and enabling new characters to be entered again. CR can
+                      ; also be used to submit a line that fills the buffer.
+                      ;
+                      ; Note that the line buffer location and size is defined by the 'line_buffer_start' and
+                      ; 'line_buffer_end' constants. The line buffer will always store the carriage return (CR)
+                      ; to indicate the end of the actual line stored in the buffer (i.e. lines will often be
+                      ; shorter than the maximum supported).
+                      ;
+                      ;
+                      ; Registers used s0, s1, s2 and s5.
+                      ;
+           read_line: LOAD s2, line_buffer_start     ;memory pointer
+                      ;
+      read_line_loop: CALL UART_RX                   ;wait for a key to be entered
+                      JUMP Z, read_line_loop         ;character returned in s5 if no timeout
+                      ;
+                      COMPARE s5, BS                 ;test for back space
+                      JUMP Z, delete_character
+                      ;
+                      STORE s5, (s2)                 ;store character
+                      CALL UART_TX                   ;echo character to screen (including CR)
+                      ;
+                      COMPARE s5, CR                 ;test for carriage return to end routine
+                      RETURN Z
+                      ;
+                      ; Increment memory pointer for next character.
+                      ;
+                      ; If the buffer is already full then delete the last character entered from the screen
+                      ; and do not increment the memory pointer. The user may see the flickering of the last
+                      ; character entered but this acts as a visual indication of reaching the line limit.
+                      ;
+                      COMPARE s2, line_buffer_end
+                      JUMP Z, line_buffer_full
+                      ADD s2, 01                     ;increment pointer
+                      JUMP read_line_loop
+                      ;
+    line_buffer_full: LOAD s5, BS                    ;delete last character on screen
+                      CALL UART_TX
+                      JUMP read_line_loop
+                      ;
+                      ; When 'BS' is entered then delete the previous character on the display and decrement the
+                      ; pointer. The buffer contents are not changed but the pointer and eventual location of a
+                      ; carriage return character will identify which characters are valid when the line is
+                      ; interpreted. If the pointer is already at the start of the buffer then the pointer
+                      ; remains the same and there is no need to send any characters to the screen (in this
+                      ; situation there is not even a character on the display to delete).
+                      ;
+    delete_character: COMPARE s2, line_buffer_start  ;test for start of buffer
+                      JUMP Z, read_line_loop
+                      CALL UART_TX                   ;BS deletes previous character
+                      SUB s2, 01                     ;decrement pointer
+                      JUMP read_line_loop
+                      ;
+                      ;
+                      ;------------------------------------------------------------------------------------------
+                      ; Display the line currently stored in scratch pad memory line buffer
+                      ;------------------------------------------------------------------------------------------
+                      ;
+                      ; This routine will display all the characters held in the line buffer up to and including
+                      ; the carriage return (CR).
+                      ;
+                      ; Note - Do not call this routine before the 'read_line' routine has been used at least
+                      ;        once. This routine requires a carriage return (CR) to be encountered!
+                      ;
+                      ; Registers used s0, s1 and s5.
+                      ;
+           send_line: LOAD s1, line_buffer_start     ;memory pointer
+                      ;
+      send_line_loop: FETCH s5, (s1)                 ;fetch character
+                      CALL UART_TX                   ;display character (including CR)
+                      ;
+                      COMPARE s5, CR                 ;test for carriage return to end routine
+                      RETURN Z
+                      ;
+                      ADD s1, 01                     ;increment pointer
+                      JUMP send_line_loop
+                      ;
+                      ;
+                      ;------------------------------------------------------------------------------------------
+                      ; Determine the length of the 'line' held in the memory buffer
+                      ;------------------------------------------------------------------------------------------
+                      ;
+                      ; This routine will return the number of characters held in the line buffer in register s2.
+                      ; The character count does not include the carriage return signifying the end of the line.
+                      ; An empty line will have the carriage return in the first location and therefore s2=00.
+                      ;
+                      ; Note - Do not call this routine before the 'read_line' routine has been used at least
+                      ;        once. This routine requires a carriage return (CR) to be encountered!
+                      ;
+                      ; Hint - On return, 's1' will point to the location of the carriage return (CR) which
+                      ;        can also be useful to know.
+                      ;
+                      ; Registers used s0, s1 and s2.
+                      ;
+         line_length: LOAD s1, line_buffer_start     ;memory pointer
+                      LOAD s2, 00                    ;clear counter
+                      ;
+    line_length_loop: FETCH s0, (s1)                 ;read character
+                      COMPARE s0, CR                 ;test for end of line
+                      RETURN Z
+                      ADD s1, 01                     ;increment pointer
+                      ADD s2, 01                     ;increment counter
+                      JUMP line_length_loop
+                      ;
+                      ;
+                      ;------------------------------------------------------------------------------------------
+                      ; Convert characters of the 'line' held in the memory buffer to upper case
+                      ;------------------------------------------------------------------------------------------
+                      ;
+                      ; This routine will scan through the line converting any lower case characters to upper
+                      ; case.
+                      ;
+                      ; Note - Do not call this routine before the 'read_line' routine has been used at least
+                      ;        once. This routine requires a carriage return (CR) to be encountered!
+                      ;
+                      ; Hint - On return, 's1' will point to the location of the carriage return (CR) which
+                      ;        can also be useful to know.
+                      ;
+                      ; Registers used s0 and s1
+                      ;
+     line_upper_case: LOAD s1, line_buffer_start     ;memory pointer
+                      ;
+line_upper_case_loop: FETCH s0, (s1)                 ;read character
+                      COMPARE s0, CR                 ;test for end of line
+                      RETURN Z
+                      ;
+                      COMPARE s0, "a"                ;eliminate character codes below 'a' (61 hex)
+                      JUMP C, next_luc_char
+                      COMPARE s0, 7B                 ;eliminate character codes above 'z' (7A hex)
+                      JUMP NC, next_luc_char
+                      AND s0, 11011111'b             ;force bit5 Low to convert to upper case
+                      STORE s0, (s1)                 ;store modified character
+                      ;
+       next_luc_char: ADD s1, 01                     ;increment pointer
+                      JUMP line_upper_case_loop
+                      ;
+                      ;
+                      ;------------------------------------------------------------------------------------------
+                      ; Convert ASCII Hexadecimal 'line' to a 32-bit Value
+                      ;------------------------------------------------------------------------------------------
+                      ;
+                      ; This routine will interpret a line containing ASCII hexadecimal characters into a 32-bit
+                      ; value which is returned in register set [sF,sE,sD,sC]. The line can contain any number
+                      ; of characters up to a maximum of 8 hexadecimal digits which is consistent with a 32-bit
+                      ; value.
+                      ;
+                      ; Valid hexadecimal characters are 0,1,2,3,4,5,6,7,8,9,A,B,C,D,E and F but lower case
+                      ; characters are also accepted and automatically converted to upper case characters in
+                      ; the line buffer.
+                      ;
+                      ; If the line is empty or contains more than 8 characters the routine will return with
+                      ; the carry flag set. Likewise, if the line contains any non-hexadecimal characters the
+                      ; routine will return with the carry flag set to indicate an error.
+                      ;
+                      ; When a valid hexadecimal value (e.g. anything in the range '0' to 'FFFFFFFF') is
+                      ; provided in the line buffer then the 32-bit value is returned in register set
+                      ; [sF,sE,sD,sC] with the carry flag cleared.
+                      ;
+                      ; Note - Do not call this routine before the 'read_line' routine has been used at least
+                      ;        once. This routine requires a carriage return (CR) to be encountered!
+                      ;
+                      ; Registers used s0, s1, s2, sC, sD, sE and sF
+                      ;
+                      ;
+      line_32bit_hex: CALL line_length               ;number of characters in s2
+                      ;
+                      ; There must be between 1 and 8 characters in the line buffer.
+                      ; Adding 247 to the character count in s2 will set the carry flag if there are more than
+                      ; 8 characters. Adding another 9 will restore the original value of s2 but will also
+                      ; ensure that the carry flag is set so that a test for s2=00 will also abort with C=1.
+                      ;
+                      ADD s2, 247'd                  ;test for >8 characters
+                      RETURN C                       ;abort with carry flag set
+                      ADD s2, 9'd                    ;test for empty line
+                      RETURN Z                       ;abort with carry flag set
+                      ;
+                      CALL line_upper_case           ;Make sure characters are upper case ready to be converted
+                      ;
+                      ; Scan the line from left to right converting each hex digit to its corresponding 4-bit
+                      ; value. Working from left to right means that the first digit converted defines the most
+                      ; significant bits and the last digit converted defined the least significant bits. So as
+                      ; each digit is converted its 4-bits are shifted into the least significant bits of
+                      ; [sF,sE,sD,sC]. If less than 8-digits are specified the most significant bits of the
+                      ; returned value will be zero.
+                      ;
+                      LOAD sC, 00                    ;Clear 32-bit result
+                      LOAD sD, 00                    ;  This ensures that MSBs are zero when
+                      LOAD sE, 00                    ;  less than 8 hex digits on line
+                      LOAD sF, 00
+                      ;
+                      LOAD s1, line_buffer_start     ;memory pointer
+                      ;
+   l32b_convert_loop: FETCH s0, (s1)                 ;read character
+                      COMPARE s0, CR                 ;test for end of line
+                      RETURN Z                       ;conversion complete (carry flag is clear)
+                      ;
+                      ; Convert the ASCII character in 's0' to an equivalent numerical 4-bit value.
+                      ;
+                      ;    Characters     ASCII codes (hex)      Value
+                      ;      0 - 9             30 - 39          00 - 09
+                      ;      A - F             41 - 46          0A - 0F
+                      ;
+                      ; If any character is not valid for hex then return with carry flag set.
+                      ;
+                      ADD s0, B9                     ;test for above ASCII code 46 hex ('F')
+                      RETURN C                       ; and fail if character is!
+                      SUB s0, E9                     ;normalise 0 to 9 with A-F in range 11 to 16 hex
+                      RETURN C                       ; and fail for character below code 30 hex ('0')
+                      SUB s0, 11                     ;isolate A-F down to 00 to 05 hex
+                      JUMP NC, Hex_letter
+                      ADD s0, 07                     ;test for above ASCII code 39 hex ('9')
+                      RETURN C                       ; and fail if character is!
+                      SUB s0, F6                     ;convert to range 00 to 09
+                      JUMP l32b_shift
+          Hex_letter: ADD s0, 0A                     ;convert A-F to value in range 0A to 0F
+                      ;
+                      ; Shift 4-bit value in 's0' into the least significant bits of [sF,sE,sD,sC].
+                      ;
+          l32b_shift: LOAD s2, 00001000'b            ;bit mask and one-hot counter
+     l32b_shift_loop: TEST s0, s2                    ;copy bit to carry flag
+                      SLA sC                         ;shift 32-bit value left injecting carry into LSB
+                      SLA sD
+                      SLA sE
+                      SLA sF
+                      SR0 s2                         ;shift mask to next bit
+                      JUMP NZ, l32b_shift_loop
+                      ;
+                      ADD s1, 01                     ;increment pointer
+                      JUMP l32b_convert_loop
+                      ;
+                      ;
+                      ;------------------------------------------------------------------------------------------
+                      ; Convert ASCII Decimal 'line' to a 16-bit Value
+                      ;------------------------------------------------------------------------------------------
+                      ;
+                      ; This routine will interpret a line containing ASCII decimal characters into a 16-bit
+                      ; value which is returned in register set [s9,s8]. The line can contain any number
+                      ; of characters up to a maximum of 5 decimal digits which is consistent with a 16-bit
+                      ; value.
+                      ;
+                      ; Valid decimal characters are 0,1,2,3,4,5,6,7,8 and 9. If the line contains any
+                      ; non-decimal characters the routine will return with the carry flag set to indicate an
+                      ; error. Likewise, if the line is empty or contains more than 5 characters the routine
+                      ; will return with the carry flag set.
+                      ;
+                      ; When a valid decimal value (e.g. anything in the range '0' to '65535') is provided in
+                      ; the line buffer then the 16-bit value is returned in register set [s9,s8] with the
+                      ; carry flag cleared.
+                      ;
+                      ; Note - Do not call this routine before the 'read_line' routine has been used at least
+                      ;        once. This routine requires a carriage return (CR) to be encountered!
+                      ;
+                      ; Registers used s0, s1, s2, s3, s4, s8, s9
+                      ;
+                      ; 'line_length' determines the number of characters in the line buffer and returns that
+                      ; count in register s3. Register s2 is also pointing to the carriage return that
+                      ; terminates the line.
+                      ;
+        decimal_line: CALL line_length               ;number of characters in s2 (and s1 points to CR)
+                      ;
+                      ; There must be between 1 and 5 characters in the line buffer.
+                      ; Adding 250 to the character count in s2 will set the carry flag if there are more than
+                      ; 5 characters. Adding another 6 will restore the original value of s2 but will also
+                      ; ensure that the carry flag is set so that a test for s2=00 will also abort with C=1.
+                      ;
+                      ADD s2, 250'd                  ;test for >5 characters
+                      RETURN C                       ;abort with carry flag set
+                      ADD s2, 6'd                    ;test for empty line
+                      RETURN Z                       ;abort with carry flag set
+                      ;
+                      LOAD s8, 00                    ;clear [s9,s8] ready for conversion result
+                      LOAD s9, 00
+                      ;
+                      ; [s5,s4] will hold a value consistent with the decimal digit being processed.
+                      ; Processing starts with the least significant digit which has a weighting of 1.
+                      ;
+                      LOAD s3, 01
+                      LOAD s4, 00
+                      ;
+   decimal_line_loop: SUB s1, 1'd                    ;decrement pointer
+                      FETCH s0, (s1)                 ;read character
+                      ;
+                      ; ASCII character should be in the range 30 to 39 hex.
+                      ; Adding C6 to the ASCII code in s0 will set the carry flag if the code is >39 hex.
+                      ; Then subtracting F6 hex will convert the ASCII code to an absolute value in the
+                      ; range 00 to 09 hex but will also set the carry flag if the original ASCII code
+                      ; was <30 hex.
+                      ;
+                      ADD s0, C6                     ;test for >39 hex
+                      RETURN C                       ;abort with carry flag set
+                      SUB s0, F6                     ;convert to value
+                      RETURN C                       ;abort with carry flag set
+                      ;
+                      ; Apply the digit value and digit weighting to the conversion result
+                      ;
+       digit_convert: SUB s0, 1'd                    ;digit conversion complete?
+                      JUMP C, next_decimal_weight
+                      ADD s8, s3                     ;add digit weight to conversion result
+                      ADDCY s9, s4
+                      RETURN C                       ;abort with carry flag set if >65,536 (FFFF)
+                      JUMP digit_convert
+                      ;
+                      ; Multiply current digit weight by 10.
+                      ;
+ next_decimal_weight: LOAD s0, s3                    ;copy [s4,s3] to [s1,s0]
+                      LOAD s1, s4
+                      SL0 s3                         ;shift [s4,s3] left twice to achieve 4x
+                      SLA s4
+                      SL0 s3
+                      SLA s4
+                      ADD s3, s0                     ;add [s1,s0] to achieve 5x
+                      ADDCY s4, s1
+                      SL0 s3                         ;shift [s4,s3] left to achieve 10x
+                      SLA s4
+                      ;
+                      SUB s2, 1'd                    ;decrement digits remaining to be converted
+                      RETURN Z                       ;conversion complete (carry flag is clear)
+                      ;
+                      JUMP decimal_line_loop
+                      ;
+                      ;
+                      ;------------------------------------------------------------------------------------------
+                      ; End of 'line_input_and_editing.psm'
+                      ;------------------------------------------------------------------------------------------
+                      ;

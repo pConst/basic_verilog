@@ -1,0 +1,788 @@
+/* Symbol Table */
+// BTN_east = CONSTANT: 2
+// BTN_north = CONSTANT: 1
+// BTN_south = CONSTANT: 4
+// BTN_west = CONSTANT: 8
+// ISR = LABEL: 192
+// LED0 = CONSTANT: 1
+// LED1 = CONSTANT: 2
+// LED2 = CONSTANT: 4
+// LED3 = CONSTANT: 8
+// LED4 = CONSTANT: 16
+// LED5 = CONSTANT: 32
+// LED6 = CONSTANT: 64
+// LED7 = CONSTANT: 128
+// LED_port = CONSTANT: 128
+// SPI_adc_conv = CONSTANT: 16
+// SPI_amp_cs = CONSTANT: 8
+// SPI_amp_sdi = CONSTANT: 64
+// SPI_amp_shdn = CONSTANT: 64
+// SPI_control_port = CONSTANT: 8
+// SPI_dac_clr = CONSTANT: 128
+// SPI_dac_cs = CONSTANT: 32
+// SPI_dac_tx_rx = LABEL: 122
+// SPI_init = LABEL: 119
+// SPI_input_port = CONSTANT: 1
+// SPI_output_port = CONSTANT: 4
+// SPI_rom_cs = CONSTANT: 2
+// SPI_sck = CONSTANT: 1
+// SPI_sdi = CONSTANT: 128
+// SPI_sdo = CONSTANT: 128
+// SPI_spare_control = CONSTANT: 4
+// calc_next_sine = LABEL: 94
+// chan_A_lsb = CONSTANT: 0
+// chan_A_msb = CONSTANT: 1
+// chan_B_lsb = CONSTANT: 2
+// chan_B_msb = CONSTANT: 3
+// chan_C_lsb = CONSTANT: 4
+// chan_C_msb = CONSTANT: 5
+// chan_D_lsb = CONSTANT: 6
+// chan_D_msb = CONSTANT: 7
+// cold_start = LABEL: 0
+// dac_reset = LABEL: 162
+// delay_1ms = LABEL: 177
+// delay_1s = LABEL: 187
+// delay_1us = LABEL: 168
+// delay_1us_constant = CONSTANT: 11
+// delay_20ms = LABEL: 182
+// delay_40us = LABEL: 172
+// init_sine_wave = LABEL: 82
+// mult_loop = LABEL: 103
+// next_SPI_dac_bit = LABEL: 123
+// no_mult_add = LABEL: 110
+// s0 = REGISTER: 0
+// s1 = REGISTER: 1
+// s2 = REGISTER: 2
+// s3 = REGISTER: 3
+// s4 = REGISTER: 4
+// s5 = REGISTER: 5
+// s6 = REGISTER: 6
+// s7 = REGISTER: 7
+// s8 = REGISTER: 8
+// s9 = REGISTER: 9
+// sA = REGISTER: 10
+// sB = REGISTER: 11
+// sC = REGISTER: 12
+// sD = REGISTER: 13
+// sE = REGISTER: 14
+// sF = REGISTER: 15
+// sample_count_lsb = CONSTANT: 32
+// sample_count_msb = CONSTANT: 33
+// set_dac = LABEL: 134
+// sine_k_lsb = CONSTANT: 20
+// sine_k_msb = CONSTANT: 21
+// sine_y1_lsb = CONSTANT: 18
+// sine_y1_msb = CONSTANT: 19
+// sine_y_lsb = CONSTANT: 16
+// sine_y_msb = CONSTANT: 17
+// slope_down = LABEL: 42
+// square_count = CONSTANT: 9
+// square_high = LABEL: 58
+// store_channel_B = LABEL: 50
+// store_channel_C = LABEL: 60
+// switch0 = CONSTANT: 16
+// switch1 = CONSTANT: 32
+// switch2 = CONSTANT: 64
+// switch3 = CONSTANT: 128
+// switch_port = CONSTANT: 0
+// triangle_up_down = CONSTANT: 8
+// wait_1ms = LABEL: 178
+// wait_1s = LABEL: 188
+// wait_1us = LABEL: 169
+// wait_20ms = LABEL: 183
+// wait_40us = LABEL: 173
+// wait_int = LABEL: 16
+// warm_start = LABEL: 15
+
+/* Program Code */
+// #1: ;KCPSM3 Program - SPI Control of D/A converter on Spartan-3E Starter Kit.
+// #2: ;
+// #3: ;
+// #4: ;Ken Chapman - Xilinx Ltd
+// #5: ;
+// #6: ;Version v1.00 - 24th November 2005
+// #7: ;
+// #8: ;This program uses an 8KHz interrupt to generate test waveforms on the
+// #9: ;4 analogue outputs provided by the Linear Technology LTC2624 device.
+// #10: ;
+// #11: ;As well as the port connections vital to communication with the UART and the SPI
+// #12: ;FLASH memory, there are additional port connections used to disable the other
+// #13: ;devices sharing the SPI bus on the Starter Kit board. Although these could have been
+// #14: ;controlled at the hardware level, they are included in this code to aid
+// #15: ;future investigations of communication with the other SPI devices using PicoBlaze.
+// #16: ;
+// #17: ;Connections to the LEDs, switches and press buttons are provided to aid
+// #18: ;development and enable further experiments. Otherwise know as having fun!
+// #19: ;
+// #20: ;Port definitions
+// #21: ;
+// #22: ;
+// #23: CONSTANT(SPI_control_port,8) ;SPI clock and chip selects
+// #24: CONSTANT(SPI_sck,1) ;                  SCK - bit0
+// #25: CONSTANT(SPI_rom_cs,2) ;    serial rom select - bit1
+// #26: CONSTANT(SPI_spare_control,4) ;                spare - bit2
+// #27: CONSTANT(SPI_amp_cs,8) ;     amplifier select - bit3
+// #28: CONSTANT(SPI_adc_conv,16) ;          A/D convert - bit4
+// #29: CONSTANT(SPI_dac_cs,32) ;           D/A select - bit5
+// #30: CONSTANT(SPI_amp_shdn,64) ;       amplifier SHDN - bit6
+// #31: CONSTANT(SPI_dac_clr,128) ;            D/A clear - bit7
+// #32: ;
+// #33: CONSTANT(SPI_output_port,4) ;SPI data output
+// #34: CONSTANT(SPI_sdo,128) ;   SDO - bit7
+// #35: ;
+// #36: CONSTANT(SPI_input_port,1) ;SPI data input
+// #37: CONSTANT(SPI_sdi,128) ;             SDI - bit7
+// #38: CONSTANT(SPI_amp_sdi,64) ;   amplifier SDI - bit6
+// #39: ;
+// #40: ;
+// #41: CONSTANT(LED_port,128) ;8 simple LEDs
+// #42: CONSTANT(LED0,1) ;     LED 0 - bit0
+// #43: CONSTANT(LED1,2) ;         1 - bit1
+// #44: CONSTANT(LED2,4) ;         2 - bit2
+// #45: CONSTANT(LED3,8) ;         3 - bit3
+// #46: CONSTANT(LED4,16) ;         4 - bit4
+// #47: CONSTANT(LED5,32) ;         5 - bit5
+// #48: CONSTANT(LED6,64) ;         6 - bit6
+// #49: CONSTANT(LED7,128) ;         7 - bit7
+// #50: ;
+// #51: ;
+// #52: CONSTANT(switch_port,0) ;Read switches and press buttons
+// #53: CONSTANT(BTN_north,1) ;  Buttons     North - bit0
+// #54: CONSTANT(BTN_east,2) ;               East - bit1
+// #55: CONSTANT(BTN_south,4) ;              South - bit2
+// #56: CONSTANT(BTN_west,8) ;               West - bit3
+// #57: CONSTANT(switch0,16) ;  Switches        0 - bit4
+// #58: CONSTANT(switch1,32) ;                  1 - bit5
+// #59: CONSTANT(switch2,64) ;                  2 - bit6
+// #60: CONSTANT(switch3,128) ;                  3 - bit7
+// #61: ;
+// #62: ;
+// #63: ;
+// #64: ;
+// #65: ;Special Register usage
+// #66: ;
+// #67: ;
+// #68: ;Useful data constants
+// #69: ;
+// #70: ;
+// #71: ;Constant to define a software delay of 1us. This must be adjusted to reflect the
+// #72: ;clock applied to KCPSM3. Every instruction executes in 2 clock cycles making the
+// #73: ;calculation highly predictable. The '6' in the following equation even allows for
+// #74: ;'CALL delay_1us' instruction in the initiating code.
+// #75: ;
+// #76: ; delay_1us_constant =  (clock_rate - 6)/4       Where 'clock_rate' is in MHz
+// #77: ;
+// #78: ;Example: For a 50MHz clock the constant value is (10-6)/4 = 11  (0B Hex).
+// #79: ;For clock rates below 10MHz the value of 1 must be used and the operation will
+// #80: ;become lower than intended.
+// #81: ;
+// #82: CONSTANT(delay_1us_constant,11)
+// #83: ;
+// #84: ;
+// #85: ;
+// #86: ;
+// #87: ;
+// #88: ;
+// #89: ;Scratch Pad Memory Locations
+// #90: ;
+// #91: ;Values to be written to the D/A converter
+// #92: ;
+// #93: ;
+// #94: CONSTANT(chan_A_lsb,0) ;Channel A value LS-Byte
+// #95: CONSTANT(chan_A_msb,1) ;                MS-Byte
+// #96: ;
+// #97: CONSTANT(chan_B_lsb,2) ;Channel B value LS-Byte
+// #98: CONSTANT(chan_B_msb,3) ;                MS-Byte
+// #99: ;
+// #100: CONSTANT(chan_C_lsb,4) ;Channel C value LS-Byte
+// #101: CONSTANT(chan_C_msb,5) ;                MS-Byte
+// #102: ;
+// #103: CONSTANT(chan_D_lsb,6) ;Channel D value LS-Byte
+// #104: CONSTANT(chan_D_msb,7) ;                MS-Byte
+// #105: ;
+// #106: ;
+// #107: ;Value used to synthesise a triangle wave
+// #108: ;
+// #109: CONSTANT(triangle_up_down,8) ;Determines up or down slope
+// #110: ;
+// #111: ;Value used to synthesise a square wave
+// #112: ;
+// #113: CONSTANT(square_count,9) ;Counts samples in square wave
+// #114: ;
+// #115: ;
+// #116: ;Values used to synthesise a sine wave
+// #117: ;
+// #118: CONSTANT(sine_y_lsb,16) ;Sine wave value LS-Byte
+// #119: CONSTANT(sine_y_msb,17) ;                 MS-Byte
+// #120: CONSTANT(sine_y1_lsb,18) ;Sine wave delayed LS-Byte
+// #121: CONSTANT(sine_y1_msb,19) ;                  MS-Byte
+// #122: CONSTANT(sine_k_lsb,20) ;Sine constant LS-Byte
+// #123: CONSTANT(sine_k_msb,21) ;              MS-Byte
+// #124: ;
+// #125: ;
+// #126: ;Sample counter used to give activity indication on LEDs
+// #127: ;
+// #128: CONSTANT(sample_count_lsb,32) ;16-bit counter LS-Byte
+// #129: CONSTANT(sample_count_msb,33) ;               MS-Byte
+// #130: ;
+// #131: ;Initialise the system
+// #132: ;
+// #133: ;
+// @000 #134: [cold_start]
+30077 // @000 #134: CALL(SPI_init) ;initialise SPI bus ports
+30052 // @001 #135: CALL(init_sine_wave) ;initialise sine wave synthesis values
+300bb // @002 #136: CALL(delay_1s) ;bus settling delay
+00000 // @003 #137: LOAD(s0,0) ;clear all internal D/A values
+2e000 // @004 #138: STORE(s0,chan_A_lsb)
+2e001 // @005 #139: STORE(s0,chan_A_msb)
+2e002 // @006 #140: STORE(s0,chan_B_lsb)
+2e003 // @007 #141: STORE(s0,chan_B_msb)
+2e004 // @008 #142: STORE(s0,chan_C_lsb)
+2e005 // @009 #143: STORE(s0,chan_C_msb)
+2e006 // @00a #144: STORE(s0,chan_D_lsb)
+2e007 // @00b #145: STORE(s0,chan_D_msb)
+2e008 // @00c #146: STORE(s0,triangle_up_down) ;initial slope is up
+300a2 // @00d #147: CALL(dac_reset) ;reset D/A converter on all channels
+3c001 // @00e #148: ENABLE(INTERRUPT) ;Interrupts define 8KHz sample rate
+// #149: ;
+// #150: ;
+// #151: ;The program is interrupt driven to maintain an 8KHz sample rate. The main body
+// #152: ;of the program waits for an interrupt to occur. The interrupt updates all four
+// #153: ;analogue outputs with values stored in scratch pad memory. This takes approximately
+// #154: ;58us of the 125us available between interrupts. The main program then prepares
+// #155: ;new values for the analogue outputs (in less than 67us) before waiting for the
+// #156: ;next interrupt.
+// #157: ;
+// #158: ;
+// @00f #159: [warm_start]
+00fff // @00f #159: LOAD(sF,FF) ;flag set and wait for interrupt to be serviced
+// @010 #160: [wait_int]
+14fff // @010 #160: COMPARE(sF,FF)
+35010 // @011 #161: JUMP(Z,wait_int) ;interrupt clears the flag
+// #162: ;
+// #163: ;
+// #164: ;Channel A is a square wave of 2KHz.
+// #165: ;
+// #166: ;This is formed from the 2KHz square wave on channel C and demonstrates that the
+// #167: ;D/A converter echoes the previously sent 32-bit command word.
+// #168: ;
+// #169: ;Following the interrupt service routine (ISR), the register set [s9,s8,s7,s6]
+// #170: ;will contain the command which was last sent for the setting of channel C. The
+// #171: ;12-bit sample value is extracted from this word and stored in the location for
+// #172: ;channel A. This should mean that channel A is one sample behind channel C. In this
+// #173: ;version that does not mean a lag of 90 degrees because each output is updated
+// #174: ;sequentially and that takes approximatly 14.5us per channel.
+// #175: ;
+// #176: ;This will also demonstrate that the reference voltage on channels A and B is 3.3v
+// #177: ;compared with 2.5v on channels C and D. So whilst the square wave on channel C is
+// #178: ;set for 0.50v to 2.00v, it should be 0.66v to 2.64v on channel A.
+// #179: ;
+2070e // @012 #180: SR0(s7) ; shift 12-bit value right 4 places
+20608 // @013 #181: SRA(s6)
+2070e // @014 #182: SR0(s7)
+20608 // @015 #183: SRA(s6)
+2070e // @016 #184: SR0(s7)
+20608 // @017 #185: SRA(s6)
+2070e // @018 #186: SR0(s7)
+20608 // @019 #187: SRA(s6)
+2e701 // @01a #188: STORE(s7,chan_A_msb) ;store value for D/A output
+2e600 // @01b #189: STORE(s6,chan_A_lsb)
+// #190: ;
+// #191: ;
+// #192: ;
+// #193: ;
+// #194: ;Channel B is a triangle waveform of 200Hz.
+// #195: ;
+// #196: ;Given the sample rate of 8KHz, there are 40 samples per waveform period.
+// #197: ;To achieve close to full scale deflection, the waveform needs to increase or
+// #198: ;decrease by 204 each sample so that over the first 20 samples it rises from
+// #199: ;0 to 4080 and then over the next 20 samples it reduces back to zero.
+// #200: ;
+06002 // @01c #201: FETCH(s0,chan_B_lsb) ;load current value into [s1,s0]
+06103 // @01d #202: FETCH(s1,chan_B_msb)
+06208 // @01e #203: FETCH(s2,triangle_up_down) ;read current slope direction
+14200 // @01f #204: COMPARE(s2,0) ;determine current direction
+3542a // @020 #205: JUMP(NZ,slope_down)
+180cc // @021 #206: ADD(s0,CC) ;add 204 (00CC hex) to current value
+1a100 // @022 #207: ADDCY(s1,0)
+1410f // @023 #208: COMPARE(s1,15) ;test for peak value of 4080 (0FF0 hex)
+35432 // @024 #209: JUMP(NZ,store_channel_B)
+140f0 // @025 #210: COMPARE(s0,F0)
+35432 // @026 #211: JUMP(NZ,store_channel_B)
+00201 // @027 #212: LOAD(s2,1) ;change to slope down next time
+2e208 // @028 #213: STORE(s2,triangle_up_down)
+34032 // @029 #214: JUMP(store_channel_B)
+// @02a #215: [slope_down]
+1c0cc // @02a #215: SUB(s0,CC) ;subtract 204 (00CC hex) from current value
+1e100 // @02b #216: SUBCY(s1,0)
+14100 // @02c #217: COMPARE(s1,0) ;test for zero (0000 hex)
+35432 // @02d #218: JUMP(NZ,store_channel_B)
+14000 // @02e #219: COMPARE(s0,0)
+35432 // @02f #220: JUMP(NZ,store_channel_B)
+00200 // @030 #221: LOAD(s2,0) ;change to slope up next time
+2e208 // @031 #222: STORE(s2,triangle_up_down)
+// @032 #223: [store_channel_B]
+2e002 // @032 #223: STORE(s0,chan_B_lsb) ;store value for D/A output
+2e103 // @033 #224: STORE(s1,chan_B_msb)
+// #225: ;
+// #226: ;
+// #227: ;Channel C is a square wave of 2KHz.
+// #228: ;
+// #229: ;Since the sample rate is 8KHz, this square wave is formed of two samples at a
+// #230: ;low level and two samples at a high level. This is used to demonstrate when the
+// #231: ;D/A converter output actually changes and how to determine the voltage levels.
+// #232: ;It is also used indirectly to form the signal for channel A.
+// #233: ;
+// #234: ;The low level voltage is 0.50v.
+// #235: ;   The 12-bit value is therefore 4096 x 0.5 / 2.5 = 819 (333 hex)
+// #236: ;
+// #237: ;The high level voltage is 2.00v.
+// #238: ;   The 12-bit value is therefore 4096 x 2.0 / 2.5 = 3277 (CCD hex)
+// #239: ;
+// #240: ;
+06209 // @034 #241: FETCH(s2,square_count) ;read sample counter
+12202 // @035 #242: TEST(s2,2) ;bit 1 has correct frequency
+3543a // @036 #243: JUMP(NZ,square_high)
+00103 // @037 #244: LOAD(s1,3) ;Set low level
+00033 // @038 #245: LOAD(s0,51)
+3403c // @039 #246: JUMP(store_channel_C)
+// @03a #247: [square_high]
+0010c // @03a #247: LOAD(s1,12) ;Set high level
+000cd // @03b #248: LOAD(s0,CD)
+// @03c #249: [store_channel_C]
+2e004 // @03c #249: STORE(s0,chan_C_lsb) ;store value for D/A output
+2e105 // @03d #250: STORE(s1,chan_C_msb)
+18201 // @03e #251: ADD(s2,1) ;increment sampel count
+2e209 // @03f #252: STORE(s2,square_count) ;store new sample count
+// #253: ;
+// #254: ;Sine wave for channel D
+// #255: ;
+// #256: ;A synthesis algorithm is used to generate a stable 770Hz sine wave
+// #257: ;which is one of the 8 tines used in DTMF telephone dialing.
+// #258: ;
+3005e // @040 #259: CALL(calc_next_sine)
+2090e // @041 #260: SR0(s9) ;reduce value to 12-bits
+20808 // @042 #261: SRA(s8)
+2090e // @043 #262: SR0(s9)
+20808 // @044 #263: SRA(s8)
+2090e // @045 #264: SR0(s9)
+20808 // @046 #265: SRA(s8)
+18908 // @047 #266: ADD(s9,8) ;Scale signed number to mid-rail of unsigned output
+2e907 // @048 #267: STORE(s9,chan_D_msb) ;store value for D/A output
+2e806 // @049 #268: STORE(s8,chan_D_lsb)
+// #269: ;
+// #270: ;
+// #271: ;Drive LEDs with simple binary count of the samples to indicate
+// #272: ;that the design is active.
+// #273: ;
+06020 // @04a #274: FETCH(s0,sample_count_lsb) ;read sample counter
+06121 // @04b #275: FETCH(s1,sample_count_msb)
+18001 // @04c #276: ADD(s0,1) ;increment counter
+1a100 // @04d #277: ADDCY(s1,0)
+2e020 // @04e #278: STORE(s0,sample_count_lsb) ;store new value
+2e121 // @04f #279: STORE(s1,sample_count_msb)
+2c180 // @050 #280: OUTPUT(s1,LED_port) ;upper bits are 31.25Hz and lower
+// #281: ;
+3400f // @051 #282: JUMP(warm_start) ;wait for next interrupt
+// #283: ;
+// #284: ;**************************************************************************************
+// #285: ;Sine wave synthesis algorithm
+// #286: ;**************************************************************************************
+// #287: ;
+// #288: ;This example is set to generate 770Hz at a sample rate of 8KHz. 770Hz is one of
+// #289: ;the eight DTMF frequences. Please see design documentation for more details.
+// #290: ;
+// @052 #291: [init_sine_wave]
+00024 // @052 #291: LOAD(s0,36) ;initial value 9216 (2400 hex)
+2e011 // @053 #292: STORE(s0,sine_y_msb)
+00000 // @054 #293: LOAD(s0,0)
+2e010 // @055 #294: STORE(s0,sine_y_lsb)
+00000 // @056 #295: LOAD(s0,0) ;initial delayed value 0 (0000 hex)
+2e013 // @057 #296: STORE(s0,sine_y1_msb)
+2e012 // @058 #297: STORE(s0,sine_y1_lsb)
+000d2 // @059 #298: LOAD(s0,D2) ;Coefficient for 770Hz is UFIX_16_15 value 53913/32768 = 1.64529
+2e015 // @05a #299: STORE(s0,sine_k_msb)
+00099 // @05b #300: LOAD(s0,153)
+2e014 // @05c #301: STORE(s0,sine_k_lsb)
+2a000 // @05d #302: RETURN
+// #303: ;
+// #304: ;
+// #305: ;Calculate a new output sample for a single tone.
+// #306: ;
+// #307: ;The tone sample is generated as a 16-bit signed integer.
+// #308: ;The waveform is virtually full scale deflection for a 15-bit integer
+// #309: ;such that the addition of two tones for DTMF will not exceed the 16-bits
+// #310: ;provided by two registers.
+// #311: ;
+// #312: ;Obtain current values from wscratch pad memory
+// #313: ;
+// @05e #314: [calc_next_sine]
+06f11 // @05e #314: FETCH(sF,sine_y_msb) ;[sF,sE] is Y
+06e10 // @05f #315: FETCH(sE,sine_y_lsb)
+06d13 // @060 #316: FETCH(sD,sine_y1_msb) ;[sD,sC] is Y1
+06c12 // @061 #317: FETCH(sC,sine_y1_lsb)
+06b15 // @062 #318: FETCH(sB,sine_k_msb) ;[sB,sA] is K
+06a14 // @063 #319: FETCH(sA,sine_k_lsb)
+// #320: ;
+// #321: ;16-bit signed by 16-bit unsigned multiplication. [s9,s8]=[sB,sA]x[sF,sE]
+// #322: ;
+// #323: ;The unsigned number is of format UFIX_16_15 resulting
+// #324: ;in a FIX_32_15 product. Since only the integer part of the
+// #325: ;product is to be retained as a 16-bit value, their is no
+// #326: ;shift of the result on the last cycle of the multiplication.
+// #327: ;Execution requires a maximum of 145 instructions.
+// #328: ;
+00900 // @064 #329: LOAD(s9,0) ;clear temporary result registers [s9,s8]
+00800 // @065 #330: LOAD(s8,0)
+00010 // @066 #331: LOAD(s0,16) ;16 bit multiply
+// @067 #332: [mult_loop]
+2090a // @067 #332: SRX(s9) ;signed divide result by 2
+20808 // @068 #333: SRA(s8)
+20b0e // @069 #334: SR0(sB) ;shift coefficient
+20a08 // @06a #335: SRA(sA)
+35c6e // @06b #336: JUMP(NC,no_mult_add) ;test for active bit
+198e0 // @06c #337: ADD(s8,sE) ;16-bit signed addition
+1b9f0 // @06d #338: ADDCY(s9,sF)
+// @06e #339: [no_mult_add]
+1c001 // @06e #339: SUB(s0,1) ;test for 16 cycles
+35467 // @06f #340: JUMP(NZ,mult_loop)
+// #341: ;
+// #342: ;Subtract of delayed sample
+// #343: ;
+1d8c0 // @070 #344: SUB(s8,sC) ;16-bit signed subtract
+1f9d0 // @071 #345: SUBCY(s9,sD)
+// #346: ;
+// #347: ;Update scratch pad memory with new sample values
+// #348: ;
+2ef13 // @072 #349: STORE(sF,sine_y1_msb) ;delayed sample gets previous output
+2ee12 // @073 #350: STORE(sE,sine_y1_lsb)
+2e911 // @074 #351: STORE(s9,sine_y_msb) ;new current sample
+2e810 // @075 #352: STORE(s8,sine_y_lsb)
+2a000 // @076 #353: RETURN
+// #354: ;
+// #355: ;
+// #356: ;**************************************************************************************
+// #357: ;SPI communication routines for D/A Converter
+// #358: ;**************************************************************************************
+// #359: ;
+// #360: ;These routines will work with two output ports and one input port which should be
+// #361: ;defined as follows using CONSTANT directives.
+// #362: ;   (replace 'pp' with appropriate port address in each case)
+// #363: ;In the list of CONSTANT directives, only the ones marked with a * are really required
+// #364: ;for the D/A Converter system. The other directives are to control (disable) or
+// #365: ;communicate with the other SPI components on the same SPI bus of the Spartan-3E Starter Kit.
+// #366: ;
+// #367: ;
+// #368: ;
+// #369: ;CONSTANT SPI_control_port, pp       ;SPI clock and chip selects     *
+// #370: ;CONSTANT SPI_sck, 01                ;                  SCK - bit0   *
+// #371: ;CONSTANT SPI_rom_cs, 02             ;    serial rom select - bit1
+// #372: ;CONSTANT SPI_spare_control, 04      ;                spare - bit2
+// #373: ;CONSTANT SPI_amp_cs, 08             ;     amplifier select - bit3
+// #374: ;CONSTANT SPI_adc_conv, 10           ;          A/D convert - bit4
+// #375: ;CONSTANT SPI_dac_cs, 20             ;           D/A select - bit5   *
+// #376: ;CONSTANT SPI_amp_shdn, 40           ;       amplifier SHDN - bit6
+// #377: ;CONSTANT SPI_dac_clr, 80            ;            D/A clear - bit7   *
+// #378: ;
+// #379: ;CONSTANT SPI_output_port, pp        ;SPI data output                *
+// #380: ;CONSTANT SPI_sdo, 80                ;   SDO - bit7                  *
+// #381: ;
+// #382: ;CONSTANT SPI_input_port, pp         ;SPI data input                 *
+// #383: ;CONSTANT SPI_sdi, 80                ;             SDI - bit7        *
+// #384: ;CONSTANT SPI_amp_sdi, 40            ;   amplifier SDI - bit6
+// #385: ;
+// #386: ;
+// #387: ;
+// #388: ;
+// #389: ;Initialise SPI bus
+// #390: ;
+// #391: ;This routine should be used to initialise the SPI bus.
+// #392: ;The SCK clock is made low.
+// #393: ;Device selections are made inactive as follows
+// #394: ;   SPI_sck      = 0      Clock is Low (required)
+// #395: ;   SPI_rom_cs   = 1      Deselect ROM
+// #396: ;   spare        = 1      spare control bit
+// #397: ;   SPI_amp_cs   = 1      Deselect amplifier
+// #398: ;   SPI_adc_conv = 0      A/D convert ready to apply positive pulse
+// #399: ;   SPI_dac_cs   = 1      Deselect D/A
+// #400: ;   SPI_amp_shdn = 0      Amplifier active and available
+// #401: ;   SPI_dac_clr  = 1      D/A clear off
+// #402: ;
+// @077 #403: [SPI_init]
+000ae // @077 #403: LOAD(s0,AE) ;normally AE
+2c008 // @078 #404: OUTPUT(s0,SPI_control_port)
+2a000 // @079 #405: RETURN
+// #406: ;
+// #407: ;
+// #408: ;
+// #409: ;Send and receive one byte to and from the SPI D/A converter.
+// #410: ;
+// #411: ;The data supplied in register 's2' is transmitted to the SPI bus and
+// #412: ;at the same time the received byte is used to replace the value in 's2'.
+// #413: ;The SCK clock is generated by software and results in a communication rate of
+// #414: ;2.5Mbit/s with a 50MHz clock.
+// #415: ;
+// #416: ;Note that you must have previously selected the required device on the bus
+// #417: ;before attempting communication and you must subsequently deselect the device
+// #418: ;when appropriate.
+// #419: ;
+// #420: ;Entry to this routine assumes that register s0 defines the state of the SPI
+// #421: ;control signals including SCK which should be Low. The easiest way to achieve this is
+// #422: ;to use the SPI_init routine before calling this one for the first time.
+// #423: ;
+// #424: ;As a 'master' the signal sequence is as follows..
+// #425: ;   Transmit data bit on SDO line
+// #426: ;   Drive SCK transition from low to high
+// #427: ;   Receive data bit from SDI line (D/A transmits on previous falling edge)
+// #428: ;   Drive SCK transition from high to low.
+// #429: ;
+// #430: ;Important note
+// #431: ;   The received data bit must be captured some time before SCK goes low.
+// #432: ;   However the combination of relatively slow clock to output time of the
+// #433: ;   LTC2624 combined with the low drive strength of its SDO output means that
+// #434: ;   the received bit needs maximum time to settle. Therefore this routine
+// #435: ;   schedules the read as late as it can.
+// #436: ;
+// @07a #437: [SPI_dac_tx_rx]
+00108 // @07a #437: LOAD(s1,8) ;8-bits to transmit and receive
+// @07b #438: [next_SPI_dac_bit]
+2c204 // @07b #438: OUTPUT(s2,SPI_output_port) ;output data bit ready to be used on rising edge
+0e001 // @07c #439: XOR(s0,SPI_sck) ;clock High (bit0)
+2c008 // @07d #440: OUTPUT(s0,SPI_control_port) ;drive clock High
+0e001 // @07e #441: XOR(s0,SPI_sck) ;prepare clock Low (bit0)
+04301 // @07f #442: INPUT(s3,SPI_input_port) ;read input bit
+12380 // @080 #443: TEST(s3,SPI_sdi) ;detect state of received bit
+20200 // @081 #444: SLA(s2) ;shift new data into result and move to next transmit bit
+2c008 // @082 #445: OUTPUT(s0,SPI_control_port) ;drive clock Low
+1c101 // @083 #446: SUB(s1,1) ;count bits
+3547b // @084 #447: JUMP(NZ,next_SPI_dac_bit) ;repeat until finished
+2a000 // @085 #448: RETURN
+// #449: ;
+// #450: ;
+// #451: ;
+// #452: ;Set a voltage on one of the LTC2624 D/A converter outputs
+// #453: ;
+// #454: ;The D/A converter has 4 channels. Specify which channel is to be set using
+// #455: ;register sC as follows....
+// #456: ;   sC     Channel                 Nominal Voltage Range
+// #457: ;   00        A                       0 to 3.30v (or VREFAB)
+// #458: ;   01        B                       0 to 3.30v (or VREFAB)
+// #459: ;   02        C                       0 to 2.50v (or VREFCD)
+// #460: ;   03        D                       0 to 2.50v (or VREFCD)
+// #461: ;   0F        All channels            various as above.
+// #462: ;
+// #463: ;The analogue level is a 12-bit value to be supplied in lower 12-bits of register
+// #464: ;pair [sB,sA]. If this value is called 'k' and is in the range 0 to 4095 (000 to FFF)
+// #465: ;then
+// #466: ;      Vout = (k/4096) * VREFx
+// #467: ;Hence it is not possible to reach the absolute level of the reference.
+// #468: ;
+// #469: ;Here are some useful values..
+// #470: ;    Voltage    A or B    C or D
+// #471: ;      0.0       000       000
+// #472: ;      0.5       26D       333
+// #473: ;      0.65      327               A/D reference -1.00v
+// #474: ;      1.0       4D9       666
+// #475: ;      1.5       746       99A
+// #476: ;      1.65      800       A8F     converter reference = 3.3/2 = 1.65v
+// #477: ;      2.0       9B2       CCD
+// #478: ;      2.5       C1F       FFF
+// #479: ;      2.65      CD9               A/D reference +1.00v
+// #480: ;      3.0       E8C       n/a
+// #481: ;      3.3       FFF       n/a
+// #482: ;
+// #483: ;Note that the full scale deflection of FFF will result in different output
+// #484: ;voltages due to different reference voltages for each pair of channels.
+// #485: ;
+// #486: ;SPI communication with the DAC only requires a 24-bit word to be transmitted.
+// #487: ;However, the device internally contains a 32-bit shift register. When writing
+// #488: ;a command word, the previous contents are shifted out and can be observed by
+// #489: ;the master (Spartan-3E in this case). If you do not use a 32-bit format, then
+// #490: ;the read back is confusing. Hence this routine uses a 32-bit format by transmitting
+// #491: ;a dummy byte first.
+// #492: ;
+// #493: ;  Byte 1 = 00   8 dummy bits
+// #494: ;  Byte 2 = 3c   Command nibble (3=write and update) and channel selection
+// #495: ;  Byte 3 = dd   Upper 8-bits of the 12-bit voltage value
+// #496: ;  Byte 4 = d0   lower 4-bits of the 12-bit voltage value and 4 dummy bits.
+// #497: ;
+// #498: ;At the end of this communication, the register set [s9,s8,s7,s6] will contain the
+// #499: ;data received back from the D/A converter which should be the previous command.
+// #500: ;
+// @086 #501: [set_dac]
+30077 // @086 #501: CALL(SPI_init) ;ensure known state of bus and s0 register
+0e020 // @087 #502: XOR(s0,SPI_dac_cs) ;select low on D/A converter
+2c008 // @088 #503: OUTPUT(s0,SPI_control_port)
+00200 // @089 #504: LOAD(s2,0) ;Write dummy byte to DAC
+3007a // @08a #505: CALL(SPI_dac_tx_rx)
+01920 // @08b #506: LOAD(s9,s2) ;capture response
+012c0 // @08c #507: LOAD(s2,sC) ;Select channel for update
+0a20f // @08d #508: AND(s2,15) ;isolate channel bits to be certain of correct command
+0c230 // @08e #509: OR(s2,48) ;Use immediate Write and Update command is "0011"
+3007a // @08f #510: CALL(SPI_dac_tx_rx)
+01820 // @090 #511: LOAD(s8,s2) ;capture response
+20a06 // @091 #512: SL0(sA) ;data shift bits into correct position
+20b00 // @092 #513: SLA(sB) ;with 4 dummy bits ('0') in the least significant bits.
+20a06 // @093 #514: SL0(sA)
+20b00 // @094 #515: SLA(sB)
+20a06 // @095 #516: SL0(sA)
+20b00 // @096 #517: SLA(sB)
+20a06 // @097 #518: SL0(sA)
+20b00 // @098 #519: SLA(sB)
+012b0 // @099 #520: LOAD(s2,sB) ;Write 12 bit value followed by 4 dummy bits
+3007a // @09a #521: CALL(SPI_dac_tx_rx)
+01720 // @09b #522: LOAD(s7,s2) ;capture response
+012a0 // @09c #523: LOAD(s2,sA)
+3007a // @09d #524: CALL(SPI_dac_tx_rx)
+01620 // @09e #525: LOAD(s6,s2) ;capture response
+0e020 // @09f #526: XOR(s0,SPI_dac_cs) ;deselect the D/A converter to execute
+2c008 // @0a0 #527: OUTPUT(s0,SPI_control_port)
+2a000 // @0a1 #528: RETURN
+// #529: ;
+// #530: ;Perform a hard reset of the D/A converter
+// #531: ;
+// @0a2 #532: [dac_reset]
+30077 // @0a2 #532: CALL(SPI_init) ;ensure known state of bus and s0 register
+0e080 // @0a3 #533: XOR(s0,SPI_dac_clr) ;pulse the clear signal.
+2c008 // @0a4 #534: OUTPUT(s0,SPI_control_port)
+0e080 // @0a5 #535: XOR(s0,SPI_dac_clr)
+2c008 // @0a6 #536: OUTPUT(s0,SPI_control_port)
+2a000 // @0a7 #537: RETURN
+// #538: ;
+// #539: ;
+// #540: ;**************************************************************************************
+// #541: ;Software delay routines
+// #542: ;**************************************************************************************
+// #543: ;
+// #544: ;
+// #545: ;
+// #546: ;Delay of 1us.
+// #547: ;
+// #548: ;Constant value defines reflects the clock applied to KCPSM3. Every instruction
+// #549: ;executes in 2 clock cycles making the calculation highly predictable. The '6' in
+// #550: ;the following equation even allows for 'CALL delay_1us' instruction in the initiating code.
+// #551: ;
+// #552: ; delay_1us_constant =  (clock_rate - 6)/4       Where 'clock_rate' is in MHz
+// #553: ;
+// #554: ;Registers used s0
+// #555: ;
+// @0a8 #556: [delay_1us]
+0000b // @0a8 #556: LOAD(s0,delay_1us_constant)
+// @0a9 #557: [wait_1us]
+1c001 // @0a9 #557: SUB(s0,1)
+354a9 // @0aa #558: JUMP(NZ,wait_1us)
+2a000 // @0ab #559: RETURN
+// #560: ;
+// #561: ;Delay of 40us.
+// #562: ;
+// #563: ;Registers used s0, s1
+// #564: ;
+// @0ac #565: [delay_40us]
+00128 // @0ac #565: LOAD(s1,40) ;40 x 1us = 40us
+// @0ad #566: [wait_40us]
+300a8 // @0ad #566: CALL(delay_1us)
+1c101 // @0ae #567: SUB(s1,1)
+354ad // @0af #568: JUMP(NZ,wait_40us)
+2a000 // @0b0 #569: RETURN
+// #570: ;
+// #571: ;
+// #572: ;Delay of 1ms.
+// #573: ;
+// #574: ;Registers used s0, s1, s2
+// #575: ;
+// @0b1 #576: [delay_1ms]
+00219 // @0b1 #576: LOAD(s2,25) ;25 x 40us = 1ms
+// @0b2 #577: [wait_1ms]
+300ac // @0b2 #577: CALL(delay_40us)
+1c201 // @0b3 #578: SUB(s2,1)
+354b2 // @0b4 #579: JUMP(NZ,wait_1ms)
+2a000 // @0b5 #580: RETURN
+// #581: ;
+// #582: ;Delay of 20ms.
+// #583: ;
+// #584: ;Delay of 20ms used during initialisation.
+// #585: ;
+// #586: ;Registers used s0, s1, s2, s3
+// #587: ;
+// @0b6 #588: [delay_20ms]
+00314 // @0b6 #588: LOAD(s3,20) ;20 x 1ms = 20ms
+// @0b7 #589: [wait_20ms]
+300b1 // @0b7 #589: CALL(delay_1ms)
+1c301 // @0b8 #590: SUB(s3,1)
+354b7 // @0b9 #591: JUMP(NZ,wait_20ms)
+2a000 // @0ba #592: RETURN
+// #593: ;
+// #594: ;Delay of approximately 1 second.
+// #595: ;
+// #596: ;Registers used s0, s1, s2, s3, s4
+// #597: ;
+// @0bb #598: [delay_1s]
+00414 // @0bb #598: LOAD(s4,20) ;50 x 20ms = 1000ms
+// @0bc #599: [wait_1s]
+300b6 // @0bc #599: CALL(delay_20ms)
+1c401 // @0bd #600: SUB(s4,1)
+354bc // @0be #601: JUMP(NZ,wait_1s)
+2a000 // @0bf #602: RETURN
+// #603: ;
+// #604: ;
+// #605: ;
+// #606: ;**************************************************************************************
+// #607: ;Interrupt Service Routine (ISR)
+// #608: ;**************************************************************************************
+// #609: ;
+// #610: ;Interrupts occur at a rate of 8KHz.
+// #611: ;
+// #612: ;Each interrupt is the fundamental timing trigger used to set the sample rate and
+// #613: ;it is therefore use to set the D/A outputs by copying the values stored in
+// #614: ;scratch pad memory and outputting them to the D/A converter using the SPI bus.
+// #615: ;
+// #616: ;Because the SPI communication is in itself a predictable process, the sample rate
+// #617: ;is preserved without sample jitter. All variable activities are left to the main
+// #618: ;program.
+// #619: ;
+// #620: ;Each time PicoBlaze transmits a 32-bit command word to the D/A converter, the
+// #621: ;D/A responds with the last command it was sent. So as the end of this service routine
+// #622: ;the register set [s9,s8,s7,s6] will contain the command which has just been sent
+// #623: ;for the setting of channel C.
+// #624: ;
+// #625: ;Set channel A
+// #626: ;
+// @0c0 #627: [ISR]
+00c00 // @0c0 #627: LOAD(sC,0) ;channel A
+06b01 // @0c1 #628: FETCH(sB,chan_A_msb) ;12-bit value
+06a00 // @0c2 #629: FETCH(sA,chan_A_lsb)
+30086 // @0c3 #630: CALL(set_dac)
+// #631: ;
+// #632: ;Set channel B
+// #633: ;
+00c01 // @0c4 #634: LOAD(sC,1) ;channel B
+06b03 // @0c5 #635: FETCH(sB,chan_B_msb) ;12-bit value
+06a02 // @0c6 #636: FETCH(sA,chan_B_lsb)
+30086 // @0c7 #637: CALL(set_dac)
+// #638: ;
+// #639: ;Set channel C
+// #640: ;
+00c02 // @0c8 #641: LOAD(sC,2) ;channel C
+06b05 // @0c9 #642: FETCH(sB,chan_C_msb) ;12-bit value
+06a04 // @0ca #643: FETCH(sA,chan_C_lsb)
+30086 // @0cb #644: CALL(set_dac)
+// #645: ;
+// #646: ;Set channel A
+// #647: ;
+00c03 // @0cc #648: LOAD(sC,3) ;channel D
+06b07 // @0cd #649: FETCH(sB,chan_D_msb) ;12-bit value
+06a06 // @0ce #650: FETCH(sA,chan_D_lsb)
+30086 // @0cf #651: CALL(set_dac)
+// #652: ;
+00f00 // @0d0 #653: LOAD(sF,0) ;clear flag
+38001 // @0d1 #654: RETURNI(ENABLE)
+// #655: ;
+// #656: ;
+// #657: ;**************************************************************************************
+// #658: ;Interrupt Vector
+// #659: ;**************************************************************************************
+// #660: ;
+@3ff // #661: ADDRESS(1023)
+340c0 // @3ff #662: JUMP(ISR)
+// #663: ;
+// #664: ;

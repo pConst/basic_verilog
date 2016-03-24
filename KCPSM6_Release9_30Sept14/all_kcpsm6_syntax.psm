@@ -1,0 +1,1019 @@
+;
+;------------------------------------------------------------------------------------------
+; Copyright © 2010-2014, Xilinx, Inc.
+; This file contains confidential and proprietary information of Xilinx, Inc. and is
+; protected under U.S. and international copyright and other intellectual property laws.
+;------------------------------------------------------------------------------------------
+;
+; Disclaimer:
+; This disclaimer is not a license and does not grant any rights to the materials
+; distributed herewith. Except as otherwise provided in a valid license issued to
+; you by Xilinx, and to the maximum extent permitted by applicable law: (1) THESE
+; MATERIALS ARE MADE AVAILABLE "AS IS" AND WITH ALL FAULTS, AND XILINX HEREBY
+; DISCLAIMS ALL WARRANTIES AND CONDITIONS, EXPRESS, IMPLIED, OR STATUTORY,
+; INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, NON-INFRINGEMENT,
+; OR FITNESS FOR ANY PARTICULAR PURPOSE; and (2) Xilinx shall not be liable
+; (whether in contract or tort, including negligence, or under any other theory
+; of liability) for any loss or damage of any kind or nature related to, arising
+; under or in connection with these materials, including for any direct, or any
+; indirect, special, incidental, or consequential loss or damage (including loss
+; of data, profits, goodwill, or any type of loss or damage suffered as a result
+; of any action brought by a third party) even if such damage or loss was
+; reasonably foreseeable or Xilinx had been advised of the possibility of the same.
+;
+; CRITICAL APPLICATIONS
+; Xilinx products are not designed or intended to be fail-safe, or for use in any
+; application requiring fail-safe performance, such as life-support or safety
+; devices or systems, Class III medical devices, nuclear facilities, applications
+; related to the deployment of airbags, or any other applications that could lead
+; to death, personal injury, or severe property or environmental damage
+; (individually and collectively, "Critical Applications"). Customer assumes the
+; sole risk and liability of any use of Xilinx products in Critical Applications,
+; subject only to applicable laws and regulations governing limitations on product
+; liability.
+;
+; THIS COPYRIGHT NOTICE AND DISCLAIMER MUST BE RETAINED AS PART OF THIS FILE AT ALL TIMES.
+;
+;------------------------------------------------------------------------------------------
+;
+;             _  ______ ____  ____  __  __  __
+;            | |/ / ___|  _ \/ ___||  \/  |/ /_
+;            | ' / |   | |_) \___ \| |\/| | '_ \
+;            | . \ |___|  __/ ___) | |  | | (_) )
+;            |_|\_\____|_|   |____/|_|  |_|\___/
+;
+;
+;
+; All valid KCPSM6 instructions and syntax
+; ----------------------------------------
+;
+; Ken Chapman - 16th May 2014.
+;
+;
+; THIS IS NOT A REAL PROGRAM!
+; ---------------------------
+;
+; The code in this file is in no way intended to be a meaningful program. It is  
+; a description and representation of all the KCPSM6 instructions, directives and 
+; syntax required and supported by the assembler.
+;
+; Due to the fact that every instruction and directive is represented this file  
+; may appear a little daunting at first sight. This really isn't the intention and 
+; hopefully you will soon recognise that it is a useful reference. Remember that 
+; PicoBlaze is supposed to be fun to use. 
+;
+;   Recommendation - If you are new to PicoBlaze then please start writing simple 
+;                    programs using the following instructions and the CONSTANT
+;                    directive to help define your ports (see 'KCPSM6_User_Guide').
+;
+;                       INPUT, OUTPUT, LOAD, AND, OR, ADD, SUB and JUMP
+;
+;                    It is amazing how much can be achieved with just these few 
+;                    instructions and you will soon feel comfortable with the syntax.
+;
+;   Hint - The assembler will always try to provide you with helpful advice if it 
+;          encounters a mistake in your PSM code. The assembler does this in a 
+;          matter of a few seconds so work with it interactively and allow it to be 
+;          your personal trainer.
+;
+;   Hint - Several reference designs are provided in the KCPSM6 package and they  
+;          include real programs that use virtually all of the available syntax.
+;
+;
+;
+; CASE SENSITIVITY AND FORMAT
+; ---------------------------
+;
+; The KCPSM6 assembler is very accommodating regarding the use of upper and 
+; lower case characters to define instructions, registers, values etc. The 
+; assembler will also ignore any additional spaces or TAB characters that are 
+; placed between the active characters but at least one space is required to 
+; separate an instruction from its first operand. This file deliberately 
+; contains information formatted in ways that can look messy and certainly not 
+; in the preferred style. However, The KCPSM6 assembler will interpret all 
+; of this and generate a FMT file which is a clean and tidy representation of 
+; the original code in the preferred format. Hence you can always enter your 
+; code quickly and then get the assembler to clean it all up for you.
+;
+;  The following examples mean exactly the same things to the assembler and  
+;  will result in identically formatted lines in the FMT file after assembly.
+;
+;        label: ADDCY sA, B2 ;This is the preferred format
+;      label    :Addcy    Sa  ,  b2;This looks a bit of a mess! 
+;
+;
+;
+;  Suggestion - Run this PSM file through the assembler and then  
+;               review the FMT and LOG files generated.
+;
+;
+; COMMENTS
+; --------
+;
+; Comments are everything on a given line following a semicolon.
+; To retain a 'blank' line it must still contain a semicolon otherwise 
+; it will be removed by the assembler and not appear in the FMT or LOG files.
+;
+;
+; NAMES
+; -----
+;
+; All names you assign to line labels, constants, strings, tables and registers
+; are case sensitive, must be unique and may only contain characters 'a' to 'z',
+; 'A' to 'Z', '0' to '9' and underscore '_' (no spaces). You cannot use names 
+; that could be confused with hex values (e.g. 'BAD' could be the hex value 
+; equivalent to 2989 decimal) or the default register names (e.g. 'S4').
+;
+;
+; DATA and ADDRESS VALUES
+; -----------------------
+;
+; The default way to define values is in hexadecimal and these must use the 
+; number of digits expected for the item being described. Hence 8-bit data 
+; values, scratch pad memory locations and port address must be in the range
+; '00' to 'FF'. On the rare occasions that the 12-bit program address needs 
+; to be defined as an absolute value (e.g. in an ADDRESS directive) then it must
+; be in the range '000' to 'FFF'.
+; 
+; Alternatively, values can be defined in decimal or binary using the tick-d 
+; ('d) or tick-b ('b) suffix as appropriate. When used, 8-bit values can be 
+; defined in the range 0'd to 255'd or 00000000'b to 11111111'b and 12-bit 
+; program addresses can be defined in the range 0'd to 4095'd or 000000000000'b
+; to 111111111111'b. Note again that binary values must contain the number of 
+; digits applicable to the value being defined.
+;
+; Finally, 8-bit values can also be defined using a single ASCII character 
+; enclosed within quotation marks. For example "A" will be translated into 
+; 41 hex by the assembler.
+;
+;
+; LINE LABELS
+; -----------
+;
+; Any line can be given a label which is case sensitive and must be unique. The
+; assembler will assign the program address corresponding to that point in the program
+; to the label. In this way a line label can be specified in a JUMP or CALL instruction
+; and the assembler does the hard work of resolving the physical address.
+;
+; The line label does not have to be on a line that contains an instruction and 
+; multiple labels could be defined for the same address. A line label is the first 
+; entry on a line followed by a colon.
+;
+my_first_label:
+my_second_label: ;This labels will be associated with the same address as the first!
+;
+my_third_label: JUMP my_first_label ; This instruction will execute again and again!
+;
+;
+; CONSTANT DIRECTIVE
+; ------------------
+;
+; This directive is used to assign a constant value to a meaningful name. 
+; Sensible definition of constants makes code easier to write, understand and 
+; maintain. Whilst it is common practice to define constants near the beginning 
+; of a PSM file they can be anywhere in the program and will apply globally.
+; When multiple PSM files are used (see INCLUDE directive) then it is a common 
+; for constants relevant to each PSM file to be defined locally. However, it must
+; be remembered that all constants apply globally wherever they are defined.
+;
+; Constant values must be 8-bit and can be defined in hex (default), decimal or 
+; binary. The constant name can then be used in any instruction to represent data
+; (kk), a scratch pad memory location (ss) or a port address (pp). It may also be 
+; used to represent a constant optimised port address (p) but the value specified must
+; then be within the smaller 4-bit range (i.e. 00 to 0F).
+;
+; The following examples define constants which are used later in this 'program'.
+; A constant value may also be defined by a system environment variable (see later 
+; description).
+;
+CONSTANT my_hex_constant, d2
+CONSTANT my_decimal_constant, 19'd
+CONSTANT my_binary_constant, 10100011'b
+CONSTANT my_storage_place, 08
+CONSTANT my_standard_port, 80
+CONSTANT my_small_port, 06           ;Ports used in OUTPUTK must be in range 00 to 0F
+;
+; Whilst all constant directives are the definition of an 8-bit value assigned to a 
+; given name they are a very convenient way to identify ports, and when appropriate, 
+; how bits are assigned within that port. For example the following constants describe 
+; a port in which 3 bits are used to drive 3 LEDs. Although it is personal choice, the
+; binary radix can help to make your code easier to understand when particular bits 
+; within an 8-bit value are significant.
+;
+CONSTANT LED_port, 40        ;Port drives 3 traffic light LEDs         
+CONSTANT red, 00000100'b     ; Red assigned to bit2     
+CONSTANT amber, 00000010'b   ; Amber assigned to bit1     
+CONSTANT green, 00000001'b   ; Green assigned to bit0
+;
+;
+; INVERTING 'kk' CONSTANTS
+; ------------------------
+;
+; In all situations in which a named constant is used to represent a data value (kk) it 
+; is possible to locally invert all bits of the constant by placing a ~ before the name.
+; All instructions in which this could be applied are shown later in this 'program' but
+; the most frequent use cases will involve the 'AND' and 'OR' instructions. Consider 
+; again the way the LED's assigned to a port in the above example could now be 
+; controlled.
+;
+;   LOAD s0, red          ;s0 = 00000100'b
+;   OUTPUT s0, LED_port   ;Turns on RED on
+;
+;   OR s0, amber          ;s0 = 00000110'b   'OR' sets bit1 but preserves all other bits
+;   OUTPUT s0, LED_port   ;RED and AMBER are on
+;
+;   Now imagine that we want to turn off the red LED but keep the other LEDs however 
+;   they are. For this we need to reset bit2 and that can be achieved by ANDing with 
+;   11111011'b. That 'masking value' is the inversion of the 'red' constant so this can
+;   be specified using the inversion (~) symbol thereby avoiding the need to define 
+;   another constant (e.g. CONSTANT red_off, 11111011'b  ;Bit2 is Low). 
+;
+;   AND s0, ~red          ;s0 = 00000010'b  'AND' has reset bit2 but preserves all other bits
+;   OUTPUT s0, LED_port   ;AMBER is on
+;
+; Remember that the inversion (use of ~) can only be applied to a previously defined 
+; constant name and only in a position where the constant is used to define a data 
+; value (kk). 
+;     
+;
+; PREDEFINED CONSTANTS
+; --------------------
+;
+; There are 6 predefined constants that reflect the date and time at which the 
+; program is assembled (assuming the time and date on the PC are correct!).
+; These constants are equivalent to the following CONSTANT directives and 
+; assumes assembly at 14:17:58 on the 31st July 2012. 
+;
+;  CONSTANT timestamp_hours, 14'd
+;  CONSTANT timestamp_minutes, 17'd
+;  CONSTANT timestamp_seconds, 58'd
+;  CONSTANT datestamp_year, 12'd
+;  CONSTANT datestamp_month, 7'd
+;  CONSTANT datestamp_day, 31'd
+;
+; The following ASCII control characters are those more frequently used and have
+; also been predefined as CONSTANTs ready for immediate use in instructions.
+;
+;  name (hex)
+; 
+;   NUL (00)
+;   BEL (07)
+;   BS  (08)
+;   HT  (09)      
+;   LF  (0A)      
+;   VT  (0B)
+;   CR  (0D)
+;   ESC (1B)
+;   DEL (7F)
+;   DCS (90)
+;   ST  (9C)
+;
+; Remember that the names of constants are case sensitive.
+;
+;  
+; STRING DIRECTIVE
+; ----------------
+;
+; Text strings can be defined for use with OUTPUTK and LOAD&RETURN instructions.
+; The string name must end in $ and the contents of the string must be normal visible 
+; characters (ASCII codes 32 to 126 only). A string may also be defined by a system 
+; environment variable (see later description).
+;
+STRING Nick$, "This was Nick's brilliant idea."
+STRING Ken$, "But Ken had to implement it."
+STRING Ken_quotation$, ""Strings work with 'OUTPUTK' and 'LOAD&RETURN' instructions"" ;You can include quotation characters
+;
+;
+; PREDEFINED STRINGS
+; ------------------
+;
+; There are 3 predefined strings that reflect the date and time at which the 
+; program is assembled (assuming the time and date on the PC are correct!) and 
+; the version of the assembler itself. These strings are equivalent to the following 
+; STRING directives and assumes assembly at 14:17:58 on the 31st July 2012 using 
+; assembler version 2.30.
+;
+;  STRING timestamp$, "14:17:58"
+;  STRING datestamp$, "31 Jul 2012"
+;  STRING KCPSM6_version$, "v2.30"
+;
+;
+; TABLE DIRECTIVE
+; ---------------
+;
+; A table of data values can be defined for use with OUTPUTK and LOAD&RETURN 
+; instructions. The table name must end in # and the data values separated by commas 
+; and enclosed within square brackets. All data values must be 8-bit and the default 
+; radix is hexadecimal. To specify values in decimal or binary the data list is 
+; followed by tick-d ('d) or tick-b ('b) and applies to all elements of the list. Note
+; that when a table is used with an OUTPUTK or LOAD&RETURN instruction the elements of
+; the table will be expanded from left to right in the same way as a text string. Data
+; values may also be defined by a system environment variable (see later description).
+;
+;
+;    Example for converting             a                              0
+;    of values 0 to 9 into            f   b     <-- Segments         5   1 
+;    7-segment display codes            g                              6 
+;                                     e   c      Control bits -->    4   2
+;                                       d                              3
+;
+TABLE 7_segment_decode#, [3F,06,5B,4F,66,6D,7D,07,7F,6F]
+;
+TABLE phone_number#, [4,0,8,8,7,9,5,1,9,9]'d 
+TABLE control_sequence#, [00000000,00000010,00000011,00000010,00000000]'b 
+;
+;
+; REGISTERS and NAMEREG DIRECTIVE
+; -------------------------------
+;
+; The default register names are 's0' to 'sF' and are not case sensitive. These names 
+; can be modified using the NAMEREG directive. Following a NAMEREG directive the default
+; name is no longer valid and the new name is case sensitive. NAMEREG directives apply 
+; in the sequence of the code (i.e. not globally). Only the default register name 
+; applies before the directive and only the given name applies after the directive. 
+; However a subsequent NAMEREG directive can be used to modify the name given to a 
+; register and even to restore the default name (you cannot assign the wrong default 
+; name to a register!).  
+;
+; This directive tends to be used when a register (or a few registers) will hold 
+; specific and often vital information used or updated in many parts of a program. 
+; By renaming a register it cannot only help to make the code easier to understand,
+; but can also help prevent inadvertent re-use and data corruption.  
+;
+NAMEREG sF, status
+NAMEREG sE, counter
+;
+;
+; ADDRESS DIRECTIVE
+; -----------------
+;
+; This directive is used to force the assembler to assemble all subsequent instructions 
+; starting at the address defined. It is typically used to position the code for an
+; interrupt service routine (ISR) starting at an address corresponding with the 
+; address set against the 'interrupt_vector' in the hardware design.
+;
+; When using the ADDRESS directive the address specified must be higher (or the same) 
+; as the address at that point (i.e. the result of assembling the previous instructions
+; in the PSM). Although unusual to do so, the use of multiple ADDRESS directives is 
+; valid but may require a degree of planning and experimentation to avoid errors.
+;
+ADDRESS 00A             ;This will forced the assembly to start at address 00A
+ADDRESS 20'd            ;This will advance the assembly to address 014 hex
+ADDRESS 000100100011'b  ;This has advance the assembly to address 123 hex
+;
+;
+; INCLUDE DIRECTIVE
+; -----------------
+;
+; This directive has the effect of inserting the contents of another PSM file into the 
+; program immediately following the directive (before it is assembled). Appropriate use
+; of INCLUDE directives can allow each PSM file to be kept a more manageable size and 
+; further ease development. It also facilitates the creation and use of a simple PSM 
+; 'library' in which commonly used code can be included in multiple programs without 
+; needing to physically 'copy and paste' the actual code into each program. This in 
+; turn means that any enhancements made to the code in the 'library' will be reflected  
+; in all programs that include it without requiring those programs to be modified.
+;
+; The INCLUDE directive has one operand in which the name of the PSM file to be included
+; and is specified within quotation marks and must include the '.psm' file extension. 
+; The file specification can contain an absolute or relative path if required. 
+; Examples of each are as follows...
+;
+;   INCLUDE "lcd_driver_routines.psm"
+;   INCLUDE "C:\my_design_work\picoblaze_code\maths\multiply_32bit.psm"
+;   INCLUDE "..\picoblaze_plugins\uk_settings.psm"
+;
+; It is important to note that when a relative path is specified, the starting point 
+; is the location of the file in which the INCLUDE directive is contained. Note also 
+; that the absence of a path specification in the first example given above is actually 
+; the most simple form of a relative path and the assembler will expect the PSM file 
+; to be in same directory as the file from which it is being specified.
+;
+; Consider the following example in which a top level program is 'main.psm' and is 
+; located at 'C:\display_project'. This program contains the following directive... 
+;
+;   INCLUDE "C:\my_design_work\picoblaze_code\maths\multiply_32bit.psm"
+; 
+; Clearly this is an absolute path to 'C:\my_design_work\picoblaze_code\maths' and will 
+; insert the contents of 'multiply_32bit.psm' into the main program. Now consider that 
+; the 'multiply_32bit.psm' also contains an INCLUDE directive as follows...
+; 
+;   INCLUDE "add_32bit.psm"
+; 
+; In this case, the KCPSM6 assembler will expect to find 'add_32bit.psm' in the 
+; 'C:\my_design_work\picoblaze_code\maths' directory as the relative path relates to 
+; the location of the file that contained the INCLUDE directive and not the location 
+; of the main program (i.e. not in 'C:\display_project').
+;
+; For a working example of the INCLUDE directive please see the 'm24c08_i2c_uart_bridge.psm'
+; file provided in the 'Reference_Designs\I2C' directory of the KCPSM6 package. In this 
+; case, the INCLUDE directive includes the file 'PicoTerm_routines.psm' during assembly. 
+;
+;    Hint - After assembly, review the information provided towards the end of the LOG 
+;           file. The source files are identified for each item reported.
+;
+;    Hint - The assembler generates a formatted version (.FMT) of PSM file that was 
+;           used. Each FMT file is written to the same directory as the corresponding 
+;           PSM file.
+;
+;
+; SYSTEM ENVIRONMENT VARIABLES 
+; ----------------------------
+;
+; As described in the sections above, the second operand of a CONSTANT, STRING or TABLE
+; directive is used to define a value, string or data list which is assigned to the 
+; name defined in the first operand. It is also possible for the second operand to 
+; specify the name of a system environment variable which will provide the actual 
+; value, string or data list.
+; 
+; Whilst this feature is unlikely to be used widely and should be used with care, it 
+; does enable information to be included in a KCPSM6 program during the assembly 
+; process without requiring any modification of the PSM source files. Given that the 
+; assembly typically takes less than 10 seconds it is a very rapid way to change the 
+; contents of a design especially when combined with JTAG Loader.
+;
+; The following example could relate to a design in which KCPSM6 is present. Whilst 
+; all the information provided via the environment variables is used as part of the 
+; KCPSM6 program it is useful to recognise that it could easily control and define the 
+; product as a whole. The string is used to report the identity of the product, a
+; constant states the frequency of the electrical supply in the region and a table 
+; defines an IP address.
+;
+;    STRING product_info$, %PSM_product_ID
+;    CONSTANT mains_freq, %PSM_supply_frequency
+;    TABLE IP_address#, %PSM_IP_address 
+;
+; As shown above, the name of each environment variable must begin with 'PSM_' and it 
+; must be preceded by a % character when defining the STRING, CONSTANT or TABLE.
+;
+; The corresponding environment variables should be set on the PC with the assigned 
+; value, string or data list being of the exactly same format required for these 
+; directives when specified directly within a PSM file. The following examples shown
+; below correspond with the directives defined above.  
+;
+;    SET PSM_product_ID="PicoRouter N-187(UK)"
+;    SET PSM_supply_freq_Hz=50'd
+;    SET PSM_IP_address=[173,15,234,5]'d
+;
+; Note that environment variable names are NOT case sensitive (e.g. PSM_SUPPLY_FREQ_HZ).
+;
+;   Hint - Avoid using spaces anywhere in environment variable names or when 
+;          setting them. All spaces are interpreted as characters. For example...
+;
+;                SET PSM_IP_address = [173,15,234,5]'d
+;
+;       In this case the assembler would report that it is unable to find 
+;       'PSM_IP_address'. This is because the environment variable that has actually
+;        been set is called 'PSM_IP_address ' (with a space at the end).
+;
+;
+; INST DIRECTIVE
+; --------------
+;
+; This is a directive that must be used with extreme care as it enables you to insert
+; any 18-bit values into the program memory. It is most likely to be used to include
+; information (data) in the same BRAM as the program which will be read using the second
+; port. In such cases the data would be completely separate to the program and KCPSM6 
+; would never attempt to execute it. It is very important to appreciate that KCPSM6 will
+; not trap any illegal op-codes so the INIT directive must not be used to define any 
+; illegal op-codes at any location that KCPSM6 would execute as part of a program.
+;
+INST 2EA7B              ;Value must be specified a 5-digit hex value
+INST 3FFFF              ;Largest 18-bit value is 3FFFF hex
+;
+;    Hint - The INST directive has been used by customers simply to define the 
+;           contents of a BRAM and PicoBlaze (KCPSM6) isn't actually used at all!
+;           JTAG Loader can be used to update or read the memory contents of the 
+;           memory regardless of its end application.
+;
+;
+; DEFAULT_JUMP DIRECTIVE
+; ----------------------
+;
+; This directive is rather specialised so only read this section if you are involved 
+; in extremely high reliability designs and/or designs requiring anti-tamper protection. 
+;
+; Very few programs will result in every location of the available program memory being 
+; occupied. As a default, the KCPSM6 assembler fills all unused memory locations with 
+; zero (00000 hex), which by design, corresponds with a 'LOAD s0,s0' instruction. The  
+; execution of a 'LOAD s0,s0' instruction has no effect (i.e. no changes to register 
+; contents, flags, scratch pad memory or I/O ports) and is therefore considered to be 
+; a safe equivalent to a 'no operation' instruction.  
+;
+; Of course, given a correctly written program there should be no reason why KCPSM6 should
+; ever address one of the unused memory locations so the default 'LOAD s0,s0' instructions
+; should never be executed. However, design for highest reliability should mitigate against
+; the potential for even the smallest failure rates (e.g. those potentially caused by 
+; radiation resulting in single event upsets) or deliberate malicious attacks by an enemy.
+; It is therefore reassuring to know that, if for some reason (including poor PSM coding), 
+; KCPSM6 did address an otherwise unused memory location that the 'LOAD s0,s0' instruction
+; fetched executed would have no immediate impact. 
+;
+; Although a 'LOAD s0,s0' instruction is equivalent to a 'no operation' instruction, it 
+; does cause the program counter to advance the address. As such, the program continues 
+; to execute with advancing address and eventually KCPSM6 will start fetching your real 
+; program. It is easy to visualise two common situations that could possibly occur...
+;
+;                 1 - A program occupies the lower part of the address map 
+;                     (e.g. 000 to D23 hex) and leaves some unused memory 
+;                     locations at the top (e.g. D24 to FFF hex). For some
+;                     reason KCPSM6 addresses one of the unused locations 
+;                     (e.g. E56). By default, KCPSM6 will then execute 'LOAD s0, s0'
+;                     until the address advances to FFF and then rolls over to
+;                     000 hex. At which point your real program will start to 
+;                     execute from the start. This is quite a reasonable self 
+;                     recovery especially if your PSM code includes a thorough 
+;                     initialisation sequence. Note that the internal stack 
+;                     pointer would not be reset though.
+;
+;                 2 - A program occupies the lower part of the address map 
+;                     (e.g. 000 to D23 hex). There is then some unused memory 
+;                     locations (e.g. D24 to F00 hex) before the start of an 
+;                     interrupt service routine (e.g. interrupt vector set to 
+;                     F00 hex). For some reason KCPSM6 addresses one of the 
+;                     unused locations after the main program but before the 
+;                     interrupt service routine. By default, KCPSM6 will then 
+;                     execute 'LOAD s0, s0' until the address advances to EFF
+;                     and then it will begin executing the interrupt service 
+;                     routine. Not only does this result in special code being
+;                     executed with a corresponding interrupt, but it is far 
+;                     less certain what KCPSM6 will do when it encounters the 
+;                     RETURNI instruction (i.e. it may cause a reset if the stack 
+;                     under-flows or it may 'return' in response to the last 
+;                     point of CALL.
+;
+; The DEFAULT_JUMP directive has been provided to help you improve the way in which 
+; KCPSM6 will recover should it ever address, fetch and execute an otherwise unused memory
+; location. It achieves this by allowing you to define a 'JUMP aaa' instruction which the 
+; that assembler loads into all unused memory locations rather than a 'LOAD s0, s0' 
+; instruction. When an ECC protected program memory is used the assembler will also 
+; initialise the hardware circuit to force the default jump instruction at the output 
+; of the memory should the address presented fall completely outside the range of the memory
+; (e.g. for a 1.5K memory the address range 600 to FFF hex is outside of the memory but
+; the instruction will still be forced to the default jump instruction).   
+;
+; Only one DEFAULT_JUMP directive can be present in a program but any address can be 
+; specified using any of the methods available when using a normal JUMP instruction 
+; (i.e. a line label is often the easiest).  
+;   
+;      DEFAULT_JUMP line_label
+;      DEFAULT_JUMP 3AC
+;      DEFAULT_JUMP 940'd
+;      DEFAULT_JUMP 001110101100'b
+;   
+DEFAULT_JUMP my_first_label
+;
+; With a DEFAULT_JUMP directive defining a suitable address, it can now be seen that if
+; KCPSM6 should ever address, fetch and execute an otherwise unused memory it will 
+; immediately jump to an address of your choice. In most cases that address would probably
+; be the start of a routine specifically written to report and/or recover from an error 
+; in a controlled way.  
+;
+; Note that the assembler still considers these memory location to be unused so that you 
+; still presented with an accurate count of memory usage. Likewise, the LOG file does not 
+; display the otherwise unused locations so that you can still focus on your real program
+; code. The LOG file will show your DEFAULT_JUMP directive within your code showing the 
+; resolution of target address if appropriate. For example...
+;
+;           DEFAULT_JUMP 1B4[error_trap]
+;
+; Hint - Look in the HEX file to see the op-codes for JUMP instructions in the unused 
+;        locations. i.e. Rather than seeing unused sections containing '00000', you will 
+;        see sections containing op-code '22aaa' where 'aaa' is the target hex address.
+;
+;
+;
+;
+;
+; INSTRUCTIONS AND OPERANDS
+; -------------------------
+;
+; The following is a comprehensive list ('program') of every KCPSM6 instruction. All 
+; instruction specific operands are illustrated together with examples of each way in 
+; which registers and values can be expressed.   
+;
+; Except in one case (see RETURN), instructions have one or two operands. 
+; 
+;  - The first operand must be separated from the instruction by at least one space.
+;  - When a second operand is required, it must be separated from the first by a comma.
+;
+; Any other spaces are purely for formatting and appearance (Hint - FMT file). Please
+; refer to the 'KCPSM6_User_Guide' for descriptions and usage examples of instructions.
+;
+;
+; LOGICAL GROUP
+; -------------
+;
+LOAD s4, sC                     ;Default register names
+LOAD s4, 7B                     ;Hex constant
+LOAD status, counter            ;Register names defined by NAMEREG directive
+LOAD s4, 42'd                   ;Decimal constant 
+LOAD s4, 11'd                   ;Decimal constants will be converted to 2 digit hex value 
+LOAD s4, 11000101'b             ;Binary constant 
+LOAD s4, 10010111'b             ;Binary constants will be converted to 2 digit hex value 
+LOAD s4, my_hex_constant        ;Constant defined by a CONSTANT directive
+LOAD s4, my_decimal_constant    ;Constant defined by a CONSTANT directive
+LOAD s4, my_binary_constant     ;Constant defined by a CONSTANT directive
+LOAD s4, "K"                    ;Constant defined by an ASCII character
+LOAD s4, timestamp_seconds      ;A predefined constant
+LOAD sA, my_third_label'lower   ;The lower 8-bits of the address associated with the label
+LOAD sB, my_third_label'upper   ;The upper 4-bits of the address (i.e. 00 to 0F hex)
+LOAD s7, ~green                 ;The value of a constant can be inverted
+;
+LOAD s5, NUL                    ;LOAD instructions illustrating the set of predefined 
+LOAD s5, BEL                    ;ASCII control character constants.  
+LOAD s5, BS
+LOAD s5, HT
+LOAD s5, LF
+LOAD s5, VT
+LOAD s5, CR
+LOAD s5, ESC
+LOAD s5, DEL
+LOAD s5, DCS
+LOAD s5, ST
+;
+AND s4, sC                      ;Default register names
+AND s4, 7B                      ;Hex constant
+AND status, counter             ;Register names defined by NAMEREG directive
+AND s4, 42'd                    ;Decimal constant 
+AND s4, 11000101'b              ;Binary constant 
+AND s4, my_hex_constant         ;Constant defined by a CONSTANT directive
+AND s4, "K"                     ;Constant defined by an ASCII character
+AND s4, timestamp_seconds       ;A predefined constant
+AND sA, The_end_of_memory'lower ;The lower 8-bits of the address associated with the label
+AND sB, The_end_of_memory'upper ;The upper 4-bits of the address (i.e. 00 to 0F hex)
+AND s7, ~green                  ;The value of a constant can be inverted
+;
+OR s4, sC                     ;Default register names
+OR s4, 7B                     ;Hex constant
+OR status, counter            ;Register names defined by NAMEREG directive
+OR s4, 42'd                   ;Decimal constant 
+OR s4, 11000101'b             ;Binary constant 
+OR s4, my_hex_constant        ;Constant defined by a CONSTANT directive
+OR s4, "K"                    ;Constant defined by an ASCII character
+OR s4, timestamp_seconds      ;A predefined constant
+OR sA, my_third_label'lower   ;The lower 8-bits of the address associated with the label
+OR sB, my_third_label'upper   ;The upper 4-bits of the address (i.e. 00 to 0F hex)
+OR s7, ~green                 ;The value of a constant can be inverted
+;
+XOR s4, sC                     ;Default register names
+XOR s4, 7B                     ;Hex constant
+XOR status, counter            ;Register names defined by NAMEREG directive
+XOR s4, 42'd                   ;Decimal constant 
+XOR s4, 11000101'b             ;Binary constant 
+XOR s4, my_hex_constant        ;Constant defined by a CONSTANT directive
+XOR s4, "K"                    ;Constant defined by an ASCII character
+XOR s4, timestamp_seconds      ;A predefined constant
+XOR sA, my_third_label'lower   ;The lower 8-bits of the address associated with the label
+XOR sB, my_third_label'upper   ;The upper 4-bits of the address (i.e. 00 to 0F hex)
+XOR s7, ~green                 ;The value of a constant can be inverted
+;
+TEST s4, sC                     ;Default register names
+TEST s4, 7B                     ;Hex constant
+TEST status, counter            ;Register names defined by NAMEREG directive
+TEST s4, 42'd                   ;Decimal constant 
+TEST s4, 11000101'b             ;Binary constant 
+TEST s4, my_hex_constant        ;Constant defined by a CONSTANT directive
+TEST s4, "K"                    ;Constant defined by an ASCII character
+TEST s4, timestamp_seconds      ;A predefined constant
+TEST sA, my_third_label'lower   ;The lower 8-bits of the address associated with the label
+TEST sB, my_third_label'upper   ;The upper 4-bits of the address (i.e. 00 to 0F hex)
+TEST s7, ~green                 ;The value of a constant can be inverted
+;
+TESTCY s4, sC                     ;Default register names
+TESTCY s4, 7B                     ;Hex constant
+TESTCY status, counter            ;Register names defined by NAMEREG directive
+TESTCY s4, 42'd                   ;Decimal constant 
+TESTCY s4, 11000101'b             ;Binary constant 
+TESTCY s4, my_hex_constant        ;Constant defined by a CONSTANT directive
+TESTCY s4, "K"                    ;Constant defined by an ASCII character
+TESTCY s4, timestamp_seconds      ;A predefined constant
+TESTCY sA, my_third_label'lower   ;The lower 8-bits of the address associated with the label
+TESTCY sB, my_third_label'upper   ;The upper 4-bits of the address (i.e. 00 to 0F hex)
+TESTCY s8, ~amber                 ;The value of a constant can be inverted
+;
+;
+; ARITHMETIC GROUP
+; ----------------
+;
+ADD s4, sC                     ;Default register names
+ADD s4, 7B                     ;Hex constant
+ADD status, counter            ;Register names defined by NAMEREG directive
+ADD s4, 42'd                   ;Decimal constant 
+ADD s4, 11000101'b             ;Binary constant 
+ADD s4, my_hex_constant        ;Constant defined by a CONSTANT directive
+ADD s4, "K"                    ;Constant defined by an ASCII character
+ADD s4, timestamp_seconds      ;A predefined constant
+ADD sA, my_third_label'lower   ;The lower 8-bits of the address associated with the label
+ADD sB, my_third_label'upper   ;The upper 4-bits of the address (i.e. 00 to 0F hex)
+ADD s7, ~green                 ;The value of a constant can be inverted
+;
+ADDCY s4, sC                     ;Default register names
+ADDCY s4, 7B                     ;Hex constant
+ADDCY status, counter            ;Register names defined by NAMEREG directive
+ADDCY s4, 42'd                   ;Decimal constant 
+ADDCY s4, 11000101'b             ;Binary constant 
+ADDCY s4, my_hex_constant        ;Constant defined by a CONSTANT directive
+ADDCY s4, "K"                    ;Constant defined by an ASCII character
+ADDCY s4, timestamp_seconds      ;A predefined constant
+ADDCY sA, my_third_label'lower   ;The lower 8-bits of the address associated with the label
+ADDCY sB, my_third_label'upper   ;The upper 4-bits of the address (i.e. 00 to 0F hex)
+ADDCY s8, ~amber                 ;The value of a constant can be inverted
+;
+SUB s4, sC                     ;Default register names
+SUB s4, 7B                     ;Hex constant
+SUB status, counter            ;Register names defined by NAMEREG directive
+SUB s4, 42'd                   ;Decimal constant 
+SUB s4, 11000101'b             ;Binary constant 
+SUB s4, my_hex_constant        ;Constant defined by a CONSTANT directive
+SUB s4, "K"                    ;Constant defined by an ASCII character
+SUB s4, timestamp_seconds      ;A predefined constant
+SUB sA, my_third_label'lower   ;The lower 8-bits of the address associated with the label
+SUB sB, my_third_label'upper   ;The upper 4-bits of the address (i.e. 00 to 0F hex)
+SUB s7, ~green                 ;The value of a constant can be inverted
+;
+SUBCY s4, sC                     ;Default register names
+SUBCY s4, 7B                     ;Hex constant
+SUBCY status, counter            ;Register names defined by NAMEREG directive
+SUBCY s4, 42'd                   ;Decimal constant 
+SUBCY s4, 11000101'b             ;Binary constant 
+SUBCY s4, my_hex_constant        ;Constant defined by a CONSTANT directive
+SUBCY s4, "K"                    ;Constant defined by an ASCII character
+SUBCY s4, timestamp_seconds      ;A predefined constant
+SUBCY sA, my_third_label'lower   ;The lower 8-bits of the address associated with the label
+SUBCY sB, my_third_label'upper   ;The upper 4-bits of the address (i.e. 00 to 0F hex)
+SUBCY s8, ~amber                 ;The value of a constant can be inverted
+;
+COMPARE s4, sC                     ;Default register names
+COMPARE s4, 7B                     ;Hex constant
+COMPARE status, counter            ;Register names defined by NAMEREG directive
+COMPARE s4, 42'd                   ;Decimal constant 
+COMPARE s4, 11000101'b             ;Binary constant 
+COMPARE s4, my_hex_constant        ;Constant defined by a CONSTANT directive
+COMPARE s4, "K"                    ;Constant defined by an ASCII character
+COMPARE s4, timestamp_seconds      ;A predefined constant
+COMPARE sA, my_third_label'lower   ;The lower 8-bits of the address associated with the label
+COMPARE sB, my_third_label'upper   ;The upper 4-bits of the address (i.e. 00 to 0F hex)
+COMPARE s8, ~green                 ;The value of a constant can be inverted
+COMPARE s8, DEL                    ;Compare s8 with pre-defined ASCII constant for 'Delete'
+;
+COMPARECY s4, sC                     ;Default register names
+COMPARECY s4, 7B                     ;Hex constant
+COMPARECY status, counter            ;Register names defined by NAMEREG directive
+COMPARECY s4, 42'd                   ;Decimal constant 
+COMPARECY s4, 11000101'b             ;Binary constant 
+COMPARECY s4, my_hex_constant        ;Constant defined by a CONSTANT directive
+COMPARECY s4, "K"                    ;Constant defined by an ASCII character
+COMPARECY s4, timestamp_seconds      ;A predefined constant
+COMPARECY sA, my_third_label'lower   ;The lower 8-bits of the address associated with the label
+COMPARECY sB, my_third_label'upper   ;The upper 4-bits of the address (i.e. 00 to 0F hex)
+COMPARECY s8, ~amber                 ;The value of a constant can be inverted
+;
+;
+; SHIFT & ROTATE GROUP
+; --------------------
+;
+SL0 s4                ;Default register name
+SL0 status            ;Register name defined by NAMEREG directive
+;
+SL1 s4                ;Default register name
+SL1 status            ;Register name defined by NAMEREG directive
+;
+SLX s4                ;Default register name
+SLX status            ;Register name defined by NAMEREG directive
+;
+SLA s4                ;Default register name
+SLA status            ;Register name defined by NAMEREG directive
+;
+RL s4                 ;Default register name
+RL status             ;Register name defined by NAMEREG directive
+;
+SR0 s4                ;Default register name
+SR0 status            ;Register name defined by NAMEREG directive
+;
+SR1 s4                ;Default register name
+SR1 status            ;Register name defined by NAMEREG directive
+;
+SRX s4                ;Default register name
+SRX status            ;Register name defined by NAMEREG directive
+;
+SRA s4                ;Default register name
+SRA status            ;Register name defined by NAMEREG directive
+;
+RR s4                 ;Default register name
+RR status             ;Register name defined by NAMEREG directive
+;
+;
+; JUMP GROUP
+; ----------
+;
+JUMP 7e4              ;Hex address
+JUMP 2854'd           ;Decimal address
+JUMP 14'd             ;Decimal addresses will be converted to 3-digit hex value
+JUMP 100'd            ;Decimal addresses will be converted to 3-digit hex value
+JUMP 100101111101'b   ;Binary addresses will be converted to 3-digit hex value
+JUMP my_third_label   ;Address specified by a line label
+;
+JUMP C, 7e4              ;Hex address
+JUMP C, 2854'd           ;Decimal address
+JUMP C, 001101000101'b   ;Binary address
+JUMP C, my_third_label   ;Address specified by a line label
+;
+JUMP Z, 7e4              ;Hex address
+JUMP Z, 2854'd           ;Decimal address
+JUMP Z, 001101000101'b   ;Binary address
+JUMP Z, my_third_label   ;Address specified by a line label
+;
+JUMP NC, 7e4              ;Hex address
+JUMP NC, 2854'd           ;Decimal address
+JUMP NC, 001101000101'b   ;Binary address
+JUMP NC, my_third_label   ;Address specified by a line label
+;
+JUMP NZ, 7e4              ;Hex address
+JUMP NZ, 2854'd           ;Decimal address
+JUMP NZ, 001101000101'b   ;Binary address
+JUMP NZ, my_third_label   ;Address specified by a line label
+;
+;
+; CALL GROUP
+; ----------
+;
+CALL 7e4                     ;Hex address
+CALL 2854'd                  ;Decimal address
+CALL 001101000101'b          ;Binary address
+CALL my_third_label          ;Address specified by a line label
+;
+CALL C, 7e4                  ;Hex address
+CALL C, 2854'd               ;Decimal address
+CALL C, 001101000101'b       ;Binary address
+CALL C, my_third_label       ;Address specified by a line label
+;
+CALL Z, 7e4                  ;Hex address
+CALL Z, 2854'd               ;Decimal address
+CALL Z, 001101000101'b       ;Binary address
+CALL Z, The_end_of_memory    ;Address specified by a line label
+;
+CALL NC, 7e4                 ;Hex address
+CALL NC, 2854'd              ;Decimal address
+CALL NC, 001101000101'b      ;Binary address
+CALL NC, my_third_label      ;Address specified by a line label
+;
+CALL NZ, 7e4                 ;Hex address
+CALL NZ, 2854'd              ;Decimal address
+CALL NZ, 001101000101'b      ;Binary address
+CALL NZ, The_end_of_memory   ;Address specified by a line label
+;
+;
+; RETURN GROUP
+; ------------
+;
+RETURN
+RETURN C
+RETURN Z
+RETURN NC
+RETURN NZ
+;
+;
+; STORE & FETCH GROUP (Scratch Pad Memory)
+; ----------------------------------------
+;
+STORE s4, 3F                      ;Hex location
+STORE s4, 63'd                    ;Decimal location
+STORE s4, 00100110'b              ;Binary location
+STORE s4, my_storage_place        ;Location defined by a CONSTANT directive
+STORE status, 2A                  ;Source register defined by NAMEREG directive
+;
+STORE s4, (sb)                    ;Location defined by the contents of register (default name)
+STORE s4, (counter)               ;Location defined by the contents of renamed register
+;
+FETCH s4, 3F                      ;Hex location
+FETCH s4, 63'd                    ;Decimal location
+FETCH s4, 00100110'b              ;Binary location
+FETCH s4, my_storage_place        ;Location defined by a CONSTANT directive
+FETCH status, 2A                  ;Destination register defined by NAMEREG directive
+;
+FETCH s4, (sb)                    ;Location defined by the contents of register (default name)
+FETCH s4, (counter)               ;Location defined by the contents of renamed register
+;
+;
+; INPUT & OUTPUT GROUP (Standard I/O Ports)
+; -----------------------------------------
+;
+OUTPUT s4, 3F                      ;Hex port 
+OUTPUT s4, 63'd                    ;Decimal port
+OUTPUT s4, 00100110'b              ;Binary port
+OUTPUT s4, my_standard_port        ;Port defined by a CONSTANT directive
+OUTPUT status, 2A                  ;Source register defined by NAMEREG directive
+;
+OUTPUT s4, (sb)                    ;Location defined by the contents of register (default name)
+OUTPUT s4, (counter)               ;Location defined by the contents of renamed register
+;
+INPUT s4, 3F                      ;Hex port
+INPUT s4, 63'd                    ;Decimal port
+INPUT s4, 00100110'b              ;Binary port
+INPUT s4, my_standard_port        ;Port defined by a CONSTANT directive
+INPUT status, 2A                  ;Destination register by NAMEREG directive
+;
+INPUT s4, (sb)                    ;Location defined by the contents of register (default name)
+INPUT s4, (counter)               ;Location defined by the contents of renamed register
+;
+;
+; VERSION CONTROL
+; ---------------
+;
+HWBUILD s4                        ;Default register name loaded with hardware version 
+HWBUILD status                    ;Register name defined by NAMEREG directive loaded with hardware version
+;
+LOAD s0, timestamp_seconds        ;Registers loaded with date and time stamp from assembler run
+LOAD s1, timestamp_minutes
+LOAD s2, timestamp_hours
+LOAD s3, datestamp_day
+LOAD s4, datestamp_month
+LOAD s5, datestamp_year
+;
+;
+; REGISTER BANK GROUP
+; -------------------
+;
+REGBANK A
+REGBANK B
+STAR s4, sC                     ;sX must always be a default register name
+STAR sF, counter                ;sY can be a name defined by NAMEREG directive
+STAR s4, 42'd                   ;Second operand can be a constant which is an easy way 
+STAR sF, "F"                    ; to pass a pointer of 'flag' value to the other bank
+;
+; INTERRUPT GROUP
+; ---------------
+;
+ENABLE INTERRUPT
+DISABLE INTERRUPT
+RETURNI enable
+RETURNI disable
+;
+;
+;
+; ADVANCED GROUP
+; --------------
+;
+JUMP@ (sB, sA)                 ;Address defined by contents of default registers
+JUMP@ (status, counter)        ;Address defined by contents of renamed registers
+;
+CALL@ (sB, sA)                 ;Address defined by contents of default registers
+CALL@ (status, counter)        ;Address defined by contents of renamed registers
+;
+OUTPUTK A5, B                  ;Hex constant and port (0 to F) 
+OUTPUTK 123'd, 13'd            ;Decimal constant and port (0'd to 15'd) 
+OUTPUTK 10111011'b, 1010'b     ;Binary constant and port (0000'b to 1111'b) 
+OUTPUTK my_hex_constant, 4     ;Constant defined by a CONSTANT directive
+OUTPUTK timestamp_hours, 4     ;Constant defined by a predefined constant
+OUTPUTK "m", 8                 ;Constant defined by ASCII character
+OUTPUTK "$", 8                 ;ASCII character '$' is not confused with a string name!
+OUTPUTK A5, my_small_port      ;Port defined by a CONSTANT directive (max value 0F or  15'd)
+OUTPUTK ~green, my_small_port  ;The value of a constant can be inverted
+;
+; Note that a text string must be defined using a STRING directive before it can 
+; can be used with an OUTPUTK instruction i.e. OUTPUTK "Hello", B is not valid syntax! 
+;
+OUTPUTK Nick$, 2               ;Assembler will replicate OUTPUTK for each character in string
+OUTPUTK datestamp$, 2          ;Replicate OUTPUTK for each character in predefined string 
+;
+OUTPUTK 7_segment_decode#, B   ;Replicate OUTPUTK for each element of a predefined table 
+OUTPUTK phone_number#, B       ;Replicate OUTPUTK for each element of a predefined table 
+OUTPUTK control_sequence#, B   ;Replicate OUTPUTK for each element of a predefined table 
+;
+LOAD&RETURN s4, 7B                     ;Default register name Hex constant
+LOAD&RETURN s4, 42'd                   ;Decimal constant 
+LOAD&RETURN s4, 11100111'b             ;Binary constant 
+LOAD&RETURN status, 7B                 ;Register name defined by NAMEREG directive
+LOAD&RETURN s4, my_hex_constant        ;Constant defined by a CONSTANT directive
+LOAD&RETURN s4, "K"                    ;Constant defined by an ASCII character
+LOAD&RETURN s4, "$"                    ;ASCII character '$' is not confused with a string name!
+LOAD&RETURN s4, timestamp_seconds      ;A predefined constant
+LOAD&RETURN sA, my_third_label'lower   ;The lower 8-bits of the address associated with the label
+LOAD&RETURN sB, my_third_label'upper   ;The upper 4-bits of the address (i.e. 00 to 0F hex)
+LOAD&RETURN s7, ~green                 ;The value of a constant can be inverted
+;
+; Note that a text string must be defined using a STRING directive before it can 
+; can be used with a LOAD&RETURN instruction (e.g. LOAD&RETURN s4, "Hello" is not valid syntax!) 
+;
+LOAD&RETURN s4, Ken$                   ;Assembler will replicate LOAD&RETURN for each character in string
+LOAD&RETURN s4, CR                     ;Loads and returns the predefined ASCII constant for 'carriage return'
+LOAD&RETURN s4, timestamp$             ;Replicate LOAD&RETURN for each character in predefined string 
+LOAD&RETURN s4, NUL                    ;Loads and returns the predefined ASCII constant for 'NUL'
+;
+LOAD&RETURN s4, 7_segment_decode#      ;Replicate LOAD&RETURN for each element of a predefined table 
+LOAD&RETURN s4, phone_number#          ;Replicate LOAD&RETURN for each element of a predefined table 
+LOAD&RETURN s4, control_sequence#      ;Replicate LOAD&RETURN for each element of a predefined table 
+;
+;
+;Maximum address for 1K memory is 3FF hex.
+;Maximum address for 2K memory is 7FF hex.
+;Maximum address for 4K memory is FFF hex.
+;
+ADDRESS FFF
+The_end_of_memory: RETURN 
+;
+;Only comments or CONSTANT directives can be specified after the last memory location.
+;
+;End of file
+;

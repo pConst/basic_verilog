@@ -1,0 +1,11 @@
+
+
+start:
+	load s0, 0
+	call func
+	load s1, s0
+
+func:
+	add s0, 1
+	return
+

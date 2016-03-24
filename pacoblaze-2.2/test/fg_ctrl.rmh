@@ -1,0 +1,1838 @@
+/* Symbol Table */
+// BCD_digit0 = CONSTANT: 3
+// BCD_digit1 = CONSTANT: 4
+// BCD_digit2 = CONSTANT: 5
+// BCD_digit3 = CONSTANT: 6
+// BCD_digit4 = CONSTANT: 7
+// BCD_digit5 = CONSTANT: 8
+// BCD_digit6 = CONSTANT: 9
+// BCD_digit7 = CONSTANT: 10
+// BCD_digit8 = CONSTANT: 11
+// BCD_digit_convert = LABEL: 241
+// BCD_to_integer = LABEL: 229
+// DDS_control0 = CONSTANT: 28
+// DDS_control0_port = CONSTANT: 2
+// DDS_control1 = CONSTANT: 29
+// DDS_control1_port = CONSTANT: 4
+// DDS_control2 = CONSTANT: 30
+// DDS_control2_port = CONSTANT: 8
+// DDS_control3 = CONSTANT: 31
+// DDS_control3_port = CONSTANT: 16
+// DDS_scaling = CONSTANT: 32
+// DDS_scaling_port = CONSTANT: 32
+// ISR = LABEL: 568
+// ISR_preserve_s0 = CONSTANT: 1
+// LCD_DB4 = CONSTANT: 16
+// LCD_DB5 = CONSTANT: 32
+// LCD_DB6 = CONSTANT: 64
+// LCD_DB7 = CONSTANT: 128
+// LCD_E = CONSTANT: 1
+// LCD_RS = CONSTANT: 4
+// LCD_RW = CONSTANT: 2
+// LCD_clear = LABEL: 550
+// LCD_cursor = LABEL: 555
+// LCD_drive = CONSTANT: 8
+// LCD_input_port = CONSTANT: 1
+// LCD_output_port = CONSTANT: 64
+// LCD_pulse_E = LABEL: 466
+// LCD_read_DB4 = CONSTANT: 16
+// LCD_read_DB5 = CONSTANT: 32
+// LCD_read_DB6 = CONSTANT: 64
+// LCD_read_DB7 = CONSTANT: 128
+// LCD_read_data8 = LABEL: 508
+// LCD_reset = LABEL: 533
+// LCD_shift_left = LABEL: 565
+// LCD_write_data = LABEL: 491
+// LCD_write_inst4 = LABEL: 472
+// LCD_write_inst8 = LABEL: 476
+// LED0 = CONSTANT: 1
+// LED1 = CONSTANT: 2
+// LED2 = CONSTANT: 4
+// LED3 = CONSTANT: 8
+// LED4 = CONSTANT: 16
+// LED5 = CONSTANT: 32
+// LED6 = CONSTANT: 64
+// LED7 = CONSTANT: 128
+// LED_pattern = CONSTANT: 2
+// LED_port = CONSTANT: 128
+// blank_100M_digit = LABEL: 190
+// blank_10M_digit = LABEL: 196
+// character_0 = CONSTANT: 48
+// character_1 = CONSTANT: 49
+// character_2 = CONSTANT: 50
+// character_3 = CONSTANT: 51
+// character_4 = CONSTANT: 52
+// character_5 = CONSTANT: 53
+// character_6 = CONSTANT: 54
+// character_7 = CONSTANT: 55
+// character_8 = CONSTANT: 56
+// character_9 = CONSTANT: 57
+// character_A = CONSTANT: 65
+// character_B = CONSTANT: 66
+// character_BS = CONSTANT: 8
+// character_C = CONSTANT: 67
+// character_CR = CONSTANT: 13
+// character_D = CONSTANT: 68
+// character_E = CONSTANT: 69
+// character_F = CONSTANT: 70
+// character_G = CONSTANT: 71
+// character_H = CONSTANT: 72
+// character_I = CONSTANT: 73
+// character_J = CONSTANT: 74
+// character_K = CONSTANT: 75
+// character_L = CONSTANT: 76
+// character_M = CONSTANT: 77
+// character_N = CONSTANT: 78
+// character_O = CONSTANT: 79
+// character_P = CONSTANT: 80
+// character_Q = CONSTANT: 81
+// character_R = CONSTANT: 82
+// character_S = CONSTANT: 83
+// character_T = CONSTANT: 84
+// character_U = CONSTANT: 85
+// character_V = CONSTANT: 86
+// character_W = CONSTANT: 87
+// character_X = CONSTANT: 88
+// character_Y = CONSTANT: 89
+// character_Z = CONSTANT: 90
+// character_a = CONSTANT: 97
+// character_b = CONSTANT: 98
+// character_c = CONSTANT: 99
+// character_colon = CONSTANT: 58
+// character_comma = CONSTANT: 44
+// character_d = CONSTANT: 100
+// character_divide = CONSTANT: 47
+// character_dollar = CONSTANT: 36
+// character_e = CONSTANT: 101
+// character_equals = CONSTANT: 61
+// character_exclaim = CONSTANT: 33
+// character_f = CONSTANT: 102
+// character_g = CONSTANT: 103
+// character_greater_than = CONSTANT: 62
+// character_h = CONSTANT: 104
+// character_i = CONSTANT: 105
+// character_j = CONSTANT: 106
+// character_k = CONSTANT: 107
+// character_l = CONSTANT: 108
+// character_less_than = CONSTANT: 60
+// character_m = CONSTANT: 109
+// character_minus = CONSTANT: 45
+// character_n = CONSTANT: 110
+// character_o = CONSTANT: 111
+// character_p = CONSTANT: 112
+// character_plus = CONSTANT: 43
+// character_q = CONSTANT: 113
+// character_question = CONSTANT: 63
+// character_r = CONSTANT: 114
+// character_s = CONSTANT: 115
+// character_semi_colon = CONSTANT: 59
+// character_space = CONSTANT: 32
+// character_stop = CONSTANT: 46
+// character_t = CONSTANT: 116
+// character_u = CONSTANT: 117
+// character_v = CONSTANT: 118
+// character_w = CONSTANT: 119
+// character_x = CONSTANT: 120
+// character_y = CONSTANT: 121
+// character_z = CONSTANT: 122
+// cold_start = LABEL: 0
+// compute_DDS_words = LABEL: 132
+// cursor_position = CONSTANT: 16
+// dec_borrow = LABEL: 91
+// dec_digit = LABEL: 85
+// delay_1ms = LABEL: 451
+// delay_1s = LABEL: 461
+// delay_1us = LABEL: 442
+// delay_1us_constant = CONSTANT: 11
+// delay_20ms = LABEL: 456
+// delay_40us = LABEL: 446
+// disp32_loop = LABEL: 389
+// disp_1M_digit = LABEL: 197
+// disp_Frequency = LABEL: 395
+// disp_Generator = LABEL: 414
+// display_3_digits = LABEL: 216
+// display_DDS_data = LABEL: 349
+// display_digit = LABEL: 223
+// display_freq = LABEL: 180
+// display_hex_32_bit = LABEL: 388
+// display_hex_byte = LABEL: 382
+// display_space = LABEL: 226
+// drive_DDS_words = LABEL: 169
+// edit_digit_pointer = CONSTANT: 17
+// edit_display = LABEL: 70
+// edit_mode = LABEL: 69
+// edit_point_update = LABEL: 66
+// edit_wait = LABEL: 74
+// end_edit_mode = LABEL: 123
+// fill_max = LABEL: 118
+// fill_min = LABEL: 99
+// frequency0 = CONSTANT: 12
+// frequency1 = CONSTANT: 13
+// frequency2 = CONSTANT: 14
+// frequency3 = CONSTANT: 15
+// hex_byte_to_ASCII = LABEL: 365
+// hex_to_ASCII = LABEL: 377
+// inc_carry = LABEL: 110
+// inc_digit = LABEL: 104
+// move_left = LABEL: 47
+// move_mode = LABEL: 31
+// move_right = LABEL: 57
+// move_wait = LABEL: 35
+// next_BCD_to_int_digit = LABEL: 240
+// next_digit_value = LABEL: 257
+// normalise_loop = LABEL: 144
+// number_char = LABEL: 380
+// product0 = CONSTANT: 18
+// product1 = CONSTANT: 19
+// product2 = CONSTANT: 20
+// product3 = CONSTANT: 21
+// product4 = CONSTANT: 22
+// product5 = CONSTANT: 23
+// product6 = CONSTANT: 24
+// product7 = CONSTANT: 25
+// product8 = CONSTANT: 26
+// product9 = CONSTANT: 27
+// product_shift = LABEL: 316
+// rotary_event = CONSTANT: 128
+// rotary_left = CONSTANT: 1
+// rotary_port = CONSTANT: 0
+// rotary_press = CONSTANT: 2
+// rotary_status = CONSTANT: 0
+// s0 = REGISTER: 0
+// s1 = REGISTER: 1
+// s2 = REGISTER: 2
+// s3 = REGISTER: 3
+// s4 = REGISTER: 4
+// s5 = REGISTER: 5
+// s6 = REGISTER: 6
+// s7 = REGISTER: 7
+// s8 = REGISTER: 8
+// s9 = REGISTER: 9
+// sA = REGISTER: 10
+// sB = REGISTER: 11
+// sC = REGISTER: 12
+// sD = REGISTER: 13
+// sE = REGISTER: 14
+// sF = REGISTER: 15
+// scale_constant0 = CONSTANT: 98
+// scale_constant1 = CONSTANT: 132
+// scale_constant2 = CONSTANT: 17
+// scale_constant3 = CONSTANT: 119
+// scale_constant4 = CONSTANT: 204
+// scale_constant5 = CONSTANT: 171
+// scale_frequency = LABEL: 281
+// scale_mult_bit = LABEL: 293
+// set_line2 = LABEL: 561
+// set_max_value = LABEL: 116
+// set_min_value = LABEL: 97
+// shift80_left = LABEL: 161
+// skip_left = LABEL: 55
+// skip_right = LABEL: 65
+// store_DDS_words = LABEL: 154
+// threedigit_loop = LABEL: 217
+// wait_1ms = LABEL: 452
+// wait_1s = LABEL: 462
+// wait_1us = LABEL: 443
+// wait_20ms = LABEL: 457
+// wait_40us = LABEL: 447
+// wait_switch_release = LABEL: 125
+
+/* Program Code */
+// #1: ; KCPSM3 Program - Control and calculation for Frequency Generator design using the
+// #2: ;                 Spartan-3E Starter Kit.
+// #3: ;
+// #4: ; Interfaces with the rotary encoder and LCD display to enable a frequency to be set.
+// #5: ; Converts the BCD frequency value into a binary integer and then performs the high
+// #6: ; precision calculation necessary to derive the control numbers required by the high
+// #7: ; performance Direct Digital Synthesis (DDS) circuit implemented in hardware.
+// #8: ;
+// #9: ; LEDs are connected and used as edit mode indicators.
+// #10: ;
+// #11: ; Substantial comments are included in line with the code below and should be used
+// #12: ; in conjunction with the documentation provided with the complete reference design.
+// #13: ;
+// #14: ;
+// #15: ;
+// #16: ; Ken Chapman - Xilinx Ltd
+// #17: ;
+// #18: ; Version v1.00 - 13th July 2006
+// #19: ;
+// #20: ;**************************************************************************************
+// #21: ;Port definitions
+// #22: ;**************************************************************************************
+// #23: ;
+// #24: ;
+// #25: ;
+// #26: CONSTANT(LED_port,128) ;8 simple LEDs
+// #27: CONSTANT(LED0,1) ;     LED 0 - bit0
+// #28: CONSTANT(LED1,2) ;         1 - bit1
+// #29: CONSTANT(LED2,4) ;         2 - bit2
+// #30: CONSTANT(LED3,8) ;         3 - bit3
+// #31: CONSTANT(LED4,16) ;         4 - bit4
+// #32: CONSTANT(LED5,32) ;         5 - bit5
+// #33: CONSTANT(LED6,64) ;         6 - bit6
+// #34: CONSTANT(LED7,128) ;         7 - bit7
+// #35: ;
+// #36: ;
+// #37: CONSTANT(rotary_port,0) ;Read status of rotary encoder
+// #38: CONSTANT(rotary_left,1) ; Direction of last move Left=1 Right=0  - bit0
+// #39: CONSTANT(rotary_press,2) ;     Centre press contact (active High) - bit1
+// #40: ;
+// #41: ;
+// #42: ;LCD interface ports
+// #43: ;
+// #44: ;The master enable signal is not used by the LCD display itself
+// #45: ;but may be required to confirm that LCD communication is active.
+// #46: ;This is required on the Spartan-3E Starter Kit if the StrataFLASH
+// #47: ;is used because it shares the same data pins and conflicts must be avoided.
+// #48: ;
+// #49: CONSTANT(LCD_output_port,64) ;LCD character module output data and control
+// #50: CONSTANT(LCD_E,1) ;   active High Enable        E - bit0
+// #51: CONSTANT(LCD_RW,2) ;   Read=1 Write=0           RW - bit1
+// #52: CONSTANT(LCD_RS,4) ;   Instruction=0 Data=1     RS - bit2
+// #53: CONSTANT(LCD_drive,8) ;   Master enable (active High) - bit3
+// #54: CONSTANT(LCD_DB4,16) ;   4-bit              Data DB4 - bit4
+// #55: CONSTANT(LCD_DB5,32) ;   interface          Data DB5 - bit5
+// #56: CONSTANT(LCD_DB6,64) ;                      Data DB6 - bit6
+// #57: CONSTANT(LCD_DB7,128) ;                      Data DB7 - bit7
+// #58: ;
+// #59: ;
+// #60: CONSTANT(LCD_input_port,1) ;LCD character module input data
+// #61: CONSTANT(LCD_read_DB4,16) ;    4-bit           Data DB4 - bit4
+// #62: CONSTANT(LCD_read_DB5,32) ;    interface       Data DB5 - bit5
+// #63: CONSTANT(LCD_read_DB6,64) ;                    Data DB6 - bit6
+// #64: CONSTANT(LCD_read_DB7,128) ;                    Data DB7 - bit7
+// #65: ;
+// #66: ;
+// #67: ;
+// #68: ;DDS control ports
+// #69: ;
+// #70: ;DDS control word is 32-bits
+// #71: ;
+// #72: CONSTANT(DDS_control0_port,2) ; dds_control_word(7:0)
+// #73: CONSTANT(DDS_control1_port,4) ; dds_control_word(15:8)
+// #74: CONSTANT(DDS_control2_port,8) ; dds_control_word(23:16)
+// #75: CONSTANT(DDS_control3_port,16) ; dds_control_word(31:24)
+// #76: ;
+// #77: ;Frequency scaling control word is 5-bits
+// #78: ;
+// #79: CONSTANT(DDS_scaling_port,32) ; dds_scaling_word(4:0)
+// #80: ;
+// #81: ;
+// #82: ;**************************************************************************************
+// #83: ;Special Register usage
+// #84: ;**************************************************************************************
+// #85: ;
+// #86: ;**************************************************************************************
+// #87: ;Scratch Pad Memory Locations
+// #88: ;**************************************************************************************
+// #89: ;
+// #90: CONSTANT(rotary_status,0) ;Status of rotary encoder
+// #91: CONSTANT(rotary_event,128) ;  flag set by interrupt in 'rotary_status' - bit7
+// #92: ;
+// #93: CONSTANT(ISR_preserve_s0,1) ;Preserve s0 contents during ISR
+// #94: ;
+// #95: CONSTANT(LED_pattern,2) ;LED pattern used in rotation mode
+// #96: ;
+// #97: ;
+// #98: ;BCD digits representing selected and displayed frequency
+// #99: ;
+// #100: CONSTANT(BCD_digit0,3) ; value           1
+// #101: CONSTANT(BCD_digit1,4) ;                10
+// #102: CONSTANT(BCD_digit2,5) ;               100
+// #103: CONSTANT(BCD_digit3,6) ;             1,000
+// #104: CONSTANT(BCD_digit4,7) ;            10,000
+// #105: CONSTANT(BCD_digit5,8) ;           100,000
+// #106: CONSTANT(BCD_digit6,9) ;         1,000,000
+// #107: CONSTANT(BCD_digit7,10) ;        10,000,000
+// #108: CONSTANT(BCD_digit8,11) ;       100,000,000
+// #109: ;
+// #110: ;
+// #111: ;Binary integer representation of BCD value
+// #112: ;
+// #113: CONSTANT(frequency0,12) ;LS byte
+// #114: CONSTANT(frequency1,13)
+// #115: CONSTANT(frequency2,14)
+// #116: CONSTANT(frequency3,15) ;MS byte
+// #117: ;
+// #118: ;
+// #119: ;Control of frequency selection values
+// #120: ;
+// #121: CONSTANT(cursor_position,16) ; Pointer to edit position on LCD
+// #122: CONSTANT(edit_digit_pointer,17) ; BCD digit to be changed
+// #123: ;
+// #124: ;
+// #125: ;
+// #126: ;80-bit product resulting from 32-bit frequency x 48-bit scaling constant
+// #127: ;
+// #128: CONSTANT(product0,18) ;LS byte
+// #129: CONSTANT(product1,19)
+// #130: CONSTANT(product2,20)
+// #131: CONSTANT(product3,21)
+// #132: CONSTANT(product4,22)
+// #133: CONSTANT(product5,23)
+// #134: CONSTANT(product6,24)
+// #135: CONSTANT(product7,25)
+// #136: CONSTANT(product8,26)
+// #137: CONSTANT(product9,27) ;MS byte
+// #138: ;
+// #139: ;Local copies of the DDS control word and DDS scaling word
+// #140: ;
+// #141: CONSTANT(DDS_control0,28) ; dds_control_word(7:0)
+// #142: CONSTANT(DDS_control1,29) ; dds_control_word(15:8)
+// #143: CONSTANT(DDS_control2,30) ; dds_control_word(23:16)
+// #144: CONSTANT(DDS_control3,31) ; dds_control_word(31:24)
+// #145: CONSTANT(DDS_scaling,32) ; dds_scaling_word(4:0)
+// #146: ;
+// #147: ;**************************************************************************************
+// #148: ; Useful data constants
+// #149: ;**************************************************************************************
+// #150: ;
+// #151: ; To convert the frequency into a DDS control value a high precision scaling
+// #152: ; factor is used. This is a 48-bit number which converts the frequency presented
+// #153: ; as an 32-bit integer into the 32-bit value required by the phase accumulator
+// #154: ; to synthesize the desired frequency. The scaling factor is derived using the
+// #155: ; following method. First I will consider the scaling factor which results in the
+// #156: ; desired frequency being generated directly at the output of the phase accumulator
+// #157: ; which is suitable for low frequencies in which a few ns of jitter is acceptable.
+// #158: ;
+// #159: ; 'Fpa' is frequency generated by the MSB of the phase accumulator.
+// #160: ; 'p' is number of phase accumulator which in this case is 32 bits.
+// #161: ; 'clk' is the input clock frequency to the phase accumulator which is 200MHz.
+// #162: ; 'N' is the DDS control word value which is also 'p' bits (32 in this case).
+// #163: ;
+// #164: ; Frequency at MSB of phase accumulator is then
+// #165: ;
+// #166: ;       Fpa = clk x N / (2^p)
+// #167: ;
+// #168: ; Note that the maximum value allowed for 'N' is (2^p)/2 which results in Fpa=clk/2.
+// #169: ;  for 'N' greater than that value 'Fpa' would decrease in frequency (aliasing).
+// #170: ;
+// #171: ;
+// #172: ; By simple reorganisation of the equation we can compute 'N'
+// #173: ;
+// #174: ;       N = Fpa x (2^p) / clk
+// #175: ;
+// #176: ;
+// #177: ; Now it is easier to approach the next step using specific example.
+// #178: ;
+// #179: ; So for a frequency of Fpa = 1MHz then
+// #180: ;       N = 1MHz x (2^32)/200MHz = 21474836.48
+// #181: ;
+// #182: ; We must use the nearest 32-bit integer value 21474836 and this in turn
+// #183: ; is best viewed as the 32-bit hexadecimal value 0147AE14.
+// #184: ;
+// #185: ; In this case the value we have to work with is a 32-bit integer frequency
+// #186: ; value of 1 million which is 000F4240.
+// #187: ;
+// #188: ; So now we need to translate the value 000F4240 into 0147AE14. This is
+// #189: ; where a 48-bit scaling value is used together with a full precision multiplier
+// #190: ; as this ensures adequate accuracy of the final frequency.
+// #191: ;
+// #192: ;        32-bit frequency value                  ffffffff
+// #193: ;        48-bit scaling value              x ssssssssssss
+// #194: ;                                    --------------------
+// #195: ;        80-bit product              nnnnnnnnnnnnnnnnnnnn
+// #196: ;
+// #197: ; The art is to organise the scaling factor into the range where the most is made of
+// #198: ; the 48-bit resolution available but which will result in the correct 32-bit output.
+// #199: ; The way this is achieved is the select an appropriate 32-bits from the available 80-bit
+// #200: ; product for use as 'N' and truncate 'y' least significant bits.
+// #201: ;
+// #202: ; From this we can deduce that for a target frequency 'Ft' at the input then the
+// #203: ; scaling value 'S' is given by
+// #204: ;
+// #205: ;    S = N x (2^y) / Ft    with the condition that S < 2^48 but as large as possible
+// #206: ;
+// #207: ; For best accuracy we calculate 'S' using the full precision value of 'N' divided
+// #208: ; by Ft and then multiply continuously by 2 until we reach the biggest value less
+// #209: ; that 2^48. The number of multiplications by 2 indicating the value of 'y'.
+// #210: ;
+// #211: ; In this case we find that 'y' is 43.....
+// #212: ;       S = 21474836.48 x (2^43) / 1000000 = 21.47483648 x (2^43)
+// #213: ;                                          = 188894659314785.80854784
+// #214: ;
+// #215: ;  ...round to nearest integer and convert to hexadecimal S = ABCC77118462
+// #216: ;
+// #217: ; N will be taken from the 80 bit product by removing the 43 LSBs and the 5 MSBs
+// #218: ; to leave the 32 active bits required. This is best achieved by shifting left
+// #219: ; by 5 places (multiply by 2^5=32) and keeping the upper 32-bits.
+// #220: ;
+// #221: ;
+// #222: ; Sanity check....
+// #223: ;   Note that most calculators do not support >64 bit values to you will either
+// #224: ;   need to decompose your calculation and perform some of it manually or trust
+// #225: ;   the PicoBlaze implementation :-)
+// #226: ;
+// #227: ;     Ft = 1MHz =                         000F4240
+// #228: ;             S =                  x  ABCC77118462
+// #229: ;                             --------------------
+// #230: ;                             000A3D70A3D70A405C80
+// #231: ;
+// #232: ;     shift left 5 places                     x 20
+// #233: ;                             --------------------
+// #234: ;                             0147AE147AE1480B9000
+// #235: ;
+// #236: ; As expected, the most significant 32-bit (4 bytes) are 0147AE14 hex which is
+// #237: ; the DDS control word for 1MHz calculated previously.
+// #238: ;
+// #239: ; ***
+// #240: ;
+// #241: ; Now I will consider how this needs to be modified for the circuit presented
+// #242: ; which has a second DCM connected to the output of the phase accumulator to
+// #243: ; multiply the synthesized frequency and reduce cycle to cycle jitter at
+// #244: ; the same time. There is then a clock divider circuit connected to the output
+// #245: ; of the DCM which allows lower frequencies to be formed a different way (more of
+// #246: ; that later). As a minimum that divider circuit will divide by 2 which ensures that
+// #247: ; a square wave is presented to the clocked put pin. So in this circuit the fundamental
+// #248: ; multiplication factor is 8 formed by a 16 times multiplication by the DCM (256/16) and
+// #249: ; then a divide by 2.
+// #250: ;
+// #251: ; The overall multiplication factor of this sebsequent circuit means that for final
+// #252: ; output from the DCM to be the desired frequency, the output from the phase accumulator
+// #253: ; needs to be the same number of times smaller. This is not a bad thing because the
+// #254: ; percentage jitter of waveforms produced by the phase accumulator is better for lower
+// #255: ; frequencies made from more clock cycles.
+// #256: ;
+// #257: ; So we modify the basic equation to
+// #258: ;
+// #259: ;    Fout = Frequency at output of DCM
+// #260: ;       M = Multiplying factor of DCM
+// #261: ;
+// #262: ;    Fout = M x Fpa = M x clk x N / (2^p)
+// #263: ;
+// #264: ;
+// #265: ; By simple reorganisation of the equation we can compute 'N'
+// #266: ;
+// #267: ;       N = Fout x (2^p) / (clk x M)
+// #268: ;
+// #269: ;
+// #270: ; In this design M=8, p=32, clk=200MHz
+// #271: ;
+// #272: ; So now consider generating a nominal maximum frequency of 100MHz which will require
+// #273: ; the frequency synthesized by the phase accumulator to be 12.5MHz.
+// #274: ;
+// #275: ;       N = 100MHz x (2^32) / (200MHz x 8) = 268435456 = 10000000 Hex
+// #276: ;
+// #277: ; This all seems like a very convenient number but it simply reflects that 12.5MHz
+// #278: ; is a perfect division of the 200MHz clock and that that output from the phase
+// #279: ; accumulator will be formed perfectly of 16 of the 200MHz clock periods every time
+// #280: ; (8 Low and 8 High) with no additional jitter.
+// #281: ;
+// #282: ; So now we work out the scaling factor with the same rules as used previously that
+// #283: ; the scaling factor should be as large as possible within the 48-bits allocated.
+// #284: ;
+// #285: ;    S = N x (2^y) / Ft    with the condition that S < 2^48 but as large as possible
+// #286: ;
+// #287: ; In this case Ft = 100MHz = 055FE100 and the biggest value for S is found when using
+// #288: ; y=46
+// #289: ;
+// #290: ;    S = 268435456 x (2^46) / 100000000 = 2.68435456 x (2^46)
+// #291: ;                                       = 188894659314785.80854784
+// #292: ;
+// #293: ;      round to 188894659314786  = ABCC77118462
+// #294: ;
+// #295: ; Actually this is the exact same scaling constant as previously because the
+// #296: ; frequency to be synthesized by the phase accumulator is 8 times smaller but the
+// #297: ; value of 'S' is deliberate scaled to be as large as possible. In fact, 'S' in this
+// #298: ; case has been scaled up by a factor of 8 to arrive at the same value. So after
+// #299: ; using the scaling constant to form the 80 bit product, this time we will remove
+// #300: ; the 46 LSBs and the 2 MSBs to leave the 32 active bits required. This is best
+// #301: ; achieved by shifting left by 2 places (multiply by 2^2=4) and keeping the upper
+// #302: ; 32-bits (last time we multiplied by 32 which was 8 times more).
+// #303: ;
+// #304: ;
+// #305: ; Sanity check....
+// #306: ;
+// #307: ;     Ft = 100MHz =                         055FE100
+// #308: ;               S =                  x  ABCC77118462
+// #309: ;                               --------------------
+// #310: ;                               04000000000001242200
+// #311: ;
+// #312: ;       shift left 5 places                     x 20
+// #313: ;                               --------------------
+// #314: ;                               1000000000001C908800
+// #315: ;
+// #316: ; As expected, the most significant 32-bit (4 bytes) are 10000000 hex which is
+// #317: ; the DDS control word for 12.5MHz at the phase accumulator output calculated
+// #318: ; previously.
+// #319: ;
+// #320: ;
+// #321: ; ********
+// #322: ;
+// #323: ;
+// #324: ; 48-bit Scaling factor constant to generate the phase accumulator control word
+// #325: ; from the integer frequency value.
+// #326: ;
+// #327: ;   S = AB CC 77 11 84 62
+// #328: ;
+// #329: ; Notes
+// #330: ;
+// #331: ; The 80-bit product must be shifted left 5 times and then most significant 32-bits
+// #332: ; used to provide DDS control word if the frequency required is to be synthesized
+// #333: ; directly at the output of the phase accumulator.
+// #334: ;
+// #335: ; The 80-bit product must be shifted left 2 times and then most significant 32-bits
+// #336: ; used to provide DDS control word if the frequency required is to be synthesized
+// #337: ; by the phase accumulator followed by a multiplying DCM and divider with overall
+// #338: ; frequency gain of 8 times.
+// #339: ;
+// #340: CONSTANT(scale_constant0,98) ;LS byte
+// #341: CONSTANT(scale_constant1,132)
+// #342: CONSTANT(scale_constant2,17)
+// #343: CONSTANT(scale_constant3,119)
+// #344: CONSTANT(scale_constant4,CC)
+// #345: CONSTANT(scale_constant5,AB) ;MS byte
+// #346: ;
+// #347: ;
+// #348: ;
+// #349: ; ************************
+// #350: ;
+// #351: ;Constant to define a software delay of 1us. This must be adjusted to reflect the
+// #352: ;clock applied to KCPSM3. Every instruction executes in 2 clock cycles making the
+// #353: ;calculation highly predictable. The '6' in the following equation even allows for
+// #354: ;'CALL delay_1us' instruction in the initiating code.
+// #355: ;
+// #356: ; delay_1us_constant =  (clock_rate - 6)/4       Where 'clock_rate' is in MHz
+// #357: ;
+// #358: ;Example: For a 50MHz clock the constant value is (10-6)/4 = 11  (0B Hex).
+// #359: ;For clock rates below 10MHz the value of 1 must be used and the operation will
+// #360: ;become lower than intended.
+// #361: ;
+// #362: CONSTANT(delay_1us_constant,11)
+// #363: ;
+// #364: ;
+// #365: ;
+// #366: ;ASCII table
+// #367: ;
+// #368: CONSTANT(character_a,97)
+// #369: CONSTANT(character_b,98)
+// #370: CONSTANT(character_c,99)
+// #371: CONSTANT(character_d,100)
+// #372: CONSTANT(character_e,101)
+// #373: CONSTANT(character_f,102)
+// #374: CONSTANT(character_g,103)
+// #375: CONSTANT(character_h,104)
+// #376: CONSTANT(character_i,105)
+// #377: CONSTANT(character_j,106)
+// #378: CONSTANT(character_k,107)
+// #379: CONSTANT(character_l,108)
+// #380: CONSTANT(character_m,109)
+// #381: CONSTANT(character_n,110)
+// #382: CONSTANT(character_o,111)
+// #383: CONSTANT(character_p,112)
+// #384: CONSTANT(character_q,113)
+// #385: CONSTANT(character_r,114)
+// #386: CONSTANT(character_s,115)
+// #387: CONSTANT(character_t,116)
+// #388: CONSTANT(character_u,117)
+// #389: CONSTANT(character_v,118)
+// #390: CONSTANT(character_w,119)
+// #391: CONSTANT(character_x,120)
+// #392: CONSTANT(character_y,121)
+// #393: CONSTANT(character_z,122)
+// #394: CONSTANT(character_A,65)
+// #395: CONSTANT(character_B,66)
+// #396: CONSTANT(character_C,67)
+// #397: CONSTANT(character_D,68)
+// #398: CONSTANT(character_E,69)
+// #399: CONSTANT(character_F,70)
+// #400: CONSTANT(character_G,71)
+// #401: CONSTANT(character_H,72)
+// #402: CONSTANT(character_I,73)
+// #403: CONSTANT(character_J,74)
+// #404: CONSTANT(character_K,75)
+// #405: CONSTANT(character_L,76)
+// #406: CONSTANT(character_M,77)
+// #407: CONSTANT(character_N,78)
+// #408: CONSTANT(character_O,79)
+// #409: CONSTANT(character_P,80)
+// #410: CONSTANT(character_Q,81)
+// #411: CONSTANT(character_R,82)
+// #412: CONSTANT(character_S,83)
+// #413: CONSTANT(character_T,84)
+// #414: CONSTANT(character_U,85)
+// #415: CONSTANT(character_V,86)
+// #416: CONSTANT(character_W,87)
+// #417: CONSTANT(character_X,88)
+// #418: CONSTANT(character_Y,89)
+// #419: CONSTANT(character_Z,90)
+// #420: CONSTANT(character_0,48)
+// #421: CONSTANT(character_1,49)
+// #422: CONSTANT(character_2,50)
+// #423: CONSTANT(character_3,51)
+// #424: CONSTANT(character_4,52)
+// #425: CONSTANT(character_5,53)
+// #426: CONSTANT(character_6,54)
+// #427: CONSTANT(character_7,55)
+// #428: CONSTANT(character_8,56)
+// #429: CONSTANT(character_9,57)
+// #430: CONSTANT(character_colon,58)
+// #431: CONSTANT(character_stop,46)
+// #432: CONSTANT(character_semi_colon,59)
+// #433: CONSTANT(character_minus,45)
+// #434: CONSTANT(character_divide,47) ;'/'
+// #435: CONSTANT(character_plus,43)
+// #436: CONSTANT(character_comma,44)
+// #437: CONSTANT(character_less_than,60)
+// #438: CONSTANT(character_greater_than,62)
+// #439: CONSTANT(character_equals,61)
+// #440: CONSTANT(character_space,32)
+// #441: CONSTANT(character_CR,13) ;carriage return
+// #442: CONSTANT(character_question,63) ;'?'
+// #443: CONSTANT(character_dollar,36)
+// #444: CONSTANT(character_exclaim,33) ;'!'
+// #445: CONSTANT(character_BS,8) ;Back Space command character
+// #446: ;
+// #447: ;
+// #448: ;
+// #449: ;
+// #450: ;
+// #451: ;**************************************************************************************
+// #452: ;Initialise the system
+// #453: ;**************************************************************************************
+// #454: ;
+// @000 #455: [cold_start]
+30215 // @000 #455: CALL(LCD_reset) ;initialise LCD display
+// #456: ;
+// #457: ;Write 'Frequency Generator' to LCD display and display for 4 seconds
+// #458: ;
+00510 // @001 #459: LOAD(s5,16) ;Line 1 position 0
+3022b // @002 #460: CALL(LCD_cursor)
+3018b // @003 #461: CALL(disp_Frequency)
+00522 // @004 #462: LOAD(s5,34) ;Line 2 position 2
+3022b // @005 #463: CALL(LCD_cursor)
+3019e // @006 #464: CALL(disp_Generator)
+301cd // @007 #465: CALL(delay_1s) ;wait 4 seconds
+301cd // @008 #466: CALL(delay_1s)
+301cd // @009 #467: CALL(delay_1s)
+301cd // @00a #468: CALL(delay_1s)
+30226 // @00b #469: CALL(LCD_clear) ;clear screen
+// #470: ;
+// #471: ;
+// #472: ;Initial frequency of 100MHz
+// #473: ;
+00000 // @00c #474: LOAD(s0,0)
+00101 // @00d #475: LOAD(s1,1)
+2e003 // @00e #476: STORE(s0,BCD_digit0)
+2e004 // @00f #477: STORE(s0,BCD_digit1)
+2e005 // @010 #478: STORE(s0,BCD_digit2)
+2e006 // @011 #479: STORE(s0,BCD_digit3)
+2e007 // @012 #480: STORE(s0,BCD_digit4)
+2e008 // @013 #481: STORE(s0,BCD_digit5)
+2e009 // @014 #482: STORE(s0,BCD_digit6)
+2e00a // @015 #483: STORE(s0,BCD_digit7)
+2e10b // @016 #484: STORE(s1,BCD_digit8)
+// #485: ;
+00004 // @017 #486: LOAD(s0,4) ;Start position for editing frequency is 1MHz digit
+2e010 // @018 #487: STORE(s0,cursor_position)
+00009 // @019 #488: LOAD(s0,BCD_digit6)
+2e011 // @01a #489: STORE(s0,edit_digit_pointer)
+// #490: ;
+// #491: ;
+3c001 // @01b #492: ENABLE(INTERRUPT) ;interrupts are used to detect rotary controller
+301c3 // @01c #493: CALL(delay_1ms)
+00000 // @01d #494: LOAD(s0,0) ;clear the status of any spurious rotary events
+2e000 // @01e #495: STORE(s0,rotary_status) ;   as a result of system turning on.
+// #496: ;
+// #497: ;**************************************************************************************
+// #498: ; Main program
+// #499: ;**************************************************************************************
+// #500: ;
+// #501: ; The main program is centred on the task of editing the frequency. It waits until the
+// #502: ; rotary control is used and then makes the appropriate changes. If the actual digit
+// #503: ; digit value is changed then the calculation to drive the DDS is performed each time.
+// #504: ;
+// #505: ; The start state is that of allowing the edit cursor position to be moved. Rotary
+// #506: ; inputs are detected by the interrupt service routine and set a flag bit which the
+// #507: ; main program then uses to adjust the cursor position and pointer to the corresponding
+// #508: ; BCD digit in memory.
+// #509: ;
+// #510: ; A press of the rotary control is detected by polling and used to change to the digit
+// #511: ; editing mode.
+// #512: ;
+// #513: ;
+// @01f #514: [move_mode]
+30084 // @01f #514: CALL(compute_DDS_words) ;compute DDS control values
+300b4 // @020 #515: CALL(display_freq) ;refresh display with cursor position shown
+00001 // @021 #516: LOAD(s0,LED0) ;indicate move mode on LEDs
+2c080 // @022 #517: OUTPUT(s0,LED_port)
+// @023 #518: [move_wait]
+04000 // @023 #518: INPUT(s0,rotary_port) ;read rotary encoder
+12002 // @024 #519: TEST(s0,rotary_press) ;test for press of button which changes mode
+35445 // @025 #520: JUMP(NZ,edit_mode)
+06000 // @026 #521: FETCH(s0,rotary_status) ;check for any rotation of rotary control
+12080 // @027 #522: TEST(s0,rotary_event)
+35023 // @028 #523: JUMP(Z,move_wait)
+// #524: ;
+0a07f // @029 #525: AND(s0,127) ;clear flag now that action it is being processed
+2e000 // @02a #526: STORE(s0,rotary_status)
+06a10 // @02b #527: FETCH(sA,cursor_position) ;read current position
+06b11 // @02c #528: FETCH(sB,edit_digit_pointer)
+12001 // @02d #529: TEST(s0,rotary_left) ;determine direction to move cursor
+35039 // @02e #530: JUMP(Z,move_right)
+// #531: ;
+// @02f #532: [move_left]
+14b0b // @02f #532: COMPARE(sB,BCD_digit8) ;can not move left of 100MHz digit
+3501f // @030 #533: JUMP(Z,move_mode)
+18b01 // @031 #534: ADD(sB,1) ;move to next higher BCD digit
+1ca01 // @032 #535: SUB(sA,1) ;move cursor to match digit to be edited
+14a09 // @033 #536: COMPARE(sA,9) ;must skip over space separator
+35037 // @034 #537: JUMP(Z,skip_left)
+14a05 // @035 #538: COMPARE(sA,5) ;must skip over decimal point
+35442 // @036 #539: JUMP(NZ,edit_point_update)
+// @037 #540: [skip_left]
+1ca01 // @037 #540: SUB(sA,1) ;move cursor further left
+34042 // @038 #541: JUMP(edit_point_update)
+// #542: ;
+// @039 #543: [move_right]
+14b03 // @039 #543: COMPARE(sB,BCD_digit0) ;can not move right of 1Hz digit
+3501f // @03a #544: JUMP(Z,move_mode)
+1cb01 // @03b #545: SUB(sB,1) ;move to next lower BCD digit
+18a01 // @03c #546: ADD(sA,1) ;move cursor to match digit to be edited
+14a09 // @03d #547: COMPARE(sA,9) ;must skip over space separator
+35041 // @03e #548: JUMP(Z,skip_right)
+14a05 // @03f #549: COMPARE(sA,5) ;must skip over decimal point
+35442 // @040 #550: JUMP(NZ,edit_point_update)
+// @041 #551: [skip_right]
+18a01 // @041 #551: ADD(sA,1) ;move cursor further right
+// #552: ;
+// @042 #553: [edit_point_update]
+2ea10 // @042 #553: STORE(sA,cursor_position) ;update edit value in memory
+2eb11 // @043 #554: STORE(sB,edit_digit_pointer)
+3401f // @044 #555: JUMP(move_mode)
+// #556: ;
+// #557: ;
+// #558: ; The edit mode is reached by pressing the rotary control. Since this is a simple switch
+// #559: ; a software de-bounce delay is used to wait for the knob to be released fully before
+// #560: ; entering the digit editing mode fully.
+// #561: ;
+// #562: ; In this mode rotations of the detected by the interrupt service routine are used to
+// #563: ; increment or decrement the digit value at the cursor position with carry/borrow to
+// #564: ; the left.
+// #565: ;
+// #566: ; A new press of the rotary control is detected by polling and used to change back to the
+// #567: ; cursor moving mode.
+// #568: ;
+// #569: ;
+// @045 #570: [edit_mode]
+3007d // @045 #570: CALL(wait_switch_release) ;wait for switch press to end
+// @046 #571: [edit_display]
+30084 // @046 #571: CALL(compute_DDS_words) ;compute DDS control values
+300b4 // @047 #572: CALL(display_freq) ;refresh display with new values
+00002 // @048 #573: LOAD(s0,LED1) ;indicate edit mode on LEDs
+2c080 // @049 #574: OUTPUT(s0,LED_port)
+// @04a #575: [edit_wait]
+04000 // @04a #575: INPUT(s0,rotary_port) ;read rotary encoder
+12002 // @04b #576: TEST(s0,rotary_press) ;test for press of button which changes mode
+3547b // @04c #577: JUMP(NZ,end_edit_mode)
+06000 // @04d #578: FETCH(s0,rotary_status) ;check for any rotation of rotary control
+12080 // @04e #579: TEST(s0,rotary_event)
+3504a // @04f #580: JUMP(Z,edit_wait)
+// #581: ;
+0a07f // @050 #582: AND(s0,127) ;clear flag now that action it is being processed
+2e000 // @051 #583: STORE(s0,rotary_status)
+06b11 // @052 #584: FETCH(sB,edit_digit_pointer) ;read pointer to BCD digit for initial change
+12001 // @053 #585: TEST(s0,rotary_left) ;determine direction to increment or decrement
+35068 // @054 #586: JUMP(Z,inc_digit)
+// #587: ;
+// #588: ; Decrement the value starting at the current position and borrowing from the left.
+// #589: ; However the value needs to bottom out at all 0's from the editing position.
+// #590: ;
+// #591: ;
+// @055 #592: [dec_digit]
+07ab0 // @055 #592: FETCH(sA,sB) ;read digit value at pointer position
+1ca01 // @056 #593: SUB(sA,1) ;decrement digit
+14aff // @057 #594: COMPARE(sA,FF) ;test for borrow from next digit
+3505b // @058 #595: JUMP(Z,dec_borrow)
+2fab0 // @059 #596: STORE(sA,sB) ;store decremented digit value
+34046 // @05a #597: JUMP(edit_display) ;decrement task complete
+// @05b #598: [dec_borrow]
+00a09 // @05b #598: LOAD(sA,9) ;current digit rolls over to nine
+2fab0 // @05c #599: STORE(sA,sB) ;store '9' digit value
+14b0b // @05d #600: COMPARE(sB,BCD_digit8) ;check if working on 100MHz digit
+35061 // @05e #601: JUMP(Z,set_min_value)
+18b01 // @05f #602: ADD(sB,1) ;increment pointer to next most significant digit
+34055 // @060 #603: JUMP(dec_digit) ;decrement next digit up.
+// #604: ;
+// @061 #605: [set_min_value]
+06b11 // @061 #605: FETCH(sB,edit_digit_pointer) ;Must fill digits from insert to MS-Digit with 000...
+00a00 // @062 #606: LOAD(sA,0)
+// @063 #607: [fill_min]
+2fab0 // @063 #607: STORE(sA,sB)
+14b0b // @064 #608: COMPARE(sB,BCD_digit8) ;check if filled to 100MHz digit
+35046 // @065 #609: JUMP(Z,edit_display)
+18b01 // @066 #610: ADD(sB,1) ;fill next higher digit
+34063 // @067 #611: JUMP(fill_min)
+// #612: ;
+// #613: ; Increment the value starting at the current position and carrying to the left.
+// #614: ; However the value needs to saturate to all 9's from the editing position.
+// #615: ;
+// @068 #616: [inc_digit]
+07ab0 // @068 #616: FETCH(sA,sB) ;read digit value at pointer position
+18a01 // @069 #617: ADD(sA,1) ;increment digit
+14a0a // @06a #618: COMPARE(sA,10) ;test for carry to next digit
+3506e // @06b #619: JUMP(Z,inc_carry)
+2fab0 // @06c #620: STORE(sA,sB) ;store incremented digit value
+34046 // @06d #621: JUMP(edit_display) ;increment task complete
+// @06e #622: [inc_carry]
+00a00 // @06e #622: LOAD(sA,0) ;current digit rolls over to zero
+2fab0 // @06f #623: STORE(sA,sB) ;store zero digit value
+14b0b // @070 #624: COMPARE(sB,BCD_digit8) ;check if working on 100MHz digit
+35074 // @071 #625: JUMP(Z,set_max_value)
+18b01 // @072 #626: ADD(sB,1) ;increment pointer to next most significant digit
+34068 // @073 #627: JUMP(inc_digit) ;increment next digit up.
+// #628: ;
+// @074 #629: [set_max_value]
+06b11 // @074 #629: FETCH(sB,edit_digit_pointer) ;Must fill digits from insert to MS-Digit with 999...
+00a09 // @075 #630: LOAD(sA,9)
+// @076 #631: [fill_max]
+2fab0 // @076 #631: STORE(sA,sB)
+14b0b // @077 #632: COMPARE(sB,BCD_digit8) ;check if filled to 100MHz digit
+35046 // @078 #633: JUMP(Z,edit_display)
+18b01 // @079 #634: ADD(sB,1) ;fill next higher digit
+34076 // @07a #635: JUMP(fill_max)
+// #636: ;
+// @07b #637: [end_edit_mode]
+3007d // @07b #637: CALL(wait_switch_release) ;wait for end of switch press
+3401f // @07c #638: JUMP(move_mode) ;then go to move cursor mode
+// #639: ;
+// #640: ;
+// #641: ; Routine to poll the press switch with de-bounce delay and wait for it to be
+// #642: ; released. Any rotation inputs detected by the interrupt
+// #643: ; service routine are cleared before returning.
+// #644: ;
+// @07d #645: [wait_switch_release]
+301c8 // @07d #645: CALL(delay_20ms) ;delay to aid switch de-bounce
+04000 // @07e #646: INPUT(s0,rotary_port) ;read rotary encoder
+12002 // @07f #647: TEST(s0,rotary_press) ;test if button is still being pressed
+3547d // @080 #648: JUMP(NZ,wait_switch_release)
+00000 // @081 #649: LOAD(s0,0) ;clear flag indicating any rotary events
+2e000 // @082 #650: STORE(s0,rotary_status)
+2a000 // @083 #651: RETURN
+// #652: ;
+// #653: ;**************************************************************************************
+// #654: ; Compute DDS control words from currently display frequency value
+// #655: ;**************************************************************************************
+// #656: ;
+// #657: ; This routine reads the current BCD value and converts it into a 32-bit binary
+// #658: ; integer. It then multiplies it by a 48-bit scaling factor (see notes in the
+// #659: ; constants section above) to form a full precision 80-bit product.
+// #660: ;
+// #661: ; From this product the 32-bit DDS control word must be extracted. For frequencies of
+// #662: ; 50MHz or above the DDS control word is formed by shifting the product left by 2 places
+// #663: ; (multiply by 4) and then keeping only the most significant 32-bits (4 bytes).
+// #664: ;
+// #665: ; Also for frequencies of 50MHz and above, there is no additional division performed
+// #666: ; after the DCM which multiplies frequency and reduces the jitter. Therefore the DDS_scaling
+// #667: ; word will be set to zero and the output of the DCM will divide by 2.
+// #668: ;
+// #669: ;   Freq     DDS control word    DDS Scaling      Synthesized Frequency
+// #670: ;                                                  of Phase Accumulator
+// #671: ;
+// #672: ;  50MHz      08000000              00                   6.25MHz
+// #673: ; 100MHz      10000000              00                  12.50MHz
+// #674: ;
+// #675: ; You will notice that for frequencies of 50MHz and above, the upper byte of the
+// #676: ; DDS control word is 08 hex or greater. In other words, bit3 and/or bit4 of that byte
+// #677: ; are High (bits 27 and/or 28 of the full 32-bit word). This is the indication that
+// #678: ; the control words are complete.
+// #679: ;
+// #680: ; For frequencies below 50MHz an additional process is required. The reason for this
+// #681: ; becomes clear if we think about the lowest frequency of 1Hz. In that case the 80-bit
+// #682: ; product is the same as the 48-bit scaling constant 00000000ABCC77118462. Once this
+// #683: ; has been multiplied by 4 (shifted left 2 places) it becomes 00000002AF31DC461188 and the
+// #684: ; most significant 32-bits are only 00000002 hex. If we put this back into the basic
+// #685: ; equations for the phase accumulator we find that the output frequency of the phase
+// #686: ; accumulator would be
+// #687: ;
+// #688: ;    Fout = M x clk x N / (2^p)
+// #689: ;
+// #690: ;         = 8 x 200MHz x 2 / (2^32) = 0.745 Hz
+// #691: ;
+// #692: ; There are two important observations we can make. Firstly we have lost accuracy because
+// #693: ; the resolution of the DDS control word has become too granular at low amplitudes.
+// #694: ; Secondly this would never even work because the frequency synthesized by the phase
+// #695: ; accumulator would be 0.745/8 = 0.0931 Hz which is seriously slow and a way below the
+// #696: ; frequency at which the DCM can even work.
+// #697: ;
+// #698: ; The solution to both of these issues is to ensure that the DDS control word is always
+// #699: ; formed to be in the range that would result in an output of 50MHz or above. In other
+// #700: ; words to keep the phase accumulator output in the range 6.25MHz to 12.5MHz such that
+// #701: ; the DCM is able to work and only has to deal with one octave of input variation. This
+// #702: ; can be achieved by shifting the 80-bit product left more times until bits 27 and 28
+// #703: ; of the most significant 32-bits are not zero.
+// #704: ;
+// #705: ; For each shift left the synthesized frequency is being doubled and therefore the final
+// #706: ; output from the DCM must be divided by a further factor of 2. This is achieved using
+// #707: ; a multiplexer which is guided to select the appropriate output from a simple binary
+// #708: ; counter.
+// #709: ;
+// #710: ; Returning to the example of 1Hz, the 80-bit product will be shifted left by the default
+// #711: ; 2 places (multiplied by 4), but will then need to be shifted left by a further 26 places
+// #712: ; which is like multiplying by 67108864 (04000000 hex).
+// #713: ;
+// #714: ;                            00000000ABCC77118462
+// #715: ;                          x                    4
+// #716: ;                            --------------------
+// #717: ;                            00000002AF31DC461188
+// #718: ;
+// #719: ;
+// #720: ;                          x             04000000
+// #721: ;                            --------------------
+// #722: ;                            0ABCC771184620000000
+// #723: ;
+// #724: ; So now the DDS control word is 0ABCC771 (180143985 decimal)and the frequency synthesized
+// #725: ; by the phase accumulator will be....
+// #726: ;
+// #727: ;   Fpa = clk x N / (2^p) = 200MHz x 180143985 / (2^32) = 8388608Hz
+// #728: ;
+// #729: ; The DCM will multiply this by a factor of 16 to give 134217728Hz and this will then
+// #730: ; be divided by the counter of which the 26th bit selected (26 decimal = 1A hex).
+// #731: ;
+// #732: ;   Fout = Fpa x 16 / (2^(D+1)) =  8388608Hz x 16 / (2^(26+1)) = 0.99999999947 Hz
+// #733: ;
+// #734: ;     'D' is the DDS Scaling factor
+// #735: ;         Note that bit0 of a counter is a clock division by 2 and hence the 'D+1'
+// #736: ;
+// #737: ; Clearly this implementation style has provided much greater accuracy and enables
+// #738: ; the DCM to work for all desired frequencies.
+// #739: ;
+// #740: ;
+// #741: ;   Freq     DDS control word    DDS Scaling      Synthesized Frequency
+// #742: ;                                                  of Phase Accumulator
+// #743: ;
+// #744: ; 100 MHz      10000000              00                  12.50MHz
+// #745: ;  50 MHz      08000000              00                   6.25MHz
+// #746: ;  25 MHz      08000000              01                   6.25MHz
+// #747: ;  12.5 MHz    08000000              02                   6.25MHz
+// #748: ;
+// #749: ;    1Hz       0ABCC771              1A                   8.388608 MHz
+// #750: ;
+// #751: ;
+// #752: ;
+// #753: ; In order to ensure the DCM is always provided with a frequency in an acceptable
+// #754: ; range, the value of absolute zero is never implemented and instead just a very low
+// #755: ; frequency is produced.
+// #756: ;   6.25MHz x 16 / (2^31+1) = 0.0233 Hz
+// #757: ;       which is 1 cycle every 43 seconds and that is pretty slow  :-)
+// #758: ;
+// #759: ;
+// #760: ;
+// #761: ;
+// @084 #762: [compute_DDS_words]
+300e5 // @084 #762: CALL(BCD_to_integer) ;convert BCD display value to 32-bit value
+30119 // @085 #763: CALL(scale_frequency) ;80-bit product of 32-bit frequency x 48-bit scaling value
+06a1b // @086 #764: FETCH(sA,product9) ;read the upper part of the 80-bit product into [sA,s9,s8,s7,s6,s5,s4]
+0691a // @087 #765: FETCH(s9,product8) ; The least significant 24-bits of the 80-bit product will never
+06819 // @088 #766: FETCH(s8,product7) ; be used for frequencies above 1Hz.
+06718 // @089 #767: FETCH(s7,product6) ;The final 32-bit DDS control word will be formed in
+06617 // @08a #768: FETCH(s6,product5) ; [sA,s9,s8,s7]
+06516 // @08b #769: FETCH(s5,product4)
+06415 // @08c #770: FETCH(s4,product3)
+300a1 // @08d #771: CALL(shift80_left) ;multiply DDS control word by 4 to achieve default value
+300a1 // @08e #772: CALL(shift80_left)
+00b00 // @08f #773: LOAD(sB,0) ;default scaling factor is 2 (select counter bit0)
+// @090 #774: [normalise_loop]
+12a18 // @090 #774: TEST(sA,24) ;Test bits 27 and 28 of 32-bit DDS control word
+3549a // @091 #775: JUMP(NZ,store_DDS_words) ;DDS control word is normalised to above 50MHz output
+300a1 // @092 #776: CALL(shift80_left) ;multiply DDS control word by 2
+18b01 // @093 #777: ADD(sB,1) ;Divide final value by 2 to compensate
+14b1f // @094 #778: COMPARE(sB,31) ;Test for maximum division factor
+35490 // @095 #779: JUMP(NZ,normalise_loop)
+00a08 // @096 #780: LOAD(sA,8) ;Set for minimum frequency
+00900 // @097 #781: LOAD(s9,0) ; with phase accumulator set to generate 6.25MHz
+00800 // @098 #782: LOAD(s8,0)
+00700 // @099 #783: LOAD(s7,0)
+// @09a #784: [store_DDS_words]
+2e71c // @09a #784: STORE(s7,DDS_control0) ;store local copy of control word
+2e81d // @09b #785: STORE(s8,DDS_control1) ;store local copy of control word
+2e91e // @09c #786: STORE(s9,DDS_control2) ;store local copy of control word
+2ea1f // @09d #787: STORE(sA,DDS_control3) ;store local copy of control word
+2eb20 // @09e #788: STORE(sB,DDS_scaling)
+300a9 // @09f #789: CALL(drive_DDS_words) ;output control words to DDS circuit
+2a000 // @0a0 #790: RETURN
+// #791: ;
+// @0a1 #792: [shift80_left]
+20406 // @0a1 #792: SL0(s4) ;shift (most of the) 80-bit value in
+20500 // @0a2 #793: SLA(s5) ;  [sA,s9,s8,s7,s6,s5,s4] left 1 place
+20600 // @0a3 #794: SLA(s6)
+20700 // @0a4 #795: SLA(s7)
+20800 // @0a5 #796: SLA(s8)
+20900 // @0a6 #797: SLA(s9)
+20a00 // @0a7 #798: SLA(sA)
+2a000 // @0a8 #799: RETURN
+// #800: ;
+// #801: ;**************************************************************************************
+// #802: ; Set DDS control words
+// #803: ;**************************************************************************************
+// #804: ;
+// #805: ; Because multiple ports are used, the idea is to update all of them in
+// #806: ; rapid succession to avoid too much disturbance in the frequency synthesis.
+// #807: ;
+// #808: ; dds_control_word should be supplied in register set [sA,s9,s8,s7]
+// #809: ; dds_scaling_word should be supplied in register s6.
+// #810: ;
+// @0a9 #811: [drive_DDS_words]
+0671c // @0a9 #811: FETCH(s7,DDS_control0)
+0681d // @0aa #812: FETCH(s8,DDS_control1)
+0691e // @0ab #813: FETCH(s9,DDS_control2)
+06a1f // @0ac #814: FETCH(sA,DDS_control3)
+06620 // @0ad #815: FETCH(s6,DDS_scaling)
+2c702 // @0ae #816: OUTPUT(s7,DDS_control0_port)
+2c804 // @0af #817: OUTPUT(s8,DDS_control1_port)
+2c908 // @0b0 #818: OUTPUT(s9,DDS_control2_port)
+2ca10 // @0b1 #819: OUTPUT(sA,DDS_control3_port)
+2c620 // @0b2 #820: OUTPUT(s6,DDS_scaling_port)
+2a000 // @0b3 #821: RETURN
+// #822: ;
+// #823: ;
+// #824: ;**************************************************************************************
+// #825: ; Display frequency on top line of the LCD and DDS data on the lower line
+// #826: ;**************************************************************************************
+// #827: ;
+// #828: ; The BCD value should be stored in scratch pad memory in 9 ascending locations
+// #829: ; called BCD_digit0 to BCD_digit8.
+// #830: ;
+// #831: ; The value is displayed in the format      xxx.xxx xxxMHz
+// #832: ;
+// #833: ; However, the most significant 2 digits will be blanked if zero.
+// #834: ;
+// #835: ; registers used s0,s1,s2,s3,s4,s5,s6,s7
+// #836: ;
+// #837: ;
+// @0b4 #838: [display_freq]
+3015d // @0b4 #838: CALL(display_DDS_data) ;display DDS information on lower line
+00512 // @0b5 #839: LOAD(s5,18) ;Line 1 position 2
+3022b // @0b6 #840: CALL(LCD_cursor)
+0650b // @0b7 #841: FETCH(s5,BCD_digit8) ;read 100MHz digit
+14500 // @0b8 #842: COMPARE(s5,0) ;test for blanking
+350be // @0b9 #843: JUMP(Z,blank_100M_digit)
+300df // @0ba #844: CALL(display_digit) ;display non zero digit
+0650a // @0bb #845: FETCH(s5,BCD_digit7) ;read 10MHz digit and display
+300df // @0bc #846: CALL(display_digit)
+340c5 // @0bd #847: JUMP(disp_1M_digit)
+// #848: ;
+// @0be #849: [blank_100M_digit]
+300e2 // @0be #849: CALL(display_space) ;blank 100MHz digit
+0650a // @0bf #850: FETCH(s5,BCD_digit7) ;read 10MHz digit
+14500 // @0c0 #851: COMPARE(s5,0) ;test for blanking
+350c4 // @0c1 #852: JUMP(Z,blank_10M_digit)
+300df // @0c2 #853: CALL(display_digit) ;display non zero digit
+340c5 // @0c3 #854: JUMP(disp_1M_digit)
+// #855: ;
+// @0c4 #856: [blank_10M_digit]
+300e2 // @0c4 #856: CALL(display_space) ;blank 10MHz digit
+// #857: ;
+// @0c5 #858: [disp_1M_digit]
+06509 // @0c5 #858: FETCH(s5,BCD_digit6) ;read 1MHz digit and display
+300df // @0c6 #859: CALL(display_digit)
+0052e // @0c7 #860: LOAD(s5,character_stop) ;display decimal point
+301eb // @0c8 #861: CALL(LCD_write_data)
+// #862: ;
+00208 // @0c9 #863: LOAD(s2,BCD_digit5) ;set pointer to 100KHz digit
+300d8 // @0ca #864: CALL(display_3_digits)
+300e2 // @0cb #865: CALL(display_space)
+00205 // @0cc #866: LOAD(s2,BCD_digit2) ;set pointer to 100Hz digit
+300d8 // @0cd #867: CALL(display_3_digits)
+0054d // @0ce #868: LOAD(s5,character_M) ;display 'MHz'
+301eb // @0cf #869: CALL(LCD_write_data)
+00548 // @0d0 #870: LOAD(s5,character_H)
+301eb // @0d1 #871: CALL(LCD_write_data)
+0057a // @0d2 #872: LOAD(s5,character_z)
+301eb // @0d3 #873: CALL(LCD_write_data)
+// #874: ;
+06510 // @0d4 #875: FETCH(s5,cursor_position) ;reposition edit cursor on display
+18510 // @0d5 #876: ADD(s5,16) ;on line 1
+3022b // @0d6 #877: CALL(LCD_cursor)
+2a000 // @0d7 #878: RETURN
+// #879: ;
+// @0d8 #880: [display_3_digits]
+00303 // @0d8 #880: LOAD(s3,3) ;3 digits to display
+// @0d9 #881: [threedigit_loop]
+07520 // @0d9 #881: FETCH(s5,s2)
+300df // @0da #882: CALL(display_digit)
+1c201 // @0db #883: SUB(s2,1) ;decrement digit pointer
+1c301 // @0dc #884: SUB(s3,1) ;count digits displayed
+354d9 // @0dd #885: JUMP(NZ,threedigit_loop)
+2a000 // @0de #886: RETURN
+// #887: ;
+// @0df #888: [display_digit]
+18530 // @0df #888: ADD(s5,48) ;convert BCD to ASCII character
+301eb // @0e0 #889: CALL(LCD_write_data)
+2a000 // @0e1 #890: RETURN
+// #891: ;
+// @0e2 #892: [display_space]
+00520 // @0e2 #892: LOAD(s5,character_space)
+301eb // @0e3 #893: CALL(LCD_write_data)
+2a000 // @0e4 #894: RETURN
+// #895: ;
+// #896: ;
+// #897: ;**************************************************************************************
+// #898: ; Convert 9 digit BCD frequency into 32-bit binary integer
+// #899: ;**************************************************************************************
+// #900: ;
+// #901: ;Both values are stored in scratch pad memory
+// #902: ;    BCD values in ascending locations BCD_digit0 to BCD_digit8
+// #903: ;    Binary frequency in ascending locations frequency0 to frequency3
+// #904: ;
+// #905: ;Each digit is read in turn and its value is determined by repeated
+// #906: ;decrement until reaching zero. Each decrement causes a value to be added
+// #907: ;to the memory locations forming the frequency value as binary integer.
+// #908: ;The process requires approximately 1600 instructions to convert the highest
+// #909: ;value 999,999,999 which is approximately 64us at 50MHz clock rate.
+// #910: ;
+// #911: ;Registers used s0,s1,s2,s3,s4,s5,s6,s7,s8,s9,sA,sB
+// #912: ;
+// @0e5 #913: [BCD_to_integer]
+00209 // @0e5 #913: LOAD(s2,9) ;9 digits to convert
+00000 // @0e6 #914: LOAD(s0,0) ;clear frequency value ready to accumulate result
+2e00c // @0e7 #915: STORE(s0,frequency0)
+2e00d // @0e8 #916: STORE(s0,frequency1)
+2e00e // @0e9 #917: STORE(s0,frequency2)
+2e00f // @0ea #918: STORE(s0,frequency3)
+00b00 // @0eb #919: LOAD(sB,0) ;initialise BCD digit weighting [sB,sA,s9,s8] to 1
+00a00 // @0ec #920: LOAD(sA,0)
+00900 // @0ed #921: LOAD(s9,0)
+00801 // @0ee #922: LOAD(s8,1)
+00303 // @0ef #923: LOAD(s3,BCD_digit0) ;locate LS-digit
+// @0f0 #924: [next_BCD_to_int_digit]
+07130 // @0f0 #924: FETCH(s1,s3)
+// @0f1 #925: [BCD_digit_convert]
+14100 // @0f1 #925: COMPARE(s1,0) ;test for zero
+35101 // @0f2 #926: JUMP(Z,next_digit_value)
+0600c // @0f3 #927: FETCH(s0,frequency0) ;add 32-bit digit weighting to memory value
+19080 // @0f4 #928: ADD(s0,s8)
+2e00c // @0f5 #929: STORE(s0,frequency0)
+0600d // @0f6 #930: FETCH(s0,frequency1)
+1b090 // @0f7 #931: ADDCY(s0,s9)
+2e00d // @0f8 #932: STORE(s0,frequency1)
+0600e // @0f9 #933: FETCH(s0,frequency2)
+1b0a0 // @0fa #934: ADDCY(s0,sA)
+2e00e // @0fb #935: STORE(s0,frequency2)
+0600f // @0fc #936: FETCH(s0,frequency3)
+1b0b0 // @0fd #937: ADDCY(s0,sB)
+2e00f // @0fe #938: STORE(s0,frequency3)
+1c101 // @0ff #939: SUB(s1,1) ;decrement digit value
+340f1 // @100 #940: JUMP(BCD_digit_convert)
+// #941: ;Increase weighting by 10x
+// @101 #942: [next_digit_value]
+017b0 // @101 #942: LOAD(s7,sB) ;copy existing weighting
+016a0 // @102 #943: LOAD(s6,sA)
+01590 // @103 #944: LOAD(s5,s9)
+01480 // @104 #945: LOAD(s4,s8)
+20806 // @105 #946: SL0(s8) ;multiply weight by 4x (shift left 2 places)
+20900 // @106 #947: SLA(s9)
+20a00 // @107 #948: SLA(sA)
+20b00 // @108 #949: SLA(sB)
+20806 // @109 #950: SL0(s8)
+20900 // @10a #951: SLA(s9)
+20a00 // @10b #952: SLA(sA)
+20b00 // @10c #953: SLA(sB)
+19840 // @10d #954: ADD(s8,s4) ;add previous weight to form 5x multiplication
+1b950 // @10e #955: ADDCY(s9,s5)
+1ba60 // @10f #956: ADDCY(sA,s6)
+1bb70 // @110 #957: ADDCY(sB,s7)
+20806 // @111 #958: SL0(s8) ;multiply weight by 2x (shift left 1 places)
+20900 // @112 #959: SLA(s9)
+20a00 // @113 #960: SLA(sA)
+20b00 // @114 #961: SLA(sB) ;weight value is now 10x previous value
+18301 // @115 #962: ADD(s3,1) ;move to next digit for conversion
+1c201 // @116 #963: SUB(s2,1)
+354f0 // @117 #964: JUMP(NZ,next_BCD_to_int_digit)
+2a000 // @118 #965: RETURN
+// #966: ;
+// #967: ;
+// #968: ;**************************************************************************************
+// #969: ; 32-bit x 48-bit multiply to scale the integer frequency
+// #970: ;**************************************************************************************
+// #971: ;
+// #972: ;Multiply the 32-bit frequency binary integer by the 48-bit scaling factor
+// #973: ;to form a full precision 80-bit product.
+// #974: ;
+// #975: ;The frequency binary integer is stored in scratch pad memory using ascending
+// #976: ;locations frequency0 to frequency3
+// #977: ;
+// #978: ;The product will be stored in scratch pad memory using ascending
+// #979: ;locations product0 to product9
+// #980: ;
+// #981: ;The scaling factor is provided directly as constants
+// #982: ; scale_constant0 to scale_constant5
+// #983: ;
+// #984: ;The multiplication is performed as a 32-bit 'shift and add' process in which the
+// #985: ;integer frequency is examined LSB first using a register set [sB,sA,s9,s8] and
+// #986: ;a scaling accumulator is formed directly in the 'product' memory locations.
+// #987: ;
+// #988: ;The process requires up to 1772 instructions which is 3544 clock cycle or
+// #989: ;approximately 71us at 50MHz clock rate.
+// #990: ;
+// #991: ;Registers used s0,s1,s8,s9,sA,sB (s1,s8,s9,sA,sB clear on return)
+// #992: ;
+// @119 #993: [scale_frequency]
+00000 // @119 #993: LOAD(s0,0) ;clear accumulator section of 'product'
+2e01b // @11a #994: STORE(s0,product9)
+2e01a // @11b #995: STORE(s0,product8)
+2e019 // @11c #996: STORE(s0,product7)
+2e018 // @11d #997: STORE(s0,product6)
+2e017 // @11e #998: STORE(s0,product5)
+2e016 // @11f #999: STORE(s0,product4)
+06b0f // @120 #1000: FETCH(sB,frequency3) ;read frequency integer value
+06a0e // @121 #1001: FETCH(sA,frequency2)
+0690d // @122 #1002: FETCH(s9,frequency1)
+0680c // @123 #1003: FETCH(s8,frequency0)
+00120 // @124 #1004: LOAD(s1,32) ;32-bit multiply
+// @125 #1005: [scale_mult_bit]
+20b0e // @125 #1005: SR0(sB) ;shift right frequency integer
+20a08 // @126 #1006: SRA(sA)
+20908 // @127 #1007: SRA(s9)
+20808 // @128 #1008: SRA(s8)
+35d3c // @129 #1009: JUMP(NC,product_shift) ;no add if bit is zero (note carry is zero)
+06016 // @12a #1010: FETCH(s0,product4) ;addition of scaling factor to most significant bits of product
+18062 // @12b #1011: ADD(s0,scale_constant0)
+2e016 // @12c #1012: STORE(s0,product4)
+06017 // @12d #1013: FETCH(s0,product5)
+1a084 // @12e #1014: ADDCY(s0,scale_constant1)
+2e017 // @12f #1015: STORE(s0,product5)
+06018 // @130 #1016: FETCH(s0,product6)
+1a011 // @131 #1017: ADDCY(s0,scale_constant2)
+2e018 // @132 #1018: STORE(s0,product6)
+06019 // @133 #1019: FETCH(s0,product7)
+1a077 // @134 #1020: ADDCY(s0,scale_constant3)
+2e019 // @135 #1021: STORE(s0,product7)
+0601a // @136 #1022: FETCH(s0,product8)
+1a0cc // @137 #1023: ADDCY(s0,scale_constant4)
+2e01a // @138 #1024: STORE(s0,product8)
+0601b // @139 #1025: FETCH(s0,product9)
+1a0ab // @13a #1026: ADDCY(s0,scale_constant5)
+2e01b // @13b #1027: STORE(s0,product9) ;carry holds any overflow of addition
+// @13c #1028: [product_shift]
+0601b // @13c #1028: FETCH(s0,product9) ;Divide product by 2 (shift right by 1)
+20008 // @13d #1029: SRA(s0) ;overflow of addition included in shift
+2e01b // @13e #1030: STORE(s0,product9)
+0601a // @13f #1031: FETCH(s0,product8)
+20008 // @140 #1032: SRA(s0)
+2e01a // @141 #1033: STORE(s0,product8)
+06019 // @142 #1034: FETCH(s0,product7)
+20008 // @143 #1035: SRA(s0)
+2e019 // @144 #1036: STORE(s0,product7)
+06018 // @145 #1037: FETCH(s0,product6)
+20008 // @146 #1038: SRA(s0)
+2e018 // @147 #1039: STORE(s0,product6)
+06017 // @148 #1040: FETCH(s0,product5)
+20008 // @149 #1041: SRA(s0)
+2e017 // @14a #1042: STORE(s0,product5)
+06016 // @14b #1043: FETCH(s0,product4)
+20008 // @14c #1044: SRA(s0)
+2e016 // @14d #1045: STORE(s0,product4)
+06015 // @14e #1046: FETCH(s0,product3)
+20008 // @14f #1047: SRA(s0)
+2e015 // @150 #1048: STORE(s0,product3)
+06014 // @151 #1049: FETCH(s0,product2)
+20008 // @152 #1050: SRA(s0)
+2e014 // @153 #1051: STORE(s0,product2)
+06013 // @154 #1052: FETCH(s0,product1)
+20008 // @155 #1053: SRA(s0)
+2e013 // @156 #1054: STORE(s0,product1)
+06012 // @157 #1055: FETCH(s0,product0)
+20008 // @158 #1056: SRA(s0)
+2e012 // @159 #1057: STORE(s0,product0)
+1c101 // @15a #1058: SUB(s1,1) ;move to next bit
+35525 // @15b #1059: JUMP(NZ,scale_mult_bit)
+2a000 // @15c #1060: RETURN
+// #1061: ;
+// #1062: ;**************************************************************************************
+// #1063: ; Display DDS control information on the lower line of the LCD display.
+// #1064: ;**************************************************************************************
+// #1065: ;
+// #1066: ;Display the 32-bit DDS control word and 8-bit DDS scaling word.
+// #1067: ;
+// @15d #1068: [display_DDS_data]
+00520 // @15d #1068: LOAD(s5,32) ;Line 2 position 0
+3022b // @15e #1069: CALL(LCD_cursor)
+0054e // @15f #1070: LOAD(s5,character_N)
+301eb // @160 #1071: CALL(LCD_write_data)
+0053d // @161 #1072: LOAD(s5,character_equals)
+301eb // @162 #1073: CALL(LCD_write_data)
+0071f // @163 #1074: LOAD(s7,DDS_control3) ;pointer to most significant byte in memory
+30184 // @164 #1075: CALL(display_hex_32_bit)
+300e2 // @165 #1076: CALL(display_space)
+00544 // @166 #1077: LOAD(s5,character_D)
+301eb // @167 #1078: CALL(LCD_write_data)
+0053d // @168 #1079: LOAD(s5,character_equals)
+301eb // @169 #1080: CALL(LCD_write_data)
+06020 // @16a #1081: FETCH(s0,DDS_scaling)
+3017e // @16b #1082: CALL(display_hex_byte)
+2a000 // @16c #1083: RETURN
+// #1084: ;
+// #1085: ;**************************************************************************************
+// #1086: ; Routines to display hexadecimal values on LCD display
+// #1087: ;**************************************************************************************
+// #1088: ;
+// #1089: ;
+// #1090: ; Convert hexadecimal value provided in register s0 into ASCII characters
+// #1091: ;
+// #1092: ; The value provided must can be any value in the range 00 to FF and will be converted into
+// #1093: ; two ASCII characters.
+// #1094: ;     The upper nibble will be represented by an ASCII character returned in register s3.
+// #1095: ;     The lower nibble will be represented by an ASCII character returned in register s2.
+// #1096: ;
+// #1097: ; The ASCII representations of '0' to '9' are 30 to 39 hexadecimal which is simply 30 hex
+// #1098: ; added to the actual decimal value. The ASCII representations of 'A' to 'F' are 41 to 46
+// #1099: ; hexadecimal requiring a further addition of 07 to the 30 already added.
+// #1100: ;
+// #1101: ; Registers used s0, s2 and s3.
+// #1102: ;
+// @16d #1103: [hex_byte_to_ASCII]
+01200 // @16d #1103: LOAD(s2,s0) ;remember value supplied
+2000e // @16e #1104: SR0(s0) ;isolate upper nibble
+2000e // @16f #1105: SR0(s0)
+2000e // @170 #1106: SR0(s0)
+2000e // @171 #1107: SR0(s0)
+30179 // @172 #1108: CALL(hex_to_ASCII) ;convert
+01300 // @173 #1109: LOAD(s3,s0) ;upper nibble value in s3
+01020 // @174 #1110: LOAD(s0,s2) ;restore complete value
+0a00f // @175 #1111: AND(s0,15) ;isolate lower nibble
+30179 // @176 #1112: CALL(hex_to_ASCII) ;convert
+01200 // @177 #1113: LOAD(s2,s0) ;lower nibble value in s2
+2a000 // @178 #1114: RETURN
+// #1115: ;
+// #1116: ; Convert hexadecimal value provided in register s0 into ASCII character
+// #1117: ;
+// #1118: ;Register used s0
+// #1119: ;
+// @179 #1120: [hex_to_ASCII]
+1c00a // @179 #1120: SUB(s0,10) ;test if value is in range 0 to 9
+3597c // @17a #1121: JUMP(C,number_char)
+18007 // @17b #1122: ADD(s0,7) ;ASCII char A to F in range 41 to 46
+// @17c #1123: [number_char]
+1803a // @17c #1123: ADD(s0,58) ;ASCII char 0 to 9 in range 30 to 40
+2a000 // @17d #1124: RETURN
+// #1125: ;
+// #1126: ;
+// #1127: ; Display the two character HEX value of the register contents 's0' on the LCD
+// #1128: ; at the current cursor position.
+// #1129: ;
+// #1130: ; Registers used s0, s1, s2, s3, s4, s5
+// #1131: ;
+// @17e #1132: [display_hex_byte]
+3016d // @17e #1132: CALL(hex_byte_to_ASCII)
+01530 // @17f #1133: LOAD(s5,s3)
+301eb // @180 #1134: CALL(LCD_write_data)
+01520 // @181 #1135: LOAD(s5,s2)
+301eb // @182 #1136: CALL(LCD_write_data)
+2a000 // @183 #1137: RETURN
+// #1138: ;
+// #1139: ;
+// #1140: ;
+// #1141: ; Display the 32-bit value stored in 4 ascending memory locations as an 8 character
+// #1142: ; HEX value at the current cursor position. Register s7 must contain the memory
+// #1143: ; location of the most significant byte (which is also the highest address).
+// #1144: ;
+// #1145: ; Registers used s0, s1, s2, s3, s4, s5, s6, s7
+// #1146: ;
+// @184 #1147: [display_hex_32_bit]
+00604 // @184 #1147: LOAD(s6,4) ;4 bytes to display
+// @185 #1148: [disp32_loop]
+07070 // @185 #1148: FETCH(s0,s7) ;read byte
+3017e // @186 #1149: CALL(display_hex_byte) ;display byte
+1c701 // @187 #1150: SUB(s7,1) ;decrement pointer
+1c601 // @188 #1151: SUB(s6,1) ;count bytes displayed
+2b000 // @189 #1152: RETURN(Z)
+34185 // @18a #1153: JUMP(disp32_loop)
+// #1154: ;
+// #1155: ;
+// #1156: ;**************************************************************************************
+// #1157: ;LCD text messages
+// #1158: ;**************************************************************************************
+// #1159: ;
+// #1160: ;
+// #1161: ;Display 'Frequency' on LCD at current cursor position
+// #1162: ;
+// @18b #1163: [disp_Frequency]
+00546 // @18b #1163: LOAD(s5,character_F)
+301eb // @18c #1164: CALL(LCD_write_data)
+00572 // @18d #1165: LOAD(s5,character_r)
+301eb // @18e #1166: CALL(LCD_write_data)
+00565 // @18f #1167: LOAD(s5,character_e)
+301eb // @190 #1168: CALL(LCD_write_data)
+00571 // @191 #1169: LOAD(s5,character_q)
+301eb // @192 #1170: CALL(LCD_write_data)
+00575 // @193 #1171: LOAD(s5,character_u)
+301eb // @194 #1172: CALL(LCD_write_data)
+00565 // @195 #1173: LOAD(s5,character_e)
+301eb // @196 #1174: CALL(LCD_write_data)
+0056e // @197 #1175: LOAD(s5,character_n)
+301eb // @198 #1176: CALL(LCD_write_data)
+00563 // @199 #1177: LOAD(s5,character_c)
+301eb // @19a #1178: CALL(LCD_write_data)
+00579 // @19b #1179: LOAD(s5,character_y)
+301eb // @19c #1180: CALL(LCD_write_data)
+2a000 // @19d #1181: RETURN
+// #1182: ;
+// #1183: ;Display 'Generator' on LCD at current cursor position
+// #1184: ;
+// @19e #1185: [disp_Generator]
+00547 // @19e #1185: LOAD(s5,character_G)
+301eb // @19f #1186: CALL(LCD_write_data)
+00565 // @1a0 #1187: LOAD(s5,character_e)
+301eb // @1a1 #1188: CALL(LCD_write_data)
+0056e // @1a2 #1189: LOAD(s5,character_n)
+301eb // @1a3 #1190: CALL(LCD_write_data)
+00565 // @1a4 #1191: LOAD(s5,character_e)
+301eb // @1a5 #1192: CALL(LCD_write_data)
+00572 // @1a6 #1193: LOAD(s5,character_r)
+301eb // @1a7 #1194: CALL(LCD_write_data)
+00561 // @1a8 #1195: LOAD(s5,character_a)
+301eb // @1a9 #1196: CALL(LCD_write_data)
+00574 // @1aa #1197: LOAD(s5,character_t)
+301eb // @1ab #1198: CALL(LCD_write_data)
+0056f // @1ac #1199: LOAD(s5,character_o)
+301eb // @1ad #1200: CALL(LCD_write_data)
+00572 // @1ae #1201: LOAD(s5,character_r)
+301eb // @1af #1202: CALL(LCD_write_data)
+300e2 // @1b0 #1203: CALL(display_space)
+00576 // @1b1 #1204: LOAD(s5,character_v)
+301eb // @1b2 #1205: CALL(LCD_write_data)
+00531 // @1b3 #1206: LOAD(s5,character_1)
+301eb // @1b4 #1207: CALL(LCD_write_data)
+0052e // @1b5 #1208: LOAD(s5,character_stop)
+301eb // @1b6 #1209: CALL(LCD_write_data)
+00532 // @1b7 #1210: LOAD(s5,character_2)
+301eb // @1b8 #1211: CALL(LCD_write_data)
+2a000 // @1b9 #1212: RETURN
+// #1213: ;
+// #1214: ;
+// #1215: ;
+// #1216: ;
+// #1217: ;**************************************************************************************
+// #1218: ;Software delay routines
+// #1219: ;**************************************************************************************
+// #1220: ;
+// #1221: ;
+// #1222: ;
+// #1223: ;Delay of 1us.
+// #1224: ;
+// #1225: ;Constant value defines reflects the clock applied to KCPSM3. Every instruction
+// #1226: ;executes in 2 clock cycles making the calculation highly predictable. The '6' in
+// #1227: ;the following equation even allows for 'CALL delay_1us' instruction in the initiating code.
+// #1228: ;
+// #1229: ; delay_1us_constant =  (clock_rate - 6)/4       Where 'clock_rate' is in MHz
+// #1230: ;
+// #1231: ;Registers used s0
+// #1232: ;
+// @1ba #1233: [delay_1us]
+0000b // @1ba #1233: LOAD(s0,delay_1us_constant)
+// @1bb #1234: [wait_1us]
+1c001 // @1bb #1234: SUB(s0,1)
+355bb // @1bc #1235: JUMP(NZ,wait_1us)
+2a000 // @1bd #1236: RETURN
+// #1237: ;
+// #1238: ;Delay of 40us.
+// #1239: ;
+// #1240: ;Registers used s0, s1
+// #1241: ;
+// @1be #1242: [delay_40us]
+00128 // @1be #1242: LOAD(s1,40) ;40 x 1us = 40us
+// @1bf #1243: [wait_40us]
+301ba // @1bf #1243: CALL(delay_1us)
+1c101 // @1c0 #1244: SUB(s1,1)
+355bf // @1c1 #1245: JUMP(NZ,wait_40us)
+2a000 // @1c2 #1246: RETURN
+// #1247: ;
+// #1248: ;
+// #1249: ;Delay of 1ms.
+// #1250: ;
+// #1251: ;Registers used s0, s1, s2
+// #1252: ;
+// @1c3 #1253: [delay_1ms]
+00219 // @1c3 #1253: LOAD(s2,25) ;25 x 40us = 1ms
+// @1c4 #1254: [wait_1ms]
+301be // @1c4 #1254: CALL(delay_40us)
+1c201 // @1c5 #1255: SUB(s2,1)
+355c4 // @1c6 #1256: JUMP(NZ,wait_1ms)
+2a000 // @1c7 #1257: RETURN
+// #1258: ;
+// #1259: ;Delay of 20ms.
+// #1260: ;
+// #1261: ;Delay of 20ms used during initialisation.
+// #1262: ;
+// #1263: ;Registers used s0, s1, s2, s3
+// #1264: ;
+// @1c8 #1265: [delay_20ms]
+00314 // @1c8 #1265: LOAD(s3,20) ;20 x 1ms = 20ms
+// @1c9 #1266: [wait_20ms]
+301c3 // @1c9 #1266: CALL(delay_1ms)
+1c301 // @1ca #1267: SUB(s3,1)
+355c9 // @1cb #1268: JUMP(NZ,wait_20ms)
+2a000 // @1cc #1269: RETURN
+// #1270: ;
+// #1271: ;Delay of approximately 1 second.
+// #1272: ;
+// #1273: ;Registers used s0, s1, s2, s3, s4
+// #1274: ;
+// @1cd #1275: [delay_1s]
+00432 // @1cd #1275: LOAD(s4,50) ;50 x 20ms = 1000ms
+// @1ce #1276: [wait_1s]
+301c8 // @1ce #1276: CALL(delay_20ms)
+1c401 // @1cf #1277: SUB(s4,1)
+355ce // @1d0 #1278: JUMP(NZ,wait_1s)
+2a000 // @1d1 #1279: RETURN
+// #1280: ;
+// #1281: ;
+// #1282: ;
+// #1283: ;**************************************************************************************
+// #1284: ;LCD Character Module Routines
+// #1285: ;**************************************************************************************
+// #1286: ;
+// #1287: ;LCD module is a 16 character by 2 line display but all displays are very similar
+// #1288: ;The 4-wire data interface will be used (DB4 to DB7).
+// #1289: ;
+// #1290: ;The LCD modules are relatively slow and software delay loops are used to slow down
+// #1291: ;KCPSM3 adequately for the LCD to communicate. The delay routines are provided in
+// #1292: ;a different section (see above in this case).
+// #1293: ;
+// #1294: ;
+// #1295: ;Pulse LCD enable signal 'E' high for greater than 230ns (1us is used).
+// #1296: ;
+// #1297: ;Register s4 should define the current state of the LCD output port.
+// #1298: ;
+// #1299: ;Registers used s0, s4
+// #1300: ;
+// @1d2 #1301: [LCD_pulse_E]
+0e401 // @1d2 #1301: XOR(s4,LCD_E) ;E=1
+2c440 // @1d3 #1302: OUTPUT(s4,LCD_output_port)
+301ba // @1d4 #1303: CALL(delay_1us)
+0e401 // @1d5 #1304: XOR(s4,LCD_E) ;E=0
+2c440 // @1d6 #1305: OUTPUT(s4,LCD_output_port)
+2a000 // @1d7 #1306: RETURN
+// #1307: ;
+// #1308: ;Write 4-bit instruction to LCD display.
+// #1309: ;
+// #1310: ;The 4-bit instruction should be provided in the upper 4-bits of register s4.
+// #1311: ;Note that this routine does not release the master enable but as it is only
+// #1312: ;used during initialisation and as part of the 8-bit instruction write it
+// #1313: ;should be acceptable.
+// #1314: ;
+// #1315: ;Registers used s4
+// #1316: ;
+// @1d8 #1317: [LCD_write_inst4]
+0a4f8 // @1d8 #1317: AND(s4,F8) ;Enable=1 RS=0 Instruction, RW=0 Write, E=0
+2c440 // @1d9 #1318: OUTPUT(s4,LCD_output_port) ;set up RS and RW >40ns before enable pulse
+301d2 // @1da #1319: CALL(LCD_pulse_E)
+2a000 // @1db #1320: RETURN
+// #1321: ;
+// #1322: ;
+// #1323: ;Write 8-bit instruction to LCD display.
+// #1324: ;
+// #1325: ;The 8-bit instruction should be provided in register s5.
+// #1326: ;Instructions are written using the following sequence
+// #1327: ; Upper nibble
+// #1328: ; wait >1us
+// #1329: ; Lower nibble
+// #1330: ; wait >40us
+// #1331: ;
+// #1332: ;Registers used s0, s1, s4, s5
+// #1333: ;
+// @1dc #1334: [LCD_write_inst8]
+01450 // @1dc #1334: LOAD(s4,s5)
+0a4f0 // @1dd #1335: AND(s4,F0) ;Enable=0 RS=0 Instruction, RW=0 Write, E=0
+0c408 // @1de #1336: OR(s4,LCD_drive) ;Enable=1
+301d8 // @1df #1337: CALL(LCD_write_inst4) ;write upper nibble
+301ba // @1e0 #1338: CALL(delay_1us) ;wait >1us
+01450 // @1e1 #1339: LOAD(s4,s5) ;select lower nibble with
+20407 // @1e2 #1340: SL1(s4) ;Enable=1
+20406 // @1e3 #1341: SL0(s4) ;RS=0 Instruction
+20406 // @1e4 #1342: SL0(s4) ;RW=0 Write
+20406 // @1e5 #1343: SL0(s4) ;E=0
+301d8 // @1e6 #1344: CALL(LCD_write_inst4) ;write lower nibble
+301be // @1e7 #1345: CALL(delay_40us) ;wait >40us
+004f0 // @1e8 #1346: LOAD(s4,F0) ;Enable=0 RS=0 Instruction, RW=0 Write, E=0
+2c440 // @1e9 #1347: OUTPUT(s4,LCD_output_port) ;Release master enable
+2a000 // @1ea #1348: RETURN
+// #1349: ;
+// #1350: ;
+// #1351: ;
+// #1352: ;Write 8-bit data to LCD display.
+// #1353: ;
+// #1354: ;The 8-bit data should be provided in register s5.
+// #1355: ;Data bytes are written using the following sequence
+// #1356: ; Upper nibble
+// #1357: ; wait >1us
+// #1358: ; Lower nibble
+// #1359: ; wait >40us
+// #1360: ;
+// #1361: ;Registers used s0, s1, s4, s5
+// #1362: ;
+// @1eb #1363: [LCD_write_data]
+01450 // @1eb #1363: LOAD(s4,s5)
+0a4f0 // @1ec #1364: AND(s4,F0) ;Enable=0 RS=0 Instruction, RW=0 Write, E=0
+0c40c // @1ed #1365: OR(s4,12) ;Enable=1 RS=1 Data, RW=0 Write, E=0
+2c440 // @1ee #1366: OUTPUT(s4,LCD_output_port) ;set up RS and RW >40ns before enable pulse
+301d2 // @1ef #1367: CALL(LCD_pulse_E) ;write upper nibble
+301ba // @1f0 #1368: CALL(delay_1us) ;wait >1us
+01450 // @1f1 #1369: LOAD(s4,s5) ;select lower nibble with
+20407 // @1f2 #1370: SL1(s4) ;Enable=1
+20407 // @1f3 #1371: SL1(s4) ;RS=1 Data
+20406 // @1f4 #1372: SL0(s4) ;RW=0 Write
+20406 // @1f5 #1373: SL0(s4) ;E=0
+2c440 // @1f6 #1374: OUTPUT(s4,LCD_output_port) ;set up RS and RW >40ns before enable pulse
+301d2 // @1f7 #1375: CALL(LCD_pulse_E) ;write lower nibble
+301be // @1f8 #1376: CALL(delay_40us) ;wait >40us
+004f0 // @1f9 #1377: LOAD(s4,F0) ;Enable=0 RS=0 Instruction, RW=0 Write, E=0
+2c440 // @1fa #1378: OUTPUT(s4,LCD_output_port) ;Release master enable
+2a000 // @1fb #1379: RETURN
+// #1380: ;
+// #1381: ;
+// #1382: ;
+// #1383: ;
+// #1384: ;Read 8-bit data from LCD display.
+// #1385: ;
+// #1386: ;The 8-bit data will be read from the current LCD memory address
+// #1387: ;and will be returned in register s5.
+// #1388: ;It is advisable to set the LCD address (cursor position) before
+// #1389: ;using the data read for the first time otherwise the display may
+// #1390: ;generate invalid data on the first read.
+// #1391: ;
+// #1392: ;Data bytes are read using the following sequence
+// #1393: ; Upper nibble
+// #1394: ; wait >1us
+// #1395: ; Lower nibble
+// #1396: ; wait >40us
+// #1397: ;
+// #1398: ;Registers used s0, s1, s4, s5
+// #1399: ;
+// @1fc #1400: [LCD_read_data8]
+0040e // @1fc #1400: LOAD(s4,14) ;Enable=1 RS=1 Data, RW=1 Read, E=0
+2c440 // @1fd #1401: OUTPUT(s4,LCD_output_port) ;set up RS and RW >40ns before enable pulse
+0e401 // @1fe #1402: XOR(s4,LCD_E) ;E=1
+2c440 // @1ff #1403: OUTPUT(s4,LCD_output_port)
+301ba // @200 #1404: CALL(delay_1us) ;wait >260ns to access data
+04501 // @201 #1405: INPUT(s5,LCD_input_port) ;read upper nibble
+0e401 // @202 #1406: XOR(s4,LCD_E) ;E=0
+2c440 // @203 #1407: OUTPUT(s4,LCD_output_port)
+301ba // @204 #1408: CALL(delay_1us) ;wait >1us
+0e401 // @205 #1409: XOR(s4,LCD_E) ;E=1
+2c440 // @206 #1410: OUTPUT(s4,LCD_output_port)
+301ba // @207 #1411: CALL(delay_1us) ;wait >260ns to access data
+04001 // @208 #1412: INPUT(s0,LCD_input_port) ;read lower nibble
+0e401 // @209 #1413: XOR(s4,LCD_E) ;E=0
+2c440 // @20a #1414: OUTPUT(s4,LCD_output_port)
+0a5f0 // @20b #1415: AND(s5,F0) ;merge upper and lower nibbles
+2000e // @20c #1416: SR0(s0)
+2000e // @20d #1417: SR0(s0)
+2000e // @20e #1418: SR0(s0)
+2000e // @20f #1419: SR0(s0)
+0d500 // @210 #1420: OR(s5,s0)
+00404 // @211 #1421: LOAD(s4,4) ;Enable=0 RS=1 Data, RW=0 Write, E=0
+2c440 // @212 #1422: OUTPUT(s4,LCD_output_port) ;Stop reading 5V device and release master enable
+301be // @213 #1423: CALL(delay_40us) ;wait >40us
+2a000 // @214 #1424: RETURN
+// #1425: ;
+// #1426: ;
+// #1427: ;Reset and initialise display to communicate using 4-bit data mode
+// #1428: ;Includes routine to clear the display.
+// #1429: ;
+// #1430: ;Requires the 4-bit instructions 3,3,3,2 to be sent with suitable delays
+// #1431: ;following by the 8-bit instructions to set up the display.
+// #1432: ;
+// #1433: ;  28 = '001' Function set, '0' 4-bit mode, '1' 2-line, '0' 5x7 dot matrix, 'xx'
+// #1434: ;  06 = '000001' Entry mode, '1' increment, '0' no display shift
+// #1435: ;  0E = '00001' Display control, '1' display on, '1' cursor off, '0' cursor blink off
+// #1436: ;  01 = '00000001' Display clear
+// #1437: ;
+// #1438: ;Registers used s0, s1, s2, s3, s4
+// #1439: ;
+// @215 #1440: [LCD_reset]
+301c8 // @215 #1440: CALL(delay_20ms) ;wait more that 15ms for display to be ready
+00430 // @216 #1441: LOAD(s4,48)
+301d8 // @217 #1442: CALL(LCD_write_inst4) ;send '3'
+301c8 // @218 #1443: CALL(delay_20ms) ;wait >4.1ms
+301d8 // @219 #1444: CALL(LCD_write_inst4) ;send '3'
+301c3 // @21a #1445: CALL(delay_1ms) ;wait >100us
+301d8 // @21b #1446: CALL(LCD_write_inst4) ;send '3'
+301be // @21c #1447: CALL(delay_40us) ;wait >40us
+00420 // @21d #1448: LOAD(s4,32)
+301d8 // @21e #1449: CALL(LCD_write_inst4) ;send '2'
+301be // @21f #1450: CALL(delay_40us) ;wait >40us
+00528 // @220 #1451: LOAD(s5,40) ;Function set
+301dc // @221 #1452: CALL(LCD_write_inst8)
+00506 // @222 #1453: LOAD(s5,6) ;Entry mode
+301dc // @223 #1454: CALL(LCD_write_inst8)
+0050e // @224 #1455: LOAD(s5,14) ;Display control
+301dc // @225 #1456: CALL(LCD_write_inst8)
+// @226 #1457: [LCD_clear]
+00501 // @226 #1457: LOAD(s5,1) ;Display clear
+301dc // @227 #1458: CALL(LCD_write_inst8)
+301c3 // @228 #1459: CALL(delay_1ms) ;wait >1.64ms for display to clear
+301c3 // @229 #1460: CALL(delay_1ms)
+2a000 // @22a #1461: RETURN
+// #1462: ;
+// #1463: ;Position the cursor ready for characters to be written.
+// #1464: ;The display is formed of 2 lines of 16 characters and each
+// #1465: ;position has a corresponding address as indicated below.
+// #1466: ;
+// #1467: ;                   Character position
+// #1468: ;           0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+// #1469: ;
+// #1470: ; Line 1 - 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+// #1471: ; Line 2 - C0 C1 C2 C3 C4 C5 C6 C7 C8 C9 CA CB CC CD CE CF
+// #1472: ;
+// #1473: ;This routine will set the cursor position using the value provided
+// #1474: ;in register s5. The upper nibble will define the line and the lower
+// #1475: ;nibble the character position on the line.
+// #1476: ; Example s5 = 2B will position the cursor on line 2 position 11
+// #1477: ;
+// #1478: ;Registers used s0, s1, s2, s3, s4
+// #1479: ;
+// @22b #1480: [LCD_cursor]
+12510 // @22b #1480: TEST(s5,16) ;test for line 1
+35231 // @22c #1481: JUMP(Z,set_line2)
+0a50f // @22d #1482: AND(s5,15) ;make address in range 80 to 8F for line 1
+0c580 // @22e #1483: OR(s5,128)
+301dc // @22f #1484: CALL(LCD_write_inst8) ;instruction write to set cursor
+2a000 // @230 #1485: RETURN
+// @231 #1486: [set_line2]
+0a50f // @231 #1486: AND(s5,15) ;make address in range C0 to CF for line 2
+0c5c0 // @232 #1487: OR(s5,C0)
+301dc // @233 #1488: CALL(LCD_write_inst8) ;instruction write to set cursor
+2a000 // @234 #1489: RETURN
+// #1490: ;
+// #1491: ;This routine will shift the complete display one position to the left.
+// #1492: ;The cursor position and LCD memory contents will not change.
+// #1493: ;
+// #1494: ;
+// #1495: ;Registers used s0, s1, s2, s3, s4, s5
+// #1496: ;
+// @235 #1497: [LCD_shift_left]
+00518 // @235 #1497: LOAD(s5,24) ;shift display left
+301dc // @236 #1498: CALL(LCD_write_inst8)
+2a000 // @237 #1499: RETURN
+// #1500: ;
+// #1501: ;**************************************************************************************
+// #1502: ;Interrupt Service Routine (ISR)
+// #1503: ;**************************************************************************************
+// #1504: ;
+// #1505: ;Interrupts occur when the rotary control has been moved.
+// #1506: ;
+// #1507: ;The ISR captures the state of the direction which it writes to scratch pad memory (SPM).
+// #1508: ;The most significant bit is also set at this location to provide a 'flag' to the
+// #1509: ;main body of the program.
+// #1510: ;
+// #1511: ;
+// @238 #1512: [ISR]
+2e001 // @238 #1512: STORE(s0,ISR_preserve_s0) ;preserve s0
+04000 // @239 #1513: INPUT(s0,rotary_port) ;read rotary encoder
+0c080 // @23a #1514: OR(s0,rotary_event) ;set flag
+2e000 // @23b #1515: STORE(s0,rotary_status) ;put result in SCM
+06001 // @23c #1516: FETCH(s0,ISR_preserve_s0) ;restore s0
+38001 // @23d #1517: RETURNI(ENABLE)
+// #1518: ;
+// #1519: ;
+// #1520: ;**************************************************************************************
+// #1521: ;Interrupt Vector
+// #1522: ;**************************************************************************************
+// #1523: ;
+@3ff // #1524: ADDRESS(1023)
+34238 // @3ff #1525: JUMP(ISR)
+// #1526: ;
+// #1527: ;

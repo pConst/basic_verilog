@@ -1,0 +1,1080 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head>
+<title>pacoblaze_inc.v</title>
+<link rel="Stylesheet" title="v2html stylesheet" media="Screen" href="v2html.css">
+</head>
+<script language="JavaScript" type="text/javascript"><!--
+var agt=navigator.userAgent.toLowerCase(); 
+var is_nav  = ((agt.indexOf('mozilla')!=-1) &&
+(agt.indexOf('spoofer')==-1) &&
+(agt.indexOf('compatible') == -1) &&
+(agt.indexOf('opera')==-1) &&
+(agt.indexOf('webtv')==-1)); 
+var is_major = parseInt(navigator.appVersion); 
+var is_nav4up = (is_nav && (is_major >= 4)); 
+var is_ie     = (agt.indexOf("msie") != -1); 
+var is_ie4up  = (is_ie  && (is_major >= 4)); 
+var is_nav5up = (is_nav && (is_major >= 5));
+var dirSep = (window.location.pathname.indexOf('\\') != -1) ? '\\' : '/' ;
+function setbuttons (wndw) {
+var i;
+var sl=wndw.loc[ wndw.document.forms[0].elements[0].selectedIndex ];
+for (i=0;i<sl.length;i++) {
+if(sl[i]) wndw.document.images[i].src='v2html-b1.gif';
+else      wndw.document.images[i].src='v2html-b2.gif';
+}
+if ( wndw.document.forms[0].elements[0].options[ 
+wndw.document.forms[0].elements[0].selectedIndex ].text != '-') {
+wndw.document.images[i  ].src='v2html-b1.gif';
+wndw.document.images[i+1].src='v2html-b1.gif';
+}
+else {
+wndw.document.images[i  ].src='v2html-b2.gif';
+wndw.document.images[i+1].src='v2html-b2.gif';
+}
+}
+// Unindented and uncommented to save spave - look in v2html for a prettier version
+var disabled=1;
+if (!is_nav4up) {
+var event=false; 
+}
+var last_link=0;     
+var last_class=null; 
+function qs(e,t,extra_info_index) {
+var inc=0,bnum=0,i,j;
+if (disabled) return false;
+var sig_buttons = [ "Definition" , "Local Driver" , 
+"Up to Input Driver" , "Find Source" , "Index"];
+if (is_nav4up || is_ie4up) {
+if (((e.which==2) && (!(e.modifiers&Event.SHIFT_MASK))) ||
+((e.which==1) &&  (e.modifiers&Event.CONTROL_MASK)))   inc = 1;
+else if (((e.which==2) && (e.modifiers&Event.SHIFT_MASK)) ||
+((e.which==1) && (e.modifiers&Event.SHIFT_MASK))) inc = -1;
+if (inc == 0 && extra_info_index == 0) { 
+return true;  
+}
+var linkText = is_nav4up ? t.text : t.innerText;
+var linkY    = is_nav4up && ! is_nav5up ? t.y    : t.offsetTop;
+window.status="Searching...";
+if ((last_link==-1) || (document.links[last_link]!=t)) 
+for (last_link=0;last_link<document.links.length;last_link++) 
+if (document.links[last_link] == t)  
+break;
+if (inc != 0) { 
+return search(linkText,linkY,last_link,inc,1);
+}
+else { 
+window.status="";
+extra_info_index--; 
+if (extra_info[extra_info_index][0] != 'S') { 
+return true;
+}
+var w = window.open('','SignalPopUp','width=200,height=235');
+if (null != w.document.forms[0]) {
+if ((window.location.pathname.substring(0,window.location.pathname.lastIndexOf(dirSep)))!=
+(w.pn.substring(0,w.pn.lastIndexOf(dirSep)))) {
+w.close();
+w = window.open('','SignalPopUp','width=200,height=235');
+}
+}
+w.focus(); 
+if (null == w.document.forms[0]) { 
+var Text = '<html><head></head>';
+if (is_nav4up) { 
+w.loc = new Array(10);
+w.sel = null;
+w.pn  = window.location.pathname;
+}
+else {     
+Text += '<script>var loc = new Array(10);<\/script>\n';
+Text += '<script>var sel;<\/script>\n';
+Text += '<script>var pn = opener.location.pathname;<\/script>\n';
+}
+Text += '<body bgcolor="white">\n';
+Text += '<form>';
+Text += '  <select onchange="opener.setbuttons(window);">\n';
+Text += '  <option>---------------------------</option>\n';
+for (j=0;j<9;j++) Text += '  <option>-</option>\n';
+Text += '  </select>\n';
+Text += '</form>';
+Text += '<table cellspacing=0 cellpadding=0>\n';
+for (var i=0;i<(extra_info[extra_info_index].length-1);i++) {
+Text += hbutton(sig_buttons[i], 
+'opener.location=loc[sel.selectedIndex]['+i+'];',
+bnum++);
+}
+Text += hbutton("Search Backwards", 
+'opener.search(sel.options[ sel.selectedIndex ].text,' +
+'0,opener.last_link,-1,0);',bnum++);
+Text += hbutton("Search Forwards",
+'opener.search(sel.options[ sel.selectedIndex ].text,' +
+'0,opener.last_link, 1,0);',bnum++);
+Text += hbutton("Close","window.close();",bnum++);
+Text += '</table>\n';
+Text += '</body></html>\n';
+w.document.open();
+w.document.write(Text);
+w.document.close();
+w.document.forms[0].elements[0].options[0].text  = linkText;
+w.sel = w.document.forms[0].elements[0]; 
+for (j=0;j<10;j++) w.loc[j] = new Array(sig_buttons.length);  
+copy_into_loc0(w,extra_info_index);
+}
+else {
+var opts = w.document.forms[0].elements[0].options;
+if ( opts.length<10 ) { 
+w.loc[opts.length] = new Array;
+opts.length++; 
+}
+for (i=opts.length-2;i>=0;i--) {
+opts[i+1].text=opts[i].text;
+for (var j=0;j<w.loc[i].length;j++) w.loc[i+1][j] = w.loc[i][j];
+}
+opts[0].text  = linkText;
+copy_into_loc0(w,extra_info_index);
+}
+return false; 
+}
+}
+return true;
+}
+function hbutton (text,action,bnum) {
+return '  <tr><td><a href="" '+
+'onmousedown="'+
+'if (images['+bnum+'].src.match(/v2html-b2.gif/)) return false; ' +
+'images['+bnum+'].src=\'v2html-b3.gif\';" '+
+'onmouseup="'+
+'if (images['+bnum+'].src.match(/v2html-b2.gif/)) return false; ' +
+'images['+bnum+'].src=\'v2html-b1.gif\';" '+
+'onclick="'+
+'if (images['+bnum+'].src.match(/v2html-b2.gif/)) return false; ' +
+action + 
+' return false;">'+
+'<img border=0 src="v2html-b1.gif"></a></td>' +
+'<td style="font-family:sans-serif; font-weight:bold; font-size:14px;"> '+text+'</td></tr>\n';
+}
+function copy_into_loc0 (w,extra_info_index) {
+for (var i=1;i<extra_info[extra_info_index].length;i++) {
+w.loc[0][i-1] = extra_info[extra_info_index][i];
+}
+w.document.forms[0].elements[0].selectedIndex=1;
+w.document.forms[0].elements[0].selectedIndex=0;
+setbuttons(w);
+}
+function search(text,y,i,inc,relative) {
+var nextpage,wrappage,linkText,linkY;
+window.status="Searching...";
+if (last_class) document.links[i].className=last_class;
+while (1) {
+for (i+=inc;i<document.links.length && i>=0;i+=inc) {
+linkText = is_nav4up ? document.links[i].text : document.links[i].innerText;
+linkY    = is_nav4up && ! is_nav5up ? document.links[i].y    : document.links[i].offsetTop;
+if ((linkText == text) && (linkY != y)) {
+window.status="";
+if (is_nav4up) 
+if (relative) window.scrollBy(0,linkY - y);
+else          window.scrollTo(0,linkY); 
+else if (is_ie4up)
+document.links[i].scrollIntoView(true); 
+last_link=i;
+last_class=document.links[i].className;
+document.links[i].className='HI';
+return false;
+}
+}
+nextpage = (inc==1) ? next_page() : prev_page();
+wrappage = (inc==1) ? first_page() : last_page();
+if (nextpage!="" || wrappage!="") {
+if (nextpage=="") { 
+if (!confirm(text + " not found. Search again from "+((inc==1)?"first":"last")+" page?"))
+return false;
+nextpage=wrappage;
+}
+location=nextpage+ "?" + escape(text) + "&" + ( y - window.pageYOffset ) + "&" + inc;
+return false;
+}
+if (confirm(text + " not found. Search again from "+((inc==1)?"start":"end")+"?")) {
+if (inc==1) i=-1;
+else i=document.links.length;
+} else return false;
+}
+return true;
+}
+function loadqs() {
+var opt=location.search, text="", s="", y=0, si=0, inc=1;
+if (opt.length==0) return true;  
+for (var i=1;i<opt.length;i++) { 
+if (opt.charAt(i) != "&") 
+s += opt.charAt(i);
+else {
+if (text=="") text=unescape(s);
+else             y=s;
+s="";
+}
+}
+if (text=="") return true;
+if (s == "-1") { si=document.links.length-1; inc=-1; }
+window.scrollTo(0,0);
+search(text,y,si,inc);
+return true;
+}
+// -->
+</script>
+<body onload='loadqs();'>
+<script language="JavaScript"type="text/javascript"><!--
+function prev_page() { return ""; }
+function last_page() { return ""; }
+// -->
+</script>
+<center><table class=NB cols=7 ><tr><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index.html';"><a target="_top" href="index.html">Hierarchy</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-f.html';"><a target="_top" href="index-f.html">Files</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-m.html';"><a target="_top" href="index-m.html">Modules</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-s.html';"><a target="_top" href="index-s.html">Signals</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-t.html';"><a target="_top" href="index-t.html">Tasks</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-fn.html';"><a target="_top" href="index-fn.html">Functions</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='http://www.burbleland.com/v2html/help_7_30.html?htf-ni-s-';"><a target="_top" href="http://www.burbleland.com/v2html/help_7_30.html?htf-ni-s-">Help</a></td></tr></table></center>
+<pre>
+<span class=C>/*
+  Copyright (c) 2004, 2006 Pablo Bleyer Kocik.
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions are met:
+
+  1. Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+
+  2. Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+
+  3. The name of the author may not be used to endorse or promote products
+  derived from this software without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE AUTHOR &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED
+  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
+  EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+  BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
+  IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  POSSIBILITY OF SUCH DAMAGE.
+*/</span>
+
+<span class=C>/** @file
+  PacoBlaze definitions include file.
+*/</span>
+
+<span class=M>`ifndef</span> <a  onClick="return qs(event,this,0)"  class=D href="#34">PACOBLAZE_INC_V_</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#34">PACOBLAZE_INC_V_</a>
+
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#36">HAS_RESET_LATCH</a>
+<span class=C>//`define USE_ONEHOT_ENCODING
+</span>
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="cmprnd3_tb.v.html#5">PACOBLAZE3</a>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#40">HAS_INTERRUPT_ACK</a>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#41">HAS_SCRATCH_MEMORY</a>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#42">HAS_COMPARE_OPERATION</a>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#43">HAS_TEST_OPERATION</a>
+<span class=M>`endif</span>
+
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="compare3m_tb.v.html#5">PACOBLAZE3M</a>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#40">HAS_INTERRUPT_ACK</a>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#41">HAS_SCRATCH_MEMORY</a>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#42">HAS_COMPARE_OPERATION</a>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#43">HAS_TEST_OPERATION</a>
+  <span class=M>`define</span> <span class=D>HAS_MUL_OPERATION</span>
+  <span class=M>`define</span> <span class=D>HAS_WIDE_ALU</span>
+<span class=M>`endif</span>
+
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_idu_tb.v.html#36">HAS_DEBUG</a>
+<span class=M>`define</span> <span class=D>idu_debug_width</span> 32
+<span class=M>`define</span> <span class=D>alu_debug_width</span> 27
+<span class=M>`endif</span>
+
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#60">operand_width</a> 8 <span class=C>///&lt; Operand width
+</span>
+<span class=C>/** Instruction memory data, address width */</span>
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="pacoblaze1.v.html#8">PACOBLAZE1</a>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#72">code_width</a> 16
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#73">code_depth</a> 8 <span class=C>// 256 instructions
+</span><span class=M>`endif</span>
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="pacoblaze2.v.html#8">PACOBLAZE2</a>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#72">code_width</a> 18
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#73">code_depth</a> 10 <span class=C>// 1024 instructions
+</span><span class=M>`endif</span>
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="cmprnd3_tb.v.html#5">PACOBLAZE3</a>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#72">code_width</a> 18
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#73">code_depth</a> 10 <span class=C>// 1024 instructions
+</span><span class=M>`endif</span>
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="compare3m_tb.v.html#5">PACOBLAZE3M</a>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#72">code_width</a> 18
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#73">code_depth</a> 10 <span class=C>// 1024 instructions
+</span><span class=M>`endif</span>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#79">code_size</a> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#73">code_depth</a>) <span class=C>///&lt; Instruction memory size
+</span>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#81">port_width</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#60">operand_width</a> <span class=C>///&lt; Port IO data width
+</span><span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#82">port_depth</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#60">operand_width</a> <span class=C>///&lt; Port id (address) width
+</span><span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#83">port_size</a> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#82">port_depth</a>) <span class=C>///&lt; Port size
+</span>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#85">stack_width</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#73">code_depth</a> <span class=C>///&lt; Call/return stack width
+</span><span class=C>/** Call/return stack depth */</span>
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="pacoblaze1.v.html#8">PACOBLAZE1</a>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#94">stack_depth</a> 4
+<span class=M>`endif</span>
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="pacoblaze2.v.html#8">PACOBLAZE2</a>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#94">stack_depth</a> 5
+<span class=M>`endif</span>
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="cmprnd3_tb.v.html#5">PACOBLAZE3</a>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#94">stack_depth</a> 5
+<span class=M>`endif</span>
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="compare3m_tb.v.html#5">PACOBLAZE3M</a>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#94">stack_depth</a> 5
+<span class=M>`endif</span>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#99">stack_size</a> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#94">stack_depth</a>) <span class=C>///&lt; Call/return stack size
+</span>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#101">register_width</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#60">operand_width</a> <span class=C>///&lt; Register file width
+</span><span class=C>/** Register file depth */</span>
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="pacoblaze1.v.html#8">PACOBLAZE1</a>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#110">register_depth</a> 4
+<span class=M>`endif</span>
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="pacoblaze2.v.html#8">PACOBLAZE2</a>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#110">register_depth</a> 5
+<span class=M>`endif</span>
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="cmprnd3_tb.v.html#5">PACOBLAZE3</a>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#110">register_depth</a> 4
+<span class=M>`endif</span>
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="compare3m_tb.v.html#5">PACOBLAZE3M</a>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#110">register_depth</a> 4
+<span class=M>`endif</span>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#115">register_size</a> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#110">register_depth</a>) <span class=C>///&lt; Register file size
+</span>
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="cmprnd3_tb.v.html#5">PACOBLAZE3</a>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#118">scratch_width</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#60">operand_width</a> <span class=C>///&lt; Scratchpad ram width
+</span>  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#119">scratch_depth</a> 6 <span class=C>///&lt; Scratchpad ram depth
+</span>  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#120">scratch_size</a> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#119">scratch_depth</a>) <span class=C>///&lt; Scratchpad ram size
+</span><span class=M>`endif</span>
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="compare3m_tb.v.html#5">PACOBLAZE3M</a>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#118">scratch_width</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#60">operand_width</a> <span class=C>///&lt; Scratchpad ram width
+</span>  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#119">scratch_depth</a> 6 <span class=C>///&lt; Scratchpad ram depth
+</span>  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#120">scratch_size</a> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#119">scratch_depth</a>) <span class=C>///&lt; Scratchpad ram size
+</span><span class=M>`endif</span>
+
+<span class=M>`ifdef</span> <span class=D>USE_ONEHOT_ENCODING</span>
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="pacoblaze1.v.html#8">PACOBLAZE1</a>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#149">operation_width</a> 16
+<span class=M>`endif</span>
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="pacoblaze2.v.html#8">PACOBLAZE2</a>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#149">operation_width</a> 16
+<span class=M>`endif</span>
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="cmprnd3_tb.v.html#5">PACOBLAZE3</a>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#149">operation_width</a> 20
+<span class=M>`endif</span>
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="compare3m_tb.v.html#5">PACOBLAZE3M</a>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#149">operation_width</a> (20+5) <span class=C>// mul+addw(cy)+subw(cy)
+</span><span class=M>`endif</span>
+<span class=M>`else</span> <span class=C>// !USE_ONEHOT_ENCODING
+</span><span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="pacoblaze1.v.html#8">PACOBLAZE1</a>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#149">operation_width</a> 4
+<span class=M>`endif</span>
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="pacoblaze2.v.html#8">PACOBLAZE2</a>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#149">operation_width</a> 4
+<span class=M>`endif</span>
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="cmprnd3_tb.v.html#5">PACOBLAZE3</a>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#149">operation_width</a> 5
+<span class=M>`endif</span>
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="compare3m_tb.v.html#5">PACOBLAZE3M</a>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#149">operation_width</a> 5
+<span class=M>`endif</span>
+<span class=M>`endif</span>
+
+
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#157">reset_vector</a> 0 <span class=C>///&lt; Reset vector
+</span><span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#158">interrupt_vector</a> (<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#79">code_size</a>-1) <span class=C>///&lt; Interrupt vector
+</span>
+
+<span class=C>/** Operation string names */</span>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#162">os_load</a> <span class=S>&quot;load&quot;</span>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#163">os_add</a> <span class=S>&quot;add&quot;</span>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#164">os_addcy</a> <span class=S>&quot;addcy&quot;</span>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#165">os_and</a> <span class=S>&quot;and&quot;</span>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#166">os_or</a> <span class=S>&quot;or&quot;</span>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#167">os_rs</a> <span class=S>&quot;rs&quot;</span>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#168">os_sr0</a> <span class=S>&quot;sr0&quot;</span>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#169">os_sr1</a> <span class=S>&quot;sr1&quot;</span>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#170">os_srx</a> <span class=S>&quot;srx&quot;</span>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#171">os_sra</a> <span class=S>&quot;sra&quot;</span>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#172">os_rr</a> <span class=S>&quot;rr&quot;</span>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#173">os_sl0</a> <span class=S>&quot;sl0&quot;</span>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#174">os_sl1</a> <span class=S>&quot;sl1&quot;</span>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#175">os_slx</a> <span class=S>&quot;slx&quot;</span>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#176">os_sla</a> <span class=S>&quot;sla&quot;</span>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#177">os_rl</a> <span class=S>&quot;rl&quot;</span>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#178">os_sub</a> <span class=S>&quot;sub&quot;</span>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#179">os_subcy</a> <span class=S>&quot;subcy&quot;</span>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#180">os_xor</a> <span class=S>&quot;xor&quot;</span>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#181">os_jump</a> <span class=S>&quot;jump&quot;</span>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#182">os_call</a> <span class=S>&quot;call&quot;</span>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#183">os_return</a> <span class=S>&quot;return&quot;</span>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#184">os_returni</a> <span class=S>&quot;returni&quot;</span>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#185">os_interrupt</a> <span class=S>&quot;interrupt&quot;</span>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#186">os_input</a> <span class=S>&quot;input&quot;</span>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#187">os_output</a> <span class=S>&quot;output&quot;</span>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#188">os_invalid</a> <span class=S>&quot;(n/a)&quot;</span>
+<span class=C>// PB3
+</span><span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#190">os_compare</a> <span class=S>&quot;compare&quot;</span>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#191">os_test</a> <span class=S>&quot;test&quot;</span>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#192">os_fetch</a> <span class=S>&quot;fetch&quot;</span>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#193">os_store</a> <span class=S>&quot;store&quot;</span>
+<span class=C>// PB3M
+</span><span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#195">os_mul</a> <span class=S>&quot;mul&quot;</span>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#196">os_addw</a> <span class=S>&quot;addw&quot;</span>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#197">os_addwcy</a> <span class=S>&quot;addwcy&quot;</span>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#198">os_subw</a> <span class=S>&quot;subw&quot;</span>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#199">os_subwcy</a> <span class=S>&quot;subwcy&quot;</span>
+
+<span class=C>// flags
+</span><span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#202">os_z</a> <span class=S>&quot;z &quot;</span>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#203">os_nz</a> <span class=S>&quot;nz&quot;</span>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#204">os_c</a> <span class=S>&quot;c &quot;</span>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#205">os_nc</a> <span class=S>&quot;nc&quot;</span>
+<span class=C>// interrupt
+</span><span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#207">os_enable</a> <span class=S>&quot;enable &quot;</span>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#208">os_disable</a> <span class=S>&quot;disable&quot;</span>
+
+
+<span class=C>/** Conditional flags */</span>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#212">flag_z</a> 2'b00 <span class=C>// zero set
+</span><span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#213">flag_nz</a> 2'b01 <span class=C>// zero not set
+</span><span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#214">flag_c</a> 2'b10 <span class=C>// carry set
+</span><span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#215">flag_nc</a> 2'b11 <span class=C>// carry not set
+</span>
+<span class=C>/** Rotate/shift operations */</span>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#218">opcode_rsc</a> 2'b11 <span class=C>// shift constant
+</span><span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#219">opcode_rsa</a> 2'b00 <span class=C>// shift all (through carry)
+</span><span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#220">opcode_rr</a> 2'b10
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#221">opcode_slx</a> 2'b10
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#222">opcode_rl</a> 2'b01
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#223">opcode_srx</a> 2'b01
+
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="pacoblaze1.v.html#8">PACOBLAZE1</a>
+  <span class=M>`define</span> <span class=D>opcode_reg</span> 4'hc <span class=C>// register operation
+</span>  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#286">opcode_load</a> 4'h0
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#270">opcode_add</a> 4'h4
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#271">opcode_addcy</a> 4'h5
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#272">opcode_and</a> 4'h1
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#274">opcode_or</a> 4'h2
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#275">opcode_rs</a> 4'hd
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#276">opcode_sub</a> 4'h6
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#277">opcode_subcy</a> 4'h7
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#279">opcode_xor</a> 4'h3
+
+  <span class=M>`define</span> <span class=D>opcode_ctl</span> 3'b100 <span class=C>// flow control operation: jump, call, return(i), interrupt
+</span>    <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#285">opcode_jump</a> 2'b01
+    <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#281">opcode_call</a> 2'b11
+    <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#288">opcode_return</a> 4'b0010
+    <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#289">opcode_returni</a> 4'b0011
+    <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#282">opcode_interrupt</a> 4'b0000
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#284">opcode_input</a> 3'b101
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#287">opcode_output</a> 3'b111
+
+<span class=M>`endif</span> <span class=C>// PACOBLAZE1
+</span>
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="pacoblaze2.v.html#8">PACOBLAZE2</a>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#286">opcode_load</a> 4'h0
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#270">opcode_add</a> 4'h4
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#271">opcode_addcy</a> 4'h5
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#272">opcode_and</a> 4'h1
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#274">opcode_or</a> 4'h2
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#275">opcode_rs</a> 4'hc
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#276">opcode_sub</a> 4'h6
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#277">opcode_subcy</a> 4'h7
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#279">opcode_xor</a> 4'h3
+
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#285">opcode_jump</a> 4'ha <span class=C>// subop = 1
+</span>  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#281">opcode_call</a> 4'hb
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#288">opcode_return</a> 4'ha <span class=C>// subop = 0
+</span>  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#289">opcode_returni</a> 4'he <span class=C>// subop = 0
+</span>  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#282">opcode_interrupt</a> 4'he <span class=C>// subop = 1
+</span>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#284">opcode_input</a> 4'h8
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#287">opcode_output</a> 4'h9
+<span class=M>`endif</span> <span class=C>// PACOBLAZE2
+</span>
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="cmprnd3_tb.v.html#5">PACOBLAZE3</a>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#270">opcode_add</a> 5'h0c
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#271">opcode_addcy</a> 5'h0d
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#272">opcode_and</a> 5'h05
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#273">opcode_compare</a> 5'h0a
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#274">opcode_or</a> 5'h06
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#275">opcode_rs</a> 5'h10
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#276">opcode_sub</a> 5'h0e
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#277">opcode_subcy</a> 5'h0f
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#278">opcode_test</a> 5'h09
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#279">opcode_xor</a> 5'h07
+
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#281">opcode_call</a> 5'h18
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#282">opcode_interrupt</a> 5'h1e
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#283">opcode_fetch</a> 5'h03
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#284">opcode_input</a> 5'h02
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#285">opcode_jump</a> 5'h1a
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#286">opcode_load</a> 5'h00
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#287">opcode_output</a> 5'h16
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#288">opcode_return</a> 5'h15
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#289">opcode_returni</a> 5'h1c
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#290">opcode_store</a> 5'h17
+<span class=M>`endif</span> <span class=C>// PACOBLAZE3
+</span>
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="compare3m_tb.v.html#5">PACOBLAZE3M</a>
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#270">opcode_add</a> 5'h0c
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#271">opcode_addcy</a> 5'h0d
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#272">opcode_and</a> 5'h05
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#273">opcode_compare</a> 5'h0a
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#274">opcode_or</a> 5'h06
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#275">opcode_rs</a> 5'h10
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#276">opcode_sub</a> 5'h0e
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#277">opcode_subcy</a> 5'h0f
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#278">opcode_test</a> 5'h09
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#279">opcode_xor</a> 5'h07
+
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#281">opcode_call</a> 5'h18
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#282">opcode_interrupt</a> 5'h1e
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#283">opcode_fetch</a> 5'h03
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#284">opcode_input</a> 5'h02
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#285">opcode_jump</a> 5'h1a
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#286">opcode_load</a> 5'h00
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#287">opcode_output</a> 5'h16
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#288">opcode_return</a> 5'h15
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#289">opcode_returni</a> 5'h1c
+  <span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#290">opcode_store</a> 5'h17
+
+  <span class=M>`define</span> <span class=D>opcode_mul</span> 5'h1f
+  <span class=M>`define</span> <span class=D>opcode_addw</span> 5'h11
+  <span class=M>`define</span> <span class=D>opcode_addwcy</span> 5'h12
+  <span class=M>`define</span> <span class=D>opcode_subw</span> 5'h13
+  <span class=M>`define</span> <span class=D>opcode_subwcy</span> 5'h14
+<span class=M>`endif</span> <span class=C>// PACOBLAZE3M
+</span>
+
+<span class=C>/** Exploded operations. ALU operations come first as ALU operation subset */</span>
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="pacoblaze1.v.html#8">PACOBLAZE1</a>
+<span class=M>`ifdef</span> <span class=D>USE_ONEHOT_ENCODING</span>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#474">op_load</a> 'h0
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#475">op_add</a> 'h1
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#476">op_addcy</a> 'h2
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#477">op_and</a> 'h3
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#478">op_or</a> 'h4
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#479">op_rs</a> 'h5
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#480">op_sub</a> 'h6
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#481">op_subcy</a> 'h7
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#482">op_xor</a> 'h8
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#483">op_jump</a> 'h9
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#484">op_call</a> 'ha
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#485">op_return</a> 'hb
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#486">op_returni</a> 'hc
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#487">op_interrupt</a> 'hd
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#488">op_input</a> 'he
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#489">op_output</a> 'hf
+<span class=M>`define</span> <span class=D>ob_load</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#474">op_load</a>)
+<span class=M>`define</span> <span class=D>ob_add</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#475">op_add</a>)
+<span class=M>`define</span> <span class=D>ob_addcy</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#476">op_addcy</a>)
+<span class=M>`define</span> <span class=D>ob_and</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#477">op_and</a>)
+<span class=M>`define</span> <span class=D>ob_or</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#478">op_or</a>)
+<span class=M>`define</span> <span class=D>ob_rs</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#479">op_rs</a>)
+<span class=M>`define</span> <span class=D>ob_sub</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#480">op_sub</a>)
+<span class=M>`define</span> <span class=D>ob_subcy</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#481">op_subcy</a>)
+<span class=M>`define</span> <span class=D>ob_xor</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#482">op_xor</a>)
+<span class=M>`define</span> <span class=D>ob_jump</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#483">op_jump</a>)
+<span class=M>`define</span> <span class=D>ob_call</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#484">op_call</a>)
+<span class=M>`define</span> <span class=D>ob_return</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#485">op_return</a>)
+<span class=M>`define</span> <span class=D>ob_returni</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#486">op_returni</a>)
+<span class=M>`define</span> <span class=D>ob_interrupt</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#487">op_interrupt</a>)
+<span class=M>`define</span> <span class=D>ob_input</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#488">op_input</a>)
+<span class=M>`define</span> <span class=D>ob_output</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#489">op_output</a>)
+<span class=M>`else</span> <span class=C>// !USE_ONEHOT_ENCODING
+</span><span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#474">op_load</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#286">opcode_load</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#475">op_add</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#270">opcode_add</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#476">op_addcy</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#271">opcode_addcy</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#477">op_and</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#272">opcode_and</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#478">op_or</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#274">opcode_or</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#479">op_rs</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#275">opcode_rs</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#480">op_sub</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#276">opcode_sub</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#481">op_subcy</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#277">opcode_subcy</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#482">op_xor</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#279">opcode_xor</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#483">op_jump</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#285">opcode_jump</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#484">op_call</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#281">opcode_call</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#485">op_return</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#288">opcode_return</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#486">op_returni</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#289">opcode_returni</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#487">op_interrupt</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#282">opcode_interrupt</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#488">op_input</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#284">opcode_input</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#489">op_output</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#287">opcode_output</a>
+<span class=M>`endif</span>
+<span class=M>`endif</span>
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="pacoblaze2.v.html#8">PACOBLAZE2</a>
+<span class=M>`ifdef</span> <span class=D>USE_ONEHOT_ENCODING</span>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#474">op_load</a> 'h0
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#475">op_add</a> 'h1
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#476">op_addcy</a> 'h2
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#477">op_and</a> 'h3
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#478">op_or</a> 'h4
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#479">op_rs</a> 'h5
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#480">op_sub</a> 'h6
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#481">op_subcy</a> 'h7
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#482">op_xor</a> 'h8
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#483">op_jump</a> 'h9
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#484">op_call</a> 'ha
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#485">op_return</a> 'hb
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#486">op_returni</a> 'hc
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#487">op_interrupt</a> 'hd
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#488">op_input</a> 'he
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#489">op_output</a> 'hf
+<span class=M>`define</span> <span class=D>ob_load</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#474">op_load</a>)
+<span class=M>`define</span> <span class=D>ob_add</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#475">op_add</a>)
+<span class=M>`define</span> <span class=D>ob_addcy</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#476">op_addcy</a>)
+<span class=M>`define</span> <span class=D>ob_and</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#477">op_and</a>)
+<span class=M>`define</span> <span class=D>ob_or</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#478">op_or</a>)
+<span class=M>`define</span> <span class=D>ob_rs</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#479">op_rs</a>)
+<span class=M>`define</span> <span class=D>ob_sub</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#480">op_sub</a>)
+<span class=M>`define</span> <span class=D>ob_subcy</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#481">op_subcy</a>)
+<span class=M>`define</span> <span class=D>ob_xor</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#482">op_xor</a>)
+<span class=M>`define</span> <span class=D>ob_jump</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#483">op_jump</a>)
+<span class=M>`define</span> <span class=D>ob_call</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#484">op_call</a>)
+<span class=M>`define</span> <span class=D>ob_return</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#485">op_return</a>)
+<span class=M>`define</span> <span class=D>ob_returni</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#486">op_returni</a>)
+<span class=M>`define</span> <span class=D>ob_interrupt</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#487">op_interrupt</a>)
+<span class=M>`define</span> <span class=D>ob_input</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#488">op_input</a>)
+<span class=M>`define</span> <span class=D>ob_output</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#489">op_output</a>)
+<span class=M>`else</span> <span class=C>// !USE_ONEHOT_ENCODING
+</span><span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#474">op_load</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#286">opcode_load</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#475">op_add</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#270">opcode_add</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#476">op_addcy</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#271">opcode_addcy</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#477">op_and</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#272">opcode_and</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#478">op_or</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#274">opcode_or</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#479">op_rs</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#275">opcode_rs</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#480">op_sub</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#276">opcode_sub</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#481">op_subcy</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#277">opcode_subcy</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#482">op_xor</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#279">opcode_xor</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#483">op_jump</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#285">opcode_jump</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#484">op_call</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#281">opcode_call</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#485">op_return</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#288">opcode_return</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#486">op_returni</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#289">opcode_returni</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#487">op_interrupt</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#282">opcode_interrupt</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#488">op_input</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#284">opcode_input</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#489">op_output</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#287">opcode_output</a>
+<span class=M>`endif</span>
+<span class=M>`endif</span>
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="cmprnd3_tb.v.html#5">PACOBLAZE3</a>
+<span class=M>`ifdef</span> <span class=D>USE_ONEHOT_ENCODING</span>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#474">op_load</a> 'h0
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#475">op_add</a> 'h1
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#476">op_addcy</a> 'h2
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#477">op_and</a> 'h3
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#478">op_or</a> 'h4
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#479">op_rs</a> 'h5
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#480">op_sub</a> 'h6
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#481">op_subcy</a> 'h7
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#482">op_xor</a> 'h8
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#483">op_jump</a> 'h9
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#484">op_call</a> 'ha
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#485">op_return</a> 'hb
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#486">op_returni</a> 'hc
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#487">op_interrupt</a> 'hd
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#488">op_input</a> 'he
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#489">op_output</a> 'hf
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#490">op_compare</a> 'h10
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#491">op_test</a> 'h11
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#492">op_fetch</a> 'h12
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#493">op_store</a> 'h13
+<span class=M>`define</span> <span class=D>ob_load</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#474">op_load</a>)
+<span class=M>`define</span> <span class=D>ob_add</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#475">op_add</a>)
+<span class=M>`define</span> <span class=D>ob_addcy</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#476">op_addcy</a>)
+<span class=M>`define</span> <span class=D>ob_and</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#477">op_and</a>)
+<span class=M>`define</span> <span class=D>ob_or</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#478">op_or</a>)
+<span class=M>`define</span> <span class=D>ob_rs</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#479">op_rs</a>)
+<span class=M>`define</span> <span class=D>ob_sub</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#480">op_sub</a>)
+<span class=M>`define</span> <span class=D>ob_subcy</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#481">op_subcy</a>)
+<span class=M>`define</span> <span class=D>ob_xor</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#482">op_xor</a>)
+<span class=M>`define</span> <span class=D>ob_jump</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#483">op_jump</a>)
+<span class=M>`define</span> <span class=D>ob_call</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#484">op_call</a>)
+<span class=M>`define</span> <span class=D>ob_return</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#485">op_return</a>)
+<span class=M>`define</span> <span class=D>ob_returni</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#486">op_returni</a>)
+<span class=M>`define</span> <span class=D>ob_interrupt</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#487">op_interrupt</a>)
+<span class=M>`define</span> <span class=D>ob_input</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#488">op_input</a>)
+<span class=M>`define</span> <span class=D>ob_output</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#489">op_output</a>)
+<span class=M>`define</span> <span class=D>ob_compare</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#490">op_compare</a>)
+<span class=M>`define</span> <span class=D>ob_test</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#491">op_test</a>)
+<span class=M>`define</span> <span class=D>ob_fetch</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#492">op_fetch</a>)
+<span class=M>`define</span> <span class=D>ob_store</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#493">op_store</a>)
+<span class=M>`else</span> <span class=C>// !USE_ONEHOT_ENCODING
+</span><span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#474">op_load</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#286">opcode_load</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#475">op_add</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#270">opcode_add</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#476">op_addcy</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#271">opcode_addcy</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#477">op_and</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#272">opcode_and</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#478">op_or</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#274">opcode_or</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#479">op_rs</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#275">opcode_rs</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#480">op_sub</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#276">opcode_sub</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#481">op_subcy</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#277">opcode_subcy</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#482">op_xor</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#279">opcode_xor</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#483">op_jump</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#285">opcode_jump</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#484">op_call</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#281">opcode_call</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#485">op_return</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#288">opcode_return</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#486">op_returni</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#289">opcode_returni</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#487">op_interrupt</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#282">opcode_interrupt</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#488">op_input</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#284">opcode_input</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#489">op_output</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#287">opcode_output</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#490">op_compare</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#273">opcode_compare</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#491">op_test</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#278">opcode_test</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#492">op_fetch</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#283">opcode_fetch</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#493">op_store</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#290">opcode_store</a>
+<span class=M>`endif</span>
+<span class=M>`endif</span>
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="compare3m_tb.v.html#5">PACOBLAZE3M</a>
+<span class=M>`ifdef</span> <span class=D>USE_ONEHOT_ENCODING</span>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#474">op_load</a> 'h0
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#475">op_add</a> 'h1
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#476">op_addcy</a> 'h2
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#477">op_and</a> 'h3
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#478">op_or</a> 'h4
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#479">op_rs</a> 'h5
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#480">op_sub</a> 'h6
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#481">op_subcy</a> 'h7
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#482">op_xor</a> 'h8
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#483">op_jump</a> 'h9
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#484">op_call</a> 'ha
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#485">op_return</a> 'hb
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#486">op_returni</a> 'hc
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#487">op_interrupt</a> 'hd
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#488">op_input</a> 'he
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#489">op_output</a> 'hf
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#490">op_compare</a> 'h10
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#491">op_test</a> 'h11
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#492">op_fetch</a> 'h12
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#493">op_store</a> 'h13
+<span class=M>`define</span> <span class=D>op_mul</span> 'h14
+<span class=M>`define</span> <span class=D>op_addw</span> 'h15
+<span class=M>`define</span> <span class=D>op_addwcy</span> 'h16
+<span class=M>`define</span> <span class=D>op_subw</span> 'h17
+<span class=M>`define</span> <span class=D>op_subwcy</span> 'h18
+<span class=M>`define</span> <span class=D>ob_load</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#474">op_load</a>)
+<span class=M>`define</span> <span class=D>ob_add</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#475">op_add</a>)
+<span class=M>`define</span> <span class=D>ob_addcy</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#476">op_addcy</a>)
+<span class=M>`define</span> <span class=D>ob_and</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#477">op_and</a>)
+<span class=M>`define</span> <span class=D>ob_or</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#478">op_or</a>)
+<span class=M>`define</span> <span class=D>ob_rs</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#479">op_rs</a>)
+<span class=M>`define</span> <span class=D>ob_sub</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#480">op_sub</a>)
+<span class=M>`define</span> <span class=D>ob_subcy</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#481">op_subcy</a>)
+<span class=M>`define</span> <span class=D>ob_xor</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#482">op_xor</a>)
+<span class=M>`define</span> <span class=D>ob_jump</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#483">op_jump</a>)
+<span class=M>`define</span> <span class=D>ob_call</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#484">op_call</a>)
+<span class=M>`define</span> <span class=D>ob_return</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#485">op_return</a>)
+<span class=M>`define</span> <span class=D>ob_returni</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#486">op_returni</a>)
+<span class=M>`define</span> <span class=D>ob_interrupt</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#487">op_interrupt</a>)
+<span class=M>`define</span> <span class=D>ob_input</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#488">op_input</a>)
+<span class=M>`define</span> <span class=D>ob_output</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#489">op_output</a>)
+<span class=M>`define</span> <span class=D>ob_compare</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#490">op_compare</a>)
+<span class=M>`define</span> <span class=D>ob_test</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#491">op_test</a>)
+<span class=M>`define</span> <span class=D>ob_fetch</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#492">op_fetch</a>)
+<span class=M>`define</span> <span class=D>ob_store</span> (1&lt;&lt;<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#493">op_store</a>)
+<span class=M>`define</span> <span class=D>ob_mul</span> (1&lt;&lt;<span class=D>`op_mul</span>)
+<span class=M>`define</span> <span class=D>ob_addw</span> (1&lt;&lt;<span class=D>`op_addw</span>)
+<span class=M>`define</span> <span class=D>ob_addwcy</span> (1&lt;&lt;<span class=D>`op_addwcy</span>)
+<span class=M>`define</span> <span class=D>ob_subw</span> (1&lt;&lt;<span class=D>`op_subw</span>)
+<span class=M>`define</span> <span class=D>ob_subwcy</span> (1&lt;&lt;<span class=D>`op_subwcy</span>)
+<span class=M>`else</span> <span class=C>// !USE_ONEHOT_ENCODING
+</span><span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#474">op_load</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#286">opcode_load</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#475">op_add</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#270">opcode_add</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#476">op_addcy</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#271">opcode_addcy</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#477">op_and</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#272">opcode_and</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#478">op_or</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#274">opcode_or</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#479">op_rs</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#275">opcode_rs</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#480">op_sub</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#276">opcode_sub</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#481">op_subcy</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#277">opcode_subcy</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#482">op_xor</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#279">opcode_xor</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#483">op_jump</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#285">opcode_jump</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#484">op_call</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#281">opcode_call</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#485">op_return</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#288">opcode_return</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#486">op_returni</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#289">opcode_returni</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#487">op_interrupt</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#282">opcode_interrupt</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#488">op_input</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#284">opcode_input</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#489">op_output</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#287">opcode_output</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#490">op_compare</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#273">opcode_compare</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#491">op_test</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#278">opcode_test</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#492">op_fetch</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#283">opcode_fetch</a>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#493">op_store</a> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#290">opcode_store</a>
+<span class=M>`define</span> <span class=D>op_mul</span> <span class=D>`opcode_mul</span>
+<span class=M>`define</span> <span class=D>op_addw</span> <span class=D>`opcode_addw</span>
+<span class=M>`define</span> <span class=D>op_addwcy</span> <span class=D>`opcode_addwcy</span>
+<span class=M>`define</span> <span class=D>op_subw</span> <span class=D>`opcode_subw</span>
+<span class=M>`define</span> <span class=D>op_subwcy</span> <span class=D>`opcode_subwcy</span>
+<span class=M>`endif</span>
+<span class=M>`endif</span>
+
+<span class=M>`endif</span> <span class=C>// PACOBLAZE_INC_V_
+</span>
+<span class=C>/*
+  PACOBLAZE1
+  JUMP         100 cnd(3) 01 address(8)
+  CALL         100 cnd(3) 11 address(8)
+  RETURN       100 cnd(3) 00 10 0     0 0000
+  RETURNI      100 000    00 11 ie(1) 1 0000
+  INTERRUPTE/D 100 000    00 00 ed(1) 1 0000
+
+  LOADK        0000 sX(4) constant(8)
+  LOADR        1100 sX(4) sY(4) 0000
+  ANDK         0001 sX(4) constant(8)
+  ANDR         1100 sX(4) sY(4) 0001
+  ORK          0010 sX(4) constant(8)
+  ORR          1100 sX(4) sY(4) 0010
+  XORK         0011 sX(4) constant(8)
+  XORR         1100 sX(4) sY(4) 0011
+  ADDK         0100 sX(4) constant(8)
+  ADDR         1100 sX(4) sY(4) 0100
+  ADDCYK       0101 sX(4) constant(8)
+  ADDCYR       1100 sX(4) sY(4) 0101
+  SUBK         0110 sX(4) constant(8)
+  SUBR         1100 sX(4) sY(4) 0110
+  SUBCYK       0111 sX(4) constant(8)
+  SUBCYR       1100 sX(4) sY(4) 0111
+  RSR          1101 sX(4) 0000 1 sr(3)
+    11 0 SR0
+    11 1 SR1
+    01 0 SRX
+    00 0 SRA
+    10 0 RR
+  RSL          1101 sX(4) 0000 0 sr(3)
+    11 0 SL0
+    11 1 SL1
+    10 0 SLX
+    00 0 SLA
+    01 0 RL
+               . .
+  INPUTK       1010 sX(4) pid(8)
+  INPUTR       1011 sX(4) sY(4) 0000
+  OUTPUTK      1110 sX(4) pid(8)
+  OUTPUTR      1111 sX(4) sY(4) 0000
+
+  condition[2] = unconditional/conditional
+  condition[1:0] =
+    00 z
+    01 nz
+    10 c
+    11 nc
+*/</span>
+
+<span class=C>/*
+  PACOBLAZE2     s
+  JUMP         1 1 010 cnd(3) address(10)
+  CALL         1 1 011 cnd(3) address(10)
+  RETURN       1 0 010 cnd(3) 0000000000
+  RETURNI      1 0 110 000000000000 ie(1)
+  INTERRUPTE/D 1 1 110 000000000000 ed(1)
+
+  LOADK        0 0 000 sX(5) constant(8)
+  LOADR        0 1 000 sX(5) sY(5) 000
+  ANDK         0 0 001 sX(5) constant(8)
+  ANDR         0 1 001 sX(5) sY(5) 000
+  ORK          0 0 010 sX(5) constant(8)
+  ORR          0 1 010 sX(5) sY(5) 000
+  XORK         0 0 011 sX(5) constant(8)
+  XORR         0 1 011 sX(5) sY(5) 000
+  ADDK         0 0 100 sX(5) constant(8)
+  ADDR         0 1 100 sX(5) sY(5) 000
+  ADDCYK       0 0 101 sX(5) constant(8)
+  ADDCYR       0 1 101 sX(5) sY(5) 000
+  SUBK         0 0 110 sX(5) constant(8)
+  SUBR         0 1 110 sX(5) sY(5) 000
+  SUBCYK       0 0 111 sX(5) constant(8)
+  SUBCYR       0 1 111 sX(5) sY(5) 000
+
+  RSR          1 0 100 sX(5) 0000 1 sr(3)
+  RSL          1 0 100 sX(5) 0000 0 sr(3)
+
+  INPUTK       1 0 000 sX(5) pid(8)
+  INPUTR       1 1 000 sX(5) sY(5) 000
+  OUTPUTK      1 0 001 sX(5) pid(8)
+  OUTPUTR      1 1 001 sX(5) sY(5) 000
+*/</span>
+
+<span class=C>/*
+  PACOBLAZE3
+  ADDK         01100 0 sX(4) constant(8)
+  ADDR         01100 1 sX(4) sY(4) 0000
+  ADDCYK       01101 0 sX(4) constant(8)
+  ADDCYR       01101 1 sX(4) sY(4) 0000
+  ANDK         00101 0 sX(4) constant(8)
+  ANDR         00101 1 sX(4) sY(4) 0000
+  CALL         11000 cnd(3) address(10)
+  COMPARE      01010 0 sX(4) constant(8)
+  COMPARE      01010 1 sX(4) sY(4) 0000
+  INTERRUPTE/D 11110 000000000000 ed(1)
+  FETCHK       00011 0 sX(4) 00 spad(6)
+  FETCHR       00011 1 sX(4) sY(4) 0000
+  INPUTK       00010 0 sX(4) pid(8)
+  INPUTR       00010 1 sX(4) sY(4) 0000
+  JUMP         11010 cnd(3) address(10)
+  LOADK        00000 0 sX(4) constant(8)
+  LOADR        00000 1 sX(4) sY(4) 0000
+  ORK          00110 0 sX(4) constant(8)
+  ORR          00110 1 sX(4) sY(4) 0000
+  OUTPUTK      10110 0 sX(4) pid(8)
+  OUTPUTR      10110 1 sX(4) sY(4) 0000
+  RETURN       10101 0000000000000
+  RETURNI      11100 000000000000 ie(1)
+  RSR          10000 0 sX(4) 0000 1 sr(3)
+  RSL          10000 0 sX(4) 0000 0 sr(3)
+
+  SR0 sX100000 sX(4) 0000 1 11 0
+  SR1 sX100000 sX(4) 0000 1 11 1
+  SRX sX100000 sX(4) 0000 1 01 0
+  SRA sX100000 sX(4) 0000 1 00 0
+  RR  sX100000 sX(4) 0000 1 10 0
+
+  SL0 sX100000 sX(4) 0000 0 11 0
+  SL1 sX100000 sX(4) 0000 0 11 1
+  SLX sX100000 sX(4) 0000 0 10 0
+  SLA sX100000 sX(4) 0000 0 00 0
+  RL  sX100000 sX(4) 0000 0 01 0
+
+  STOREK       10111 0 sX(4) 00 spad(6)
+  STORER       10111 1 sX(4) sY(4) 0000
+  SUBK         01110 0 sX(4) constant(8)
+  SUBR         01110 1 sX(4) sY(4) 0000
+  SUBCYK       01111 0 sX(4) constant(8)
+  SUBCYR       01111 1 sX(4) sY(4) 0000
+  TESTK        01001 0 sX(4) constant(8)
+  TESTR        01001 1 sX(4) sY(4) 0000
+  XORK         00111 0 sX(4) constant(8)
+  XORR         00111 1 sX(4) sY(4) 0000
+
+
+  ADD sX,kk 0 1 1 0 0 0 x x x x k k k k k k k k
+  ADD sX,sY 0 1 1 0 0 1 x x x x y y y y 0 0 0 0
+  ADDCY sX,kk 0 1 1 0 1 0 x x x x k k k k k k k k
+  ADDCY sX,sY 0 1 1 0 1 1 x x x x y y y y 0 0 0 0
+  AND sX,kk 0 0 1 0 1 0 x x x x k k k k k k k k
+  AND sX,sY 0 0 1 0 1 1 x x x x y y y y 0 0 0 0
+  CALL 1 1 0 0 0 0 0 0 a a a a a a a a a a
+  CALL C 1 1 0 0 0 1 1 0 a a a a a a a a a a
+  CALL NC 1 1 0 0 0 1 1 1 a a a a a a a a a a
+  CALL NZ 1 1 0 0 0 1 0 1 a a a a a a a a a a
+  CALL Z 1 1 0 0 0 1 0 0 a a a a a a a a a a
+  COMPARE sX,kk 0 1 0 1 0 0 x x x x k k k k k k k k
+  COMPARE sX,sY 0 1 0 1 0 1 x x x x y y y y 0 0 0 0
+  DISABLE INTERRUPT 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  ENABLE INTERRUPT 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1
+  FETCH sX, ss 0 0 0 1 1 0 x x x x 0 0 s s s s s s
+  FETCH sX,(sY) 0 0 0 1 1 1 x x x x y y y y 0 0 0 0
+  INPUT sX,(sY) 0 0 0 1 0 1 x x x x y y y y 0 0 0 0
+  INPUT sX,pp 0 0 0 1 0 0 x x x x p p p p p p p p
+  JUMP 1 1 0 1 0 0 0 0 a a a a a a a a a a
+  JUMP C 1 1 0 1 0 1 1 0 a a a a a a a a a a
+  JUMP NC 1 1 0 1 0 1 1 1 a a a a a a a a a a
+  JUMP NZ 1 1 0 1 0 1 0 1 a a a a a a a a a a
+  JUMP Z 1 1 0 1 0 1 0 0 a a a a a a a a a a
+  LOAD sX,kk 0 0 0 0 0 0 x x x x k k k k k k k k
+  LOAD sX,sY 0 0 0 0 0 1 x x x x y y y y 0 0 0 0
+  OR sX,kk 0 0 1 1 0 0 x x x x k k k k k k k k
+  OR sX,sY 0 0 1 1 0 1 x x x x y y y y 0 0 0 0
+  OUTPUT sX,(sY) 1 0 1 1 0 1 x x x x y y y y 0 0 0 0
+  OUTPUT sX,pp 1 0 1 1 0 0 x x x x p p p p p p p p
+  RETURN 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0
+  RETURN C 1 0 1 0 1 1 1 0 0 0 0 0 0 0 0 0 0 0
+  RETURN NC 1 0 1 0 1 1 1 1 0 0 0 0 0 0 0 0 0 0
+  RETURN NZ 1 0 1 0 1 1 0 1 0 0 0 0 0 0 0 0 0 0
+  RETURN Z 1 0 1 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0
+  RETURNI DISABLE 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  RETURNI ENABLE 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1
+  RL sX 1 0 0 0 0 0 x x x x 0 0 0 0 0 0 1 0
+  RR sX 1 0 0 0 0 0 x x x x 0 0 0 0 1 1 0 0
+  SL0 sX 1 0 0 0 0 0 x x x x 0 0 0 0 0 1 1 0
+  SL1 sX 1 0 0 0 0 0 x x x x 0 0 0 0 0 1 1 1
+  SLA sX 1 0 0 0 0 0 x x x x 0 0 0 0 0 0 0 0
+  SLX sX 1 0 0 0 0 0 x x x x 0 0 0 0 0 1 0 0
+  SR0 sX 1 0 0 0 0 0 x x x x 0 0 0 0 1 1 1 0
+  SR1 sX 1 0 0 0 0 0 x x x x 0 0 0 0 1 1 1 1
+  SRA sX 1 0 0 0 0 0 x x x x 0 0 0 0 1 0 0 0
+  SRX sX 1 0 0 0 0 0 x x x x 0 0 0 0 1 0 1 0
+  STORE sX, ss 1 0 1 1 1 0 x x x x 0 0 s s s s s s
+  STORE sX,(sY) 1 0 1 1 1 1 x x x x y y y y 0 0 0 0
+  SUB sX,kk 0 1 1 1 0 0 x x x x k k k k k k k k
+  SUB sX,sY 0 1 1 1 0 1 x x x x y y y y 0 0 0 0
+  SUBCY sX,kk 0 1 1 1 1 0 x x x x k k k k k k k k
+  SUBCY sX,sY 0 1 1 1 1 1 x x x x y y y y 0 0 0 0
+  TEST sX,kk 0 1 0 0 1 0 x x x x k k k k k k k k
+  TEST sX,sY 0 1 0 0 1 1 x x x x y y y y 0 0 0 0
+  XOR sX,kk 0 0 1 1 1 0 x x x x k k k k k k k k
+  XOR sX,sY 0 0 1 1 1 1 x x x x y y y y 0 0 0 0
+
+  Unused opcodes
+  01
+  04
+  08
+  0b
+  11
+  12
+  13
+  14
+  19
+  1b
+  1d
+  1f
+
+// PB1,2,3
+`define ob_load (1&lt;&lt;0)
+`define ob_add (1&lt;&lt;1)
+`define ob_addcy (1&lt;&lt;2)
+`define ob_and (1&lt;&lt;3)
+`define ob_or (1&lt;&lt;4)
+`define ob_rs (1&lt;&lt;5)
+`define ob_sub (1&lt;&lt;6)
+`define ob_subcy (1&lt;&lt;7)
+`define ob_xor (1&lt;&lt;8)
+`define ob_jump (1&lt;&lt;9)
+`define ob_call (1&lt;&lt;10)
+`define ob_return (1&lt;&lt;11)
+`define ob_returni (1&lt;&lt;12)
+`define ob_interrupt (1&lt;&lt;13)
+`define ob_input (1&lt;&lt;14)
+`define ob_output (1&lt;&lt;15)
+// PB3
+`define ob_compare (1&lt;&lt;16)
+`define ob_test (1&lt;&lt;17)
+`define ob_fetch (1&lt;&lt;18)
+`define ob_store (1&lt;&lt;19)
+`ifdef PACOBLAZE3M
+`define ob_mul (1&lt;&lt;20)
+`define ob_addw (1&lt;&lt;21)
+`define ob_subw (1&lt;&lt;22)
+`define ob_addwcy (1&lt;&lt;23)
+`define ob_subwcy (1&lt;&lt;24)
+`endif
+
+
+*/</span>
+
+</pre>
+<center><table class=NB cols=7 ><tr><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index.html';"><a target="_top" href="index.html">Hierarchy</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-f.html';"><a target="_top" href="index-f.html">Files</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-m.html';"><a target="_top" href="index-m.html">Modules</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-s.html';"><a target="_top" href="index-s.html">Signals</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-t.html';"><a target="_top" href="index-t.html">Tasks</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-fn.html';"><a target="_top" href="index-fn.html">Functions</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='http://www.burbleland.com/v2html/help_7_30.html?htf-ni-s-';"><a target="_top" href="http://www.burbleland.com/v2html/help_7_30.html?htf-ni-s-">Help</a></td></tr></table></center>
+<script language="JavaScript"type="text/javascript"><!--
+function next_page() { return ""; }
+function first_page() { return ""; }
+var extra_info = [
+[]
+];
+disabled=0;
+// -->
+</script>
+<hr>
+<table>
+ <tr><td><i>This page:</i></td>
+  <td><i>Maintained by:</i></td>
+  <td><i><a href="mailto:pablo.N@SPAM.bleyer.org">
+  pablo.N@SPAM.bleyer.org</a></i></tr>
+<tr>
+<td> </td>
+  <td><i>Created:</i></td><td><i>Tue May 29 02:37:53 2007</i></td></tr>
+<tr>
+ <td> </td>
+ <td><i>From:</i></td><td><i>
+  <a href="pacoblaze_inc.v">
+pacoblaze_inc.v</a></i></td></tr>
+</table>
+<hr>
+<table width="100%"><tr><td><i>Verilog converted to html by  <a target="_top" href="http://www.burbleland.com/v2html/v2html.html">  v2html 7.30</a> 
+ (written by <a href="mailto:v2html730@burbleland.com">Costas Calamvokis</a>).</i></td><td align="right"><b><a href="http://www.burbleland.com/v2html/help_7_30.html?htf-ni-s-">Help</a></b></td></tr></table><table height="90%"><tr><td></td></tr></table>
+</body>
+</html>

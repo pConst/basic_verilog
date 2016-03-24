@@ -1,0 +1,116 @@
+                ;
+                ;------------------------------------------------------------------------------------------
+                ; Copyright © 2012-2013, Xilinx, Inc.
+                ; This file contains confidential and proprietary information of Xilinx, Inc. and is
+                ; protected under U.S. and international copyright and other intellectual property laws.
+                ;------------------------------------------------------------------------------------------
+                ;
+                ; Disclaimer:
+                ; This disclaimer is not a license and does not grant any rights to the materials
+                ; distributed herewith. Except as otherwise provided in a valid license issued to
+                ; you by Xilinx, and to the maximum extent permitted by applicable law: (1) THESE
+                ; MATERIALS ARE MADE AVAILABLE "AS IS" AND WITH ALL FAULTS, AND XILINX HEREBY
+                ; DISCLAIMS ALL WARRANTIES AND CONDITIONS, EXPRESS, IMPLIED, OR STATUTORY,
+                ; INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, NON-INFRINGEMENT,
+                ; OR FITNESS FOR ANY PARTICULAR PURPOSE; and (2) Xilinx shall not be liable
+                ; (whether in contract or tort, including negligence, or under any other theory
+                ; of liability) for any loss or damage of any kind or nature related to, arising
+                ; under or in connection with these materials, including for any direct, or any
+                ; indirect, special, incidental, or consequential loss or damage (including loss
+                ; of data, profits, goodwill, or any type of loss or damage suffered as a result
+                ; of any action brought by a third party) even if such damage or loss was
+                ; reasonably foreseeable or Xilinx had been advised of the possibility of the same.
+                ;
+                ; CRITICAL APPLICATIONS
+                ; Xilinx products are not designed or intended to be fail-safe, or for use in any
+                ; application requiring fail-safe performance, such as life-support or safety
+                ; devices or systems, Class III medical devices, nuclear facilities, applications
+                ; related to the deployment of airbags, or any other applications that could lead
+                ; to death, personal injury, or severe property or environmental damage
+                ; (individually and collectively, "Critical Applications"). Customer assumes the
+                ; sole risk and liability of any use of Xilinx products in Critical Applications,
+                ; subject only to applicable laws and regulations governing limitations on product
+                ; liability.
+                ;
+                ; THIS COPYRIGHT NOTICE AND DISCLAIMER MUST BE RETAINED AS PART OF THIS FILE AT ALL TIMES.
+                ;
+                ;------------------------------------------------------------------------------------------
+                ;
+                ;             _  ______ ____  ____  __  __  __
+                ;            | |/ / ___|  _ \/ ___||  \/  |/ /_
+                ;            | ' / |   | |_) \___ \| |\/| | '_ \
+                ;            | . \ |___|  __/ ___) | |  | | (_) )
+                ;            |_|\_\____|_|   |____/|_|  |_|\___/
+                ;
+                ;
+                ;                PicoBlaze Reference Design.
+                ;
+                ;
+                ; Ken Chapman - Xilinx Ltd
+                ;
+                ; 24th December 2012 - Initial version
+                ;    2nd August 2013 - 100ms delay and correction to comment
+                ;
+                ; This file contains routines that implement delays in software. It should be recognised
+                ; that the delay periods are the result of executing instructions, and because every
+                ; instruction takes 2 clock cycles to execute, it is possible to determine the exact
+                ; delay period. However, besides the obvious dependency on the clock frequency, it
+                ; should also be recognised that any interrupts to KCPSM6 (or use of sleep mode) will
+                ; impact the timing. In general, it is better only to use soft delay routines in
+                ; situations where approximate timing is adequate; in those situations KCPSM6 will often
+                ; exceed your requirements.
+                ;
+                ;
+                ;------------------------------------------------------------------------------------------
+                ; Software Delays based on 200MHz clock
+                ;------------------------------------------------------------------------------------------
+                ;
+                ; The number of iterations of a delay loop required to form each delay required are
+                ; loaded into the register set [s2,s1,s0] and then the delay loop is started.
+                ;
+                ; Registers used s0, s1, s2
+                ;
+                ; 1ms is 20,000 x 50ns     (20,000 = 004E200 hex)
+                ;
+     delay_1ms: LOAD s2, 00
+                LOAD s1, 4E
+                LOAD s0, 20
+                JUMP software_delay
+                ;
+                ;
+                ; 100ms is 2,000,000 x 50ns     (2,000,000 = 1E8480 hex)
+                ;
+   delay_100ms: LOAD s2, 1E
+                LOAD s1, 84
+                LOAD s0, 80
+                JUMP software_delay
+                ;
+                ;
+                ; 500ms is 10,000,000 x 50ns     (10,000,000 = 989680 hex)
+                ;
+   delay_500ms: LOAD s2, 98
+                LOAD s1, 96
+                LOAD s0, 80
+                JUMP software_delay
+                ;
+                ;
+                ; 1s is 2 x 500ms     (largest delay with 24-bit value is 17,777,215 x 50ns = 838.86ms)
+                ;
+      delay_1s: CALL delay_500ms
+                JUMP delay_500ms
+                ;
+                ; The delay loop decrements [s2,s1,s0] until it reaches zero
+                ; Each decrement cycle is 5 instructions which is 10 clock cycles (50ns at 100MHz)
+                ;
+software_delay: LOAD s0, s0             ;pad loop to make it 10 clock cycles (5 instructions)
+                SUB s0, 1'd
+                SUBCY s1, 0'd
+                SUBCY s2, 0'd
+                JUMP NZ, software_delay
+                RETURN 
+                ;
+                ;
+                ;------------------------------------------------------------------------------------------
+                ; End of 'soft_delays_200mhz.psm'
+                ;------------------------------------------------------------------------------------------
+                ;

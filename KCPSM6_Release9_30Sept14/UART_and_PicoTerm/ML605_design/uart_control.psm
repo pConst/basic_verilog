@@ -1,0 +1,589 @@
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; Copyright © 2011-2013, Xilinx, Inc.
+                    ; This file contains confidential and proprietary information of Xilinx, Inc. and is
+                    ; protected under U.S. and international copyright and other intellectual property laws.
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    ; Disclaimer:
+                    ; This disclaimer is not a license and does not grant any rights to the materials
+                    ; distributed herewith. Except as otherwise provided in a valid license issued to
+                    ; you by Xilinx, and to the maximum extent permitted by applicable law: (1) THESE
+                    ; MATERIALS ARE MADE AVAILABLE "AS IS" AND WITH ALL FAULTS, AND XILINX HEREBY
+                    ; DISCLAIMS ALL WARRANTIES AND CONDITIONS, EXPRESS, IMPLIED, OR STATUTORY,
+                    ; INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, NON-INFRINGEMENT,
+                    ; OR FITNESS FOR ANY PARTICULAR PURPOSE; and (2) Xilinx shall not be liable
+                    ; (whether in contract or tort, including negligence, or under any other theory
+                    ; of liability) for any loss or damage of any kind or nature related to, arising
+                    ; under or in connection with these materials, including for any direct, or any
+                    ; indirect, special, incidental, or consequential loss or damage (including loss
+                    ; of data, profits, goodwill, or any type of loss or damage suffered as a result
+                    ; of any action brought by a third party) even if such damage or loss was
+                    ; reasonably foreseeable or Xilinx had been advised of the possibility of the same.
+                    ;
+                    ; CRITICAL APPLICATIONS
+                    ; Xilinx products are not designed or intended to be fail-safe, or for use in any
+                    ; application requiring fail-safe performance, such as life-support or safety
+                    ; devices or systems, Class III medical devices, nuclear facilities, applications
+                    ; related to the deployment of airbags, or any other applications that could lead
+                    ; to death, personal injury, or severe property or environmental damage
+                    ; (individually and collectively, "Critical Applications"). Customer assumes the
+                    ; sole risk and liability of any use of Xilinx products in Critical Applications,
+                    ; subject only to applicable laws and regulations governing limitations on product
+                    ; liability.
+                    ;
+                    ; THIS COPYRIGHT NOTICE AND DISCLAIMER MUST BE RETAINED AS PART OF THIS FILE AT ALL TIMES.
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    ;
+                    ;             _  ______ ____  ____  __  __  __
+                    ;            | |/ / ___|  _ \/ ___||  \/  |/ /_
+                    ;            | ' / |   | |_) \___ \| |\/| | '_ \
+                    ;            | . \ |___|  __/ ___) | |  | | (_) )
+                    ;            |_|\_\____|_|   |____/|_|  |_|\___/
+                    ;
+                    ;
+                    ; KCPSM6 reference design using 'uart_tx6' and 'uart_rx6' macros.
+                    ;
+                    ; Ken Chapman - Xilinx Ltd
+                    ;
+                    ;      11th May 2011 - Initial version
+                    ;   6th October 2011 - Corrections to comments only
+                    ;    23rd April 2012 - UART interface routines placed into 'uart_interface_routines.psm'
+                    ;                      to facilitate reuse and provide an INCLUDE directive example.
+                    ; 7th September 2012 - Corrections to comments only
+                    ;    12th March 2013 - Constant directives defining ASCII control characters removed
+                    ;                        (pre-defined in KCPSM6 assembler v2.43 or later).
+                    ;     28th June 2013 - Corrections to comment only
+                    ;
+                    ;
+                    ; INTRODUCTION
+                    ;
+                    ; This program interacts with the 'uart_tx6' and 'uart_rx6' macros providing some simple
+                    ; and fundamental examples of UART based communication. As such, this example is intended
+                    ; to display messages on a PC based terminal (e.g. PicoTerm or HyperTerminal) and receive
+                    ; inputs typed on a keyboard by the user.
+                    ;
+                    ; The user is prompted to enter a 4-digit hexadecimal value which KCPSM6 converts to
+                    ; decimal and displays if it is valid. It is hoped that this will also provide you with
+                    ; several routines that you will find useful in your own programs.
+                    ;
+                    ; Please see 'UART6_User_Guide_30Sept12.pdf' for more detailed descriptions of the
+                    ; hardware circuit. The 'UART_TX' and 'UART_RX' routines that form the software interface
+                    ; with the macros are contained in 'uart_interface_routines.psm' together with a set of
+                    ; constants which define the allocation of I/O ports and the signals within them. The
+                    ; 'uart_interface_routines.psm' also presents an example of using the INCLUDE directive
+                    ; introduced with KCPSM6 Assembler v2.00.
+                    ;
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; Port definitions
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    ; The only I/O ports used in this design are those that interface with the UART macros.
+                    ; CONSTANT directives defining the port addresses and the allocation of signals within
+                    ; those ports are defined in 'uart_interface_routines.psm'.
+                    ;
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; Special Register usage
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    ; No registers are given special names in this program.
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; Scratch Pad Memory Locations
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    CONSTANT hex_value0, 00         ;16-bit value (lower byte)
+                    CONSTANT hex_value1, 01         ;16-bit value (upper byte)
+                    ;
+                    CONSTANT decimal0, 02           ;5 digit decimal value
+                    CONSTANT decimal1, 03           ;  Suitable for 16-bit values up to
+                    CONSTANT decimal2, 04           ;   65,536
+                    CONSTANT decimal3, 05
+                    CONSTANT decimal4, 06
+                    ;
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; Useful data constants
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    ;
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; Initialise the system
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    ; A delay of 1 second is implemented which is intended to give time for all the hardware
+                    ; to settle into a stable condition before starting to doing anything. This can be
+                    ; particularly beneficial when dealing with long cables where serial lines can take some
+                    ; time to reach the initial idle state following power being applied.
+                    ;
+        cold_start: CALL delay_1s                   ;
+                    ;
+                    CALL reset_UART_macros          ;Reset buffers in UART macros
+                    ;
+                    ;
+                    ; Initialised terminal display and display welcome messages
+                    ;
+                    CALL clear_screen
+                    CALL welcome_message
+                    ;
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; Main Program
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    ;
+              main: CALL send_CR
+                    CALL send_CR
+                    LOAD sB, prompt_msg'upper       ;prompt user to enter a HEX value
+                    LOAD sA, prompt_msg'lower
+                    CALL send_message
+                    CALL send_CR
+                    CALL send_CR
+                    LOAD s5, ">"
+                    CALL UART_TX
+                    CALL send_space                 ;advance cursor to prompt for hex value
+                    ;
+                    LOAD sE, 4'd                    ;obtain 4-digit value
+                    CALL obtain_value               ;16-bit value returned in [sB,sA]
+                    JUMP C, bad_hex_input           ;Carry set for a bad hex value
+                    STORE sA, hex_value0            ;store value in scratch pad
+                    STORE sB, hex_value1
+                    ;
+                    CALL send_CR
+                    LOAD sB, result_msg'upper       ;display the HEX and its decimal equivalent
+                    LOAD sA, result_msg'lower
+                    CALL send_message
+                    FETCH sA, hex_value0            ;retrieve 16-bit value into [sB,sA]
+                    FETCH sB, hex_value1
+                    CALL send_hex_word              ;send value of [sB,sA] to UART Tx
+                    CALL send_space
+                    LOAD s5, "i"
+                    CALL UART_TX
+                    LOAD s5, "s"
+                    CALL UART_TX
+                    CALL send_space
+                    ;
+                    FETCH s2, hex_value0            ;retrieve 16-bit value into [s3,s2]
+                    FETCH s3, hex_value1
+                    CALL send_integer               ;convert [s3,s2] to decimal and transmit
+                    JUMP main
+                    ;
+     bad_hex_input: CALL send_CR
+                    LOAD sB, bad_hex_msg'upper      ;tell user input was invalid hex
+                    LOAD sA, bad_hex_msg'lower
+                    CALL send_message
+                    JUMP main
+                    ;
+                    ;
+                    ; Text messages used in main section of the program
+                    ;
+                    STRING prompt$, "Please enter a 4-digit hexadecimal value"
+                    STRING bad_hex$, "Sorry, that was not a valid 4-digit hexadecimal value!"
+                    STRING result$, "The decimal equivalent of "
+                    ;
+        prompt_msg: LOAD&RETURN s5, prompt$
+                    LOAD&RETURN s5, NUL
+                    ;
+       bad_hex_msg: LOAD&RETURN s5, bad_hex$
+                    LOAD&RETURN s5, NUL
+                    ;
+        result_msg: LOAD&RETURN s5, result$
+                    LOAD&RETURN s5, NUL
+                    ;
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; Software Delays
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    ; All based on 50MHz clock
+                    ; The number of iterations of a delay loop required to form each delay required are
+                    ; loaded into the register set [s2,s1,s0] and then the delay loop is started.
+                    ;
+                    ; Registers used s0, s1, s2
+                    ;
+                    ;1ms is 50,000 clock cycles requiring 6,250 delay iterations
+                    ;
+         delay_1ms: LOAD s2, 00
+                    LOAD s1, 18
+                    LOAD s0, 6A
+                    JUMP software_delay
+                    ;
+                    ;20ms is 1,000,000 clock cycles requiring 125,000 delay iterations
+                    ;
+        delay_20ms: LOAD s2, 01
+                    LOAD s1, E8
+                    LOAD s0, 48
+                    JUMP software_delay
+                    ;
+                    ;1s is 50,000,000 clock cycles requiring 6,250,000 delay iterations
+                    ;
+          delay_1s: LOAD s2, 5F
+                    LOAD s1, 5E
+                    LOAD s0, 10
+                    JUMP software_delay
+                    ;
+                    ; The delay loop decrements [s2,s1,s0] until it reaches zero
+                    ; Each decrement cycle is 4 instructions which is 8 clock cycles (160ns at 50MHz)
+                    ;
+    software_delay: SUB s0, 1'd
+                    SUBCY s1, 0'd
+                    SUBCY s2, 0'd
+                    JUMP NZ, software_delay
+                    RETURN 
+                    ;
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; Clear terminal and home cursor sequences for HyperTerminal (or similar)
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    ; ANSI Escape Sequences/codes (VT100)
+                    ;
+      clear_screen: LOAD s5, ESC                    ;clear terminal sequence
+                    CALL UART_TX
+                    LOAD s5, "["
+                    CALL UART_TX
+                    LOAD s5, "2"
+                    CALL UART_TX
+                    LOAD s5, "J"
+                    CALL UART_TX
+                    CALL delay_1ms                  ;Delay for reliable operation
+                    RETURN 
+                    ;
+       cursor_home: LOAD s5, ESC                    ;Send cursor to upper-left of display
+                    CALL UART_TX
+                    LOAD s5, "["
+                    CALL UART_TX
+                    LOAD s5, "H"
+                    CALL UART_TX
+                    CALL delay_1ms                  ;Delay for reliable operation
+                    RETURN 
+                    ;
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; Welcome Message.
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    ; The welcome message includes a display of the version information available from the
+                    ; assembler and the 'hwbuild' from the instantiation of KCPSM6 in the hardware design.
+                    ;
+   welcome_message: LOAD sB, welcome_msg'upper
+                    LOAD sA, welcome_msg'lower
+                    CALL send_message
+                    HWBUILD s5                      ;hardware version defines ASCII letter
+                    CALL UART_TX
+                    CALL send_CR
+                    RETURN 
+                    ;
+                    ; Welcome message
+                    ;
+                    STRING banner1$, "  _  ______ ____  ____  __  __  __"
+                    STRING banner2$, " | |/ / ___|  _ \/ ___||  \/  |/ /_"
+                    STRING banner3$, " | ' / |   | |_) \___ \| |\/| | '_ \"
+                    STRING banner4$, " | . \ |___|  __/ ___) | |  | | (_) )"
+                    STRING banner5$, " |_|\_\____|_|   |____/|_|  |_|\___/"
+                    ;
+                    ; Welcome message
+                    ;
+                    STRING welcome1$, "Example using the 'uart_tx6' and 'uart_rx6' macros"
+                    STRING welcome2$, "Assembly Date: "
+                    STRING welcome3$, "   Time: "
+                    STRING welcome4$, "Assembler Version: "
+                    STRING welcome5$, "Hardware Design: "
+                    ;
+                    ;
+       welcome_msg: LOAD&RETURN s5, banner1$
+                    LOAD&RETURN s5, CR
+                    LOAD&RETURN s5, banner2$
+                    LOAD&RETURN s5, CR
+                    LOAD&RETURN s5, banner3$
+                    LOAD&RETURN s5, CR
+                    LOAD&RETURN s5, banner4$
+                    LOAD&RETURN s5, CR
+                    LOAD&RETURN s5, banner5$
+                    LOAD&RETURN s5, CR
+                    LOAD&RETURN s5, CR
+                    LOAD&RETURN s5, welcome1$
+                    LOAD&RETURN s5, CR
+                    LOAD&RETURN s5, CR
+                    LOAD&RETURN s5, welcome2$
+                    LOAD&RETURN s5, datestamp$
+                    LOAD&RETURN s5, welcome3$
+                    LOAD&RETURN s5, timestamp$
+                    LOAD&RETURN s5, CR
+                    LOAD&RETURN s5, welcome4$
+                    LOAD&RETURN s5, KCPSM6_version$
+                    LOAD&RETURN s5, CR
+                    LOAD&RETURN s5, welcome5$
+                    LOAD&RETURN s5, NUL
+                    ;
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; Send a message to the UART
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    ; A message is transmitted to the USB-UART.
+                    ; The start address of the message must be provided in [sB,sA].
+                    ; Terminate the transmission with a NULL character (00 hex).
+                    ;
+      send_message: CALL@ (sB, sA)
+                    COMPARE s5, 00                  ;terminate on NUL character
+                    RETURN Z
+                    CALL UART_TX
+                    ADD sA, 1'd
+                    ADDCY sB, 0'd
+                    JUMP send_message
+                    ;
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; Send Carriage Return to UART
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    ; Registers used s0, s1, s2, and s5.
+                    ;
+           send_CR: LOAD s5, CR
+                    JUMP UART_TX                    ;includes RETURN
+                    ;
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; Send a Space to UART
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    ; Registers used s0, s1, s2, and s5.
+                    ;
+        send_space: LOAD s5, " "
+                    JUMP UART_TX                    ;includes RETURN
+                    ;
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; Send Hex Value of 16-bit word to UART
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    ; Value provided in register pair [sB,sA] is sent as ASCII HEX to the UART
+                    ; transmitter.
+                    ;
+                    ; Registers used s0, s1, s2, s4, s5, sA and sB.
+                    ;
+     send_hex_word: LOAD s4, sB
+                    CALL send_hex_byte
+                    LOAD s4, sA
+                    JUMP send_hex_byte              ;includes RETURN
+                    ;
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; Send Hex Value of Byte to UART
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    ; Value provided in register 's4' is sent as ASCII HEX to the UART transmitter.
+                    ;
+                    ; Registers used s0, s4 (preserved) and s5.
+                    ;
+     send_hex_byte: LOAD s5, s4                     ;isolate upper nibble
+                    SR0 s5
+                    SR0 s5
+                    SR0 s5
+                    SR0 s5
+                    CALL hex_to_ASCII               ; convert to ASCII
+                    CALL UART_TX                    ;send upper digit to UART
+                    LOAD s5, s4                     ;isolate lower nibble
+                    AND s5, 0F
+                    CALL hex_to_ASCII               ; convert to ASCII
+                    CALL UART_TX                    ;send lower digit to UART
+                    RETURN 
+                    ;
+                    ; Convert value 00 to 0F provided in 's5' into ASCII character in 's5'
+                    ;
+                    ; Register used s5
+                    ;
+      hex_to_ASCII: SUB s5, 0A                      ;test if value is in range 0 to 9
+                    JUMP C, number_char
+                    ADD s5, 07                      ;ASCII char A to F in range 41 to 46
+       number_char: ADD s5, 3A                      ;ASCII char 0 to 9 in range 30 to 40
+                    RETURN 
+                    ;
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; Converts character to upper case
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    ; Tests and converts character in 's5' (if necessary).
+                    ;
+                    ; To convert character to upper case
+                    ;
+                    ; If the character is in the range 'a' to 'z', it is converted
+                    ; to the equivalent upper case character in the range 'A' to 'Z'.
+                    ; All other characters remain unchanged.
+                    ;
+        upper_case: COMPARE s5, "a"                 ;eliminate character codes below 'a' (61 hex)
+                    RETURN C
+                    COMPARE s5, 7B                  ;eliminate character codes above 'z' (7A hex)
+                    RETURN NC
+                    AND s5, 11011111'b              ;force bit5 Low to convert to upper case
+                    RETURN 
+                    ;
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; Convert ASCII character to an equivalent HEX value.
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    ; Converts the ASCII character presented in 's5' to an equivalent HEX value.
+                    ; If character is not valid for hex, then CARRY is set on return.
+                    ;
+                    ; Register used s5
+                    ;
+      ASCII_to_hex: ADD s5, B9                      ;test for above ASCII code 46 ('F')
+                    RETURN C
+                    SUB s5, E9                      ;normalise 0 to 9 with A-F in 11 to 16 hex
+                    RETURN C                        ;reject below ASCII code 30 ('0')
+                    SUB s5, 11                      ;isolate A-F down to 00 to 05 hex
+                    JUMP NC, ASCII_letter
+                    ADD s5, 07                      ;test for above ASCII code 46 ('F')
+                    RETURN C
+                    SUB s5, F6                      ;convert to range 00 to 09
+                    RETURN 
+      ASCII_letter: ADD s5, 0A                      ;convert to range 0A to 0F
+                    RETURN 
+                    ;
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; Read ASCII-HEX value up to 8-digits (for 32-bit value) from UART
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    ; Read up to 8 hex characters from UART and convert to a binary value in the [sD,sC,sB,sA]
+                    ; register set. The number of characters to be read must be defined in sE. When less than
+                    ; 8 characters are read the value is returned in the least significant bits of the register
+                    ; set with the 8-bits above the defined value being zero to ensure ensuring that the upper
+                    ; nibble will be zero if an odd number of digits are read.
+                    ;
+                    ; If any character received from the UART is not in the range 0 to F then the routine will
+                    ; end immediately with the CARRY flag set and this should be checked by the calling process
+                    ; upon return.
+                    ;
+      obtain_value: LOAD sA, 00                     ;initialise potentially unused bits to zero
+      obtain_digit: CALL UART_RX                    ;wait for a character and return in s5
+                    JUMP Z, obtain_digit            ;continue to wait if timeout occurs
+                    CALL UART_TX                    ;echo character as entered
+                    CALL upper_case                 ;convert to upper case if necessary
+                    CALL ASCII_to_hex               ;convert value in s5 to hex nibble
+                    RETURN C                        ;If invalid hex digit then return immediately
+                    LOAD s0, 4'd                    ;shift [sD,sC,sB,sA] left by 4 bits
+       build_value: SL0 sA                          ;  to make space for new digit value
+                    SLA sB
+                    SLA sC
+                    SLA sD
+                    SUB s0, 1'd
+                    JUMP NZ, build_value
+                    OR sA, s5                       ;merge value of new digit into existing value
+                    SUB sE, 01                      ;count number of digits obtained
+                    JUMP NZ, obtain_digit
+                    RETURN 
+                    ;
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; Send integer in decimal format to UART Tx
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    ; The 16-bit value provided in [s3,s2] should be a positive integer and will be displayed
+                    ; using 1 to 5 digits for values up to 65535 (i.e. leading zeros are blanked).
+                    ;
+                    ;
+      send_integer: COMPARE s2, 00                  ;test for special case of zero
+                    COMPARECY s3, 00
+                    JUMP Z, zero_integer
+                    ;
+                    CALL integer16_to_BCD           ;Convert to BCD in SPM
+                    ;
+                    LOAD sA, decimal4               ;pointer to BCD in SPM
+                    LOAD sB, 0'd                    ;flag for leading zero blanking
+ send_integer_loop: FETCH s5, (sA)
+                    ADD sB, s5                      ;make sB non-zero to stop blanking
+                    COMPARE sB, 0'd                 ;Test for blanking
+                    JUMP Z, next_int_digit
+                    ADD s5, "0"                     ;convert to ASCII
+                    CALL UART_TX                    ;send digit
+    next_int_digit: COMPARE sA, decimal0
+                    RETURN Z
+                    SUB sA, 1'd                     ;move pointer to next digit
+                    JUMP send_integer_loop
+                    ;
+      zero_integer: LOAD s5, "0"                    ;special response for zero
+                    CALL UART_TX
+                    RETURN 
+                    ;
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; 16-bit integer to BCD conversion
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    ; Convert the 16 bit value up to FFFF hex in register set [s3,s2]
+                    ; into the BCD decimal equivalent up to 65,535 located in the scratch pad memory
+                    ; locations 'decimal0' to 'decimal4' which must be in ascending locations.
+                    ;
+                    ; Each digit is formed in turn starting with the least significant. The value
+                    ; contained in [s3,s2] is divided by 10 and the remainder of that integer division
+                    ; is the value of each digit in the range 0 to 9.
+                    ;
+                    ; Registers used s0,s2,s3,s4,s8,s9,sA,sB
+                    ;
+  integer16_to_BCD: LOAD s4, decimal0               ;pointer for LS-Digit in scratch pad memory
+   int_to_BCD_loop: CALL divide_16bit_by_10
+                    STORE sA, (s4)                  ;remainder is the digit value
+                    COMPARE s4, decimal4            ;test for MS-Digit completed
+                    RETURN Z
+                    ADD s4, 1'd                     ;advance pointer to next digit
+                    JUMP int_to_BCD_loop
+                    ;
+                    ; Divide 16-bit binary integer by 10
+                    ;
+                    ; The value to be divided by 10 should be provided in register set [s3,s2].
+                    ; The routine will return the integer result [s3,s2]/10 back in[s3,s2]
+                    ; with any remainder in (0 to 9) in register sA.
+                    ;
+                    ; Registers used s0,s2,s3,s8,s9,sA,sB
+                    ;
+divide_16bit_by_10: LOAD sA, s2                     ;copy input value into [sB,sA]
+                    LOAD sB, s3
+                    LOAD s2, 00                     ;clear division result
+                    LOAD s3, 00
+                    LOAD s9, A0                     ;initialise [s9,s8] with '10' in MSBs
+                    LOAD s8, 00
+                    LOAD s0, 13'd                   ;13 subtract and shift iterations to be performed
+        div10_loop: SUB sA, s8                      ;perform 16-bit subtract [sB,sA]-[s9,s8]
+                    SUBCY sB, s9
+                    JUMP C, div10_restore           ;if carry then could not subtract from total
+                    SL1 s2                          ;shift '1' into result because subtract ok
+                    JUMP div10_shifts
+     div10_restore: ADD sA, s8                      ;perform 16-bit addition [sB,sA]+[s9,s8]
+                    ADDCY sB, s9                    ;to restore total
+                    SL0 s2                          ;shift '0' into result because could no subtract
+      div10_shifts: SLA s3                          ;complete 16-bit shift left into [s3,s2]
+                    SR0 s9                          ;divide '10' value by 2 (shift right 1 place)
+                    SRA s8
+                    SUB s0, 01                      ;count iterations
+                    RETURN Z                        ;on return the remainder of division is in sA
+                    JUMP div10_loop
+                    ;
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; Include PSM files
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    ; The INCLUDE directive enables commonly routines to be kept in their own PSM files and
+                    ; easily reused in different programs (i.e. avoiding 'cut and paste'). It also allows
+                    ; each PSM to remain a more manageable size.
+                    ;
+                    ;
+                    ; Include routines that implement interface with UART macros.
+                    ; -----------------------------------------------------------
+                    ;
+                    INCLUDE "uart_interface_routines.psm"
+                    ;
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; End of Program
+                    ;------------------------------------------------------------------------------------------
+                    ;

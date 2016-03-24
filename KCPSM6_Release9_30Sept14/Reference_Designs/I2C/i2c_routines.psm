@@ -1,0 +1,509 @@
+                   ;
+                   ;------------------------------------------------------------------------------------------
+                   ; Copyright © 2011-2012, Xilinx, Inc.
+                   ; This file contains confidential and proprietary information of Xilinx, Inc. and is
+                   ; protected under U.S. and international copyright and other intellectual property laws.
+                   ;------------------------------------------------------------------------------------------
+                   ;
+                   ; Disclaimer:
+                   ; This disclaimer is not a license and does not grant any rights to the materials
+                   ; distributed herewith. Except as otherwise provided in a valid license issued to
+                   ; you by Xilinx, and to the maximum extent permitted by applicable law: (1) THESE
+                   ; MATERIALS ARE MADE AVAILABLE "AS IS" AND WITH ALL FAULTS, AND XILINX HEREBY
+                   ; DISCLAIMS ALL WARRANTIES AND CONDITIONS, EXPRESS, IMPLIED, OR STATUTORY,
+                   ; INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, NON-INFRINGEMENT,
+                   ; OR FITNESS FOR ANY PARTICULAR PURPOSE; and (2) Xilinx shall not be liable
+                   ; (whether in contract or tort, including negligence, or under any other theory
+                   ; of liability) for any loss or damage of any kind or nature related to, arising
+                   ; under or in connection with these materials, including for any direct, or any
+                   ; indirect, special, incidental, or consequential loss or damage (including loss
+                   ; of data, profits, goodwill, or any type of loss or damage suffered as a result
+                   ; of any action brought by a third party) even if such damage or loss was
+                   ; reasonably foreseeable or Xilinx had been advised of the possibility of the same.
+                   ;
+                   ; CRITICAL APPLICATIONS
+                   ; Xilinx products are not designed or intended to be fail-safe, or for use in any
+                   ; application requiring fail-safe performance, such as life-support or safety
+                   ; devices or systems, Class III medical devices, nuclear facilities, applications
+                   ; related to the deployment of airbags, or any other applications that could lead
+                   ; to death, personal injury, or severe property or environmental damage
+                   ; (individually and collectively, "Critical Applications"). Customer assumes the
+                   ; sole risk and liability of any use of Xilinx products in Critical Applications,
+                   ; subject only to applicable laws and regulations governing limitations on product
+                   ; liability.
+                   ;
+                   ; THIS COPYRIGHT NOTICE AND DISCLAIMER MUST BE RETAINED AS PART OF THIS FILE AT ALL TIMES.
+                   ;
+                   ;------------------------------------------------------------------------------------------
+                   ;
+                   ;
+                   ;             _  ______ ____  ____  __  __  __
+                   ;            | |/ / ___|  _ \/ ___||  \/  |/ /_
+                   ;            | ' / |   | |_) \___ \| |\/| | '_ \
+                   ;            | . \ |___|  __/ ___) | |  | | (_) )
+                   ;            |_|\_\____|_|   |____/|_|  |_|\___/
+                   ;
+                   ;
+                   ;                PicoBlaze Reference Design.
+                   ;
+                   ;
+                   ; Routines for General Purpose I2C Communication
+                   ;
+                   ; Ken Chapman - Xilinx Ltd
+                   ;
+                   ; 9th March 2012 - Initial Version
+                   ; 12th October 2012 - Adjustments to values assigned to constant directives
+                   ; 16th October 2012 - Code optimisation (lowest level signal drive routines)
+                   ; 25th October 2012 - Correct definition of a binary value (functionally identical)
+                   ; 6th November 2012 - Correction to comment only
+                   ;
+                   ;
+                   ;     NOTE - This is not a standalone PSM file. Include this file in a program that
+                   ;            then calls these routines and works with the values in scratch pad memory.
+                   ;
+                   ;                INCLUDE "i2c_routines.psm"
+                   ;
+                   ;
+                   ;     IMPORTANT - These routines interact with input and output ports which must
+                   ;                 be appropriately defined to drive and read the physical I2C
+                   ;                 signals. Four CONSTANT directives must define values consistent
+                   ;                 with your port definitions and a further CONSTANT must be defined
+                   ;                 that is related to the frequency of the clock being applied to
+                   ;                 KCPSM6 in your design (Please see descriptions below).
+                   ;
+                   ;
+                   ; INTRODUCTION
+                   ; ------------
+                   ;
+                   ; The following routines implement an I2C 'Master' with a communication data rate
+                   ; approaching (but not exceeding) 100KHz. The I2C bus connects to the FPGA I/O
+                   ; pins which must in turn be connected to KCPSM6 input and output ports. Therefore
+                   ; your hardware design must be appropriate before these routines can be used and
+                   ; these routines need to know which ports you have allocated for I2C in your design.
+                   ;
+                   ; With the hardware in place, the routines provide the ability to perform each of the
+                   ; actions generally required for an I2C transaction including bus idle, Start (S),
+                   ; Repeated Start (Sr), Stop (P), Transmission of Acknowledge (ACK) or No Acknowledge
+                   ; (NACK), receiving and testing of Acknowledge (ACK) from a slave and of course the
+                   ; ability to transmit and receive bytes used for addressing, commands and data.
+                   ;
+                   ; It is assumed that you are familiar with I2C, so the descriptions contained in this
+                   ; file are concerned primarily with how KCPSM6 is used to implement the signaling and
+                   ; elements of the transactions rather than to teach I2C itself. In the end, it is the
+                   ; sequence in which these routines are invoked that will result in successful
+                   ; communication with a slave device and that requires an understanding of the needs
+                   ; of each particular slave to implement correctly (i.e. a study of data sheets for
+                   ; slave devices when writing higher level code).
+                   ;
+                   ; NOTE - As provided, these routines assume that KCPSM6 is the only I2C master connected
+                   ;        to the bus. A multiple master implementation would be possible but these routines
+                   ;        are not suitable in such arrangements.
+                   ;
+                   ;
+                   ;
+                   ; Code typical of an I2C write of data to a slave using the routines provided...
+                   ;
+                   ;    CALL I2C_initialise
+                   ;    CALL I2C_start
+                   ;    LOAD s5, slave_address       ;7-bit slave address
+                   ;    SL0 s5                       ;Write operation signified by LSB = 0
+                   ;    CALL I2C_Tx_byte
+                   ;    CALL I2C_Rx_ACK
+                   ;    JUMP C, communication_fail   ;did the slave respond?
+                   ;    LOAD s5, data_byte1
+                   ;    CALL I2C_Tx_byte
+                   ;    CALL I2C_Rx_ACK
+                   ;    LOAD s5, data_byte2
+                   ;    CALL I2C_Tx_byte
+                   ;    CALL I2C_Rx_ACK
+                   ;    CALL I2C_stop
+                   ;
+                   ;
+                   ; Code typical of an I2C read of data from a slave using the routines provided...
+                   ;
+                   ;    CALL I2C_initialise
+                   ;    CALL I2C_start
+                   ;    LOAD s5, slave_address       ;7-bit slave address
+                   ;    SL0 s5                       ;Write operation signified by LSB = 0
+                   ;    CALL I2C_Tx_byte
+                   ;    CALL I2C_Rx_ACK
+                   ;    JUMP C, communication_fail   ;did the slave respond?
+                   ;    LOAD s5, slave_command
+                   ;    CALL I2C_Tx_byte
+                   ;    CALL I2C_Rx_ACK
+                   ;    CALL I2C_start               ;bus restart (Sr)
+                   ;    LOAD s5, slave_address       ;7-bit slave address
+                   ;    SL1 s5                       ;Read operation signified by LSB = 1
+                   ;    CALL I2C_Tx_byte
+                   ;    CALL I2C_Rx_ACK
+                   ;    CALL I2C_Rx_byte
+                   ;    STORE s5, data1
+                   ;    CALL I2C_Tx_ACK
+                   ;    CALL I2C_Rx_byte
+                   ;    STORE s5, data2
+                   ;    CALL I2C_Tx_NACK             ;transmit NACK before Stop
+                   ;    CALL I2C_stop
+                   ;
+                   ;
+                   ;------------------------------------------------------------------------------------------
+                   ; Hardware
+                   ;------------------------------------------------------------------------------------------
+                   ;
+                   ; Clock
+                   ; -----
+                   ;
+                   ; All KCPSM6 instructions take 2 clock cycles to execute and it is this predictability
+                   ; that these routines exploit to ensure that the I2C communication rate does not exceed
+                   ; 100KHz. However, these routines will only implement the correct timing if something
+                   ; related to the frequency of the clock provide to KCPSM6 is known and the CONSTANT
+                   ; directive below must be defined correctly to achieve that.
+                   ;
+                   CONSTANT I2C_time_reference, 24'd
+                   ;
+                   ;  I2C_time_reference =  ( fclk - 6 ) / 4
+                   ;
+                   ;   Where...
+                   ;     'fclk' is the clock frequency applied to KCPSM6 in MHz.
+                   ;     Any non-integer result should be rounded up.
+                   ;     Typical values....
+                   ;
+                   ;          fclk (MHz)      I2C_time_reference
+                   ;            50                  11'd
+                   ;            80                  19'd
+                   ;           100                  24'd
+                   ;           200                  49'd
+                   ;
+                   ;
+                   ;
+                   ; I2C Bus and KCPSM6 ports
+                   ; ------------------------
+                   ;
+                   ; An I2C bus consists of two signals called 'CLK' and 'DATA' or something similar. Both
+                   ; signals need to be connected to the FPGA via 'open collector' style bidirectional I/O
+                   ; pins with a pull-up resistor (typically an external resistor but the built in pull-up
+                   ; resistor of the IOB may also be enabled in some cases). These I/O pins must then be
+                   ; connected to a KCPSM6 input port and KCPSM6 output port such that both signals can
+                   ; be both driven and read.
+                   ;
+                   ;  The input port used to read the logic levels on the CLK and DATA signals external
+                   ;  to the FPGA.
+                   ;
+                   ;  The output port is used to control the output drive of the CLK and DATA pins.
+                   ;    Since the pins are 'open collector' style then when KCPSM6 outputs...
+                   ;      '0' will result in the signal being driven Low.
+                   ;      '1' will result in the pin becoming tri-state (Z) so the signal will be pulled
+                   ;          High by the resistor or can be driven or held low by a slave device.
+                   ;
+                   ; In a typical VHDL based design the following snippets of code could be inserted at the
+                   ; appropriate places to define the I2C pins and connection to KCPSM6...
+                   ;
+                   ;   entity <name>
+                   ;   Port (   i2c_clk : inout std_logic;
+                   ;           i2c_data : inout std_logic;
+                   ;
+                   ;
+                   ;   signal  drive_i2c_clk : std_logic;
+                   ;   signal drive_i2c_data : std_logic;
+                   ;
+                   ;
+                   ;   i2c_clk  <= '0' when drive_i2c_clk = '0' else 'Z';
+                   ;   i2c_data <= '0' when drive_i2c_data = '0' else 'Z';
+                   ;
+                   ;
+                   ;   input_ports: process(clk)
+                   ;   begin
+                   ;     if clk'event and clk = '1' then
+                   ;       case port_id(1 downto 0) is
+                   ;
+                   ;         -- Read I2C Bus at port address 02 hex
+                   ;         when "10" =>    in_port(0) <= i2c_clk;
+                   ;                         in_port(1) <= i2c_data;
+                   ;
+                   ;
+                   ;   output_ports: process(clk)
+                   ;   begin
+                   ;     if clk'event and clk = '1' then
+                   ;       if write_strobe = '1' then
+                   ;
+                   ;         -- Write to I2C Bus at port address 08 hex
+                   ;         if port_id(3) = '1' then
+                   ;           drive_i2c_clk <= out_port(0);
+                   ;           drive_i2c_data <= out_port(1);
+                   ;         end if;
+                   ;
+                   ;
+                   ;
+                   ; To correspond with the definition of the input and output ports, the four CONSTANT
+                   ; directives below must be set correctly before these I2C routines are used. The
+                   ; values shown below correspond with the VHDL snippets above.
+                   ;
+                   CONSTANT I2C_input_port, 02       ;port address of I2C input port
+                   CONSTANT I2C_output_port, 08      ;port address of I2C output port
+                   ;
+                   CONSTANT I2C_clk, 00000001'b      ;Bit to which CLK is assigned on both ports
+                   CONSTANT I2C_data, 00000010'b     ;Bit to which DATA is assigned on both ports
+                   ;
+                   ;
+                   ;------------------------------------------------------------------------------------------
+                   ; Registers
+                   ;------------------------------------------------------------------------------------------
+                   ;
+                   ; The following registers within the currently active bank are used by these routines....
+                   ;
+                   ;    s0, s1, s5 and sF
+                   ;
+                   ;
+                   ; IMPORTANT - Register 'sF' is used to control and remember the drive values of the CLK
+                   ;             and DATA signals so its contents MUST NOT be altered between calls to the
+                   ;             various routines used to construct a complete I2C transaction. The routine
+                   ;             called 'I2C_initialise' is typically used before starting any transaction
+                   ;             as it will initialise 'sF' as well as the actual I2C interface.
+                   ;
+                   ;
+                   ;------------------------------------------------------------------------------------------
+                   ; Routine to initialise the CLK and DATA signals (and 'sF')
+                   ;------------------------------------------------------------------------------------------
+                   ;
+                   ; Places CLK and DATA into tri-state (Z) so that both lines reach idle High level.
+                   ; This also initialises register sF ready for other routines forming a transaction.
+                   ;
+                   ; This routine MUST be used before starting the first I2C transaction and before any
+                   ; further transaction if the contents of register 'sF' have been compromised since the
+                   ; end of the last I2C transaction.
+                   ;
+   I2C_initialise: LOAD sF, I2C_clk                  ;CLK = Z
+                   OR sF, I2C_data                   ;DATA = Z
+                   OUTPUT sF, I2C_output_port
+                   RETURN 
+                   ;
+                   ;
+                   ;------------------------------------------------------------------------------------------
+                   ; Routine issue an I2C Start (S) or Repeated Start (Sr) condition.
+                   ;------------------------------------------------------------------------------------------
+                   ;
+                   ; Used to begin any I2C transaction or performed during a transaction when changing the
+                   ; from an write to a read.
+                   ;
+                   ; The Start (S) or Repeated Start (Sr) condition is signified by a High to Low transition
+                   ; of the DATA line whilst the CLK line is High.
+                   ;
+        I2C_start: CALL I2C_data_Z                   ;DATA = Z (High)
+                   CALL I2C_clk_Z                    ;CLK = Z (waits until definitely High)
+                   CALL I2C_delay_5us                ;delay before start (S)
+                   CALL I2C_data_Low                 ;High to How transition on DATA whilst CLK is High
+                   CALL I2C_delay_4us
+                   CALL I2C_clk_Low                  ;CLK = 0 (plus 5us delay)
+                   RETURN 
+                   ;
+                   ;
+                   ;------------------------------------------------------------------------------------------
+                   ; Routine issue an I2C Stop (P) condition
+                   ;------------------------------------------------------------------------------------------
+                   ;
+                   ; Used to end any I2C transaction.
+                   ;
+                   ; The Stop (S) condition is signified by a Low to High transition of the DATA line whilst
+                   ; the CLK line is High.
+                   ;
+                   ; Note that following this routine the CARRY flag is '0' and can be used to confirm a
+                   ; good I2C communication (see 'I2C_Rx_ACK' routine).
+                   ;
+         I2C_stop: CALL I2C_data_Low                 ;DATA = 0
+                   CALL I2C_delay_5us
+                   CALL I2C_clk_Z                    ;CLK = Z (waits until definitely High)
+                   CALL I2C_delay_4us
+                   CALL I2C_data_Z                   ;DATA = Z (High)
+                   RETURN 
+                   ;
+                   ;
+                   ;------------------------------------------------------------------------------------------
+                   ; Routine to transmit one byte from the KCPSM6 master to a slave
+                   ;------------------------------------------------------------------------------------------
+                   ;
+                   ; The byte to be transmitted must be provided in register 's5'.
+                   ;
+                   ; The byte is transmitted most significant bit (MSB) first. As each of the 8 bits are
+                   ; presented to the DATA line the CLK line is pulsed High.
+                   ;
+      I2C_Tx_byte: LOAD s1, 10000000'b               ;8-bits to transmit starting with MSB
+  I2C_Tx_next_bit: TEST s5, s1                       ;test data bit for High or Low
+                   JUMP NZ, I2C_Tx1
+                   CALL I2C_data_Low                 ;DATA = 0
+                   JUMP I2C_Tx_tsu
+          I2C_Tx1: CALL I2C_data_Z                   ;DATA = Z (High)
+       I2C_Tx_tsu: CALL I2C_clk_pulse                ;generate clock pulse with delays
+                   SR0 s1                            ;move to next bit
+                   RETURN C                          ;have 8 bits been transmitted?
+                   JUMP I2C_Tx_next_bit
+                   ;
+                   ;
+                   ;------------------------------------------------------------------------------------------
+                   ; Routine to receive one byte from a slave
+                   ;------------------------------------------------------------------------------------------
+                   ;
+                   ; The byte received will be returned in register 's5'.
+                   ;
+                   ; The byte is received most significant bit (MSB) first. Each  of the 8 bits are sampled
+                   ; as the CLK line is pulsed High.
+                   ;
+      I2C_Rx_byte: LOAD s1, 8'd                      ;8-bits to receive
+  I2C_Rx_next_bit: CALL I2C_Rx_bit                   ;receive and shift bit into LSB of s5
+                   SUB s1, 1'd                       ;count bits received
+                   JUMP NZ, I2C_Rx_next_bit
+                   RETURN 
+                   ;
+                   ;
+                   ;------------------------------------------------------------------------------------------
+                   ; Routine to transmit Acknowledge (ACK) from KCPSM6 master to a slave
+                   ;------------------------------------------------------------------------------------------
+                   ;
+                   ; An Acknowledge (ACK) bit is transmitted to a slave after receiving a byte of data.
+                   ;
+                   ; ACK is simply the transmission of a '0' requiring the DATA line to be driven Low whilst
+                   ; the CLK line is pulsed High.
+                   ;
+       I2C_Tx_ACK: CALL I2C_data_Low                 ;DATA = 0
+                   ;
+    I2C_clk_pulse: CALL I2C_delay_5us
+                   CALL I2C_clk_Z                    ;CLK = Z (waits until definitely High)
+                   CALL I2C_delay_4us                ;clock pulse width
+                   CALL I2C_clk_Low                  ;end of CLK clock pulse includes 5us delay
+                   RETURN 
+                   ;
+                   ;
+                   ;------------------------------------------------------------------------------------------
+                   ; Routine to transmit No Acknowledge (NACK) from KCPSM6 master to a slave
+                   ;------------------------------------------------------------------------------------------
+                   ;
+                   ; A No Acknowledge (NACK) bit is transmitted to a slave after receiving a byte of data and
+                   ; typically used to signify to a slave that a read transaction has been completed.
+                   ;
+                   ; NACK is simply the transmission of a '1' requiring the DATA line to be driven High
+                   ; whilst the CLK line is pulsed High.
+                   ;
+      I2C_Tx_NACK: CALL I2C_data_Z                   ;DATA = Z (High)
+                   JUMP I2C_clk_pulse                ;generate clock pulse (includes return)
+                   ;
+                   ;
+                   ;------------------------------------------------------------------------------------------
+                   ; Routine to receive and test the Acknowledge (ACK) from a slave
+                   ;------------------------------------------------------------------------------------------
+                   ;
+                   ; The KCPSM6 master will receive an Acknowledge (ACK) bit from a slave following the
+                   ; transmitted of a byte to the slave. Receiving an ACK indicates that the slave responded
+                   ; as expected but receiving a No Acknowledge (NACK) implies that something went wrong!
+                   ;
+                   ; The KCPSM6 master will pulse the CLK line High and receive the acknowledge bit from the
+                   ; slave. The received ACK bit will be returned in the least significant bit (LSB) of the
+                   ; 's5' register. Furthermore, a test will be performed such that the CARRY flag will also
+                   ; reveal if the bit was ACK or NACK.
+                   ;
+                   ;     Received ACK bit    Meaning      CARRY(C)
+                   ;           0              ACK           0
+                   ;           1              NACK          1
+                   ;
+                   ; Note that following the 'I2C_stop' routine the CARRY flag is '0'.
+                   ;
+       I2C_Rx_ACK: CALL I2C_Rx_bit                   ;receive ACK bit into LSB of s5
+                   TEST s5, 00000001'b               ;set flags
+                   RETURN 
+                   ;
+                   ;
+                   ;------------------------------------------------------------------------------------------
+                   ; Subroutines used by the main I2C routines above
+                   ;------------------------------------------------------------------------------------------
+                   ;
+                   ; These routines actually control the I2C signals an ensure that timing specifications
+                   ; consistent with maximum bit rate of 100KHz are not exceeded.
+                   ;
+                   ;
+                   ; Drive CLK Low and wait for 5us before doing anything else.
+                   ;
+      I2C_clk_Low: AND sF, ~I2C_clk                  ;CLK = 0
+                   OUTPUT sF, I2C_output_port
+                   CALL I2C_delay_5us
+                   RETURN 
+                   ;
+                   ;
+                   ; Place CLK into tri-state (Z) so that it can go High.
+                   ; Then wait for CLK to actually become High before returning because a slave
+                   ; has the ability to stretch a clock to slow communication down.
+                   ;
+        I2C_clk_Z: OR sF, I2C_clk                    ;CLK = Z
+                   OUTPUT sF, I2C_output_port
+I2C_wait_clk_High: INPUT s0, I2C_input_port          ;read external signals
+                   TEST s0, I2C_clk                  ;test CLK bit
+                   JUMP Z, I2C_wait_clk_High         ;wait if CLK held Low by slave
+                   RETURN 
+                   ;
+                   ;
+                   ; Drive DATA Low and wait for 5us before doing anything else.
+                   ;
+     I2C_data_Low: AND sF, ~I2C_data                 ;DATA = 0
+                   OUTPUT sF, I2C_output_port
+                   RETURN 
+                   ;
+                   ;
+                   ; Place DATA into tri-state (Z) so that it can go High.
+                   ; This can be used to transmit or receive a '1' but can also be used by the
+                   ; slave to return a '0' by holding the data line Low against the pull-up resistor.
+                   ;
+       I2C_data_Z: OR sF, I2C_data                   ;DATA = Z
+                   OUTPUT sF, I2C_output_port
+                   RETURN 
+                   ;
+                   ;
+                   ; Receive one bit of data
+                   ;
+                   ; The bit received is shifted into the LSB of register 's5'.
+                   ;
+                   ; This the routine must be executed from the condition CLK low.
+                   ;
+                   ; The DATA line is released to allow a slave to transmit. There will be a
+                   ; 5us delay before the CLK is released to start a clock pulse. The start of
+                   ; the clock pulse can be delayed by a slave but a High duration of 4us is
+                   ; guaranteed. The value of the DATA line is sampled at the mid-point of the
+                   ; 4us high period (i.e. after 2us). The CLK clock pulse is followed by a
+                   ; delay of 5us before anything else can happen.
+                   ;
+       I2C_Rx_bit: CALL I2C_data_Z                   ;DATA = Z (slave can now drive)
+                   CALL I2C_delay_5us
+                   CALL I2C_clk_Z                    ;CLK = Z (waits until definitely High)
+                   CALL I2C_delay_2us                ;middle of SCL clock pulse
+                   INPUT s0, I2C_input_port          ;read external signals
+                   TEST s0, I2C_data                 ;set carry flag with value of DATA
+                   SLA s5                            ;shift received bit into LSB of s5
+                   CALL I2C_delay_2us                ;complete 4us SCL clock pulse
+                   CALL I2C_clk_Low                  ;end of clock pulse includes 5us delay
+                   RETURN 
+                   ;
+                   ;
+                   ; Software Delays for I2C Signal Timing
+                   ;
+    I2C_delay_5us: CALL I2C_delay_1us
+    I2C_delay_4us: CALL I2C_delay_1us
+                   CALL I2C_delay_1us
+    I2C_delay_2us: CALL I2C_delay_1us
+                   CALL I2C_delay_1us
+                   RETURN 
+                   ;
+                   ; The base delay is 1us and takes ((4 x I2C_time_reference) + 6) clock cycles
+                   ; to execute including the CALL instruction required to invoke it.
+                   ;
+                   ; For example, if the clock frequency is 100MHz then 'I2C_time_reference' should be set
+                   ; to 24'd. This will result in 24 iterations of the 'SUB' and 'JUMP NZ' loop resulting
+                   ; in the execution of 48 instructions. The invoking 'CALL', the 'LOAD' and the 'RETURN'
+                   ; bringing the total number of instructions to 51. All instructions take 2 clock cycles
+                   ; to execute so that is a total of 102 clock cycles which take 1.02us at 100MHz.
+                   ;  i.e. ((4 x I2C_time_reference) + 6) = ((4 x 24) + 6) = 102 clock cycles
+                   ;
+    I2C_delay_1us: LOAD s0, I2C_time_reference
+   I2C_delay_loop: SUB s0, 1'd
+                   JUMP NZ, I2C_delay_loop
+                   RETURN 
+                   ;
+                   ;
+                   ;------------------------------------------------------------------------------------------
+                   ; End of 'i2c_routines.psm'
+                   ;------------------------------------------------------------------------------------------
+                   ;

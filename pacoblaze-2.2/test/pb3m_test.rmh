@@ -1,0 +1,49 @@
+/* Symbol Table */
+// here = LABEL: 17
+// int = LABEL: 1023
+// isr = LABEL: 18
+// s0 = REGISTER: 0
+// s1 = REGISTER: 1
+// s2 = REGISTER: 2
+// s3 = REGISTER: 3
+// s4 = REGISTER: 4
+// s5 = REGISTER: 5
+// s6 = REGISTER: 6
+// s7 = REGISTER: 7
+// s8 = REGISTER: 8
+// s9 = REGISTER: 9
+// sA = REGISTER: 10
+// sB = REGISTER: 11
+// sC = REGISTER: 12
+// sD = REGISTER: 13
+// sE = REGISTER: 14
+// sF = REGISTER: 15
+// start = LABEL: 0
+
+/* Program Code */
+// #1: ; test3m.psm
+// @000 #3: [start]
+000ca // @000 #4: load(s0,202)
+001fe // @001 #5: load(s1,254)
+3f010 // @002 #6: mul(s0,s1)
+2c101 // @003 #8: output(s1,1)
+2c000 // @004 #9: output(s0,0)
+000de // @005 #11: load(s0,222)
+002ad // @006 #12: load(s2,173)
+3f020 // @007 #13: mul(s0,s2)
+2c103 // @008 #15: output(s1,3)
+2c002 // @009 #16: output(s0,2)
+001ca // @00a #18: load(s1,202)
+000fe // @00b #19: load(s0,254)
+003be // @00c #21: load(s3,190)
+002ef // @00d #22: load(s2,239)
+23200 // @00e #24: addw(s2,s0)
+2c305 // @00f #26: output(s3,5)
+2c204 // @010 #27: output(s2,4)
+// @011 #29: [here]
+34011 // @011 #30: jump(here)
+// @012 #32: [isr]
+34012 // @012 #33: jump(isr)
+// @013 #35: [int]
+@3ff // #35: address(1023)
+34012 // @3ff #36: jump(isr)

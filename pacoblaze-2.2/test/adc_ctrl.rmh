@@ -1,0 +1,1618 @@
+/* Symbol Table */
+// ADC0_lsb = CONSTANT: 0
+// ADC0_msb = CONSTANT: 1
+// ADC1_lsb = CONSTANT: 2
+// ADC1_msb = CONSTANT: 3
+// AD_sign = LABEL: 59
+// BTN_east = CONSTANT: 2
+// BTN_north = CONSTANT: 1
+// BTN_south = CONSTANT: 4
+// BTN_west = CONSTANT: 8
+// ISR = LABEL: 539
+// LCD_DB4 = CONSTANT: 16
+// LCD_DB5 = CONSTANT: 32
+// LCD_DB6 = CONSTANT: 64
+// LCD_DB7 = CONSTANT: 128
+// LCD_E = CONSTANT: 1
+// LCD_RS = CONSTANT: 4
+// LCD_RW = CONSTANT: 2
+// LCD_clear = LABEL: 524
+// LCD_cursor = LABEL: 529
+// LCD_drive = CONSTANT: 8
+// LCD_input_port = CONSTANT: 2
+// LCD_output_port = CONSTANT: 64
+// LCD_pulse_E = LABEL: 440
+// LCD_read_DB4 = CONSTANT: 16
+// LCD_read_DB5 = CONSTANT: 32
+// LCD_read_DB6 = CONSTANT: 64
+// LCD_read_DB7 = CONSTANT: 128
+// LCD_read_data8 = LABEL: 482
+// LCD_read_spare0 = CONSTANT: 1
+// LCD_read_spare1 = CONSTANT: 2
+// LCD_read_spare2 = CONSTANT: 4
+// LCD_read_spare3 = CONSTANT: 8
+// LCD_reset = LABEL: 507
+// LCD_write_data = LABEL: 465
+// LCD_write_inst4 = LABEL: 446
+// LCD_write_inst8 = LABEL: 450
+// LED0 = CONSTANT: 1
+// LED1 = CONSTANT: 2
+// LED2 = CONSTANT: 4
+// LED3 = CONSTANT: 8
+// LED4 = CONSTANT: 16
+// LED5 = CONSTANT: 32
+// LED6 = CONSTANT: 64
+// LED7 = CONSTANT: 128
+// LED_port = CONSTANT: 128
+// SPI_adc_conv = CONSTANT: 16
+// SPI_amp_cs = CONSTANT: 8
+// SPI_amp_sdi = CONSTANT: 64
+// SPI_amp_shdn = CONSTANT: 64
+// SPI_control_port = CONSTANT: 8
+// SPI_dac_clr = CONSTANT: 128
+// SPI_dac_cs = CONSTANT: 32
+// SPI_init = LABEL: 287
+// SPI_input_port = CONSTANT: 1
+// SPI_output_port = CONSTANT: 4
+// SPI_rom_cs = CONSTANT: 2
+// SPI_sck = CONSTANT: 1
+// SPI_sdi = CONSTANT: 128
+// SPI_sdo = CONSTANT: 128
+// SPI_spare_control = CONSTANT: 4
+// VREF_lsb = CONSTANT: 114
+// VREF_msb = CONSTANT: 6
+// adc_read = LABEL: 307
+// amp_A_gain = CONSTANT: 4
+// amp_B_gain = CONSTANT: 5
+// character_0 = CONSTANT: 48
+// character_1 = CONSTANT: 49
+// character_2 = CONSTANT: 50
+// character_3 = CONSTANT: 51
+// character_4 = CONSTANT: 52
+// character_5 = CONSTANT: 53
+// character_6 = CONSTANT: 54
+// character_7 = CONSTANT: 55
+// character_8 = CONSTANT: 56
+// character_9 = CONSTANT: 57
+// character_A = CONSTANT: 65
+// character_B = CONSTANT: 66
+// character_BS = CONSTANT: 8
+// character_C = CONSTANT: 67
+// character_CR = CONSTANT: 13
+// character_D = CONSTANT: 68
+// character_E = CONSTANT: 69
+// character_F = CONSTANT: 70
+// character_G = CONSTANT: 71
+// character_H = CONSTANT: 72
+// character_I = CONSTANT: 73
+// character_J = CONSTANT: 74
+// character_K = CONSTANT: 75
+// character_L = CONSTANT: 76
+// character_M = CONSTANT: 77
+// character_N = CONSTANT: 78
+// character_O = CONSTANT: 79
+// character_P = CONSTANT: 80
+// character_Q = CONSTANT: 81
+// character_R = CONSTANT: 82
+// character_S = CONSTANT: 83
+// character_T = CONSTANT: 84
+// character_U = CONSTANT: 85
+// character_V = CONSTANT: 86
+// character_W = CONSTANT: 87
+// character_X = CONSTANT: 88
+// character_Y = CONSTANT: 89
+// character_Z = CONSTANT: 90
+// character_a = CONSTANT: 97
+// character_b = CONSTANT: 98
+// character_c = CONSTANT: 99
+// character_colon = CONSTANT: 58
+// character_comma = CONSTANT: 44
+// character_d = CONSTANT: 100
+// character_divide = CONSTANT: 47
+// character_dollar = CONSTANT: 36
+// character_e = CONSTANT: 101
+// character_equals = CONSTANT: 61
+// character_exclaim = CONSTANT: 33
+// character_f = CONSTANT: 102
+// character_g = CONSTANT: 103
+// character_greater_than = CONSTANT: 62
+// character_h = CONSTANT: 104
+// character_i = CONSTANT: 105
+// character_j = CONSTANT: 106
+// character_k = CONSTANT: 107
+// character_l = CONSTANT: 108
+// character_less_than = CONSTANT: 60
+// character_m = CONSTANT: 109
+// character_minus = CONSTANT: 45
+// character_n = CONSTANT: 110
+// character_o = CONSTANT: 111
+// character_p = CONSTANT: 112
+// character_plus = CONSTANT: 43
+// character_q = CONSTANT: 113
+// character_question = CONSTANT: 63
+// character_r = CONSTANT: 114
+// character_s = CONSTANT: 115
+// character_semi_colon = CONSTANT: 59
+// character_space = CONSTANT: 32
+// character_stop = CONSTANT: 46
+// character_t = CONSTANT: 116
+// character_u = CONSTANT: 117
+// character_v = CONSTANT: 118
+// character_w = CONSTANT: 119
+// character_x = CONSTANT: 120
+// character_y = CONSTANT: 121
+// character_z = CONSTANT: 122
+// cold_start = LABEL: 0
+// decimal0 = CONSTANT: 7
+// decimal1 = CONSTANT: 8
+// decimal2 = CONSTANT: 9
+// decimal3 = CONSTANT: 10
+// decimal4 = CONSTANT: 11
+// delay_1ms = LABEL: 425
+// delay_1s = LABEL: 435
+// delay_1us = LABEL: 416
+// delay_1us_constant = CONSTANT: 11
+// delay_20ms = LABEL: 430
+// delay_40us = LABEL: 420
+// disp_AD = LABEL: 383
+// disp_ADC_Control = LABEL: 353
+// disp_PicoBlaze = LABEL: 334
+// disp_VA = LABEL: 376
+// disp_VINA_volts = LABEL: 114
+// disp_hex_byte = LABEL: 409
+// disp_volts = LABEL: 116
+// div10_loop = LABEL: 273
+// div10_restore = LABEL: 278
+// div10_shifts = LABEL: 281
+// divide_16bit_by_10 = LABEL: 266
+// gain_A7 = LABEL: 217
+// gain_decrease = LABEL: 141
+// gain_increase = LABEL: 134
+// hex_byte_to_ASCII = LABEL: 392
+// hex_to_ASCII = LABEL: 404
+// int_to_BCD_loop = LABEL: 260
+// integer16_to_BCD = LABEL: 258
+// m16s_loop = LABEL: 238
+// m16s_noadd = LABEL: 245
+// m16s_nosub = LABEL: 257
+// m16s_pos = LABEL: 236
+// mult_16x16s = LABEL: 228
+// mult_VINA = LABEL: 90
+// neg_AD = LABEL: 54
+// new_gain_set = LABEL: 146
+// next_adc_bit = LABEL: 313
+// next_amp_SPI_bit = LABEL: 294
+// number_char = LABEL: 407
+// s0 = REGISTER: 0
+// s1 = REGISTER: 1
+// s2 = REGISTER: 2
+// s3 = REGISTER: 3
+// s4 = REGISTER: 4
+// s5 = REGISTER: 5
+// s6 = REGISTER: 6
+// s7 = REGISTER: 7
+// s8 = REGISTER: 8
+// s9 = REGISTER: 9
+// sA = REGISTER: 10
+// sB = REGISTER: 11
+// sC = REGISTER: 12
+// sD = REGISTER: 13
+// sE = REGISTER: 14
+// sF = REGISTER: 15
+// sample_count = CONSTANT: 6
+// set_amp = LABEL: 290
+// set_line2 = LABEL: 535
+// switch0 = CONSTANT: 16
+// switch1 = CONSTANT: 32
+// switch2 = CONSTANT: 64
+// switch3 = CONSTANT: 128
+// switch_port = CONSTANT: 0
+// test_A2 = LABEL: 172
+// test_A3 = LABEL: 181
+// test_A4 = LABEL: 190
+// test_A5 = LABEL: 199
+// test_A6 = LABEL: 208
+// test_max_pos = LABEL: 108
+// wait_1ms = LABEL: 426
+// wait_1s = LABEL: 436
+// wait_1us = LABEL: 417
+// wait_20ms = LABEL: 431
+// wait_40us = LABEL: 421
+// wait_int = LABEL: 22
+// wait_no_press = LABEL: 223
+// warm_start = LABEL: 20
+
+/* Program Code */
+// #1: ;KCPSM3 Program - SPI Control of Amplifier and A/D converter on Spartan-3E Starter Kit.
+// #2: ;
+// #3: ;
+// #4: ;Ken Chapman - Xilinx Ltd
+// #5: ;
+// #6: ;Version v1.00 - 21th December 2005
+// #7: ;
+// #8: ;This program uses an 8KHz interrupt to generate test waveforms on the
+// #9: ;4 analogue outputs provided by the Linear Technology LTC2624 device.
+// #10: ;
+// #11: ;As well as the port connections vital to communication with the UART and the SPI
+// #12: ;FLASH memory, there are additional port connections used to disable the other
+// #13: ;devices sharing the SPI bus on the Starter Kit board. Although these could have been
+// #14: ;controlled at the hardware level, they are included in this code to aid
+// #15: ;future investigations of communication with the other SPI devices using PicoBlaze.
+// #16: ;
+// #17: ;Connections to the LEDs, switches and press buttons are provided to aid
+// #18: ;development and enable further experiments. Otherwise know as having fun!
+// #19: ;
+// #20: ;Port definitions
+// #21: ;
+// #22: ;
+// #23: CONSTANT(SPI_control_port,8) ;SPI clock and chip selects
+// #24: CONSTANT(SPI_sck,1) ;                  SCK - bit0
+// #25: CONSTANT(SPI_rom_cs,2) ;    serial rom select - bit1
+// #26: CONSTANT(SPI_spare_control,4) ;                spare - bit2
+// #27: CONSTANT(SPI_amp_cs,8) ;     amplifier select - bit3
+// #28: CONSTANT(SPI_adc_conv,16) ;          A/D convert - bit4
+// #29: CONSTANT(SPI_dac_cs,32) ;           D/A select - bit5
+// #30: CONSTANT(SPI_amp_shdn,64) ;       amplifier SHDN - bit6
+// #31: CONSTANT(SPI_dac_clr,128) ;            D/A clear - bit7
+// #32: ;
+// #33: CONSTANT(SPI_output_port,4) ;SPI data output
+// #34: CONSTANT(SPI_sdo,128) ;   SDO - bit7
+// #35: ;
+// #36: CONSTANT(SPI_input_port,1) ;SPI data input
+// #37: CONSTANT(SPI_sdi,128) ;             SDI - bit7
+// #38: CONSTANT(SPI_amp_sdi,64) ;   amplifier SDI - bit6
+// #39: ;
+// #40: ;
+// #41: CONSTANT(LED_port,128) ;8 simple LEDs
+// #42: CONSTANT(LED0,1) ;     LED 0 - bit0
+// #43: CONSTANT(LED1,2) ;         1 - bit1
+// #44: CONSTANT(LED2,4) ;         2 - bit2
+// #45: CONSTANT(LED3,8) ;         3 - bit3
+// #46: CONSTANT(LED4,16) ;         4 - bit4
+// #47: CONSTANT(LED5,32) ;         5 - bit5
+// #48: CONSTANT(LED6,64) ;         6 - bit6
+// #49: CONSTANT(LED7,128) ;         7 - bit7
+// #50: ;
+// #51: ;
+// #52: CONSTANT(switch_port,0) ;Read switches and press buttons
+// #53: CONSTANT(BTN_north,1) ;  Buttons     North - bit0
+// #54: CONSTANT(BTN_east,2) ;               East - bit1
+// #55: CONSTANT(BTN_south,4) ;              South - bit2
+// #56: CONSTANT(BTN_west,8) ;               West - bit3
+// #57: CONSTANT(switch0,16) ;  Switches        0 - bit4
+// #58: CONSTANT(switch1,32) ;                  1 - bit5
+// #59: CONSTANT(switch2,64) ;                  2 - bit6
+// #60: CONSTANT(switch3,128) ;                  3 - bit7
+// #61: ;
+// #62: ;LCD interface ports
+// #63: ;
+// #64: ;The master enable signal is not used by the LCD display itself
+// #65: ;but may be required to confirm that LCD communication is active.
+// #66: ;This is required on the Spartan-3E Starter Kit if the StrataFLASH
+// #67: ;is used because it shares the same data pins and conflicts must be avoided.
+// #68: ;
+// #69: CONSTANT(LCD_output_port,64) ;LCD character module output data and control
+// #70: CONSTANT(LCD_E,1) ;   active High Enable        E - bit0
+// #71: CONSTANT(LCD_RW,2) ;   Read=1 Write=0           RW - bit1
+// #72: CONSTANT(LCD_RS,4) ;   Instruction=0 Data=1     RS - bit2
+// #73: CONSTANT(LCD_drive,8) ;   Master enable (active High) - bit3
+// #74: CONSTANT(LCD_DB4,16) ;   4-bit              Data DB4 - bit4
+// #75: CONSTANT(LCD_DB5,32) ;   interface          Data DB5 - bit5
+// #76: CONSTANT(LCD_DB6,64) ;                      Data DB6 - bit6
+// #77: CONSTANT(LCD_DB7,128) ;                      Data DB7 - bit7
+// #78: ;
+// #79: ;
+// #80: CONSTANT(LCD_input_port,2) ;LCD character module input data
+// #81: CONSTANT(LCD_read_spare0,1) ;    Spare bits               - bit0
+// #82: CONSTANT(LCD_read_spare1,2) ;    are zero                 - bit1
+// #83: CONSTANT(LCD_read_spare2,4) ;                             - bit2
+// #84: CONSTANT(LCD_read_spare3,8) ;                             - bit3
+// #85: CONSTANT(LCD_read_DB4,16) ;    4-bit           Data DB4 - bit4
+// #86: CONSTANT(LCD_read_DB5,32) ;    interface       Data DB5 - bit5
+// #87: CONSTANT(LCD_read_DB6,64) ;                    Data DB6 - bit6
+// #88: CONSTANT(LCD_read_DB7,128) ;                    Data DB7 - bit7
+// #89: ;
+// #90: ;
+// #91: ;
+// #92: ;
+// #93: ;Special Register usage
+// #94: ;
+// #95: ;
+// #96: ;
+// #97: ;Scratch Pad Memory Locations
+// #98: ;
+// #99: ;Values read from the A/D converter
+// #100: ;
+// #101: CONSTANT(ADC0_lsb,0) ;ADC Channel 0 value LS-Byte
+// #102: CONSTANT(ADC0_msb,1) ;                    MS-Byte
+// #103: ;
+// #104: CONSTANT(ADC1_lsb,2) ;ADC Channel 1 value LS-Byte
+// #105: CONSTANT(ADC1_msb,3) ;                    MS-Byte
+// #106: ;
+// #107: ;Amplifier gain settings.
+// #108: ;
+// #109: ;Stored value is the 4-bit code for gain setting
+// #110: ;  Code  1   2   3    4     5    6     7
+// #111: ;  Gain -1  -2  -5  -10   -20  -50  -100
+// #112: CONSTANT(amp_A_gain,4) ;Amplifier A gain value
+// #113: CONSTANT(amp_B_gain,5) ;Amplifier B gain value
+// #114: ;
+// #115: ;Sample counter used to give activity indication on LEDs
+// #116: ;
+// #117: CONSTANT(sample_count,6) ;8-bit counter LS-Byte
+// #118: ;
+// #119: CONSTANT(decimal0,7) ;5 digit decimal value
+// #120: CONSTANT(decimal1,8)
+// #121: CONSTANT(decimal2,9)
+// #122: CONSTANT(decimal3,10)
+// #123: CONSTANT(decimal4,11)
+// #124: ;
+// #125: ;
+// #126: ;
+// #127: ;
+// #128: ;Useful data constants
+// #129: ;
+// #130: CONSTANT(VREF_lsb,114) ;Reference voltage in milli-volts
+// #131: CONSTANT(VREF_msb,6) ;Nominal value 1.65v so value is 1650 (0672 hex)
+// #132: ;
+// #133: ;Constant to define a software delay of 1us. This must be adjusted to reflect the
+// #134: ;clock applied to KCPSM3. Every instruction executes in 2 clock cycles making the
+// #135: ;calculation highly predictable. The '6' in the following equation even allows for
+// #136: ;'CALL delay_1us' instruction in the initiating code.
+// #137: ;
+// #138: ; delay_1us_constant =  (clock_rate - 6)/4       Where 'clock_rate' is in MHz
+// #139: ;
+// #140: ;Example: For a 50MHz clock the constant value is (10-6)/4 = 11  (0B Hex).
+// #141: ;For clock rates below 10MHz the value of 1 must be used and the operation will
+// #142: ;become lower than intended.
+// #143: ;
+// #144: CONSTANT(delay_1us_constant,11)
+// #145: ;
+// #146: ;
+// #147: ;
+// #148: ;ASCII table
+// #149: ;
+// #150: CONSTANT(character_a,97)
+// #151: CONSTANT(character_b,98)
+// #152: CONSTANT(character_c,99)
+// #153: CONSTANT(character_d,100)
+// #154: CONSTANT(character_e,101)
+// #155: CONSTANT(character_f,102)
+// #156: CONSTANT(character_g,103)
+// #157: CONSTANT(character_h,104)
+// #158: CONSTANT(character_i,105)
+// #159: CONSTANT(character_j,106)
+// #160: CONSTANT(character_k,107)
+// #161: CONSTANT(character_l,108)
+// #162: CONSTANT(character_m,109)
+// #163: CONSTANT(character_n,110)
+// #164: CONSTANT(character_o,111)
+// #165: CONSTANT(character_p,112)
+// #166: CONSTANT(character_q,113)
+// #167: CONSTANT(character_r,114)
+// #168: CONSTANT(character_s,115)
+// #169: CONSTANT(character_t,116)
+// #170: CONSTANT(character_u,117)
+// #171: CONSTANT(character_v,118)
+// #172: CONSTANT(character_w,119)
+// #173: CONSTANT(character_x,120)
+// #174: CONSTANT(character_y,121)
+// #175: CONSTANT(character_z,122)
+// #176: CONSTANT(character_A,65)
+// #177: CONSTANT(character_B,66)
+// #178: CONSTANT(character_C,67)
+// #179: CONSTANT(character_D,68)
+// #180: CONSTANT(character_E,69)
+// #181: CONSTANT(character_F,70)
+// #182: CONSTANT(character_G,71)
+// #183: CONSTANT(character_H,72)
+// #184: CONSTANT(character_I,73)
+// #185: CONSTANT(character_J,74)
+// #186: CONSTANT(character_K,75)
+// #187: CONSTANT(character_L,76)
+// #188: CONSTANT(character_M,77)
+// #189: CONSTANT(character_N,78)
+// #190: CONSTANT(character_O,79)
+// #191: CONSTANT(character_P,80)
+// #192: CONSTANT(character_Q,81)
+// #193: CONSTANT(character_R,82)
+// #194: CONSTANT(character_S,83)
+// #195: CONSTANT(character_T,84)
+// #196: CONSTANT(character_U,85)
+// #197: CONSTANT(character_V,86)
+// #198: CONSTANT(character_W,87)
+// #199: CONSTANT(character_X,88)
+// #200: CONSTANT(character_Y,89)
+// #201: CONSTANT(character_Z,90)
+// #202: CONSTANT(character_0,48)
+// #203: CONSTANT(character_1,49)
+// #204: CONSTANT(character_2,50)
+// #205: CONSTANT(character_3,51)
+// #206: CONSTANT(character_4,52)
+// #207: CONSTANT(character_5,53)
+// #208: CONSTANT(character_6,54)
+// #209: CONSTANT(character_7,55)
+// #210: CONSTANT(character_8,56)
+// #211: CONSTANT(character_9,57)
+// #212: CONSTANT(character_colon,58)
+// #213: CONSTANT(character_stop,46)
+// #214: CONSTANT(character_semi_colon,59)
+// #215: CONSTANT(character_minus,45)
+// #216: CONSTANT(character_divide,47) ;'/'
+// #217: CONSTANT(character_plus,43)
+// #218: CONSTANT(character_comma,44)
+// #219: CONSTANT(character_less_than,60)
+// #220: CONSTANT(character_greater_than,62)
+// #221: CONSTANT(character_equals,61)
+// #222: CONSTANT(character_space,32)
+// #223: CONSTANT(character_CR,13) ;carriage return
+// #224: CONSTANT(character_question,63) ;'?'
+// #225: CONSTANT(character_dollar,36)
+// #226: CONSTANT(character_exclaim,33) ;'!'
+// #227: CONSTANT(character_BS,8) ;Back Space command character
+// #228: ;
+// #229: ;
+// #230: ;
+// #231: ;
+// #232: ;
+// #233: ;
+// #234: ;Initialise the system
+// #235: ;
+// #236: ;
+// @000 #237: [cold_start]
+3011f // @000 #237: CALL(SPI_init) ;initialise SPI bus ports
+301fb // @001 #238: CALL(LCD_reset) ;initialise LCD display
+// #239: ;
+// #240: ;Write welcome message to LCD display
+// #241: ;
+00510 // @002 #242: LOAD(s5,16) ;Line 1 position 0
+30211 // @003 #243: CALL(LCD_cursor)
+3014e // @004 #244: CALL(disp_PicoBlaze) ;Display 'PicoBlaze Inside'
+00523 // @005 #245: LOAD(s5,35) ;Line 2 position 3
+30211 // @006 #246: CALL(LCD_cursor)
+30161 // @007 #247: CALL(disp_ADC_Control)
+301b3 // @008 #248: CALL(delay_1s) ;wait 5 seconds
+301b3 // @009 #249: CALL(delay_1s)
+301b3 // @00a #250: CALL(delay_1s)
+301b3 // @00b #251: CALL(delay_1s)
+301b3 // @00c #252: CALL(delay_1s)
+3020c // @00d #253: CALL(LCD_clear) ;Clear display
+// #254: ;
+00000 // @00e #255: LOAD(s0,0) ;clear event counter
+2e006 // @00f #256: STORE(s0,sample_count)
+// #257: ;
+// #258: ;
+// #259: ;
+// #260: ;
+00001 // @010 #261: LOAD(s0,1) ;set initial amplifier gain to 1 on both channels
+2e004 // @011 #262: STORE(s0,amp_A_gain)
+2e005 // @012 #263: STORE(s0,amp_B_gain)
+34092 // @013 #264: JUMP(new_gain_set) ;set, display the initial gain and enable interrupts
+// #265: ;
+// #266: ;
+// #267: ;The program is interrupt driven to maintain an 8KHz sample rate. The main body
+// #268: ;of the program waits for an interrupt to occur. The interrupt updates all four
+// #269: ;analogue outputs with values stored in scratch pad memory. This takes approximately
+// #270: ;58us of the 125us available between interrupts. The main program then prepares
+// #271: ;new values for the analogue outputs (in less than 67us) before waiting for the
+// #272: ;next interrupt.
+// #273: ;
+// #274: ;
+// @014 #275: [warm_start]
+00fff // @014 #275: LOAD(sF,FF) ;flag set and wait for interrupt to be serviced
+3c001 // @015 #276: ENABLE(INTERRUPT) ;normal operation
+// @016 #277: [wait_int]
+04e00 // @016 #277: INPUT(sE,switch_port) ;test for button press changes to amplifier gain
+12e01 // @017 #278: TEST(sE,BTN_north) ;sE used as this in not effected by ISR
+35486 // @018 #279: JUMP(NZ,gain_increase)
+12e04 // @019 #280: TEST(sE,BTN_south)
+3548d // @01a #281: JUMP(NZ,gain_decrease)
+14fff // @01b #282: COMPARE(sF,FF) ;wait for interrupt
+35016 // @01c #283: JUMP(Z,wait_int) ;interrupt clears the flag
+// #284: ;
+// #285: ;
+// #286: ;
+// #287: ;Drive LEDs with simple binary count of the samples to indicate
+// #288: ;that the design is active.
+// #289: ;
+06006 // @01d #290: FETCH(s0,sample_count) ;increment counter
+18001 // @01e #291: ADD(s0,1)
+2e006 // @01f #292: STORE(s0,sample_count)
+2c080 // @020 #293: OUTPUT(s0,LED_port) ;count increments at 1Hz
+// #294: ;
+// #295: ;
+// #296: ;Display the A/D Channel 0 value as hex on LCD
+// #297: ;
+0052c // @021 #298: LOAD(s5,44) ;Line 2 position 12
+30211 // @022 #299: CALL(LCD_cursor)
+06001 // @023 #300: FETCH(s0,ADC0_msb)
+30199 // @024 #301: CALL(disp_hex_byte)
+06000 // @025 #302: FETCH(s0,ADC0_lsb)
+30199 // @026 #303: CALL(disp_hex_byte)
+// #304: ;
+// #305: ;
+// #306: ;
+// #307: ;Convert A/D channel 0 value to decimal voltage
+// #308: ;
+// #309: ;The 14-bit signed value from the A/D (sign extended to 16-bits)
+// #310: ;relates to a voltage in the range -1.25v to +1.25v at the input
+// #311: ;to the A/D converter relative to the 1.65v mid-rail reference point.
+// #312: ;
+// #313: ;The 14-bit value can be translated into the -1.25v to +1.25v using the
+// #314: ;simple equation...
+// #315: ;
+// #316: ;   ADin = AD_value x 1.25/8192
+// #317: ;
+// #318: ;It is possible to scale the AD_value by 1.25/8192 using a fixed point
+// #319: ;representation.
+// #320: ;
+// #321: ;However, it is also possible to scale it by another factor at the
+// #322: ;same time which nicely converts to a binary value which is readily
+// #323: ;converted to decimal. This can be achieved by example...
+// #324: ;
+// #325: ;For an input to the A/D converter of +1.25v relative to the reference,
+// #326: ;the A/D will output the maximum conversion of 1FFF (+8191).
+// #327: ;
+// #328: ;In this case we would like to have the result value +1.250v which can be represented
+// #329: ;by the integer value +1250 with appropiate positioning of the decimal point.
+// #330: ;The constant to achieve this conversion is +1250/8191=+0.152606...
+// #331: ;Also a number requiring fixed point representation but how many bits to use?
+// #332: ;
+// #333: ;The way to resolve this is to realise that a multiplication will be
+// #334: ;performed and it would be nice if the +1250 result ended up in a register pair.
+// #335: ;So if we perform a 16x16-bit multiplication such that the upper 16-bits of
+// #336: ;the 32-bit result is the required value, then everything will resolve itself.
+// #337: ;
+// #338: ;Hence the constant required is actually (1250x(2^16))/8191=+10001 (2711 hex).
+// #339: ;
+// #340: ;Using the example 1FFF x 2711 = 04E1F8EF
+// #341: ;   of which the upper 16-bits = 04E1 (+1249 decimal)
+// #342: ;
+// #343: ;Likewise the other limit case is E000 x 2711 = FB1DE000
+// #344: ;   of which the upper 16-bits = FB1D (-1251 decimal)
+// #345: ;
+// #346: ;The values can be made perfect by rounding before truncation
+// #347: ;
+06200 // @027 #348: FETCH(s2,ADC0_lsb) ;Read A/D channel 0 value
+06301 // @028 #349: FETCH(s3,ADC0_msb)
+00011 // @029 #350: LOAD(s0,17) ;scaling value for input to A/D converter
+00127 // @02a #351: LOAD(s1,39)
+300e4 // @02b #352: CALL(mult_16x16s) ;[s7,s6,s5,s4]=[s3,s2]x[s1,s0]
+20506 // @02c #353: SL0(s5) ;round value before truncation
+1a600 // @02d #354: ADDCY(s6,0)
+1a700 // @02e #355: ADDCY(s7,0)
+// #356: ;
+// #357: ;The register pair [s7,s6] now holds the binary value
+// #358: ;representing the input level to the A/D converter in milli-volts.
+// #359: ;This is now displayed on the LCD. Negative values need to be converted to
+// #360: ;signed magnitude for display.
+// #361: ;
+00520 // @02f #362: LOAD(s5,32) ;Line 2 position 0
+30211 // @030 #363: CALL(LCD_cursor)
+3017f // @031 #364: CALL(disp_AD) ;display A/D=
+12780 // @032 #365: TEST(s7,128) ;test sign bit of value
+35436 // @033 #366: JUMP(NZ,neg_AD)
+0052b // @034 #367: LOAD(s5,character_plus)
+3403b // @035 #368: JUMP(AD_sign)
+// @036 #369: [neg_AD]
+0e6ff // @036 #369: XOR(s6,FF) ;complement [s7,s6] to make positive
+0e7ff // @037 #370: XOR(s7,FF)
+18601 // @038 #371: ADD(s6,1)
+1a700 // @039 #372: ADDCY(s7,0)
+0052d // @03a #373: LOAD(s5,character_minus)
+// @03b #374: [AD_sign]
+301d1 // @03b #374: CALL(LCD_write_data) ;display sign of value
+30074 // @03c #375: CALL(disp_volts) ;display 4 digit value as X.XXXv
+// #376: ;
+// #377: ;Convert A/D channel 0 value to display the VINA decimal voltage
+// #378: ;
+// #379: ;The same fundamental technique can be used to convert the 14-bit
+// #380: ;A/D value into the level at the VINA input except that two more factors
+// #381: ;must be considered.
+// #382: ;
+// #383: ;The first is that the amplifier inverts and has gain. Therefore the
+// #384: ;VINA input level is opposite polarity and could be a smaller deviation
+// #385: ;from the mid rail 1.65v reference.
+// #386: ;
+// #387: ;Secondly, to display the actual voltage level at the VINA terminal
+// #388: ;the 1.65v offset must be added.
+// #389: ;
+// #390: ;The voltage at the VINA input is therefore...
+// #391: ;
+// #392: ;   VINA = [AD_value x (1.25/(8192 x G))]+1.65
+// #393: ;
+// #394: ;Following the same methodology as for the A/D value, it means that there
+// #395: ;is a set of scaling factors to deal with the negative gain values.
+// #396: ;
+// #397: ; K = (+1250 x (2^16)) / (8191 x G)
+// #398: ;
+// #399: ;        G             K     (K Hex)
+// #400: ;       -1          -10001   (D8EF)
+// #401: ;       -2           -5001   (EC77)
+// #402: ;       -5           -2000   (F830)
+// #403: ;      -10           -1000   (FC18)
+// #404: ;      -20            -500   (FE0C)
+// #405: ;      -50            -200   (FF38)
+// #406: ;     -100            -100   (FF9C)
+// #407: ;
+06200 // @03d #408: FETCH(s2,ADC0_lsb) ;Read A/D channel 0 value
+06301 // @03e #409: FETCH(s3,ADC0_msb)
+06404 // @03f #410: FETCH(s4,amp_A_gain) ;read A gain and select appropiate gain setting
+000ef // @040 #411: LOAD(s0,EF) ;scaling value for amplifier gain of -1
+001d8 // @041 #412: LOAD(s1,D8)
+14401 // @042 #413: COMPARE(s4,1)
+3505a // @043 #414: JUMP(Z,mult_VINA)
+00077 // @044 #415: LOAD(s0,119) ;scaling value for amplifier gain of -2
+001ec // @045 #416: LOAD(s1,EC)
+14402 // @046 #417: COMPARE(s4,2)
+3505a // @047 #418: JUMP(Z,mult_VINA)
+00030 // @048 #419: LOAD(s0,48) ;scaling value for amplifier gain of -5
+001f8 // @049 #420: LOAD(s1,F8)
+14403 // @04a #421: COMPARE(s4,3)
+3505a // @04b #422: JUMP(Z,mult_VINA)
+00018 // @04c #423: LOAD(s0,24) ;scaling value for amplifier gain of -10
+001fc // @04d #424: LOAD(s1,FC)
+14405 // @04e #425: COMPARE(s4,5)
+3505a // @04f #426: JUMP(Z,mult_VINA)
+0000c // @050 #427: LOAD(s0,12) ;scaling value for amplifier gain of -20
+001fe // @051 #428: LOAD(s1,FE)
+14406 // @052 #429: COMPARE(s4,6)
+3505a // @053 #430: JUMP(Z,mult_VINA)
+00038 // @054 #431: LOAD(s0,56) ;scaling value for amplifier gain of -50
+001ff // @055 #432: LOAD(s1,FF)
+14401 // @056 #433: COMPARE(s4,1)
+3505a // @057 #434: JUMP(Z,mult_VINA)
+0009c // @058 #435: LOAD(s0,156) ;scaling value for amplifier gain of -100
+001ff // @059 #436: LOAD(s1,FF)
+// @05a #437: [mult_VINA]
+300e4 // @05a #437: CALL(mult_16x16s) ;[s7,s6,s5,s4]=[s3,s2]x[s1,s0]
+20506 // @05b #438: SL0(s5) ;round value before truncation
+1a600 // @05c #439: ADDCY(s6,0)
+1a700 // @05d #440: ADDCY(s7,0)
+18672 // @05e #441: ADD(s6,VREF_lsb) ;add 1.65v offset represented at 1650 (0672 hex)
+1a706 // @05f #442: ADDCY(s7,VREF_msb)
+// #443: ;
+// #444: ;The register pair [s7,s6] now holds the binary value
+// #445: ;representing the VINA input level in milli-volts.
+// #446: ;This must be a positive value due to the offset of 1.65v
+// #447: ;being greater than the maximum relative range of -1.25v to +1.25v.
+// #448: ;This binary value can now be converted to a decimal digits
+// #449: ;and displayed on the LCD.
+// #450: ;
+// #451: ;If the A/D value is maximum negative (E000) or maximum positive (1FFF)
+// #452: ;then an indication of the actual value being applied being greater or
+// #453: ;less than that computed will be made.
+// #454: ;
+00517 // @060 #455: LOAD(s5,23) ;Line 1 position 7
+30211 // @061 #456: CALL(LCD_cursor)
+30178 // @062 #457: CALL(disp_VA) ;display VA=
+06200 // @063 #458: FETCH(s2,ADC0_lsb) ;Read A/D channel 0 value
+06301 // @064 #459: FETCH(s3,ADC0_msb)
+143e0 // @065 #460: COMPARE(s3,E0) ;test for maximum negative
+3546c // @066 #461: JUMP(NZ,test_max_pos)
+14200 // @067 #462: COMPARE(s2,0)
+3546c // @068 #463: JUMP(NZ,test_max_pos)
+0053e // @069 #464: LOAD(s5,character_greater_than) ;display >
+301d1 // @06a #465: CALL(LCD_write_data)
+34072 // @06b #466: JUMP(disp_VINA_volts)
+// @06c #467: [test_max_pos]
+1431f // @06c #467: COMPARE(s3,31) ;test for maximum positive
+35472 // @06d #468: JUMP(NZ,disp_VINA_volts)
+142ff // @06e #469: COMPARE(s2,FF)
+35472 // @06f #470: JUMP(NZ,disp_VINA_volts)
+0053c // @070 #471: LOAD(s5,character_less_than) ;display <
+301d1 // @071 #472: CALL(LCD_write_data)
+// @072 #473: [disp_VINA_volts]
+30074 // @072 #473: CALL(disp_volts) ;display 4 digit value as X.XXXv
+34014 // @073 #474: JUMP(warm_start)
+// #475: ;
+// #476: ;
+// #477: ;**************************************************************************************
+// #478: ;Display voltage level at in the form X.XXX on the LCD at current cursor position
+// #479: ;**************************************************************************************
+// #480: ;
+// #481: ;Value to be displayed must be unsigned (positive) in the
+// #482: ;[s7,s6] register pair. Only the lower 4 digits are displayed.
+// #483: ;
+// @074 #484: [disp_volts]
+30102 // @074 #484: CALL(integer16_to_BCD) ;convert [s7,s6] to BCD in scratch pad memory
+0650a // @075 #485: FETCH(s5,decimal3)
+18530 // @076 #486: ADD(s5,48) ;convert to ASCII
+301d1 // @077 #487: CALL(LCD_write_data)
+0052e // @078 #488: LOAD(s5,character_stop)
+301d1 // @079 #489: CALL(LCD_write_data)
+06509 // @07a #490: FETCH(s5,decimal2)
+18530 // @07b #491: ADD(s5,48) ;convert to ASCII
+301d1 // @07c #492: CALL(LCD_write_data)
+06508 // @07d #493: FETCH(s5,decimal1)
+18530 // @07e #494: ADD(s5,48) ;convert to ASCII
+301d1 // @07f #495: CALL(LCD_write_data)
+06507 // @080 #496: FETCH(s5,decimal0)
+18530 // @081 #497: ADD(s5,48) ;convert to ASCII
+301d1 // @082 #498: CALL(LCD_write_data)
+00520 // @083 #499: LOAD(s5,character_space) ;ensure next position is cleared
+301d1 // @084 #500: CALL(LCD_write_data)
+2a000 // @085 #501: RETURN
+// #502: ;
+// #503: ;**************************************************************************************
+// #504: ;Changing amplifier gain using press buttons
+// #505: ;**************************************************************************************
+// #506: ;
+// #507: ;Possible gain values are
+// #508: ;   Gain   Amplifier
+// #509: ;            code
+// #510: ;    -1        1
+// #511: ;    -2        2
+// #512: ;    -5        3
+// #513: ;   -10        4
+// #514: ;   -20        5
+// #515: ;   -50        6
+// #516: ;  -100        7
+// #517: ;
+// @086 #518: [gain_increase]
+3c000 // @086 #518: DISABLE(INTERRUPT) ;stop normal operation
+06004 // @087 #519: FETCH(s0,amp_A_gain) ;read current gain
+18001 // @088 #520: ADD(s0,1)
+14008 // @089 #521: COMPARE(s0,8) ;test for too big
+35492 // @08a #522: JUMP(NZ,new_gain_set)
+00007 // @08b #523: LOAD(s0,7) ;maximum gain
+34092 // @08c #524: JUMP(new_gain_set)
+// @08d #525: [gain_decrease]
+3c000 // @08d #525: DISABLE(INTERRUPT) ;stop normal operation
+06004 // @08e #526: FETCH(s0,amp_A_gain) ;read current gain
+1c001 // @08f #527: SUB(s0,1)
+35492 // @090 #528: JUMP(NZ,new_gain_set)
+00001 // @091 #529: LOAD(s0,1) ;minimum gain
+// @092 #530: [new_gain_set]
+2e004 // @092 #530: STORE(s0,amp_A_gain) ;store new value
+06205 // @093 #531: FETCH(s2,amp_B_gain) ;form the amplifier control byte
+20206 // @094 #532: SL0(s2) ;B amplifier set by upper 4 bits
+20206 // @095 #533: SL0(s2)
+20206 // @096 #534: SL0(s2)
+20206 // @097 #535: SL0(s2)
+0d200 // @098 #536: OR(s2,s0) ;A amplifier set by lower
+30122 // @099 #537: CALL(set_amp) ;set SPI amplifier
+// #538: ;display gain setting on LCD
+00510 // @09a #539: LOAD(s5,16) ;Line 1 position 0
+30211 // @09b #540: CALL(LCD_cursor)
+00547 // @09c #541: LOAD(s5,character_G)
+301d1 // @09d #542: CALL(LCD_write_data)
+0053d // @09e #543: LOAD(s5,character_equals)
+301d1 // @09f #544: CALL(LCD_write_data)
+0052d // @0a0 #545: LOAD(s5,character_minus)
+301d1 // @0a1 #546: CALL(LCD_write_data)
+06004 // @0a2 #547: FETCH(s0,amp_A_gain) ;read A gain setting
+14001 // @0a3 #548: COMPARE(s0,1) ;determine actual gain value
+354ac // @0a4 #549: JUMP(NZ,test_A2)
+00531 // @0a5 #550: LOAD(s5,character_1) ;gain is -1
+301d1 // @0a6 #551: CALL(LCD_write_data)
+00520 // @0a7 #552: LOAD(s5,character_space)
+301d1 // @0a8 #553: CALL(LCD_write_data)
+00520 // @0a9 #554: LOAD(s5,character_space)
+301d1 // @0aa #555: CALL(LCD_write_data)
+340df // @0ab #556: JUMP(wait_no_press)
+// @0ac #557: [test_A2]
+14002 // @0ac #557: COMPARE(s0,2)
+354b5 // @0ad #558: JUMP(NZ,test_A3)
+00532 // @0ae #559: LOAD(s5,character_2) ;gain is -2
+301d1 // @0af #560: CALL(LCD_write_data)
+00520 // @0b0 #561: LOAD(s5,character_space)
+301d1 // @0b1 #562: CALL(LCD_write_data)
+00520 // @0b2 #563: LOAD(s5,character_space)
+301d1 // @0b3 #564: CALL(LCD_write_data)
+340df // @0b4 #565: JUMP(wait_no_press)
+// @0b5 #566: [test_A3]
+14003 // @0b5 #566: COMPARE(s0,3)
+354be // @0b6 #567: JUMP(NZ,test_A4)
+00535 // @0b7 #568: LOAD(s5,character_5) ;gain is -5
+301d1 // @0b8 #569: CALL(LCD_write_data)
+00520 // @0b9 #570: LOAD(s5,character_space)
+301d1 // @0ba #571: CALL(LCD_write_data)
+00520 // @0bb #572: LOAD(s5,character_space)
+301d1 // @0bc #573: CALL(LCD_write_data)
+340df // @0bd #574: JUMP(wait_no_press)
+// @0be #575: [test_A4]
+14004 // @0be #575: COMPARE(s0,4)
+354c7 // @0bf #576: JUMP(NZ,test_A5)
+00531 // @0c0 #577: LOAD(s5,character_1) ;gain is -10
+301d1 // @0c1 #578: CALL(LCD_write_data)
+00530 // @0c2 #579: LOAD(s5,character_0)
+301d1 // @0c3 #580: CALL(LCD_write_data)
+00520 // @0c4 #581: LOAD(s5,character_space)
+301d1 // @0c5 #582: CALL(LCD_write_data)
+340df // @0c6 #583: JUMP(wait_no_press)
+// @0c7 #584: [test_A5]
+14005 // @0c7 #584: COMPARE(s0,5)
+354d0 // @0c8 #585: JUMP(NZ,test_A6)
+00532 // @0c9 #586: LOAD(s5,character_2) ;gain is -20
+301d1 // @0ca #587: CALL(LCD_write_data)
+00530 // @0cb #588: LOAD(s5,character_0)
+301d1 // @0cc #589: CALL(LCD_write_data)
+00520 // @0cd #590: LOAD(s5,character_space)
+301d1 // @0ce #591: CALL(LCD_write_data)
+340df // @0cf #592: JUMP(wait_no_press)
+// @0d0 #593: [test_A6]
+14006 // @0d0 #593: COMPARE(s0,6)
+354d9 // @0d1 #594: JUMP(NZ,gain_A7)
+00535 // @0d2 #595: LOAD(s5,character_5) ;gain is -50
+301d1 // @0d3 #596: CALL(LCD_write_data)
+00530 // @0d4 #597: LOAD(s5,character_0)
+301d1 // @0d5 #598: CALL(LCD_write_data)
+00520 // @0d6 #599: LOAD(s5,character_space)
+301d1 // @0d7 #600: CALL(LCD_write_data)
+340df // @0d8 #601: JUMP(wait_no_press)
+// @0d9 #602: [gain_A7]
+00531 // @0d9 #602: LOAD(s5,character_1) ;gain is -100
+301d1 // @0da #603: CALL(LCD_write_data)
+00530 // @0db #604: LOAD(s5,character_0)
+301d1 // @0dc #605: CALL(LCD_write_data)
+00530 // @0dd #606: LOAD(s5,character_0)
+301d1 // @0de #607: CALL(LCD_write_data)
+// @0df #608: [wait_no_press]
+301ae // @0df #608: CALL(delay_20ms) ;delay to help avoid switch bounce
+04000 // @0e0 #609: INPUT(s0,switch_port) ;check for release of press buttons
+12005 // @0e1 #610: TEST(s0,5) ;north and south buttons
+354df // @0e2 #611: JUMP(NZ,wait_no_press)
+34014 // @0e3 #612: JUMP(warm_start)
+// #613: ;
+// #614: ;**************************************************************************************
+// #615: ;16-bit by 16-bit Signed multiplier
+// #616: ;**************************************************************************************
+// #617: ;
+// #618: ;16 bit signed multiplication using shift and add technique.
+// #619: ;The full precision 32-bit product is returned.
+// #620: ;
+// #621: ;The key to signed multiplication is to think of all bits of the second operand
+// #622: ;[s1,s0] as being positive except for the most significant bit. This means that
+// #623: ;the first operand is added to the result in all cases when there is a '1' in the
+// #624: ;second operand except for the MSB case when the first operand is subtracted if there
+// #625: ;is a '1'.
+// #626: ;
+// #627: ;[s7,s6,s5,s4]=[s3,s2]x[s1,s0]
+// #628: ;
+// #629: ;Registers used s0,s1,s2,s3,s4,s5,s6,s7,s8,s9,sA
+// #630: ;
+// @0e4 #631: [mult_16x16s]
+00700 // @0e4 #631: LOAD(s7,0) ;clear accumulator
+00600 // @0e5 #632: LOAD(s6,0)
+00500 // @0e6 #633: LOAD(s5,0) ;Set bit 14 to act as a bit shift counter
+00400 // @0e7 #634: LOAD(s4,0)
+00800 // @0e8 #635: LOAD(s8,0) ;sign extend [s3,s2] to form [s9,s8,s3,s2]
+12380 // @0e9 #636: TEST(s3,128) ;test sign of first operand
+350ec // @0ea #637: JUMP(Z,m16s_pos)
+008ff // @0eb #638: LOAD(s8,FF)
+// @0ec #639: [m16s_pos]
+01980 // @0ec #639: LOAD(s9,s8) ;[s9,s8,s3,s2]=0000xxxx or FFFFxxxx as required
+00a0f // @0ed #640: LOAD(sA,15) ;15 positive shift and add operations to perform
+// @0ee #641: [m16s_loop]
+2010e // @0ee #641: SR0(s1) ;shift right operand [s1,s0]
+20008 // @0ef #642: SRA(s0)
+35cf5 // @0f0 #643: JUMP(NC,m16s_noadd) ;test for a '1'
+19420 // @0f1 #644: ADD(s4,s2) ;32-bit addition [s7,s6,s5,s4]=[s7,s6,s5,s4]+[s9,s8,s3,s2]
+1b530 // @0f2 #645: ADDCY(s5,s3)
+1b680 // @0f3 #646: ADDCY(s6,s8)
+1b790 // @0f4 #647: ADDCY(s7,s9)
+// @0f5 #648: [m16s_noadd]
+20206 // @0f5 #648: SL0(s2) ;multiply first operand by 2
+20300 // @0f6 #649: SLA(s3)
+20800 // @0f7 #650: SLA(s8)
+20900 // @0f8 #651: SLA(s9)
+1ca01 // @0f9 #652: SUB(sA,1)
+354ee // @0fa #653: JUMP(NZ,m16s_loop) ;move to next unsigned bit
+12001 // @0fb #654: TEST(s0,1) ;test sign bit of operand [s1,s0]
+35d01 // @0fc #655: JUMP(NC,m16s_nosub)
+1d420 // @0fd #656: SUB(s4,s2) ;32-bit subtraction [s7,s6,s5,s4]=[s7,s6,s5,s4]-[s9,s8,s3,s2]
+1f530 // @0fe #657: SUBCY(s5,s3)
+1f680 // @0ff #658: SUBCY(s6,s8)
+1f790 // @100 #659: SUBCY(s7,s9)
+// @101 #660: [m16s_nosub]
+2a000 // @101 #660: RETURN
+// #661: ;
+// #662: ;
+// #663: ;
+// #664: ;**************************************************************************************
+// #665: ;16-bit positive integer to 5 digit decimal conversion
+// #666: ;**************************************************************************************
+// #667: ;
+// #668: ;Convert the 16 bit value in register set [s7,s6]
+// #669: ;into the BCD decimal equivalent located in the scratch pad memory
+// #670: ;locations 'decimal0' to 'decimal4' which must be in ascending locations.
+// #671: ;
+// #672: ;Register set [s9,s8,s7,s6] are preserved.
+// #673: ;
+// #674: ;
+// #675: ;Each digit is formed in turn starting with the least significant.
+// #676: ;
+// #677: ;Registers used s0,s1,s2,s3,s4,s5,s6,s7,s8
+// #678: ;
+// @102 #679: [integer16_to_BCD]
+00005 // @102 #679: LOAD(s0,5) ;5 digits to be formed from value up to 65535
+00807 // @103 #680: LOAD(s8,decimal0) ;pointer for LS-Digit
+// @104 #681: [int_to_BCD_loop]
+3010a // @104 #681: CALL(divide_16bit_by_10) ;[s7,s6]=[s7,s6]/10  with remainder in s4
+2f480 // @105 #682: STORE(s4,s8) ;remainder becomes digit value
+18801 // @106 #683: ADD(s8,1) ;move to next most significant digit
+1c001 // @107 #684: SUB(s0,1) ;one less digit to compute
+35504 // @108 #685: JUMP(NZ,int_to_BCD_loop)
+2a000 // @109 #686: RETURN
+// #687: ;
+// #688: ;Divide 16-bit binary integer by 10
+// #689: ;
+// #690: ;The value to be divided is held in register set [s7,s6]
+// #691: ;and this is where the result is returned to.
+// #692: ;
+// #693: ;At then end of the integer division the remainder in the range 0 to 9
+// #694: ;will be in register s4.
+// #695: ;
+// #696: ;Registers used s1,s2,s3,s4,s5,s6,s7
+// #697: ;Other registers are used but are preserved
+// #698: ;
+// @10a #699: [divide_16bit_by_10]
+01460 // @10a #699: LOAD(s4,s6) ;copy input value to [s5,s4]
+01570 // @10b #700: LOAD(s5,s7)
+00600 // @10c #701: LOAD(s6,0) ;clear result
+00700 // @10d #702: LOAD(s7,0)
+00200 // @10e #703: LOAD(s2,0) ;initialise '10' value into msb's of set [s3,s2]
+003a0 // @10f #704: LOAD(s3,A0)
+0010d // @110 #705: LOAD(s1,13) ;13 subtract and shift iterations to be performed
+// @111 #706: [div10_loop]
+1d420 // @111 #706: SUB(s4,s2) ;perform 16-bit subtract [s5,s4]-[s3,s2]
+1f530 // @112 #707: SUBCY(s5,s3)
+35916 // @113 #708: JUMP(C,div10_restore)
+20607 // @114 #709: SL1(s6) ;shift '1' into result because subtract was possible
+34119 // @115 #710: JUMP(div10_shifts)
+// @116 #711: [div10_restore]
+19420 // @116 #711: ADD(s4,s2) ;perform 32-bit addition [s5,s4]+[s3,s2]
+1b530 // @117 #712: ADDCY(s5,s3) ;to restore value
+20606 // @118 #713: SL0(s6) ;shift '0' into result because subtract was not possible
+// @119 #714: [div10_shifts]
+20700 // @119 #714: SLA(s7) ;complete 16-bit shift left
+2030e // @11a #715: SR0(s3) ;divide '10' value by 2 (shift right 1 place)
+20208 // @11b #716: SRA(s2)
+1c101 // @11c #717: SUB(s1,1) ;count iterations
+35511 // @11d #718: JUMP(NZ,div10_loop)
+2a000 // @11e #719: RETURN
+// #720: ;
+// #721: ;
+// #722: ;**************************************************************************************
+// #723: ;SPI communication routines for Spartan-3E Starter Kit
+// #724: ;**************************************************************************************
+// #725: ;
+// #726: ;These routines will work with two output ports and one input port which should be
+// #727: ;defined as follows using CONSTANT directives.
+// #728: ;   (replace 'pp' with appropriate port address in each case)
+// #729: ;In the list of CONSTANT directives, there are ports associated with all the SPI devices
+// #730: ;provided on the board. Even if some devices are not used, it is vital that the remaining
+// #731: ;devices are disabled. Leaving all signals connected and use of these routines will ensure
+// #732: ;that all other devices are disabled when communicating with a particular device.
+// #733: ;
+// #734: ;
+// #735: ;
+// #736: ;CONSTANT SPI_control_port, pp       ;SPI clock and chip selects
+// #737: ;CONSTANT SPI_sck, 01                ;                  SCK - bit0
+// #738: ;CONSTANT SPI_rom_cs, 02             ;    serial rom select - bit1
+// #739: ;CONSTANT SPI_spare_control, 04      ;                spare - bit2
+// #740: ;CONSTANT SPI_amp_cs, 08             ;     amplifier select - bit3
+// #741: ;CONSTANT SPI_adc_conv, 10           ;          A/D convert - bit4
+// #742: ;CONSTANT SPI_dac_cs, 20             ;           D/A select - bit5
+// #743: ;CONSTANT SPI_amp_shdn, 40           ;       amplifier SHDN - bit6
+// #744: ;CONSTANT SPI_dac_clr, 80            ;            D/A clear - bit7
+// #745: ;
+// #746: ;CONSTANT SPI_output_port, pp        ;SPI data output
+// #747: ;CONSTANT SPI_sdo, 80                ;   SDO - bit7
+// #748: ;
+// #749: ;CONSTANT SPI_input_port, pp         ;SPI data input
+// #750: ;CONSTANT SPI_sdi, 80                ;             SDI - bit7
+// #751: ;CONSTANT SPI_amp_sdi, 40            ;   amplifier SDI - bit6
+// #752: ;
+// #753: ;
+// #754: ;
+// #755: ;
+// #756: ;Initialise SPI bus
+// #757: ;
+// #758: ;This routine should be used to initialise the SPI bus.
+// #759: ;The SCK clock is made low.
+// #760: ;Device selections are made inactive as follows
+// #761: ;   SPI_sck      = 0      Clock is Low (required)
+// #762: ;   SPI_rom_cs   = 1      Deselect ROM
+// #763: ;   spare        = 1      spare control bit
+// #764: ;   SPI_amp_cs   = 1      Deselect amplifier
+// #765: ;   SPI_adc_conv = 0      A/D convert ready to apply positive pulse
+// #766: ;   SPI_dac_cs   = 1      Deselect D/A
+// #767: ;   SPI_amp_shdn = 0      Amplifier active and available
+// #768: ;   SPI_dac_clr  = 1      D/A clear off
+// #769: ;
+// @11f #770: [SPI_init]
+000ae // @11f #770: LOAD(s0,AE) ;normally AE
+2c008 // @120 #771: OUTPUT(s0,SPI_control_port)
+2a000 // @121 #772: RETURN
+// #773: ;
+// #774: ;
+// #775: ;
+// #776: ;
+// #777: ;**************************************************************************************
+// #778: ;SPI communication routines for Programmable Amplifier
+// #779: ;**************************************************************************************
+// #780: ;
+// #781: ;
+// #782: ;Set the A and B channel gain of the Dual Amplifier (LTC6912-1).
+// #783: ;
+// #784: ;The gain value should be provided in the s2 register with the upper nibble
+// #785: ;defining the gain for the B channel and lower nibble the gain for the A channel.
+// #786: ; 0000 = 0 hex = Gain  0 with input hi-Z and output driving
+// #787: ; 0001 = 1 hex = Gain -1
+// #788: ; 0010 = 2 hex = Gain -2
+// #789: ; 0011 = 3 hex = Gain -5
+// #790: ; 0100 = 4 hex = Gain -10
+// #791: ; 0101 = 5 hex = Gain -20
+// #792: ; 0110 = 6 hex = Gain -50
+// #793: ; 0111 = 7 hex = Gain -100
+// #794: ; 1000 = 8 hex = software shutdown (power on default). Hi-Z output.
+// #795: ;
+// #796: ;On return, the s2, register will contain the response from the LTC6912-1 amplifier.
+// #797: ;This will be the same format and indicate the previous setting of the amplifier.
+// #798: ;The response is obtained from the dedicated AMP_SDI signal since the LTC6912 output
+// #799: ;is always active and can not be on a shared SPI bus.
+// #800: ;
+// @122 #801: [set_amp]
+3011f // @122 #801: CALL(SPI_init) ;ensure known state of bus and s0 register
+0e008 // @123 #802: XOR(s0,SPI_amp_cs) ;select low on Amplifier chip select
+2c008 // @124 #803: OUTPUT(s0,SPI_control_port)
+00108 // @125 #804: LOAD(s1,8) ;8-bits to transmit and receive
+// @126 #805: [next_amp_SPI_bit]
+2c204 // @126 #805: OUTPUT(s2,SPI_output_port) ;output data bit
+0e001 // @127 #806: XOR(s0,SPI_sck) ;clock High (bit0)
+2c008 // @128 #807: OUTPUT(s0,SPI_control_port) ;drive clock High
+04301 // @129 #808: INPUT(s3,SPI_input_port) ;read input bit
+12340 // @12a #809: TEST(s3,SPI_amp_sdi) ;detect state of received bit
+20200 // @12b #810: SLA(s2) ;shift new data into result and move to next transmit bit
+0e001 // @12c #811: XOR(s0,SPI_sck) ;clock Low (bit0)
+2c008 // @12d #812: OUTPUT(s0,SPI_control_port) ;drive clock Low
+1c101 // @12e #813: SUB(s1,1) ;count bits
+35526 // @12f #814: JUMP(NZ,next_amp_SPI_bit) ;repeat until finished
+0e008 // @130 #815: XOR(s0,SPI_amp_cs) ;deselect the amplifier
+2c008 // @131 #816: OUTPUT(s0,SPI_control_port)
+2a000 // @132 #817: RETURN
+// #818: ;
+// #819: ;
+// #820: ;
+// #821: ;**************************************************************************************
+// #822: ;SPI communication routines for A/D Converter
+// #823: ;**************************************************************************************
+// #824: ;
+// #825: ;
+// #826: ;
+// #827: ;Sample A/D converter (LTC1407A-1) and return results.
+// #828: ;
+// #829: ;Note there is a latency of one read to obtain the value. Each read results in the
+// #830: ;the analogue inputs being sampled and converted but this value will only be transmitted
+// #831: ;during the next read and conversion cycle.
+// #832: ;
+// #833: ;The results are returned as follows.
+// #834: ;   Channel 0 in registers [s9,s8]
+// #835: ;   Channel 1 in registers [s7,s6]
+// #836: ;Where each is a 14-bit twos complement value sign extended to 16-bits.
+// #837: ;
+// #838: ;Each 14-bit value represents the analogue voltage in the range -1.25v to +1.25v
+// #839: ;relative to the reference voltage of 1.65v (3.3v/2). Hence the actual input voltage
+// #840: ;range is 0.4v to 2.9v. Since the input to the A/D is supplied via the programmable
+// #841: ;amplifier, the VINA and VINB inputs are inverted and may cover a smaller range if                       ;
+// #842: ;desired.
+// #843: ;
+// #844: ;Examples
+// #845: ;   VINA = 0.65v with gain=-1 means input to A/D = 2.65v
+// #846: ;      This is equivalent to +1.00v which is value (8192/1.25)*1 = 6553 (1999 hex)
+// #847: ;
+// #848: ;   VINA = 2.65v with gain=-1 means input to A/D = 0.65v
+// #849: ;      This is equivalent to -1.00v which is value (2048/1.25)*-1 = -6553 (E667 hex)
+// #850: ;
+// #851: ;
+// #852: ;Although the A/D converter claims to be an SPI device, it really
+// #853: ;does not conform to the normal specification of the 4-wire interface.
+// #854: ;
+// #855: ;Firstly the CONV signal is only pulsed High and does not behave like
+// #856: ;a normal active low select signal. Secondly, the communication is
+// #857: ;34 bits which does not fit a byte boundary, and thirdly, the data output
+// #858: ;to its SDO pin changes as a result of rising edges of SCK clock which
+// #859: ;is not the same as the falling edge used by other devices.
+// #860: ;
+// @133 #861: [adc_read]
+3011f // @133 #861: CALL(SPI_init) ;ensure known state of bus and s0 register
+0e010 // @134 #862: XOR(s0,SPI_adc_conv) ;Pulse AD-CONV High to take sample and start
+2c008 // @135 #863: OUTPUT(s0,SPI_control_port) ;  conversion and transmission of data.
+0e010 // @136 #864: XOR(s0,SPI_adc_conv) ;AD-CONV Low
+2c008 // @137 #865: OUTPUT(s0,SPI_control_port)
+00122 // @138 #866: LOAD(s1,34) ;34 clocks to read all data
+// @139 #867: [next_adc_bit]
+0e001 // @139 #867: XOR(s0,SPI_sck) ;clock High (bit0)
+2c008 // @13a #868: OUTPUT(s0,SPI_control_port) ;drive clock High
+0e001 // @13b #869: XOR(s0,SPI_sck) ;clock Low (bit0)
+2c008 // @13c #870: OUTPUT(s0,SPI_control_port) ;drive clock Low
+04301 // @13d #871: INPUT(s3,SPI_input_port) ;read input bit
+12380 // @13e #872: TEST(s3,SPI_sdi) ;detect state of received bit
+20600 // @13f #873: SLA(s6) ;shift new data into result registers
+20700 // @140 #874: SLA(s7)
+20800 // @141 #875: SLA(s8)
+20900 // @142 #876: SLA(s9)
+1c101 // @143 #877: SUB(s1,1) ;count bits
+35539 // @144 #878: JUMP(NZ,next_adc_bit) ;repeat until finished
+2090a // @145 #879: SRX(s9) ;sign extend 14-bit result in [s9,s8]
+20808 // @146 #880: SRA(s8)
+2090a // @147 #881: SRX(s9)
+20808 // @148 #882: SRA(s8)
+2070a // @149 #883: SRX(s7) ;sign extend 14-bit result in [s7,s6]
+20608 // @14a #884: SRA(s6)
+2070a // @14b #885: SRX(s7)
+20608 // @14c #886: SRA(s6)
+2a000 // @14d #887: RETURN
+// #888: ;
+// #889: ;
+// #890: ;**************************************************************************************
+// #891: ;LCD text messages
+// #892: ;**************************************************************************************
+// #893: ;
+// #894: ;
+// #895: ;Display 'PicoBlaze' on LCD at current cursor position
+// #896: ;
+// #897: ;
+// @14e #898: [disp_PicoBlaze]
+00550 // @14e #898: LOAD(s5,character_P)
+301d1 // @14f #899: CALL(LCD_write_data)
+00569 // @150 #900: LOAD(s5,character_i)
+301d1 // @151 #901: CALL(LCD_write_data)
+00563 // @152 #902: LOAD(s5,character_c)
+301d1 // @153 #903: CALL(LCD_write_data)
+0056f // @154 #904: LOAD(s5,character_o)
+301d1 // @155 #905: CALL(LCD_write_data)
+00542 // @156 #906: LOAD(s5,character_B)
+301d1 // @157 #907: CALL(LCD_write_data)
+0056c // @158 #908: LOAD(s5,character_l)
+301d1 // @159 #909: CALL(LCD_write_data)
+00561 // @15a #910: LOAD(s5,character_a)
+301d1 // @15b #911: CALL(LCD_write_data)
+0057a // @15c #912: LOAD(s5,character_z)
+301d1 // @15d #913: CALL(LCD_write_data)
+00565 // @15e #914: LOAD(s5,character_e)
+301d1 // @15f #915: CALL(LCD_write_data)
+2a000 // @160 #916: RETURN
+// #917: ;
+// #918: ;
+// #919: ;Display 'ADC Control' on LCD at current cursor position
+// #920: ;
+// #921: ;
+// @161 #922: [disp_ADC_Control]
+00541 // @161 #922: LOAD(s5,character_A)
+301d1 // @162 #923: CALL(LCD_write_data)
+00544 // @163 #924: LOAD(s5,character_D)
+301d1 // @164 #925: CALL(LCD_write_data)
+00543 // @165 #926: LOAD(s5,character_C)
+301d1 // @166 #927: CALL(LCD_write_data)
+00520 // @167 #928: LOAD(s5,character_space)
+301d1 // @168 #929: CALL(LCD_write_data)
+00543 // @169 #930: LOAD(s5,character_C)
+301d1 // @16a #931: CALL(LCD_write_data)
+0056f // @16b #932: LOAD(s5,character_o)
+301d1 // @16c #933: CALL(LCD_write_data)
+0056e // @16d #934: LOAD(s5,character_n)
+301d1 // @16e #935: CALL(LCD_write_data)
+00574 // @16f #936: LOAD(s5,character_t)
+301d1 // @170 #937: CALL(LCD_write_data)
+00572 // @171 #938: LOAD(s5,character_r)
+301d1 // @172 #939: CALL(LCD_write_data)
+0056f // @173 #940: LOAD(s5,character_o)
+301d1 // @174 #941: CALL(LCD_write_data)
+0056c // @175 #942: LOAD(s5,character_l)
+301d1 // @176 #943: CALL(LCD_write_data)
+2a000 // @177 #944: RETURN
+// #945: ;
+// #946: ;
+// #947: ;Display 'VA=' on LCD at current cursor position
+// #948: ;
+// #949: ;
+// @178 #950: [disp_VA]
+00556 // @178 #950: LOAD(s5,character_V)
+301d1 // @179 #951: CALL(LCD_write_data)
+00541 // @17a #952: LOAD(s5,character_A)
+301d1 // @17b #953: CALL(LCD_write_data)
+0053d // @17c #954: LOAD(s5,character_equals)
+301d1 // @17d #955: CALL(LCD_write_data)
+2a000 // @17e #956: RETURN
+// #957: ;
+// #958: ;
+// #959: ;Display 'A/D' on LCD at current cursor position
+// #960: ;
+// #961: ;
+// @17f #962: [disp_AD]
+00541 // @17f #962: LOAD(s5,character_A)
+301d1 // @180 #963: CALL(LCD_write_data)
+0052f // @181 #964: LOAD(s5,character_divide)
+301d1 // @182 #965: CALL(LCD_write_data)
+00544 // @183 #966: LOAD(s5,character_D)
+301d1 // @184 #967: CALL(LCD_write_data)
+0053d // @185 #968: LOAD(s5,character_equals)
+301d1 // @186 #969: CALL(LCD_write_data)
+2a000 // @187 #970: RETURN
+// #971: ;
+// #972: ;
+// #973: ;
+// #974: ;**************************************************************************************
+// #975: ;Value to ASCII Conversions and LCD display
+// #976: ;**************************************************************************************
+// #977: ;
+// #978: ;Convert hexadecimal value provided in register s0 into ASCII characters
+// #979: ;
+// #980: ;The value provided must can be any value in the range 00 to FF and will be converted into
+// #981: ;two ASCII characters.
+// #982: ;     The upper nibble will be represented by an ASCII character returned in register s2.
+// #983: ;     The lower nibble will be represented by an ASCII character returned in register s1.
+// #984: ;
+// #985: ;The ASCII representations of '0' to '9' are 30 to 39 hexadecimal which is simply 30 hex
+// #986: ;added to the actual decimal value. The ASCII representations of 'A' to 'F' are 41 to 46
+// #987: ;hexadecimal requiring a further addition of 07 to the 30 already added.
+// #988: ;
+// #989: ;Registers used s0, s1 and s2.
+// #990: ;
+// @188 #991: [hex_byte_to_ASCII]
+01100 // @188 #991: LOAD(s1,s0) ;remember value supplied
+2000e // @189 #992: SR0(s0) ;isolate upper nibble
+2000e // @18a #993: SR0(s0)
+2000e // @18b #994: SR0(s0)
+2000e // @18c #995: SR0(s0)
+30194 // @18d #996: CALL(hex_to_ASCII) ;convert
+01200 // @18e #997: LOAD(s2,s0) ;upper nibble value in s2
+01010 // @18f #998: LOAD(s0,s1) ;restore complete value
+0a00f // @190 #999: AND(s0,15) ;isolate lower nibble
+30194 // @191 #1000: CALL(hex_to_ASCII) ;convert
+01100 // @192 #1001: LOAD(s1,s0) ;lower nibble value in s1
+2a000 // @193 #1002: RETURN
+// #1003: ;
+// #1004: ;Convert hexadecimal value provided in register s0 into ASCII character
+// #1005: ;
+// #1006: ;Register used s0
+// #1007: ;
+// @194 #1008: [hex_to_ASCII]
+1c00a // @194 #1008: SUB(s0,10) ;test if value is in range 0 to 9
+35997 // @195 #1009: JUMP(C,number_char)
+18007 // @196 #1010: ADD(s0,7) ;ASCII char A to F in range 41 to 46
+// @197 #1011: [number_char]
+1803a // @197 #1011: ADD(s0,58) ;ASCII char 0 to 9 in range 30 to 40
+2a000 // @198 #1012: RETURN
+// #1013: ;
+// #1014: ;
+// #1015: ;Display the two character HEX value of the register contents 's0' on
+// #1016: ;the LCD display at the current cursor position.
+// #1017: ;
+// #1018: ;Registers used s0, s1, s2, s4, s5, s6
+// #1019: ;
+// @199 #1020: [disp_hex_byte]
+30188 // @199 #1020: CALL(hex_byte_to_ASCII)
+01610 // @19a #1021: LOAD(s6,s1) ;remember lower hex character
+01520 // @19b #1022: LOAD(s5,s2) ;display upper hex character
+301d1 // @19c #1023: CALL(LCD_write_data)
+01560 // @19d #1024: LOAD(s5,s6) ;display lower hex character
+301d1 // @19e #1025: CALL(LCD_write_data)
+2a000 // @19f #1026: RETURN
+// #1027: ;
+// #1028: ;
+// #1029: ;**************************************************************************************
+// #1030: ;Software delay routines
+// #1031: ;**************************************************************************************
+// #1032: ;
+// #1033: ;
+// #1034: ;
+// #1035: ;Delay of 1us.
+// #1036: ;
+// #1037: ;Constant value defines reflects the clock applied to KCPSM3. Every instruction
+// #1038: ;executes in 2 clock cycles making the calculation highly predictable. The '6' in
+// #1039: ;the following equation even allows for 'CALL delay_1us' instruction in the initiating code.
+// #1040: ;
+// #1041: ; delay_1us_constant =  (clock_rate - 6)/4       Where 'clock_rate' is in MHz
+// #1042: ;
+// #1043: ;Registers used s0
+// #1044: ;
+// @1a0 #1045: [delay_1us]
+0000b // @1a0 #1045: LOAD(s0,delay_1us_constant)
+// @1a1 #1046: [wait_1us]
+1c001 // @1a1 #1046: SUB(s0,1)
+355a1 // @1a2 #1047: JUMP(NZ,wait_1us)
+2a000 // @1a3 #1048: RETURN
+// #1049: ;
+// #1050: ;Delay of 40us.
+// #1051: ;
+// #1052: ;Registers used s0, s1
+// #1053: ;
+// @1a4 #1054: [delay_40us]
+00128 // @1a4 #1054: LOAD(s1,40) ;40 x 1us = 40us
+// @1a5 #1055: [wait_40us]
+301a0 // @1a5 #1055: CALL(delay_1us)
+1c101 // @1a6 #1056: SUB(s1,1)
+355a5 // @1a7 #1057: JUMP(NZ,wait_40us)
+2a000 // @1a8 #1058: RETURN
+// #1059: ;
+// #1060: ;
+// #1061: ;Delay of 1ms.
+// #1062: ;
+// #1063: ;Registers used s0, s1, s2
+// #1064: ;
+// @1a9 #1065: [delay_1ms]
+00219 // @1a9 #1065: LOAD(s2,25) ;25 x 40us = 1ms
+// @1aa #1066: [wait_1ms]
+301a4 // @1aa #1066: CALL(delay_40us)
+1c201 // @1ab #1067: SUB(s2,1)
+355aa // @1ac #1068: JUMP(NZ,wait_1ms)
+2a000 // @1ad #1069: RETURN
+// #1070: ;
+// #1071: ;Delay of 20ms.
+// #1072: ;
+// #1073: ;Delay of 20ms used during initialisation.
+// #1074: ;
+// #1075: ;Registers used s0, s1, s2, s3
+// #1076: ;
+// @1ae #1077: [delay_20ms]
+00314 // @1ae #1077: LOAD(s3,20) ;20 x 1ms = 20ms
+// @1af #1078: [wait_20ms]
+301a9 // @1af #1078: CALL(delay_1ms)
+1c301 // @1b0 #1079: SUB(s3,1)
+355af // @1b1 #1080: JUMP(NZ,wait_20ms)
+2a000 // @1b2 #1081: RETURN
+// #1082: ;
+// #1083: ;Delay of approximately 1 second.
+// #1084: ;
+// #1085: ;Registers used s0, s1, s2, s3, s4
+// #1086: ;
+// @1b3 #1087: [delay_1s]
+00432 // @1b3 #1087: LOAD(s4,50) ;50 x 20ms = 1000ms
+// @1b4 #1088: [wait_1s]
+301ae // @1b4 #1088: CALL(delay_20ms)
+1c401 // @1b5 #1089: SUB(s4,1)
+355b4 // @1b6 #1090: JUMP(NZ,wait_1s)
+2a000 // @1b7 #1091: RETURN
+// #1092: ;
+// #1093: ;
+// #1094: ;
+// #1095: ;**************************************************************************************
+// #1096: ;LCD Character Module Routines
+// #1097: ;**************************************************************************************
+// #1098: ;
+// #1099: ;LCD module is a 16 character by 2 line display but all displays are very similar
+// #1100: ;The 4-wire data interface will be used (DB4 to DB7).
+// #1101: ;
+// #1102: ;The LCD modules are relatively slow and software delay loops are used to slow down
+// #1103: ;KCPSM3 adequately for the LCD to communicate. The delay routines are provided in
+// #1104: ;a different section (see above in this case).
+// #1105: ;
+// #1106: ;
+// #1107: ;Pulse LCD enable signal 'E' high for greater than 230ns (1us is used).
+// #1108: ;
+// #1109: ;Register s4 should define the current state of the LCD output port.
+// #1110: ;
+// #1111: ;Registers used s0, s4
+// #1112: ;
+// @1b8 #1113: [LCD_pulse_E]
+0e401 // @1b8 #1113: XOR(s4,LCD_E) ;E=1
+2c440 // @1b9 #1114: OUTPUT(s4,LCD_output_port)
+301a0 // @1ba #1115: CALL(delay_1us)
+0e401 // @1bb #1116: XOR(s4,LCD_E) ;E=0
+2c440 // @1bc #1117: OUTPUT(s4,LCD_output_port)
+2a000 // @1bd #1118: RETURN
+// #1119: ;
+// #1120: ;Write 4-bit instruction to LCD display.
+// #1121: ;
+// #1122: ;The 4-bit instruction should be provided in the upper 4-bits of register s4.
+// #1123: ;Note that this routine does not release the master enable but as it is only
+// #1124: ;used during initialisation and as part of the 8-bit instruction write it
+// #1125: ;should be acceptable.
+// #1126: ;
+// #1127: ;Registers used s4
+// #1128: ;
+// @1be #1129: [LCD_write_inst4]
+0a4f8 // @1be #1129: AND(s4,F8) ;Enable=1 RS=0 Instruction, RW=0 Write, E=0
+2c440 // @1bf #1130: OUTPUT(s4,LCD_output_port) ;set up RS and RW >40ns before enable pulse
+301b8 // @1c0 #1131: CALL(LCD_pulse_E)
+2a000 // @1c1 #1132: RETURN
+// #1133: ;
+// #1134: ;
+// #1135: ;Write 8-bit instruction to LCD display.
+// #1136: ;
+// #1137: ;The 8-bit instruction should be provided in register s5.
+// #1138: ;Instructions are written using the following sequence
+// #1139: ; Upper nibble
+// #1140: ; wait >1us
+// #1141: ; Lower nibble
+// #1142: ; wait >40us
+// #1143: ;
+// #1144: ;Registers used s0, s1, s4, s5
+// #1145: ;
+// @1c2 #1146: [LCD_write_inst8]
+01450 // @1c2 #1146: LOAD(s4,s5)
+0a4f0 // @1c3 #1147: AND(s4,F0) ;Enable=0 RS=0 Instruction, RW=0 Write, E=0
+0c408 // @1c4 #1148: OR(s4,LCD_drive) ;Enable=1
+301be // @1c5 #1149: CALL(LCD_write_inst4) ;write upper nibble
+301a0 // @1c6 #1150: CALL(delay_1us) ;wait >1us
+01450 // @1c7 #1151: LOAD(s4,s5) ;select lower nibble with
+20407 // @1c8 #1152: SL1(s4) ;Enable=1
+20406 // @1c9 #1153: SL0(s4) ;RS=0 Instruction
+20406 // @1ca #1154: SL0(s4) ;RW=0 Write
+20406 // @1cb #1155: SL0(s4) ;E=0
+301be // @1cc #1156: CALL(LCD_write_inst4) ;write lower nibble
+301a4 // @1cd #1157: CALL(delay_40us) ;wait >40us
+004f0 // @1ce #1158: LOAD(s4,F0) ;Enable=0 RS=0 Instruction, RW=0 Write, E=0
+2c440 // @1cf #1159: OUTPUT(s4,LCD_output_port) ;Release master enable
+2a000 // @1d0 #1160: RETURN
+// #1161: ;
+// #1162: ;
+// #1163: ;
+// #1164: ;Write 8-bit data to LCD display.
+// #1165: ;
+// #1166: ;The 8-bit data should be provided in register s5.
+// #1167: ;Data bytes are written using the following sequence
+// #1168: ; Upper nibble
+// #1169: ; wait >1us
+// #1170: ; Lower nibble
+// #1171: ; wait >40us
+// #1172: ;
+// #1173: ;Registers used s0, s1, s4, s5
+// #1174: ;
+// @1d1 #1175: [LCD_write_data]
+01450 // @1d1 #1175: LOAD(s4,s5)
+0a4f0 // @1d2 #1176: AND(s4,F0) ;Enable=0 RS=0 Instruction, RW=0 Write, E=0
+0c40c // @1d3 #1177: OR(s4,12) ;Enable=1 RS=1 Data, RW=0 Write, E=0
+2c440 // @1d4 #1178: OUTPUT(s4,LCD_output_port) ;set up RS and RW >40ns before enable pulse
+301b8 // @1d5 #1179: CALL(LCD_pulse_E) ;write upper nibble
+301a0 // @1d6 #1180: CALL(delay_1us) ;wait >1us
+01450 // @1d7 #1181: LOAD(s4,s5) ;select lower nibble with
+20407 // @1d8 #1182: SL1(s4) ;Enable=1
+20407 // @1d9 #1183: SL1(s4) ;RS=1 Data
+20406 // @1da #1184: SL0(s4) ;RW=0 Write
+20406 // @1db #1185: SL0(s4) ;E=0
+2c440 // @1dc #1186: OUTPUT(s4,LCD_output_port) ;set up RS and RW >40ns before enable pulse
+301b8 // @1dd #1187: CALL(LCD_pulse_E) ;write lower nibble
+301a4 // @1de #1188: CALL(delay_40us) ;wait >40us
+004f0 // @1df #1189: LOAD(s4,F0) ;Enable=0 RS=0 Instruction, RW=0 Write, E=0
+2c440 // @1e0 #1190: OUTPUT(s4,LCD_output_port) ;Release master enable
+2a000 // @1e1 #1191: RETURN
+// #1192: ;
+// #1193: ;
+// #1194: ;
+// #1195: ;
+// #1196: ;Read 8-bit data from LCD display.
+// #1197: ;
+// #1198: ;The 8-bit data will be read from the current LCD memory address
+// #1199: ;and will be returned in register s5.
+// #1200: ;It is advisable to set the LCD address (cursor position) before
+// #1201: ;using the data read for the first time otherwise the display may
+// #1202: ;generate invalid data on the first read.
+// #1203: ;
+// #1204: ;Data bytes are read using the following sequence
+// #1205: ; Upper nibble
+// #1206: ; wait >1us
+// #1207: ; Lower nibble
+// #1208: ; wait >40us
+// #1209: ;
+// #1210: ;Registers used s0, s1, s4, s5
+// #1211: ;
+// @1e2 #1212: [LCD_read_data8]
+0040e // @1e2 #1212: LOAD(s4,14) ;Enable=1 RS=1 Data, RW=1 Read, E=0
+2c440 // @1e3 #1213: OUTPUT(s4,LCD_output_port) ;set up RS and RW >40ns before enable pulse
+0e401 // @1e4 #1214: XOR(s4,LCD_E) ;E=1
+2c440 // @1e5 #1215: OUTPUT(s4,LCD_output_port)
+301a0 // @1e6 #1216: CALL(delay_1us) ;wait >260ns to access data
+04502 // @1e7 #1217: INPUT(s5,LCD_input_port) ;read upper nibble
+0e401 // @1e8 #1218: XOR(s4,LCD_E) ;E=0
+2c440 // @1e9 #1219: OUTPUT(s4,LCD_output_port)
+301a0 // @1ea #1220: CALL(delay_1us) ;wait >1us
+0e401 // @1eb #1221: XOR(s4,LCD_E) ;E=1
+2c440 // @1ec #1222: OUTPUT(s4,LCD_output_port)
+301a0 // @1ed #1223: CALL(delay_1us) ;wait >260ns to access data
+04002 // @1ee #1224: INPUT(s0,LCD_input_port) ;read lower nibble
+0e401 // @1ef #1225: XOR(s4,LCD_E) ;E=0
+2c440 // @1f0 #1226: OUTPUT(s4,LCD_output_port)
+0a5f0 // @1f1 #1227: AND(s5,F0) ;merge upper and lower nibbles
+2000e // @1f2 #1228: SR0(s0)
+2000e // @1f3 #1229: SR0(s0)
+2000e // @1f4 #1230: SR0(s0)
+2000e // @1f5 #1231: SR0(s0)
+0d500 // @1f6 #1232: OR(s5,s0)
+00404 // @1f7 #1233: LOAD(s4,4) ;Enable=0 RS=1 Data, RW=0 Write, E=0
+2c440 // @1f8 #1234: OUTPUT(s4,LCD_output_port) ;Stop reading 5V device and release master enable
+301a4 // @1f9 #1235: CALL(delay_40us) ;wait >40us
+2a000 // @1fa #1236: RETURN
+// #1237: ;
+// #1238: ;
+// #1239: ;Reset and initialise display to communicate using 4-bit data mode
+// #1240: ;Includes routine to clear the display.
+// #1241: ;
+// #1242: ;Requires the 4-bit instructions 3,3,3,2 to be sent with suitable delays
+// #1243: ;following by the 8-bit instructions to set up the display.
+// #1244: ;
+// #1245: ;  28 = '001' Function set, '0' 4-bit mode, '1' 2-line, '0' 5x7 dot matrix, 'xx'
+// #1246: ;  06 = '000001' Entry mode, '1' increment, '0' no display shift
+// #1247: ;  0C = '00001' Display control, '1' display on, '0' cursor off, '0' cursor blink off
+// #1248: ;  01 = '00000001' Display clear
+// #1249: ;
+// #1250: ;Registers used s0, s1, s2, s3, s4
+// #1251: ;
+// @1fb #1252: [LCD_reset]
+301ae // @1fb #1252: CALL(delay_20ms) ;wait more that 15ms for display to be ready
+00430 // @1fc #1253: LOAD(s4,48)
+301be // @1fd #1254: CALL(LCD_write_inst4) ;send '3'
+301ae // @1fe #1255: CALL(delay_20ms) ;wait >4.1ms
+301be // @1ff #1256: CALL(LCD_write_inst4) ;send '3'
+301a9 // @200 #1257: CALL(delay_1ms) ;wait >100us
+301be // @201 #1258: CALL(LCD_write_inst4) ;send '3'
+301a4 // @202 #1259: CALL(delay_40us) ;wait >40us
+00420 // @203 #1260: LOAD(s4,32)
+301be // @204 #1261: CALL(LCD_write_inst4) ;send '2'
+301a4 // @205 #1262: CALL(delay_40us) ;wait >40us
+00528 // @206 #1263: LOAD(s5,40) ;Function set
+301c2 // @207 #1264: CALL(LCD_write_inst8)
+00506 // @208 #1265: LOAD(s5,6) ;Entry mode
+301c2 // @209 #1266: CALL(LCD_write_inst8)
+0050c // @20a #1267: LOAD(s5,12) ;Display control
+301c2 // @20b #1268: CALL(LCD_write_inst8)
+// @20c #1269: [LCD_clear]
+00501 // @20c #1269: LOAD(s5,1) ;Display clear
+301c2 // @20d #1270: CALL(LCD_write_inst8)
+301a9 // @20e #1271: CALL(delay_1ms) ;wait >1.64ms for display to clear
+301a9 // @20f #1272: CALL(delay_1ms)
+2a000 // @210 #1273: RETURN
+// #1274: ;
+// #1275: ;Position the cursor ready for characters to be written.
+// #1276: ;The display is formed of 2 lines of 16 characters and each
+// #1277: ;position has a corresponding address as indicated below.
+// #1278: ;
+// #1279: ;                   Character position
+// #1280: ;           0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+// #1281: ;
+// #1282: ; Line 1 - 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+// #1283: ; Line 2 - C0 C1 C2 C3 C4 C5 C6 C7 C8 C9 CA CB CC CD CE CF
+// #1284: ;
+// #1285: ;This routine will set the cursor position using the value provided
+// #1286: ;in register s5. The upper nibble will define the line and the lower
+// #1287: ;nibble the character position on the line.
+// #1288: ; Example s5 = 2B will position the cursor on line 2 position 11
+// #1289: ;
+// #1290: ;Registers used s0, s1, s2, s3, s4
+// #1291: ;
+// @211 #1292: [LCD_cursor]
+12510 // @211 #1292: TEST(s5,16) ;test for line 1
+35217 // @212 #1293: JUMP(Z,set_line2)
+0a50f // @213 #1294: AND(s5,15) ;make address in range 80 to 8F for line 1
+0c580 // @214 #1295: OR(s5,128)
+301c2 // @215 #1296: CALL(LCD_write_inst8) ;instruction write to set cursor
+2a000 // @216 #1297: RETURN
+// @217 #1298: [set_line2]
+0a50f // @217 #1298: AND(s5,15) ;make address in range C0 to CF for line 2
+0c5c0 // @218 #1299: OR(s5,C0)
+301c2 // @219 #1300: CALL(LCD_write_inst8) ;instruction write to set cursor
+2a000 // @21a #1301: RETURN
+// #1302: ;
+// #1303: ;
+// #1304: ;**************************************************************************************
+// #1305: ;Interrupt Service Routine (ISR)
+// #1306: ;**************************************************************************************
+// #1307: ;
+// #1308: ;Interrupts occur at 1 second intervals.
+// #1309: ;
+// #1310: ;Each interrupt is used to take analogue samples and store them in scratch pad memory.
+// #1311: ;The interrupt clears a 'flag' in register sF so that the main program can advance.
+// #1312: ;
+// @21b #1313: [ISR]
+30133 // @21b #1313: CALL(adc_read) ;read A/D Converter
+2e800 // @21c #1314: STORE(s8,ADC0_lsb) ;store ADC Channel 0
+2e901 // @21d #1315: STORE(s9,ADC0_msb)
+2e602 // @21e #1316: STORE(s6,ADC1_lsb) ;store ADC Channel 1
+2e703 // @21f #1317: STORE(s7,ADC1_msb)
+// #1318: ;
+00f00 // @220 #1319: LOAD(sF,0) ;clear flag
+38001 // @221 #1320: RETURNI(ENABLE)
+// #1321: ;
+// #1322: ;
+// #1323: ;**************************************************************************************
+// #1324: ;Interrupt Vector
+// #1325: ;**************************************************************************************
+// #1326: ;
+@3ff // #1327: ADDRESS(1023)
+3421b // @3ff #1328: JUMP(ISR)
+// #1329: ;
+// #1330: ;

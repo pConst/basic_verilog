@@ -1,0 +1,781 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head>
+<title>pacoblaze.v</title>
+<link rel="Stylesheet" title="v2html stylesheet" media="Screen" href="v2html.css">
+</head>
+<script language="JavaScript" type="text/javascript"><!--
+var agt=navigator.userAgent.toLowerCase(); 
+var is_nav  = ((agt.indexOf('mozilla')!=-1) &&
+(agt.indexOf('spoofer')==-1) &&
+(agt.indexOf('compatible') == -1) &&
+(agt.indexOf('opera')==-1) &&
+(agt.indexOf('webtv')==-1)); 
+var is_major = parseInt(navigator.appVersion); 
+var is_nav4up = (is_nav && (is_major >= 4)); 
+var is_ie     = (agt.indexOf("msie") != -1); 
+var is_ie4up  = (is_ie  && (is_major >= 4)); 
+var is_nav5up = (is_nav && (is_major >= 5));
+var dirSep = (window.location.pathname.indexOf('\\') != -1) ? '\\' : '/' ;
+function setbuttons (wndw) {
+var i;
+var sl=wndw.loc[ wndw.document.forms[0].elements[0].selectedIndex ];
+for (i=0;i<sl.length;i++) {
+if(sl[i]) wndw.document.images[i].src='v2html-b1.gif';
+else      wndw.document.images[i].src='v2html-b2.gif';
+}
+if ( wndw.document.forms[0].elements[0].options[ 
+wndw.document.forms[0].elements[0].selectedIndex ].text != '-') {
+wndw.document.images[i  ].src='v2html-b1.gif';
+wndw.document.images[i+1].src='v2html-b1.gif';
+}
+else {
+wndw.document.images[i  ].src='v2html-b2.gif';
+wndw.document.images[i+1].src='v2html-b2.gif';
+}
+}
+// Unindented and uncommented to save spave - look in v2html for a prettier version
+var disabled=1;
+if (!is_nav4up) {
+var event=false; 
+}
+var last_link=0;     
+var last_class=null; 
+function qs(e,t,extra_info_index) {
+var inc=0,bnum=0,i,j;
+if (disabled) return false;
+var sig_buttons = [ "Definition" , "Local Driver" , 
+"Up to Input Driver" , "Find Source" , "Index"];
+if (is_nav4up || is_ie4up) {
+if (((e.which==2) && (!(e.modifiers&Event.SHIFT_MASK))) ||
+((e.which==1) &&  (e.modifiers&Event.CONTROL_MASK)))   inc = 1;
+else if (((e.which==2) && (e.modifiers&Event.SHIFT_MASK)) ||
+((e.which==1) && (e.modifiers&Event.SHIFT_MASK))) inc = -1;
+if (inc == 0 && extra_info_index == 0) { 
+return true;  
+}
+var linkText = is_nav4up ? t.text : t.innerText;
+var linkY    = is_nav4up && ! is_nav5up ? t.y    : t.offsetTop;
+window.status="Searching...";
+if ((last_link==-1) || (document.links[last_link]!=t)) 
+for (last_link=0;last_link<document.links.length;last_link++) 
+if (document.links[last_link] == t)  
+break;
+if (inc != 0) { 
+return search(linkText,linkY,last_link,inc,1);
+}
+else { 
+window.status="";
+extra_info_index--; 
+if (extra_info[extra_info_index][0] != 'S') { 
+return true;
+}
+var w = window.open('','SignalPopUp','width=200,height=235');
+if (null != w.document.forms[0]) {
+if ((window.location.pathname.substring(0,window.location.pathname.lastIndexOf(dirSep)))!=
+(w.pn.substring(0,w.pn.lastIndexOf(dirSep)))) {
+w.close();
+w = window.open('','SignalPopUp','width=200,height=235');
+}
+}
+w.focus(); 
+if (null == w.document.forms[0]) { 
+var Text = '<html><head></head>';
+if (is_nav4up) { 
+w.loc = new Array(10);
+w.sel = null;
+w.pn  = window.location.pathname;
+}
+else {     
+Text += '<script>var loc = new Array(10);<\/script>\n';
+Text += '<script>var sel;<\/script>\n';
+Text += '<script>var pn = opener.location.pathname;<\/script>\n';
+}
+Text += '<body bgcolor="white">\n';
+Text += '<form>';
+Text += '  <select onchange="opener.setbuttons(window);">\n';
+Text += '  <option>---------------------------</option>\n';
+for (j=0;j<9;j++) Text += '  <option>-</option>\n';
+Text += '  </select>\n';
+Text += '</form>';
+Text += '<table cellspacing=0 cellpadding=0>\n';
+for (var i=0;i<(extra_info[extra_info_index].length-1);i++) {
+Text += hbutton(sig_buttons[i], 
+'opener.location=loc[sel.selectedIndex]['+i+'];',
+bnum++);
+}
+Text += hbutton("Search Backwards", 
+'opener.search(sel.options[ sel.selectedIndex ].text,' +
+'0,opener.last_link,-1,0);',bnum++);
+Text += hbutton("Search Forwards",
+'opener.search(sel.options[ sel.selectedIndex ].text,' +
+'0,opener.last_link, 1,0);',bnum++);
+Text += hbutton("Close","window.close();",bnum++);
+Text += '</table>\n';
+Text += '</body></html>\n';
+w.document.open();
+w.document.write(Text);
+w.document.close();
+w.document.forms[0].elements[0].options[0].text  = linkText;
+w.sel = w.document.forms[0].elements[0]; 
+for (j=0;j<10;j++) w.loc[j] = new Array(sig_buttons.length);  
+copy_into_loc0(w,extra_info_index);
+}
+else {
+var opts = w.document.forms[0].elements[0].options;
+if ( opts.length<10 ) { 
+w.loc[opts.length] = new Array;
+opts.length++; 
+}
+for (i=opts.length-2;i>=0;i--) {
+opts[i+1].text=opts[i].text;
+for (var j=0;j<w.loc[i].length;j++) w.loc[i+1][j] = w.loc[i][j];
+}
+opts[0].text  = linkText;
+copy_into_loc0(w,extra_info_index);
+}
+return false; 
+}
+}
+return true;
+}
+function hbutton (text,action,bnum) {
+return '  <tr><td><a href="" '+
+'onmousedown="'+
+'if (images['+bnum+'].src.match(/v2html-b2.gif/)) return false; ' +
+'images['+bnum+'].src=\'v2html-b3.gif\';" '+
+'onmouseup="'+
+'if (images['+bnum+'].src.match(/v2html-b2.gif/)) return false; ' +
+'images['+bnum+'].src=\'v2html-b1.gif\';" '+
+'onclick="'+
+'if (images['+bnum+'].src.match(/v2html-b2.gif/)) return false; ' +
+action + 
+' return false;">'+
+'<img border=0 src="v2html-b1.gif"></a></td>' +
+'<td style="font-family:sans-serif; font-weight:bold; font-size:14px;"> '+text+'</td></tr>\n';
+}
+function copy_into_loc0 (w,extra_info_index) {
+for (var i=1;i<extra_info[extra_info_index].length;i++) {
+w.loc[0][i-1] = extra_info[extra_info_index][i];
+}
+w.document.forms[0].elements[0].selectedIndex=1;
+w.document.forms[0].elements[0].selectedIndex=0;
+setbuttons(w);
+}
+function search(text,y,i,inc,relative) {
+var nextpage,wrappage,linkText,linkY;
+window.status="Searching...";
+if (last_class) document.links[i].className=last_class;
+while (1) {
+for (i+=inc;i<document.links.length && i>=0;i+=inc) {
+linkText = is_nav4up ? document.links[i].text : document.links[i].innerText;
+linkY    = is_nav4up && ! is_nav5up ? document.links[i].y    : document.links[i].offsetTop;
+if ((linkText == text) && (linkY != y)) {
+window.status="";
+if (is_nav4up) 
+if (relative) window.scrollBy(0,linkY - y);
+else          window.scrollTo(0,linkY); 
+else if (is_ie4up)
+document.links[i].scrollIntoView(true); 
+last_link=i;
+last_class=document.links[i].className;
+document.links[i].className='HI';
+return false;
+}
+}
+nextpage = (inc==1) ? next_page() : prev_page();
+wrappage = (inc==1) ? first_page() : last_page();
+if (nextpage!="" || wrappage!="") {
+if (nextpage=="") { 
+if (!confirm(text + " not found. Search again from "+((inc==1)?"first":"last")+" page?"))
+return false;
+nextpage=wrappage;
+}
+location=nextpage+ "?" + escape(text) + "&" + ( y - window.pageYOffset ) + "&" + inc;
+return false;
+}
+if (confirm(text + " not found. Search again from "+((inc==1)?"start":"end")+"?")) {
+if (inc==1) i=-1;
+else i=document.links.length;
+} else return false;
+}
+return true;
+}
+function loadqs() {
+var opt=location.search, text="", s="", y=0, si=0, inc=1;
+if (opt.length==0) return true;  
+for (var i=1;i<opt.length;i++) { 
+if (opt.charAt(i) != "&") 
+s += opt.charAt(i);
+else {
+if (text=="") text=unescape(s);
+else             y=s;
+s="";
+}
+}
+if (text=="") return true;
+if (s == "-1") { si=document.links.length-1; inc=-1; }
+window.scrollTo(0,0);
+search(text,y,si,inc);
+return true;
+}
+// -->
+</script>
+<body onload='loadqs();'>
+<script language="JavaScript"type="text/javascript"><!--
+function prev_page() { return ""; }
+function last_page() { return ""; }
+// -->
+</script>
+<center><table class=NB cols=7 ><tr><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index.html';"><a target="_top" href="index.html">Hierarchy</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-f.html';"><a target="_top" href="index-f.html">Files</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-m.html';"><a target="_top" href="index-m.html">Modules</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-s.html';"><a target="_top" href="index-s.html">Signals</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-t.html';"><a target="_top" href="index-t.html">Tasks</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-fn.html';"><a target="_top" href="index-fn.html">Functions</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='http://www.burbleland.com/v2html/help_7_30.html?htf-ni-s-';"><a target="_top" href="http://www.burbleland.com/v2html/help_7_30.html?htf-ni-s-">Help</a></td></tr></table></center>
+<pre>
+<span class=C>/*
+  Copyright (C) 2004, 2006 Pablo Bleyer Kocik.
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions are met:
+
+  1. Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+
+  2. Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+
+  3. The name of the author may not be used to endorse or promote products
+  derived from this software without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE AUTHOR &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED
+  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
+  EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+  BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
+  IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  POSSIBILITY OF SUCH DAMAGE.
+*/</span>
+
+<span class=C>/** @file
+  Behavioral KCPSMX implementation.
+*/</span>
+
+<span class=M>`ifndef</span> <a  onClick="return qs(event,this,0)"  class=D href="#34">PACOBLAZE_V_</a>
+<a name="34"></a><span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="#34">PACOBLAZE_V_</a>
+
+<span class=M>`include</span> <a  onClick="return qs(event,this,0)"  class=S href="pacoblaze_inc.v.html">&quot;pacoblaze_inc.v&quot;</a>
+
+<span class=M>`include</span> <a  onClick="return qs(event,this,0)"  class=S href="pacoblaze_idu.v.html">&quot;pacoblaze_idu.v&quot;</a>
+<span class=M>`include</span> <a  onClick="return qs(event,this,0)"  class=S href="pacoblaze_alu.v.html">&quot;pacoblaze_alu.v&quot;</a>
+<span class=M>`include</span> <a  onClick="return qs(event,this,0)"  class=S href="pacoblaze_stack.v.html">&quot;pacoblaze_stack.v&quot;</a>
+<span class=M>`ifdef</span> <span class=D>HAS_WIDE_ALU</span> <span class=C>// HAS_MUL_OPERATION implied
+</span><span class=M>`include</span> <a  onClick="return qs(event,this,0)"  class=S href="pacoblaze_dregister.v.html">&quot;pacoblaze_dregister.v&quot;</a>
+<span class=M>`else</span>
+<span class=M>`include</span> <a  onClick="return qs(event,this,0)"  class=S href="pacoblaze_register.v.html">&quot;pacoblaze_register.v&quot;</a>
+<span class=M>`endif</span>
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#41">HAS_SCRATCH_MEMORY</a>
+<span class=M>`include</span> <a  onClick="return qs(event,this,0)"  class=S href="pacoblaze_scratch.v.html">&quot;pacoblaze_scratch.v&quot;</a>
+<span class=M>`endif</span>
+
+<span class=M>`ifdef</span> <span class=D>USE_ONEHOT_ENCODING</span>
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_idu.v.html#44">operation</a>(x) operation[(x)]
+<span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_alu.v.html#43">operation_is</a>(x) idu_operation[(x)]
+<span class=M>`else</span>
+<a name="54"></a><span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_idu.v.html#44">operation</a>(x) (x)
+<a name="55"></a><span class=M>`define</span> <a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_alu.v.html#43">operation_is</a>(x) (idu_operation == (x))
+<span class=M>`endif</span>
+
+
+<span class=C>/** Top PacoBlaze module */</span>
+<a name="pacoblaze3m"></a><a  href="compare3m_tb.v.html#compare3m_tb_dut_0"><img alt="[Up: compare3m_tb dut_0]" align=bottom border=0 src="v2html-up.gif"></a><a  href="pacoblaze3m_tb.v.html#pacoblaze3m_tb_dut"><img alt="[Up: pacoblaze3m_tb dut]" align=bottom border=0 src="v2html-up.gif"></a>
+<span class=K>module</span> <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="compare3m_tb.v.html#6">PACOBLAZE</a>(
+  <a  onClick="return qs(event,this,1)"  class=SO href="#71">address</a>, <a  onClick="return qs(event,this,2)"  class=SI href="#72">instruction</a>,
+  <a  onClick="return qs(event,this,3)"  class=SO href="#73">port_id</a>,
+  <a  onClick="return qs(event,this,4)"  class=SOR href="#74">write_strobe</a>, <a  onClick="return qs(event,this,5)"  class=SO href="#75">out_port</a>,
+  <a  onClick="return qs(event,this,6)"  class=SOR href="#76">read_strobe</a>, <a  onClick="return qs(event,this,7)"  class=SI href="#77">in_port</a>,
+  <a  onClick="return qs(event,this,8)"  class=SI href="#78">interrupt</a>,
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#40">HAS_INTERRUPT_ACK</a>
+  <a  onClick="return qs(event,this,9)"  class=SOR href="#80">interrupt_ack</a>,
+<span class=M>`endif</span>
+  <a  onClick="return qs(event,this,10)"  class=SI href="#82">reset</a>, <a  onClick="return qs(event,this,11)"  class=SI href="#83">clk</a>
+);
+<a name="71"></a><span class=K>output</span> [<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#73">code_depth</a>-1:0] <a  onClick="return qs(event,this,1)"  class=SO href="#239">address</a>; <span class=C>///&lt; Address output
+</span><a name="72"></a><span class=K>input</span> [<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#72">code_width</a>-1:0] <a  onClick="return qs(event,this,2)"  class=SI href="compare3m_tb.v.html#54">instruction</a>; <span class=C>///&lt; Instruction input
+</span><a name="73"></a><span class=K>output</span> [<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#82">port_depth</a>-1:0] <a  onClick="return qs(event,this,3)"  class=SO href="#242">port_id</a>; <span class=C>///&lt; Port address
+</span><a name="74"></a><span class=K>output</span> <a  onClick="return qs(event,this,4)"  class=SOR href="#350">write_strobe</a>; <span class=C>///&lt; Port output strobe
+</span><a name="75"></a><span class=K>output</span> [<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#81">port_width</a>-1:0] <a  onClick="return qs(event,this,5)"  class=SO href="#241">out_port</a>; <span class=C>///&lt; Port output
+</span><a name="76"></a><span class=K>output</span> <a  onClick="return qs(event,this,6)"  class=SOR href="#346">read_strobe</a>; <span class=C>///&lt; Port input strobe
+</span><a name="77"></a><span class=K>input</span> [<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#81">port_width</a>-1:0] <a  onClick="return qs(event,this,7)"  class=SI href="compare3m_tb.v.html#58">in_port</a>; <span class=C>///&lt; Port input
+</span><a name="78"></a><span class=K>input</span> <a  onClick="return qs(event,this,8)"  class=SI href="compare3m_tb.v.html#60">interrupt</a>; <span class=C>///&lt; Interrupt request
+</span><span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#40">HAS_INTERRUPT_ACK</a>
+<a name="80"></a><span class=K>output</span> <a  onClick="return qs(event,this,9)"  class=SOR href="#416">interrupt_ack</a>; <span class=C>///&lt; Interrupt acknowledge (output)
+</span><span class=M>`endif</span>
+<a name="82"></a><span class=K>input</span> <a  onClick="return qs(event,this,10)"  class=SI href="compare3m_tb.v.html#52">reset</a>; <span class=C>///&lt; Reset input
+</span><a name="83"></a><span class=K>input</span> <a  onClick="return qs(event,this,11)"  class=SI href="compare3m_tb.v.html#51">clk</a>; <span class=C>///&lt; Clock input
+</span>
+<span class=C>/* Output registers */</span>
+<span class=K>reg</span> <a  onClick="return qs(event,this,4)"  class=SOR href="#74">write_strobe</a>, <a  onClick="return qs(event,this,6)"  class=SOR href="#76">read_strobe</a>;
+
+<span class=C>/* Processor registers and signals */</span>
+<a name="89"></a><span class=K>reg</span> [<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#73">code_depth</a>-1:0] <a  onClick="return qs(event,this,12)"  class=SR href="#422">program_counter</a>; <span class=C>///&lt; Program counter
+</span><a name="90"></a><span class=K>reg</span> <a  onClick="return qs(event,this,13)"  class=SR href="#421">timing_control</a>; <span class=C>///&lt; Timing control register
+</span>
+<a name="92"></a><span class=K>reg</span> <a  onClick="return qs(event,this,14)"  class=SR href="#339">zero</a>; <span class=C>///&lt; Zero flag
+</span><a name="93"></a><span class=K>reg</span> <a  onClick="return qs(event,this,15)"  class=SR href="#339">carry</a>; <span class=C>///&lt; Carry flag
+</span><a name="94"></a><span class=K>reg</span> <a  onClick="return qs(event,this,16)"  class=SR href="#340">interrupt_enable</a>; <span class=C>///&lt; Interrupt enable
+</span><a name="95"></a><span class=K>reg</span> <a  onClick="return qs(event,this,17)"  class=SR href="#424">interrupt_latch</a>; <span class=C>///&lt; Interrupt latch hold
+</span><span class=K>reg</span> <a  onClick="return qs(event,this,9)"  class=SOR href="#80">interrupt_ack</a>; <span class=C>///&lt; Interrupt acknowledge
+</span><a name="97"></a><span class=K>reg</span> <a  onClick="return qs(event,this,18)"  class=SR href="#438">zero_saved</a>; <span class=C>///&lt; Interrupt-saved zero flag
+</span><a name="98"></a><span class=K>reg</span> <a  onClick="return qs(event,this,19)"  class=SR href="#438">carry_saved</a>; <span class=C>///&lt; Interrupt-saved carry flag
+</span><span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#36">HAS_RESET_LATCH</a>
+<a name="100"></a><span class=K>reg</span> [1:0] <a  onClick="return qs(event,this,20)"  class=SR href="#397">reset_latch</a>; <span class=C>///&lt; Reset latch
+</span><span class=M>`endif</span>
+<a name="102"></a><span class=K>reg</span> <a  onClick="return qs(event,this,21)"  class=SR href="#335">zero_carry_write_enable</a>; <span class=C>///&lt; Zero/Carry update
+</span>
+<a name="104"></a><span class=K>wire</span> <a  onClick="return qs(event,this,22)"  class=SW href="#246">internal_reset</a>; <span class=C>///&lt; Internal reset signal
+</span><a name="105"></a><span class=K>wire</span> [<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#73">code_depth</a>-1:0] <a  onClick="return qs(event,this,23)"  class=SW href="#268">program_counter_source</a>, <a  onClick="return qs(event,this,24)"  class=SW href="#274">program_counter_next</a>; <span class=C>///&lt; Next program counter logic
+</span><a name="106"></a><span class=K>wire</span> <a  onClick="return qs(event,this,25)"  class=SW href="#251">conditional_match</a>; <span class=C>///&lt; True when unconditional or flags match
+</span><a name="107"></a><span class=K>wire</span> <a  onClick="return qs(event,this,26)"  class=SW href="#280">interrupt_assert</a>; <span class=C>///&lt; True when interrupt condition is met
+</span>
+
+<span class=C>/* IDU - Instruction Decode Unit */</span>
+<a name="111"></a><span class=K>wire</span> [<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#149">operation_width</a>-1:0] <a  onClick="return qs(event,this,27)"  class=SW href="#111">idu_operation</a>;
+<a name="112"></a><span class=K>wire</span> [2:0] <a  onClick="return qs(event,this,28)"  class=SW href="#112">idu_shift_operation</a>;
+<a name="113"></a><span class=K>wire</span> <a  onClick="return qs(event,this,29)"  class=SW href="#113">idu_shift_direction</a>, <a  onClick="return qs(event,this,30)"  class=SW href="#113">idu_shift_constant</a>;
+<a name="114"></a><span class=K>wire</span> <a  onClick="return qs(event,this,31)"  class=SW href="#114">idu_operand_selection</a>;
+<a name="115"></a><span class=K>wire</span> [<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#110">register_depth</a>-1:0] <a  onClick="return qs(event,this,32)"  class=SW href="#115">idu_x_address</a>, <a  onClick="return qs(event,this,33)"  class=SW href="#115">idu_y_address</a>;
+<a name="116"></a><span class=K>wire</span> [<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#60">operand_width</a>-1:0] <a  onClick="return qs(event,this,34)"  class=SW href="#116">idu_implied_value</a>;
+<a name="117"></a><span class=K>wire</span> [<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#82">port_depth</a>-1:0] <a  onClick="return qs(event,this,35)"  class=SW href="#117">idu_port_address</a>;
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#41">HAS_SCRATCH_MEMORY</a>
+<a name="119"></a><span class=K>wire</span> [<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#119">scratch_depth</a>-1:0] <a  onClick="return qs(event,this,36)"  class=SW href="#119">idu_scratch_address</a>;
+<span class=M>`endif</span>
+<a name="121"></a><span class=K>wire</span> [<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#73">code_depth</a>-1:0] <a  onClick="return qs(event,this,37)"  class=SW href="#121">idu_code_address</a>;
+<a name="122"></a><span class=K>wire</span> <a  onClick="return qs(event,this,38)"  class=SW href="#122">idu_conditional</a>;
+<a name="123"></a><span class=K>wire</span> [1:0] <a  onClick="return qs(event,this,39)"  class=SW href="#123">idu_condition_flags</a>;
+<a name="124"></a><span class=K>wire</span> <a  onClick="return qs(event,this,40)"  class=SW href="#124">idu_interrupt_enable</a>;
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_idu_tb.v.html#36">HAS_DEBUG</a>
+<span class=K>wire</span> [8*<span class=D>`idu_debug_width</span>:1] idu_debug;
+<span class=K>wire</span> [8*<span class=D>`alu_debug_width</span>:1] alu_debug;
+<span class=M>`endif</span>
+
+
+<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze1.v.html#13">PACOBLAZE_IDU</a> idu(
+  <a  onClick="return qs(event,this,2)"  class=SI href="#72">instruction</a>,
+  <a  onClick="return qs(event,this,27)"  class=SW href="#111">idu_operation</a>,
+  <a  onClick="return qs(event,this,28)"  class=SW href="#112">idu_shift_operation</a>, <a  onClick="return qs(event,this,29)"  class=SW href="#113">idu_shift_direction</a>, <a  onClick="return qs(event,this,30)"  class=SW href="#113">idu_shift_constant</a>,
+  <a  onClick="return qs(event,this,31)"  class=SW href="#114">idu_operand_selection</a>,
+  <a  onClick="return qs(event,this,32)"  class=SW href="#115">idu_x_address</a>, <a  onClick="return qs(event,this,33)"  class=SW href="#115">idu_y_address</a>,
+  <a  onClick="return qs(event,this,34)"  class=SW href="#116">idu_implied_value</a>, <a  onClick="return qs(event,this,35)"  class=SW href="#117">idu_port_address</a>,
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#41">HAS_SCRATCH_MEMORY</a>
+  <a  onClick="return qs(event,this,36)"  class=SW href="#119">idu_scratch_address</a>,
+<span class=M>`endif</span>
+  <a  onClick="return qs(event,this,37)"  class=SW href="#121">idu_code_address</a>,
+  <a  onClick="return qs(event,this,38)"  class=SW href="#122">idu_conditional</a>, <a  onClick="return qs(event,this,39)"  class=SW href="#123">idu_condition_flags</a>,
+  <a  onClick="return qs(event,this,40)"  class=SW href="#124">idu_interrupt_enable</a>
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_idu_tb.v.html#36">HAS_DEBUG</a>
+  , idu_debug
+<span class=M>`endif</span>
+);
+
+
+<span class=C>/* ALU - Arithmetic-Logic Unit */</span>
+<a name="151"></a><span class=K>wire</span> [<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#60">operand_width</a>-1:0] <a  onClick="return qs(event,this,41)"  class=SW href="#151">alu_result</a>, <a  onClick="return qs(event,this,42)"  class=SW href="#291">alu_operand_a</a>, <a  onClick="return qs(event,this,43)"  class=SW href="#292">alu_operand_b</a>;
+<a name="152"></a><span class=K>wire</span> <a  onClick="return qs(event,this,44)"  class=SW href="#152">alu_zero_out</a>, <a  onClick="return qs(event,this,45)"  class=SW href="#152">alu_carry_out</a>;
+<span class=M>`ifdef</span> <span class=D>HAS_WIDE_ALU</span>
+<span class=K>wire</span> [<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#60">operand_width</a>-1:0] alu_resultw, alu_operand_u, alu_operand_v;
+<span class=M>`endif</span>
+
+<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze1.v.html#14">PACOBLAZE_ALU</a> alu(
+  <a  onClick="return qs(event,this,27)"  class=SW href="#111">idu_operation</a>,
+  <a  onClick="return qs(event,this,28)"  class=SW href="#112">idu_shift_operation</a>, <a  onClick="return qs(event,this,29)"  class=SW href="#113">idu_shift_direction</a>, <a  onClick="return qs(event,this,30)"  class=SW href="#113">idu_shift_constant</a>,
+  <a  onClick="return qs(event,this,41)"  class=SW href="#151">alu_result</a>, <a  onClick="return qs(event,this,42)"  class=SW href="#151">alu_operand_a</a>, <a  onClick="return qs(event,this,43)"  class=SW href="#151">alu_operand_b</a>,
+<span class=M>`ifdef</span> <span class=D>HAS_WIDE_ALU</span>
+  alu_resultw, alu_operand_u, alu_operand_v,
+<span class=M>`endif</span>
+  <a  onClick="return qs(event,this,15)"  class=SR href="#93">carry</a>, <a  onClick="return qs(event,this,44)"  class=SW href="#152">alu_zero_out</a>, <a  onClick="return qs(event,this,45)"  class=SW href="#152">alu_carry_out</a>
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_idu_tb.v.html#36">HAS_DEBUG</a>
+  , alu_debug
+<span class=M>`endif</span>
+);
+
+<a name="170"></a><span class=K>wire</span> <a  onClick="return qs(event,this,46)"  class=SW href="#170">is_alu</a> =
+  <span class=C>// `operation_is(`op_load)
+</span>  <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#55">operation_is</a>(<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#477">op_and</a>)
+  || <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#55">operation_is</a>(<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#478">op_or</a>)
+  || <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#55">operation_is</a>(<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#482">op_xor</a>)
+  || <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#55">operation_is</a>(<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#475">op_add</a>)
+  || <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#55">operation_is</a>(<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#476">op_addcy</a>)
+  || <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#55">operation_is</a>(<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#480">op_sub</a>)
+  || <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#55">operation_is</a>(<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#481">op_subcy</a>)
+  || <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#55">operation_is</a>(<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#479">op_rs</a>)
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#42">HAS_COMPARE_OPERATION</a>
+  || <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#55">operation_is</a>(<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#490">op_compare</a>)
+<span class=M>`endif</span>
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#43">HAS_TEST_OPERATION</a>
+  || <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#55">operation_is</a>(<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#491">op_test</a>)
+<span class=M>`endif</span>
+<span class=M>`ifdef</span> <span class=D>HAS_MUL_OPERATION</span>
+  || <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_alu.v.html#43">operation_is</a>(<span class=D>`op_mul</span>)
+<span class=M>`endif</span>
+<span class=M>`ifdef</span> <span class=D>HAS_WIDE_ALU</span>
+  ||<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_alu.v.html#43">operation_is</a>(<span class=D>`op_addw</span>)
+  ||<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_alu.v.html#43">operation_is</a>(<span class=D>`op_addwcy</span>)
+  ||<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_alu.v.html#43">operation_is</a>(<span class=D>`op_subw</span>)
+  ||<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_alu.v.html#43">operation_is</a>(<span class=D>`op_subwcy</span>)
+<span class=M>`endif</span>
+  ;
+
+<span class=C>/* Register file */</span>
+<a name="198"></a><span class=K>reg</span> <a  onClick="return qs(event,this,47)"  class=SR href="#324">register_x_write_enable</a>;
+<a name="199"></a><span class=K>wire</span> [<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#101">register_width</a>-1:0] <a  onClick="return qs(event,this,48)"  class=SW href="#294">register_x_data_in</a>, <a  onClick="return qs(event,this,49)"  class=SW href="#199">register_x_data_out</a>, <a  onClick="return qs(event,this,50)"  class=SW href="#199">register_y_data_out</a>;
+<span class=M>`ifdef</span> <span class=D>HAS_WIDE_ALU</span>
+<span class=K>reg</span> register_wx_write_enable;
+<span class=K>wire</span> [<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#101">register_width</a>-1:0] register_w_data_in, register_u_data_out, register_v_data_out;
+<span class=M>`endif</span>
+
+<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze1.v.html#10">PACOBLAZE_REGISTER</a> register(
+  <a  onClick="return qs(event,this,32)"  class=SW href="#115">idu_x_address</a>, <a  onClick="return qs(event,this,47)"  class=SR href="#198">register_x_write_enable</a>, <a  onClick="return qs(event,this,48)"  class=SW href="#199">register_x_data_in</a>, <a  onClick="return qs(event,this,49)"  class=SW href="#199">register_x_data_out</a>,
+  <a  onClick="return qs(event,this,33)"  class=SW href="#115">idu_y_address</a>, <a  onClick="return qs(event,this,50)"  class=SW href="#199">register_y_data_out</a>,
+<span class=M>`ifdef</span> <span class=D>HAS_WIDE_ALU</span>
+  register_wx_write_enable, register_w_data_in, register_u_data_out, register_v_data_out,
+<span class=M>`endif</span>
+  <a  onClick="return qs(event,this,10)"  class=SI href="#82">reset</a>, <a  onClick="return qs(event,this,11)"  class=SI href="#83">clk</a>
+);
+
+<span class=C>/* Call/return stack */</span>
+<a name="215"></a><span class=K>wire</span> <a  onClick="return qs(event,this,51)"  class=SW href="#282">stack_write_enable</a>, <a  onClick="return qs(event,this,52)"  class=SW href="#284">stack_update_enable</a>, <a  onClick="return qs(event,this,53)"  class=SW href="#288">stack_push_pop</a>;
+<a name="216"></a><span class=K>wire</span> [<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#85">stack_width</a>-1:0] <a  onClick="return qs(event,this,54)"  class=SW href="#216">stack_data_in</a> = <a  onClick="return qs(event,this,12)"  class=SR href="#422">program_counter</a>;
+<a name="217"></a><span class=K>wire</span> [<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#85">stack_width</a>-1:0] <a  onClick="return qs(event,this,55)"  class=SW href="#217">stack_data_out</a>;
+
+<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze1.v.html#12">PACOBLAZE_STACK</a> stack(
+  <a  onClick="return qs(event,this,51)"  class=SW href="#215">stack_write_enable</a>, <a  onClick="return qs(event,this,52)"  class=SW href="#215">stack_update_enable</a>, <a  onClick="return qs(event,this,53)"  class=SW href="#215">stack_push_pop</a>, <a  onClick="return qs(event,this,54)"  class=SW href="#216">stack_data_in</a>, <a  onClick="return qs(event,this,55)"  class=SW href="#217">stack_data_out</a>,
+  <a  onClick="return qs(event,this,10)"  class=SI href="#82">reset</a>, <a  onClick="return qs(event,this,11)"  class=SI href="#83">clk</a>
+);
+
+<span class=C>/* Scratchpad RAM */</span>
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#41">HAS_SCRATCH_MEMORY</a>
+<a name="226"></a><span class=K>reg</span> <a  onClick="return qs(event,this,56)"  class=SR href="#363">scratch_write_enable</a>;
+<a name="227"></a><span class=K>wire</span> [<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#119">scratch_depth</a>-1:0] <a  onClick="return qs(event,this,57)"  class=SW href="#227">scratch_address</a> =
+  (<a  onClick="return qs(event,this,31)"  class=SW href="#114">idu_operand_selection</a> == 0) ? <a  onClick="return qs(event,this,36)"  class=SW href="#119">idu_scratch_address</a> :
+  <a  onClick="return qs(event,this,50)"  class=SW href="#199">register_y_data_out</a>[<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#119">scratch_depth</a>-1:0];
+<a name="230"></a><span class=K>wire</span> [<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#118">scratch_width</a>-1:0] <a  onClick="return qs(event,this,58)"  class=SW href="#230">scratch_data_out</a>;
+
+<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze1.v.html#11">PACOBLAZE_SCRATCH</a> scratch(
+  <a  onClick="return qs(event,this,57)"  class=SW href="#227">scratch_address</a>, <a  onClick="return qs(event,this,56)"  class=SR href="#226">scratch_write_enable</a>, <a  onClick="return qs(event,this,49)"  class=SW href="#199">register_x_data_out</a>, <a  onClick="return qs(event,this,58)"  class=SW href="#230">scratch_data_out</a>,
+  <a  onClick="return qs(event,this,10)"  class=SI href="#82">reset</a>, <a  onClick="return qs(event,this,11)"  class=SI href="#83">clk</a>
+);
+<span class=M>`endif</span>
+
+<span class=C>/* Miscellaneous */</span>
+<a name="239"></a><span class=K>assign</span> <a  onClick="return qs(event,this,1)"  class=SO href="#71">address</a> = <a  onClick="return qs(event,this,12)"  class=SR href="#422">program_counter</a>;
+
+<a name="241"></a><span class=K>assign</span> <a  onClick="return qs(event,this,5)"  class=SO href="#75">out_port</a> = <a  onClick="return qs(event,this,49)"  class=SW href="#199">register_x_data_out</a>;
+<a name="242"></a><span class=K>assign</span> <a  onClick="return qs(event,this,3)"  class=SO href="#73">port_id</a> =
+  (<a  onClick="return qs(event,this,31)"  class=SW href="#114">idu_operand_selection</a> == 0) ? <a  onClick="return qs(event,this,35)"  class=SW href="#117">idu_port_address</a> : <a  onClick="return qs(event,this,50)"  class=SW href="#199">register_y_data_out</a>;
+
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#36">HAS_RESET_LATCH</a>
+<a name="246"></a><span class=K>assign</span> <a  onClick="return qs(event,this,22)"  class=SW href="#104">internal_reset</a> = <a  onClick="return qs(event,this,20)"  class=SR href="#397">reset_latch</a>[1];
+<span class=M>`else</span>
+<span class=K>assign</span> <a  onClick="return qs(event,this,22)"  class=SW href="#104">internal_reset</a> = <a  onClick="return qs(event,this,10)"  class=SI href="#82">reset</a>;
+<span class=M>`endif</span>
+
+<a name="251"></a><span class=K>assign</span> <a  onClick="return qs(event,this,25)"  class=SW href="#106">conditional_match</a> =
+  (!<a  onClick="return qs(event,this,38)"  class=SW href="#122">idu_conditional</a>
+  || <a  onClick="return qs(event,this,39)"  class=SW href="#123">idu_condition_flags</a> == <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#214">flag_c</a> &amp;&amp; <a  onClick="return qs(event,this,15)"  class=SR href="#339">carry</a>
+  || <a  onClick="return qs(event,this,39)"  class=SW href="#123">idu_condition_flags</a> == <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#215">flag_nc</a> &amp;&amp; ~<a  onClick="return qs(event,this,15)"  class=SR href="#339">carry</a>
+  || <a  onClick="return qs(event,this,39)"  class=SW href="#123">idu_condition_flags</a> == <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#212">flag_z</a> &amp;&amp; <a  onClick="return qs(event,this,14)"  class=SR href="#339">zero</a>
+  || <a  onClick="return qs(event,this,39)"  class=SW href="#123">idu_condition_flags</a> == <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#213">flag_nz</a> &amp;&amp; ~<a  onClick="return qs(event,this,14)"  class=SR href="#339">zero</a>
+  ) ? 1 : 0;
+
+<a name="259"></a><span class=K>wire</span> <a  onClick="return qs(event,this,59)"  class=SW href="#259">is_jump</a> = <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#55">operation_is</a>(<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#483">op_jump</a>);
+<a name="260"></a><span class=K>wire</span> <a  onClick="return qs(event,this,60)"  class=SW href="#260">is_call</a> = <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#55">operation_is</a>(<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#484">op_call</a>);
+<a name="261"></a><span class=K>wire</span> <a  onClick="return qs(event,this,61)"  class=SW href="#261">is_return</a> = <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#55">operation_is</a>(<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#485">op_return</a>);
+<a name="262"></a><span class=K>wire</span> <a  onClick="return qs(event,this,62)"  class=SW href="#262">is_returni</a> = <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#55">operation_is</a>(<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#486">op_returni</a>);
+<a name="263"></a><span class=K>wire</span> <a  onClick="return qs(event,this,63)"  class=SW href="#263">is_input</a> = <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#55">operation_is</a>(<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#488">op_input</a>);
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#41">HAS_SCRATCH_MEMORY</a>
+<a name="265"></a><span class=K>wire</span> <a  onClick="return qs(event,this,64)"  class=SW href="#265">is_fetch</a> = <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#55">operation_is</a>(<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#492">op_fetch</a>);
+<span class=M>`endif</span>
+
+<a name="268"></a><span class=K>assign</span> <a  onClick="return qs(event,this,23)"  class=SW href="#105">program_counter_source</a> =
+  (<a  onClick="return qs(event,this,17)"  class=SR href="#424">interrupt_latch</a>) ? <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#158">interrupt_vector</a> :
+  (<a  onClick="return qs(event,this,25)"  class=SW href="#251">conditional_match</a> &amp;&amp; (<a  onClick="return qs(event,this,59)"  class=SW href="#259">is_jump</a> || <a  onClick="return qs(event,this,60)"  class=SW href="#260">is_call</a>)) ? <a  onClick="return qs(event,this,37)"  class=SW href="#121">idu_code_address</a> : <span class=C>// PC from opcode
+</span>  (<a  onClick="return qs(event,this,25)"  class=SW href="#251">conditional_match</a> &amp;&amp; <a  onClick="return qs(event,this,61)"  class=SW href="#261">is_return</a> || <a  onClick="return qs(event,this,62)"  class=SW href="#262">is_returni</a>) ? <a  onClick="return qs(event,this,55)"  class=SW href="#217">stack_data_out</a> : <span class=C>// PC from stack
+</span>  <a  onClick="return qs(event,this,12)"  class=SR href="#422">program_counter</a>; <span class=C>// current PC
+</span>
+<a name="274"></a><span class=K>assign</span> <a  onClick="return qs(event,this,24)"  class=SW href="#105">program_counter_next</a> =
+  (<a  onClick="return qs(event,this,17)"  class=SR href="#424">interrupt_latch</a> ||
+  <a  onClick="return qs(event,this,25)"  class=SW href="#251">conditional_match</a> &amp;&amp; (<a  onClick="return qs(event,this,59)"  class=SW href="#259">is_jump</a> || <a  onClick="return qs(event,this,60)"  class=SW href="#260">is_call</a>)
+  || <a  onClick="return qs(event,this,62)"  class=SW href="#262">is_returni</a>) ? <a  onClick="return qs(event,this,23)"  class=SW href="#268">program_counter_source</a> : <span class=C>// PC not incremented
+</span>  <a  onClick="return qs(event,this,23)"  class=SW href="#268">program_counter_source</a> + 1; <span class=C>// PC must be incremented
+</span>
+<a name="280"></a><span class=K>assign</span> <a  onClick="return qs(event,this,26)"  class=SW href="#107">interrupt_assert</a> = <a  onClick="return qs(event,this,8)"  class=SI href="#78">interrupt</a> &amp;&amp; <a  onClick="return qs(event,this,16)"  class=SR href="#340">interrupt_enable</a>;
+
+<a name="282"></a><span class=K>assign</span> <a  onClick="return qs(event,this,51)"  class=SW href="#215">stack_write_enable</a> =
+  <a  onClick="return qs(event,this,22)"  class=SW href="#246">internal_reset</a> || <a  onClick="return qs(event,this,13)"  class=SR href="#421">timing_control</a>; <span class=C>// update stack at reset and T==1
+</span><a name="284"></a><span class=K>assign</span> <a  onClick="return qs(event,this,52)"  class=SW href="#215">stack_update_enable</a> = ~<a  onClick="return qs(event,this,13)"  class=SR href="#421">timing_control</a> &amp;&amp;
+  (<a  onClick="return qs(event,this,25)"  class=SW href="#251">conditional_match</a> &amp;&amp; (<a  onClick="return qs(event,this,60)"  class=SW href="#260">is_call</a> || <a  onClick="return qs(event,this,61)"  class=SW href="#261">is_return</a>)
+  || <a  onClick="return qs(event,this,62)"  class=SW href="#262">is_returni</a>
+  || <a  onClick="return qs(event,this,17)"  class=SR href="#424">interrupt_latch</a>);
+<a name="288"></a><span class=K>assign</span> <a  onClick="return qs(event,this,53)"  class=SW href="#215">stack_push_pop</a> = <a  onClick="return qs(event,this,17)"  class=SR href="#424">interrupt_latch</a> ||
+  ((<a  onClick="return qs(event,this,25)"  class=SW href="#251">conditional_match</a> &amp;&amp; <a  onClick="return qs(event,this,61)"  class=SW href="#261">is_return</a> || <a  onClick="return qs(event,this,62)"  class=SW href="#262">is_returni</a>) ? 0 : 1);
+
+<a name="291"></a><span class=K>assign</span> <a  onClick="return qs(event,this,42)"  class=SW href="#151">alu_operand_a</a> = <a  onClick="return qs(event,this,49)"  class=SW href="#199">register_x_data_out</a>;
+<a name="292"></a><span class=K>assign</span> <a  onClick="return qs(event,this,43)"  class=SW href="#151">alu_operand_b</a> =
+  (<a  onClick="return qs(event,this,31)"  class=SW href="#114">idu_operand_selection</a> == 0) ? <a  onClick="return qs(event,this,34)"  class=SW href="#116">idu_implied_value</a> : <a  onClick="return qs(event,this,50)"  class=SW href="#199">register_y_data_out</a>;
+<a name="294"></a><span class=K>assign</span> <a  onClick="return qs(event,this,48)"  class=SW href="#199">register_x_data_in</a> =
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#41">HAS_SCRATCH_MEMORY</a>
+  (<a  onClick="return qs(event,this,64)"  class=SW href="#265">is_fetch</a>) ? <a  onClick="return qs(event,this,58)"  class=SW href="#230">scratch_data_out</a> :
+<span class=M>`endif</span>
+  (<a  onClick="return qs(event,this,63)"  class=SW href="#263">is_input</a>) ? <a  onClick="return qs(event,this,7)"  class=SI href="#77">in_port</a> : <a  onClick="return qs(event,this,41)"  class=SW href="#151">alu_result</a>;
+
+<span class=M>`ifdef</span> <span class=D>HAS_WIDE_ALU</span>
+<span class=K>assign</span> alu_operand_u = register_u_data_out;
+<span class=K>assign</span> alu_operand_v = register_v_data_out;
+<span class=K>assign</span> register_w_data_in = alu_resultw;
+<span class=M>`endif</span>
+
+
+<span class=C>/*
+task decode;
+input [`operation_width-1:0] operation;
+begin
+end
+endtask
+*/</span>
+
+<a name="pacoblaze3m_execute"></a><span class=K>task</span> <a  onClick="return qs(event,this,0)"  class=T href="#pacoblaze3m_execute">execute</a>;
+<a name="316"></a><span class=K>input</span> [<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#149">operation_width</a>-1:0] <a  onClick="return qs(event,this,0)"  class=SI href="#316">operation</a>;
+<span class=K>begin</span>
+  <span class=C>// synthesis parallel_case full_case
+</span><span class=M>`ifdef</span> <span class=D>USE_ONEHOT_ENCODING</span>
+  <span class=K>case</span> (1'b1)
+<span class=M>`else</span>
+  <span class=K>case</span> (<a  onClick="return qs(event,this,0)"  class=SI href="#316">operation</a>)
+<span class=M>`endif</span>
+<a name="324"></a>    <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#54">operation</a>(<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#474">op_load</a>): <a  onClick="return qs(event,this,0)"  class=SR href="#198">register_x_write_enable</a> &lt;= 1; <span class=C>// load register with value
+</span>
+    <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#54">operation</a>(<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#477">op_and</a>),
+    <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#54">operation</a>(<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#478">op_or</a>),
+    <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#54">operation</a>(<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#482">op_xor</a>),
+    <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#54">operation</a>(<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#475">op_add</a>),
+    <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#54">operation</a>(<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#476">op_addcy</a>),
+    <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#54">operation</a>(<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#480">op_sub</a>),
+    <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#54">operation</a>(<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#481">op_subcy</a>),
+    <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#54">operation</a>(<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#479">op_rs</a>): <span class=K>begin</span>
+        <a  onClick="return qs(event,this,0)"  class=SR href="#198">register_x_write_enable</a> &lt;= 1; <span class=C>// writeback register
+</span><a name="335"></a>        <a  onClick="return qs(event,this,0)"  class=SR href="#102">zero_carry_write_enable</a> &lt;= 1; <span class=C>// writeback zero, carry
+</span>      <span class=K>end</span>
+
+    <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#54">operation</a>(<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#486">op_returni</a>): <span class=K>begin</span>
+<a name="339"></a>        <a  onClick="return qs(event,this,0)"  class=SR href="#92">zero</a> &lt;= <a  onClick="return qs(event,this,0)"  class=SR href="#438">zero_saved</a>; <a  onClick="return qs(event,this,0)"  class=SR href="#93">carry</a> &lt;= <a  onClick="return qs(event,this,0)"  class=SR href="#438">carry_saved</a>; <span class=C>// restore flags
+</span><a name="340"></a>        <a  onClick="return qs(event,this,0)"  class=SR href="#94">interrupt_enable</a> &lt;= <a  onClick="return qs(event,this,0)"  class=SW href="#124">idu_interrupt_enable</a>; <span class=C>// return with interrupt enabled/disabled
+</span>      <span class=K>end</span>
+
+    <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#54">operation</a>(<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#487">op_interrupt</a>): <a  onClick="return qs(event,this,0)"  class=SR href="#94">interrupt_enable</a> &lt;= <a  onClick="return qs(event,this,0)"  class=SW href="#124">idu_interrupt_enable</a>; <span class=C>// enable/disable interrupt
+</span>
+    <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#54">operation</a>(<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#488">op_input</a>): <span class=K>begin</span>
+<a name="346"></a>        <a  onClick="return qs(event,this,0)"  class=SOR href="#76">read_strobe</a> &lt;= 1; <span class=C>// flag read
+</span>        <a  onClick="return qs(event,this,0)"  class=SR href="#198">register_x_write_enable</a> &lt;= 1; <span class=C>// write into register
+</span>      <span class=K>end</span>
+
+<a name="350"></a>    <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#54">operation</a>(<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#489">op_output</a>): <a  onClick="return qs(event,this,0)"  class=SOR href="#74">write_strobe</a> &lt;= 1; <span class=C>// flag write
+</span>
+
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#42">HAS_COMPARE_OPERATION</a>
+    <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#54">operation</a>(<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#490">op_compare</a>): <a  onClick="return qs(event,this,0)"  class=SR href="#102">zero_carry_write_enable</a> &lt;= 1; <span class=C>// writeback zero, carry
+</span><span class=M>`endif</span>
+
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#43">HAS_TEST_OPERATION</a>
+    <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#54">operation</a>(<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#491">op_test</a>): <a  onClick="return qs(event,this,0)"  class=SR href="#102">zero_carry_write_enable</a> &lt;= 1; <span class=C>// writeback zero, carry
+</span><span class=M>`endif</span>
+
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#41">HAS_SCRATCH_MEMORY</a>
+    <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#54">operation</a>(<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#492">op_fetch</a>): <a  onClick="return qs(event,this,0)"  class=SR href="#198">register_x_write_enable</a> &lt;= 1; <span class=C>// transfer scratchpad to register
+</span><a name="363"></a>    <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="#54">operation</a>(<span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#493">op_store</a>): <a  onClick="return qs(event,this,0)"  class=SR href="#226">scratch_write_enable</a> &lt;= 1; <span class=C>// transfer register to scratchpad
+</span><span class=M>`endif</span>
+
+<span class=M>`ifdef</span> <span class=D>HAS_MUL_OPERATION</span>
+    <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_idu.v.html#44">operation</a>(<span class=D>`op_mul</span>): <span class=K>begin</span>
+        register_wx_write_enable &lt;= 1; <span class=C>// writeback wide register
+</span>        <a  onClick="return qs(event,this,0)"  class=SR href="#102">zero_carry_write_enable</a> &lt;= 1;
+      <span class=K>end</span>
+<span class=M>`endif</span>
+
+<span class=M>`ifdef</span> <span class=D>HAS_WIDE_ALU</span>
+    <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_idu.v.html#44">operation</a>(<span class=D>`op_addw</span>),
+    <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_idu.v.html#44">operation</a>(<span class=D>`op_addwcy</span>),
+    <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_idu.v.html#44">operation</a>(<span class=D>`op_subw</span>),
+    <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_idu.v.html#44">operation</a>(<span class=D>`op_subwcy</span>): <span class=K>begin</span>
+        register_wx_write_enable &lt;= 1; <span class=C>// writeback wide register
+</span>        <a  onClick="return qs(event,this,0)"  class=SR href="#102">zero_carry_write_enable</a> &lt;= 1; <span class=C>// writeback zero, carry
+</span>      <span class=K>end</span>
+<span class=M>`endif</span>
+
+    <span class=K>default</span>: ;
+  <span class=K>endcase</span>
+<span class=K>end</span>
+<span class=K>endtask</span>
+
+<span class=C>/* Combinatorial main block */</span>
+<span class=C>/*
+always @(program_counter) begin: com
+end
+*/</span>
+
+<span class=C>/* Sequential internal reset control */</span>
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#36">HAS_RESET_LATCH</a>
+<span class=K>always</span> @(<span class=K>posedge</span> <a  onClick="return qs(event,this,11)"  class=SI href="#83">clk</a>) <span class=K>begin</span>: on_reset
+<a name="397"></a>  <span class=K>if</span> (<a  onClick="return qs(event,this,10)"  class=SI href="#82">reset</a>) <a  onClick="return qs(event,this,20)"  class=SR href="#100">reset_latch</a> &lt;= 'b11; <span class=C>// initialize latch
+</span>  <span class=K>else</span> <span class=K>begin</span>
+    <a  onClick="return qs(event,this,20)"  class=SR href="#100">reset_latch</a>[1] &lt;= <a  onClick="return qs(event,this,20)"  class=SR href="#397">reset_latch</a>[0]; <span class=C>// shift latch
+</span>    <a  onClick="return qs(event,this,20)"  class=SR href="#100">reset_latch</a>[0] &lt;= 0;
+  <span class=K>end</span>
+<span class=K>end</span>
+<span class=M>`endif</span>
+
+<span class=C>/* Sequential main block */</span>
+<span class=K>always</span> @(<span class=K>posedge</span> <a  onClick="return qs(event,this,11)"  class=SI href="#83">clk</a>) <span class=K>begin</span>: seq
+  <span class=C>/* Idle values and default actions */</span>
+  <a  onClick="return qs(event,this,6)"  class=SOR href="#76">read_strobe</a> &lt;= 0; <a  onClick="return qs(event,this,4)"  class=SOR href="#74">write_strobe</a> &lt;= 0;
+  <a  onClick="return qs(event,this,47)"  class=SR href="#198">register_x_write_enable</a> &lt;= 0;
+<span class=M>`ifdef</span> <span class=D>HAS_WIDE_ALU</span>
+  register_wx_write_enable &lt;= 0;
+<span class=M>`endif</span>
+<span class=M>`ifdef</span> <a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#41">HAS_SCRATCH_MEMORY</a>
+  <a  onClick="return qs(event,this,56)"  class=SR href="#226">scratch_write_enable</a> &lt;= 0;
+<span class=M>`endif</span>
+<a name="416"></a>  <a  onClick="return qs(event,this,9)"  class=SOR href="#80">interrupt_ack</a> &lt;= 0;
+  <a  onClick="return qs(event,this,21)"  class=SR href="#102">zero_carry_write_enable</a> &lt;= 0;
+
+  <span class=K>if</span> (<a  onClick="return qs(event,this,22)"  class=SW href="#104">internal_reset</a>) <span class=K>begin</span>: on_internal_reset
+    <span class=C>/* Reset values */</span>
+<a name="421"></a>    <a  onClick="return qs(event,this,13)"  class=SR href="#90">timing_control</a> &lt;= 0;
+<a name="422"></a>    <a  onClick="return qs(event,this,12)"  class=SR href="#89">program_counter</a> &lt;= <span class=D>`</span><a  onClick="return qs(event,this,0)"  class=D href="pacoblaze_inc.v.html#157">reset_vector</a>; <span class=C>// load reset vector
+</span>    <a  onClick="return qs(event,this,14)"  class=SR href="#92">zero</a> &lt;= 0; <a  onClick="return qs(event,this,15)"  class=SR href="#93">carry</a> &lt;= 0; <span class=C>// flags begin cleared
+</span><a name="424"></a>    <a  onClick="return qs(event,this,16)"  class=SR href="#94">interrupt_enable</a> &lt;= 0; <a  onClick="return qs(event,this,17)"  class=SR href="#95">interrupt_latch</a> &lt;= 0; <span class=C>// interrupts disabled at reset
+</span>  <span class=K>end</span>
+  <span class=K>else</span> <span class=K>begin</span>: on_run
+    <a  onClick="return qs(event,this,13)"  class=SR href="#90">timing_control</a> &lt;= ~<a  onClick="return qs(event,this,13)"  class=SR href="#421">timing_control</a>; <span class=C>// step timing control
+</span>
+    <a  onClick="return qs(event,this,17)"  class=SR href="#95">interrupt_latch</a> &lt;= <a  onClick="return qs(event,this,26)"  class=SW href="#280">interrupt_assert</a> | <a  onClick="return qs(event,this,17)"  class=SR href="#424">interrupt_latch</a>; <span class=C>// recognize interrupt
+</span>
+    <span class=C>/* First stage, T == 0 */</span>
+    <span class=K>if</span> (<a  onClick="return qs(event,this,13)"  class=SR href="#90">timing_control</a> == 0) <span class=K>begin</span>
+      <a  onClick="return qs(event,this,12)"  class=SR href="#89">program_counter</a> &lt;= <a  onClick="return qs(event,this,24)"  class=SW href="#274">program_counter_next</a>; <span class=C>// default next program counter
+</span>
+      <span class=K>if</span> (<a  onClick="return qs(event,this,17)"  class=SR href="#95">interrupt_latch</a>) <span class=K>begin</span> <span class=C>// process interrupt
+</span>        <a  onClick="return qs(event,this,16)"  class=SR href="#94">interrupt_enable</a> &lt;= 0; <a  onClick="return qs(event,this,17)"  class=SR href="#95">interrupt_latch</a> &lt;= 0; <span class=C>// clear interrupt
+</span>        <a  onClick="return qs(event,this,9)"  class=SOR href="#80">interrupt_ack</a> &lt;= 1; <span class=C>// acknowledge interrupt
+</span><a name="438"></a>        <a  onClick="return qs(event,this,18)"  class=SR href="#97">zero_saved</a> &lt;= <a  onClick="return qs(event,this,14)"  class=SR href="#339">zero</a>; <a  onClick="return qs(event,this,19)"  class=SR href="#98">carry_saved</a> &lt;= <a  onClick="return qs(event,this,15)"  class=SR href="#339">carry</a>; <span class=C>// save flags
+</span>      <span class=K>end</span>
+      <span class=K>else</span> <span class=C>// execute instruction
+</span>        <a  onClick="return qs(event,this,0)"  class=T href="#pacoblaze3m_execute">execute</a>(<a  onClick="return qs(event,this,27)"  class=SW href="#111">idu_operation</a>);
+    <span class=K>end</span>
+    <span class=C>/* Second stage, T == 1 */</span>
+    <span class=K>else</span> <span class=K>begin</span>
+      <span class=K>if</span> (<a  onClick="return qs(event,this,21)"  class=SR href="#102">zero_carry_write_enable</a>) <span class=K>begin</span>
+        <a  onClick="return qs(event,this,14)"  class=SR href="#92">zero</a> &lt;= <a  onClick="return qs(event,this,44)"  class=SW href="#152">alu_zero_out</a>; <a  onClick="return qs(event,this,15)"  class=SR href="#93">carry</a> &lt;= <a  onClick="return qs(event,this,45)"  class=SW href="#152">alu_carry_out</a>; <span class=C>// update alu flags
+</span>      <span class=K>end</span>
+    <span class=K>end</span>
+
+  <span class=K>end</span> <span class=C>// on_run
+</span>
+<span class=K>end</span>
+<span class=K>endmodule</span>
+
+<span class=M>`endif</span> <span class=C>// PACOBLAZE_V_
+</span>
+</pre>
+<center><table class=NB cols=7 ><tr><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index.html';"><a target="_top" href="index.html">Hierarchy</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-f.html';"><a target="_top" href="index-f.html">Files</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-m.html';"><a target="_top" href="index-m.html">Modules</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-s.html';"><a target="_top" href="index-s.html">Signals</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-t.html';"><a target="_top" href="index-t.html">Tasks</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='index-fn.html';"><a target="_top" href="index-fn.html">Functions</a></td><td align="center" width="14%" onmousedown="this.style.border='inset';" onmouseup="this.style.border='outset';"  onclick="location='http://www.burbleland.com/v2html/help_7_30.html?htf-ni-s-';"><a target="_top" href="http://www.burbleland.com/v2html/help_7_30.html?htf-ni-s-">Help</a></td></tr></table></center>
+<script language="JavaScript"type="text/javascript"><!--
+function next_page() { return ""; }
+function first_page() { return ""; }
+var extra_info = [
+["S","pacoblaze.v.html#71","pacoblaze.v.html#239","","pacoblaze.v.html#239","index-s.html#address___pacoblaze3m"],
+["S","pacoblaze.v.html#72","","compare3m_tb.v.html#54","","index-s.p2.html#instruction___pacoblaze3m"],
+["S","pacoblaze.v.html#73","pacoblaze.v.html#242","","pacoblaze.v.html#242","index-s.p3.html#port_id___pacoblaze3m"],
+["S","pacoblaze.v.html#74","pacoblaze.v.html#350","","pacoblaze.v.html#350","index-s.p4.html#write_strobe___pacoblaze3m"],
+["S","pacoblaze.v.html#75","pacoblaze.v.html#241","","pacoblaze.v.html#241","index-s.p3.html#out_port___pacoblaze3m"],
+["S","pacoblaze.v.html#76","pacoblaze.v.html#346","","pacoblaze.v.html#346","index-s.p4.html#read_strobe___pacoblaze3m"],
+["S","pacoblaze.v.html#77","","compare3m_tb.v.html#58","pacoblaze3m_tb.v.html#54","index-s.p2.html#in_port___pacoblaze3m"],
+["S","pacoblaze.v.html#78","","compare3m_tb.v.html#60","pacoblaze3m_tb.v.html#105","index-s.p2.html#interrupt___pacoblaze3m"],
+["S","pacoblaze.v.html#80","pacoblaze.v.html#416","","pacoblaze.v.html#416","index-s.p2.html#interrupt_ack___pacoblaze3m"],
+["S","pacoblaze.v.html#82","","compare3m_tb.v.html#52","pacoblaze3m_tb.v.html#105","index-s.p4.html#reset___pacoblaze3m"],
+["S","pacoblaze.v.html#83","","compare3m_tb.v.html#51","pacoblaze3m_tb.v.html#86","index-s.html#clk___pacoblaze3m"],
+["S","pacoblaze.v.html#89","pacoblaze.v.html#422","","pacoblaze.v.html#422","index-s.p3.html#program_counter___pacoblaze3m"],
+["S","pacoblaze.v.html#90","pacoblaze.v.html#421","","pacoblaze.v.html#421","index-s.p4.html#timing_control___pacoblaze3m"],
+["S","pacoblaze.v.html#92","pacoblaze.v.html#339","","pacoblaze.v.html#339","index-s.p5.html#zero___pacoblaze3m"],
+["S","pacoblaze.v.html#93","pacoblaze.v.html#339","","pacoblaze.v.html#339","index-s.html#carry___pacoblaze3m"],
+["S","pacoblaze.v.html#94","pacoblaze.v.html#340","","pacoblaze.v.html#340","index-s.p2.html#interrupt_enable___pacoblaze3m"],
+["S","pacoblaze.v.html#95","pacoblaze.v.html#424","","pacoblaze.v.html#424","index-s.p2.html#interrupt_latch___pacoblaze3m"],
+["S","pacoblaze.v.html#97","pacoblaze.v.html#438","","pacoblaze.v.html#438","index-s.p5.html#zero_saved___pacoblaze3m"],
+["S","pacoblaze.v.html#98","pacoblaze.v.html#438","","pacoblaze.v.html#438","index-s.html#carry_saved___pacoblaze3m"],
+["S","pacoblaze.v.html#100","pacoblaze.v.html#397","","pacoblaze.v.html#397","index-s.p4.html#reset_latch___pacoblaze3m"],
+["S","pacoblaze.v.html#102","pacoblaze.v.html#335","","pacoblaze.v.html#335","index-s.p5.html#zero_carry_write_enable___pacoblaze3m"],
+["S","pacoblaze.v.html#104","pacoblaze.v.html#246","","pacoblaze.v.html#246","index-s.p2.html#internal_reset___pacoblaze3m"],
+["S","pacoblaze.v.html#105","pacoblaze.v.html#268","","pacoblaze.v.html#268","index-s.p3.html#program_counter_source___pacoblaze3m"],
+["S","pacoblaze.v.html#105","pacoblaze.v.html#274","","pacoblaze.v.html#274","index-s.p3.html#program_counter_next___pacoblaze3m"],
+["S","pacoblaze.v.html#106","pacoblaze.v.html#251","","pacoblaze.v.html#251","index-s.html#conditional_match___pacoblaze3m"],
+["S","pacoblaze.v.html#107","pacoblaze.v.html#280","","pacoblaze.v.html#280","index-s.p2.html#interrupt_assert___pacoblaze3m"],
+["S","pacoblaze.v.html#111","","","","index-s.p2.html#idu_operation___pacoblaze3m"],
+["S","pacoblaze.v.html#112","","","","index-s.p2.html#idu_shift_operation___pacoblaze3m"],
+["S","pacoblaze.v.html#113","","","","index-s.p2.html#idu_shift_direction___pacoblaze3m"],
+["S","pacoblaze.v.html#113","","","","index-s.p2.html#idu_shift_constant___pacoblaze3m"],
+["S","pacoblaze.v.html#114","","","","index-s.p2.html#idu_operand_selection___pacoblaze3m"],
+["S","pacoblaze.v.html#115","","","","index-s.p2.html#idu_x_address___pacoblaze3m"],
+["S","pacoblaze.v.html#115","","","","index-s.p2.html#idu_y_address___pacoblaze3m"],
+["S","pacoblaze.v.html#116","","","","index-s.p2.html#idu_implied_value___pacoblaze3m"],
+["S","pacoblaze.v.html#117","","","","index-s.p2.html#idu_port_address___pacoblaze3m"],
+["S","pacoblaze.v.html#119","","","","index-s.p2.html#idu_scratch_address___pacoblaze3m"],
+["S","pacoblaze.v.html#121","","","","index-s.p2.html#idu_code_address___pacoblaze3m"],
+["S","pacoblaze.v.html#122","","","","index-s.p2.html#idu_conditional___pacoblaze3m"],
+["S","pacoblaze.v.html#123","","","","index-s.p2.html#idu_condition_flags___pacoblaze3m"],
+["S","pacoblaze.v.html#124","","","","index-s.p2.html#idu_interrupt_enable___pacoblaze3m"],
+["S","pacoblaze.v.html#151","","","","index-s.html#alu_result___pacoblaze3m"],
+["S","pacoblaze.v.html#151","pacoblaze.v.html#291","","pacoblaze.v.html#291","index-s.html#alu_operand_a___pacoblaze3m"],
+["S","pacoblaze.v.html#151","pacoblaze.v.html#292","","pacoblaze.v.html#292","index-s.html#alu_operand_b___pacoblaze3m"],
+["S","pacoblaze.v.html#152","","","","index-s.html#alu_zero_out___pacoblaze3m"],
+["S","pacoblaze.v.html#152","","","","index-s.html#alu_carry_out___pacoblaze3m"],
+["S","pacoblaze.v.html#170","pacoblaze.v.html#170","","pacoblaze.v.html#170","index-s.p2.html#is_alu___pacoblaze3m"],
+["S","pacoblaze.v.html#198","pacoblaze.v.html#324","","pacoblaze.v.html#324","index-s.p4.html#register_x_write_enable___pacoblaze3m"],
+["S","pacoblaze.v.html#199","pacoblaze.v.html#294","","pacoblaze.v.html#294","index-s.p4.html#register_x_data_in___pacoblaze3m"],
+["S","pacoblaze.v.html#199","","","","index-s.p4.html#register_x_data_out___pacoblaze3m"],
+["S","pacoblaze.v.html#199","","","","index-s.p4.html#register_y_data_out___pacoblaze3m"],
+["S","pacoblaze.v.html#215","pacoblaze.v.html#282","","pacoblaze.v.html#282","index-s.p4.html#stack_write_enable___pacoblaze3m"],
+["S","pacoblaze.v.html#215","pacoblaze.v.html#284","","pacoblaze.v.html#284","index-s.p4.html#stack_update_enable___pacoblaze3m"],
+["S","pacoblaze.v.html#215","pacoblaze.v.html#288","","pacoblaze.v.html#288","index-s.p4.html#stack_push_pop___pacoblaze3m"],
+["S","pacoblaze.v.html#216","pacoblaze.v.html#216","","pacoblaze.v.html#216","index-s.p4.html#stack_data_in___pacoblaze3m"],
+["S","pacoblaze.v.html#217","","","","index-s.p4.html#stack_data_out___pacoblaze3m"],
+["S","pacoblaze.v.html#226","pacoblaze.v.html#363","","pacoblaze.v.html#363","index-s.p4.html#scratch_write_enable___pacoblaze3m"],
+["S","pacoblaze.v.html#227","pacoblaze.v.html#227","","pacoblaze.v.html#227","index-s.p4.html#scratch_address___pacoblaze3m"],
+["S","pacoblaze.v.html#230","","","","index-s.p4.html#scratch_data_out___pacoblaze3m"],
+["S","pacoblaze.v.html#259","pacoblaze.v.html#259","","pacoblaze.v.html#259","index-s.p2.html#is_jump___pacoblaze3m"],
+["S","pacoblaze.v.html#260","pacoblaze.v.html#260","","pacoblaze.v.html#260","index-s.p2.html#is_call___pacoblaze3m"],
+["S","pacoblaze.v.html#261","pacoblaze.v.html#261","","pacoblaze.v.html#261","index-s.p2.html#is_return___pacoblaze3m"],
+["S","pacoblaze.v.html#262","pacoblaze.v.html#262","","pacoblaze.v.html#262","index-s.p2.html#is_returni___pacoblaze3m"],
+["S","pacoblaze.v.html#263","pacoblaze.v.html#263","","pacoblaze.v.html#263","index-s.p2.html#is_input___pacoblaze3m"],
+["S","pacoblaze.v.html#265","pacoblaze.v.html#265","","pacoblaze.v.html#265","index-s.p2.html#is_fetch___pacoblaze3m"]
+];
+disabled=0;
+// -->
+</script>
+<hr>
+<table>
+ <tr><td><i>This page:</i></td>
+  <td><i>Maintained by:</i></td>
+  <td><i><a href="mailto:pablo.N@SPAM.bleyer.org">
+  pablo.N@SPAM.bleyer.org</a></i></tr>
+<tr>
+<td> </td>
+  <td><i>Created:</i></td><td><i>Tue May 29 02:37:53 2007</i></td></tr>
+<tr>
+ <td> </td>
+ <td><i>From:</i></td><td><i>
+  <a href="pacoblaze.v">
+pacoblaze.v</a></i></td></tr>
+</table>
+<hr>
+<table width="100%"><tr><td><i>Verilog converted to html by  <a target="_top" href="http://www.burbleland.com/v2html/v2html.html">  v2html 7.30</a> 
+ (written by <a href="mailto:v2html730@burbleland.com">Costas Calamvokis</a>).</i></td><td align="right"><b><a href="http://www.burbleland.com/v2html/help_7_30.html?htf-ni-s-">Help</a></b></td></tr></table><table height="90%"><tr><td></td></tr></table>
+</body>
+</html>

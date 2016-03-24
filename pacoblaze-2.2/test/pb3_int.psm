@@ -1,0 +1,16 @@
+; pb3_int.psm
+
+start:
+	output s2, 97
+	interrupt enable
+	load s2, 0
+	call foo
+
+foo:
+	jump foo
+
+isr:
+	returni disable
+
+irq: address $3ff
+	jump isr

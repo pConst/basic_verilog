@@ -1,0 +1,20 @@
+start:
+	load s0, $27
+	load s1, 1
+	sub s0, $35
+	subcy s1, 1
+
+	load s0, s0
+	load s1, s1
+
+	load s0, $27
+	load s1, 0
+	sub s0, $35
+	subcy s1, 1
+
+	load s0, s0
+	load s1, s1
+
+
+halt:
+	jump halt

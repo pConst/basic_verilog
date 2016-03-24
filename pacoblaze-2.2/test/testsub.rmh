@@ -1,0 +1,36 @@
+/* Symbol Table */
+// halt = LABEL: 12
+// s0 = REGISTER: 0
+// s1 = REGISTER: 1
+// s2 = REGISTER: 2
+// s3 = REGISTER: 3
+// s4 = REGISTER: 4
+// s5 = REGISTER: 5
+// s6 = REGISTER: 6
+// s7 = REGISTER: 7
+// s8 = REGISTER: 8
+// s9 = REGISTER: 9
+// sA = REGISTER: 10
+// sB = REGISTER: 11
+// sC = REGISTER: 12
+// sD = REGISTER: 13
+// sE = REGISTER: 14
+// sF = REGISTER: 15
+// start = LABEL: 0
+
+/* Program Code */
+// @000 #1: [start]
+00027 // @000 #2: load(s0,39)
+00101 // @001 #3: load(s1,1)
+1c035 // @002 #4: sub(s0,53)
+1e101 // @003 #5: subcy(s1,1)
+01000 // @004 #7: load(s0,s0)
+01110 // @005 #8: load(s1,s1)
+00027 // @006 #10: load(s0,39)
+00100 // @007 #11: load(s1,0)
+1c035 // @008 #12: sub(s0,53)
+1e101 // @009 #13: subcy(s1,1)
+01000 // @00a #15: load(s0,s0)
+01110 // @00b #16: load(s1,s1)
+// @00c #19: [halt]
+3400c // @00c #20: jump(halt)

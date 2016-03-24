@@ -1,0 +1,1601 @@
+/* Symbol Table */
+// ASCII_byte_to_hex = LABEL: 485
+// ASCII_letter = LABEL: 508
+// ASCII_to_decimal = LABEL: 510
+// ASCII_to_hex = LABEL: 498
+// AUTO_command = LABEL: 110
+// BS_edit = LABEL: 450
+// CYCLE_command = LABEL: 180
+// FAST_command = LABEL: 145
+// ISR = LABEL: 764
+// LED0 = CONSTANT: 1
+// LED1 = CONSTANT: 2
+// LED2 = CONSTANT: 4
+// LED3 = CONSTANT: 8
+// LED4 = CONSTANT: 16
+// LED5 = CONSTANT: 32
+// LED6 = CONSTANT: 64
+// LED7 = CONSTANT: 128
+// LED_port = CONSTANT: 128
+// RESET_command = LABEL: 53
+// SET_command = LABEL: 69
+// UART_data = REGISTER: 15
+// UART_read_port = CONSTANT: 1
+// UART_write = LABEL: 431
+// UART_write_port = CONSTANT: 64
+// auto_inc = CONSTANT: 12
+// bad_command = LABEL: 50
+// character_0 = CONSTANT: 48
+// character_1 = CONSTANT: 49
+// character_2 = CONSTANT: 50
+// character_3 = CONSTANT: 51
+// character_4 = CONSTANT: 52
+// character_5 = CONSTANT: 53
+// character_6 = CONSTANT: 54
+// character_7 = CONSTANT: 55
+// character_8 = CONSTANT: 56
+// character_9 = CONSTANT: 57
+// character_A = CONSTANT: 65
+// character_B = CONSTANT: 66
+// character_BS = CONSTANT: 8
+// character_C = CONSTANT: 67
+// character_CR = CONSTANT: 13
+// character_D = CONSTANT: 68
+// character_E = CONSTANT: 69
+// character_F = CONSTANT: 70
+// character_G = CONSTANT: 71
+// character_H = CONSTANT: 72
+// character_I = CONSTANT: 73
+// character_J = CONSTANT: 74
+// character_K = CONSTANT: 75
+// character_L = CONSTANT: 76
+// character_M = CONSTANT: 77
+// character_N = CONSTANT: 78
+// character_O = CONSTANT: 79
+// character_P = CONSTANT: 80
+// character_Q = CONSTANT: 81
+// character_R = CONSTANT: 82
+// character_S = CONSTANT: 83
+// character_T = CONSTANT: 84
+// character_U = CONSTANT: 85
+// character_V = CONSTANT: 86
+// character_W = CONSTANT: 87
+// character_X = CONSTANT: 88
+// character_Y = CONSTANT: 89
+// character_Z = CONSTANT: 90
+// character_a = CONSTANT: 97
+// character_b = CONSTANT: 98
+// character_c = CONSTANT: 99
+// character_colon = CONSTANT: 58
+// character_comma = CONSTANT: 44
+// character_d = CONSTANT: 100
+// character_divide = CONSTANT: 47
+// character_dollar = CONSTANT: 36
+// character_e = CONSTANT: 101
+// character_equals = CONSTANT: 61
+// character_exclaim = CONSTANT: 33
+// character_f = CONSTANT: 102
+// character_g = CONSTANT: 103
+// character_greater_than = CONSTANT: 62
+// character_h = CONSTANT: 104
+// character_i = CONSTANT: 105
+// character_j = CONSTANT: 106
+// character_k = CONSTANT: 107
+// character_l = CONSTANT: 108
+// character_less_than = CONSTANT: 60
+// character_m = CONSTANT: 109
+// character_minus = CONSTANT: 45
+// character_n = CONSTANT: 110
+// character_o = CONSTANT: 111
+// character_p = CONSTANT: 112
+// character_plus = CONSTANT: 43
+// character_q = CONSTANT: 113
+// character_question = CONSTANT: 63
+// character_r = CONSTANT: 114
+// character_s = CONSTANT: 115
+// character_semi_colon = CONSTANT: 59
+// character_space = CONSTANT: 32
+// character_stop = CONSTANT: 46
+// character_t = CONSTANT: 116
+// character_u = CONSTANT: 117
+// character_v = CONSTANT: 118
+// character_w = CONSTANT: 119
+// character_x = CONSTANT: 120
+// character_y = CONSTANT: 121
+// character_z = CONSTANT: 122
+// clear_UART_Rx_loop = LABEL: 462
+// cold_start = LABEL: 0
+// end_cycle = LABEL: 271
+// fast_mode = CONSTANT: 13
+// hex_byte_to_ASCII = LABEL: 514
+// hex_to_ASCII = LABEL: 526
+// line_store1_output_H = CONSTANT: 4
+// line_store1_output_L = CONSTANT: 2
+// line_store1_output_M = CONSTANT: 3
+// line_store2_output_H = CONSTANT: 7
+// line_store2_output_L = CONSTANT: 5
+// line_store2_output_M = CONSTANT: 6
+// line_store3_output_H = CONSTANT: 9
+// line_store3_output_L = CONSTANT: 8
+// line_store4a_output_H = CONSTANT: 12
+// line_store4a_output_L = CONSTANT: 10
+// line_store4a_output_M = CONSTANT: 11
+// line_store4b_output_H = CONSTANT: 15
+// line_store4b_output_L = CONSTANT: 13
+// line_store4b_output_M = CONSTANT: 14
+// line_store4c_output_H = CONSTANT: 18
+// line_store4c_output_L = CONSTANT: 16
+// line_store4c_output_M = CONSTANT: 17
+// line_store5_output_H = CONSTANT: 20
+// line_store5_output_L = CONSTANT: 19
+// line_store6_output_H = CONSTANT: 22
+// line_store6_output_L = CONSTANT: 21
+// line_store7a_output_H = CONSTANT: 25
+// line_store7a_output_L = CONSTANT: 23
+// line_store7a_output_M = CONSTANT: 24
+// line_store7b_output_H = CONSTANT: 28
+// line_store7b_output_L = CONSTANT: 26
+// line_store7b_output_M = CONSTANT: 27
+// line_store_input_H = CONSTANT: 4
+// line_store_input_L = CONSTANT: 1
+// line_store_input_M = CONSTANT: 2
+// line_store_write_en = CONSTANT: 8
+// n_count0 = CONSTANT: 8
+// n_count1 = CONSTANT: 9
+// n_count2 = CONSTANT: 10
+// n_count3 = CONSTANT: 11
+// n_loop = LABEL: 236
+// number_char = LABEL: 529
+// onechar_to_value = LABEL: 481
+// purge_loop = LABEL: 17
+// read_character = LABEL: 425
+// read_error = LABEL: 458
+// read_from_UART = LABEL: 421
+// read_next_char = LABEL: 274
+// receive_full_test = LABEL: 436
+// receive_string = LABEL: 433
+// rx_data_present = CONSTANT: 4
+// rx_full = CONSTANT: 16
+// rx_half_full = CONSTANT: 8
+// s0 = REGISTER: 0
+// s1 = REGISTER: 1
+// s2 = REGISTER: 2
+// s3 = REGISTER: 3
+// s4 = REGISTER: 4
+// s5 = REGISTER: 5
+// s6 = REGISTER: 6
+// s7 = REGISTER: 7
+// s8 = REGISTER: 8
+// s9 = REGISTER: 9
+// sA = REGISTER: 10
+// sB = REGISTER: 11
+// sC = REGISTER: 12
+// sD = REGISTER: 13
+// sE = REGISTER: 14
+// sF = REGISTER: 15
+// send_1280 = LABEL: 746
+// send_1920 = LABEL: 755
+// send_CR = LABEL: 541
+// send_Error = LABEL: 639
+// send_OK = LABEL: 649
+// send_Overflow_Error = LABEL: 622
+// send_backspace = LABEL: 547
+// send_greater_than = LABEL: 619
+// send_hex_byte = LABEL: 531
+// send_index = LABEL: 656
+// send_nibble = LABEL: 537
+// send_prompt = LABEL: 606
+// send_space = LABEL: 544
+// send_space_Error = LABEL: 638
+// send_to_UART = LABEL: 427
+// send_welcome = LABEL: 550
+// set_LEDs = LABEL: 32
+// skip_display = LABEL: 409
+// status_port = CONSTANT: 0
+// step_counter0 = CONSTANT: 0
+// step_counter1 = CONSTANT: 1
+// step_counter2 = CONSTANT: 2
+// step_counter3 = CONSTANT: 3
+// step_counter4 = CONSTANT: 4
+// step_line_store = LABEL: 277
+// step_test = LABEL: 269
+// store_n = LABEL: 231
+// store_step_count = LABEL: 302
+// string_start = CONSTANT: 48
+// string_start_again = LABEL: 456
+// test_auto_ON = LABEL: 138
+// test_data_in0 = CONSTANT: 5
+// test_data_in1 = CONSTANT: 6
+// test_data_in2 = CONSTANT: 7
+// test_fast_ON = LABEL: 173
+// tx_full = CONSTANT: 2
+// tx_half_full = CONSTANT: 1
+// ucs_loop = LABEL: 474
+// update_auto = LABEL: 142
+// update_fast = LABEL: 177
+// update_n = LABEL: 252
+// upper_case = LABEL: 467
+// upper_case_string = LABEL: 473
+// warm_start = LABEL: 27
+
+/* Program Code */
+// #1: ; KCPSM3 Program - Program to test line stores using the Spartan-3E Starter Kit.
+// #2: ;
+// #3: ; Ken Chapman - Xilinx Ltd
+// #4: ;
+// #5: ; Version v1.00 - 26th June 2006
+// #6: ;
+// #7: ; PicoBlaze communicates via the UART to control the value applied to the inputs of
+// #8: ; line stores and enable them for a specified number of clock cycles. The outputs of
+// #9: ; all the line stores are then displayed.
+// #10: ;
+// #11: ;**************************************************************************************
+// #12: ; Port definitions
+// #13: ;**************************************************************************************
+// #14: ;
+// #15: ;
+// #16: ;
+// #17: CONSTANT(LED_port,128) ;8 simple LEDs
+// #18: CONSTANT(LED0,1) ;     LED 0 - bit0
+// #19: CONSTANT(LED1,2) ;         1 - bit1
+// #20: CONSTANT(LED2,4) ;         2 - bit2
+// #21: CONSTANT(LED3,8) ;         3 - bit3
+// #22: CONSTANT(LED4,16) ;         4 - bit4
+// #23: CONSTANT(LED5,32) ;         5 - bit5
+// #24: CONSTANT(LED6,64) ;         6 - bit6
+// #25: CONSTANT(LED7,128) ;         7 - bit7
+// #26: ;
+// #27: ;
+// #28: ;UART ports
+// #29: ;
+// #30: CONSTANT(status_port,0) ;UART status input
+// #31: CONSTANT(tx_half_full,1) ;  Transmitter     half full - bit0
+// #32: CONSTANT(tx_full,2) ;    FIFO               full - bit1
+// #33: CONSTANT(rx_data_present,4) ;  Receiver     data present - bit2
+// #34: CONSTANT(rx_half_full,8) ;    FIFO          half full - bit3
+// #35: CONSTANT(rx_full,16) ;                   full - bit4
+// #36: ;
+// #37: CONSTANT(UART_read_port,1) ;UART Rx data input
+// #38: ;
+// #39: CONSTANT(UART_write_port,64) ;UART Tx data output
+// #40: ;
+// #41: ;
+// #42: ;The first line store input is 18-bits and requires 3 bytes
+// #43: ;to be written to a holding register. Then when required,
+// #44: ;the whole 18-bit value can be stored in the line store
+// #45: ;using a dummy write (data not used) to a forth port.
+// #46: ;
+// #47: ;
+// #48: CONSTANT(line_store_input_L,1) ;Line Store input bits [7:0]
+// #49: CONSTANT(line_store_input_M,2) ;Line Store input bits [15:8]
+// #50: CONSTANT(line_store_input_H,4) ;Line Store input bits [17:16]
+// #51: CONSTANT(line_store_write_en,8) ;Line Store clock enable (dummy write)
+// #52: ;
+// #53: ;
+// #54: ;
+// #55: ;The first line store 768x24 and requires 3 bytes to be read.
+// #56: ;
+// #57: CONSTANT(line_store1_output_L,2) ;Line Store output bits [7:0]
+// #58: CONSTANT(line_store1_output_M,3) ;Line Store output bits [15:8]
+// #59: CONSTANT(line_store1_output_H,4) ;Line Store output bits [23:16]
+// #60: ;
+// #61: ;
+// #62: ;The second line store 1024x18 and requires 3 bytes to be read.
+// #63: ;
+// #64: CONSTANT(line_store2_output_L,5) ;Line Store output bits [7:0]
+// #65: CONSTANT(line_store2_output_M,6) ;Line Store output bits [15:8]
+// #66: CONSTANT(line_store2_output_H,7) ;Line Store output bits [17:16]
+// #67: ;
+// #68: ;
+// #69: ;The third line store 1280x13 and requires 2 bytes to be read.
+// #70: ;
+// #71: CONSTANT(line_store3_output_L,8) ;Line Store output bits [7:0]
+// #72: CONSTANT(line_store3_output_H,9) ;Line Store output bits [12:8]
+// #73: ;
+// #74: ;
+// #75: ;The forth line store is 1280x72 so to make it more manageable it has been
+// #76: ;folded to make it 3 times longer and only 24-bits wide. This requires 3 bytes
+// #77: ;to be read at each 1280 delay tapping point.
+// #78: ;
+// #79: CONSTANT(line_store4a_output_L,10) ;Line Store output bits [7:0]   First tap
+// #80: CONSTANT(line_store4a_output_M,11) ;Line Store output bits [15:8]
+// #81: CONSTANT(line_store4a_output_H,12) ;Line Store output bits [23:16]
+// #82: ;
+// #83: CONSTANT(line_store4b_output_L,13) ;Line Store output bits [31:24] Second tap
+// #84: CONSTANT(line_store4b_output_M,14) ;Line Store output bits [39:32]
+// #85: CONSTANT(line_store4b_output_H,15) ;Line Store output bits [47:40]
+// #86: ;
+// #87: CONSTANT(line_store4c_output_L,16) ;Line Store output bits [55:48] Third tap
+// #88: CONSTANT(line_store4c_output_M,17) ;Line Store output bits [63:56]
+// #89: CONSTANT(line_store4c_output_H,18) ;Line Store output bits [71:64]
+// #90: ;
+// #91: ;
+// #92: ;The fifth line store 1536x12 and requires 2 bytes to be read.
+// #93: ;
+// #94: CONSTANT(line_store5_output_L,19) ;Line Store output bits [7:0]
+// #95: CONSTANT(line_store5_output_H,20) ;Line Store output bits [11:8]
+// #96: ;
+// #97: ;
+// #98: ;The sixth line store 1920x9 and requires 2 bytes to be read.
+// #99: ;
+// #100: CONSTANT(line_store6_output_L,21) ;Line Store output bits [7:0]
+// #101: CONSTANT(line_store6_output_H,22) ;Line Store output bit [8]
+// #102: ;
+// #103: ;
+// #104: ;The seventh line store is 1920x48 so to make it more manageable it has been
+// #105: ;folded to make it 2 times longer and only 24-bits wide. This requires 3 bytes
+// #106: ;to be read at each 1920 delay tapping point.
+// #107: ;
+// #108: CONSTANT(line_store7a_output_L,23) ;Line Store output bits [7:0]   First tap
+// #109: CONSTANT(line_store7a_output_M,24) ;Line Store output bits [15:8]
+// #110: CONSTANT(line_store7a_output_H,25) ;Line Store output bits [23:16]
+// #111: ;
+// #112: CONSTANT(line_store7b_output_L,26) ;Line Store output bits [31:24] Second tap
+// #113: CONSTANT(line_store7b_output_M,27) ;Line Store output bits [39:32]
+// #114: CONSTANT(line_store7b_output_H,28) ;Line Store output bits [47:40]
+// #115: ;
+// #116: ;
+// #117: ;**************************************************************************************
+// #118: ; Special Register usage
+// #119: ;**************************************************************************************
+// #120: ;
+// #121: NAMEREG(sF,UART_data) ;used to pass data to and from the UART
+// #122: ;
+// #123: ;
+// #124: ;
+// #125: ;**************************************************************************************
+// #126: ;Scratch Pad Memory Locations
+// #127: ;**************************************************************************************
+// #128: ;
+// #129: CONSTANT(step_counter0,0) ;decimal count of line store write operations
+// #130: CONSTANT(step_counter1,1)
+// #131: CONSTANT(step_counter2,2)
+// #132: CONSTANT(step_counter3,3)
+// #133: CONSTANT(step_counter4,4)
+// #134: ;
+// #135: CONSTANT(test_data_in0,5) ;24-bit data applied to line store input
+// #136: CONSTANT(test_data_in1,6)
+// #137: CONSTANT(test_data_in2,7)
+// #138: ;
+// #139: CONSTANT(n_count0,8) ;decimal count cycles to count in command
+// #140: CONSTANT(n_count1,9)
+// #141: CONSTANT(n_count2,10)
+// #142: CONSTANT(n_count3,11)
+// #143: ;
+// #144: ;
+// #145: CONSTANT(auto_inc,12) ;Determines if auto increment is active
+// #146: ;
+// #147: CONSTANT(fast_mode,13) ;Determines if fast mode is active
+// #148: ;
+// #149: ;UART character strings will be stored in scratch pad memory ending in carriage return.
+// #150: ;A string can be up to 16 characters with the start location defined by this constant.
+// #151: ;
+// #152: CONSTANT(string_start,48)
+// #153: ;
+// #154: ;
+// #155: ;
+// #156: ;**************************************************************************************
+// #157: ;Useful data constants
+// #158: ;**************************************************************************************
+// #159: ;
+// #160: ;
+// #161: ;
+// #162: ;
+// #163: ;ASCII table
+// #164: ;
+// #165: CONSTANT(character_a,97)
+// #166: CONSTANT(character_b,98)
+// #167: CONSTANT(character_c,99)
+// #168: CONSTANT(character_d,100)
+// #169: CONSTANT(character_e,101)
+// #170: CONSTANT(character_f,102)
+// #171: CONSTANT(character_g,103)
+// #172: CONSTANT(character_h,104)
+// #173: CONSTANT(character_i,105)
+// #174: CONSTANT(character_j,106)
+// #175: CONSTANT(character_k,107)
+// #176: CONSTANT(character_l,108)
+// #177: CONSTANT(character_m,109)
+// #178: CONSTANT(character_n,110)
+// #179: CONSTANT(character_o,111)
+// #180: CONSTANT(character_p,112)
+// #181: CONSTANT(character_q,113)
+// #182: CONSTANT(character_r,114)
+// #183: CONSTANT(character_s,115)
+// #184: CONSTANT(character_t,116)
+// #185: CONSTANT(character_u,117)
+// #186: CONSTANT(character_v,118)
+// #187: CONSTANT(character_w,119)
+// #188: CONSTANT(character_x,120)
+// #189: CONSTANT(character_y,121)
+// #190: CONSTANT(character_z,122)
+// #191: CONSTANT(character_A,65)
+// #192: CONSTANT(character_B,66)
+// #193: CONSTANT(character_C,67)
+// #194: CONSTANT(character_D,68)
+// #195: CONSTANT(character_E,69)
+// #196: CONSTANT(character_F,70)
+// #197: CONSTANT(character_G,71)
+// #198: CONSTANT(character_H,72)
+// #199: CONSTANT(character_I,73)
+// #200: CONSTANT(character_J,74)
+// #201: CONSTANT(character_K,75)
+// #202: CONSTANT(character_L,76)
+// #203: CONSTANT(character_M,77)
+// #204: CONSTANT(character_N,78)
+// #205: CONSTANT(character_O,79)
+// #206: CONSTANT(character_P,80)
+// #207: CONSTANT(character_Q,81)
+// #208: CONSTANT(character_R,82)
+// #209: CONSTANT(character_S,83)
+// #210: CONSTANT(character_T,84)
+// #211: CONSTANT(character_U,85)
+// #212: CONSTANT(character_V,86)
+// #213: CONSTANT(character_W,87)
+// #214: CONSTANT(character_X,88)
+// #215: CONSTANT(character_Y,89)
+// #216: CONSTANT(character_Z,90)
+// #217: CONSTANT(character_0,48)
+// #218: CONSTANT(character_1,49)
+// #219: CONSTANT(character_2,50)
+// #220: CONSTANT(character_3,51)
+// #221: CONSTANT(character_4,52)
+// #222: CONSTANT(character_5,53)
+// #223: CONSTANT(character_6,54)
+// #224: CONSTANT(character_7,55)
+// #225: CONSTANT(character_8,56)
+// #226: CONSTANT(character_9,57)
+// #227: CONSTANT(character_colon,58)
+// #228: CONSTANT(character_stop,46)
+// #229: CONSTANT(character_semi_colon,59)
+// #230: CONSTANT(character_minus,45)
+// #231: CONSTANT(character_divide,47) ;'/'
+// #232: CONSTANT(character_plus,43)
+// #233: CONSTANT(character_comma,44)
+// #234: CONSTANT(character_less_than,60)
+// #235: CONSTANT(character_greater_than,62)
+// #236: CONSTANT(character_equals,61)
+// #237: CONSTANT(character_space,32)
+// #238: CONSTANT(character_CR,13) ;carriage return
+// #239: CONSTANT(character_question,63) ;'?'
+// #240: CONSTANT(character_dollar,36)
+// #241: CONSTANT(character_exclaim,33) ;'!'
+// #242: CONSTANT(character_BS,8) ;Back Space command character
+// #243: ;
+// #244: ;
+// #245: ;
+// #246: ;
+// #247: ;
+// #248: ;**************************************************************************************
+// #249: ;Initialise the system
+// #250: ;**************************************************************************************
+// #251: ;
+// #252: ;
+// @000 #253: [cold_start]
+00001 // @000 #253: LOAD(s0,LED0)
+2c080 // @001 #254: OUTPUT(s0,LED_port)
+// #255: ;
+30226 // @002 #256: CALL(send_welcome) ;Write welcome message to UART
+// #257: ;
+00000 // @003 #258: LOAD(s0,0) ;clear counter
+2e004 // @004 #259: STORE(s0,step_counter4)
+2e003 // @005 #260: STORE(s0,step_counter3)
+2e002 // @006 #261: STORE(s0,step_counter2)
+2e001 // @007 #262: STORE(s0,step_counter1)
+2e000 // @008 #263: STORE(s0,step_counter0)
+// #264: ;
+2c001 // @009 #265: OUTPUT(s0,line_store_input_L) ;Clear input to line store
+2c002 // @00a #266: OUTPUT(s0,line_store_input_M)
+2c004 // @00b #267: OUTPUT(s0,line_store_input_H)
+2e005 // @00c #268: STORE(s0,test_data_in0)
+2e006 // @00d #269: STORE(s0,test_data_in1)
+2e007 // @00e #270: STORE(s0,test_data_in2)
+// #271: ;
+// #272: ;
+0020f // @00f #273: LOAD(s2,15) ;purge line stores with 4000 writes of zero
+001a0 // @010 #274: LOAD(s1,A0)
+// @011 #275: [purge_loop]
+2c008 // @011 #275: OUTPUT(s0,line_store_write_en) ;dummy write to enable line store
+1c101 // @012 #276: SUB(s1,1)
+35c11 // @013 #277: JUMP(NC,purge_loop)
+1c201 // @014 #278: SUB(s2,1)
+35c11 // @015 #279: JUMP(NC,purge_loop)
+// #280: ;
+// #281: ;
+2e00d // @016 #282: STORE(s0,fast_mode) ;turn off fast mode by default
+// #283: ;
+00001 // @017 #284: LOAD(s0,1) ;default first value is 000001 hex
+2c001 // @018 #285: OUTPUT(s0,line_store_input_L)
+2e005 // @019 #286: STORE(s0,test_data_in0)
+// #287: ;
+2e00c // @01a #288: STORE(s0,auto_inc) ;turn auto increment on by default
+// #289: ;
+// #290: ;**************************************************************************************
+// #291: ; Main program
+// #292: ;**************************************************************************************
+// #293: ;
+// #294: ; Provides a prompt to which an input with one of the following formats is expected...
+// #295: ;
+// #296: ;     set hhhhhh     - Set value to be written into line store.
+// #297: ;                      'hhhhhh' is a 6 digit hex value.
+// #298: ;
+// #299: ;     cycle n        - drive line store with 'n' cycles and display results.
+// #300: ;                      'n' is a decimal number up to 9999.
+// #301: ;
+// #302: ;     reset          - Clears the counter and also purges all line store of all values.
+// #303: ;
+// #304: ;     auto on        - Turns on the auto increment of the set value so that each
+// #305: ;                      seccessive write of data will be different and useful for
+// #306: ;                      determining the delay length.
+// #307: ;
+// #308: ;     auto off       - Turns off the auto increment function so that all successive writes
+// #309: ;                      to the line stores will be identical.
+// #310: ;
+// #311: ;
+// #312: ;     fast on        - Turns on the fast execute mode in which the output to the
+// #313: ;                      display via the UART is turned off during multi-cycle operations.
+// #314: ;                      This results in much greater speed.
+// #315: ;
+// #316: ;     fast off       - Turns off fast execution mode allowing all data to be displayed.
+// #317: ;
+// #318: ; The input allows a degree of editing to be performed and upper and lower case letters
+// #319: ; to be used.
+// #320: ;
+// @01b #321: [warm_start]
+0600c // @01b #321: FETCH(s0,auto_inc) ;use LED0 to display state of auto increment
+0610d // @01c #322: FETCH(s1,fast_mode) ;use LED1 to display state of fast mode
+14100 // @01d #323: COMPARE(s1,0)
+35020 // @01e #324: JUMP(Z,set_LEDs)
+0c002 // @01f #325: OR(s0,LED1)
+// @020 #326: [set_LEDs]
+2c080 // @020 #326: OUTPUT(s0,LED_port)
+// #327: ;
+3025e // @021 #328: CALL(send_prompt) ;Prompt 'KCPSM3>'
+301b1 // @022 #329: CALL(receive_string) ;obtain input string of up to 16 characters
+301d9 // @023 #330: CALL(upper_case_string) ;convert string to upper case
+// #331: ;
+00e30 // @024 #332: LOAD(sE,string_start) ;sE is memory pointer
+070e0 // @025 #333: FETCH(s0,sE) ;test for carriage return
+1400d // @026 #334: COMPARE(s0,character_CR)
+3501b // @027 #335: JUMP(Z,warm_start)
+14053 // @028 #336: COMPARE(s0,character_S) ;test for 'S' of 'SET' command
+35045 // @029 #337: JUMP(Z,SET_command)
+14043 // @02a #338: COMPARE(s0,character_C) ;test for 'C' of 'CYCLE' command
+350b4 // @02b #339: JUMP(Z,CYCLE_command)
+14052 // @02c #340: COMPARE(s0,character_R) ;test for 'R' of 'RESET' command
+35035 // @02d #341: JUMP(Z,RESET_command)
+14041 // @02e #342: COMPARE(s0,character_A) ;test for 'A' of 'AUTO' command
+3506e // @02f #343: JUMP(Z,AUTO_command)
+14046 // @030 #344: COMPARE(s0,character_F) ;test for 'F' of 'FAST' command
+35091 // @031 #345: JUMP(Z,FAST_command)
+// @032 #346: [bad_command]
+3021d // @032 #346: CALL(send_CR) ;no valid command entered
+3027f // @033 #347: CALL(send_Error)
+3401b // @034 #348: JUMP(warm_start)
+// #349: ;
+// #350: ;Processing potential 'RESET' command
+// #351: ;
+// @035 #352: [RESET_command]
+30112 // @035 #352: CALL(read_next_char) ;test for 'E' of 'RESET' command
+14045 // @036 #353: COMPARE(s0,character_E)
+35432 // @037 #354: JUMP(NZ,bad_command)
+30112 // @038 #355: CALL(read_next_char) ;test for 'S' of 'RESET' command
+14053 // @039 #356: COMPARE(s0,character_S)
+35432 // @03a #357: JUMP(NZ,bad_command)
+30112 // @03b #358: CALL(read_next_char) ;test for 'E' of 'RESET' command
+14045 // @03c #359: COMPARE(s0,character_E)
+35432 // @03d #360: JUMP(NZ,bad_command)
+30112 // @03e #361: CALL(read_next_char) ;test for 'T' of 'RESET' command
+14054 // @03f #362: COMPARE(s0,character_T)
+35432 // @040 #363: JUMP(NZ,bad_command)
+30112 // @041 #364: CALL(read_next_char) ;test for a carriage return
+1400d // @042 #365: COMPARE(s0,character_CR)
+35432 // @043 #366: JUMP(NZ,bad_command)
+34000 // @044 #367: JUMP(cold_start)
+// #368: ;
+// #369: ;Processing potential 'SET' command
+// #370: ;
+// @045 #371: [SET_command]
+30112 // @045 #371: CALL(read_next_char) ;test for 'E' of 'SET' command
+14045 // @046 #372: COMPARE(s0,character_E)
+35432 // @047 #373: JUMP(NZ,bad_command)
+30112 // @048 #374: CALL(read_next_char) ;test for 'T' of 'SET' command
+14054 // @049 #375: COMPARE(s0,character_T)
+35432 // @04a #376: JUMP(NZ,bad_command)
+30112 // @04b #377: CALL(read_next_char) ;test for a space
+14020 // @04c #378: COMPARE(s0,character_space)
+35432 // @04d #379: JUMP(NZ,bad_command)
+// #380: ;read value into register set [sC,sB,sA]
+30112 // @04e #381: CALL(read_next_char) ;read two character hex value
+01300 // @04f #382: LOAD(s3,s0)
+30112 // @050 #383: CALL(read_next_char)
+01200 // @051 #384: LOAD(s2,s0)
+301e5 // @052 #385: CALL(ASCII_byte_to_hex) ;convert to value in s0
+35832 // @053 #386: JUMP(C,bad_command)
+01c00 // @054 #387: LOAD(sC,s0) ;remember value
+30112 // @055 #388: CALL(read_next_char) ;read two character hex value
+01300 // @056 #389: LOAD(s3,s0)
+30112 // @057 #390: CALL(read_next_char)
+01200 // @058 #391: LOAD(s2,s0)
+301e5 // @059 #392: CALL(ASCII_byte_to_hex) ;convert to value in s0
+35832 // @05a #393: JUMP(C,bad_command)
+01b00 // @05b #394: LOAD(sB,s0) ;remember value
+30112 // @05c #395: CALL(read_next_char) ;read two character hex value
+01300 // @05d #396: LOAD(s3,s0)
+30112 // @05e #397: CALL(read_next_char)
+01200 // @05f #398: LOAD(s2,s0)
+301e5 // @060 #399: CALL(ASCII_byte_to_hex) ;convert to value in s0
+35832 // @061 #400: JUMP(C,bad_command)
+01a00 // @062 #401: LOAD(sA,s0) ;remember value
+30112 // @063 #402: CALL(read_next_char) ;test for carriage return to end command
+1400d // @064 #403: COMPARE(s0,character_CR)
+35432 // @065 #404: JUMP(NZ,bad_command)
+2ea05 // @066 #405: STORE(sA,test_data_in0) ;store new line store input value
+2eb06 // @067 #406: STORE(sB,test_data_in1)
+2ec07 // @068 #407: STORE(sC,test_data_in2)
+2ca01 // @069 #408: OUTPUT(sA,line_store_input_L) ;Write data to register driving line store
+2cb02 // @06a #409: OUTPUT(sB,line_store_input_M)
+2cc04 // @06b #410: OUTPUT(sC,line_store_input_H)
+30289 // @06c #411: CALL(send_OK)
+3401b // @06d #412: JUMP(warm_start)
+// #413: ;
+// #414: ;Processing potential 'AUTO' command
+// #415: ;
+// @06e #416: [AUTO_command]
+30112 // @06e #416: CALL(read_next_char)
+14055 // @06f #417: COMPARE(s0,character_U) ;test for 'U' of 'AUTO' command
+35432 // @070 #418: JUMP(NZ,bad_command)
+30112 // @071 #419: CALL(read_next_char)
+14054 // @072 #420: COMPARE(s0,character_T) ;test for 'T' of 'AUTO' command
+35432 // @073 #421: JUMP(NZ,bad_command)
+30112 // @074 #422: CALL(read_next_char)
+1404f // @075 #423: COMPARE(s0,character_O) ;test for 'O' of 'AUTO' command
+35432 // @076 #424: JUMP(NZ,bad_command)
+30112 // @077 #425: CALL(read_next_char) ;test for a space
+14020 // @078 #426: COMPARE(s0,character_space)
+35432 // @079 #427: JUMP(NZ,bad_command)
+30112 // @07a #428: CALL(read_next_char)
+1404f // @07b #429: COMPARE(s0,character_O) ;test for 'O' of 'ON' or 'OFF'
+35432 // @07c #430: JUMP(NZ,bad_command)
+30112 // @07d #431: CALL(read_next_char)
+1404e // @07e #432: COMPARE(s0,character_N) ;test for 'N' of 'ON'
+3508a // @07f #433: JUMP(Z,test_auto_ON)
+14046 // @080 #434: COMPARE(s0,character_F) ;test for 'F' of 'OFF'
+35432 // @081 #435: JUMP(NZ,bad_command)
+30112 // @082 #436: CALL(read_next_char)
+14046 // @083 #437: COMPARE(s0,character_F) ;test for 'F' of 'OFF'
+35432 // @084 #438: JUMP(NZ,bad_command)
+30112 // @085 #439: CALL(read_next_char)
+1400d // @086 #440: COMPARE(s0,character_CR) ;test for carriage return
+35432 // @087 #441: JUMP(NZ,bad_command)
+00000 // @088 #442: LOAD(s0,0) ;turn off auto increment
+3408e // @089 #443: JUMP(update_auto)
+// @08a #444: [test_auto_ON]
+30112 // @08a #444: CALL(read_next_char)
+1400d // @08b #445: COMPARE(s0,character_CR) ;test for carriage return
+35432 // @08c #446: JUMP(NZ,bad_command)
+00001 // @08d #447: LOAD(s0,1) ;turn on auto increment
+// @08e #448: [update_auto]
+2e00c // @08e #448: STORE(s0,auto_inc)
+30289 // @08f #449: CALL(send_OK)
+3401b // @090 #450: JUMP(warm_start)
+// #451: ;
+// #452: ;Processing potential 'FAST' command
+// #453: ;
+// @091 #454: [FAST_command]
+30112 // @091 #454: CALL(read_next_char)
+14041 // @092 #455: COMPARE(s0,character_A) ;test for 'A' of 'FAST' command
+35432 // @093 #456: JUMP(NZ,bad_command)
+30112 // @094 #457: CALL(read_next_char)
+14053 // @095 #458: COMPARE(s0,character_S) ;test for 'S' of 'FAST' command
+35432 // @096 #459: JUMP(NZ,bad_command)
+30112 // @097 #460: CALL(read_next_char)
+14054 // @098 #461: COMPARE(s0,character_T) ;test for 'T' of 'FAST' command
+35432 // @099 #462: JUMP(NZ,bad_command)
+30112 // @09a #463: CALL(read_next_char) ;test for a space
+14020 // @09b #464: COMPARE(s0,character_space)
+35432 // @09c #465: JUMP(NZ,bad_command)
+30112 // @09d #466: CALL(read_next_char)
+1404f // @09e #467: COMPARE(s0,character_O) ;test for 'O' of 'ON' or 'OFF'
+35432 // @09f #468: JUMP(NZ,bad_command)
+30112 // @0a0 #469: CALL(read_next_char)
+1404e // @0a1 #470: COMPARE(s0,character_N) ;test for 'N' of 'ON'
+350ad // @0a2 #471: JUMP(Z,test_fast_ON)
+14046 // @0a3 #472: COMPARE(s0,character_F) ;test for 'F' of 'OFF'
+35432 // @0a4 #473: JUMP(NZ,bad_command)
+30112 // @0a5 #474: CALL(read_next_char)
+14046 // @0a6 #475: COMPARE(s0,character_F) ;test for 'F' of 'OFF'
+35432 // @0a7 #476: JUMP(NZ,bad_command)
+30112 // @0a8 #477: CALL(read_next_char)
+1400d // @0a9 #478: COMPARE(s0,character_CR) ;test for carriage return
+35432 // @0aa #479: JUMP(NZ,bad_command)
+00000 // @0ab #480: LOAD(s0,0) ;turn off fast mode
+340b1 // @0ac #481: JUMP(update_fast)
+// @0ad #482: [test_fast_ON]
+30112 // @0ad #482: CALL(read_next_char)
+1400d // @0ae #483: COMPARE(s0,character_CR) ;test for carriage return
+35432 // @0af #484: JUMP(NZ,bad_command)
+00001 // @0b0 #485: LOAD(s0,1) ;turn on fast mode
+// @0b1 #486: [update_fast]
+2e00d // @0b1 #486: STORE(s0,fast_mode)
+30289 // @0b2 #487: CALL(send_OK)
+3401b // @0b3 #488: JUMP(warm_start)
+// #489: ;
+// #490: ;Processing potential 'CYCLE' command
+// #491: ;
+// @0b4 #492: [CYCLE_command]
+30112 // @0b4 #492: CALL(read_next_char)
+14059 // @0b5 #493: COMPARE(s0,character_Y) ;test for 'Y' of 'CYCLE' command
+35432 // @0b6 #494: JUMP(NZ,bad_command)
+30112 // @0b7 #495: CALL(read_next_char)
+14043 // @0b8 #496: COMPARE(s0,character_C) ;test for 'C' of 'CYCLE' command
+35432 // @0b9 #497: JUMP(NZ,bad_command)
+30112 // @0ba #498: CALL(read_next_char)
+1404c // @0bb #499: COMPARE(s0,character_L) ;test for 'L' of 'CYCLE' command
+35432 // @0bc #500: JUMP(NZ,bad_command)
+30112 // @0bd #501: CALL(read_next_char)
+14045 // @0be #502: COMPARE(s0,character_E) ;test for 'E' of 'CYCLE' command
+35432 // @0bf #503: JUMP(NZ,bad_command)
+30112 // @0c0 #504: CALL(read_next_char) ;test for a space
+14020 // @0c1 #505: COMPARE(s0,character_space)
+35432 // @0c2 #506: JUMP(NZ,bad_command)
+30112 // @0c3 #507: CALL(read_next_char) ;determine decimal value of 'n' in [s9,s8,s7,s6]
+1400d // @0c4 #508: COMPARE(s0,character_CR)
+35032 // @0c5 #509: JUMP(Z,bad_command) ;need at least 1 digit
+301fe // @0c6 #510: CALL(ASCII_to_decimal) ;convert to decimal and test
+35832 // @0c7 #511: JUMP(C,bad_command)
+01600 // @0c8 #512: LOAD(s6,s0)
+00700 // @0c9 #513: LOAD(s7,0)
+00800 // @0ca #514: LOAD(s8,0)
+00900 // @0cb #515: LOAD(s9,0)
+30112 // @0cc #516: CALL(read_next_char)
+1400d // @0cd #517: COMPARE(s0,character_CR)
+350e7 // @0ce #518: JUMP(Z,store_n)
+301fe // @0cf #519: CALL(ASCII_to_decimal)
+35832 // @0d0 #520: JUMP(C,bad_command)
+01760 // @0d1 #521: LOAD(s7,s6)
+01600 // @0d2 #522: LOAD(s6,s0)
+30112 // @0d3 #523: CALL(read_next_char)
+1400d // @0d4 #524: COMPARE(s0,character_CR)
+350e7 // @0d5 #525: JUMP(Z,store_n)
+301fe // @0d6 #526: CALL(ASCII_to_decimal)
+35832 // @0d7 #527: JUMP(C,bad_command)
+01870 // @0d8 #528: LOAD(s8,s7)
+01760 // @0d9 #529: LOAD(s7,s6)
+01600 // @0da #530: LOAD(s6,s0)
+30112 // @0db #531: CALL(read_next_char)
+1400d // @0dc #532: COMPARE(s0,character_CR)
+350e7 // @0dd #533: JUMP(Z,store_n)
+301fe // @0de #534: CALL(ASCII_to_decimal)
+35832 // @0df #535: JUMP(C,bad_command)
+01980 // @0e0 #536: LOAD(s9,s8)
+01870 // @0e1 #537: LOAD(s8,s7)
+01760 // @0e2 #538: LOAD(s7,s6)
+01600 // @0e3 #539: LOAD(s6,s0)
+30112 // @0e4 #540: CALL(read_next_char)
+1400d // @0e5 #541: COMPARE(s0,character_CR)
+35432 // @0e6 #542: JUMP(NZ,bad_command) ;only 4 digits supported so must be a CR next
+// @0e7 #543: [store_n]
+2e608 // @0e7 #543: STORE(s6,n_count0) ;store value of 'n'
+2e709 // @0e8 #544: STORE(s7,n_count1)
+2e80a // @0e9 #545: STORE(s8,n_count2)
+2e90b // @0ea #546: STORE(s9,n_count3)
+3021d // @0eb #547: CALL(send_CR)
+// @0ec #548: [n_loop]
+06608 // @0ec #548: FETCH(s6,n_count0) ;Execute cycle command 'n' times
+06709 // @0ed #549: FETCH(s7,n_count1)
+0680a // @0ee #550: FETCH(s8,n_count2)
+0690b // @0ef #551: FETCH(s9,n_count3)
+1c601 // @0f0 #552: SUB(s6,1) ;decrement counter
+35cfc // @0f1 #553: JUMP(NC,update_n)
+00609 // @0f2 #554: LOAD(s6,9)
+1c701 // @0f3 #555: SUB(s7,1)
+35cfc // @0f4 #556: JUMP(NC,update_n)
+00709 // @0f5 #557: LOAD(s7,9)
+1c801 // @0f6 #558: SUB(s8,1)
+35cfc // @0f7 #559: JUMP(NC,update_n)
+00809 // @0f8 #560: LOAD(s8,9)
+1c901 // @0f9 #561: SUB(s9,1)
+35cfc // @0fa #562: JUMP(NC,update_n)
+3410f // @0fb #563: JUMP(end_cycle) ;roll under to 9999 signifies end of command
+// @0fc #564: [update_n]
+2e608 // @0fc #564: STORE(s6,n_count0) ;updated stored value of 'n'
+2e709 // @0fd #565: STORE(s7,n_count1)
+2e80a // @0fe #566: STORE(s8,n_count2)
+2e90b // @0ff #567: STORE(s9,n_count3)
+06e0d // @100 #568: FETCH(sE,fast_mode) ;determine display mode
+14e00 // @101 #569: COMPARE(sE,0) ;display active if fast mode is off
+3510d // @102 #570: JUMP(Z,step_test)
+00e01 // @103 #571: LOAD(sE,1) ;turn display off for fast mode on
+14600 // @104 #572: COMPARE(s6,0) ;but display last line of cycle command
+3550d // @105 #573: JUMP(NZ,step_test)
+14700 // @106 #574: COMPARE(s7,0)
+3550d // @107 #575: JUMP(NZ,step_test)
+14800 // @108 #576: COMPARE(s8,0)
+3550d // @109 #577: JUMP(NZ,step_test)
+14900 // @10a #578: COMPARE(s9,0)
+3550d // @10b #579: JUMP(NZ,step_test)
+00e00 // @10c #580: LOAD(sE,0)
+// @10d #581: [step_test]
+30115 // @10d #581: CALL(step_line_store) ;execute one test step of the line store
+340ec // @10e #582: JUMP(n_loop)
+// @10f #583: [end_cycle]
+30290 // @10f #583: CALL(send_index) ;display index card for data
+30289 // @110 #584: CALL(send_OK)
+3401b // @111 #585: JUMP(warm_start)
+// #586: ;
+// #587: ;
+// #588: ;Read next character from scratch pad memory
+// #589: ;
+// @112 #590: [read_next_char]
+18e01 // @112 #590: ADD(sE,1)
+070e0 // @113 #591: FETCH(s0,sE) ;test for space
+2a000 // @114 #592: RETURN
+// #593: ;
+// #594: ;
+// #595: ;
+// #596: ;**************************************************************************************
+// #597: ; Line Store step
+// #598: ;**************************************************************************************
+// #599: ;
+// #600: ; Performs one step of the line stores in which the following sequence is followed.
+// #601: ;
+// #602: ; 1) The cycle counter is incremented and then displayed.
+// #603: ; 2) Display the value about to be stored.
+// #604: ; 3) The current output from each line store is read and displayed.
+// #605: ;       This is representative of the value which would be captured on the next rising clock.
+// #606: ; 4) The clock enable to the line stores is activated storing the value held in the
+// #607: ;       line_store_input register.
+// #608: ; 5) Increment the value to be stored next time if function has been turned on.
+// #609: ;
+// #610: ; The display output is suppressed when register 'sE' is not zero.
+// #611: ;
+// #612: ;
+// @115 #613: [step_line_store]
+06904 // @115 #613: FETCH(s9,step_counter4) ;increment step counter
+06803 // @116 #614: FETCH(s8,step_counter3)
+06702 // @117 #615: FETCH(s7,step_counter2)
+06601 // @118 #616: FETCH(s6,step_counter1)
+06500 // @119 #617: FETCH(s5,step_counter0)
+18501 // @11a #618: ADD(s5,1)
+1450a // @11b #619: COMPARE(s5,10)
+3552e // @11c #620: JUMP(NZ,store_step_count)
+00500 // @11d #621: LOAD(s5,0)
+18601 // @11e #622: ADD(s6,1)
+1460a // @11f #623: COMPARE(s6,10)
+3552e // @120 #624: JUMP(NZ,store_step_count)
+00600 // @121 #625: LOAD(s6,0)
+18701 // @122 #626: ADD(s7,1)
+1470a // @123 #627: COMPARE(s7,10)
+3552e // @124 #628: JUMP(NZ,store_step_count)
+00700 // @125 #629: LOAD(s7,0)
+18801 // @126 #630: ADD(s8,1)
+1480a // @127 #631: COMPARE(s8,10)
+3552e // @128 #632: JUMP(NZ,store_step_count)
+00800 // @129 #633: LOAD(s8,0)
+18901 // @12a #634: ADD(s9,1)
+1490a // @12b #635: COMPARE(s9,10)
+3552e // @12c #636: JUMP(NZ,store_step_count)
+00900 // @12d #637: LOAD(s9,0)
+// @12e #638: [store_step_count]
+2e904 // @12e #638: STORE(s9,step_counter4)
+2e803 // @12f #639: STORE(s8,step_counter3)
+2e702 // @130 #640: STORE(s7,step_counter2)
+2e601 // @131 #641: STORE(s6,step_counter1)
+2e500 // @132 #642: STORE(s5,step_counter0)
+14e00 // @133 #643: COMPARE(sE,0) ;suppress display
+35599 // @134 #644: JUMP(NZ,skip_display)
+01f90 // @135 #645: LOAD(UART_data,s9) ;display step counter
+18f30 // @136 #646: ADD(UART_data,48)
+301ab // @137 #647: CALL(send_to_UART)
+01f80 // @138 #648: LOAD(UART_data,s8)
+18f30 // @139 #649: ADD(UART_data,48)
+301ab // @13a #650: CALL(send_to_UART)
+01f70 // @13b #651: LOAD(UART_data,s7)
+18f30 // @13c #652: ADD(UART_data,48)
+301ab // @13d #653: CALL(send_to_UART)
+01f60 // @13e #654: LOAD(UART_data,s6)
+18f30 // @13f #655: ADD(UART_data,48)
+301ab // @140 #656: CALL(send_to_UART)
+01f50 // @141 #657: LOAD(UART_data,s5)
+18f30 // @142 #658: ADD(UART_data,48)
+301ab // @143 #659: CALL(send_to_UART)
+30220 // @144 #660: CALL(send_space)
+30220 // @145 #661: CALL(send_space)
+30220 // @146 #662: CALL(send_space)
+06a05 // @147 #663: FETCH(sA,test_data_in0) ;Read set value into [sC,sB,sA]
+06b06 // @148 #664: FETCH(sB,test_data_in1)
+06c07 // @149 #665: FETCH(sC,test_data_in2)
+0600c // @14a #666: FETCH(s0,auto_inc)
+010c0 // @14b #667: LOAD(s0,sC) ;display value being input to line store
+30213 // @14c #668: CALL(send_hex_byte)
+010b0 // @14d #669: LOAD(s0,sB)
+30213 // @14e #670: CALL(send_hex_byte)
+010a0 // @14f #671: LOAD(s0,sA)
+30213 // @150 #672: CALL(send_hex_byte)
+30220 // @151 #673: CALL(send_space)
+30220 // @152 #674: CALL(send_space)
+04004 // @153 #675: INPUT(s0,line_store1_output_H) ;read 24-bit line store 1 output and display
+30213 // @154 #676: CALL(send_hex_byte)
+04003 // @155 #677: INPUT(s0,line_store1_output_M)
+30213 // @156 #678: CALL(send_hex_byte)
+04002 // @157 #679: INPUT(s0,line_store1_output_L)
+30213 // @158 #680: CALL(send_hex_byte)
+30220 // @159 #681: CALL(send_space)
+30220 // @15a #682: CALL(send_space)
+04007 // @15b #683: INPUT(s0,line_store2_output_H) ;read 18-bit line store 2 output and display
+30219 // @15c #684: CALL(send_nibble)
+04006 // @15d #685: INPUT(s0,line_store2_output_M)
+30213 // @15e #686: CALL(send_hex_byte)
+04005 // @15f #687: INPUT(s0,line_store2_output_L)
+30213 // @160 #688: CALL(send_hex_byte)
+30220 // @161 #689: CALL(send_space)
+30220 // @162 #690: CALL(send_space)
+04009 // @163 #691: INPUT(s0,line_store3_output_H) ;read 13-bit line store 3 output and display
+30213 // @164 #692: CALL(send_hex_byte)
+04008 // @165 #693: INPUT(s0,line_store3_output_L)
+30213 // @166 #694: CALL(send_hex_byte)
+30220 // @167 #695: CALL(send_space)
+30220 // @168 #696: CALL(send_space)
+0400c // @169 #697: INPUT(s0,line_store4a_output_H) ;read 24-bit line store 4 output 'A' and display
+30213 // @16a #698: CALL(send_hex_byte)
+0400b // @16b #699: INPUT(s0,line_store4a_output_M)
+30213 // @16c #700: CALL(send_hex_byte)
+0400a // @16d #701: INPUT(s0,line_store4a_output_L)
+30213 // @16e #702: CALL(send_hex_byte)
+30220 // @16f #703: CALL(send_space)
+0400f // @170 #704: INPUT(s0,line_store4b_output_H) ;read 24-bit line store 4 output 'B' and display
+30213 // @171 #705: CALL(send_hex_byte)
+0400e // @172 #706: INPUT(s0,line_store4b_output_M)
+30213 // @173 #707: CALL(send_hex_byte)
+0400d // @174 #708: INPUT(s0,line_store4b_output_L)
+30213 // @175 #709: CALL(send_hex_byte)
+30220 // @176 #710: CALL(send_space)
+04012 // @177 #711: INPUT(s0,line_store4c_output_H) ;read 24-bit line store 4 output 'C' and display
+30213 // @178 #712: CALL(send_hex_byte)
+04011 // @179 #713: INPUT(s0,line_store4c_output_M)
+30213 // @17a #714: CALL(send_hex_byte)
+04010 // @17b #715: INPUT(s0,line_store4c_output_L)
+30213 // @17c #716: CALL(send_hex_byte)
+30220 // @17d #717: CALL(send_space)
+30220 // @17e #718: CALL(send_space)
+04014 // @17f #719: INPUT(s0,line_store5_output_H) ;read 12-bit line store 5 output and display
+30219 // @180 #720: CALL(send_nibble)
+04013 // @181 #721: INPUT(s0,line_store5_output_L)
+30213 // @182 #722: CALL(send_hex_byte)
+30220 // @183 #723: CALL(send_space)
+30220 // @184 #724: CALL(send_space)
+04016 // @185 #725: INPUT(s0,line_store6_output_H) ;read 9-bit line store 6 output and display
+30219 // @186 #726: CALL(send_nibble)
+04015 // @187 #727: INPUT(s0,line_store6_output_L)
+30213 // @188 #728: CALL(send_hex_byte)
+30220 // @189 #729: CALL(send_space)
+30220 // @18a #730: CALL(send_space)
+04019 // @18b #731: INPUT(s0,line_store7a_output_H) ;read 24-bit line store 7 output 'A' and display
+30213 // @18c #732: CALL(send_hex_byte)
+04018 // @18d #733: INPUT(s0,line_store7a_output_M)
+30213 // @18e #734: CALL(send_hex_byte)
+04017 // @18f #735: INPUT(s0,line_store7a_output_L)
+30213 // @190 #736: CALL(send_hex_byte)
+30220 // @191 #737: CALL(send_space)
+0401c // @192 #738: INPUT(s0,line_store7b_output_H) ;read 24-bit line store 7 output 'B' and display
+30213 // @193 #739: CALL(send_hex_byte)
+0401b // @194 #740: INPUT(s0,line_store7b_output_M)
+30213 // @195 #741: CALL(send_hex_byte)
+0401a // @196 #742: INPUT(s0,line_store7b_output_L)
+30213 // @197 #743: CALL(send_hex_byte)
+3021d // @198 #744: CALL(send_CR)
+// #745: ;
+// #746: ;
+// @199 #747: [skip_display]
+2c008 // @199 #747: OUTPUT(s0,line_store_write_en) ;dummy write to enable line stores
+0600c // @19a #748: FETCH(s0,auto_inc) ;increment input value if auto is 'on'
+19a00 // @19b #749: ADD(sA,s0)
+1ab00 // @19c #750: ADDCY(sB,0)
+1ac00 // @19d #751: ADDCY(sC,0)
+2ea05 // @19e #752: STORE(sA,test_data_in0) ;store new line store input value
+2eb06 // @19f #753: STORE(sB,test_data_in1)
+2ec07 // @1a0 #754: STORE(sC,test_data_in2)
+2ca01 // @1a1 #755: OUTPUT(sA,line_store_input_L) ;Write data to register driving line store
+2cb02 // @1a2 #756: OUTPUT(sB,line_store_input_M)
+2cc04 // @1a3 #757: OUTPUT(sC,line_store_input_H)
+2a000 // @1a4 #758: RETURN
+// #759: ;
+// #760: ;
+// #761: ;**************************************************************************************
+// #762: ; UART communication routines
+// #763: ;**************************************************************************************
+// #764: ;
+// #765: ; Read one character from the UART
+// #766: ;
+// #767: ; Character read will be returned in a register called 'UART_data'.
+// #768: ;
+// #769: ; The routine first tests the receiver FIFO buffer to see if data is present.
+// #770: ; If the FIFO is empty, the routine waits until there is a character to read.
+// #771: ; As this could take any amount of time the wait loop could include a call to a
+// #772: ; subroutine which performs a useful function.
+// #773: ;
+// #774: ;
+// #775: ; Registers used s0 and UART_data
+// #776: ;
+// @1a5 #777: [read_from_UART]
+04000 // @1a5 #777: INPUT(s0,status_port) ;test Rx_FIFO buffer
+12004 // @1a6 #778: TEST(s0,rx_data_present) ;wait if empty
+355a9 // @1a7 #779: JUMP(NZ,read_character)
+341a5 // @1a8 #780: JUMP(read_from_UART)
+// @1a9 #781: [read_character]
+04f01 // @1a9 #781: INPUT(UART_data,UART_read_port) ;read from FIFO
+2a000 // @1aa #782: RETURN
+// #783: ;
+// #784: ;
+// #785: ;
+// #786: ; Transmit one character to the UART
+// #787: ;
+// #788: ; Character supplied in register called 'UART_data'.
+// #789: ;
+// #790: ; The routine first tests the transmit FIFO buffer to see if it is full.
+// #791: ; If the FIFO is full, then the routine waits until it there is space.
+// #792: ;
+// #793: ; Registers used s0
+// #794: ;
+// @1ab #795: [send_to_UART]
+04000 // @1ab #795: INPUT(s0,status_port) ;test Tx_FIFO buffer
+12002 // @1ac #796: TEST(s0,tx_full) ;wait if full
+351af // @1ad #797: JUMP(Z,UART_write)
+341ab // @1ae #798: JUMP(send_to_UART)
+// @1af #799: [UART_write]
+2cf40 // @1af #799: OUTPUT(UART_data,UART_write_port)
+2a000 // @1b0 #800: RETURN
+// #801: ;
+// #802: ;
+// #803: ;**************************************************************************************
+// #804: ; Receive ASCII string from UART
+// #805: ;**************************************************************************************
+// #806: ;
+// #807: ;An ASCII string will be read from the UART and stored in scratch pad memory
+// #808: ;commencing at the location specified by a constant named 'string_start'.
+// #809: ;The string will have a maximum length of 16 characters including a
+// #810: ;carriage return (0D) denoting the end of the string.
+// #811: ;
+// #812: ;As each character is read, it is echoed to the UART transmitter.
+// #813: ;Some minor editing is supported using backspace (BS=08) which is used
+// #814: ;to adjust what is stored in scratch pad memory and adjust the display
+// #815: ;on the terminal screen using characters sent to the UART transmitter.
+// #816: ;
+// #817: ;A test is made for the receiver FIFO becoming full. A full status is treated as
+// #818: ;a potential error situation and will result in a 'Overflow Error' message being
+// #819: ;transmitted to the UART, the receiver FIFO being purged of all data and an
+// #820: ;empty string being stored (carriage return at first location).
+// #821: ;
+// #822: ;Registers used s0, s1, s2 and 'UART_data'.
+// #823: ;
+// @1b1 #824: [receive_string]
+00130 // @1b1 #824: LOAD(s1,string_start) ;locate start of string
+01210 // @1b2 #825: LOAD(s2,s1) ;compute 16 character address
+18210 // @1b3 #826: ADD(s2,16)
+// @1b4 #827: [receive_full_test]
+04000 // @1b4 #827: INPUT(s0,status_port) ;test Rx_FIFO buffer for full
+12010 // @1b5 #828: TEST(s0,rx_full)
+355ca // @1b6 #829: JUMP(NZ,read_error)
+301a5 // @1b7 #830: CALL(read_from_UART) ;obtain and echo character
+301ab // @1b8 #831: CALL(send_to_UART)
+2ff10 // @1b9 #832: STORE(UART_data,s1) ;write to memory
+14f0d // @1ba #833: COMPARE(UART_data,character_CR) ;test for end of string
+2b000 // @1bb #834: RETURN(Z)
+14f08 // @1bc #835: COMPARE(UART_data,character_BS) ;test for back space
+351c2 // @1bd #836: JUMP(Z,BS_edit)
+18101 // @1be #837: ADD(s1,1) ;increment memory pointer
+15120 // @1bf #838: COMPARE(s1,s2) ;test for pointer exceeding 16 characters
+355b4 // @1c0 #839: JUMP(NZ,receive_full_test) ;next character
+30223 // @1c1 #840: CALL(send_backspace) ;hold end of string position on terminal display
+// @1c2 #841: [BS_edit]
+1c101 // @1c2 #841: SUB(s1,1) ;memory pointer back one
+14130 // @1c3 #842: COMPARE(s1,string_start) ;test for under flow
+359c8 // @1c4 #843: JUMP(C,string_start_again)
+30220 // @1c5 #844: CALL(send_space) ;clear character at current position
+30223 // @1c6 #845: CALL(send_backspace) ;position cursor
+341b4 // @1c7 #846: JUMP(receive_full_test) ;next character
+// @1c8 #847: [string_start_again]
+3026b // @1c8 #847: CALL(send_greater_than) ;restore '>' at prompt
+341b1 // @1c9 #848: JUMP(receive_string) ;begin again
+// #849: ;Receiver buffer overflow condition
+// @1ca #850: [read_error]
+3021d // @1ca #850: CALL(send_CR) ;Transmit error message
+2ef30 // @1cb #851: STORE(UART_data,string_start) ;empty string in memory (start with CR)
+3026e // @1cc #852: CALL(send_Overflow_Error)
+3021d // @1cd #853: CALL(send_CR)
+// @1ce #854: [clear_UART_Rx_loop]
+04000 // @1ce #854: INPUT(s0,status_port) ;test Rx_FIFO buffer for data
+12004 // @1cf #855: TEST(s0,rx_data_present)
+2b000 // @1d0 #856: RETURN(Z) ;finish when buffer is empty
+04f01 // @1d1 #857: INPUT(UART_data,UART_read_port) ;read from FIFO and ignore
+341ce // @1d2 #858: JUMP(clear_UART_Rx_loop)
+// #859: ;
+// #860: ;
+// #861: ;**************************************************************************************
+// #862: ; Useful ASCII conversion and handling routines
+// #863: ;**************************************************************************************
+// #864: ;
+// #865: ;
+// #866: ;
+// #867: ; Convert character to upper case
+// #868: ;
+// #869: ; The character supplied in register s0.
+// #870: ; If the character is in the range 'a' to 'z', it is converted
+// #871: ; to the equivalent upper case character in the range 'A' to 'Z'.
+// #872: ; All other characters remain unchanged.
+// #873: ;
+// #874: ; Registers used s0.
+// #875: ;
+// @1d3 #876: [upper_case]
+14061 // @1d3 #876: COMPARE(s0,97) ;eliminate character codes below 'a' (61 hex)
+2b800 // @1d4 #877: RETURN(C)
+1407b // @1d5 #878: COMPARE(s0,123) ;eliminate character codes above 'z' (7A hex)
+2bc00 // @1d6 #879: RETURN(NC)
+0a0df // @1d7 #880: AND(s0,DF) ;mask bit5 to convert to upper case
+2a000 // @1d8 #881: RETURN
+// #882: ;
+// #883: ;
+// #884: ;
+// #885: ; Convert string held in scratch pad memory to upper case.
+// #886: ;
+// #887: ; Registers used s0, s1
+// #888: ;
+// @1d9 #889: [upper_case_string]
+00130 // @1d9 #889: LOAD(s1,string_start)
+// @1da #890: [ucs_loop]
+07010 // @1da #890: FETCH(s0,s1)
+1400d // @1db #891: COMPARE(s0,character_CR)
+2b000 // @1dc #892: RETURN(Z)
+301d3 // @1dd #893: CALL(upper_case)
+2f010 // @1de #894: STORE(s0,s1)
+18101 // @1df #895: ADD(s1,1)
+341da // @1e0 #896: JUMP(ucs_loop)
+// #897: ;
+// #898: ;
+// #899: ; Convert character '0' to '9' to numerical value in range 0 to 9
+// #900: ;
+// #901: ; The character supplied in register s0. If the character is in the
+// #902: ; range '0' to '9', it is converted to the equivalent decimal value.
+// #903: ; Characters not in the range '0' to '9' are signified by the return
+// #904: ; with the CARRY flag set.
+// #905: ;
+// #906: ; Registers used s0.
+// #907: ;
+// @1e1 #908: [onechar_to_value]
+180c6 // @1e1 #908: ADD(s0,C6) ;reject character codes above '9' (39 hex)
+2b800 // @1e2 #909: RETURN(C) ;carry flag is set
+1c0f6 // @1e3 #910: SUB(s0,F6) ;reject character codes below '0' (30 hex)
+2a000 // @1e4 #911: RETURN ;carry is set if value not in range
+// #912: ;
+// #913: ;
+// #914: ;
+// #915: ; Convert the HEX ASCII characters contained in 's3' and 's2' into
+// #916: ; an equivalent hexadecimal value in register 's0'.
+// #917: ;     The upper nibble is represented by an ASCII character in register s3.
+// #918: ;     The lower nibble is represented by an ASCII character in register s2.
+// #919: ;
+// #920: ; Input characters must be in the range 00 to FF hexadecimal or the CARRY flag
+// #921: ; will be set on return.
+// #922: ;
+// #923: ; Registers used s0, s2 and s3.
+// #924: ;
+// @1e5 #925: [ASCII_byte_to_hex]
+01030 // @1e5 #925: LOAD(s0,s3) ;Take upper nibble
+301f2 // @1e6 #926: CALL(ASCII_to_hex) ;convert to value
+2b800 // @1e7 #927: RETURN(C) ;reject if out of range
+01300 // @1e8 #928: LOAD(s3,s0) ;remember value
+20306 // @1e9 #929: SL0(s3) ;multiply value by 16 to put in upper nibble
+20306 // @1ea #930: SL0(s3)
+20306 // @1eb #931: SL0(s3)
+20306 // @1ec #932: SL0(s3)
+01020 // @1ed #933: LOAD(s0,s2) ;Take lower nibble
+301f2 // @1ee #934: CALL(ASCII_to_hex) ;convert to value
+2b800 // @1ef #935: RETURN(C) ;reject if out of range
+0d030 // @1f0 #936: OR(s0,s3) ;merge in the upper nibble with CARRY reset
+2a000 // @1f1 #937: RETURN
+// #938: ;
+// #939: ;
+// #940: ; Routine to convert ASCII data in 's0' to an equivalent HEX value.
+// #941: ;
+// #942: ; If character is not valid for hex, then CARRY is set on return.
+// #943: ;
+// #944: ; Register used s0
+// #945: ;
+// @1f2 #946: [ASCII_to_hex]
+180b9 // @1f2 #946: ADD(s0,B9) ;test for above ASCII code 46 ('F')
+2b800 // @1f3 #947: RETURN(C)
+1c0e9 // @1f4 #948: SUB(s0,E9) ;normalise 0 to 9 with A-F in 11 to 16 hex
+2b800 // @1f5 #949: RETURN(C) ;reject below ASCII code 30 ('0')
+1c011 // @1f6 #950: SUB(s0,17) ;isolate A-F down to 00 to 05 hex
+35dfc // @1f7 #951: JUMP(NC,ASCII_letter)
+18007 // @1f8 #952: ADD(s0,7) ;test for above ASCII code 46 ('F')
+2b800 // @1f9 #953: RETURN(C)
+1c0f6 // @1fa #954: SUB(s0,F6) ;convert to range 00 to 09
+2a000 // @1fb #955: RETURN
+// @1fc #956: [ASCII_letter]
+1800a // @1fc #956: ADD(s0,10) ;convert to range 0A to 0F
+2a000 // @1fd #957: RETURN
+// #958: ;
+// #959: ;
+// #960: ;
+// #961: ;
+// #962: ; Routine to convert ASCII data in 's0' to an equivalent DECIMAL value.
+// #963: ;
+// #964: ; If character is not valid for decimal, then CARRY is set on return.
+// #965: ;
+// #966: ; Register used s0
+// #967: ;
+// @1fe #968: [ASCII_to_decimal]
+180c6 // @1fe #968: ADD(s0,C6) ;test for above ASCII code 39 ('9')
+2b800 // @1ff #969: RETURN(C)
+1c0f6 // @200 #970: SUB(s0,F6) ;normalise to 0 to 9
+2a000 // @201 #971: RETURN ;carry set for ASCII code below 30 ('0')
+// #972: ;
+// #973: ;
+// #974: ;
+// #975: ; Convert hexadecimal value provided in register s0 into ASCII characters
+// #976: ;
+// #977: ; The value provided must can be any value in the range 00 to FF and will be converted into
+// #978: ; two ASCII characters.
+// #979: ;     The upper nibble will be represented by an ASCII character returned in register s2.
+// #980: ;     The lower nibble will be represented by an ASCII character returned in register s1.
+// #981: ;
+// #982: ; The ASCII representations of '0' to '9' are 30 to 39 hexadecimal which is simply 30 hex
+// #983: ; added to the actual decimal value. The ASCII representations of 'A' to 'F' are 41 to 46
+// #984: ; hexadecimal requiring a further addition of 07 to the 30 already added.
+// #985: ;
+// #986: ; Registers used s0, s1 and s2.
+// #987: ;
+// @202 #988: [hex_byte_to_ASCII]
+01100 // @202 #988: LOAD(s1,s0) ;remember value supplied
+2000e // @203 #989: SR0(s0) ;isolate upper nibble
+2000e // @204 #990: SR0(s0)
+2000e // @205 #991: SR0(s0)
+2000e // @206 #992: SR0(s0)
+3020e // @207 #993: CALL(hex_to_ASCII) ;convert
+01200 // @208 #994: LOAD(s2,s0) ;upper nibble value in s2
+01010 // @209 #995: LOAD(s0,s1) ;restore complete value
+0a00f // @20a #996: AND(s0,15) ;isolate lower nibble
+3020e // @20b #997: CALL(hex_to_ASCII) ;convert
+01100 // @20c #998: LOAD(s1,s0) ;lower nibble value in s1
+2a000 // @20d #999: RETURN
+// #1000: ;
+// #1001: ; Convert hexadecimal value provided in register s0 into ASCII character
+// #1002: ;
+// #1003: ;Register used s0
+// #1004: ;
+// @20e #1005: [hex_to_ASCII]
+1c00a // @20e #1005: SUB(s0,10) ;test if value is in range 0 to 9
+35a11 // @20f #1006: JUMP(C,number_char)
+18007 // @210 #1007: ADD(s0,7) ;ASCII char A to F in range 41 to 46
+// @211 #1008: [number_char]
+1803a // @211 #1008: ADD(s0,58) ;ASCII char 0 to 9 in range 30 to 40
+2a000 // @212 #1009: RETURN
+// #1010: ;
+// #1011: ;
+// #1012: ; Send the two character HEX value of the register contents 's0' to the UART
+// #1013: ;
+// #1014: ; Registers used s0, s1, s2
+// #1015: ;
+// @213 #1016: [send_hex_byte]
+30202 // @213 #1016: CALL(hex_byte_to_ASCII)
+01f20 // @214 #1017: LOAD(UART_data,s2)
+301ab // @215 #1018: CALL(send_to_UART)
+01f10 // @216 #1019: LOAD(UART_data,s1)
+301ab // @217 #1020: CALL(send_to_UART)
+2a000 // @218 #1021: RETURN
+// #1022: ;
+// #1023: ;
+// #1024: ;
+// #1025: ; Send the single HEX value representing the lower 4-bits of the register 's0'
+// #1026: ; to the UART
+// #1027: ;
+// #1028: ; Registers used s0, s1, s2
+// #1029: ;
+// @219 #1030: [send_nibble]
+3020e // @219 #1030: CALL(hex_to_ASCII)
+01f00 // @21a #1031: LOAD(UART_data,s0)
+301ab // @21b #1032: CALL(send_to_UART)
+2a000 // @21c #1033: RETURN
+// #1034: ;
+// #1035: ;
+// #1036: ;
+// #1037: ;**************************************************************************************
+// #1038: ; Text messages
+// #1039: ;**************************************************************************************
+// #1040: ;
+// #1041: ;
+// #1042: ; Send Carriage Return to the UART
+// #1043: ;
+// @21d #1044: [send_CR]
+00f0d // @21d #1044: LOAD(UART_data,character_CR)
+301ab // @21e #1045: CALL(send_to_UART)
+2a000 // @21f #1046: RETURN
+// #1047: ;
+// #1048: ; Send a space to the UART
+// #1049: ;
+// @220 #1050: [send_space]
+00f20 // @220 #1050: LOAD(UART_data,character_space)
+301ab // @221 #1051: CALL(send_to_UART)
+2a000 // @222 #1052: RETURN
+// #1053: ;
+// #1054: ;
+// #1055: ;
+// #1056: ;Send a back space to the UART
+// #1057: ;
+// @223 #1058: [send_backspace]
+00f08 // @223 #1058: LOAD(UART_data,character_BS)
+301ab // @224 #1059: CALL(send_to_UART)
+2a000 // @225 #1060: RETURN
+// #1061: ;
+// #1062: ;
+// #1063: ; Send 'PicoBlaze Servo Control' string to the UART
+// #1064: ;
+// @226 #1065: [send_welcome]
+3021d // @226 #1065: CALL(send_CR)
+3021d // @227 #1066: CALL(send_CR)
+00f50 // @228 #1067: LOAD(UART_data,character_P)
+301ab // @229 #1068: CALL(send_to_UART)
+00f69 // @22a #1069: LOAD(UART_data,character_i)
+301ab // @22b #1070: CALL(send_to_UART)
+00f63 // @22c #1071: LOAD(UART_data,character_c)
+301ab // @22d #1072: CALL(send_to_UART)
+00f6f // @22e #1073: LOAD(UART_data,character_o)
+301ab // @22f #1074: CALL(send_to_UART)
+00f42 // @230 #1075: LOAD(UART_data,character_B)
+301ab // @231 #1076: CALL(send_to_UART)
+00f6c // @232 #1077: LOAD(UART_data,character_l)
+301ab // @233 #1078: CALL(send_to_UART)
+00f61 // @234 #1079: LOAD(UART_data,character_a)
+301ab // @235 #1080: CALL(send_to_UART)
+00f7a // @236 #1081: LOAD(UART_data,character_z)
+301ab // @237 #1082: CALL(send_to_UART)
+00f65 // @238 #1083: LOAD(UART_data,character_e)
+301ab // @239 #1084: CALL(send_to_UART)
+30220 // @23a #1085: CALL(send_space)
+00f4c // @23b #1086: LOAD(UART_data,character_L)
+301ab // @23c #1087: CALL(send_to_UART)
+00f69 // @23d #1088: LOAD(UART_data,character_i)
+301ab // @23e #1089: CALL(send_to_UART)
+00f6e // @23f #1090: LOAD(UART_data,character_n)
+301ab // @240 #1091: CALL(send_to_UART)
+00f65 // @241 #1092: LOAD(UART_data,character_e)
+301ab // @242 #1093: CALL(send_to_UART)
+30220 // @243 #1094: CALL(send_space)
+00f53 // @244 #1095: LOAD(UART_data,character_S)
+301ab // @245 #1096: CALL(send_to_UART)
+00f74 // @246 #1097: LOAD(UART_data,character_t)
+301ab // @247 #1098: CALL(send_to_UART)
+00f6f // @248 #1099: LOAD(UART_data,character_o)
+301ab // @249 #1100: CALL(send_to_UART)
+00f72 // @24a #1101: LOAD(UART_data,character_r)
+301ab // @24b #1102: CALL(send_to_UART)
+00f65 // @24c #1103: LOAD(UART_data,character_e)
+301ab // @24d #1104: CALL(send_to_UART)
+30220 // @24e #1105: CALL(send_space)
+00f54 // @24f #1106: LOAD(UART_data,character_T)
+301ab // @250 #1107: CALL(send_to_UART)
+00f65 // @251 #1108: LOAD(UART_data,character_e)
+301ab // @252 #1109: CALL(send_to_UART)
+00f73 // @253 #1110: LOAD(UART_data,character_s)
+301ab // @254 #1111: CALL(send_to_UART)
+00f74 // @255 #1112: LOAD(UART_data,character_t)
+301ab // @256 #1113: CALL(send_to_UART)
+00f65 // @257 #1114: LOAD(UART_data,character_e)
+301ab // @258 #1115: CALL(send_to_UART)
+00f72 // @259 #1116: LOAD(UART_data,character_r)
+301ab // @25a #1117: CALL(send_to_UART)
+3021d // @25b #1118: CALL(send_CR)
+3021d // @25c #1119: CALL(send_CR)
+2a000 // @25d #1120: RETURN
+// #1121: ;
+// #1122: ;
+// #1123: ;Send 'KCPSM3>' prompt to the UART
+// #1124: ;
+// @25e #1125: [send_prompt]
+3021d // @25e #1125: CALL(send_CR) ;start new line
+00f4b // @25f #1126: LOAD(UART_data,character_K)
+301ab // @260 #1127: CALL(send_to_UART)
+00f43 // @261 #1128: LOAD(UART_data,character_C)
+301ab // @262 #1129: CALL(send_to_UART)
+00f50 // @263 #1130: LOAD(UART_data,character_P)
+301ab // @264 #1131: CALL(send_to_UART)
+00f53 // @265 #1132: LOAD(UART_data,character_S)
+301ab // @266 #1133: CALL(send_to_UART)
+00f4d // @267 #1134: LOAD(UART_data,character_M)
+301ab // @268 #1135: CALL(send_to_UART)
+00f33 // @269 #1136: LOAD(UART_data,character_3)
+301ab // @26a #1137: CALL(send_to_UART)
+// #1138: ;
+// #1139: ;Send '>' character to the UART
+// #1140: ;
+// @26b #1141: [send_greater_than]
+00f3e // @26b #1141: LOAD(UART_data,character_greater_than)
+301ab // @26c #1142: CALL(send_to_UART)
+2a000 // @26d #1143: RETURN
+// #1144: ;
+// #1145: ;
+// #1146: ;Send 'Overflow Error' to the UART
+// #1147: ;
+// @26e #1148: [send_Overflow_Error]
+00f4f // @26e #1148: LOAD(UART_data,character_O)
+301ab // @26f #1149: CALL(send_to_UART)
+00f76 // @270 #1150: LOAD(UART_data,character_v)
+301ab // @271 #1151: CALL(send_to_UART)
+00f65 // @272 #1152: LOAD(UART_data,character_e)
+301ab // @273 #1153: CALL(send_to_UART)
+00f72 // @274 #1154: LOAD(UART_data,character_r)
+301ab // @275 #1155: CALL(send_to_UART)
+00f66 // @276 #1156: LOAD(UART_data,character_f)
+301ab // @277 #1157: CALL(send_to_UART)
+00f6c // @278 #1158: LOAD(UART_data,character_l)
+301ab // @279 #1159: CALL(send_to_UART)
+00f6f // @27a #1160: LOAD(UART_data,character_o)
+301ab // @27b #1161: CALL(send_to_UART)
+00f77 // @27c #1162: LOAD(UART_data,character_w)
+301ab // @27d #1163: CALL(send_to_UART)
+// @27e #1164: [send_space_Error]
+30220 // @27e #1164: CALL(send_space)
+// #1165: ;
+// #1166: ;Send 'Error' to the UART
+// #1167: ;
+// @27f #1168: [send_Error]
+00f45 // @27f #1168: LOAD(UART_data,character_E)
+301ab // @280 #1169: CALL(send_to_UART)
+00f72 // @281 #1170: LOAD(UART_data,character_r)
+301ab // @282 #1171: CALL(send_to_UART)
+301ab // @283 #1172: CALL(send_to_UART)
+00f6f // @284 #1173: LOAD(UART_data,character_o)
+301ab // @285 #1174: CALL(send_to_UART)
+00f72 // @286 #1175: LOAD(UART_data,character_r)
+301ab // @287 #1176: CALL(send_to_UART)
+3421d // @288 #1177: JUMP(send_CR)
+// #1178: ;
+// #1179: ;
+// #1180: ;Send 'OK' to the UART
+// #1181: ;
+// @289 #1182: [send_OK]
+3021d // @289 #1182: CALL(send_CR)
+3021d // @28a #1183: CALL(send_CR)
+00f4f // @28b #1184: LOAD(UART_data,character_O)
+301ab // @28c #1185: CALL(send_to_UART)
+00f4b // @28d #1186: LOAD(UART_data,character_K)
+301ab // @28e #1187: CALL(send_to_UART)
+3421d // @28f #1188: JUMP(send_CR)
+// #1189: ;
+// #1190: ;
+// #1191: ;Send index to data being displayed
+// #1192: ;
+// @290 #1193: [send_index]
+3021d // @290 #1193: CALL(send_CR)
+00f63 // @291 #1194: LOAD(UART_data,character_c)
+301ab // @292 #1195: CALL(send_to_UART)
+00f79 // @293 #1196: LOAD(UART_data,character_y)
+301ab // @294 #1197: CALL(send_to_UART)
+00f63 // @295 #1198: LOAD(UART_data,character_c)
+301ab // @296 #1199: CALL(send_to_UART)
+00f6c // @297 #1200: LOAD(UART_data,character_l)
+301ab // @298 #1201: CALL(send_to_UART)
+00f65 // @299 #1202: LOAD(UART_data,character_e)
+301ab // @29a #1203: CALL(send_to_UART)
+30220 // @29b #1204: CALL(send_space)
+30220 // @29c #1205: CALL(send_space)
+30220 // @29d #1206: CALL(send_space)
+30220 // @29e #1207: CALL(send_space)
+00f69 // @29f #1208: LOAD(UART_data,character_i)
+301ab // @2a0 #1209: CALL(send_to_UART)
+00f6e // @2a1 #1210: LOAD(UART_data,character_n)
+301ab // @2a2 #1211: CALL(send_to_UART)
+00f70 // @2a3 #1212: LOAD(UART_data,character_p)
+301ab // @2a4 #1213: CALL(send_to_UART)
+00f75 // @2a5 #1214: LOAD(UART_data,character_u)
+301ab // @2a6 #1215: CALL(send_to_UART)
+00f74 // @2a7 #1216: LOAD(UART_data,character_t)
+301ab // @2a8 #1217: CALL(send_to_UART)
+30220 // @2a9 #1218: CALL(send_space)
+30220 // @2aa #1219: CALL(send_space)
+30220 // @2ab #1220: CALL(send_space)
+30220 // @2ac #1221: CALL(send_space)
+30220 // @2ad #1222: CALL(send_space)
+00f37 // @2ae #1223: LOAD(UART_data,character_7)
+301ab // @2af #1224: CALL(send_to_UART)
+00f36 // @2b0 #1225: LOAD(UART_data,character_6)
+301ab // @2b1 #1226: CALL(send_to_UART)
+00f38 // @2b2 #1227: LOAD(UART_data,character_8)
+301ab // @2b3 #1228: CALL(send_to_UART)
+30220 // @2b4 #1229: CALL(send_space)
+30220 // @2b5 #1230: CALL(send_space)
+30220 // @2b6 #1231: CALL(send_space)
+00f31 // @2b7 #1232: LOAD(UART_data,character_1)
+301ab // @2b8 #1233: CALL(send_to_UART)
+00f30 // @2b9 #1234: LOAD(UART_data,character_0)
+301ab // @2ba #1235: CALL(send_to_UART)
+00f32 // @2bb #1236: LOAD(UART_data,character_2)
+301ab // @2bc #1237: CALL(send_to_UART)
+00f34 // @2bd #1238: LOAD(UART_data,character_4)
+301ab // @2be #1239: CALL(send_to_UART)
+30220 // @2bf #1240: CALL(send_space)
+30220 // @2c0 #1241: CALL(send_space)
+302ea // @2c1 #1242: CALL(send_1280)
+30220 // @2c2 #1243: CALL(send_space)
+30220 // @2c3 #1244: CALL(send_space)
+30220 // @2c4 #1245: CALL(send_space)
+302ea // @2c5 #1246: CALL(send_1280)
+00f61 // @2c6 #1247: LOAD(UART_data,character_a)
+301ab // @2c7 #1248: CALL(send_to_UART)
+30220 // @2c8 #1249: CALL(send_space)
+30220 // @2c9 #1250: CALL(send_space)
+302ea // @2ca #1251: CALL(send_1280)
+00f62 // @2cb #1252: LOAD(UART_data,character_b)
+301ab // @2cc #1253: CALL(send_to_UART)
+30220 // @2cd #1254: CALL(send_space)
+30220 // @2ce #1255: CALL(send_space)
+302ea // @2cf #1256: CALL(send_1280)
+00f63 // @2d0 #1257: LOAD(UART_data,character_c)
+301ab // @2d1 #1258: CALL(send_to_UART)
+30220 // @2d2 #1259: CALL(send_space)
+00f31 // @2d3 #1260: LOAD(UART_data,character_1)
+301ab // @2d4 #1261: CALL(send_to_UART)
+00f35 // @2d5 #1262: LOAD(UART_data,character_5)
+301ab // @2d6 #1263: CALL(send_to_UART)
+00f33 // @2d7 #1264: LOAD(UART_data,character_3)
+301ab // @2d8 #1265: CALL(send_to_UART)
+00f36 // @2d9 #1266: LOAD(UART_data,character_6)
+301ab // @2da #1267: CALL(send_to_UART)
+30220 // @2db #1268: CALL(send_space)
+302f3 // @2dc #1269: CALL(send_1920)
+30220 // @2dd #1270: CALL(send_space)
+30220 // @2de #1271: CALL(send_space)
+30220 // @2df #1272: CALL(send_space)
+302f3 // @2e0 #1273: CALL(send_1920)
+00f61 // @2e1 #1274: LOAD(UART_data,character_a)
+301ab // @2e2 #1275: CALL(send_to_UART)
+30220 // @2e3 #1276: CALL(send_space)
+30220 // @2e4 #1277: CALL(send_space)
+302f3 // @2e5 #1278: CALL(send_1920)
+00f62 // @2e6 #1279: LOAD(UART_data,character_b)
+301ab // @2e7 #1280: CALL(send_to_UART)
+3021d // @2e8 #1281: CALL(send_CR)
+2a000 // @2e9 #1282: RETURN
+// #1283: ;
+// @2ea #1284: [send_1280]
+00f31 // @2ea #1284: LOAD(UART_data,character_1)
+301ab // @2eb #1285: CALL(send_to_UART)
+00f32 // @2ec #1286: LOAD(UART_data,character_2)
+301ab // @2ed #1287: CALL(send_to_UART)
+00f38 // @2ee #1288: LOAD(UART_data,character_8)
+301ab // @2ef #1289: CALL(send_to_UART)
+00f30 // @2f0 #1290: LOAD(UART_data,character_0)
+301ab // @2f1 #1291: CALL(send_to_UART)
+2a000 // @2f2 #1292: RETURN
+// #1293: ;
+// @2f3 #1294: [send_1920]
+00f31 // @2f3 #1294: LOAD(UART_data,character_1)
+301ab // @2f4 #1295: CALL(send_to_UART)
+00f39 // @2f5 #1296: LOAD(UART_data,character_9)
+301ab // @2f6 #1297: CALL(send_to_UART)
+00f32 // @2f7 #1298: LOAD(UART_data,character_2)
+301ab // @2f8 #1299: CALL(send_to_UART)
+00f30 // @2f9 #1300: LOAD(UART_data,character_0)
+301ab // @2fa #1301: CALL(send_to_UART)
+2a000 // @2fb #1302: RETURN
+// #1303: ;
+// #1304: ;**************************************************************************************
+// #1305: ; Interrupt Service Routine (ISR)
+// #1306: ;**************************************************************************************
+// #1307: ;
+// #1308: ; Interrupts are not used in this program.
+// #1309: ;
+// @2fc #1310: [ISR]
+38001 // @2fc #1310: RETURNI(ENABLE)
+// #1311: ;
+// #1312: ;
+// #1313: ;**************************************************************************************
+// #1314: ; Interrupt Vector
+// #1315: ;**************************************************************************************
+// #1316: ;
+@3ff // #1317: ADDRESS(1023)
+342fc // @3ff #1318: JUMP(ISR)
+// #1319: ;
+// #1320: ;

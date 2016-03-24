@@ -1,0 +1,2196 @@
+/* Symbol Table */
+// ASCII_byte_to_hex = LABEL: 507
+// ASCII_letter = LABEL: 530
+// ASCII_to_hex = LABEL: 520
+// DS2432_menu = LABEL: 32
+// DS2432_prompt = LABEL: 34
+// DS_init_regular_mode = LABEL: 326
+// DS_wire = CONSTANT: 1
+// DS_wire_in_port = CONSTANT: 2
+// DS_wire_init = LABEL: 323
+// DS_wire_out_port = CONSTANT: 8
+// ISR = LABEL: 1022
+// ROM_menu = LABEL: 19
+// ROM_prompt = LABEL: 21
+// UART_data = REGISTER: 15
+// UART_read_port = CONSTANT: 1
+// UART_write = LABEL: 444
+// UART_write_port = CONSTANT: 4
+// character_0 = CONSTANT: 48
+// character_1 = CONSTANT: 49
+// character_2 = CONSTANT: 50
+// character_3 = CONSTANT: 51
+// character_4 = CONSTANT: 52
+// character_5 = CONSTANT: 53
+// character_6 = CONSTANT: 54
+// character_7 = CONSTANT: 55
+// character_8 = CONSTANT: 56
+// character_9 = CONSTANT: 57
+// character_A = CONSTANT: 65
+// character_B = CONSTANT: 66
+// character_BS = CONSTANT: 8
+// character_C = CONSTANT: 67
+// character_CR = CONSTANT: 13
+// character_D = CONSTANT: 68
+// character_E = CONSTANT: 69
+// character_F = CONSTANT: 70
+// character_G = CONSTANT: 71
+// character_H = CONSTANT: 72
+// character_I = CONSTANT: 73
+// character_J = CONSTANT: 74
+// character_K = CONSTANT: 75
+// character_L = CONSTANT: 76
+// character_LF = CONSTANT: 10
+// character_M = CONSTANT: 77
+// character_N = CONSTANT: 78
+// character_O = CONSTANT: 79
+// character_P = CONSTANT: 80
+// character_Q = CONSTANT: 81
+// character_R = CONSTANT: 82
+// character_S = CONSTANT: 83
+// character_T = CONSTANT: 84
+// character_U = CONSTANT: 85
+// character_V = CONSTANT: 86
+// character_W = CONSTANT: 87
+// character_X = CONSTANT: 88
+// character_XOFF = CONSTANT: 19
+// character_XON = CONSTANT: 17
+// character_Y = CONSTANT: 89
+// character_Z = CONSTANT: 90
+// character_a = CONSTANT: 97
+// character_b = CONSTANT: 98
+// character_c = CONSTANT: 99
+// character_close = CONSTANT: 41
+// character_colon = CONSTANT: 58
+// character_comma = CONSTANT: 44
+// character_d = CONSTANT: 100
+// character_divide = CONSTANT: 47
+// character_dollar = CONSTANT: 36
+// character_e = CONSTANT: 101
+// character_equals = CONSTANT: 61
+// character_exclaim = CONSTANT: 33
+// character_f = CONSTANT: 102
+// character_fullstop = CONSTANT: 46
+// character_g = CONSTANT: 103
+// character_greater_than = CONSTANT: 62
+// character_h = CONSTANT: 104
+// character_i = CONSTANT: 105
+// character_j = CONSTANT: 106
+// character_k = CONSTANT: 107
+// character_l = CONSTANT: 108
+// character_less_than = CONSTANT: 60
+// character_m = CONSTANT: 109
+// character_minus = CONSTANT: 45
+// character_n = CONSTANT: 110
+// character_o = CONSTANT: 111
+// character_open = CONSTANT: 40
+// character_p = CONSTANT: 112
+// character_plus = CONSTANT: 43
+// character_q = CONSTANT: 113
+// character_question = CONSTANT: 63
+// character_r = CONSTANT: 114
+// character_s = CONSTANT: 115
+// character_semi_colon = CONSTANT: 59
+// character_space = CONSTANT: 32
+// character_t = CONSTANT: 116
+// character_u = CONSTANT: 117
+// character_v = CONSTANT: 118
+// character_w = CONSTANT: 119
+// character_x = CONSTANT: 120
+// character_y = CONSTANT: 121
+// character_z = CONSTANT: 122
+// cold_start = LABEL: 0
+// command_start = CONSTANT: 8
+// compute_CRC16 = LABEL: 300
+// compute_CRC8 = LABEL: 274
+// crc16_bit_loop = LABEL: 305
+// crc16_byte_loop = LABEL: 303
+// crc16_shift = LABEL: 311
+// crc8_fail = LABEL: 96
+// crc8_loop = LABEL: 283
+// crc8_shift = LABEL: 288
+// decimal_to_ASCII = LABEL: 446
+// delay_1ms = LABEL: 419
+// delay_1s = LABEL: 429
+// delay_1us = LABEL: 410
+// delay_1us_constant = CONSTANT: 11
+// delay_20ms = LABEL: 424
+// delay_40us = LABEL: 414
+// disp_serial_loop = LABEL: 79
+// display_ROM = LABEL: 72
+// end_serial = LABEL: 85
+// end_write_scratchpad = LABEL: 194
+// family_code = CONSTANT: 0
+// hex_byte_to_ASCII = LABEL: 477
+// hex_to_ASCII = LABEL: 489
+// master_reset_regular = LABEL: 12
+// menu_prompt = LABEL: 51
+// next_slow_bit = LABEL: 359
+// no_valid_input = LABEL: 57
+// number_char = LABEL: 492
+// obtain_8bits = LABEL: 537
+// onechar_to_value = LABEL: 459
+// rbs_loop = LABEL: 387
+// rbs_wait_4us = LABEL: 394
+// rbs_wait_68us = LABEL: 406
+// rbs_wait_8us = LABEL: 400
+// read_DS_wire = LABEL: 349
+// read_ROM_CRC = CONSTANT: 7
+// read_ROM_command = LABEL: 63
+// read_ROM_loop = LABEL: 66
+// read_bit_slow = LABEL: 391
+// read_byte_command = LABEL: 204
+// read_byte_slow = LABEL: 386
+// read_character = LABEL: 438
+// read_from_UART = LABEL: 434
+// read_memory_command = LABEL: 102
+// read_scratchpad_command = LABEL: 212
+// read_upper_case = LABEL: 532
+// reset_menu = LABEL: 3
+// reset_passed = LABEL: 17
+// reset_prompt = LABEL: 5
+// rm_poll_240us = LABEL: 342
+// rm_wait_500us = LABEL: 330
+// rm_wait_60us = LABEL: 337
+// rmc_data_loop = LABEL: 117
+// rmc_line_loop = LABEL: 110
+// rsc_crc16_fail = LABEL: 272
+// rsc_loop = LABEL: 239
+// rx_data_present = CONSTANT: 4
+// rx_full = CONSTANT: 16
+// rx_half_full = CONSTANT: 8
+// s0 = REGISTER: 0
+// s1 = REGISTER: 1
+// s2 = REGISTER: 2
+// s3 = REGISTER: 3
+// s4 = REGISTER: 4
+// s5 = REGISTER: 5
+// s6 = REGISTER: 6
+// s7 = REGISTER: 7
+// s8 = REGISTER: 8
+// s9 = REGISTER: 9
+// sA = REGISTER: 10
+// sB = REGISTER: 11
+// sC = REGISTER: 12
+// sD = REGISTER: 13
+// sE = REGISTER: 14
+// sF = REGISTER: 15
+// send_Byte = LABEL: 799
+// send_CR = LABEL: 543
+// send_CRC = LABEL: 924
+// send_Command = LABEL: 854
+// send_DS2432_menu = LABEL: 659
+// send_ES = LABEL: 894
+// send_Fail = LABEL: 845
+// send_HHelp = LABEL: 720
+// send_Master_Reset = LABEL: 775
+// send_Memory = LABEL: 741
+// send_OK = LABEL: 713
+// send_Pass = LABEL: 837
+// send_ROM = LABEL: 734
+// send_ROM_menu = LABEL: 632
+// send_Read = LABEL: 817
+// send_Scratchpad = LABEL: 754
+// send_Skip = LABEL: 808
+// send_Write = LABEL: 826
+// send_address = LABEL: 868
+// send_code = LABEL: 902
+// send_data = LABEL: 884
+// send_equals = LABEL: 881
+// send_hex_3bytes = LABEL: 500
+// send_hex_byte = LABEL: 494
+// send_minus = LABEL: 549
+// send_reset_menu = LABEL: 623
+// send_serial = LABEL: 911
+// send_space = LABEL: 546
+// send_to_UART = LABEL: 440
+// send_welcome = LABEL: 552
+// serial_number0 = CONSTANT: 1
+// serial_number1 = CONSTANT: 2
+// serial_number2 = CONSTANT: 3
+// serial_number3 = CONSTANT: 4
+// serial_number4 = CONSTANT: 5
+// serial_number5 = CONSTANT: 6
+// skip_ROM_command = LABEL: 98
+// spare1 = CONSTANT: 32
+// spare2 = CONSTANT: 64
+// spare3 = CONSTANT: 128
+// status_port = CONSTANT: 0
+// test_for_ten = LABEL: 447
+// twochar_to_value = LABEL: 463
+// tx_full = CONSTANT: 2
+// tx_half_full = CONSTANT: 1
+// upper_case = LABEL: 453
+// wait_1ms = LABEL: 420
+// wait_1s = LABEL: 430
+// wait_1us = LABEL: 411
+// wait_20ms = LABEL: 425
+// wait_40us = LABEL: 415
+// wbs1 = LABEL: 358
+// wbs_loop = LABEL: 354
+// welcome_start = LABEL: 2
+// whs_wait_72us = LABEL: 382
+// whs_wait_8us = LABEL: 376
+// wls_wait_78us = LABEL: 365
+// write_High_slow = LABEL: 373
+// write_Low_slow = LABEL: 362
+// write_byte_command = LABEL: 195
+// write_byte_slow = LABEL: 353
+// write_scratchpad_command = LABEL: 129
+// wsc_addr_loop = LABEL: 134
+// wsc_crc16_fail = LABEL: 193
+// wsc_data_loop = LABEL: 154
+
+/* Program Code */
+// #1: ; KCPSM3 Program - Communication with DS2432 secure memory on the Spartan-3E Starter Kit.
+// #2: ;
+// #3: ; Ken Chapman - Xilinx Ltd
+// #4: ;
+// #5: ; Version v1.00 - 5th April 2006
+// #6: ;
+// #7: ; This program uses a 9600 baud UART connection to allow communication with the
+// #8: ; 1-wire interface of the DS2432 memory device from Dallas Semiconductor.
+// #9: ;
+// #10: ; The program only supports a limited number of the DS2432 commands but is intended
+// #11: ; to guide you through the state machine of the device as well as show how
+// #12: ; 1-wire communication is achieved. The DS2432 also uses 8 and 16 bits CRC checks and
+// #13: ; this program includes these calculations to validate the communications.
+// #14: ;
+// #15: ; Commands supported include read ROM, write scratchpad memory and read scratchpad
+// #16: ; memory. These allow you to confirm the ability to both read and write data but
+// #17: ; at no time modify the actual EEPROM secure memory or secret.
+// #18: ;
+// #19: ; There are then two manual commands which allow you to write any byte value that
+// #20: ; you enter and to read a byte from the DS2432 device. At this point you are free
+// #21: ; to experiment and this may result in the device contents being altered. You also
+// #22: ; become responsible for tracking the states but remember that a master reset will
+// #23: ; always return you to a known starting point again.
+// #24: ;
+// #25: ;
+// #26: ;**************************************************************************************
+// #27: ; Port definitions
+// #28: ;**************************************************************************************
+// #29: ;
+// #30: ;
+// #31: CONSTANT(status_port,0) ;UART status input
+// #32: CONSTANT(tx_half_full,1) ;  Transmitter     half full - bit0
+// #33: CONSTANT(tx_full,2) ;    FIFO               full - bit1
+// #34: CONSTANT(rx_data_present,4) ;  Receiver     data present - bit2
+// #35: CONSTANT(rx_half_full,8) ;    FIFO          half full - bit3
+// #36: CONSTANT(rx_full,16) ;                   full - bit4
+// #37: CONSTANT(spare1,32) ;                  spare '0' - bit5
+// #38: CONSTANT(spare2,64) ;                  spare '0' - bit6
+// #39: CONSTANT(spare3,128) ;                  spare '0' - bit7
+// #40: ;
+// #41: CONSTANT(UART_read_port,1) ;UART Rx data input
+// #42: ;
+// #43: CONSTANT(UART_write_port,4) ;UART Tx data output
+// #44: ;
+// #45: ;
+// #46: CONSTANT(DS_wire_in_port,2) ;Read signal from DS2432 device
+// #47: CONSTANT(DS_wire_out_port,8) ;Drive signal to DS2432 device (open collector)
+// #48: CONSTANT(DS_wire,1) ;       Signal is bit0 in both cases
+// #49: ;
+// #50: ;
+// #51: ;
+// #52: ;
+// #53: ;**************************************************************************************
+// #54: ; Special Register usage
+// #55: ;**************************************************************************************
+// #56: ;
+// #57: NAMEREG(sF,UART_data) ;used to pass data to and from the UART
+// #58: ;
+// #59: ;
+// #60: ;**************************************************************************************
+// #61: ; Scratch Pad Memory Locations
+// #62: ;**************************************************************************************
+// #63: ;
+// #64: ; Scratch pad memory provides 64 bytes in the address range 00 to 3F hex.
+// #65: ;
+// #66: ;
+// #67: ; Locations for device family code, serial number and 8-bit CRC value
+// #68: ;
+// #69: CONSTANT(family_code,0)
+// #70: CONSTANT(serial_number0,1) ;48-bit serial number LS-Byte first
+// #71: CONSTANT(serial_number1,2)
+// #72: CONSTANT(serial_number2,3)
+// #73: CONSTANT(serial_number3,4)
+// #74: CONSTANT(serial_number4,5)
+// #75: CONSTANT(serial_number5,6)
+// #76: CONSTANT(read_ROM_CRC,7) ;8-bit CRC
+// #77: ;
+// #78: ;
+// #79: ; Locations to store all bytes in a command communication for 16-bit CRC calculation
+// #80: ;
+// #81: CONSTANT(command_start,8)
+// #82: ;
+// #83: ;
+// #84: ;**************************************************************************************
+// #85: ; Useful data constants
+// #86: ;**************************************************************************************
+// #87: ;
+// #88: ; Constant to define a software delay of 1us. This must be adjusted to reflect the
+// #89: ; clock applied to KCPSM3. Every instruction executes in 2 clock cycles making the
+// #90: ; calculation highly predictable. The '6' in the following equation even allows for
+// #91: ; 'CALL delay_1us' instruction in the initiating code.
+// #92: ;
+// #93: ; delay_1us_constant =  (clock_rate - 6)/4       Where 'clock_rate' is in MHz
+// #94: ;
+// #95: ; Example: For a 50MHz clock the constant value is (10-6)/4 = 11  (0B Hex).
+// #96: ; For clock rates below 10MHz the value of 1 must be used and the operation will
+// #97: ; become lower than intended.
+// #98: ;
+// #99: CONSTANT(delay_1us_constant,11)
+// #100: ;
+// #101: ;
+// #102: ;
+// #103: ;ASCII table
+// #104: ;
+// #105: CONSTANT(character_a,97)
+// #106: CONSTANT(character_b,98)
+// #107: CONSTANT(character_c,99)
+// #108: CONSTANT(character_d,100)
+// #109: CONSTANT(character_e,101)
+// #110: CONSTANT(character_f,102)
+// #111: CONSTANT(character_g,103)
+// #112: CONSTANT(character_h,104)
+// #113: CONSTANT(character_i,105)
+// #114: CONSTANT(character_j,106)
+// #115: CONSTANT(character_k,107)
+// #116: CONSTANT(character_l,108)
+// #117: CONSTANT(character_m,109)
+// #118: CONSTANT(character_n,110)
+// #119: CONSTANT(character_o,111)
+// #120: CONSTANT(character_p,112)
+// #121: CONSTANT(character_q,113)
+// #122: CONSTANT(character_r,114)
+// #123: CONSTANT(character_s,115)
+// #124: CONSTANT(character_t,116)
+// #125: CONSTANT(character_u,117)
+// #126: CONSTANT(character_v,118)
+// #127: CONSTANT(character_w,119)
+// #128: CONSTANT(character_x,120)
+// #129: CONSTANT(character_y,121)
+// #130: CONSTANT(character_z,122)
+// #131: CONSTANT(character_A,65)
+// #132: CONSTANT(character_B,66)
+// #133: CONSTANT(character_C,67)
+// #134: CONSTANT(character_D,68)
+// #135: CONSTANT(character_E,69)
+// #136: CONSTANT(character_F,70)
+// #137: CONSTANT(character_G,71)
+// #138: CONSTANT(character_H,72)
+// #139: CONSTANT(character_I,73)
+// #140: CONSTANT(character_J,74)
+// #141: CONSTANT(character_K,75)
+// #142: CONSTANT(character_L,76)
+// #143: CONSTANT(character_M,77)
+// #144: CONSTANT(character_N,78)
+// #145: CONSTANT(character_O,79)
+// #146: CONSTANT(character_P,80)
+// #147: CONSTANT(character_Q,81)
+// #148: CONSTANT(character_R,82)
+// #149: CONSTANT(character_S,83)
+// #150: CONSTANT(character_T,84)
+// #151: CONSTANT(character_U,85)
+// #152: CONSTANT(character_V,86)
+// #153: CONSTANT(character_W,87)
+// #154: CONSTANT(character_X,88)
+// #155: CONSTANT(character_Y,89)
+// #156: CONSTANT(character_Z,90)
+// #157: CONSTANT(character_0,48)
+// #158: CONSTANT(character_1,49)
+// #159: CONSTANT(character_2,50)
+// #160: CONSTANT(character_3,51)
+// #161: CONSTANT(character_4,52)
+// #162: CONSTANT(character_5,53)
+// #163: CONSTANT(character_6,54)
+// #164: CONSTANT(character_7,55)
+// #165: CONSTANT(character_8,56)
+// #166: CONSTANT(character_9,57)
+// #167: CONSTANT(character_colon,58)
+// #168: CONSTANT(character_fullstop,46)
+// #169: CONSTANT(character_semi_colon,59)
+// #170: CONSTANT(character_minus,45)
+// #171: CONSTANT(character_plus,43)
+// #172: CONSTANT(character_comma,44)
+// #173: CONSTANT(character_less_than,60) ;'<'
+// #174: CONSTANT(character_greater_than,62) ;'>'
+// #175: CONSTANT(character_open,40) ;'('
+// #176: CONSTANT(character_close,41) ;')'
+// #177: CONSTANT(character_divide,47) ;'/'
+// #178: CONSTANT(character_equals,61)
+// #179: CONSTANT(character_space,32)
+// #180: CONSTANT(character_CR,13) ;carriage return
+// #181: CONSTANT(character_LF,10) ;line feed
+// #182: CONSTANT(character_question,63) ;'?'
+// #183: CONSTANT(character_dollar,36)
+// #184: CONSTANT(character_exclaim,33) ;'!'
+// #185: CONSTANT(character_BS,8) ;Back Space command character
+// #186: CONSTANT(character_XON,17) ;Flow control ON
+// #187: CONSTANT(character_XOFF,19) ;Flow control OFF
+// #188: ;
+// #189: ;
+// #190: ;**************************************************************************************
+// #191: ; Initialise the system and welcome message
+// #192: ;**************************************************************************************
+// #193: ;
+// @000 #194: [cold_start]
+30143 // @000 #194: CALL(DS_wire_init) ;Ensure DS_wire is not driven (pulled High)
+301ad // @001 #195: CALL(delay_1s) ;Allow everything to settle!
+// @002 #196: [welcome_start]
+30228 // @002 #196: CALL(send_welcome) ;start up message and version number
+// #197: ;
+// #198: ;
+// #199: ;
+// #200: ; The main program guides the user to follow the command state machine of the
+// #201: ; DS2432 device by only offering those choices that are valid at each stage.
+// #202: ; This program only offers a limited choice and it is left as an exercise to
+// #203: ; the user to modify or expand this choice as required.
+// #204: ;
+// #205: ;**************************************************************************************
+// #206: ; Reset Main menu and command selection
+// #207: ;**************************************************************************************
+// #208: ;
+// #209: ; Initially the only action available is a master reset and test for a presence
+// #210: ; pulse response from the DS2432.
+// #211: ;
+// @003 #212: [reset_menu]
+3026f // @003 #212: CALL(send_reset_menu) ;Menu and command selection
+3021f // @004 #213: CALL(send_CR)
+// #214: ;
+// @005 #215: [reset_prompt]
+30033 // @005 #215: CALL(menu_prompt) ;prompt for user input
+14048 // @006 #216: COMPARE(s0,character_H) ;test for commands and execute as required
+35003 // @007 #217: JUMP(Z,reset_menu)
+14031 // @008 #218: COMPARE(s0,character_1)
+3500c // @009 #219: JUMP(Z,master_reset_regular)
+30039 // @00a #220: CALL(no_valid_input)
+34005 // @00b #221: JUMP(reset_prompt) ;Try again!
+// #222: ;
+// #223: ; The master reset should result in a presence pulse.
+// #224: ; This will be reported and control passed to the appropriate
+// #225: ; menu in the sequence.
+// #226: ;
+// @00c #227: [master_reset_regular]
+3021f // @00c #227: CALL(send_CR)
+30146 // @00d #228: CALL(DS_init_regular_mode)
+35c11 // @00e #229: JUMP(NC,reset_passed) ;test for presence pulse
+3034d // @00f #230: CALL(send_Fail)
+34003 // @010 #231: JUMP(reset_menu) ;fail stays in reset menu
+// @011 #232: [reset_passed]
+30345 // @011 #232: CALL(send_Pass) ;pass progresses to ROM menu
+34013 // @012 #233: JUMP(ROM_menu)
+// #234: ;
+// #235: ; After a valid master reset, the only commands available are the ROM
+// #236: ; commands of which only Read ROM and Skip ROM are currently supported.
+// #237: ; Another master reset can be issued is so desired.
+// #238: ;
+// @013 #239: [ROM_menu]
+30278 // @013 #239: CALL(send_ROM_menu) ;Menu and command selection
+3021f // @014 #240: CALL(send_CR)
+// #241: ;
+// @015 #242: [ROM_prompt]
+30033 // @015 #242: CALL(menu_prompt) ;prompt for user input
+14048 // @016 #243: COMPARE(s0,character_H) ;test for commands and execute as required
+35013 // @017 #244: JUMP(Z,ROM_menu)
+14031 // @018 #245: COMPARE(s0,character_1)
+3500c // @019 #246: JUMP(Z,master_reset_regular) ;repeat reset as before
+14032 // @01a #247: COMPARE(s0,character_2)
+3503f // @01b #248: JUMP(Z,read_ROM_command)
+14033 // @01c #249: COMPARE(s0,character_3)
+35062 // @01d #250: JUMP(Z,skip_ROM_command)
+30039 // @01e #251: CALL(no_valid_input)
+34015 // @01f #252: JUMP(ROM_prompt) ;Try again!
+// #253: ;
+// #254: ;
+// #255: ;
+// #256: ; After a valid ROM command the DS2432 specific memory commands and SHA-1
+// #257: ; functions become accessible. Each of these end with the DS2432 returned
+// #258: ; back to the waiting for ROM command state completing the menu sequence.
+// #259: ;
+// @020 #260: [DS2432_menu]
+30293 // @020 #260: CALL(send_DS2432_menu) ;Menu and command selection
+3021f // @021 #261: CALL(send_CR)
+// #262: ;
+// @022 #263: [DS2432_prompt]
+30033 // @022 #263: CALL(menu_prompt) ;prompt for user input
+14048 // @023 #264: COMPARE(s0,character_H) ;test for commands and execute as required
+35020 // @024 #265: JUMP(Z,DS2432_menu)
+14031 // @025 #266: COMPARE(s0,character_1)
+3500c // @026 #267: JUMP(Z,master_reset_regular) ;repeat reset as before
+14032 // @027 #268: COMPARE(s0,character_2)
+35066 // @028 #269: JUMP(Z,read_memory_command)
+14033 // @029 #270: COMPARE(s0,character_3)
+35081 // @02a #271: JUMP(Z,write_scratchpad_command)
+14034 // @02b #272: COMPARE(s0,character_4)
+350d4 // @02c #273: JUMP(Z,read_scratchpad_command)
+14035 // @02d #274: COMPARE(s0,character_5)
+350c3 // @02e #275: JUMP(Z,write_byte_command)
+14036 // @02f #276: COMPARE(s0,character_6)
+350cc // @030 #277: JUMP(Z,read_byte_command)
+30039 // @031 #278: CALL(no_valid_input)
+34022 // @032 #279: JUMP(DS2432_prompt) ;Try again!
+// #280: ;
+// #281: ;
+// #282: ;
+// #283: ;
+// #284: ;
+// #285: ;**************************************************************************************
+// #286: ; Prompt and selection tasks used in menus.
+// #287: ;**************************************************************************************
+// #288: ;
+// #289: ; Prompts for input with > character and waits for key stroke which is
+// #290: ; returned in upper case in register s0
+// #291: ;
+// @033 #292: [menu_prompt]
+3021f // @033 #292: CALL(send_CR)
+3021f // @034 #293: CALL(send_CR)
+00f3e // @035 #294: LOAD(UART_data,character_greater_than) ;prompt for input
+301b8 // @036 #295: CALL(send_to_UART)
+30214 // @037 #296: CALL(read_upper_case)
+2a000 // @038 #297: RETURN
+// #298: ;
+// @039 #299: [no_valid_input]
+3021f // @039 #299: CALL(send_CR) ;no valid command input
+00f3f // @03a #300: LOAD(UART_data,character_question) ;display ???
+301b8 // @03b #301: CALL(send_to_UART)
+301b8 // @03c #302: CALL(send_to_UART)
+301b8 // @03d #303: CALL(send_to_UART)
+2a000 // @03e #304: RETURN
+// #305: ;
+// #306: ;
+// #307: ;**************************************************************************************
+// #308: ; DS2432 Read ROM Command.
+// #309: ;**************************************************************************************
+// #310: ;
+// #311: ; The read ROM command (33 hex) allows the 8-bit family code, 48-bit unique serial
+// #312: ; number and 8-bit CRC to be read from the DS2432 device.
+// #313: ;
+// #314: ; This routine reads the values and places them in KCPSM3 scratch pad memory
+// #315: ; locations for future reference. These locations should be defined with constants
+// #316: ; as follows and MUST be in consecutive ascending locations.
+// #317: ;
+// #318: ;  family_code
+// #319: ;     Location to store family code which should be 33 hex
+// #320: ;  serial_number0 to serial_number5
+// #321: ;     6 bytes to hold 48-bit serial number (LS-byte first).
+// #322: ;  read_ROM_CRC
+// #323: ;     8-bit CRC value for the above data.
+// #324: ;
+// #325: ;
+// #326: ; The routine also displays the values read and performs a verification of the
+// #327: ; 8-bit CRC displaying a 'pass' or 'fail' message as appropriate.
+// #328: ;
+// @03f #329: [read_ROM_command]
+00333 // @03f #329: LOAD(s3,51) ;Read ROM Command
+30161 // @040 #330: CALL(write_byte_slow) ;transmit command
+00500 // @041 #331: LOAD(s5,family_code) ;memory pointer
+// @042 #332: [read_ROM_loop]
+30182 // @042 #332: CALL(read_byte_slow) ;read response into s3
+2f350 // @043 #333: STORE(s3,s5) ;store value
+14507 // @044 #334: COMPARE(s5,read_ROM_CRC) ;8-bytes to read
+35048 // @045 #335: JUMP(Z,display_ROM)
+18501 // @046 #336: ADD(s5,1)
+34042 // @047 #337: JUMP(read_ROM_loop)
+// @048 #338: [display_ROM]
+3021f // @048 #338: CALL(send_CR)
+30386 // @049 #339: CALL(send_code) ;'code=' to display family code
+06000 // @04a #340: FETCH(s0,family_code)
+301ee // @04b #341: CALL(send_hex_byte)
+3021f // @04c #342: CALL(send_CR)
+3038f // @04d #343: CALL(send_serial) ;'serial=' to display family code
+00506 // @04e #344: LOAD(s5,serial_number5) ;memory pointer starting MS-byte first
+// @04f #345: [disp_serial_loop]
+07050 // @04f #345: FETCH(s0,s5)
+301ee // @050 #346: CALL(send_hex_byte)
+14501 // @051 #347: COMPARE(s5,serial_number0)
+35055 // @052 #348: JUMP(Z,end_serial)
+1c501 // @053 #349: SUB(s5,1)
+3404f // @054 #350: JUMP(disp_serial_loop)
+// @055 #351: [end_serial]
+3021f // @055 #351: CALL(send_CR)
+3039c // @056 #352: CALL(send_CRC) ;'CRC=' to display CRC value
+06007 // @057 #353: FETCH(s0,read_ROM_CRC)
+301ee // @058 #354: CALL(send_hex_byte)
+3021f // @059 #355: CALL(send_CR)
+30112 // @05a #356: CALL(compute_CRC8) ;compute CRC value in s0
+06107 // @05b #357: FETCH(s1,read_ROM_CRC) ;compare with received value
+15010 // @05c #358: COMPARE(s0,s1)
+35460 // @05d #359: JUMP(NZ,crc8_fail)
+30345 // @05e #360: CALL(send_Pass)
+34020 // @05f #361: JUMP(DS2432_menu) ;now in memory and SHA-1 functions level
+// @060 #362: [crc8_fail]
+3034d // @060 #362: CALL(send_Fail)
+34013 // @061 #363: JUMP(ROM_menu) ;can not proceed to next level
+// #364: ;
+// #365: ;
+// #366: ;
+// #367: ;**************************************************************************************
+// #368: ; DS2432 Skip ROM Command.
+// #369: ;**************************************************************************************
+// #370: ;
+// #371: ; The skip ROM command (CC hex) is a short cut to the memory commands and SHA-1
+// #372: ; functions which means that the 64 bit ROM contents do not have to be read.
+// #373: ;
+// #374: ;
+// @062 #375: [skip_ROM_command]
+003cc // @062 #375: LOAD(s3,CC) ;Skip ROM Command
+30161 // @063 #376: CALL(write_byte_slow) ;transmit command
+302c9 // @064 #377: CALL(send_OK)
+34020 // @065 #378: JUMP(DS2432_menu)
+// #379: ;
+// #380: ;
+// #381: ;
+// #382: ;**************************************************************************************
+// #383: ; DS2432 Read Memory Command.
+// #384: ;**************************************************************************************
+// #385: ;
+// #386: ; The read memory command (F0 hex) allows the entire memory contents to be read
+// #387: ; except for the secret. This routine displays the address followed by 8 bytes
+// #388: ; of data on each line until the address 0097 is reached.
+// #389: ;
+// #390: ; The initial 'F0' command must be followed by the 16-bit start address transmitted
+// #391: ; LS-byte first. Then reads must continue until address 0097 has been read for the
+// #392: ; command to complete naturally (otherwise a master reset is required).
+// #393: ;
+// #394: ;
+// #395: ;
+// @066 #396: [read_memory_command]
+003f0 // @066 #396: LOAD(s3,F0) ;read memory Command
+30161 // @067 #397: CALL(write_byte_slow) ;transmit command
+00500 // @068 #398: LOAD(s5,0) ;initial address in [s5,s4]=0000
+00400 // @069 #399: LOAD(s4,0)
+01340 // @06a #400: LOAD(s3,s4) ;transmit address
+30161 // @06b #401: CALL(write_byte_slow)
+01350 // @06c #402: LOAD(s3,s5)
+30161 // @06d #403: CALL(write_byte_slow)
+// @06e #404: [rmc_line_loop]
+3021f // @06e #404: CALL(send_CR)
+01050 // @06f #405: LOAD(s0,s5) ;display 16-bit address
+301ee // @070 #406: CALL(send_hex_byte)
+01040 // @071 #407: LOAD(s0,s4)
+301ee // @072 #408: CALL(send_hex_byte)
+30222 // @073 #409: CALL(send_space)
+30222 // @074 #410: CALL(send_space)
+// @075 #411: [rmc_data_loop]
+30222 // @075 #411: CALL(send_space)
+30182 // @076 #412: CALL(read_byte_slow) ;read data into s3
+01030 // @077 #413: LOAD(s0,s3) ;display byte
+301ee // @078 #414: CALL(send_hex_byte)
+18401 // @079 #415: ADD(s4,1) ;increment address
+1a500 // @07a #416: ADDCY(s5,0)
+12407 // @07b #417: TEST(s4,7) ;test for 8-byte boundary
+35475 // @07c #418: JUMP(NZ,rmc_data_loop)
+14498 // @07d #419: COMPARE(s4,152) ;test for last address
+3546e // @07e #420: JUMP(NZ,rmc_line_loop)
+302c9 // @07f #421: CALL(send_OK)
+34003 // @080 #422: JUMP(reset_menu) ;needs master reset next
+// #423: ;
+// #424: ;
+// #425: ;**************************************************************************************
+// #426: ; DS2432 Write Scratchpad Memory Command.
+// #427: ;**************************************************************************************
+// #428: ;
+// #429: ; The write scratchpad memory command (0F hex) allows 8-bytes of data to be written
+// #430: ; together with a target address for final storage in the main memory map.
+// #431: ;
+// #432: ; The DS2432 provides an initial confirmation of the write by returning a 16-bit CRC
+// #433: ; value which KCPSM3 tests. The CRC is computed based on the command, address and
+// #434: ; data transmitted (11 bytes). To achieve this, all bytes transmitted to the DS2432
+// #435: ; are recorded in KCPSM3 scratch pad memory in ascending locations starting at
+// #436: ; the location defined by constant 'command_start'.
+// #437: ;
+// #438: ; This routine prompts the user to enter the 16-bit target address is to be loaded
+// #439: ; into the target address registers TA2 and TA1 in the DS2432 device. Note that only
+// #440: ; address values below 0090 hex are valid. If the address is too high, then the
+// #441: ; DS2432 aborts the command and this routine will too.
+// #442: ;
+// #443: ; Also note that the address will be forced internally to the DS2432 to match an
+// #444: ; 8-byte boundary address in which the least significant 3-bits are reset to '000'
+// #445: ; regardless of the address provided. The CRC still reflects the transmitted address.
+// #446: ;
+// #447: ; After providing a valid address, the routine then prompts the user to enter
+// #448: ; 8 bytes of data which are written to the DS2432.
+// #449: ;
+// #450: ;
+// #451: ;
+// @081 #452: [write_scratchpad_command]
+00e08 // @081 #452: LOAD(sE,command_start) ;pointer to memory
+0030f // @082 #453: LOAD(s3,15) ;write scratchpad memory Command
+2f3e0 // @083 #454: STORE(s3,sE) ;record command sequence
+18e01 // @084 #455: ADD(sE,1) ;increment pointer
+30161 // @085 #456: CALL(write_byte_slow) ;transmit command
+// @086 #457: [wsc_addr_loop]
+30364 // @086 #457: CALL(send_address) ;obtain 16-bit address 0000 to FFFF in [s5,s4]
+30219 // @087 #458: CALL(obtain_8bits)
+35886 // @088 #459: JUMP(C,wsc_addr_loop) ;bad input address
+01500 // @089 #460: LOAD(s5,s0)
+30219 // @08a #461: CALL(obtain_8bits)
+35886 // @08b #462: JUMP(C,wsc_addr_loop) ;bad input address
+01400 // @08c #463: LOAD(s4,s0)
+01340 // @08d #464: LOAD(s3,s4) ;transmit target address TA1 (LS-Byte)
+2f3e0 // @08e #465: STORE(s3,sE) ;record command sequence
+18e01 // @08f #466: ADD(sE,1) ;increment pointer
+30161 // @090 #467: CALL(write_byte_slow)
+01350 // @091 #468: LOAD(s3,s5) ;transmit target address TA2 (MS-Byte)
+2f3e0 // @092 #469: STORE(s3,sE) ;record command sequence
+18e01 // @093 #470: ADD(sE,1) ;increment pointer
+30161 // @094 #471: CALL(write_byte_slow)
+14500 // @095 #472: COMPARE(s5,0) ;check address less than 0090 hex
+354c2 // @096 #473: JUMP(NZ,end_write_scratchpad) ;DS2432 aborts command and so
+14490 // @097 #474: COMPARE(s4,144) ;no need to read data bytes.
+35cc2 // @098 #475: JUMP(NC,end_write_scratchpad)
+00400 // @099 #476: LOAD(s4,0) ;initialise byte counter
+// @09a #477: [wsc_data_loop]
+30374 // @09a #477: CALL(send_data) ;obtain a byte of data
+01f40 // @09b #478: LOAD(UART_data,s4) ;display which byte requested
+18f30 // @09c #479: ADD(UART_data,character_0) ;convert to ASCII
+301b8 // @09d #480: CALL(send_to_UART)
+30371 // @09e #481: CALL(send_equals)
+30219 // @09f #482: CALL(obtain_8bits)
+3589a // @0a0 #483: JUMP(C,wsc_data_loop) ;bad input data
+01300 // @0a1 #484: LOAD(s3,s0) ;transmit byte
+2f3e0 // @0a2 #485: STORE(s3,sE) ;record command sequence
+18e01 // @0a3 #486: ADD(sE,1) ;increment pointer
+30161 // @0a4 #487: CALL(write_byte_slow)
+18401 // @0a5 #488: ADD(s4,1) ;count bytes
+14408 // @0a6 #489: COMPARE(s4,8)
+3549a // @0a7 #490: JUMP(NZ,wsc_data_loop)
+30182 // @0a8 #491: CALL(read_byte_slow) ;read back the 16-bit CRC into [s5,s4]
+01430 // @0a9 #492: LOAD(s4,s3)
+30182 // @0aa #493: CALL(read_byte_slow)
+01530 // @0ab #494: LOAD(s5,s3)
+2f4e0 // @0ac #495: STORE(s4,sE) ;record command sequence
+18e01 // @0ad #496: ADD(sE,1) ;increment pointer
+2f5e0 // @0ae #497: STORE(s5,sE) ;record command sequence
+3021f // @0af #498: CALL(send_CR)
+3039c // @0b0 #499: CALL(send_CRC) ;'CRC=' to display CRC value
+01050 // @0b1 #500: LOAD(s0,s5)
+301ee // @0b2 #501: CALL(send_hex_byte)
+01040 // @0b3 #502: LOAD(s0,s4)
+301ee // @0b4 #503: CALL(send_hex_byte)
+3021f // @0b5 #504: CALL(send_CR)
+0020b // @0b6 #505: LOAD(s2,11) ;11 (0B hex) bytes transmitted in this command
+3012c // @0b7 #506: CALL(compute_CRC16) ;compute CRC value in [s1,s0]
+075e0 // @0b8 #507: FETCH(s5,sE) ;compare with received value
+1ce01 // @0b9 #508: SUB(sE,1)
+074e0 // @0ba #509: FETCH(s4,sE) ;compare with received value
+15510 // @0bb #510: COMPARE(s5,s1)
+354c1 // @0bc #511: JUMP(NZ,wsc_crc16_fail)
+15400 // @0bd #512: COMPARE(s4,s0)
+354c1 // @0be #513: JUMP(NZ,wsc_crc16_fail)
+30345 // @0bf #514: CALL(send_Pass)
+34003 // @0c0 #515: JUMP(reset_menu) ;needs master reset next
+// @0c1 #516: [wsc_crc16_fail]
+3034d // @0c1 #516: CALL(send_Fail)
+// @0c2 #517: [end_write_scratchpad]
+34003 // @0c2 #517: JUMP(reset_menu) ;needs master reset next
+// #518: ;
+// #519: ;
+// #520: ;
+// #521: ;**************************************************************************************
+// #522: ; Write Byte Command.
+// #523: ;**************************************************************************************
+// #524: ;
+// #525: ; This routine simply allows you to specify any byte and write it to the DS2432 device.
+// #526: ; Apart from checking that the value is in the range 00 to FF hex, there is no checking
+// #527: ; of the meaning of the value to the DS2432 device and all attempts to track the
+// #528: ; state machine will be lost.
+// #529: ;
+// #530: ;
+// @0c3 #531: [write_byte_command]
+3021f // @0c3 #531: CALL(send_CR)
+3031f // @0c4 #532: CALL(send_Byte) ;obtain a byte of data
+30371 // @0c5 #533: CALL(send_equals)
+30219 // @0c6 #534: CALL(obtain_8bits)
+358c3 // @0c7 #535: JUMP(C,write_byte_command) ;bad input data
+01300 // @0c8 #536: LOAD(s3,s0) ;transmit byte
+30161 // @0c9 #537: CALL(write_byte_slow) ;transmit byte
+302c9 // @0ca #538: CALL(send_OK)
+34020 // @0cb #539: JUMP(DS2432_menu) ;remain in memory and function menu
+// #540: ;
+// #541: ;
+// #542: ;
+// #543: ;**************************************************************************************
+// #544: ; Read Byte Command.
+// #545: ;**************************************************************************************
+// #546: ;
+// #547: ; This routine will attempt to read a single byte from the DS2432 device.
+// #548: ; The results will be displayed on the terminal. There is no checking of the meaning
+// #549: ; of the value received from the DS2432 device and all attempts to track the
+// #550: ; state machine will be lost.
+// #551: ;
+// #552: ;
+// @0cc #553: [read_byte_command]
+3021f // @0cc #553: CALL(send_CR)
+3031f // @0cd #554: CALL(send_Byte) ;obtain a byte of data
+30371 // @0ce #555: CALL(send_equals)
+30182 // @0cf #556: CALL(read_byte_slow) ;receive byte
+01030 // @0d0 #557: LOAD(s0,s3) ;display value
+301ee // @0d1 #558: CALL(send_hex_byte)
+302c9 // @0d2 #559: CALL(send_OK)
+34020 // @0d3 #560: JUMP(DS2432_menu) ;remain in memory and function menu
+// #561: ;
+// #562: ;
+// #563: ;
+// #564: ;
+// #565: ;**************************************************************************************
+// #566: ; DS2432 Read Scratchpad Memory Command.
+// #567: ;**************************************************************************************
+// #568: ;
+// #569: ; The read scratchpad memory command (AA hex) allows the 8-bytes of data previously
+// #570: ; to be written into the scratchpad memory to be read back for verification together with
+// #571: ; the target address, a transfer status register and a 16-bit CRC value.
+// #572: ;
+// #573: ; The 16-bit CRC is formed of the command byte, address TA1 and TA2, E/S byte and 8 data
+// #574: ; bytes as transmitted (12 bytes). These may not be the same as the values provided
+// #575: ; during a previous write to scratchpad memory. All these bytes are recorded in KCPSM3
+// #576: ; scratch pad memory in ascending locations starting at the location defined by
+// #577: ; constant 'command_start'.
+// #578: ;
+// #579: ;
+// @0d4 #580: [read_scratchpad_command]
+00e08 // @0d4 #580: LOAD(sE,command_start) ;pointer to memory
+003aa // @0d5 #581: LOAD(s3,AA) ;read scratchpad memory Command
+2f3e0 // @0d6 #582: STORE(s3,sE) ;record command sequence
+18e01 // @0d7 #583: ADD(sE,1) ;increment pointer
+30161 // @0d8 #584: CALL(write_byte_slow) ;transmit command
+30364 // @0d9 #585: CALL(send_address) ;display 'Address='
+30182 // @0da #586: CALL(read_byte_slow) ;read address into [s5,s4]
+01430 // @0db #587: LOAD(s4,s3)
+30182 // @0dc #588: CALL(read_byte_slow)
+01530 // @0dd #589: LOAD(s5,s3)
+2f4e0 // @0de #590: STORE(s4,sE) ;record sequence
+18e01 // @0df #591: ADD(sE,1) ;increment pointer
+2f5e0 // @0e0 #592: STORE(s5,sE) ;record sequence
+18e01 // @0e1 #593: ADD(sE,1) ;increment pointer
+01050 // @0e2 #594: LOAD(s0,s5) ;display address
+301ee // @0e3 #595: CALL(send_hex_byte)
+01040 // @0e4 #596: LOAD(s0,s4)
+301ee // @0e5 #597: CALL(send_hex_byte)
+3037e // @0e6 #598: CALL(send_ES) ;display 'E/S='
+30182 // @0e7 #599: CALL(read_byte_slow) ;read E/S register
+2f3e0 // @0e8 #600: STORE(s3,sE) ;record sequence
+18e01 // @0e9 #601: ADD(sE,1) ;increment pointer
+01030 // @0ea #602: LOAD(s0,s3) ;display value
+301ee // @0eb #603: CALL(send_hex_byte)
+30374 // @0ec #604: CALL(send_data) ;display 'Data='
+30371 // @0ed #605: CALL(send_equals)
+00408 // @0ee #606: LOAD(s4,8) ;8 bytes to read
+// @0ef #607: [rsc_loop]
+30222 // @0ef #607: CALL(send_space)
+30182 // @0f0 #608: CALL(read_byte_slow) ;read data byte
+2f3e0 // @0f1 #609: STORE(s3,sE) ;record sequence
+18e01 // @0f2 #610: ADD(sE,1) ;increment pointer
+01030 // @0f3 #611: LOAD(s0,s3) ;display value
+301ee // @0f4 #612: CALL(send_hex_byte)
+1c401 // @0f5 #613: SUB(s4,1) ;count bytes
+354ef // @0f6 #614: JUMP(NZ,rsc_loop)
+30182 // @0f7 #615: CALL(read_byte_slow) ;read 16-bit CRC into [s5,s4]
+01430 // @0f8 #616: LOAD(s4,s3)
+30182 // @0f9 #617: CALL(read_byte_slow)
+01530 // @0fa #618: LOAD(s5,s3)
+2f4e0 // @0fb #619: STORE(s4,sE) ;record command sequence
+18e01 // @0fc #620: ADD(sE,1) ;increment pointer
+2f5e0 // @0fd #621: STORE(s5,sE) ;record command sequence
+3021f // @0fe #622: CALL(send_CR)
+3039c // @0ff #623: CALL(send_CRC) ;'CRC=' to display CRC value
+01050 // @100 #624: LOAD(s0,s5)
+301ee // @101 #625: CALL(send_hex_byte)
+01040 // @102 #626: LOAD(s0,s4)
+301ee // @103 #627: CALL(send_hex_byte)
+3021f // @104 #628: CALL(send_CR)
+0020c // @105 #629: LOAD(s2,12) ;12 (0C hex) bytes in this command
+3012c // @106 #630: CALL(compute_CRC16) ;compute CRC value in [s1,s0]
+075e0 // @107 #631: FETCH(s5,sE) ;compare with received value
+1ce01 // @108 #632: SUB(sE,1)
+074e0 // @109 #633: FETCH(s4,sE) ;compare with received value
+15510 // @10a #634: COMPARE(s5,s1)
+35510 // @10b #635: JUMP(NZ,rsc_crc16_fail)
+15400 // @10c #636: COMPARE(s4,s0)
+35510 // @10d #637: JUMP(NZ,rsc_crc16_fail)
+30345 // @10e #638: CALL(send_Pass)
+34003 // @10f #639: JUMP(reset_menu) ;needs master reset next
+// @110 #640: [rsc_crc16_fail]
+3034d // @110 #640: CALL(send_Fail)
+34003 // @111 #641: JUMP(reset_menu) ;needs master reset next
+// #642: ;
+// #643: ;
+// #644: ;
+// #645: ;**************************************************************************************
+// #646: ; Compute 8-bit CRC used by DS2432.
+// #647: ;**************************************************************************************
+// #648: ;
+// #649: ; The DS2432 computes an 8-bit CRC using the polynomial X8 + X5 + X4 + 1.
+// #650: ; See the DS2432 data sheet for full details.
+// #651: ;
+// #652: ; Test input value of value 00 00 00 01 B8 1C 02
+// #653: ; should produce CRC=A2.
+// #654: ;
+// #655: ; This routine computes the same CRC based on the values stored in the KCPSM3
+// #656: ; scratch pad memory by the read ROM command. The result is returned in register s0.
+// #657: ;
+// #658: ; Registers used s0,s1,s2,s3,s4,s5,s6,s7,s8,s9
+// #659: ;
+// #660: ;
+// #661: ;Start by loading family code and serial number (56-bits) into
+// #662: ;register set [s9,s8,s7,s6,s5,s4,s3] so they can be shifted out
+// #663: ;LSB first.
+// #664: ;
+// @112 #665: [compute_CRC8]
+06300 // @112 #665: FETCH(s3,family_code)
+06401 // @113 #666: FETCH(s4,serial_number0)
+06502 // @114 #667: FETCH(s5,serial_number1)
+06603 // @115 #668: FETCH(s6,serial_number2)
+06704 // @116 #669: FETCH(s7,serial_number3)
+06805 // @117 #670: FETCH(s8,serial_number4)
+06906 // @118 #671: FETCH(s9,serial_number5)
+00238 // @119 #672: LOAD(s2,56) ;56 bits to shift (38 hex)
+00000 // @11a #673: LOAD(s0,0) ;clear CRC value
+// @11b #674: [crc8_loop]
+01100 // @11b #674: LOAD(s1,s0) ;copy current CRC value
+0f130 // @11c #675: XOR(s1,s3) ;Need to know LSB XOR next input bit
+12101 // @11d #676: TEST(s1,1) ;test result of XOR in LSB
+35d20 // @11e #677: JUMP(NC,crc8_shift)
+0e018 // @11f #678: XOR(s0,24) ;compliment bits 3 and 4 of CRC
+// @120 #679: [crc8_shift]
+2010e // @120 #679: SR0(s1) ;Carry gets LSB XOR next input bit
+20008 // @121 #680: SRA(s0) ;shift Carry into MSB to form new CRC value
+2090e // @122 #681: SR0(s9) ;shift input value
+20808 // @123 #682: SRA(s8)
+20708 // @124 #683: SRA(s7)
+20608 // @125 #684: SRA(s6)
+20508 // @126 #685: SRA(s5)
+20408 // @127 #686: SRA(s4)
+20308 // @128 #687: SRA(s3)
+1c201 // @129 #688: SUB(s2,1) ;count iterations
+3551b // @12a #689: JUMP(NZ,crc8_loop)
+2a000 // @12b #690: RETURN
+// #691: ;
+// #692: ;
+// #693: ;
+// #694: ;**************************************************************************************
+// #695: ; Compute 16-bit CRC used by DS2432.
+// #696: ;**************************************************************************************
+// #697: ;
+// #698: ; The DS2432 computes a 16-bit CRC using the polynomial X16 + X15 + X2 + 1.
+// #699: ; See the DS2432 data sheet for full details.
+// #700: ;
+// #701: ; Note that the value formed in the CRC shift register is inverted to give the
+// #702: ; same value as that sent from the DS2432 during scratchpad write, scratchpad read
+// #703: ; and read auth page commands.
+// #704: ;
+// #705: ; This routine computes the CRC based on the values stored in the KCPSM3
+// #706: ; scratch pad memory starting at address defined by constant 'command_start'.
+// #707: ; register 's2' must specify how many bytes are to be used in the calculation
+// #708: ; and the CRC is returned in register pair [s1,s0] once it has been inverted.
+// #709: ;
+// #710: ; Registers used s0,s1,s2,s3,s4,s5,s6
+// #711: ;
+// #712: ;
+// #713: ;Start by loading family code and serial number (56-bits) into
+// #714: ;register set [s9,s8,s7,s6,s5,s4,s3] so they can be shifted out
+// #715: ;LSB first.
+// #716: ;
+// @12c #717: [compute_CRC16]
+00508 // @12c #717: LOAD(s5,command_start) ;memory pointer
+00000 // @12d #718: LOAD(s0,0) ;clear CRC value
+00100 // @12e #719: LOAD(s1,0)
+// @12f #720: [crc16_byte_loop]
+07450 // @12f #720: FETCH(s4,s5) ;read input byte
+00308 // @130 #721: LOAD(s3,8) ;8-bits to shift
+// @131 #722: [crc16_bit_loop]
+01600 // @131 #722: LOAD(s6,s0) ;copy current CRC value
+0f640 // @132 #723: XOR(s6,s4) ;Need to know LSB XOR next input bit
+12601 // @133 #724: TEST(s6,1) ;test result of XOR in LSB
+35d37 // @134 #725: JUMP(NC,crc16_shift)
+0e002 // @135 #726: XOR(s0,2) ;compliment bit 1 of CRC
+0e140 // @136 #727: XOR(s1,64) ;compliment bit 14 of CRC
+// @137 #728: [crc16_shift]
+2060e // @137 #728: SR0(s6) ;Carry gets LSB XOR next input bit
+20108 // @138 #729: SRA(s1) ;shift Carry into MSB to form new CRC value
+20008 // @139 #730: SRA(s0)
+2040e // @13a #731: SR0(s4) ;shift input value
+1c301 // @13b #732: SUB(s3,1) ;count bits
+35531 // @13c #733: JUMP(NZ,crc16_bit_loop) ;next bit
+18501 // @13d #734: ADD(s5,1) ;increment memory pointer
+1c201 // @13e #735: SUB(s2,1) ;count bytes
+3552f // @13f #736: JUMP(NZ,crc16_byte_loop) ;next byte
+0e0ff // @140 #737: XOR(s0,FF) ;1's complement of CRC value
+0e1ff // @141 #738: XOR(s1,FF)
+2a000 // @142 #739: RETURN
+// #740: ;
+// #741: ;
+// #742: ;**************************************************************************************
+// #743: ; Initialise the DS2432 1-wire interface.
+// #744: ;**************************************************************************************
+// #745: ;
+// #746: ; The 1-wire interface is an open-collector communication scheme employing an external
+// #747: ; pull-up resistor of 680 Ohms.
+// #748: ;
+// #749: ; The hardware section of this translates the one bit signal from PicoBlaze such that
+// #750: ; when this signal is Low the output is driven Low, but when it is High, it turns off
+// #751: ; the output buffer and the signal is pulled High externally.
+// #752: ;
+// #753: ; This initialisation routine simply ensures that the line is High after configuration.
+// #754: ; It is vital that DS_wire is generally in the High state because it is the only way in
+// #755: ; which the DS2432 device derives power to operate.
+// #756: ;
+// #757: ; Registers used s0
+// #758: ;
+// @143 #759: [DS_wire_init]
+00001 // @143 #759: LOAD(s0,DS_wire)
+2c008 // @144 #760: OUTPUT(s0,DS_wire_out_port)
+2a000 // @145 #761: RETURN
+// #762: ;
+// #763: ;
+// #764: ;**************************************************************************************
+// #765: ; DS2432 initialisation - Regular Speed.
+// #766: ;**************************************************************************************
+// #767: ;
+// #768: ; The initialisation sequence must be performed before any communication can be
+// #769: ; made with the DS2432 device. This involves the application of an active Low master
+// #770: ; reset pulse.
+// #771: ;
+// #772: ; The regular (slow) speed communication is established by transmitting an active
+// #773: ; Low reset pulse for a duration of at least 480us. This design generates a 500us pulse.
+// #774: ;
+// #775: ; The DS2432 acknowledges the reset and the setting of regular mode by generating an
+// #776: ; active Low 'Rx Presence Pulse'. This presence pulse can start 15 to 60us after the
+// #777: ; reset pulse and will end between 120 and 300us after the reset pulse.
+// #778: ;
+// #779: ; To confirm that regular mode has been set, this routine confirms that the presence pulse
+// #780: ; is active only after 60us have elapsed since the reset pulse. This ensures that the
+// #781: ; faster presence pulse of overdrive mode can not be detected.
+// #782: ;
+// #783: ; The carry flag will be set if no valid presence pulse was received (wire remained High) and
+// #784: ; can be used to indicate an initialisation failure or success.
+// #785: ;
+// #786: ; The routine only completes 300us after the presence pulse to ensure the DS2432 has
+// #787: ; completed the presence pulse and is ready for the first operation.
+// #788: ;
+// #789: ; Registers used s0,s1,s2
+// #790: ;
+// @146 #791: [DS_init_regular_mode]
+00000 // @146 #791: LOAD(s0,0) ;transmit reset pulse
+2c008 // @147 #792: OUTPUT(s0,DS_wire_out_port)
+// #793: ;Delay of 500us is equivalent to 12500 instructions at 50MHz.
+// #794: ;This delay loop is formed of 28 instructions requiring 446 repetitions.
+00201 // @148 #795: LOAD(s2,1) ;[s3,s2]=445 decimal (01BD hex)
+001bd // @149 #796: LOAD(s1,BD)
+// @14a #797: [rm_wait_500us]
+3019a // @14a #797: CALL(delay_1us) ;25 instructions including CALL
+1c101 // @14b #798: SUB(s1,1) ;decrement delay counter
+1e200 // @14c #799: SUBCY(s2,0)
+35d4a // @14d #800: JUMP(NC,rm_wait_500us) ;repeat until -1
+00001 // @14e #801: LOAD(s0,1) ;end of regular reset pulse
+2c008 // @14f #802: OUTPUT(s0,DS_wire_out_port)
+// #803: ;Delay of 60us is equivalent to 1500 instructions at 50MHz.
+// #804: ;This delay and is formed of 27 instructions requiring 56 repetitions.
+00138 // @150 #805: LOAD(s1,56) ;56 (38 hex)
+// @151 #806: [rm_wait_60us]
+3019a // @151 #806: CALL(delay_1us) ;25 instructions including CALL
+1c101 // @152 #807: SUB(s1,1) ;decrement delay counter
+35551 // @153 #808: JUMP(NZ,rm_wait_60us) ;repeat until zero
+// #809: ;The DS_wire is now checked at approximately 1us intervals for the next 240us looking
+// #810: ;to detect an active Low presence pulse. The 240us is equivalent to 6000 instructions
+// #811: ;at 50MHz and this polling loop is formed of 33 instructions requiring 182 repetitions.
+00201 // @154 #812: LOAD(s2,1) ;set bit which will be reset by a presence pulse
+001b6 // @155 #813: LOAD(s1,B6) ;182 (B6 hex)
+// @156 #814: [rm_poll_240us]
+3019a // @156 #814: CALL(delay_1us) ;25 instructions including CALL
+3015d // @157 #815: CALL(read_DS_wire) ;read wire - 5 instructions including CALL
+0b200 // @158 #816: AND(s2,s0) ;clear flag if DS_wire was Low
+1c101 // @159 #817: SUB(s1,1) ;decrement delay counter
+35556 // @15a #818: JUMP(NZ,rm_poll_240us) ;repeat until zero
+12201 // @15b #819: TEST(s2,1) ;set carry flag if no pulse detected
+2a000 // @15c #820: RETURN
+// #821: ;
+// #822: ;
+// #823: ;**************************************************************************************
+// #824: ; Read the DS_wire
+// #825: ;**************************************************************************************
+// #826: ;
+// #827: ; The DS_wire signal is read and returned in bit0 of register 's0'.
+// #828: ; Additionally the carry flag is set if the signal is High and reset if Low
+// #829: ;
+// #830: ; Registers used s0
+// #831: ;
+// @15d #832: [read_DS_wire]
+04002 // @15d #832: INPUT(s0,DS_wire_in_port)
+0a001 // @15e #833: AND(s0,DS_wire) ;ensure only bit0 is active
+12001 // @15f #834: TEST(s0,DS_wire) ;set carry flag if DS_wire is High
+2a000 // @160 #835: RETURN
+// #836: ;
+// #837: ;
+// #838: ;
+// #839: ;**************************************************************************************
+// #840: ; Write a byte to DS2432 in regular speed mode.
+// #841: ;**************************************************************************************
+// #842: ;
+// #843: ; Bytes are written to the DS2432 with LSB first.
+// #844: ;
+// #845: ; The byte to be written should be provided in register 's3' and this will be preserved.
+// #846: ;
+// #847: ; Registers used s0,s1,s2,s3
+// #848: ;
+// @161 #849: [write_byte_slow]
+00208 // @161 #849: LOAD(s2,8) ;8 bits to transmit
+// @162 #850: [wbs_loop]
+2030c // @162 #850: RR(s3) ;test next bit LSB first
+35966 // @163 #851: JUMP(C,wbs1) ;transmit '0' or '1'
+3016a // @164 #852: CALL(write_Low_slow)
+34167 // @165 #853: JUMP(next_slow_bit)
+// @166 #854: [wbs1]
+30175 // @166 #854: CALL(write_High_slow)
+// @167 #855: [next_slow_bit]
+1c201 // @167 #855: SUB(s2,1) ;count bits
+35562 // @168 #856: JUMP(NZ,wbs_loop) ;repeat until 8-bits transmitted
+2a000 // @169 #857: RETURN
+// #858: ;
+// #859: ;
+// #860: ;
+// #861: ;**************************************************************************************
+// #862: ; Write a '0' to DS_wire in regular speed mode.
+// #863: ;**************************************************************************************
+// #864: ;
+// #865: ; To write a '0' to the DS_wire the signal must be Low for 60 to 120us. This design
+// #866: ; generates a 78us active Low pulse.
+// #867: ;
+// #868: ; The DS2432 then requires at least 1us of recovery time for which this routine
+// #869: ; provides a 2us delay such that the entire write Low process (slot time) is 80us.
+// #870: ; A recovery time of 1us was also found to be marginal in practice probably due
+// #871: ; to the rise time of the DS_wire via the external pull up resistor.
+// #872: ;
+// #873: ; Registers used s0,s1
+// #874: ;
+// @16a #875: [write_Low_slow]
+00000 // @16a #875: LOAD(s0,0) ;transmit Low pulse
+2c008 // @16b #876: OUTPUT(s0,DS_wire_out_port)
+// #877: ;Delay of 78us is equivalent to 1950 instructions at 50MHz.
+// #878: ;This delay loop is formed of 27 instructions requiring 72 repetitions.
+00148 // @16c #879: LOAD(s1,72) ;72 (48 hex)
+// @16d #880: [wls_wait_78us]
+3019a // @16d #880: CALL(delay_1us) ;25 instructions including CALL
+1c101 // @16e #881: SUB(s1,1) ;decrement delay counter
+3556d // @16f #882: JUMP(NZ,wls_wait_78us) ;repeat until zero
+00001 // @170 #883: LOAD(s0,1) ;end of Low pulse
+2c008 // @171 #884: OUTPUT(s0,DS_wire_out_port)
+3019a // @172 #885: CALL(delay_1us) ;2us recovery time
+3019a // @173 #886: CALL(delay_1us)
+2a000 // @174 #887: RETURN
+// #888: ;
+// #889: ;
+// #890: ;**************************************************************************************
+// #891: ; Write a '1' to DS_wire in regular speed mode.
+// #892: ;**************************************************************************************
+// #893: ;
+// #894: ; To write a '1' to the DS_wire the signal must be Low for 1 to 15us to instigate the
+// #895: ; write of the data. This design generates an 8us active Low pulse for this purpose.
+// #896: ;
+// #897: ; Then the output must be High for 53 to 114us to provide the '1' for the DS2432 to
+// #898: ; read and then provide recovery time. This design implements a 72us delay such that
+// #899: ; the entire write High process (slot time) is 80us
+// #900: ;
+// #901: ; Registers used s0,s1
+// #902: ;
+// @175 #903: [write_High_slow]
+00000 // @175 #903: LOAD(s0,0) ;transmit Low pulse
+2c008 // @176 #904: OUTPUT(s0,DS_wire_out_port)
+// #905: ;Delay of 8us is equivalent to 200 instructions at 50MHz.
+// #906: ;This delay loop is formed of 27 instructions requiring 8 repetitions.
+00108 // @177 #907: LOAD(s1,8) ;8 (08 hex)
+// @178 #908: [whs_wait_8us]
+3019a // @178 #908: CALL(delay_1us) ;25 instructions including CALL
+1c101 // @179 #909: SUB(s1,1) ;decrement delay counter
+35578 // @17a #910: JUMP(NZ,whs_wait_8us) ;repeat until zero
+00001 // @17b #911: LOAD(s0,1) ;end of Low pulse
+2c008 // @17c #912: OUTPUT(s0,DS_wire_out_port)
+// #913: ;Delay of 72us is equivalent to 1800 instructions at 50MHz.
+// #914: ;This delay loop is formed of 27 instructions requiring 67 repetitions.
+00143 // @17d #915: LOAD(s1,67) ;67 (43 hex)
+// @17e #916: [whs_wait_72us]
+3019a // @17e #916: CALL(delay_1us) ;25 instructions including CALL
+1c101 // @17f #917: SUB(s1,1) ;decrement delay counter
+3557e // @180 #918: JUMP(NZ,whs_wait_72us) ;repeat until zero
+2a000 // @181 #919: RETURN
+// #920: ;
+// #921: ;
+// #922: ;
+// #923: ;**************************************************************************************
+// #924: ; Read a byte from DS2432 in regular speed mode.
+// #925: ;**************************************************************************************
+// #926: ;
+// #927: ; Bytes are read from the DS2432 with LSB first.
+// #928: ;
+// #929: ; The byte read will be returned in register 's3'.
+// #930: ;
+// #931: ; Registers used s0,s1,s2,s3
+// #932: ;
+// @182 #933: [read_byte_slow]
+00208 // @182 #933: LOAD(s2,8) ;8 bits to receive
+// @183 #934: [rbs_loop]
+30187 // @183 #934: CALL(read_bit_slow) ;read next bit LSB first
+1c201 // @184 #935: SUB(s2,1) ;count bits
+35583 // @185 #936: JUMP(NZ,rbs_loop) ;repeat until 8-bits received
+2a000 // @186 #937: RETURN
+// #938: ;
+// #939: ;
+// #940: ;
+// #941: ;
+// #942: ;**************************************************************************************
+// #943: ; Read a data bit sent from the DS2432 in regular speed mode.
+// #944: ;**************************************************************************************
+// #945: ;
+// #946: ; To read a bit, PicoBlaze must initiate the processed with an active Low pulse of
+// #947: ; 1 to 15us. This design generates a 4us active Low pulse for this purpose.
+// #948: ;
+// #949: ; Then DS2432 responds to the Low pulse by diving DS_wire in two differet ways
+// #950: ; depending on the logic level it is trying to send back.
+// #951: ;
+// #952: ; For a logic '0' the DS2432 will drive the DS-wire Low for up to 15us after
+// #953: ; the start of the instigating pulse. Therefore PicoBlaze must read the DS-wire
+// #954: ; before this time has elapsed but only after it has itself released the wire.
+// #955: ;
+// #956: ; For a logic '1' the DS2432 will do nothing and hence the DS-wire will be pulled
+// #957: ; High by the external resistor after PicoBlaze has released the wire. PicoBlaze
+// #958: ; will sample the wire and detect the High level.
+// #959: ;
+// #960: ; In this design, PicoBlaze needs to detect the logic state of the wire after
+// #961: ; releasing the wire at 4us. Sampling the wire too quickly would not provide
+// #962: ; adequate time for a High signal to be formed by the pull up resistor. However, it
+// #963: ; must sample the wire before 15us have elapsed and any potential Low is removed.
+// #964: ; This design samples the wire at 12us which is 8us after the initiation pulse ends.
+// #965: ;
+// #966: ; A further delay of 68us is then allowed for the DS2432 to stop transmitting and
+// #967: ; to recover. This also mean that the entire read process (slot time) is 80us.
+// #968: ;
+// #969: ; The received data bit is SHIFTED into the MSB of register 's3'. In this way
+// #970: ; the reception of 8-bits will shift the first bit into the LSB position of 's3'.
+// #971: ;
+// #972: ; Registers used s0,s1,s3
+// #973: ;
+// @187 #974: [read_bit_slow]
+00000 // @187 #974: LOAD(s0,0) ;transmit Low pulse
+2c008 // @188 #975: OUTPUT(s0,DS_wire_out_port)
+// #976: ;Delay of 4us is equivalent to 100 instructions at 50MHz.
+// #977: ;This delay loop is formed of 27 instructions requiring 4 repetitions.
+00104 // @189 #978: LOAD(s1,4) ;4 (04 hex)
+// @18a #979: [rbs_wait_4us]
+3019a // @18a #979: CALL(delay_1us) ;25 instructions including CALL
+1c101 // @18b #980: SUB(s1,1) ;decrement delay counter
+3558a // @18c #981: JUMP(NZ,rbs_wait_4us) ;repeat until zero
+00001 // @18d #982: LOAD(s0,1) ;end of Low pulse
+2c008 // @18e #983: OUTPUT(s0,DS_wire_out_port)
+// #984: ;Delay of 8us is equivalent to 200 instructions at 50MHz.
+// #985: ;This delay loop is formed of 27 instructions requiring 8 repetitions.
+00108 // @18f #986: LOAD(s1,8) ;8 (08 hex)
+// @190 #987: [rbs_wait_8us]
+3019a // @190 #987: CALL(delay_1us) ;25 instructions including CALL
+1c101 // @191 #988: SUB(s1,1) ;decrement delay counter
+35590 // @192 #989: JUMP(NZ,rbs_wait_8us) ;repeat until zero
+3015d // @193 #990: CALL(read_DS_wire) ;sample wire (carry = state)
+20308 // @194 #991: SRA(s3) ;shift received bit into MSB of s3
+// #992: ;Delay of 68us is equivalent to 1700 instructions at 50MHz.
+// #993: ;This delay loop is formed of 27 instructions requiring 63 repetitions.
+0013f // @195 #994: LOAD(s1,63) ;63 (3F hex)
+// @196 #995: [rbs_wait_68us]
+3019a // @196 #995: CALL(delay_1us) ;25 instructions including CALL
+1c101 // @197 #996: SUB(s1,1) ;decrement delay counter
+35596 // @198 #997: JUMP(NZ,rbs_wait_68us) ;repeat until zero
+2a000 // @199 #998: RETURN
+// #999: ;
+// #1000: ;
+// #1001: ;**************************************************************************************
+// #1002: ; Software delay routines
+// #1003: ;**************************************************************************************
+// #1004: ;
+// #1005: ; Delay of 1us.
+// #1006: ;
+// #1007: ; Constant value defines reflects the clock applied to KCPSM3. Every instruction
+// #1008: ; executes in 2 clock cycles making the calculation highly predictable. The '6' in
+// #1009: ; the following equation even allows for 'CALL delay_1us' instruction in the initiating code.
+// #1010: ;
+// #1011: ; delay_1us_constant =  (clock_rate - 6)/4       Where 'clock_rate' is in MHz
+// #1012: ;
+// #1013: ; Register used s0
+// #1014: ;
+// @19a #1015: [delay_1us]
+0000b // @19a #1015: LOAD(s0,delay_1us_constant)
+// @19b #1016: [wait_1us]
+1c001 // @19b #1016: SUB(s0,1)
+3559b // @19c #1017: JUMP(NZ,wait_1us)
+2a000 // @19d #1018: RETURN
+// #1019: ;
+// #1020: ; Delay of 40us.
+// #1021: ;
+// #1022: ; Registers used s0, s1
+// #1023: ;
+// @19e #1024: [delay_40us]
+00128 // @19e #1024: LOAD(s1,40) ;40 x 1us = 40us
+// @19f #1025: [wait_40us]
+3019a // @19f #1025: CALL(delay_1us)
+1c101 // @1a0 #1026: SUB(s1,1)
+3559f // @1a1 #1027: JUMP(NZ,wait_40us)
+2a000 // @1a2 #1028: RETURN
+// #1029: ;
+// #1030: ;
+// #1031: ; Delay of 1ms.
+// #1032: ;
+// #1033: ; Registers used s0, s1, s2
+// #1034: ;
+// @1a3 #1035: [delay_1ms]
+00219 // @1a3 #1035: LOAD(s2,25) ;25 x 40us = 1ms
+// @1a4 #1036: [wait_1ms]
+3019e // @1a4 #1036: CALL(delay_40us)
+1c201 // @1a5 #1037: SUB(s2,1)
+355a4 // @1a6 #1038: JUMP(NZ,wait_1ms)
+2a000 // @1a7 #1039: RETURN
+// #1040: ;
+// #1041: ; Delay of 20ms.
+// #1042: ;
+// #1043: ; Registers used s0, s1, s2, s3
+// #1044: ;
+// @1a8 #1045: [delay_20ms]
+00314 // @1a8 #1045: LOAD(s3,20) ;20 x 1ms = 20ms
+// @1a9 #1046: [wait_20ms]
+301a3 // @1a9 #1046: CALL(delay_1ms)
+1c301 // @1aa #1047: SUB(s3,1)
+355a9 // @1ab #1048: JUMP(NZ,wait_20ms)
+2a000 // @1ac #1049: RETURN
+// #1050: ;
+// #1051: ; Delay of approximately 1 second.
+// #1052: ;
+// #1053: ; Registers used s0, s1, s2, s3, s4
+// #1054: ;
+// @1ad #1055: [delay_1s]
+00414 // @1ad #1055: LOAD(s4,20) ;50 x 20ms = 1000ms
+// @1ae #1056: [wait_1s]
+301a8 // @1ae #1056: CALL(delay_20ms)
+1c401 // @1af #1057: SUB(s4,1)
+355ae // @1b0 #1058: JUMP(NZ,wait_1s)
+2a000 // @1b1 #1059: RETURN
+// #1060: ;
+// #1061: ;
+// #1062: ;**************************************************************************************
+// #1063: ; UART communication routines
+// #1064: ;**************************************************************************************
+// #1065: ;
+// #1066: ; Read one character from the UART
+// #1067: ;
+// #1068: ; Character read will be returned in a register called 'UART_data'.
+// #1069: ;
+// #1070: ; The routine first tests the receiver FIFO buffer to see if data is present.
+// #1071: ; If the FIFO is empty, the routine waits until there is a character to read.
+// #1072: ; As this could take any amount of time the wait loop could include a call to a
+// #1073: ; subroutine which performs a useful function.
+// #1074: ;
+// #1075: ;
+// #1076: ; Registers used s0 and UART_data
+// #1077: ;
+// @1b2 #1078: [read_from_UART]
+04000 // @1b2 #1078: INPUT(s0,status_port) ;test Rx_FIFO buffer
+12004 // @1b3 #1079: TEST(s0,rx_data_present) ;wait if empty
+355b6 // @1b4 #1080: JUMP(NZ,read_character)
+341b2 // @1b5 #1081: JUMP(read_from_UART)
+// @1b6 #1082: [read_character]
+04f01 // @1b6 #1082: INPUT(UART_data,UART_read_port) ;read from FIFO
+2a000 // @1b7 #1083: RETURN
+// #1084: ;
+// #1085: ;
+// #1086: ;
+// #1087: ; Transmit one character to the UART
+// #1088: ;
+// #1089: ; Character supplied in register called 'UART_data'.
+// #1090: ;
+// #1091: ; The routine first tests the transmit FIFO buffer to see if it is full.
+// #1092: ; If the FIFO is full, then the routine waits until it there is space.
+// #1093: ;
+// #1094: ; Registers used s0
+// #1095: ;
+// @1b8 #1096: [send_to_UART]
+04000 // @1b8 #1096: INPUT(s0,status_port) ;test Tx_FIFO buffer
+12002 // @1b9 #1097: TEST(s0,tx_full) ;wait if full
+351bc // @1ba #1098: JUMP(Z,UART_write)
+341b8 // @1bb #1099: JUMP(send_to_UART)
+// @1bc #1100: [UART_write]
+2cf04 // @1bc #1100: OUTPUT(UART_data,UART_write_port)
+2a000 // @1bd #1101: RETURN
+// #1102: ;
+// #1103: ;
+// #1104: ;**************************************************************************************
+// #1105: ; Useful ASCII conversion and handling routines
+// #1106: ;**************************************************************************************
+// #1107: ;
+// #1108: ; Convert value provided in register s0 into ASCII characters
+// #1109: ;
+// #1110: ; The value provided must in the range 0 to 99 and will be converted into
+// #1111: ; two ASCII characters.
+// #1112: ;     The number of 'tens' will be represented by an ASCII character returned in register s1.
+// #1113: ;     The number of 'units' will be represented by an ASCII character returned in register s0.
+// #1114: ;
+// #1115: ; The ASCII representations of '0' to '9' are 30 to 39 hexadecimal which is simply 30 hex added to
+// #1116: ; the actual decimal value.
+// #1117: ;
+// #1118: ; Registers used s0 and s1.
+// #1119: ;
+// @1be #1120: [decimal_to_ASCII]
+00130 // @1be #1120: LOAD(s1,48) ;load 'tens' counter with ASCII for '0'
+// @1bf #1121: [test_for_ten]
+18101 // @1bf #1121: ADD(s1,1) ;increment 'tens' value
+1c00a // @1c0 #1122: SUB(s0,10) ;try to subtract 10 from the supplied value
+35dbf // @1c1 #1123: JUMP(NC,test_for_ten) ;repeat if subtraction was possible without underflow.
+1c101 // @1c2 #1124: SUB(s1,1) ;'tens' value one less ten due to underflow
+1803a // @1c3 #1125: ADD(s0,58) ;restore units value (the remainder) and convert to ASCII
+2a000 // @1c4 #1126: RETURN
+// #1127: ;
+// #1128: ;
+// #1129: ;
+// #1130: ; Convert character to upper case
+// #1131: ;
+// #1132: ; The character supplied in register s0.
+// #1133: ; If the character is in the range 'a' to 'z', it is converted
+// #1134: ; to the equivalent upper case character in the range 'A' to 'Z'.
+// #1135: ; All other characters remain unchanged.
+// #1136: ;
+// #1137: ; Registers used s0.
+// #1138: ;
+// @1c5 #1139: [upper_case]
+14061 // @1c5 #1139: COMPARE(s0,97) ;eliminate character codes below 'a' (61 hex)
+2b800 // @1c6 #1140: RETURN(C)
+1407b // @1c7 #1141: COMPARE(s0,123) ;eliminate character codes above 'z' (7A hex)
+2bc00 // @1c8 #1142: RETURN(NC)
+0a0df // @1c9 #1143: AND(s0,DF) ;mask bit5 to convert to upper case
+2a000 // @1ca #1144: RETURN
+// #1145: ;
+// #1146: ;
+// #1147: ; Convert character '0' to '9' to numerical value in range 0 to 9
+// #1148: ;
+// #1149: ; The character supplied in register s0. If the character is in the
+// #1150: ; range '0' to '9', it is converted to the equivalent decimal value.
+// #1151: ; Characters not in the range '0' to '9' are signified by the return
+// #1152: ; with the CARRY flag set.
+// #1153: ;
+// #1154: ; Registers used s0.
+// #1155: ;
+// @1cb #1156: [onechar_to_value]
+180c6 // @1cb #1156: ADD(s0,C6) ;reject character codes above '9' (39 hex)
+2b800 // @1cc #1157: RETURN(C) ;carry flag is set
+1c0f6 // @1cd #1158: SUB(s0,F6) ;reject character codes below '0' (30 hex)
+2a000 // @1ce #1159: RETURN ;carry is set if value not in range
+// #1160: ;
+// #1161: ;
+// #1162: ; Determine the numerical value of a two character decimal string held in
+// #1163: ; scratch pad memory such the result is in the range 0 to 99 (00 to 63 hex).
+// #1164: ;
+// #1165: ; The string must be stored in two consecutive memory locations and the
+// #1166: ; location of the first (tens) character supplied in the s1 register.
+// #1167: ; The result is provided in register s2. Strings not using characters in the
+// #1168: ; range '0' to '9' are signified by the return with the CARRY flag set.
+// #1169: ;
+// #1170: ; Registers used s0, s1 and s2.
+// #1171: ;
+// @1cf #1172: [twochar_to_value]
+07010 // @1cf #1172: FETCH(s0,s1) ;read 'tens' character
+301cb // @1d0 #1173: CALL(onechar_to_value) ;convert to numerical value
+2b800 // @1d1 #1174: RETURN(C) ;bad character - CARRY set
+01200 // @1d2 #1175: LOAD(s2,s0)
+20206 // @1d3 #1176: SL0(s2) ;multiply 'tens' value by 10 (0A hex)
+20206 // @1d4 #1177: SL0(s2)
+19200 // @1d5 #1178: ADD(s2,s0)
+20206 // @1d6 #1179: SL0(s2)
+18101 // @1d7 #1180: ADD(s1,1) ;read 'units' character
+07010 // @1d8 #1181: FETCH(s0,s1)
+301cb // @1d9 #1182: CALL(onechar_to_value) ;convert to numerical value
+2b800 // @1da #1183: RETURN(C) ;bad character - CARRY set
+19200 // @1db #1184: ADD(s2,s0) ;add units to result and clear CARRY flag
+2a000 // @1dc #1185: RETURN
+// #1186: ;
+// #1187: ;
+// #1188: ; Convert hexadecimal value provided in register s0 into ASCII characters
+// #1189: ;
+// #1190: ; The value provided must can be any value in the range 00 to FF and will be converted into
+// #1191: ; two ASCII characters.
+// #1192: ;     The upper nibble will be represented by an ASCII character returned in register s2.
+// #1193: ;     The lower nibble will be represented by an ASCII character returned in register s1.
+// #1194: ;
+// #1195: ; The ASCII representations of '0' to '9' are 30 to 39 hexadecimal which is simply 30 hex
+// #1196: ; added to the actual decimal value. The ASCII representations of 'A' to 'F' are 41 to 46
+// #1197: ; hexadecimal requiring a further addition of 07 to the 30 already added.
+// #1198: ;
+// #1199: ; Registers used s0, s1 and s2.
+// #1200: ;
+// @1dd #1201: [hex_byte_to_ASCII]
+01100 // @1dd #1201: LOAD(s1,s0) ;remember value supplied
+2000e // @1de #1202: SR0(s0) ;isolate upper nibble
+2000e // @1df #1203: SR0(s0)
+2000e // @1e0 #1204: SR0(s0)
+2000e // @1e1 #1205: SR0(s0)
+301e9 // @1e2 #1206: CALL(hex_to_ASCII) ;convert
+01200 // @1e3 #1207: LOAD(s2,s0) ;upper nibble value in s2
+01010 // @1e4 #1208: LOAD(s0,s1) ;restore complete value
+0a00f // @1e5 #1209: AND(s0,15) ;isolate lower nibble
+301e9 // @1e6 #1210: CALL(hex_to_ASCII) ;convert
+01100 // @1e7 #1211: LOAD(s1,s0) ;lower nibble value in s1
+2a000 // @1e8 #1212: RETURN
+// #1213: ;
+// #1214: ; Convert hexadecimal value provided in register s0 into ASCII character
+// #1215: ;
+// #1216: ;Register used s0
+// #1217: ;
+// @1e9 #1218: [hex_to_ASCII]
+1c00a // @1e9 #1218: SUB(s0,10) ;test if value is in range 0 to 9
+359ec // @1ea #1219: JUMP(C,number_char)
+18007 // @1eb #1220: ADD(s0,7) ;ASCII char A to F in range 41 to 46
+// @1ec #1221: [number_char]
+1803a // @1ec #1221: ADD(s0,58) ;ASCII char 0 to 9 in range 30 to 40
+2a000 // @1ed #1222: RETURN
+// #1223: ;
+// #1224: ;
+// #1225: ; Send the two character HEX value of the register contents 's0' to the UART
+// #1226: ;
+// #1227: ; Registers used s0, s1, s2
+// #1228: ;
+// @1ee #1229: [send_hex_byte]
+301dd // @1ee #1229: CALL(hex_byte_to_ASCII)
+01f20 // @1ef #1230: LOAD(UART_data,s2)
+301b8 // @1f0 #1231: CALL(send_to_UART)
+01f10 // @1f1 #1232: LOAD(UART_data,s1)
+301b8 // @1f2 #1233: CALL(send_to_UART)
+2a000 // @1f3 #1234: RETURN
+// #1235: ;
+// #1236: ;
+// #1237: ;
+// #1238: ; Send the six character HEX value of the register contents [s9,s8,s7] to the UART
+// #1239: ;
+// #1240: ; Registers used s0, s1, s2
+// #1241: ;
+// @1f4 #1242: [send_hex_3bytes]
+01090 // @1f4 #1242: LOAD(s0,s9)
+301ee // @1f5 #1243: CALL(send_hex_byte)
+01080 // @1f6 #1244: LOAD(s0,s8)
+301ee // @1f7 #1245: CALL(send_hex_byte)
+01070 // @1f8 #1246: LOAD(s0,s7)
+301ee // @1f9 #1247: CALL(send_hex_byte)
+2a000 // @1fa #1248: RETURN
+// #1249: ;
+// #1250: ;
+// #1251: ; Convert the HEX ASCII characters contained in 's3' and 's2' into
+// #1252: ; an equivalent hexadecimal value in register 's0'.
+// #1253: ;     The upper nibble is represented by an ASCII character in register s3.
+// #1254: ;     The lower nibble is represented by an ASCII character in register s2.
+// #1255: ;
+// #1256: ; Input characters must be in the range 00 to FF hexadecimal or the CARRY flag
+// #1257: ; will be set on return.
+// #1258: ;
+// #1259: ; Registers used s0, s2 and s3.
+// #1260: ;
+// @1fb #1261: [ASCII_byte_to_hex]
+01030 // @1fb #1261: LOAD(s0,s3) ;Take upper nibble
+30208 // @1fc #1262: CALL(ASCII_to_hex) ;convert to value
+2b800 // @1fd #1263: RETURN(C) ;reject if out of range
+01300 // @1fe #1264: LOAD(s3,s0) ;remember value
+20306 // @1ff #1265: SL0(s3) ;multiply value by 16 to put in upper nibble
+20306 // @200 #1266: SL0(s3)
+20306 // @201 #1267: SL0(s3)
+20306 // @202 #1268: SL0(s3)
+01020 // @203 #1269: LOAD(s0,s2) ;Take lower nibble
+30208 // @204 #1270: CALL(ASCII_to_hex) ;convert to value
+2b800 // @205 #1271: RETURN(C) ;reject if out of range
+0d030 // @206 #1272: OR(s0,s3) ;merge in the upper nibble with CARRY reset
+2a000 // @207 #1273: RETURN
+// #1274: ;
+// #1275: ;
+// #1276: ; Routine to convert ASCII data in 's0' to an equivalent HEX value.
+// #1277: ;
+// #1278: ; If character is not valid for hex, then CARRY is set on return.
+// #1279: ;
+// #1280: ; Register used s0
+// #1281: ;
+// @208 #1282: [ASCII_to_hex]
+180b9 // @208 #1282: ADD(s0,B9) ;test for above ASCII code 46 ('F')
+2b800 // @209 #1283: RETURN(C)
+1c0e9 // @20a #1284: SUB(s0,E9) ;normalise 0 to 9 with A-F in 11 to 16 hex
+2b800 // @20b #1285: RETURN(C) ;reject below ASCII code 30 ('0')
+1c011 // @20c #1286: SUB(s0,17) ;isolate A-F down to 00 to 05 hex
+35e12 // @20d #1287: JUMP(NC,ASCII_letter)
+18007 // @20e #1288: ADD(s0,7) ;test for above ASCII code 46 ('F')
+2b800 // @20f #1289: RETURN(C)
+1c0f6 // @210 #1290: SUB(s0,F6) ;convert to range 00 to 09
+2a000 // @211 #1291: RETURN
+// @212 #1292: [ASCII_letter]
+1800a // @212 #1292: ADD(s0,10) ;convert to range 0A to 0F
+2a000 // @213 #1293: RETURN
+// #1294: ;
+// #1295: ;
+// #1296: ; Read one character from UART and echo.
+// #1297: ; Convert to upper case and return.
+// #1298: ;
+// #1299: ;
+// @214 #1300: [read_upper_case]
+301b2 // @214 #1300: CALL(read_from_UART) ;read command character from UART
+301b8 // @215 #1301: CALL(send_to_UART) ;echo character
+010f0 // @216 #1302: LOAD(s0,UART_data) ;convert to upper case
+301c5 // @217 #1303: CALL(upper_case)
+2a000 // @218 #1304: RETURN
+// #1305: ;
+// #1306: ;
+// #1307: ; Read two hex characters from UART and convert to single byte data
+// #1308: ;
+// @219 #1309: [obtain_8bits]
+30214 // @219 #1309: CALL(read_upper_case) ;obtain one byte from UART
+01300 // @21a #1310: LOAD(s3,s0)
+30214 // @21b #1311: CALL(read_upper_case)
+01200 // @21c #1312: LOAD(s2,s0)
+301fb // @21d #1313: CALL(ASCII_byte_to_hex)
+2a000 // @21e #1314: RETURN
+// #1315: ;
+// #1316: ;**************************************************************************************
+// #1317: ; Text messages
+// #1318: ;**************************************************************************************
+// #1319: ;
+// #1320: ;
+// #1321: ; Send Carriage Return to the UART
+// #1322: ;
+// @21f #1323: [send_CR]
+00f0d // @21f #1323: LOAD(UART_data,character_CR)
+301b8 // @220 #1324: CALL(send_to_UART)
+2a000 // @221 #1325: RETURN
+// #1326: ;
+// #1327: ; Send a space to the UART
+// #1328: ;
+// @222 #1329: [send_space]
+00f20 // @222 #1329: LOAD(UART_data,character_space)
+301b8 // @223 #1330: CALL(send_to_UART)
+2a000 // @224 #1331: RETURN
+// #1332: ;
+// #1333: ;
+// #1334: ; Send a minus sign to the UART
+// #1335: ;
+// @225 #1336: [send_minus]
+00f2d // @225 #1336: LOAD(UART_data,character_minus)
+301b8 // @226 #1337: CALL(send_to_UART)
+2a000 // @227 #1338: RETURN
+// #1339: ;
+// #1340: ;
+// #1341: ; Send 'PicoBlaze DS2432 Communicator v1.00' string to the UART
+// #1342: ;
+// @228 #1343: [send_welcome]
+3021f // @228 #1343: CALL(send_CR)
+3021f // @229 #1344: CALL(send_CR)
+00f50 // @22a #1345: LOAD(UART_data,character_P)
+301b8 // @22b #1346: CALL(send_to_UART)
+00f69 // @22c #1347: LOAD(UART_data,character_i)
+301b8 // @22d #1348: CALL(send_to_UART)
+00f63 // @22e #1349: LOAD(UART_data,character_c)
+301b8 // @22f #1350: CALL(send_to_UART)
+00f6f // @230 #1351: LOAD(UART_data,character_o)
+301b8 // @231 #1352: CALL(send_to_UART)
+00f42 // @232 #1353: LOAD(UART_data,character_B)
+301b8 // @233 #1354: CALL(send_to_UART)
+00f6c // @234 #1355: LOAD(UART_data,character_l)
+301b8 // @235 #1356: CALL(send_to_UART)
+00f61 // @236 #1357: LOAD(UART_data,character_a)
+301b8 // @237 #1358: CALL(send_to_UART)
+00f7a // @238 #1359: LOAD(UART_data,character_z)
+301b8 // @239 #1360: CALL(send_to_UART)
+00f65 // @23a #1361: LOAD(UART_data,character_e)
+301b8 // @23b #1362: CALL(send_to_UART)
+30222 // @23c #1363: CALL(send_space)
+00f44 // @23d #1364: LOAD(UART_data,character_D)
+301b8 // @23e #1365: CALL(send_to_UART)
+00f53 // @23f #1366: LOAD(UART_data,character_S)
+301b8 // @240 #1367: CALL(send_to_UART)
+00f32 // @241 #1368: LOAD(UART_data,character_2)
+301b8 // @242 #1369: CALL(send_to_UART)
+00f34 // @243 #1370: LOAD(UART_data,character_4)
+301b8 // @244 #1371: CALL(send_to_UART)
+00f33 // @245 #1372: LOAD(UART_data,character_3)
+301b8 // @246 #1373: CALL(send_to_UART)
+00f32 // @247 #1374: LOAD(UART_data,character_2)
+301b8 // @248 #1375: CALL(send_to_UART)
+30222 // @249 #1376: CALL(send_space)
+00f43 // @24a #1377: LOAD(UART_data,character_C)
+301b8 // @24b #1378: CALL(send_to_UART)
+00f6f // @24c #1379: LOAD(UART_data,character_o)
+301b8 // @24d #1380: CALL(send_to_UART)
+00f6d // @24e #1381: LOAD(UART_data,character_m)
+301b8 // @24f #1382: CALL(send_to_UART)
+301b8 // @250 #1383: CALL(send_to_UART)
+00f75 // @251 #1384: LOAD(UART_data,character_u)
+301b8 // @252 #1385: CALL(send_to_UART)
+00f6e // @253 #1386: LOAD(UART_data,character_n)
+301b8 // @254 #1387: CALL(send_to_UART)
+00f69 // @255 #1388: LOAD(UART_data,character_i)
+301b8 // @256 #1389: CALL(send_to_UART)
+00f63 // @257 #1390: LOAD(UART_data,character_c)
+301b8 // @258 #1391: CALL(send_to_UART)
+00f61 // @259 #1392: LOAD(UART_data,character_a)
+301b8 // @25a #1393: CALL(send_to_UART)
+00f74 // @25b #1394: LOAD(UART_data,character_t)
+301b8 // @25c #1395: CALL(send_to_UART)
+00f6f // @25d #1396: LOAD(UART_data,character_o)
+301b8 // @25e #1397: CALL(send_to_UART)
+00f72 // @25f #1398: LOAD(UART_data,character_r)
+301b8 // @260 #1399: CALL(send_to_UART)
+30222 // @261 #1400: CALL(send_space)
+00f76 // @262 #1401: LOAD(UART_data,character_v)
+301b8 // @263 #1402: CALL(send_to_UART)
+00f31 // @264 #1403: LOAD(UART_data,character_1)
+301b8 // @265 #1404: CALL(send_to_UART)
+00f2e // @266 #1405: LOAD(UART_data,character_fullstop)
+301b8 // @267 #1406: CALL(send_to_UART)
+00f30 // @268 #1407: LOAD(UART_data,character_0)
+301b8 // @269 #1408: CALL(send_to_UART)
+00f30 // @26a #1409: LOAD(UART_data,character_0)
+301b8 // @26b #1410: CALL(send_to_UART)
+3021f // @26c #1411: CALL(send_CR)
+3021f // @26d #1412: CALL(send_CR)
+2a000 // @26e #1413: RETURN
+// #1414: ;
+// #1415: ;
+// #1416: ;
+// #1417: ; Send reset menu to the UART
+// #1418: ;
+// @26f #1419: [send_reset_menu]
+3021f // @26f #1419: CALL(send_CR)
+3021f // @270 #1420: CALL(send_CR)
+302d0 // @271 #1421: CALL(send_HHelp)
+00f31 // @272 #1422: LOAD(UART_data,character_1)
+301b8 // @273 #1423: CALL(send_to_UART)
+30225 // @274 #1424: CALL(send_minus)
+30307 // @275 #1425: CALL(send_Master_Reset)
+3021f // @276 #1426: CALL(send_CR)
+2a000 // @277 #1427: RETURN
+// #1428: ;
+// #1429: ;
+// #1430: ;
+// #1431: ;
+// #1432: ;
+// #1433: ;
+// #1434: ; Send ROM menu to the UART
+// #1435: ;
+// @278 #1436: [send_ROM_menu]
+3021f // @278 #1436: CALL(send_CR)
+3021f // @279 #1437: CALL(send_CR)
+302d0 // @27a #1438: CALL(send_HHelp)
+00f31 // @27b #1439: LOAD(UART_data,character_1)
+301b8 // @27c #1440: CALL(send_to_UART)
+30225 // @27d #1441: CALL(send_minus)
+30307 // @27e #1442: CALL(send_Master_Reset)
+3021f // @27f #1443: CALL(send_CR)
+00f32 // @280 #1444: LOAD(UART_data,character_2)
+301b8 // @281 #1445: CALL(send_to_UART)
+30225 // @282 #1446: CALL(send_minus)
+30331 // @283 #1447: CALL(send_Read)
+30222 // @284 #1448: CALL(send_space)
+302de // @285 #1449: CALL(send_ROM)
+30222 // @286 #1450: CALL(send_space)
+30356 // @287 #1451: CALL(send_Command)
+3021f // @288 #1452: CALL(send_CR)
+00f33 // @289 #1453: LOAD(UART_data,character_3)
+301b8 // @28a #1454: CALL(send_to_UART)
+30225 // @28b #1455: CALL(send_minus)
+30328 // @28c #1456: CALL(send_Skip)
+30222 // @28d #1457: CALL(send_space)
+302de // @28e #1458: CALL(send_ROM)
+30222 // @28f #1459: CALL(send_space)
+30356 // @290 #1460: CALL(send_Command)
+3021f // @291 #1461: CALL(send_CR)
+2a000 // @292 #1462: RETURN
+// #1463: ;
+// #1464: ;
+// #1465: ;
+// #1466: ; Send DS2432 menu to the UART
+// #1467: ;
+// @293 #1468: [send_DS2432_menu]
+3021f // @293 #1468: CALL(send_CR)
+3021f // @294 #1469: CALL(send_CR)
+302d0 // @295 #1470: CALL(send_HHelp)
+00f31 // @296 #1471: LOAD(UART_data,character_1)
+301b8 // @297 #1472: CALL(send_to_UART)
+30225 // @298 #1473: CALL(send_minus)
+30307 // @299 #1474: CALL(send_Master_Reset)
+3021f // @29a #1475: CALL(send_CR)
+00f32 // @29b #1476: LOAD(UART_data,character_2)
+301b8 // @29c #1477: CALL(send_to_UART)
+30225 // @29d #1478: CALL(send_minus)
+30331 // @29e #1479: CALL(send_Read)
+30222 // @29f #1480: CALL(send_space)
+302e5 // @2a0 #1481: CALL(send_Memory)
+30222 // @2a1 #1482: CALL(send_space)
+30356 // @2a2 #1483: CALL(send_Command)
+3021f // @2a3 #1484: CALL(send_CR)
+00f33 // @2a4 #1485: LOAD(UART_data,character_3)
+301b8 // @2a5 #1486: CALL(send_to_UART)
+30225 // @2a6 #1487: CALL(send_minus)
+3033a // @2a7 #1488: CALL(send_Write)
+30222 // @2a8 #1489: CALL(send_space)
+302f2 // @2a9 #1490: CALL(send_Scratchpad)
+30222 // @2aa #1491: CALL(send_space)
+302e5 // @2ab #1492: CALL(send_Memory)
+30222 // @2ac #1493: CALL(send_space)
+30356 // @2ad #1494: CALL(send_Command)
+3021f // @2ae #1495: CALL(send_CR)
+00f34 // @2af #1496: LOAD(UART_data,character_4)
+301b8 // @2b0 #1497: CALL(send_to_UART)
+30225 // @2b1 #1498: CALL(send_minus)
+30331 // @2b2 #1499: CALL(send_Read)
+30222 // @2b3 #1500: CALL(send_space)
+302f2 // @2b4 #1501: CALL(send_Scratchpad)
+30222 // @2b5 #1502: CALL(send_space)
+302e5 // @2b6 #1503: CALL(send_Memory)
+30222 // @2b7 #1504: CALL(send_space)
+30356 // @2b8 #1505: CALL(send_Command)
+3021f // @2b9 #1506: CALL(send_CR)
+00f35 // @2ba #1507: LOAD(UART_data,character_5)
+301b8 // @2bb #1508: CALL(send_to_UART)
+30225 // @2bc #1509: CALL(send_minus)
+3033a // @2bd #1510: CALL(send_Write)
+30222 // @2be #1511: CALL(send_space)
+3031f // @2bf #1512: CALL(send_Byte)
+3021f // @2c0 #1513: CALL(send_CR)
+00f36 // @2c1 #1514: LOAD(UART_data,character_6)
+301b8 // @2c2 #1515: CALL(send_to_UART)
+30225 // @2c3 #1516: CALL(send_minus)
+30331 // @2c4 #1517: CALL(send_Read)
+30222 // @2c5 #1518: CALL(send_space)
+3031f // @2c6 #1519: CALL(send_Byte)
+3021f // @2c7 #1520: CALL(send_CR)
+2a000 // @2c8 #1521: RETURN
+// #1522: ;
+// #1523: ;
+// #1524: ;
+// #1525: ; Send carriage return, 'OK' and carriage return to the UART
+// #1526: ;
+// @2c9 #1527: [send_OK]
+3021f // @2c9 #1527: CALL(send_CR)
+00f4f // @2ca #1528: LOAD(UART_data,character_O)
+301b8 // @2cb #1529: CALL(send_to_UART)
+00f4b // @2cc #1530: LOAD(UART_data,character_K)
+301b8 // @2cd #1531: CALL(send_to_UART)
+3021f // @2ce #1532: CALL(send_CR)
+2a000 // @2cf #1533: RETURN
+// #1534: ;
+// #1535: ;
+// #1536: ; Send 'H-Help'menu to the UART
+// #1537: ;
+// @2d0 #1538: [send_HHelp]
+3021f // @2d0 #1538: CALL(send_CR)
+00f48 // @2d1 #1539: LOAD(UART_data,character_H)
+301b8 // @2d2 #1540: CALL(send_to_UART)
+30225 // @2d3 #1541: CALL(send_minus)
+00f48 // @2d4 #1542: LOAD(UART_data,character_H)
+301b8 // @2d5 #1543: CALL(send_to_UART)
+00f65 // @2d6 #1544: LOAD(UART_data,character_e)
+301b8 // @2d7 #1545: CALL(send_to_UART)
+00f6c // @2d8 #1546: LOAD(UART_data,character_l)
+301b8 // @2d9 #1547: CALL(send_to_UART)
+00f70 // @2da #1548: LOAD(UART_data,character_p)
+301b8 // @2db #1549: CALL(send_to_UART)
+3021f // @2dc #1550: CALL(send_CR)
+2a000 // @2dd #1551: RETURN
+// #1552: ;
+// #1553: ;
+// #1554: ; Send 'ROM' to the UART
+// #1555: ;
+// @2de #1556: [send_ROM]
+00f52 // @2de #1556: LOAD(UART_data,character_R)
+301b8 // @2df #1557: CALL(send_to_UART)
+00f4f // @2e0 #1558: LOAD(UART_data,character_O)
+301b8 // @2e1 #1559: CALL(send_to_UART)
+00f4d // @2e2 #1560: LOAD(UART_data,character_M)
+301b8 // @2e3 #1561: CALL(send_to_UART)
+2a000 // @2e4 #1562: RETURN
+// #1563: ;
+// #1564: ;
+// #1565: ; Send 'Memory' to the UART
+// #1566: ;
+// @2e5 #1567: [send_Memory]
+00f4d // @2e5 #1567: LOAD(UART_data,character_M)
+301b8 // @2e6 #1568: CALL(send_to_UART)
+00f65 // @2e7 #1569: LOAD(UART_data,character_e)
+301b8 // @2e8 #1570: CALL(send_to_UART)
+00f6d // @2e9 #1571: LOAD(UART_data,character_m)
+301b8 // @2ea #1572: CALL(send_to_UART)
+00f6f // @2eb #1573: LOAD(UART_data,character_o)
+301b8 // @2ec #1574: CALL(send_to_UART)
+00f72 // @2ed #1575: LOAD(UART_data,character_r)
+301b8 // @2ee #1576: CALL(send_to_UART)
+00f79 // @2ef #1577: LOAD(UART_data,character_y)
+301b8 // @2f0 #1578: CALL(send_to_UART)
+2a000 // @2f1 #1579: RETURN
+// #1580: ;
+// #1581: ;
+// #1582: ; Send 'Scratchpad' to the UART
+// #1583: ;
+// @2f2 #1584: [send_Scratchpad]
+00f53 // @2f2 #1584: LOAD(UART_data,character_S)
+301b8 // @2f3 #1585: CALL(send_to_UART)
+00f63 // @2f4 #1586: LOAD(UART_data,character_c)
+301b8 // @2f5 #1587: CALL(send_to_UART)
+00f72 // @2f6 #1588: LOAD(UART_data,character_r)
+301b8 // @2f7 #1589: CALL(send_to_UART)
+00f61 // @2f8 #1590: LOAD(UART_data,character_a)
+301b8 // @2f9 #1591: CALL(send_to_UART)
+00f74 // @2fa #1592: LOAD(UART_data,character_t)
+301b8 // @2fb #1593: CALL(send_to_UART)
+00f63 // @2fc #1594: LOAD(UART_data,character_c)
+301b8 // @2fd #1595: CALL(send_to_UART)
+00f68 // @2fe #1596: LOAD(UART_data,character_h)
+301b8 // @2ff #1597: CALL(send_to_UART)
+00f70 // @300 #1598: LOAD(UART_data,character_p)
+301b8 // @301 #1599: CALL(send_to_UART)
+00f61 // @302 #1600: LOAD(UART_data,character_a)
+301b8 // @303 #1601: CALL(send_to_UART)
+00f64 // @304 #1602: LOAD(UART_data,character_d)
+301b8 // @305 #1603: CALL(send_to_UART)
+2a000 // @306 #1604: RETURN
+// #1605: ;
+// #1606: ;
+// #1607: ; Send 'Master Reset' to the UART
+// #1608: ;
+// @307 #1609: [send_Master_Reset]
+00f4d // @307 #1609: LOAD(UART_data,character_M)
+301b8 // @308 #1610: CALL(send_to_UART)
+00f61 // @309 #1611: LOAD(UART_data,character_a)
+301b8 // @30a #1612: CALL(send_to_UART)
+00f73 // @30b #1613: LOAD(UART_data,character_s)
+301b8 // @30c #1614: CALL(send_to_UART)
+00f74 // @30d #1615: LOAD(UART_data,character_t)
+301b8 // @30e #1616: CALL(send_to_UART)
+00f65 // @30f #1617: LOAD(UART_data,character_e)
+301b8 // @310 #1618: CALL(send_to_UART)
+00f72 // @311 #1619: LOAD(UART_data,character_r)
+301b8 // @312 #1620: CALL(send_to_UART)
+30222 // @313 #1621: CALL(send_space)
+00f52 // @314 #1622: LOAD(UART_data,character_R)
+301b8 // @315 #1623: CALL(send_to_UART)
+00f65 // @316 #1624: LOAD(UART_data,character_e)
+301b8 // @317 #1625: CALL(send_to_UART)
+00f73 // @318 #1626: LOAD(UART_data,character_s)
+301b8 // @319 #1627: CALL(send_to_UART)
+00f65 // @31a #1628: LOAD(UART_data,character_e)
+301b8 // @31b #1629: CALL(send_to_UART)
+00f74 // @31c #1630: LOAD(UART_data,character_t)
+301b8 // @31d #1631: CALL(send_to_UART)
+2a000 // @31e #1632: RETURN
+// #1633: ;
+// #1634: ;
+// #1635: ; Send 'Byte' to the UART
+// #1636: ;
+// @31f #1637: [send_Byte]
+00f42 // @31f #1637: LOAD(UART_data,character_B)
+301b8 // @320 #1638: CALL(send_to_UART)
+00f79 // @321 #1639: LOAD(UART_data,character_y)
+301b8 // @322 #1640: CALL(send_to_UART)
+00f74 // @323 #1641: LOAD(UART_data,character_t)
+301b8 // @324 #1642: CALL(send_to_UART)
+00f65 // @325 #1643: LOAD(UART_data,character_e)
+301b8 // @326 #1644: CALL(send_to_UART)
+2a000 // @327 #1645: RETURN
+// #1646: ;
+// #1647: ;
+// #1648: ; Send 'Skip' to the UART
+// #1649: ;
+// @328 #1650: [send_Skip]
+00f53 // @328 #1650: LOAD(UART_data,character_S)
+301b8 // @329 #1651: CALL(send_to_UART)
+00f6b // @32a #1652: LOAD(UART_data,character_k)
+301b8 // @32b #1653: CALL(send_to_UART)
+00f69 // @32c #1654: LOAD(UART_data,character_i)
+301b8 // @32d #1655: CALL(send_to_UART)
+00f70 // @32e #1656: LOAD(UART_data,character_p)
+301b8 // @32f #1657: CALL(send_to_UART)
+2a000 // @330 #1658: RETURN
+// #1659: ;
+// #1660: ;
+// #1661: ; Send 'Read' to the UART
+// #1662: ;
+// @331 #1663: [send_Read]
+00f52 // @331 #1663: LOAD(UART_data,character_R)
+301b8 // @332 #1664: CALL(send_to_UART)
+00f65 // @333 #1665: LOAD(UART_data,character_e)
+301b8 // @334 #1666: CALL(send_to_UART)
+00f61 // @335 #1667: LOAD(UART_data,character_a)
+301b8 // @336 #1668: CALL(send_to_UART)
+00f64 // @337 #1669: LOAD(UART_data,character_d)
+301b8 // @338 #1670: CALL(send_to_UART)
+2a000 // @339 #1671: RETURN
+// #1672: ;
+// #1673: ;
+// #1674: ; Send 'Write' to the UART
+// #1675: ;
+// @33a #1676: [send_Write]
+00f57 // @33a #1676: LOAD(UART_data,character_W)
+301b8 // @33b #1677: CALL(send_to_UART)
+00f72 // @33c #1678: LOAD(UART_data,character_r)
+301b8 // @33d #1679: CALL(send_to_UART)
+00f69 // @33e #1680: LOAD(UART_data,character_i)
+301b8 // @33f #1681: CALL(send_to_UART)
+00f74 // @340 #1682: LOAD(UART_data,character_t)
+301b8 // @341 #1683: CALL(send_to_UART)
+00f65 // @342 #1684: LOAD(UART_data,character_e)
+301b8 // @343 #1685: CALL(send_to_UART)
+2a000 // @344 #1686: RETURN
+// #1687: ;
+// #1688: ;
+// #1689: ; Send 'Pass' to the UART
+// #1690: ;
+// @345 #1691: [send_Pass]
+00f50 // @345 #1691: LOAD(UART_data,character_P)
+301b8 // @346 #1692: CALL(send_to_UART)
+00f61 // @347 #1693: LOAD(UART_data,character_a)
+301b8 // @348 #1694: CALL(send_to_UART)
+00f73 // @349 #1695: LOAD(UART_data,character_s)
+301b8 // @34a #1696: CALL(send_to_UART)
+301b8 // @34b #1697: CALL(send_to_UART)
+2a000 // @34c #1698: RETURN
+// #1699: ;
+// #1700: ;
+// #1701: ; Send 'Fail' to the UART
+// #1702: ;
+// @34d #1703: [send_Fail]
+00f46 // @34d #1703: LOAD(UART_data,character_F)
+301b8 // @34e #1704: CALL(send_to_UART)
+00f61 // @34f #1705: LOAD(UART_data,character_a)
+301b8 // @350 #1706: CALL(send_to_UART)
+00f69 // @351 #1707: LOAD(UART_data,character_i)
+301b8 // @352 #1708: CALL(send_to_UART)
+00f6c // @353 #1709: LOAD(UART_data,character_l)
+301b8 // @354 #1710: CALL(send_to_UART)
+2a000 // @355 #1711: RETURN
+// #1712: ;
+// #1713: ;
+// #1714: ; Send 'Command' to the UART
+// #1715: ;
+// @356 #1716: [send_Command]
+00f43 // @356 #1716: LOAD(UART_data,character_C)
+301b8 // @357 #1717: CALL(send_to_UART)
+00f6f // @358 #1718: LOAD(UART_data,character_o)
+301b8 // @359 #1719: CALL(send_to_UART)
+00f6d // @35a #1720: LOAD(UART_data,character_m)
+301b8 // @35b #1721: CALL(send_to_UART)
+301b8 // @35c #1722: CALL(send_to_UART)
+00f61 // @35d #1723: LOAD(UART_data,character_a)
+301b8 // @35e #1724: CALL(send_to_UART)
+00f6e // @35f #1725: LOAD(UART_data,character_n)
+301b8 // @360 #1726: CALL(send_to_UART)
+00f64 // @361 #1727: LOAD(UART_data,character_d)
+301b8 // @362 #1728: CALL(send_to_UART)
+2a000 // @363 #1729: RETURN
+// #1730: ;
+// #1731: ;
+// #1732: ; Send 'address=' to the UART
+// #1733: ;
+// @364 #1734: [send_address]
+3021f // @364 #1734: CALL(send_CR)
+00f61 // @365 #1735: LOAD(UART_data,character_a)
+301b8 // @366 #1736: CALL(send_to_UART)
+00f64 // @367 #1737: LOAD(UART_data,character_d)
+301b8 // @368 #1738: CALL(send_to_UART)
+301b8 // @369 #1739: CALL(send_to_UART)
+00f72 // @36a #1740: LOAD(UART_data,character_r)
+301b8 // @36b #1741: CALL(send_to_UART)
+00f65 // @36c #1742: LOAD(UART_data,character_e)
+301b8 // @36d #1743: CALL(send_to_UART)
+00f73 // @36e #1744: LOAD(UART_data,character_s)
+301b8 // @36f #1745: CALL(send_to_UART)
+301b8 // @370 #1746: CALL(send_to_UART)
+// @371 #1747: [send_equals]
+00f3d // @371 #1747: LOAD(UART_data,character_equals)
+301b8 // @372 #1748: CALL(send_to_UART)
+2a000 // @373 #1749: RETURN
+// #1750: ;
+// #1751: ;
+// #1752: ; Send 'data' to the UART
+// #1753: ;
+// @374 #1754: [send_data]
+3021f // @374 #1754: CALL(send_CR)
+00f64 // @375 #1755: LOAD(UART_data,character_d)
+301b8 // @376 #1756: CALL(send_to_UART)
+00f61 // @377 #1757: LOAD(UART_data,character_a)
+301b8 // @378 #1758: CALL(send_to_UART)
+00f74 // @379 #1759: LOAD(UART_data,character_t)
+301b8 // @37a #1760: CALL(send_to_UART)
+00f61 // @37b #1761: LOAD(UART_data,character_a)
+301b8 // @37c #1762: CALL(send_to_UART)
+2a000 // @37d #1763: RETURN
+// #1764: ;
+// #1765: ;
+// #1766: ; Send 'E/S=' to the UART
+// #1767: ;
+// @37e #1768: [send_ES]
+3021f // @37e #1768: CALL(send_CR)
+00f45 // @37f #1769: LOAD(UART_data,character_E)
+301b8 // @380 #1770: CALL(send_to_UART)
+00f2f // @381 #1771: LOAD(UART_data,character_divide)
+301b8 // @382 #1772: CALL(send_to_UART)
+00f53 // @383 #1773: LOAD(UART_data,character_S)
+301b8 // @384 #1774: CALL(send_to_UART)
+34371 // @385 #1775: JUMP(send_equals)
+// #1776: ;
+// #1777: ;
+// #1778: ; Send 'code=' to the UART
+// #1779: ;
+// @386 #1780: [send_code]
+00f63 // @386 #1780: LOAD(UART_data,character_c)
+301b8 // @387 #1781: CALL(send_to_UART)
+00f6f // @388 #1782: LOAD(UART_data,character_o)
+301b8 // @389 #1783: CALL(send_to_UART)
+00f64 // @38a #1784: LOAD(UART_data,character_d)
+301b8 // @38b #1785: CALL(send_to_UART)
+00f65 // @38c #1786: LOAD(UART_data,character_e)
+301b8 // @38d #1787: CALL(send_to_UART)
+34371 // @38e #1788: JUMP(send_equals)
+// #1789: ;
+// #1790: ;
+// #1791: ; Send 'serial=' to the UART
+// #1792: ;
+// @38f #1793: [send_serial]
+00f73 // @38f #1793: LOAD(UART_data,character_s)
+301b8 // @390 #1794: CALL(send_to_UART)
+00f65 // @391 #1795: LOAD(UART_data,character_e)
+301b8 // @392 #1796: CALL(send_to_UART)
+00f72 // @393 #1797: LOAD(UART_data,character_r)
+301b8 // @394 #1798: CALL(send_to_UART)
+00f69 // @395 #1799: LOAD(UART_data,character_i)
+301b8 // @396 #1800: CALL(send_to_UART)
+00f61 // @397 #1801: LOAD(UART_data,character_a)
+301b8 // @398 #1802: CALL(send_to_UART)
+00f6c // @399 #1803: LOAD(UART_data,character_l)
+301b8 // @39a #1804: CALL(send_to_UART)
+34371 // @39b #1805: JUMP(send_equals)
+// #1806: ;
+// #1807: ;
+// #1808: ; Send 'CRC=' to the UART
+// #1809: ;
+// @39c #1810: [send_CRC]
+00f43 // @39c #1810: LOAD(UART_data,character_C)
+301b8 // @39d #1811: CALL(send_to_UART)
+00f52 // @39e #1812: LOAD(UART_data,character_R)
+301b8 // @39f #1813: CALL(send_to_UART)
+00f43 // @3a0 #1814: LOAD(UART_data,character_C)
+34371 // @3a1 #1815: JUMP(send_equals)
+// #1816: ;
+// #1817: ;
+// #1818: ;**************************************************************************************
+// #1819: ; Interrupt Service Routine (ISR)
+// #1820: ;**************************************************************************************
+// #1821: ;
+// #1822: ; Interrupts are not used in this design. This is a place keeper only.
+// #1823: ;
+@3fe // #1824: ADDRESS(1022)
+// @3fe #1825: [ISR]
+38001 // @3fe #1825: RETURNI(ENABLE)
+// #1826: ;
+// #1827: ;
+// #1828: ;**************************************************************************************
+// #1829: ; Interrupt Vector
+// #1830: ;**************************************************************************************
+// #1831: ;
+@3ff // #1832: ADDRESS(1023)
+343fe // @3ff #1833: JUMP(ISR)
+// #1834: ;
+// #1835: ;

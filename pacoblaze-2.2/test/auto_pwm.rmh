@@ -1,0 +1,883 @@
+/* Symbol Table */
+// ISR = LABEL: 257
+// ISR_preserve_s0 = CONSTANT: 13
+// ISR_preserve_s1 = CONSTANT: 14
+// ISR_preserve_s2 = CONSTANT: 15
+// LED0 = CONSTANT: 1
+// LED0_sequence = CONSTANT: 16
+// LED1 = CONSTANT: 2
+// LED1_sequence = CONSTANT: 17
+// LED2 = CONSTANT: 4
+// LED2_sequence = CONSTANT: 18
+// LED3 = CONSTANT: 8
+// LED3_sequence = CONSTANT: 19
+// LED4 = CONSTANT: 16
+// LED4_sequence = CONSTANT: 20
+// LED5 = CONSTANT: 32
+// LED5_sequence = CONSTANT: 21
+// LED6 = CONSTANT: 64
+// LED6_sequence = CONSTANT: 22
+// LED7 = CONSTANT: 128
+// LED7_sequence = CONSTANT: 23
+// LED_port = CONSTANT: 128
+// LED_to_duty = LABEL: 167
+// PWM_channel0 = CONSTANT: 1
+// PWM_channel1 = CONSTANT: 2
+// PWM_channel10 = CONSTANT: 11
+// PWM_channel11 = CONSTANT: 12
+// PWM_channel2 = CONSTANT: 3
+// PWM_channel3 = CONSTANT: 4
+// PWM_channel4 = CONSTANT: 5
+// PWM_channel5 = CONSTANT: 6
+// PWM_channel6 = CONSTANT: 7
+// PWM_channel7 = CONSTANT: 8
+// PWM_channel8 = CONSTANT: 9
+// PWM_channel9 = CONSTANT: 10
+// PWM_duty_counter = CONSTANT: 0
+// UART_data = REGISTER: 15
+// UART_read_port = CONSTANT: 1
+// UART_write = LABEL: 191
+// UART_write_port = CONSTANT: 32
+// character_0 = CONSTANT: 48
+// character_1 = CONSTANT: 49
+// character_2 = CONSTANT: 50
+// character_3 = CONSTANT: 51
+// character_4 = CONSTANT: 52
+// character_5 = CONSTANT: 53
+// character_6 = CONSTANT: 54
+// character_7 = CONSTANT: 55
+// character_8 = CONSTANT: 56
+// character_9 = CONSTANT: 57
+// character_A = CONSTANT: 65
+// character_B = CONSTANT: 66
+// character_BS = CONSTANT: 8
+// character_C = CONSTANT: 67
+// character_CR = CONSTANT: 13
+// character_D = CONSTANT: 68
+// character_E = CONSTANT: 69
+// character_F = CONSTANT: 70
+// character_G = CONSTANT: 71
+// character_H = CONSTANT: 72
+// character_I = CONSTANT: 73
+// character_J = CONSTANT: 74
+// character_K = CONSTANT: 75
+// character_L = CONSTANT: 76
+// character_M = CONSTANT: 77
+// character_N = CONSTANT: 78
+// character_O = CONSTANT: 79
+// character_P = CONSTANT: 80
+// character_Q = CONSTANT: 81
+// character_R = CONSTANT: 82
+// character_S = CONSTANT: 83
+// character_T = CONSTANT: 84
+// character_U = CONSTANT: 85
+// character_V = CONSTANT: 86
+// character_W = CONSTANT: 87
+// character_X = CONSTANT: 88
+// character_Y = CONSTANT: 89
+// character_Z = CONSTANT: 90
+// character_a = CONSTANT: 97
+// character_b = CONSTANT: 98
+// character_c = CONSTANT: 99
+// character_colon = CONSTANT: 58
+// character_comma = CONSTANT: 44
+// character_d = CONSTANT: 100
+// character_divide = CONSTANT: 47
+// character_dollar = CONSTANT: 36
+// character_e = CONSTANT: 101
+// character_equals = CONSTANT: 61
+// character_exclaim = CONSTANT: 33
+// character_f = CONSTANT: 102
+// character_g = CONSTANT: 103
+// character_greater_than = CONSTANT: 62
+// character_h = CONSTANT: 104
+// character_i = CONSTANT: 105
+// character_j = CONSTANT: 106
+// character_k = CONSTANT: 107
+// character_l = CONSTANT: 108
+// character_less_than = CONSTANT: 60
+// character_m = CONSTANT: 109
+// character_minus = CONSTANT: 45
+// character_n = CONSTANT: 110
+// character_o = CONSTANT: 111
+// character_p = CONSTANT: 112
+// character_plus = CONSTANT: 43
+// character_q = CONSTANT: 113
+// character_question = CONSTANT: 63
+// character_r = CONSTANT: 114
+// character_s = CONSTANT: 115
+// character_semi_colon = CONSTANT: 59
+// character_space = CONSTANT: 32
+// character_stop = CONSTANT: 46
+// character_t = CONSTANT: 116
+// character_u = CONSTANT: 117
+// character_v = CONSTANT: 118
+// character_w = CONSTANT: 119
+// character_x = CONSTANT: 120
+// character_y = CONSTANT: 121
+// character_z = CONSTANT: 122
+// clear_loop = LABEL: 2
+// cold_start = LABEL: 0
+// delay_s0_loop = LABEL: 23
+// delay_s1_loop = LABEL: 22
+// delay_s2_loop = LABEL: 21
+// enable_int = LABEL: 7
+// go_down = LABEL: 176
+// go_down_loop = LABEL: 177
+// go_up_loop = LABEL: 171
+// inc_LED0 = LABEL: 35
+// inc_LED1 = LABEL: 54
+// inc_LED2 = LABEL: 71
+// inc_LED3 = LABEL: 88
+// inc_LED4 = LABEL: 105
+// inc_LED5 = LABEL: 122
+// inc_LED6 = LABEL: 144
+// inc_LED7 = LABEL: 158
+// normal_LED1 = LABEL: 48
+// normal_LED6 = LABEL: 138
+// read_character = LABEL: 185
+// read_from_UART = LABEL: 181
+// rx_data_present = CONSTANT: 4
+// rx_full = CONSTANT: 16
+// rx_half_full = CONSTANT: 8
+// s0 = REGISTER: 0
+// s1 = REGISTER: 1
+// s2 = REGISTER: 2
+// s3 = REGISTER: 3
+// s4 = REGISTER: 4
+// s5 = REGISTER: 5
+// s6 = REGISTER: 6
+// s7 = REGISTER: 7
+// s8 = REGISTER: 8
+// s9 = REGISTER: 9
+// sA = REGISTER: 10
+// sB = REGISTER: 11
+// sC = REGISTER: 12
+// sD = REGISTER: 13
+// sE = REGISTER: 14
+// sF = REGISTER: 15
+// send_CR = LABEL: 193
+// send_OK = LABEL: 251
+// send_space = LABEL: 196
+// send_to_UART = LABEL: 187
+// send_welcome = LABEL: 199
+// simple_IO10 = CONSTANT: 2
+// simple_IO11 = CONSTANT: 4
+// simple_IO12 = CONSTANT: 8
+// simple_IO9 = CONSTANT: 1
+// simple_port = CONSTANT: 64
+// spare1 = CONSTANT: 32
+// spare2 = CONSTANT: 64
+// spare3 = CONSTANT: 128
+// status_port = CONSTANT: 0
+// test_LED0_start = LABEL: 37
+// test_LED1_start = LABEL: 56
+// test_LED2_start = LABEL: 73
+// test_LED3_start = LABEL: 90
+// test_LED4_start = LABEL: 107
+// test_LED5_start = LABEL: 124
+// test_LED6_start = LABEL: 146
+// test_LED7_start = LABEL: 160
+// tx_full = CONSTANT: 2
+// tx_half_full = CONSTANT: 1
+// update_LED0 = LABEL: 40
+// update_LED1 = LABEL: 62
+// update_LED2 = LABEL: 79
+// update_LED3 = LABEL: 96
+// update_LED4 = LABEL: 113
+// update_LED5 = LABEL: 130
+// update_LED6 = LABEL: 149
+// update_LED7 = LABEL: 163
+// warm_start = LABEL: 20
+
+/* Program Code */
+// #1: ; KCPSM3 Program - Automatic Pulse Width Modulation (PWM) Control on the Spartan-3E Starter Kit.
+// #2: ;
+// #3: ; Ken Chapman - Xilinx Ltd
+// #4: ;
+// #5: ; Version v1.00 - 24th May 2006
+// #6: ;
+// #7: ; Automatically sequences the LEDs on the board using PWM to change intensity.
+// #8: ;
+// #9: ;**************************************************************************************
+// #10: ; Port definitions
+// #11: ;**************************************************************************************
+// #12: ;
+// #13: ;
+// #14: ;
+// #15: CONSTANT(LED_port,128) ;8 simple LEDs
+// #16: CONSTANT(LED0,1) ;     LED 0 - bit0
+// #17: CONSTANT(LED1,2) ;         1 - bit1
+// #18: CONSTANT(LED2,4) ;         2 - bit2
+// #19: CONSTANT(LED3,8) ;         3 - bit3
+// #20: CONSTANT(LED4,16) ;         4 - bit4
+// #21: CONSTANT(LED5,32) ;         5 - bit5
+// #22: CONSTANT(LED6,64) ;         6 - bit6
+// #23: CONSTANT(LED7,128) ;         7 - bit7
+// #24: ;
+// #25: ;
+// #26: CONSTANT(simple_port,64) ;4 simple outputs
+// #27: CONSTANT(simple_IO9,1) ;  Header  IO9  - bit0
+// #28: CONSTANT(simple_IO10,2) ;          IO10 - bit1
+// #29: CONSTANT(simple_IO11,4) ;          IO11 - bit2
+// #30: CONSTANT(simple_IO12,8) ;          IO12 - bit3
+// #31: ;
+// #32: ;
+// #33: ;
+// #34: CONSTANT(status_port,0) ;UART status input
+// #35: CONSTANT(tx_half_full,1) ;  Transmitter     half full - bit0
+// #36: CONSTANT(tx_full,2) ;    FIFO               full - bit1
+// #37: CONSTANT(rx_data_present,4) ;  Receiver     data present - bit2
+// #38: CONSTANT(rx_half_full,8) ;    FIFO          half full - bit3
+// #39: CONSTANT(rx_full,16) ;                   full - bit4
+// #40: CONSTANT(spare1,32) ;                  spare '0' - bit5
+// #41: CONSTANT(spare2,64) ;                  spare '0' - bit6
+// #42: CONSTANT(spare3,128) ;                  spare '0' - bit7
+// #43: ;
+// #44: CONSTANT(UART_read_port,1) ;UART Rx data input
+// #45: ;
+// #46: CONSTANT(UART_write_port,32) ;UART Tx data output
+// #47: ;
+// #48: ;
+// #49: ;
+// #50: ;**************************************************************************************
+// #51: ; Special Register usage
+// #52: ;**************************************************************************************
+// #53: ;
+// #54: NAMEREG(sF,UART_data) ;used to pass data to and from the UART
+// #55: ;
+// #56: ;
+// #57: ;
+// #58: ;**************************************************************************************
+// #59: ;Scratch Pad Memory Locations
+// #60: ;**************************************************************************************
+// #61: ;
+// #62: CONSTANT(PWM_duty_counter,0) ;Duty Counter 0 to 255 within 1KHz period (1ms)
+// #63: CONSTANT(PWM_channel0,1) ;PWM settings for each channel
+// #64: CONSTANT(PWM_channel1,2) ; Channels 0 to 7 = LEDs 0 to 7
+// #65: CONSTANT(PWM_channel2,3) ; Channels 8 to 11 = IO9 to IO12
+// #66: CONSTANT(PWM_channel3,4)
+// #67: CONSTANT(PWM_channel4,5)
+// #68: CONSTANT(PWM_channel5,6)
+// #69: CONSTANT(PWM_channel6,7)
+// #70: CONSTANT(PWM_channel7,8)
+// #71: CONSTANT(PWM_channel8,9)
+// #72: CONSTANT(PWM_channel9,10)
+// #73: CONSTANT(PWM_channel10,11)
+// #74: CONSTANT(PWM_channel11,12)
+// #75: CONSTANT(ISR_preserve_s0,13) ;preserve register contents during Interrupt Service Routine
+// #76: CONSTANT(ISR_preserve_s1,14)
+// #77: CONSTANT(ISR_preserve_s2,15)
+// #78: ;
+// #79: ;
+// #80: CONSTANT(LED0_sequence,16) ;LED sequence values
+// #81: CONSTANT(LED1_sequence,17)
+// #82: CONSTANT(LED2_sequence,18)
+// #83: CONSTANT(LED3_sequence,19)
+// #84: CONSTANT(LED4_sequence,20)
+// #85: CONSTANT(LED5_sequence,21)
+// #86: CONSTANT(LED6_sequence,22)
+// #87: CONSTANT(LED7_sequence,23)
+// #88: ;
+// #89: ;
+// #90: ;
+// #91: ;**************************************************************************************
+// #92: ;Useful data constants
+// #93: ;**************************************************************************************
+// #94: ;
+// #95: ;
+// #96: ;
+// #97: ;
+// #98: ;ASCII table
+// #99: ;
+// #100: CONSTANT(character_a,97)
+// #101: CONSTANT(character_b,98)
+// #102: CONSTANT(character_c,99)
+// #103: CONSTANT(character_d,100)
+// #104: CONSTANT(character_e,101)
+// #105: CONSTANT(character_f,102)
+// #106: CONSTANT(character_g,103)
+// #107: CONSTANT(character_h,104)
+// #108: CONSTANT(character_i,105)
+// #109: CONSTANT(character_j,106)
+// #110: CONSTANT(character_k,107)
+// #111: CONSTANT(character_l,108)
+// #112: CONSTANT(character_m,109)
+// #113: CONSTANT(character_n,110)
+// #114: CONSTANT(character_o,111)
+// #115: CONSTANT(character_p,112)
+// #116: CONSTANT(character_q,113)
+// #117: CONSTANT(character_r,114)
+// #118: CONSTANT(character_s,115)
+// #119: CONSTANT(character_t,116)
+// #120: CONSTANT(character_u,117)
+// #121: CONSTANT(character_v,118)
+// #122: CONSTANT(character_w,119)
+// #123: CONSTANT(character_x,120)
+// #124: CONSTANT(character_y,121)
+// #125: CONSTANT(character_z,122)
+// #126: CONSTANT(character_A,65)
+// #127: CONSTANT(character_B,66)
+// #128: CONSTANT(character_C,67)
+// #129: CONSTANT(character_D,68)
+// #130: CONSTANT(character_E,69)
+// #131: CONSTANT(character_F,70)
+// #132: CONSTANT(character_G,71)
+// #133: CONSTANT(character_H,72)
+// #134: CONSTANT(character_I,73)
+// #135: CONSTANT(character_J,74)
+// #136: CONSTANT(character_K,75)
+// #137: CONSTANT(character_L,76)
+// #138: CONSTANT(character_M,77)
+// #139: CONSTANT(character_N,78)
+// #140: CONSTANT(character_O,79)
+// #141: CONSTANT(character_P,80)
+// #142: CONSTANT(character_Q,81)
+// #143: CONSTANT(character_R,82)
+// #144: CONSTANT(character_S,83)
+// #145: CONSTANT(character_T,84)
+// #146: CONSTANT(character_U,85)
+// #147: CONSTANT(character_V,86)
+// #148: CONSTANT(character_W,87)
+// #149: CONSTANT(character_X,88)
+// #150: CONSTANT(character_Y,89)
+// #151: CONSTANT(character_Z,90)
+// #152: CONSTANT(character_0,48)
+// #153: CONSTANT(character_1,49)
+// #154: CONSTANT(character_2,50)
+// #155: CONSTANT(character_3,51)
+// #156: CONSTANT(character_4,52)
+// #157: CONSTANT(character_5,53)
+// #158: CONSTANT(character_6,54)
+// #159: CONSTANT(character_7,55)
+// #160: CONSTANT(character_8,56)
+// #161: CONSTANT(character_9,57)
+// #162: CONSTANT(character_colon,58)
+// #163: CONSTANT(character_stop,46)
+// #164: CONSTANT(character_semi_colon,59)
+// #165: CONSTANT(character_minus,45)
+// #166: CONSTANT(character_divide,47) ;'/'
+// #167: CONSTANT(character_plus,43)
+// #168: CONSTANT(character_comma,44)
+// #169: CONSTANT(character_less_than,60)
+// #170: CONSTANT(character_greater_than,62)
+// #171: CONSTANT(character_equals,61)
+// #172: CONSTANT(character_space,32)
+// #173: CONSTANT(character_CR,13) ;carriage return
+// #174: CONSTANT(character_question,63) ;'?'
+// #175: CONSTANT(character_dollar,36)
+// #176: CONSTANT(character_exclaim,33) ;'!'
+// #177: CONSTANT(character_BS,8) ;Back Space command character
+// #178: ;
+// #179: ;
+// #180: ;
+// #181: ;
+// #182: ;
+// #183: ;**************************************************************************************
+// #184: ;Initialise the system
+// #185: ;**************************************************************************************
+// #186: ;
+// #187: ; All PWM channels initialise to off (zero).
+// #188: ; Simple I/O outputs will remain off at all times.
+// #189: ;
+// @000 #190: [cold_start]
+00000 // @000 #190: LOAD(s0,0)
+00101 // @001 #191: LOAD(s1,PWM_channel0)
+// @002 #192: [clear_loop]
+2f010 // @002 #192: STORE(s0,s1)
+1410c // @003 #193: COMPARE(s1,PWM_channel11)
+35007 // @004 #194: JUMP(Z,enable_int)
+18101 // @005 #195: ADD(s1,1)
+34002 // @006 #196: JUMP(clear_loop)
+// #197: ;
+// @007 #198: [enable_int]
+3c001 // @007 #198: ENABLE(INTERRUPT) ;interrupts used to drive servo
+// #199: ;
+300c7 // @008 #200: CALL(send_welcome) ;Write welcome message to UART
+300fb // @009 #201: CALL(send_OK)
+// #202: ;
+// #203: ;
+// #204: ; Initialise LED pattern sequence
+// #205: ;
+00001 // @00a #206: LOAD(s0,1) ;trigger to start wave pattern
+2e010 // @00b #207: STORE(s0,LED0_sequence)
+00000 // @00c #208: LOAD(s0,0)
+2e011 // @00d #209: STORE(s0,LED1_sequence)
+2e012 // @00e #210: STORE(s0,LED2_sequence)
+2e013 // @00f #211: STORE(s0,LED3_sequence)
+2e014 // @010 #212: STORE(s0,LED4_sequence)
+2e015 // @011 #213: STORE(s0,LED5_sequence)
+2e016 // @012 #214: STORE(s0,LED6_sequence)
+2e017 // @013 #215: STORE(s0,LED7_sequence)
+// #216: ;
+// #217: ;**************************************************************************************
+// #218: ; Main program
+// #219: ;**************************************************************************************
+// #220: ;
+// #221: ; Provides a pattern of interest on the LEDs :-)
+// #222: ;
+// #223: ; Each LED increases intensity in 8 steps and then decreases intensity in 8 steps until it is off.
+// #224: ; The middle LEDs (LD2 to LD5) each start to turn on when either neighbour is turned half on and increasing
+// #225: ; to provide the effect of a passing a 'wave' of light passing from side to side. The pair of LEDs at each
+// #226: ; (LD0, Ld1 and LD6, LD7) are required to reflect the 'wave' so that the pattern continues.
+// #227: ;
+// #228: ; I'm sure this code cold be written in more elegant way, but I leave that as an exercise to you :-)
+// #229: ;
+// @014 #230: [warm_start]
+00203 // @014 #230: LOAD(s2,3) ;simple delay loop (time will be increased by ISR processing)
+// @015 #231: [delay_s2_loop]
+001ff // @015 #231: LOAD(s1,FF)
+// @016 #232: [delay_s1_loop]
+000ff // @016 #232: LOAD(s0,FF)
+// @017 #233: [delay_s0_loop]
+1c001 // @017 #233: SUB(s0,1)
+35c17 // @018 #234: JUMP(NC,delay_s0_loop)
+1c101 // @019 #235: SUB(s1,1)
+35c16 // @01a #236: JUMP(NC,delay_s1_loop)
+1c201 // @01b #237: SUB(s2,1)
+35c15 // @01c #238: JUMP(NC,delay_s2_loop)
+// #239: ;
+// #240: ;Pattern generation
+// #241: ;
+06010 // @01d #242: FETCH(s0,LED0_sequence) ;read sequence for LED0
+14000 // @01e #243: COMPARE(s0,0)
+35025 // @01f #244: JUMP(Z,test_LED0_start)
+1c020 // @020 #245: SUB(s0,32) ;Count longer to ensure end stops then reset count if maximum
+35028 // @021 #246: JUMP(Z,update_LED0)
+18020 // @022 #247: ADD(s0,32)
+// @023 #248: [inc_LED0]
+18001 // @023 #248: ADD(s0,1) ;increment counter
+34028 // @024 #249: JUMP(update_LED0)
+// @025 #250: [test_LED0_start]
+06111 // @025 #250: FETCH(s1,LED1_sequence) ;start LED0 if LED1 = 4
+14104 // @026 #251: COMPARE(s1,4)
+35023 // @027 #252: JUMP(Z,inc_LED0)
+// @028 #253: [update_LED0]
+2e010 // @028 #253: STORE(s0,LED0_sequence)
+300a7 // @029 #254: CALL(LED_to_duty)
+2e101 // @02a #255: STORE(s1,PWM_channel0)
+// #256: ;
+06110 // @02b #257: FETCH(s1,LED0_sequence) ; refresh LED1 if LED0 = 11 (0B hex) to reflect wave
+1410b // @02c #258: COMPARE(s1,11)
+35430 // @02d #259: JUMP(NZ,normal_LED1)
+00004 // @02e #260: LOAD(s0,4)
+3403e // @02f #261: JUMP(update_LED1)
+// @030 #262: [normal_LED1]
+06011 // @030 #262: FETCH(s0,LED1_sequence) ;read sequence for LED1
+14000 // @031 #263: COMPARE(s0,0)
+35038 // @032 #264: JUMP(Z,test_LED1_start)
+1c010 // @033 #265: SUB(s0,16) ;reset count if maximum
+3503e // @034 #266: JUMP(Z,update_LED1)
+18010 // @035 #267: ADD(s0,16)
+// @036 #268: [inc_LED1]
+18001 // @036 #268: ADD(s0,1) ;increment counter
+3403e // @037 #269: JUMP(update_LED1)
+// @038 #270: [test_LED1_start]
+06110 // @038 #270: FETCH(s1,LED0_sequence) ;start LED1 if LED0 = 11 (0B hex) to reflect wave
+1410b // @039 #271: COMPARE(s1,11)
+35036 // @03a #272: JUMP(Z,inc_LED1)
+06112 // @03b #273: FETCH(s1,LED2_sequence) ;start LED1 if LED2 = 4
+14104 // @03c #274: COMPARE(s1,4)
+35036 // @03d #275: JUMP(Z,inc_LED1)
+// @03e #276: [update_LED1]
+2e011 // @03e #276: STORE(s0,LED1_sequence)
+300a7 // @03f #277: CALL(LED_to_duty)
+2e102 // @040 #278: STORE(s1,PWM_channel1)
+// #279: ;
+06012 // @041 #280: FETCH(s0,LED2_sequence) ;read sequence for LED2
+14000 // @042 #281: COMPARE(s0,0)
+35049 // @043 #282: JUMP(Z,test_LED2_start)
+1c010 // @044 #283: SUB(s0,16) ;reset count if maximum
+3504f // @045 #284: JUMP(Z,update_LED2)
+18010 // @046 #285: ADD(s0,16)
+// @047 #286: [inc_LED2]
+18001 // @047 #286: ADD(s0,1) ;increment counter
+3404f // @048 #287: JUMP(update_LED2)
+// @049 #288: [test_LED2_start]
+06111 // @049 #288: FETCH(s1,LED1_sequence) ;start LED2 if LED1 = 4
+14104 // @04a #289: COMPARE(s1,4)
+35047 // @04b #290: JUMP(Z,inc_LED2)
+06113 // @04c #291: FETCH(s1,LED3_sequence) ;start LED2 if LED3 = 4
+14104 // @04d #292: COMPARE(s1,4)
+35047 // @04e #293: JUMP(Z,inc_LED2)
+// @04f #294: [update_LED2]
+2e012 // @04f #294: STORE(s0,LED2_sequence)
+300a7 // @050 #295: CALL(LED_to_duty)
+2e103 // @051 #296: STORE(s1,PWM_channel2)
+// #297: ;
+// #298: ;
+06013 // @052 #299: FETCH(s0,LED3_sequence) ;read sequence for LED3
+14000 // @053 #300: COMPARE(s0,0)
+3505a // @054 #301: JUMP(Z,test_LED3_start)
+1c010 // @055 #302: SUB(s0,16) ;reset count if maximum
+35060 // @056 #303: JUMP(Z,update_LED3)
+18010 // @057 #304: ADD(s0,16)
+// @058 #305: [inc_LED3]
+18001 // @058 #305: ADD(s0,1) ;increment counter
+34060 // @059 #306: JUMP(update_LED3)
+// @05a #307: [test_LED3_start]
+06112 // @05a #307: FETCH(s1,LED2_sequence) ;start LED3 if LED2 = 4
+14104 // @05b #308: COMPARE(s1,4)
+35058 // @05c #309: JUMP(Z,inc_LED3)
+06114 // @05d #310: FETCH(s1,LED4_sequence) ;start LED3 if LED4 = 4
+14104 // @05e #311: COMPARE(s1,4)
+35058 // @05f #312: JUMP(Z,inc_LED3)
+// @060 #313: [update_LED3]
+2e013 // @060 #313: STORE(s0,LED3_sequence)
+300a7 // @061 #314: CALL(LED_to_duty)
+2e104 // @062 #315: STORE(s1,PWM_channel3)
+// #316: ;
+06014 // @063 #317: FETCH(s0,LED4_sequence) ;read sequence for LED4
+14000 // @064 #318: COMPARE(s0,0)
+3506b // @065 #319: JUMP(Z,test_LED4_start)
+1c010 // @066 #320: SUB(s0,16) ;reset count if maximum
+35071 // @067 #321: JUMP(Z,update_LED4)
+18010 // @068 #322: ADD(s0,16)
+// @069 #323: [inc_LED4]
+18001 // @069 #323: ADD(s0,1) ;increment counter
+34071 // @06a #324: JUMP(update_LED4)
+// @06b #325: [test_LED4_start]
+06113 // @06b #325: FETCH(s1,LED3_sequence) ;start LED4 if LED3 = 4
+14104 // @06c #326: COMPARE(s1,4)
+35069 // @06d #327: JUMP(Z,inc_LED4)
+06115 // @06e #328: FETCH(s1,LED5_sequence) ;start LED4 if LED5 = 4
+14104 // @06f #329: COMPARE(s1,4)
+35069 // @070 #330: JUMP(Z,inc_LED4)
+// @071 #331: [update_LED4]
+2e014 // @071 #331: STORE(s0,LED4_sequence)
+300a7 // @072 #332: CALL(LED_to_duty)
+2e105 // @073 #333: STORE(s1,PWM_channel4)
+// #334: ;
+06015 // @074 #335: FETCH(s0,LED5_sequence) ;read sequence for LED5
+14000 // @075 #336: COMPARE(s0,0)
+3507c // @076 #337: JUMP(Z,test_LED5_start)
+1c010 // @077 #338: SUB(s0,16) ;reset count if maximum
+35082 // @078 #339: JUMP(Z,update_LED5)
+18010 // @079 #340: ADD(s0,16)
+// @07a #341: [inc_LED5]
+18001 // @07a #341: ADD(s0,1) ;increment counter
+34082 // @07b #342: JUMP(update_LED5)
+// @07c #343: [test_LED5_start]
+06114 // @07c #343: FETCH(s1,LED4_sequence) ;start LED5 if LED4 = 4
+14104 // @07d #344: COMPARE(s1,4)
+3507a // @07e #345: JUMP(Z,inc_LED5)
+06116 // @07f #346: FETCH(s1,LED6_sequence) ;start LED5 if LED6 = 4
+14104 // @080 #347: COMPARE(s1,4)
+3507a // @081 #348: JUMP(Z,inc_LED5)
+// @082 #349: [update_LED5]
+2e015 // @082 #349: STORE(s0,LED5_sequence)
+300a7 // @083 #350: CALL(LED_to_duty)
+2e106 // @084 #351: STORE(s1,PWM_channel5)
+// #352: ;
+06117 // @085 #353: FETCH(s1,LED7_sequence) ; refresh LED6 if LED7 = 11 (0B hex) to reflect wave
+1410b // @086 #354: COMPARE(s1,11)
+3548a // @087 #355: JUMP(NZ,normal_LED6)
+00004 // @088 #356: LOAD(s0,4)
+34095 // @089 #357: JUMP(update_LED6)
+// @08a #358: [normal_LED6]
+06016 // @08a #358: FETCH(s0,LED6_sequence) ;read sequence for LED6
+14000 // @08b #359: COMPARE(s0,0)
+35092 // @08c #360: JUMP(Z,test_LED6_start)
+1c010 // @08d #361: SUB(s0,16) ;reset count if maximum
+35095 // @08e #362: JUMP(Z,update_LED6)
+18010 // @08f #363: ADD(s0,16)
+// @090 #364: [inc_LED6]
+18001 // @090 #364: ADD(s0,1) ;increment counter
+34095 // @091 #365: JUMP(update_LED6)
+// @092 #366: [test_LED6_start]
+06115 // @092 #366: FETCH(s1,LED5_sequence) ;start LED6 if LED5 = 4
+14104 // @093 #367: COMPARE(s1,4)
+35090 // @094 #368: JUMP(Z,inc_LED6)
+// @095 #369: [update_LED6]
+2e016 // @095 #369: STORE(s0,LED6_sequence)
+300a7 // @096 #370: CALL(LED_to_duty)
+2e107 // @097 #371: STORE(s1,PWM_channel6)
+// #372: ;
+06017 // @098 #373: FETCH(s0,LED7_sequence) ;read sequence for LED7
+14000 // @099 #374: COMPARE(s0,0)
+350a0 // @09a #375: JUMP(Z,test_LED7_start)
+1c020 // @09b #376: SUB(s0,32) ;Count longer to ensure end stops then reset count if maximum
+350a3 // @09c #377: JUMP(Z,update_LED7)
+18020 // @09d #378: ADD(s0,32)
+// @09e #379: [inc_LED7]
+18001 // @09e #379: ADD(s0,1) ;increment counter
+340a3 // @09f #380: JUMP(update_LED7)
+// @0a0 #381: [test_LED7_start]
+06116 // @0a0 #381: FETCH(s1,LED6_sequence) ;start LED7 if LED6 = 4
+14104 // @0a1 #382: COMPARE(s1,4)
+3509e // @0a2 #383: JUMP(Z,inc_LED7)
+// @0a3 #384: [update_LED7]
+2e017 // @0a3 #384: STORE(s0,LED7_sequence)
+300a7 // @0a4 #385: CALL(LED_to_duty)
+2e108 // @0a5 #386: STORE(s1,PWM_channel7)
+34014 // @0a6 #387: JUMP(warm_start)
+// #388: ;
+// #389: ;
+// #390: ; Convert LED sequence number into PWM intensity figure
+// #391: ;
+// #392: ; LEDs duty cycle values are 0,1,2,4,8,16,32 and 64 because they appear to give what
+// #393: ; appears to be a fairly liner change in intensity and provides a simple way to set
+// #394: ; the duty value.
+// #395: ;
+// #396: ; Provide sequence value in register s0 and intensity will be
+// #397: ; returned in register s1.
+// #398: ;
+// #399: ; s0   s1
+// #400: ; 00   00
+// #401: ; 01   01
+// #402: ; 02   02
+// #403: ; 03   04
+// #404: ; 04   08
+// #405: ; 05   10
+// #406: ; 06   20
+// #407: ; 07   40
+// #408: ; 08   80
+// #409: ; 09   40
+// #410: ; 0A   20
+// #411: ; 0B   10
+// #412: ; 0C   08
+// #413: ; 0D   04
+// #414: ; 0E   02
+// #415: ; 0F   01
+// #416: ; 10   00  and zero for all larger values of s0
+// #417: ;
+// @0a7 #418: [LED_to_duty]
+00100 // @0a7 #418: LOAD(s1,0)
+14000 // @0a8 #419: COMPARE(s0,0) ;test for zero
+2b000 // @0a9 #420: RETURN(Z)
+00101 // @0aa #421: LOAD(s1,1) ;inject '1'
+// @0ab #422: [go_up_loop]
+1c001 // @0ab #422: SUB(s0,1)
+2b000 // @0ac #423: RETURN(Z)
+20106 // @0ad #424: SL0(s1) ;multiply by 2
+358b0 // @0ae #425: JUMP(C,go_down)
+340ab // @0af #426: JUMP(go_up_loop)
+// @0b0 #427: [go_down]
+00140 // @0b0 #427: LOAD(s1,64)
+// @0b1 #428: [go_down_loop]
+1c001 // @0b1 #428: SUB(s0,1)
+2b000 // @0b2 #429: RETURN(Z)
+2010e // @0b3 #430: SR0(s1) ;divide by 2
+340b1 // @0b4 #431: JUMP(go_down_loop)
+// #432: ;
+// #433: ;**************************************************************************************
+// #434: ; UART communication routines
+// #435: ;**************************************************************************************
+// #436: ;
+// #437: ; Read one character from the UART
+// #438: ;
+// #439: ; Character read will be returned in a register called 'UART_data'.
+// #440: ;
+// #441: ; The routine first tests the receiver FIFO buffer to see if data is present.
+// #442: ; If the FIFO is empty, the routine waits until there is a character to read.
+// #443: ; As this could take any amount of time the wait loop could include a call to a
+// #444: ; subroutine which performs a useful function.
+// #445: ;
+// #446: ;
+// #447: ; Registers used s0 and UART_data
+// #448: ;
+// @0b5 #449: [read_from_UART]
+04000 // @0b5 #449: INPUT(s0,status_port) ;test Rx_FIFO buffer
+12004 // @0b6 #450: TEST(s0,rx_data_present) ;wait if empty
+354b9 // @0b7 #451: JUMP(NZ,read_character)
+340b5 // @0b8 #452: JUMP(read_from_UART)
+// @0b9 #453: [read_character]
+04f01 // @0b9 #453: INPUT(UART_data,UART_read_port) ;read from FIFO
+2a000 // @0ba #454: RETURN
+// #455: ;
+// #456: ;
+// #457: ;
+// #458: ; Transmit one character to the UART
+// #459: ;
+// #460: ; Character supplied in register called 'UART_data'.
+// #461: ;
+// #462: ; The routine first tests the transmit FIFO buffer to see if it is full.
+// #463: ; If the FIFO is full, then the routine waits until it there is space.
+// #464: ;
+// #465: ; Registers used s0
+// #466: ;
+// @0bb #467: [send_to_UART]
+04000 // @0bb #467: INPUT(s0,status_port) ;test Tx_FIFO buffer
+12002 // @0bc #468: TEST(s0,tx_full) ;wait if full
+350bf // @0bd #469: JUMP(Z,UART_write)
+340bb // @0be #470: JUMP(send_to_UART)
+// @0bf #471: [UART_write]
+2cf20 // @0bf #471: OUTPUT(UART_data,UART_write_port)
+2a000 // @0c0 #472: RETURN
+// #473: ;
+// #474: ;
+// #475: ;
+// #476: ;**************************************************************************************
+// #477: ; Text messages
+// #478: ;**************************************************************************************
+// #479: ;
+// #480: ;
+// #481: ; Send Carriage Return to the UART
+// #482: ;
+// @0c1 #483: [send_CR]
+00f0d // @0c1 #483: LOAD(UART_data,character_CR)
+300bb // @0c2 #484: CALL(send_to_UART)
+2a000 // @0c3 #485: RETURN
+// #486: ;
+// #487: ; Send a space to the UART
+// #488: ;
+// @0c4 #489: [send_space]
+00f20 // @0c4 #489: LOAD(UART_data,character_space)
+300bb // @0c5 #490: CALL(send_to_UART)
+2a000 // @0c6 #491: RETURN
+// #492: ;
+// #493: ;
+// #494: ;
+// #495: ; Send 'PicoBlaze Servo Control' string to the UART
+// #496: ;
+// @0c7 #497: [send_welcome]
+300c1 // @0c7 #497: CALL(send_CR)
+300c1 // @0c8 #498: CALL(send_CR)
+00f50 // @0c9 #499: LOAD(UART_data,character_P)
+300bb // @0ca #500: CALL(send_to_UART)
+00f69 // @0cb #501: LOAD(UART_data,character_i)
+300bb // @0cc #502: CALL(send_to_UART)
+00f63 // @0cd #503: LOAD(UART_data,character_c)
+300bb // @0ce #504: CALL(send_to_UART)
+00f6f // @0cf #505: LOAD(UART_data,character_o)
+300bb // @0d0 #506: CALL(send_to_UART)
+00f42 // @0d1 #507: LOAD(UART_data,character_B)
+300bb // @0d2 #508: CALL(send_to_UART)
+00f6c // @0d3 #509: LOAD(UART_data,character_l)
+300bb // @0d4 #510: CALL(send_to_UART)
+00f61 // @0d5 #511: LOAD(UART_data,character_a)
+300bb // @0d6 #512: CALL(send_to_UART)
+00f7a // @0d7 #513: LOAD(UART_data,character_z)
+300bb // @0d8 #514: CALL(send_to_UART)
+00f65 // @0d9 #515: LOAD(UART_data,character_e)
+300bb // @0da #516: CALL(send_to_UART)
+300c4 // @0db #517: CALL(send_space)
+00f41 // @0dc #518: LOAD(UART_data,character_A)
+300bb // @0dd #519: CALL(send_to_UART)
+00f75 // @0de #520: LOAD(UART_data,character_u)
+300bb // @0df #521: CALL(send_to_UART)
+00f74 // @0e0 #522: LOAD(UART_data,character_t)
+300bb // @0e1 #523: CALL(send_to_UART)
+00f6f // @0e2 #524: LOAD(UART_data,character_o)
+300bb // @0e3 #525: CALL(send_to_UART)
+300c4 // @0e4 #526: CALL(send_space)
+00f50 // @0e5 #527: LOAD(UART_data,character_P)
+300bb // @0e6 #528: CALL(send_to_UART)
+00f57 // @0e7 #529: LOAD(UART_data,character_W)
+300bb // @0e8 #530: CALL(send_to_UART)
+00f4d // @0e9 #531: LOAD(UART_data,character_M)
+300bb // @0ea #532: CALL(send_to_UART)
+300c4 // @0eb #533: CALL(send_space)
+00f41 // @0ec #534: LOAD(UART_data,character_A)
+300bb // @0ed #535: CALL(send_to_UART)
+00f63 // @0ee #536: LOAD(UART_data,character_c)
+300bb // @0ef #537: CALL(send_to_UART)
+00f74 // @0f0 #538: LOAD(UART_data,character_t)
+300bb // @0f1 #539: CALL(send_to_UART)
+00f69 // @0f2 #540: LOAD(UART_data,character_i)
+300bb // @0f3 #541: CALL(send_to_UART)
+00f76 // @0f4 #542: LOAD(UART_data,character_v)
+300bb // @0f5 #543: CALL(send_to_UART)
+00f65 // @0f6 #544: LOAD(UART_data,character_e)
+300bb // @0f7 #545: CALL(send_to_UART)
+300c1 // @0f8 #546: CALL(send_CR)
+300c1 // @0f9 #547: CALL(send_CR)
+2a000 // @0fa #548: RETURN
+// #549: ;
+// #550: ;
+// #551: ;Send 'OK' to the UART
+// #552: ;
+// @0fb #553: [send_OK]
+300c1 // @0fb #553: CALL(send_CR)
+00f4f // @0fc #554: LOAD(UART_data,character_O)
+300bb // @0fd #555: CALL(send_to_UART)
+00f4b // @0fe #556: LOAD(UART_data,character_K)
+300bb // @0ff #557: CALL(send_to_UART)
+340c1 // @100 #558: JUMP(send_CR)
+// #559: ;
+// #560: ;
+// #561: ;**************************************************************************************
+// #562: ; Interrupt Service Routine (ISR)
+// #563: ;**************************************************************************************
+// #564: ;
+// #565: ; Interrupts occur at 3.92us intervals and are used to generate the PWM pulses generated
+// #566: ; at a PRF of 1KHz. The 3.92us interrupt rate corresponds with a resolution of 256 steps
+// #567: ; over the 1ms associated with the 1KHz PRF.
+// #568: ;
+// #569: ; The ISR is self contained and all registers used are preserved. Scratch pad memory
+// #570: ; locations are used to determine the desired duty factor for each of 12 channels.
+// #571: ;
+// #572: ; Note that an interrupt is generated every 196 clock cycles. This means that there is
+// #573: ; only time to execute 98 instructions between each interrupt. This ISR is 48 instructions
+// #574: ; long. A further 3 instructions are also consumed by the interrupt process
+// #575: ; (abandoned instruction, virtual CALL to 3FF and the interrupt vector JUMP) and hence
+// #576: ; PicoBlaze has approximately half of its time available for other tasks in the main program.
+// #577: ;
+// #578: ; Although a loop would normal be employed in software to process each of 12 channels,
+// #579: ; the implementation of a loop would increase the number of instructions which needed to
+// #580: ; be executed to such an extent that this 12 channel implementation would not be possible.
+// #581: ; Consequently the code is written out in a linear fashion which consumes more program
+// #582: ; space but which executes faster.
+// #583: ;
+// @101 #584: [ISR]
+2e00d // @101 #584: STORE(s0,ISR_preserve_s0) ;preserve registers to be used
+2e10e // @102 #585: STORE(s1,ISR_preserve_s1)
+2e20f // @103 #586: STORE(s2,ISR_preserve_s2)
+// #587: ;Determine the number of steps currently through the 1ms PWM cycle
+06100 // @104 #588: FETCH(s1,PWM_duty_counter) ;read 8-bit counter of steps
+18101 // @105 #589: ADD(s1,1) ;increment counter (will roll over to zero)
+2e100 // @106 #590: STORE(s1,PWM_duty_counter) ;update count value in memory for next interrupt.
+// #591: ;Read duty factor for each channel and compare it with the duty counter and set or
+// #592: ;reset a bit in register s2 accordingly.
+0600c // @107 #593: FETCH(s0,PWM_channel11) ;read desired setting of pulse width
+15100 // @108 #594: COMPARE(s1,s0) ;set carry flag if duty factor > duty counter
+20200 // @109 #595: SLA(s2) ;shift carry into register s2
+0600b // @10a #596: FETCH(s0,PWM_channel10) ;read desired setting of pulse width
+15100 // @10b #597: COMPARE(s1,s0) ;set carry flag if duty factor > duty counter
+20200 // @10c #598: SLA(s2) ;shift carry into register s2
+0600a // @10d #599: FETCH(s0,PWM_channel9) ;read desired setting of pulse width
+15100 // @10e #600: COMPARE(s1,s0) ;set carry flag if duty factor > duty counter
+20200 // @10f #601: SLA(s2) ;shift carry into register s2
+06009 // @110 #602: FETCH(s0,PWM_channel8) ;read desired setting of pulse width
+15100 // @111 #603: COMPARE(s1,s0) ;set carry flag if duty factor > duty counter
+20200 // @112 #604: SLA(s2) ;shift carry into register s2
+2c240 // @113 #605: OUTPUT(s2,simple_port) ;drive pins on connector J4
+06008 // @114 #606: FETCH(s0,PWM_channel7) ;read desired setting of pulse width
+15100 // @115 #607: COMPARE(s1,s0) ;set carry flag if duty factor > duty counter
+20200 // @116 #608: SLA(s2) ;shift carry into register s2
+06007 // @117 #609: FETCH(s0,PWM_channel6) ;read desired setting of pulse width
+15100 // @118 #610: COMPARE(s1,s0) ;set carry flag if duty factor > duty counter
+20200 // @119 #611: SLA(s2) ;shift carry into register s2
+06006 // @11a #612: FETCH(s0,PWM_channel5) ;read desired setting of pulse width
+15100 // @11b #613: COMPARE(s1,s0) ;set carry flag if duty factor > duty counter
+20200 // @11c #614: SLA(s2) ;shift carry into register s2
+06005 // @11d #615: FETCH(s0,PWM_channel4) ;read desired setting of pulse width
+15100 // @11e #616: COMPARE(s1,s0) ;set carry flag if duty factor > duty counter
+20200 // @11f #617: SLA(s2) ;shift carry into register s2
+06004 // @120 #618: FETCH(s0,PWM_channel3) ;read desired setting of pulse width
+15100 // @121 #619: COMPARE(s1,s0) ;set carry flag if duty factor > duty counter
+20200 // @122 #620: SLA(s2) ;shift carry into register s2
+06003 // @123 #621: FETCH(s0,PWM_channel2) ;read desired setting of pulse width
+15100 // @124 #622: COMPARE(s1,s0) ;set carry flag if duty factor > duty counter
+20200 // @125 #623: SLA(s2) ;shift carry into register s2
+06002 // @126 #624: FETCH(s0,PWM_channel1) ;read desired setting of pulse width
+15100 // @127 #625: COMPARE(s1,s0) ;set carry flag if duty factor > duty counter
+20200 // @128 #626: SLA(s2) ;shift carry into register s2
+06001 // @129 #627: FETCH(s0,PWM_channel0) ;read desired setting of pulse width
+15100 // @12a #628: COMPARE(s1,s0) ;set carry flag if duty factor > duty counter
+20200 // @12b #629: SLA(s2) ;shift carry into register s2
+2c280 // @12c #630: OUTPUT(s2,LED_port) ;drive LEDs
+0600d // @12d #631: FETCH(s0,ISR_preserve_s0) ;restore register values
+0610e // @12e #632: FETCH(s1,ISR_preserve_s1)
+0620f // @12f #633: FETCH(s2,ISR_preserve_s2)
+38001 // @130 #634: RETURNI(ENABLE)
+// #635: ;
+// #636: ;
+// #637: ;**************************************************************************************
+// #638: ; Interrupt Vector
+// #639: ;**************************************************************************************
+// #640: ;
+@3ff // #641: ADDRESS(1023)
+34101 // @3ff #642: JUMP(ISR)
+// #643: ;
+// #644: ;

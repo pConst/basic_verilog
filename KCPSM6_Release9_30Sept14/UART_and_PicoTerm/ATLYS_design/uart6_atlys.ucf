@@ -1,0 +1,126 @@
+#
+#------------------------------------------------------------------------------------------
+# Copyright © 2012, Xilinx, Inc.
+# This file contains confidential and proprietary information of Xilinx, Inc. and is
+# protected under U.S. and international copyright and other intellectual property laws.
+#------------------------------------------------------------------------------------------
+#
+# Disclaimer:
+# This disclaimer is not a license and does not grant any rights to the materials
+# distributed herewith. Except as otherwise provided in a valid license issued to
+# you by Xilinx, and to the maximum extent permitted by applicable law: (1) THESE
+# MATERIALS ARE MADE AVAILABLE "AS IS" AND WITH ALL FAULTS, AND XILINX HEREBY
+# DISCLAIMS ALL WARRANTIES AND CONDITIONS, EXPRESS, IMPLIED, OR STATUTORY,
+# INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, NON-INFRINGEMENT,
+# OR FITNESS FOR ANY PARTICULAR PURPOSE; and (2) Xilinx shall not be liable
+# (whether in contract or tort, including negligence, or under any other theory
+# of liability) for any loss or damage of any kind or nature related to, arising
+# under or in connection with these materials, including for any direct, or any
+# indirect, special, incidental, or consequential loss or damage (including loss
+# of data, profits, goodwill, or any type of loss or damage suffered as a result
+# of any action brought by a third party) even if such damage or loss was
+# reasonably foreseeable or Xilinx had been advised of the possibility of the same.
+#
+# CRITICAL APPLICATIONS
+# Xilinx products are not designed or intended to be fail-safe, or for use in any
+# application requiring fail-safe performance, such as life-support or safety
+# devices or systems, Class III medical devices, nuclear facilities, applications
+# related to the deployment of airbags, or any other applications that could lead
+# to death, personal injury, or severe property or environmental damage
+# (individually and collectively, "Critical Applications"). Customer assumes the
+# sole risk and liability of any use of Xilinx products in Critical Applications,
+# subject only to applicable laws and regulations governing limitations on product
+# liability.
+#
+# THIS COPYRIGHT NOTICE AND DISCLAIMER MUST BE RETAINED AS PART OF THIS FILE AT ALL TIMES.
+#
+#------------------------------------------------------------------------------------------
+#
+# Constraints for 'uart6_atlys'.
+#
+# ATLYS Board (www.digilentinc.com) 
+#
+# XC6SLX45-2CSG324 Device 
+#
+# Ken Chapman - Xilinx Ltd 
+#
+# 6th September 2012 - Initial Release.
+#
+#
+# Timing
+# ------
+#
+# Period constraint for 100MHz operation
+#
+NET "clk" TNM_NET = "clk";
+TIMESPEC TS_kcpsm6_clk = PERIOD "clk" 10.0ns HIGH 50%;
+#
+#
+#
+# Pins
+# ----
+#
+# 100MHz Clock.
+# 
+NET "clk" LOC = "L15" | IOSTANDARD = LVCMOS33;
+#
+# USB-UART
+#
+NET "uart_rx" LOC = "A16" | IOSTANDARD = LVCMOS33;
+NET "uart_tx" LOC = "B16" | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 4;
+#
+#
+# General Purpose LEDs
+#
+#  Note that the LEDs are assigned to different banks and this has resulted 
+#  in a potentially different voltage for LED7. 
+#      LEDs 0, 1, 2, 3, 4, 5 and are always 3.3v
+#      LEDs 7 is either 2.5v or 3.3v depending on how JP12 is set.
+#
+NET "led<0>" LOC = "U18" | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 4;
+NET "led<1>" LOC = "M14" | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 4;
+NET "led<2>" LOC = "N14" | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 4;
+NET "led<3>" LOC = "L14" | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 4;
+NET "led<4>" LOC = "M13" | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 4;
+NET "led<5>" LOC = "D4"  | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 4;
+NET "led<6>" LOC = "P16" | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 4;
+#NET "led<7>" LOC = "N12" | IOSTANDARD = LVCMOS25 | SLEW = SLOW | DRIVE = 4; # 2.5v option
+NET "led<7>" LOC = "N12" | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 4; # 3.3v option
+#
+#
+# General Purpose Switches
+#
+#  Note that the switches are assigned to three different banks and has resulted 
+#  in different voltages.... 
+#      Switches 0, 1, 2 and 3 are always 3.3v
+#      Switches 4, 5 and 6 are either 2.5v or 3.3v depending on how JP12 is set.
+#      Switches 7 is always 1.8v
+#
+NET "switch<0>" LOC = "A10" | IOSTANDARD = LVCMOS33;
+NET "switch<1>" LOC = "D14" | IOSTANDARD = LVCMOS33;
+NET "switch<2>" LOC = "C14" | IOSTANDARD = LVCMOS33;
+NET "switch<3>" LOC = "P15" | IOSTANDARD = LVCMOS33;
+#
+#NET "switch<4>" LOC = "P12" | IOSTANDARD = LVCMOS25; # 2.5v options
+#NET "switch<5>" LOC = "R5"  | IOSTANDARD = LVCMOS25;
+#NET "switch<6>" LOC = "T5"  | IOSTANDARD = LVCMOS25;
+#
+NET "switch<4>" LOC = "P12" | IOSTANDARD = LVCMOS33; # 3.3v options
+NET "switch<5>" LOC = "R5"  | IOSTANDARD = LVCMOS33;
+NET "switch<6>" LOC = "T5"  | IOSTANDARD = LVCMOS33;
+#
+NET "switch<7>" LOC = "E4"  | IOSTANDARD = LVCMOS18;
+#
+#
+# RESET Press Button (Active Low)
+#
+#  Note that this button is either 2.5v or 3.3v depending on how JP12 is set.
+#
+NET "reset_b" LOC = "T15" | IOSTANDARD = LVCMOS33;  # 3.3v options
+#NET "reset_b" LOC = "T15" | IOSTANDARD = LVCMOS25;  # 2.5v options
+#
+#
+#------------------------------------------------------------------------------------------
+# End of File
+#------------------------------------------------------------------------------------------
+#

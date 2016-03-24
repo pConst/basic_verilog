@@ -1,0 +1,56 @@
+/* Symbol Table */
+// counter_port = CONSTANT: 4
+// drive_wave = LABEL: 3
+// int_routine = LABEL: 688
+// interrupt_counter = REGISTER: 26
+// loop = LABEL: 5
+// pattern_10101010 = CONSTANT: 170
+// s0 = REGISTER: 0
+// s1 = REGISTER: 1
+// s2 = REGISTER: 2
+// s3 = REGISTER: 3
+// s4 = REGISTER: 4
+// s5 = REGISTER: 5
+// s6 = REGISTER: 6
+// s7 = REGISTER: 7
+// s8 = REGISTER: 8
+// s9 = REGISTER: 9
+// sA = REGISTER: 10
+// sB = REGISTER: 11
+// sC = REGISTER: 12
+// sD = REGISTER: 13
+// sE = REGISTER: 14
+// sF = REGISTER: 15
+// start = LABEL: 0
+// waveform_port = CONSTANT: 2
+
+/* Program Code */
+// #1: ;Interrupt example
+// #2: ;
+// #3: constant(waveform_port,2) ;bit0 will be data
+// #4: constant(counter_port,4)
+// #5: constant(pattern_10101010,170)
+// #6: register(interrupt_counter,26)
+// #7: ;
+// @000 #8: [start]
+01a00 // @000 #8: load(interrupt_counter,0) ;reset interrupt counter
+002aa // @001 #9: load(s2,pattern_10101010) ;initial output condition
+3c001 // @002 #10: interrupt(enable)
+// #11: ;
+// @003 #12: [drive_wave]
+2c202 // @003 #12: output(s2,waveform_port)
+00007 // @004 #13: load(s0,7) ;delay size
+// @005 #14: [loop]
+1c001 // @005 #14: sub(s0,1) ;delay loop
+35405 // @006 #15: jump(nz,loop)
+0e2ff // @007 #16: xor(s2,255) ;toggle waveform
+34003 // @008 #17: jump(drive_wave)
+// #18: ;
+@2b0 // #19: address(688)
+// @2b0 #20: [int_routine]
+19a01 // @2b0 #20: add(interrupt_counter,1) ;increment counter
+2da04 // @2b1 #21: output(interrupt_counter,counter_port)
+38001 // @2b2 #22: returni(enable)
+// #23: ;
+@3ff // #24: address(1023) ;set interrupt vector
+342b0 // @3ff #25: jump(int_routine)

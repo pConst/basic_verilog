@@ -1,0 +1,216 @@
+                       ;
+                       ;------------------------------------------------------------------------------------------
+                       ; Copyright © 2014, Xilinx, Inc.
+                       ; This file contains confidential and proprietary information of Xilinx, Inc. and is
+                       ; protected under U.S. and international copyright and other intellectual property laws.
+                       ;------------------------------------------------------------------------------------------
+                       ;
+                       ; Disclaimer:
+                       ; This disclaimer is not a license and does not grant any rights to the materials
+                       ; distributed herewith. Except as otherwise provided in a valid license issued to
+                       ; you by Xilinx, and to the maximum extent permitted by applicable law: (1) THESE
+                       ; MATERIALS ARE MADE AVAILABLE "AS IS" AND WITH ALL FAULTS, AND XILINX HEREBY
+                       ; DISCLAIMS ALL WARRANTIES AND CONDITIONS, EXPRESS, IMPLIED, OR STATUTORY,
+                       ; INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, NON-INFRINGEMENT,
+                       ; OR FITNESS FOR ANY PARTICULAR PURPOSE; and (2) Xilinx shall not be liable
+                       ; (whether in contract or tort, including negligence, or under any other theory
+                       ; of liability) for any loss or damage of any kind or nature related to, arising
+                       ; under or in connection with these materials, including for any direct, or any
+                       ; indirect, special, incidental, or consequential loss or damage (including loss
+                       ; of data, profits, goodwill, or any type of loss or damage suffered as a result
+                       ; of any action brought by a third party) even if such damage or loss was
+                       ; reasonably foreseeable or Xilinx had been advised of the possibility of the same.
+                       ;
+                       ; CRITICAL APPLICATIONS
+                       ; Xilinx products are not designed or intended to be fail-safe, or for use in any
+                       ; application requiring fail-safe performance, such as life-support or safety
+                       ; devices or systems, Class III medical devices, nuclear facilities, applications
+                       ; related to the deployment of airbags, or any other applications that could lead
+                       ; to death, personal injury, or severe property or environmental damage
+                       ; (individually and collectively, "Critical Applications"). Customer assumes the
+                       ; sole risk and liability of any use of Xilinx products in Critical Applications,
+                       ; subject only to applicable laws and regulations governing limitations on product
+                       ; liability.
+                       ;
+                       ; THIS COPYRIGHT NOTICE AND DISCLAIMER MUST BE RETAINED AS PART OF THIS FILE AT ALL TIMES.
+                       ;
+                       ;------------------------------------------------------------------------------------------
+                       ;
+                       ;
+                       ;             _  ______ ____  ____  __  __  __
+                       ;            | |/ / ___|  _ \/ ___||  \/  |/ /_
+                       ;            | ' / |   | |_) \___ \| |\/| | '_ \
+                       ;            | . \ |___|  __/ ___) | |  | | (_) )
+                       ;            |_|\_\____|_|   |____/|_|  |_|\___/
+                       ;
+                       ;
+                       ;                PicoBlaze Reference Design.
+                       ;
+                       ;
+                       ; Routines for communication with a RAM of 4096 bytes. The RAM is implemented using a
+                       ; synchronous BRAM (36kb) connected to KCPSM6 input and output ports.
+                       ;
+                       ;
+                       ; Ken Chapman - Xilinx Ltd
+                       ;
+                       ; 5th September 2014 - Initial Version
+                       ;
+                       ;
+                       ;     NOTE - This is not a standalone PSM file. Include this file in a program that
+                       ;            then calls these routines.
+                       ;
+                       ;                INCLUDE "RAM_4096x8_routines.psm"
+                       ;
+                       ;
+                       ;     IMPORTANT - These routines interact with input and output ports which must
+                       ;                 be appropriately defined to interface with the external memory.
+                       ;                 The CONSTANT directives defined below must correspond with the
+                       ;                 port assignments.
+                       ;
+                       ;
+                       ; INTRODUCTION
+                       ; ------------
+                       ;
+                       ; This file implements a pair of routines that simply write and read bytes of data to and
+                       ; from the external memory as specified addresses. A second pair of routines facilitate
+                       ; the reading and writing of 32-bit words.
+                       ;
+                       ;
+                       ;------------------------------------------------------------------------------------------
+                       ; Hardware Constants
+                       ;------------------------------------------------------------------------------------------
+                       ;
+                       ; The following constants define the input and output ports allocated to the RAM
+                       ; interface. These constants reflect the ports used in the 'kc705_kcpsm6_icap.vhd'
+                       ; reference design file and should be modified if different ports are allocated in your
+                       ; own designs.
+                       ;
+                       ; Prior to initiating a write transaction a 32-bit data word should be present to
+                       ; ICAPE2 using the following output ports.
+                       ;
+                       ; The 12-bit address is set by writing to two output ports.
+                       ;
+                       CONSTANT RAM_address0_port, 08  ;ram_address[7:0]
+                       CONSTANT RAM_address1_port, 10  ;ram_address[11:8]
+                       ;
+                       ; Data is then written to or read from the current address using the following ports.
+                       ; (An OUTPUT to 'write_to_RAM_port' generates a write enable pulse to the BRAM)
+                       ;
+                       CONSTANT write_to_RAM_port, 20
+                       CONSTANT read_from_RAM_port, 14
+                       ;
+                       ;
+                       ;------------------------------------------------------------------------------------------
+                       ; Write and Read bytes to and from external RAM (4096 x 8-bit)
+                       ;------------------------------------------------------------------------------------------
+                       ;
+                       ; The following routines write and read bytes to and from the 4096 x 8 RAM connected to
+                       ; input and output ports. The 12-bit RAM address must be defined by [s9,s8] and the byte
+                       ; is is transfered between register 's5' and the memory.
+                       ;
+                       ; Read from RAM
+                       ; -------------
+                       ;
+                       ; The BRAM is synchronous so it takes a clock cycle after the address has been defined for
+                       ; the output of the BRAM to present the memory contents at that location. The KCPSM6 input
+                       ; ports are implemented by a pipelined multiplexer so there must be a small delay before
+                       ; the INPUT instruction is executed to allow the desired data from the BRAM to be selected
+                       ; and read by KCPSM6.
+                       ;
+   read_byte_from_RAM: OUTPUT s8, RAM_address0_port    ;set address
+                       OUTPUT s9, RAM_address1_port
+                       LOAD s5, s5                     ;2 clock cycle delay
+                       INPUT s5, read_from_RAM_port    ;read from memory
+                       RETURN 
+                       ;
+                       ;
+                       ; Write to RAM
+                       ; ------------
+                       ;
+    write_byte_to_RAM: OUTPUT s8, RAM_address0_port    ;set address
+                       OUTPUT s9, RAM_address1_port
+                       OUTPUT s5, write_to_RAM_port    ;write to memory
+                       RETURN 
+                       ;
+                       ;
+                       ;------------------------------------------------------------------------------------------
+                       ; Write and Read 32-bit words to and from external RAM (4096 x 8-bit)
+                       ;------------------------------------------------------------------------------------------
+                       ;
+                       ; The following routines write and read 32-bit words to and from the 4096 x 8 RAM connected
+                       ; to input and output ports. Each word requires 4 bytes (4 locations) in the memory. Words
+                       ; will be stored with the least significant byte at the lower address of four successive
+                       ; locations. It is generally considered good practice to align the words such that the
+                       ; address of the least significant byte ends with '00' (e.g. Addresses 0000, 0004, 0008,
+                       ; 000C, 0010 hex etc).
+                       ;
+                       ; The 12-bit RAM address is defined by [s9,s8]. This can be set prior to calling these
+                       ; routines or the current value used providing it is suitable and has not been modified
+                       ; by other program activity. The 'reset_RAM_address' routine can be used to reset the
+                       ; address.
+                       ;
+                       ; During a write operation, a 32-bit word provided in [sF,sE,sD,sC] is written to four
+                       ; successive memory locations.
+                       ;
+                       ; During a read operation, a 32-bit word is read from four successive memory locations and
+                       ; returned in [sF,sE,sD,sC].
+                       ;
+                       ; In both cases, the address defined by [s9,s8] is incremented. On return, the address will
+                       ; will correspond with the location associated with the first byte of the next word.
+                       ;
+                       ;
+                       ; Reset RAM address
+                       ; -----------------
+                       ;
+                       ; This routine will set the address presented to the external RAM to zero and will return
+                       ; with [s9,s8] = 0000.
+                       ;
+                       ;
+    reset_RAM_address: LOAD s8, FF                     ;[s9,s8] = FFFF
+                       LOAD s9, FF
+                       JUMP increment_RAM_address      ;advance [s9,s8] to 0000 and set address (includes RETURN)
+                       ;
+                       ;
+                       ; Read from RAM
+                       ; -------------
+                       ;
+   read_word_from_RAM: INPUT sC, read_from_RAM_port
+                       CALL increment_RAM_address
+                       INPUT sD, read_from_RAM_port
+                       CALL increment_RAM_address
+                       INPUT sE, read_from_RAM_port
+                       CALL increment_RAM_address
+                       INPUT sF, read_from_RAM_port
+                       JUMP increment_RAM_address      ;includes RETURN
+                       ;
+                       ;
+                       ; Write to RAM
+                       ; ------------
+                       ;
+    write_word_to_RAM: OUTPUT sC, write_to_RAM_port
+                       CALL increment_RAM_address
+                       OUTPUT sD, write_to_RAM_port
+                       CALL increment_RAM_address
+                       OUTPUT sE, write_to_RAM_port
+                       CALL increment_RAM_address
+                       OUTPUT sF, write_to_RAM_port
+                       JUMP increment_RAM_address      ;includes RETURN
+                       ;
+                       ;
+                       ; Routine to increment and set RAM address.
+                       ;
+                       ; Note that during the 2 clock cycles it takes for the RETURN instruction
+                       ; to execute, the synchronous BRAM is presenting the memory contents at its
+                       ; output so that it is ready to be read by KCPSM6.
+                       ;
+increment_RAM_address: ADD s8, 01                      ;increment [s9,s8]
+                       ADDCY s9, 00
+                       OUTPUT s8, RAM_address0_port    ;set address
+                       OUTPUT s9, RAM_address1_port
+                       RETURN 
+                       ;
+                       ;
+                       ;------------------------------------------------------------------------------------------
+                       ; End of 'RAM_4096x8_routines.psm'
+                       ;------------------------------------------------------------------------------------------
+                       ;

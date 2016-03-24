@@ -1,0 +1,36 @@
+; test3m.psm
+
+start:
+	load s0, $ca
+	load s1, $fe
+	mul s0, s1
+
+	output s1, 1
+	output s0, 0
+
+	load s0, $de
+	load s2, $ad
+	mul s0, s2
+
+	output s1, 3
+	output s0, 2
+
+	load s1, $ca
+	load s0, $fe
+
+	load s3, $be
+	load s2, $ef
+
+	addw s2, s0
+
+	output s3, 5
+	output s2, 4
+
+here:
+	jump here
+
+isr:
+	jump isr
+
+int:	address $3ff
+	jump isr

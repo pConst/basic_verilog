@@ -1,0 +1,25 @@
+             ;Interrupt example
+             ;
+             constant waveform_port, 2             ;bit0 will be data
+             constant counter_port, 4
+             constant pattern_10101010, $AA
+             register interrupt_counter, $1a
+             ;
+      start: load interrupt_counter, 00             ;reset interrupt counter
+             load s2, pattern_10101010             ;initial output condition
+             interrupt enable
+             ;
+ drive_wave: output s2, waveform_port
+             load s0, 07                           ;delay size
+       loop: sub s0, 01                            ;delay loop
+             jump nz, loop
+             xor s2, $FF                            ;toggle waveform
+             jump drive_wave
+             ;
+             address $2B0
+int_routine: add interrupt_counter, 01              ;increment counter
+             output interrupt_counter, counter_port
+             returni enable
+             ;
+             address $3FF                            ;set interrupt vector
+             jump int_routine

@@ -1,0 +1,1005 @@
+                            ;
+                            ;------------------------------------------------------------------------------------------
+                            ; Copyright © 2011-2014, Xilinx, Inc.
+                            ; This file contains confidential and proprietary information of Xilinx, Inc. and is
+                            ; protected under U.S. and international copyright and other intellectual property laws.
+                            ;------------------------------------------------------------------------------------------
+                            ;
+                            ; Disclaimer:
+                            ; This disclaimer is not a license and does not grant any rights to the materials
+                            ; distributed herewith. Except as otherwise provided in a valid license issued to
+                            ; you by Xilinx, and to the maximum extent permitted by applicable law: (1) THESE
+                            ; MATERIALS ARE MADE AVAILABLE "AS IS" AND WITH ALL FAULTS, AND XILINX HEREBY
+                            ; DISCLAIMS ALL WARRANTIES AND CONDITIONS, EXPRESS, IMPLIED, OR STATUTORY,
+                            ; INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, NON-INFRINGEMENT,
+                            ; OR FITNESS FOR ANY PARTICULAR PURPOSE; and (2) Xilinx shall not be liable
+                            ; (whether in contract or tort, including negligence, or under any other theory
+                            ; of liability) for any loss or damage of any kind or nature related to, arising
+                            ; under or in connection with these materials, including for any direct, or any
+                            ; indirect, special, incidental, or consequential loss or damage (including loss
+                            ; of data, profits, goodwill, or any type of loss or damage suffered as a result
+                            ; of any action brought by a third party) even if such damage or loss was
+                            ; reasonably foreseeable or Xilinx had been advised of the possibility of the same.
+                            ;
+                            ; CRITICAL APPLICATIONS
+                            ; Xilinx products are not designed or intended to be fail-safe, or for use in any
+                            ; application requiring fail-safe performance, such as life-support or safety
+                            ; devices or systems, Class III medical devices, nuclear facilities, applications
+                            ; related to the deployment of airbags, or any other applications that could lead
+                            ; to death, personal injury, or severe property or environmental damage
+                            ; (individually and collectively, "Critical Applications"). Customer assumes the
+                            ; sole risk and liability of any use of Xilinx products in Critical Applications,
+                            ; subject only to applicable laws and regulations governing limitations on product
+                            ; liability.
+                            ;
+                            ; THIS COPYRIGHT NOTICE AND DISCLAIMER MUST BE RETAINED AS PART OF THIS FILE AT ALL TIMES.
+                            ;
+                            ;------------------------------------------------------------------------------------------
+                            ;
+                            ;
+                            ;             _  ______ ____  ____  __  __  __
+                            ;            | |/ / ___|  _ \/ ___||  \/  |/ /_
+                            ;            | ' / |   | |_) \___ \| |\/| | '_ \
+                            ;            | . \ |___|  __/ ___) | |  | | (_) )
+                            ;            |_|\_\____|_|   |____/|_|  |_|\___/
+                            ;
+                            ;
+                            ; KCPSM6 reference design using 'uart_tx6' and 'uart_rx6' macros.
+                            ;
+                            ; Ken Chapman - Xilinx Ltd
+                            ;
+                            ; 25th June 2014 - Initial version (based on previous reference designs).
+                            ;
+                            ;
+                            ; INTRODUCTION
+                            ;
+                            ; This program interacts with the 'uart_tx6' and 'uart_rx6' macros providing some simple
+                            ; and examples of UART based communication. More significantly, this program includes
+                            ; an initialisation sequence that computes a value that it outputs to a clock division
+                            ; circuit defined in 'uart6_kc705.vhd' such that the serial communications takes place at
+                            ; a BAUD rate of 115200. This scheme has the potential to make KCPSM6/UART designs easier
+                            ; to port to alternative hardware in which different clock frequencies are present.
+                            ;
+                            ; Once UART communication is established there is a simple example of a timer that the
+                            ; user can reset by pressing the 'R' key. As well as being a further example of PSM code
+                            ; it also presents a potential to make a KCPSM6 design that can be easily ported to
+                            ; hardware in which a different clock frequency is used. KCPSM6 implements software delays
+                            ; that are close to real time as it is practical to achieve. Each KCPSM6 instruction takes
+                            ; 2 clock cycles to execute so executing an appropriate number of instructions will
+                            ; result in a delay of a known duration. In this code, KCPSM6 adjusts the number of
+                            ; instructions that need to be executed for the clock frequency specified.
+                            ;
+                            ; Hint: For a truly accurate timer or real time clock it would be best to implement
+                            ;       a timer in hardware an use that to generate interrupts to KCPSM6. An example
+                            ;       of a scheme like this is shown in the 'uart6_atlys' reference design which is also
+                            ;       included in the KCPSM6 package and described in 'UART6_User_Guide_30Sept14.pdf'.
+                            ;
+                            ; Please see 'UART6_User_Guide_30Sept14.pdf' for more detailed descriptions of the
+                            ; hardware circuit. The 'UART_TX' and 'UART_RX' routines that implement the fundamental
+                            ; communication with the UART macros are contained in 'uart_interface_routines.psm' along
+                            ; with a set of constants that define the allocation of ports and the signals within them.
+                            ; An INCLUDE directive within this file is used to include 'uart_interface_routines.psm'
+                            ; during assembly.
+                            ;
+                            ;
+                            ;------------------------------------------------------------------------------------------
+                            ; Port definitions
+                            ;------------------------------------------------------------------------------------------
+                            ;
+                            ;
+                            ; UART communication (with PicoTerm or similar terminal)
+                            ; ------------------------------------------------------
+                            ;
+                            ; See 'uart_interface_routines.psm' for I/O ports used with UART macros.
+                            ;
+                            ;
+                            ; Frequency Constant Port
+                            ; -----------------------
+                            ;
+                            ; The initialisation code contained in this program will read this port to discover the
+                            ; clock frequency that the user has declared is being applied to KCPSM6 and the UART
+                            ; macros. This code will compute values which will define a UART communication BAUD
+                            ; rate of 115200 and reasonably accurate real time internal software delays.
+                            ;
+                            CONSTANT clock_frequency_in_MHz_port, 02
+                            ;
+                            ;
+                            ; UART BAUD rate setting
+                            ; ----------------------
+                            ;
+                            ; The initialisation code contained in this program computes a value that will be applied
+                            ; to a clock division circuit so that the UART communication occur at the desired BAUD
+                            ; rate. In this example the BAUD rate is set to 115200. See 'UART baud rate' section of
+                            ; 'uart6_kc705.vhd' for details of the clock division circuit.
+                            ;
+                            CONSTANT set_baud_rate_port, 02
+                            ;
+                            ;
+                            ;------------------------------------------------------------------------------------------
+                            ; Special Register usage
+                            ;------------------------------------------------------------------------------------------
+                            ;
+                            ; No registers are given special names in this program.
+                            ;
+                            ;------------------------------------------------------------------------------------------
+                            ; Scratch Pad Memory Locations
+                            ;------------------------------------------------------------------------------------------
+                            ;
+                            ; Software delays are implemented relative to the clock frequency. Once calculated by
+                            ; KCPSM6, the following locations will hold values defining the number of iterations
+                            ; of software delay loops required to yield delays of 1us and 1ms.
+                            ;
+                            CONSTANT 1us_delay_count, 3D              ;8-bit value
+                            ;
+                            CONSTANT 1ms_delay_count0, 3E             ;16-bit value
+                            CONSTANT 1ms_delay_count1, 3F
+                            ;
+                            ;
+                            ;------------------------------------------------------------------------------------------
+                            ; Useful data constants
+                            ;------------------------------------------------------------------------------------------
+                            ;
+                            ;
+                            ;
+                            ;------------------------------------------------------------------------------------------
+                            ; Code to skip over address location 003 to avoid corruption caused by 'Hardware
+                            ; Session' following configuration.
+                            ;------------------------------------------------------------------------------------------
+                            ;
+                            JUMP cold_start                           ;Avoid address 003 on start up
+                            JUMP cold_start
+                            JUMP cold_start
+                            JUMP cold_start                           ;Address 003
+                            ;
+                cold_start: 
+                            ;
+                            ;------------------------------------------------------------------------------------------
+                            ; Initialise UART - Setting BAUD Rate
+                            ;------------------------------------------------------------------------------------------
+                            ;
+                            ; This reference design - In 'uart6_kc705.vhd' an integer constant has been defined and
+                            ;                         set to '200' to reflect the 200MHz clock used on the KC705 board.
+                            ;                         This constant value is then read by KCPSM6 via an input port
+                            ;                         which has been defined as port 02 in the hardware and assigned
+                            ;                         to 'clock_frequency_in_MHz_port' by a CONSTANT directive above.
+                            ;                         The following code and descriptions define and set the BAUD rate
+                            ;                         so that UART communication can begin. Purely for development and
+                            ;                         experimental purposes this initialisation code is more or less
+                            ;                         repeated when it is then possible to display the values being
+                            ;                         calculated. A real design would only need the initialisation
+                            ;                         code contained in this section.
+                            ;
+                            ; An 8-bit value is read from the 'clock_frequency_in_MHz_port' to observe the clock
+                            ; frequency (in MHz) value defined in the hardware design. This is used to compute a
+                            ; a clock division value that is output to the 'set_baud_rate_port' so that UART
+                            ; communication occurs at a BAUD rate of 115200 (i.e. the default rate of PicoTerm).
+                            ; This enables this reference design to be easily ported to hardware in which a
+                            ; different clock frequency is used. This code could also be modified to define
+                            ; different BAUD rates.
+                            ;
+                            ; The hardware circuit effectively divides the clock in order to generate pulses that
+                            ; are applied to the 'en_16_x_baud' input of the UART macros. The pulse rate needs to
+                            ; be 16 times the desired baud rate. In this case the target baud rate is 115200 so the
+                            ; target pulse rate is 1,843,200Hz. The hardware circuit is formed of a simple 8-bit
+                            ; counter which increments every clock cycle. When the counter reaches the value that
+                            ; KCPSM6 has set on 'set_baud_rate_port' the counter is reset and an 'en_16_x_baud' pulse
+                            ; is generated. Therefore, the value of KCPSM6 needs to compute and output to
+                            ; 'set_baud_rate_port' is fundamentally the clock frequency (in Hz) divided by 1,843,200.
+                            ;
+                            INPUT s0, clock_frequency_in_MHz_port     ;read clock frequency value (MHz)
+                            ;
+                            ; Convert the frequency value in MHz to an absolute frequency value in Hz. The highest
+                            ; frequency value that can be read from the input port is '255' so the largest value that
+                            ; needs to be represented is 255,000,000 = 0F32FDC0 hex and requires 32-bits. The simple
+                            ; way to compute the Hz value is to repeatedly add 1,000,000 (0F4240 hex) to an
+                            ; accumulated total. This avoids the need for a full multiplication routine and the time
+                            ; taken to execute will not be significant because of the limited range of MHz frequency
+                            ; values that can be read from the input port. Besides, it is useful to have some delay
+                            ; at the start of a program as this gives time for signals to stabilise before the real
+                            ; actions begins.
+                            ;
+                            LOAD sF, 00                               ;clear 32-bit accumulator [sF,sE,sD,sC]
+                            LOAD sE, 00
+                            LOAD sD, 00
+                            LOAD sC, 00
+                            ;
+          clock_to_Hz_loop: ADD sC, 40                                ;add 1,000,000 to accumulator
+                            ADDCY sD, 42
+                            ADDCY sE, 0F
+                            ADDCY sF, 00
+                            SUB s0, 1'd                               ;decrement MHz to go
+                            JUMP NZ, clock_to_Hz_loop
+                            ;
+                            ; The easiest way to implement the division of the clock frequency by the 'en_16_x_baud'
+                            ; target pulse rate is simply to count the number of times that 1,843,200Hz (1C2000 hex)
+                            ; can be subtracted from the frequency value [sF,sE,sD,sC] until it becomes negative. This
+                            ; avoids the need for a full division routine and the time taken to execute will not be
+                            ; significant as there can only be a maximum of 139 subtractions.
+                            ;
+                            ; To improve the accuracy of 'en_16_x_baud' pulse generation, the result of the division
+                            ; is reduced by one. This accounts for the fact that clock division counter also spends
+                            ; one clock cycle in state zero. Rather than actually decrement the result of division,
+                            ; the result 's0' is initialised with -1 (FF hex).
+                            ;
+                            LOAD s0, FF                               ;initialise for division result
+                            ;
+        set_baud_rate_loop: ADD s0, 1'd                               ;increment division result
+                            SUB sC, 00                                ;subtract 1,843,200
+                            SUBCY sD, 20
+                            SUBCY sE, 1C
+                            SUBCY sF, 00
+                            JUMP NC, set_baud_rate_loop
+                            ;
+                            ; Output the computed value to the clock division circuit.
+                            ;
+                            OUTPUT s0, set_baud_rate_port
+                            ;
+                            ;
+                            ;------------------------------------------------------------------------------------------
+                            ; Initialise UART - Clear internal FIFO buffers
+                            ;------------------------------------------------------------------------------------------
+                            ;
+                            ; The 'reset_UART_macros' routine is contained in 'uart_interface_routines.psm'.
+                            ;
+                            CALL reset_UART_macros
+                            ;
+                            ;
+                            ;------------------------------------------------------------------------------------------
+                            ; Welcome message and version information
+                            ;------------------------------------------------------------------------------------------
+                            ;
+                            ; The BAUD rate of the UART macros has been defined so communication with a PC terminal
+                            ; (such as PicoTerm supplied in the KCPSM6 package) should now be possible. The welcome
+                            ; messages are relatively long text strings so any issues with BAUD rate will be revealed
+                            ; (e.g. display of corrupted characters occurs when BAUD rate is too far away from the
+                            ; target rate).
+                            ;
+                            CALL clear_screen
+                            CALL welcome_message
+                            ;
+                            ;
+                            ;------------------------------------------------------------------------------------------
+                            ; Development and Experimental Code - Setting BAUD Rate for UART communication
+                            ;------------------------------------------------------------------------------------------
+                            ;
+                            ; As previously described in the 'Initialise UART - Setting BAUD Rate' section the code
+                            ; contained in this section is purely for development and experimental purposes. It
+                            ; repeats the same calculations to derive the value required to define the BAUD rate
+                            ; of UART communication. However, now that UART communication has been established this
+                            ; code can display the values so that you can see them.
+                            ;
+                            ; The 'Initialise UART - Setting BAUD Rate' section contains full descriptions of the
+                            ; calculations so this section only contains brief comments.
+                            ;
+                            ; Suggested experiments
+                            ;
+                            ;    Override the value read from the 'clock_frequency_in_MHz_port' and check that
+                            ;    correct 'set_baud_rate_port' values to define 115220 BAUD at different clock
+                            ;    frequencies are calculated.
+                            ;
+                            ;    Override the value read from the 'clock_frequency_in_MHz_port' to evaluate how
+                            ;    much it can be shifted before UART communication becomes unreliable. For example,
+                            ;    is communication still reliable if the clock is stated to be 190MHz (5% lower than
+                            ;    actually being used in the KC705 reference design).
+                            ;
+                            ;    Modify the code so that it would set the BAUD rate to 57600. Once you have visually
+                            ;    confirmed the computed value is correct you could actually output it to the port and
+                            ;    check that communication takes place at that BAUD rate (e.g. invoke PicoTerm using
+                            ;    'PicoTerm -b57600' as described in 'PicoTerm_README.txt').
+                            ;
+                            ; Display an introductory message and then display the clock frequency value read from
+                            ; 'clock_frequency_in_MHz_port' input port.
+                            ;
+                            LOAD sB, BAUD_intro_msg'upper             ;Display message
+                            LOAD sA, BAUD_intro_msg'lower
+                            CALL send_message
+                            ;
+                            INPUT s6, clock_frequency_in_MHz_port     ;Read input port
+                            ;
+                            ; During experiments you can override the value read from the port.
+                            ;
+                            ; LOAD s6, 190'd                          ;e.g. override with 190MHz
+                            ;
+                            LOAD s4, s6                               ;Display MHz frequency value
+                            CALL send_hex_byte
+                            CALL send_Hex_CR
+                            ;
+                            ; Convert MHz value to a 32-bit Hz value in [sF,sE,sD,sC].
+                            ;
+                            LOAD sF, 00                               ;clear accumulator
+                            LOAD sE, 00
+                            LOAD sD, 00
+                            LOAD sC, 00
+                            ;
+           clock_freq_loop: ADD sC, 40                                ;add 1,000,000 (0F4240 hex)
+                            ADDCY sD, 42
+                            ADDCY sE, 0F
+                            ADDCY sF, 00
+                            ;
+                            SUB s6, 1'd                               ;repeat for number of MHz
+                            JUMP NZ, clock_freq_loop
+                            ;
+                            ;Display computed Hz value
+                            ;
+                            LOAD sB, BAUD_clock_frequency2_msg'upper  ;Display message
+                            LOAD sA, BAUD_clock_frequency2_msg'lower
+                            CALL send_message
+                            ;
+                            LOAD s4, sF                               ;Display Hz frequency value
+                            CALL send_hex_byte
+                            LOAD s4, sE
+                            CALL send_hex_byte
+                            LOAD s4, sD
+                            CALL send_hex_byte
+                            LOAD s4, sC
+                            CALL send_hex_byte
+                            CALL send_Hex_CR
+                            ;
+                            ; Divide Hz value by 16 times the target BAUD rate. 16 x 115200 = 1,843,200 (1C2000 hex).
+                            ;
+                            LOAD s6, FF                               ;initialise for division result
+                            ;
+            baud_rate_loop: ADD s6, 1'd                               ;increment result
+                            SUB sC, 00                                ;subtract 1,843,200 (1C2000 hex)
+                            SUBCY sD, 20
+                            SUBCY sE, 1C
+                            SUBCY sF, 00
+                            JUMP NC, baud_rate_loop                   ;test for underflow
+                            ;
+                            LOAD sB, BAUD_set_msg'upper               ;display baud division value
+                            LOAD sA, BAUD_set_msg'lower
+                            CALL send_message
+                            ;
+                            LOAD s4, s6                               ;Display MHz frequency value
+                            CALL send_hex_byte
+                            CALL send_Hex_CR
+                            ;
+                            ; If you really want to set the BAUD rate then include the following OUTPUT instruction
+                            ; to update the value of 'set_baud_rate_port' used by the clock division circuit.
+                            ; Obviously if you change the BAUD rate here then communication with the terminal
+                            ; could cease until you adjust the terminal's BAUD rate to match.
+                            ;
+                            ; OUTPUT s6, set_baud_rate_port
+                            ;
+                            JUMP define_soft_delays
+                            ;
+                            ;
+                            ; Text messages used in this section
+                            ;
+                            STRING BAUD_introduction$, " Calculation of values used to define the BAUD rate"
+                            STRING BAUD_clock_frequency1$, " Declared clock frequency (MHz) = "
+                            STRING BAUD_clock_frequency2$, " Converted clock frequency (Hz) = "
+                            STRING BAUD_set$, "          'set_baud_rate' value = "
+                            ;
+            BAUD_intro_msg: LOAD&RETURN s5, CR
+                            LOAD&RETURN s5, CR
+                            LOAD&RETURN s5, BAUD_introduction$
+                            LOAD&RETURN s5, CR
+                            LOAD&RETURN s5, CR
+                            LOAD&RETURN s5, BAUD_clock_frequency1$
+                            LOAD&RETURN s5, NUL
+                            ;
+ BAUD_clock_frequency2_msg: LOAD&RETURN s5, BAUD_clock_frequency2$
+                            LOAD&RETURN s5, NUL
+                            ;
+              BAUD_set_msg: LOAD&RETURN s5, BAUD_set$
+                            LOAD&RETURN s5, NUL
+                            ;
+                            ;
+                            ;------------------------------------------------------------------------------------------
+                            ; Defining Software Delays for Clock Frequency
+                            ;------------------------------------------------------------------------------------------
+                            ;
+                            ; This section defines delays of 1us and 1ms implemented purely in software. All KCPSM6
+                            ; instructions take 2 clock cycles to execute so the accuracy of each delay depends on
+                            ; the total number of instructions executed and the clock frequency supplied to KCSPM6.
+                            ; The code in this section attempts to implement reasonably accurate delays by calculating
+                            ; the number or instructions that need to be executed for a declared clock frequency. This
+                            ; scheme has the potential to make a KCPSM6 design more portable but it also precludes the
+                            ; opportunity to make 'fine adjustments' to code that would accurately tune a software
+                            ; delay given a known operating frequency from the outset.
+                            ;
+                            ; Note that if an interrupt or 'sleep' mode should occur whilst executing a software delay
+                            ; routine then the delay will be increased.
+                            ;
+                            ; Hint: For a truly accurate and predictable timer or real time clock it would be best
+                            ;       to implement a timer in hardware an use that to generate interrupts to KCPSM6.
+                            ;
+                            ;
+                            ; This reference design - In 'uart6_kc705.vhd' an integer constant has been defined and
+                            ;                         set to '200' to reflect the 200MHz clock used on the KC705 board.
+                            ;                         This constant value is then read by KCPSM6 via an input port
+                            ;                         which has been defined as port 02 in the hardware and assigned
+                            ;                         to 'clock_frequency_in_MHz_port' by a CONSTANT directive above.
+                            ;                         The following code and descriptions define delays close to 1us
+                            ;                         and 1ms to work with the 'clock_frequency_in_MHz_port' value.
+                            ;
+                            ; The 8-bit 'clock_frequency_in_MHz_port' value can declare a maximum clock frequency of
+                            ; 255MHz. At that maximum frequency a delay of 1us equates to 250 clock cycles which is
+                            ; the time taken for KCPSM6 to execute 125 instructions. Likewise, 1ms equates to 250,000
+                            ; clock cycles which is the time taken for KCPSM6 to execute 125,000 instructions. These
+                            ; maximums help to define the code suitable for the implementation of software delays.
+                            ; Although it is tempting to say that 1ms is simply 1000 times 1us it is more accurate
+                            ; to define each delay independently (i.e. avoids the accumulation of a small error in
+                            ; the 1us becoming significant in a 1ms delay).
+                            ;
+                            ; 1us Delay
+                            ; ---------
+                            ;
+                            ; Once calculated by KCPSM6 (see code further below), the value held in '1us_delay_count'
+                            ; defines the number of iterations of a small software delay loop required to yield a
+                            ; delay of 1us at the declared clock frequency.
+                            ;
+                            ; Register used s0
+                            ;
+                 delay_1us: FETCH s0, 1us_delay_count
+                            ;
+                            ; Each iteration of the 'delay_1us_loop' consists of 2 instructions and will take 4 clock
+                            ; cycles to execute. Including the FETCH, RETURN and CALL instructions (CALL is used to
+                            ; invoke this routine in the first place) the total delay will be...
+                            ;
+                            ;          ((4 x 1us_delay_count) + 6) clock cycles
+                            ;
+                            ; At the maximum clock frequency of 255MHz the ideal value of '1us_delay_count' would be
+                            ; 61 (3D hex). The minimum value of '1us_delay_count' is 1 and corresponds with a minimum
+                            ; frequency of 10MHz. Although the delay implemented will always be in the region of 1us
+                            ; the accuracy will depend on the clock frequency declared. The delay is defined in
+                            ; increments of 2 instructions (4 clock cycles) so this will be a somewhat course at lower
+                            ; adjustment frequencies.
+                            ;
+            delay_1us_loop: SUB s0, 1'd
+                            JUMP NZ, delay_1us_loop
+                            RETURN 
+                            ;
+                            ;
+                            ; 1ms Delay
+                            ; ---------
+                            ;
+                            ; Once calculated by KCPSM6 (see code further below), the 16-bit value held in
+                            ; '1ms_delay_count0' and '1ms_delay_count1' define the number of iterations of a small
+                            ; software delay loop required to yield a delay of 1ms at the declared clock frequency.
+                            ;
+                            ; Registers used s0, s1
+                            ;
+                 delay_1ms: FETCH s0, 1ms_delay_count0
+                            FETCH s1, 1ms_delay_count1
+                            ;
+                            ; Each iteration of the 'delay_1ms_loop' consists of 3 instructions and will take 6 clock
+                            ; cycles to execute. Including the FETCH (x2), RETURN and CALL instruction (CALL used to
+                            ; invoke this routine in the first place) the total delay will be...
+                            ;
+                            ;          ((6 x 1ms_delay_count1]) + 8) clock cycles
+                            ;
+                            ; At the maximum clock frequency of 255MHz the ideal value of '1ms_delay_count' would be
+                            ; 42499 (A603 hex). The lowest clock frequency that can be declared is 1MHz and the ideal
+                            ; value of '1ms_delay_count' would be 165 (00A5 hex). This indicates that the accuracy of
+                            ; the delay (i.e. increments of 3 instructions or 6 clock cycles) should not be an issue.
+                            ;
+            delay_1ms_loop: SUB s0, 01
+                            SUBCY s1, 00
+                            JUMP NZ, delay_1ms_loop
+                            RETURN 
+                            ;
+                            ;
+                            ; 1s Delay
+                            ; ---------
+                            ;
+                            ; Other delays can then be formed by multiple calls to the above routines. For example,
+                            ; a 1 second delay is implemented by calling 'delay_1ms' 1,000 times.
+                            ;
+                  delay_1s: LOAD s2, E8                               ;[s3,s2] = 1000 [03E8 hex]
+                            LOAD s3, 03
+                            ;
+                  1s_delay: CALL delay_1ms
+                            SUB s2, 01
+                            SUBCY s3, 00
+                            JUMP NZ, 1s_delay
+                            RETURN 
+                            ;
+                            ;
+                            ; Calculation of delay iteration count values
+                            ; -------------------------------------------
+                            ;
+                            ; Display an introductory message and then display the clock frequency value read from
+                            ; 'clock_frequency_in_MHz_port' input port.
+                            ;
+        define_soft_delays: LOAD sB, DELAY_intro_msg'upper            ;Display message
+                            LOAD sA, DELAY_intro_msg'lower
+                            CALL send_message
+                            ;
+                            INPUT s6, clock_frequency_in_MHz_port     ;Read input port
+                            ;
+                            ; During experiments you can override the value read from the port.
+                            ;
+                            ; LOAD s6, 255'd                          ;e.g. override with 255MHz
+                            ;
+                            LOAD s4, s6                               ;Display MHz frequency value
+                            CALL send_hex_byte
+                            CALL send_Hex_CR
+                            ;
+                            ;
+                            ; Calculation of the 8-bit '1us_delay_count' value
+                            ; ------------------------------------------------
+                            ;
+                            ; The number of clock cycles for a 1us delay is the same as the frequency in MHz.
+                            ;
+                            LOAD sB, DELAY_1us_clock_cycles_msg'upper ;Display message
+                            LOAD sA, DELAY_1us_clock_cycles_msg'lower
+                            CALL send_message
+                            LOAD s4, s6                               ;Display cycle count required
+                            CALL send_hex_byte
+                            CALL send_Hex_CR
+                            ;
+                            ; Calculate the required number of iterations of the 'delay_1us_loop'
+                            ;
+                            LOAD sB, DELAY_set_1us_msg'upper          ;Display message
+                            LOAD sA, DELAY_set_1us_msg'lower
+                            CALL send_message
+                            ;
+                            ; For 1us delay calculate the 8-bit value '1us_delay_count'
+                            ;
+                            ;     clock cycles for 1us delay = ((4 x 1us_delay_count) + 6)
+                            ;
+                            ;      Hence....
+                            ;                1us_delay_count = (clock cycles - 6) / 4
+                            ;
+                            ; If the frequency in MHz is 10 or less then '1us_delay_count' will be set to the minimum
+                            ; value of 1 and the delay implemented will just have to be longer than 1us!
+                            ;
+                            COMPARE s6, 11'd                          ;test for minimum frequency
+                            JUMP NC, calc_1us_delay_count
+                            LOAD s4, 1'd
+                            JUMP store_1us_delay_count
+                            ;
+      calc_1us_delay_count: LOAD s7, s6                               ;make a local copy of MHz frequency value
+                            SUB s7, 6'd                               ;(clock cycles - 6)
+                            LOAD s4, 0'd                              ;clear division result
+           1us_divide_loop: ADD s4, 1'd                               ;increment division result
+                            SUB s7, 4'd                               ;how many times does 4 into (clock cycles - 6)?
+                            JUMP NC, 1us_divide_loop
+                            ;
+     store_1us_delay_count: STORE s4, 1us_delay_count                 ;store result in memory
+                            CALL send_hex_byte                        ;display value
+                            CALL send_Hex_CR
+                            ;
+                            ;
+                            ; Calculation of the 16-bit '1ms_delay_count' value
+                            ; -------------------------------------------------
+                            ;
+                            ; The number of clock cycles for a 1ms delay is the clock frequency in MHz multiplied
+                            ; by 1,000. Therefore the highest number of clock cycles for a 1ms delay would be 255,000.
+                            ;
+                            ; 255,000 = 03E418 hex so registers set [sF,sE,sD] are used to compute this value
+                            ;
+                            LOAD sF, 00                               ;clear [sF,sE,sD]
+                            LOAD sE, 00
+                            LOAD sD, 00
+      1ms_cycle_count_loop: ADD sD, E8                                ;add 1,000 = 0003e8 hex
+                            ADDCY sE, 03
+                            ADDCY sF, 00
+                            SUB s6, 1'd                               ;decrement MHz value
+                            JUMP NZ, 1ms_cycle_count_loop
+                            ;
+                            ;
+                            ;
+                            LOAD sB, DELAY_1ms_clock_cycles_msg'upper ;Display message
+                            LOAD sA, DELAY_1ms_clock_cycles_msg'lower
+                            CALL send_message
+                            LOAD s4, sF                               ;Display cycle count required
+                            CALL send_hex_byte
+                            LOAD s4, sE
+                            CALL send_hex_byte
+                            LOAD s4, sD
+                            CALL send_hex_byte
+                            CALL send_Hex_CR
+                            ;
+                            ; Calculate the required number of iterations of the 'delay_1us_loop'
+                            ;
+                            LOAD sB, DELAY_set_1ms_msg'upper          ;Display message
+                            LOAD sA, DELAY_set_1ms_msg'lower
+                            CALL send_message
+                            ;
+                            ; For 1ms delay calculate the 16-bit value '1ms_delay_count'
+                            ;
+                            ;     clock cycles for 1ms delay = ((6 x 1ms_delay_count]) + 8)
+                            ;
+                            ;      Hence....
+                            ;                1ms_delay_count = (clock cycles - 8) / 6
+                            ;
+                            ; At the maximum clock frequency of 255MHz the value of '1ms_delay_count' will be
+                            ; 42499 (A603 hex) which is calculated in [s7,s6] and then stored in scratch pad memory.
+                            ;
+                            SUB sD, 08                                ;(clock cycles - 8)
+                            SUBCY sE, 00
+                            SUBCY sF, 00
+                            LOAD s7, 00                               ;clear division result [s7,s6]
+                            LOAD s6, 00
+           1ms_divide_loop: ADD s6, 01                                ;increment division result
+                            ADDCY s7, 00
+                            SUB sD, 06                                ;how many times does 6 into (clock cycles - 8)?
+                            SUBCY sE, 00
+                            SUBCY sF, 00
+                            JUMP NC, 1ms_divide_loop
+                            ;
+                            STORE s6, 1ms_delay_count0                ;store result in memory
+                            STORE s7, 1ms_delay_count1
+                            LOAD s4, s7                               ;display value
+                            CALL send_hex_byte
+                            LOAD s4, s6
+                            CALL send_hex_byte
+                            CALL send_Hex_CR
+                            ;
+                            JUMP main
+                            ;
+                            ;
+                            ; Text messages used in this section
+                            ;
+                            STRING DELAY_introduction$, " Calculation of software delay values"
+                            STRING DELAY_clock_frequency$, " Declared clock frequency (MHz) = "
+                            STRING DELAY_1us_clock_cycles$, "     Clock cycles for 1us delay = "
+                            STRING DELAY_set_1us$, "        '1us_delay_count' value = "
+                            STRING DELAY_1ms_clock_cycles$, "     Clock cycles for 1ms delay = "
+                            STRING DELAY_set_1ms$, "        '1ms_delay_count' value = "
+                            ;
+           DELAY_intro_msg: LOAD&RETURN s5, CR
+                            LOAD&RETURN s5, CR
+                            LOAD&RETURN s5, DELAY_introduction$
+                            LOAD&RETURN s5, CR
+                            LOAD&RETURN s5, CR
+                            LOAD&RETURN s5, DELAY_clock_frequency$
+                            LOAD&RETURN s5, NUL
+                            ;
+DELAY_1us_clock_cycles_msg: LOAD&RETURN s5, DELAY_1us_clock_cycles$
+                            LOAD&RETURN s5, NUL
+                            ;
+         DELAY_set_1us_msg: LOAD&RETURN s5, DELAY_set_1us$
+                            LOAD&RETURN s5, NUL
+                            ;
+DELAY_1ms_clock_cycles_msg: LOAD&RETURN s5, DELAY_1ms_clock_cycles$
+                            LOAD&RETURN s5, NUL
+                            ;
+         DELAY_set_1ms_msg: LOAD&RETURN s5, DELAY_set_1ms$
+                            LOAD&RETURN s5, NUL
+                            ;
+                            ;
+                            ;------------------------------------------------------------------------------------------
+                            ; Main Program
+                            ;------------------------------------------------------------------------------------------
+                            ;
+                            ; Timer
+                            ; -----
+                            ;
+                            ; The following code implements a simple timer to demonstrate that the software delays
+                            ; have been tuned correctly to the clock frequency applied to KCPSM6.
+                            ;
+                            ; The user is prompted to press 'S' (or 's') to start the timer which should then be
+                            ; observed to increment once per second up to 60 minutes. This allows the accuracy of the
+                            ; timer to be verified using a normal real time clock. The user can press 'R' (or 'r')
+                            ; to stop and reset the timer (note that the UART will capture the key entry but KCPSM6
+                            ; will only check once per second).
+                            ;
+                            ; When the time is running, the time value will be incremented once per second and sent
+                            ; to the UART for display on the terminal. This processing will introduce some additional
+                            ; processing delay impacting the overall accuracy. However, this increase could be
+                            ; determined and compensated for if greater accuracy was desirable. Note that the time
+                            ; values sent to the UART (e.g. 01:25) consist of 5 characters together with a space and
+                            ; a carriage return so they are immediately accommodated by the FIFO buffer within the
+                            ; UART so KCPSM6 does not have to wait whilst they are actually being transmitted.
+                            ;
+                      main: LOAD sB, TIMER_start_msg'upper            ;prompt user to start timer
+                            LOAD sA, TIMER_start_msg'lower
+                            CALL send_message
+                            ;
+                            ; Wait for user to enter 'S' or 's'
+                            ;
+            wait_for_start: CALL UART_RX
+                            JUMP Z, wait_for_start                    ;check for UART timeout
+                            COMPARE s5, "S"                           ;test character received
+                            JUMP Z, start_timer
+                            COMPARE s5, "s"
+                            JUMP NZ, wait_for_start
+                            ;
+                            ; Tell the user how to stop the timer.
+                            ;
+               start_timer: LOAD sB, TIMER_stop_msg'upper
+                            LOAD sA, TIMER_stop_msg'lower
+                            CALL send_message
+                            ;
+                            ; The timer counts and displays minutes and seconds (mm:ss).
+                            ; Registers sF, sE, sD and sC are used to hold each decimal digit value.
+                            ;
+                            LOAD sF, 0'd                              ;reset timer
+                            LOAD sE, 0'd
+                            LOAD sD, 0'd
+                            LOAD sC, 0'd
+                            ;
+                            ; The timer value is displayed and then a delay of 1 second is implemented using the
+                            ; software delay loop previously tuned to the clock frequency used in the design. A check
+                            ; is then made for a keyboard entry and the timer will then stop or increment and continue
+                            ; as required.
+                            ;
+             timer_running: CALL send_space                           ;display timer mm:ss
+                            LOAD s5, sF
+                            CALL send_decimal_digit
+                            LOAD s5, sE
+                            CALL send_decimal_digit
+                            LOAD s5, ":"
+                            CALL UART_TX
+                            LOAD s5, sD
+                            CALL send_decimal_digit
+                            LOAD s5, sC
+                            CALL send_decimal_digit
+                            CALL send_CR
+                            ;
+                            CALL delay_1s                             ;wait 1 second
+                            ;
+                            ; Read and check any characters received by the UART during the last second. Note that
+                            ; the UART_RX routine is not used because it waits for up to 2,000 for a character to be
+                            ; received and we want to avoid additional delay to maintain reasonable accuracy of the
+                            ; timer.
+                            ;
+             test_for_stop: INPUT s0, UART_status_port                ;read UART status
+                            TEST s0, UART_Rx_data_present             ;C=1 when data present
+                            JUMP NC, increment_timer
+                            INPUT s5, UART_RX6_input_port             ;read character from buffer
+                            COMPARE s5, "R"                           ;test character received
+                            JUMP Z, main                              ;stop timer if 'R' or 'r'
+                            COMPARE s5, "r"
+                            JUMP Z, main
+                            JUMP test_for_stop                        ;check for any more characters
+                            ;
+                            ; Increment timer
+                            ;
+           increment_timer: ADD sC, 1'd
+                            COMPARE sC, 10'd
+                            JUMP NZ, timer_running
+                            LOAD sC, 0'd
+                            ADD sD, 1'd
+                            COMPARE sD, 6'd
+                            JUMP NZ, timer_running
+                            LOAD sD, 0'd
+                            ADD sE, 1'd
+                            COMPARE sE, 10'd
+                            JUMP NZ, timer_running
+                            LOAD sE, 0'd
+                            ADD sF, 1'd
+                            COMPARE sF, 6'd
+                            JUMP NZ, timer_running
+                            LOAD sF, 0'd
+                            JUMP timer_running
+                            ;
+                            ;
+                            ; Text messages used in this section
+                            ;
+                            STRING TIMER_introduction$, " Simple timer using the 1ms software delay loop"
+                            STRING TIMER_start$, " Press 'S' key to start timer"
+                            STRING TIMER_stop$, " (Press 'R' key to stop/reset timer)"
+                            ;
+           TIMER_start_msg: LOAD&RETURN s5, CR
+                            LOAD&RETURN s5, CR
+                            LOAD&RETURN s5, TIMER_introduction$
+                            LOAD&RETURN s5, CR
+                            LOAD&RETURN s5, CR
+                            LOAD&RETURN s5, TIMER_start$
+                            LOAD&RETURN s5, CR
+                            LOAD&RETURN s5, CR
+                            LOAD&RETURN s5, NUL
+                            ;
+            TIMER_stop_msg: LOAD&RETURN s5, CR
+                            LOAD&RETURN s5, CR
+                            LOAD&RETURN s5, TIMER_stop$
+                            LOAD&RETURN s5, CR
+                            LOAD&RETURN s5, CR
+                            LOAD&RETURN s5, NUL
+                            ;
+                            ;
+                            ;------------------------------------------------------------------------------------------
+                            ; Clear terminal and home cursor sequences for PicoTerm (or similar)
+                            ;------------------------------------------------------------------------------------------
+                            ;
+                            ; ANSI Escape Sequences/codes (VT100)
+                            ;
+                            ; Note: PicoTerm accepts these sequences without any issues but some other terminals
+                            ;       may require some additional time to implement the task before further characters
+                            ;       can be accepted. So if you experience missing or corrupted communication then
+                            ;       try inserting the 1ms delays where indicated. However, in this reference design
+                            ;       you will also need to reorder the initialisation code such that the 1ms delay
+                            ;       is correctly defined before these subroutines are called.
+                            ;
+              clear_screen: LOAD s5, ESC                              ;clear terminal sequence
+                            CALL UART_TX
+                            LOAD s5, "["
+                            CALL UART_TX
+                            LOAD s5, "2"
+                            CALL UART_TX
+                            LOAD s5, "J"
+                            CALL UART_TX
+                            ;CALL delay_1ms                           ;Delay for reliable operation?
+                            RETURN 
+                            ;
+               cursor_home: LOAD s5, ESC                              ;Send cursor to upper-left of display
+                            CALL UART_TX
+                            LOAD s5, "["
+                            CALL UART_TX
+                            LOAD s5, "H"
+                            CALL UART_TX
+                            ;CALL delay_1ms                           ;Delay for reliable operation?
+                            RETURN 
+                            ;
+                            ;
+                            ;------------------------------------------------------------------------------------------
+                            ; Welcome Message.
+                            ;------------------------------------------------------------------------------------------
+                            ;
+                            ; The welcome message includes a display of the version information available from the
+                            ; assembler and the 'hwbuild' from the instantiation of KCPSM6 in the hardware design.
+                            ;
+           welcome_message: LOAD sB, welcome_msg'upper
+                            LOAD sA, welcome_msg'lower
+                            CALL send_message
+                            HWBUILD s5                                ;hardware version defines ASCII letter
+                            CALL UART_TX
+                            CALL send_CR
+                            RETURN 
+                            ;
+                            ; Welcome message
+                            ;
+                            STRING banner1$, "  _  ______ ____  ____  __  __  __"
+                            STRING banner2$, " | |/ / ___|  _ \/ ___||  \/  |/ /_"
+                            STRING banner3$, " | ' / |   | |_) \___ \| |\/| | '_ \"
+                            STRING banner4$, " | . \ |___|  __/ ___) | |  | | (_) )"
+                            STRING banner5$, " |_|\_\____|_|   |____/|_|  |_|\___/"
+                            ;
+                            ; Welcome message
+                            ;
+                            STRING welcome1$, "Automatic BAUD Rate Control and Software Delay Loop Tuning"
+                            STRING welcome2$, "Assembly Date: "
+                            STRING welcome3$, "   Time: "
+                            STRING welcome4$, "Assembler Version: "
+                            STRING welcome5$, "Hardware Design: "
+                            ;
+                            ;
+               welcome_msg: LOAD&RETURN s5, banner1$
+                            LOAD&RETURN s5, CR
+                            LOAD&RETURN s5, banner2$
+                            LOAD&RETURN s5, CR
+                            LOAD&RETURN s5, banner3$
+                            LOAD&RETURN s5, CR
+                            LOAD&RETURN s5, banner4$
+                            LOAD&RETURN s5, CR
+                            LOAD&RETURN s5, banner5$
+                            LOAD&RETURN s5, CR
+                            LOAD&RETURN s5, CR
+                            LOAD&RETURN s5, welcome1$
+                            LOAD&RETURN s5, CR
+                            LOAD&RETURN s5, CR
+                            LOAD&RETURN s5, welcome2$
+                            LOAD&RETURN s5, datestamp$
+                            LOAD&RETURN s5, welcome3$
+                            LOAD&RETURN s5, timestamp$
+                            LOAD&RETURN s5, CR
+                            LOAD&RETURN s5, welcome4$
+                            LOAD&RETURN s5, KCPSM6_version$
+                            LOAD&RETURN s5, CR
+                            LOAD&RETURN s5, welcome5$
+                            LOAD&RETURN s5, NUL
+                            ;
+                            ;
+                            ;------------------------------------------------------------------------------------------
+                            ; Send a message to the UART
+                            ;------------------------------------------------------------------------------------------
+                            ;
+                            ; A message is transmitted to the USB-UART.
+                            ; The start address of the message must be provided in [sB,sA].
+                            ; Terminate the transmission with a NULL character (00 hex).
+                            ;
+              send_message: CALL@ (sB, sA)
+                            COMPARE s5, 00                            ;terminate on NUL character
+                            RETURN Z
+                            CALL UART_TX
+                            ADD sA, 1'd
+                            ADDCY sB, 0'd
+                            JUMP send_message
+                            ;
+                            ;
+                            ;------------------------------------------------------------------------------------------
+                            ; Send Carriage Return to UART
+                            ;------------------------------------------------------------------------------------------
+                            ;
+                            ; Registers used s0, s1, s2, and s5.
+                            ;
+                   send_CR: LOAD s5, CR
+                            JUMP UART_TX                              ;includes RETURN
+                            ;
+                            ;
+                            ;------------------------------------------------------------------------------------------
+                            ; Send ' Hex' followed by Carriage Return to UART
+                            ;------------------------------------------------------------------------------------------
+                            ;
+                            ; Registers used s0, s1, s2, and s5.
+                            ;
+               send_Hex_CR: CALL send_space
+                            LOAD s5, "H"
+                            CALL UART_TX
+                            LOAD s5, "e"
+                            CALL UART_TX
+                            LOAD s5, "x"
+                            CALL UART_TX
+                            LOAD s5, CR
+                            JUMP UART_TX                              ;includes RETURN
+                            ;
+                            ;
+                            ;------------------------------------------------------------------------------------------
+                            ; Send a Space to UART
+                            ;------------------------------------------------------------------------------------------
+                            ;
+                            ; Registers used s0, s1, s2, and s5.
+                            ;
+                send_space: LOAD s5, " "
+                            JUMP UART_TX                              ;includes RETURN
+                            ;
+                            ;
+                            ;------------------------------------------------------------------------------------------
+                            ; Send decimal digit to UART
+                            ;------------------------------------------------------------------------------------------
+                            ;
+                            ; The value provided in register s5 should be in the range 00 to 09 hex and this will
+                            ; be converted to the corresponding decimal character and sent to the UART
+                            ;
+                            ; Registers used s0, s1, s2, and s5.
+                            ;
+        send_decimal_digit: ADD s5, "0"                               ;convert to ASCII character
+                            JUMP UART_TX                              ;includes RETURN
+                            ;
+                            ;
+                            ;------------------------------------------------------------------------------------------
+                            ; Send Hex Value of Byte to UART
+                            ;------------------------------------------------------------------------------------------
+                            ;
+                            ; Value provided in register 's4' is sent as ASCII HEX to the UART transmitter.
+                            ;
+                            ; Registers used s0, s4 (preserved) and s5.
+                            ;
+             send_hex_byte: LOAD s5, s4                               ;isolate upper nibble
+                            SR0 s5
+                            SR0 s5
+                            SR0 s5
+                            SR0 s5
+                            CALL hex_to_ASCII                         ; convert to ASCII
+                            CALL UART_TX                              ;send upper digit to UART
+                            LOAD s5, s4                               ;isolate lower nibble
+                            AND s5, 0F
+                            CALL hex_to_ASCII                         ; convert to ASCII
+                            CALL UART_TX                              ;send lower digit to UART
+                            RETURN 
+                            ;
+                            ; Convert value 00 to 0F provided in 's5' into ASCII character in 's5'
+                            ;
+                            ; Register used s5
+                            ;
+              hex_to_ASCII: SUB s5, 0A                                ;test if value is in range 0 to 9
+                            JUMP C, number_char
+                            ADD s5, 07                                ;ASCII char A to F in range 41 to 46
+               number_char: ADD s5, 3A                                ;ASCII char 0 to 9 in range 30 to 40
+                            RETURN 
+                            ;
+                            ;
+                            ;------------------------------------------------------------------------------------------
+                            ; Include PSM files
+                            ;------------------------------------------------------------------------------------------
+                            ;
+                            ; The INCLUDE directive enables commonly routines to be kept in their own PSM files and
+                            ; easily reused in different programs (i.e. avoiding 'cut and paste'). It also allows
+                            ; each PSM to remain a more manageable size.
+                            ;
+                            ;
+                            ; Include routines that implement interface with UART macros.
+                            ; -----------------------------------------------------------
+                            ;
+                            INCLUDE "uart_interface_routines.psm"
+                            ;
+                            ;
+                            ;------------------------------------------------------------------------------------------
+                            ; End of Program
+                            ;------------------------------------------------------------------------------------------
+                            ;

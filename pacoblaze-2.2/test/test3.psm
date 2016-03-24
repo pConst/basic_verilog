@@ -1,0 +1,45 @@
+; test3.psm
+
+register r0, 0 ; register 0
+register r1, 1 ; register 1
+register ic, 15 ; isr register
+
+constant binary, %1001 ; binary value
+constant octal, @77 ; octal value
+constant decimal, &123 ; decimal value
+constant hexadecimal, $ca ; hexadecimal value
+constant character, 'a' ; character value
+
+
+start:
+	load r0, binary
+	load r1, $fe
+	load ic, 0
+
+	load s2, 0
+	add s2, r0
+	addcy s2, r1
+	interrupt enable
+
+loop: ; first name
+_loop:
+	load s3, s2 ; load it
+	subcy s3, 1
+	jump c, loop_1
+	srx s2
+
+loop_1: slx s3
+	call func
+	jump loop
+
+func: ; function
+	add s0, hexadecimal
+	subcy s0, decimal
+	return
+
+isr:
+	add ic, 1
+	returni enable
+
+int:	address $3ff
+	jump isr

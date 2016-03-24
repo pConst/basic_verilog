@@ -1,0 +1,527 @@
+                   ;
+                   ;------------------------------------------------------------------------------------------
+                   ; Copyright © 2011-2014, Xilinx, Inc.
+                   ; This file contains confidential and proprietary information of Xilinx, Inc. and is
+                   ; protected under U.S. and international copyright and other intellectual property laws.
+                   ;------------------------------------------------------------------------------------------
+                   ;
+                   ; Disclaimer:
+                   ; This disclaimer is not a license and does not grant any rights to the materials
+                   ; distributed herewith. Except as otherwise provided in a valid license issued to
+                   ; you by Xilinx, and to the maximum extent permitted by applicable law: (1) THESE
+                   ; MATERIALS ARE MADE AVAILABLE "AS IS" AND WITH ALL FAULTS, AND XILINX HEREBY
+                   ; DISCLAIMS ALL WARRANTIES AND CONDITIONS, EXPRESS, IMPLIED, OR STATUTORY,
+                   ; INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, NON-INFRINGEMENT,
+                   ; OR FITNESS FOR ANY PARTICULAR PURPOSE; and (2) Xilinx shall not be liable
+                   ; (whether in contract or tort, including negligence, or under any other theory
+                   ; of liability) for any loss or damage of any kind or nature related to, arising
+                   ; under or in connection with these materials, including for any direct, or any
+                   ; indirect, special, incidental, or consequential loss or damage (including loss
+                   ; of data, profits, goodwill, or any type of loss or damage suffered as a result
+                   ; of any action brought by a third party) even if such damage or loss was
+                   ; reasonably foreseeable or Xilinx had been advised of the possibility of the same.
+                   ;
+                   ; CRITICAL APPLICATIONS
+                   ; Xilinx products are not designed or intended to be fail-safe, or for use in any
+                   ; application requiring fail-safe performance, such as life-support or safety
+                   ; devices or systems, Class III medical devices, nuclear facilities, applications
+                   ; related to the deployment of airbags, or any other applications that could lead
+                   ; to death, personal injury, or severe property or environmental damage
+                   ; (individually and collectively, "Critical Applications"). Customer assumes the
+                   ; sole risk and liability of any use of Xilinx products in Critical Applications,
+                   ; subject only to applicable laws and regulations governing limitations on product
+                   ; liability.
+                   ;
+                   ; THIS COPYRIGHT NOTICE AND DISCLAIMER MUST BE RETAINED AS PART OF THIS FILE AT ALL TIMES.
+                   ;
+                   ;------------------------------------------------------------------------------------------
+                   ;
+                   ;
+                   ;             _  ______ ____  ____  __  __  __
+                   ;            | |/ / ___|  _ \/ ___||  \/  |/ /_
+                   ;            | ' / |   | |_) \___ \| |\/| | '_ \
+                   ;            | . \ |___|  __/ ___) | |  | | (_) )
+                   ;            |_|\_\____|_|   |____/|_|  |_|\___/
+                   ;
+                   ;
+                   ;                PicoBlaze Reference Design.
+                   ;
+                   ;
+                   ; Routines to communicate with some devices connected to the General Purpose I2C
+                   ; Communication bus on the Xilinx KC705 Evaluation Kit.
+                   ;
+                   ; The primary objective of the routines provided in this file are to communicate with
+                   ; the Si570 Programmable Oscillator, the Si5324 precision clock multiplier and the M24C08
+                   ; EEPROM. However, all these devices are accessed via an 8-channel I2C Switch (PCA9548)
+                   ; so routines are also provided to facilitate control of this switch.
+                   ;
+                   ; Support for other devices connected to the I2C switch may be provided in future versions
+                   ; of this file. However, it may also be worth considering the removal of routines
+                   ; associated with devices that are not required by your application especially if PicoBlaze
+                   ; code size needs to be reduced.
+                   ;
+                   ;
+                   ; Ken Chapman - Xilinx Ltd
+                   ;
+                   ;   24th April 2012 - Initial version (routines for PCA9548 and Si570)
+                   ; 11th October 2012 - Additional routines to support M24C08
+                   ; 25th October 2012 - Additional routines to support Si5324 and enhanced descriptions
+                   ;  19th August 2014 - Change to a comments only
+                   ;
+                   ;
+                   ;
+                   ;     NOTE - This is not a standalone PSM file. Include this file in a program that
+                   ;            then calls these routines and works with the values in scratch pad memory.
+                   ;
+                   ;                INCLUDE "kc705_i2c_devices.psm"
+                   ;
+                   ;
+                   ;     IMPORTANT - The routines contained in 'i2c_routines.psm' are used by the  routines
+                   ;                 in this file. Therefore, this file must also be available and included
+                   ;                 in your program using INCLUDE "i2c_routines.psm".
+                   ;
+                   ;
+                   ; INTRODUCTION
+                   ; ------------
+                   ;
+                   ; On the Xilinx KC705 Evaluation Kit, the general purpose I2C interface on the FPGA
+                   ; only connects directly to an 8-channel I2C Switch which is a PCA9548 device from
+                   ; Philips Semiconductors. Communication with the switch enables one (or more) of the
+                   ; channels to be selected. Once a channel has been selected, the switch effectively
+                   ; becomes transparent so that communication with the device attached to that channel
+                   ; can proceed as if it were directly connected to the FPGA. On the KC705 board the
+                   ; channels are assigned as follows....
+                   ;
+                   ;                CH0 - Si570 Programmable Oscillator
+                   ;                CH1 - FMC-HPC slot
+                   ;                CH2 - FMC-HPC slot
+                   ;                CH3 - M24C08 EEPROM
+                   ;                CH4 - SFP connector
+                   ;                CH5 - ADV7511 HDMI transmitter
+                   ;                CH6 - DDR3 connector
+                   ;                CH7 - SI5326 precision clock multiplier
+                   ;
+                   ; The PCA9548 channel selection byte uses 'one-hot' encoding. For example, to select
+                   ; 'CH3' then bit-3 will need to be set by writing the control value 00001000'b to
+                   ; the PCA9548 device using the 'PCA9548_mux_write' routine.
+                   ;
+                   ; This file contains routines to set and verify the selection of the I2C switch channels
+                   ; and to communicate with the Si570 Programmable Oscillator once it has been selected.
+                   ;
+                   ;
+                   ; Hence typical code using these routines will be as follows...
+                   ;
+                   ;    LOAD sD, 00000001'b            ;Select Si570 connected to CH0
+                   ;    CALL PCA9548_mux_write
+                   ;
+                   ;    LOAD sB, 7'd                   ;Read 'Register7' from Si570
+                   ;    CALL Si570_read
+                   ;    STORE sD, Si570_register7
+                   ;
+                   ;    LOAD sB, 7'd                   ;Write new value to 'Register7' in Si570
+                   ;    FETCH sD, Si570_register7
+                   ;    CALL Si570_write
+                   ;
+                   ; Your code may also include checks that ensure that communication is working properly
+                   ; by testing the state of the flags after calling the routines provided. However, such
+                   ; error detection code is often restricted to code used during initial development unless
+                   ; it is used in a high reliability product with error mitigation schemes (i.e. detecting
+                   ; an error is one thing; deciding what to do if an error does occur is another!).
+                   ;
+                   ;
+                   ;------------------------------------------------------------------------------------------
+                   ; Hardware Constants
+                   ;------------------------------------------------------------------------------------------
+                   ;
+                   ; The CONSTANT directives below define the 7-Bit I2C addresses of the PCA9548, M24C08,
+                   ; Si570 and Si5324 devices fitted on the Xilinx KC705 Evaluation Kit. These may need to be
+                   ; adjusted before using these routines with different hardware.
+                   ;
+                   CONSTANT I2C_mux_address, 74     ; PCA9548 (8-channel) I2C Bus Switch
+                   CONSTANT M24C08_base_address, 54 ; M24C08 (8k-bit) EEPROM  (base address '10101aa')
+                   CONSTANT Si570_address, 5D       ; Si570 Programmable Oscillator
+                   CONSTANT Si5324_address, 68      ; Si5324 (or Si5326) Precision Clock Multiplier
+                   ;
+                   ;
+                   ;------------------------------------------------------------------------------------------
+                   ; Registers
+                   ;------------------------------------------------------------------------------------------
+                   ;
+                   ; The following registers within the currently active bank are used by these routines....
+                   ;
+                   ;    s0, s1, s5, sD and sF
+                   ;
+                   ;
+                   ;------------------------------------------------------------------------------------------
+                   ; Routine to write to the 8-channel I2C Switch (PCA9548).
+                   ;------------------------------------------------------------------------------------------
+                   ;
+                   ; The PCA9548 contains only one 8-bit control register resulting in a very simple I2C write
+                   ; transaction. Each bit of the control register corresponds with the selection of a channel
+                   ; (when a bit is '1' the corresponding channel is selected).
+                   ;
+                   ; When calling this routine, the channel selection should be provided in register 'sD'.
+                   ; This value will be written to the control register in the PCA9548.
+                   ;
+                   ; If for some reason communication with the PCA9548 is unsuccessful then the CARRY flag
+                   ; will be set and this could be tested by your code and used to take appropriate actions.
+                   ;
+PCA9548_mux_write: CALL I2C_initialise              ;ensure bus state and initialise 'sF'
+                   CALL I2C_start                   ;bus start (S)
+                   ;
+                   LOAD s5, I2C_mux_address         ;device address (7-bits)
+                   SL0 s5                           ;Write operation (LSB = 0)
+                   CALL I2C_Tx_byte                 ;Transmit address with write
+                   CALL I2C_Rx_ACK                  ;Receive ACK
+                   RETURN C                         ;Return on failure (Carry flag set)
+                   ;
+                   LOAD s5, sD                      ;control value to be written
+                   CALL I2C_Tx_byte                 ;Transmit control byte
+                   CALL I2C_Rx_ACK                  ;Receive ACK
+                   RETURN C                         ;Return on failure (Carry flag set)
+                   ;
+                   CALL I2C_stop                    ;bus stop (P)
+                   RETURN                           ;with Carry flag reset
+                   ;
+                   ;
+                   ;------------------------------------------------------------------------------------------
+                   ; Routine to read from the 8-channel I2C Switch (PCA9548).
+                   ;------------------------------------------------------------------------------------------
+                   ;
+                   ; The PCA9548 contains only one 8-bit control register resulting in a very simple I2C read
+                   ; transaction. Each bit of the control register corresponds with the selection of a channel
+                   ; (when a bit is '1' the corresponding channel is selected).
+                   ;
+                   ; When calling this routine, the control register in the PCA9548 is read and its value
+                   ; returned in register 'sD'.
+                   ;
+                   ; If for some reason communication with the PCA9548 is unsuccessful then the CARRY flag
+                   ; will be set and this could be tested by your code and used to take appropriate actions.
+                   ;
+ PCA9548_mux_read: CALL I2C_initialise              ;ensure bus state and initialise 'sF'
+                   CALL I2C_start                   ;bus start (S)
+                   ;
+                   LOAD s5, I2C_mux_address         ;device address (7-bits)
+                   SL1 s5                           ;Read operation (LSB = 1)
+                   CALL I2C_Tx_byte                 ;Transmit address with write
+                   CALL I2C_Rx_ACK                  ;Receive ACK
+                   RETURN C                         ;Return on failure (Carry flag set)
+                   ;
+                   CALL I2C_Rx_byte                 ;Read control value
+                   LOAD sD, s5
+                   ;
+                   CALL I2C_Tx_NACK                 ;Transmit NACK to end read operation
+                   CALL I2C_stop                    ;transmit stop (P)
+                   RETURN                           ;with Carry flag reset
+                   ;
+                   ;
+                   ;------------------------------------------------------------------------------------------
+                   ; Routine to write to the M24C08 EEPROM
+                   ;------------------------------------------------------------------------------------------
+                   ;
+                   ; The M24C08 is an 8k-bit EEPROM memory. Internally to the M24C08 the memory is organised
+                   ; as 1024 bytes of randomly accessible non-volatile memory. This results in an 10-bit
+                   ; memory address. Any byte can be randomly accessed for read or write.
+                   ;
+                   ; This routine will write the byte supplied in register 'sD' to the address specified by
+                   ; the [s8,s7] registers. Following the write transaction a delay of 20ms is invoked to
+                   ; cover the worst case write time (tW) indicated in the M24C08 data sheet.
+                   ;
+                   ; NOTE - [s8,s7] must be an address in the range 000 to 3FF hex.
+                   ;
+                   ; If for some reason communication with the M24C08 is unsuccessful then the CARRY flag will
+                   ; be set and this could be tested by your code and used to take appropriate actions.
+                   ;
+                   ; HINT - On the Xilinx KC705 Evaluation Board you must select 'CH3' on the I2C switch
+                   ;        before this routine is used.
+                   ;
+                   ; WARNING - Be careful not waste the 1 million write cycles! EEPROM is an excellent
+                   ;           way to preserve a limited amount of valuable information but be careful how
+                   ;           often it is updated. For example, if you were to perform one write to the
+                   ;           EEPROM every second then the 1 million writes would be achieved under 12 days.
+                   ;
+                   ;           HINT - The number of write cycles used can be reduced by performing 'page
+                   ;           writes' of up to 16 adjacent locations in a single IIC transaction so not
+                   ;           such 'random access' and requires further consideration to be used correctly!
+                   ;
+                   ; The 10-bit address required to specify the memory location within the EEPROM is divided
+                   ; into two sections.
+                   ;
+                   ;    address[9:8] - These two bits replace the least significant 2 bits of the 7-bit
+                   ;                   M24C08 device identifier before KCPSM6 accesses the device.
+                   ;
+                   ;    address[7:0] - These 8-bits are are transmitted after the modified device 
+                   ;                   identifier in the traditional way.
+                   ;
+                   ; For example
+                   ;
+                   ;    EEPROM address = 2C7 = 1011000111 which is split into 10 and 11000111.
+                   ;    The 7-bit device base address of the M24C08 is 74 = 1010100
+                   ;    The lower 2 bits of the device base address are replaced with the
+                   ;      upper 2 bits of the EEPROM address
+                   ;               10101xx
+                   ;                    10     Modified 7-bit device address = 1010110
+                   ;    Then as normal for I2C transactions a read/write bit is appended to the
+                   ;      Modified 7-bit device address before transmission to the device.
+                   ;
+                   ;
+     M24C08_write: CALL I2C_initialise              ;ensure bus state and initialise 'sF'
+                   CALL I2C_start                   ;bus start (S)
+                   ;
+                   LOAD s5, M24C08_base_address     ;device base address (7-bits)
+                   OR s5, s8                        ;merge with EEPROM address[9:8]
+                   SL0 s5                           ;Write operation (LSB = 0)
+                   CALL I2C_Tx_byte                 ;Transmit address with write
+                   CALL I2C_Rx_ACK                  ;Receive ACK
+                   RETURN C                         ;Return on failure (Carry flag set)
+                   ;
+                   LOAD s5, s7                      ;EEPROM address[7:0]
+                   CALL I2C_Tx_byte
+                   CALL I2C_Rx_ACK                  ;Receive ACK
+                   RETURN C                         ;Return on failure (Carry flag set)
+                   ;
+                   LOAD s5, sD                      ;Data to be written to M24C08 memory
+                   CALL I2C_Tx_byte
+                   CALL I2C_Rx_ACK                  ;Receive ACK
+                   RETURN C                         ;Return on failure (Carry flag set)
+                   ;
+                   CALL I2C_stop                    ;transmit stop (P)
+                   CALL delay_20ms                  ;time for M24C08 write to complete
+                   AND s0, FF                       ;clear carry flag (write successful)
+                   RETURN                           ;with Carry flag reset
+                   ;
+                   ;
+                   ;------------------------------------------------------------------------------------------
+                   ; Routine to read from the M24C08 EEPROM
+                   ;------------------------------------------------------------------------------------------
+                   ;
+                   ; The M24C08 is an 8k-bit EEPROM memory. Internally to the M24C08 the memory is organised
+                   ; as 1024 bytes of randomly accessible non-volatile memory. This results in an 10-bit
+                   ; memory address. Any byte can be randomly accessed for read or write.
+                   ;
+                   ; This routine will read the byte from the M24C08 address specified by the [s8,s7]
+                   ; registers and return it in register 'sD'.
+                   ;
+                   ; NOTE - [s8,s7] must be an address in the range 000 to 3FF hex.
+                   ;
+                   ; If for some reason communication with the M24C08 is unsuccessful then the CARRY flag will
+                   ; be set and this could be tested by your code and used to take appropriate actions.
+                   ;
+                   ; HINT - On the Xilinx KC705 Evaluation Board you must select 'CH3' on the I2C switch
+                   ;        before this routine is used.
+                   ;
+                   ; HINT - It is possible to continuously read data stored sequentially in the M24C08 EEPROM
+                   ;        which improves performance (reduced overhead associated with the start of
+                   ;        separate read transactions). Obviously a scheme needs to be put in place to
+                   ;        handle the flow of data is this facility is used.
+                   ;
+      M24C08_read: CALL I2C_initialise              ;ensure bus state and initialise 'sF'
+                   CALL I2C_start                   ;bus start (S)
+                   ;
+                   LOAD s5, M24C08_base_address     ;device base address (7-bits)
+                   OR s5, s8                        ;merge with EEPROM address[9:8]
+                   SL0 s5                           ;Write operation (LSB = 0)
+                   CALL I2C_Tx_byte                 ;Transmit address with write
+                   CALL I2C_Rx_ACK                  ;Receive ACK
+                   RETURN C                         ;Return on failure (Carry flag set)
+                   ;
+                   LOAD s5, s7                      ;EEPROM address[7:0]
+                   CALL I2C_Tx_byte
+                   CALL I2C_Rx_ACK                  ;Receive ACK
+                   RETURN C                         ;Return on failure (Carry flag set)
+                   ;
+                   CALL I2C_start                   ;bus restart (Sr)
+                   ;
+                   LOAD s5, M24C08_base_address     ;device base address (7-bits)
+                   OR s5, s8                        ;merge with EEPROM address[9:8]
+                   SL1 s5                           ;Read operation (LSB = 1)
+                   CALL I2C_Tx_byte                 ;Transmit address with write
+                   CALL I2C_Rx_ACK                  ;Receive ACK
+                   RETURN C                         ;Return on failure (Carry flag set)
+                   ;
+                   CALL I2C_Rx_byte                 ;Read data from M24C08
+                   LOAD sD, s5
+                   ;
+                   CALL I2C_Tx_NACK                 ;Transmit NACK to end read operation
+                   CALL I2C_stop                    ;transmit stop (P)
+                   RETURN                           ;with Carry flag reset
+                   ;
+                   ;
+                   ;------------------------------------------------------------------------------------------
+                   ; Routine to write to the Si570 Programmable Oscillator
+                   ;------------------------------------------------------------------------------------------
+                   ;
+                   ; The Si570 contains 14 'Serial Port Registers' each of which is 8-bits and described in
+                   ; the data sheet from Silicon Labs. The I2C transaction to write a value to a register
+                   ; first identifies the target register and then provides the value to be written to it.
+                   ;
+                   ; When calling this routine, register 'sB' must specify the Si570 register to be written
+                   ; and register 'sD' must provide the value to be written.
+                   ;
+                   ; If for some reason communication with the Si570 is unsuccessful then the CARRY flag will
+                   ; be set and this could be tested by your code and used to take appropriate actions.
+                   ;
+                   ; HINT - On the Xilinx KC705 Evaluation Board you must select 'CH0' on the I2C switch
+                   ;        before this routine is used.
+                   ;
+      Si570_write: CALL I2C_initialise              ;ensure bus state and initialise 'sF'
+                   CALL I2C_start                   ;bus start (S)
+                   ;
+                   LOAD s5, Si570_address           ;device address (7-bits)
+                   SL0 s5                           ;Write operation (LSB = 0)
+                   CALL I2C_Tx_byte                 ;Transmit address with write
+                   CALL I2C_Rx_ACK                  ;Receive ACK
+                   RETURN C                         ;Return on failure (Carry flag set)
+                   ;
+                   LOAD s5, sB                      ;Select Si570 register
+                   CALL I2C_Tx_byte
+                   CALL I2C_Rx_ACK                  ;Receive ACK
+                   RETURN C                         ;Return on failure (Carry flag set)
+                   ;
+                   LOAD s5, sD                      ;Write to Si570 register
+                   CALL I2C_Tx_byte
+                   CALL I2C_Rx_ACK                  ;Receive ACK
+                   RETURN C                         ;Return on failure (Carry flag set)
+                   ;
+                   CALL I2C_stop                    ;transmit stop (P)
+                   RETURN                           ;with Carry flag reset
+                   ;
+                   ;
+                   ;------------------------------------------------------------------------------------------
+                   ; Routine to read from the Si570 Programmable Oscillator
+                   ;------------------------------------------------------------------------------------------
+                   ;
+                   ; The Si570 contains 14 'Serial Port Registers' each of which is 8-bits and described in
+                   ; the data sheet from Silicon Labs. The I2C transaction to read a value from a register
+                   ; first identifies the target register and then reads the value from it.
+                   ;
+                   ; When calling this routine, register 'sB' must specify the Si570 register to be read
+                   ; and the value read from that Si570 register will be returned in register 'sD'.
+                   ;
+                   ; If for some reason communication with the Si570 is unsuccessful then the CARRY flag will
+                   ; be set and this could be tested by your code and used to take appropriate actions.
+                   ;
+                   ; HINT - On the Xilinx KC705 Evaluation Board you must select 'CH0' on the I2C switch
+                   ;        before this routine is used.
+                   ;
+       Si570_read: CALL I2C_initialise              ;ensure bus state and initialise 'sF'
+                   CALL I2C_start                   ;bus start (S)
+                   ;
+                   LOAD s5, Si570_address           ;device address (7-bits)
+                   SL0 s5                           ;Write operation (LSB = 0)
+                   CALL I2C_Tx_byte                 ;Transmit address with write
+                   CALL I2C_Rx_ACK                  ;Receive ACK
+                   RETURN C                         ;Return on failure (Carry flag set)
+                   ;
+                   LOAD s5, sB                      ;Select Si570 register
+                   CALL I2C_Tx_byte
+                   CALL I2C_Rx_ACK                  ;Receive ACK
+                   RETURN C                         ;Return on failure (Carry flag set)
+                   ;
+                   CALL I2C_start                   ;bus restart (Sr)
+                   ;
+                   LOAD s5, Si570_address           ;device address (7-bits)
+                   SL1 s5                           ;Read operation (LSB = 1)
+                   CALL I2C_Tx_byte                 ;Transmit address with write
+                   CALL I2C_Rx_ACK                  ;Receive ACK
+                   RETURN C                         ;Return on failure (Carry flag set)
+                   ;
+                   CALL I2C_Rx_byte                 ;Read Si570 register value
+                   LOAD sD, s5
+                   ;
+                   CALL I2C_Tx_NACK                 ;Transmit NACK to end read operation
+                   CALL I2C_stop                    ;transmit stop (P)
+                   RETURN                           ;with Carry flag reset
+                   ;
+                   ;
+                   ;------------------------------------------------------------------------------------------
+                   ; Routine to write to the Si5324 (or Si5326) Precision Clock Multiplier
+                   ;------------------------------------------------------------------------------------------
+                   ;
+                   ; The Si5324 contains 49 'Serial Port Registers' each of which is 8-bits and described in
+                   ; the data sheet from Silicon Labs. The I2C transaction to write a value to a register
+                   ; first identifies the target register and then provides the value to be written to it.
+                   ;
+                   ; When calling this routine, register 'sB' must specify the Si5324 register to be written
+                   ; and register 'sD' must provide the value to be written.
+                   ;
+                   ; If for some reason communication with the Si5324 is unsuccessful then the CARRY flag will
+                   ; be set and this could be tested by your code and used to take appropriate actions.
+                   ;
+                   ; HINT - On the Xilinx KC705 Evaluation Board you must select 'CH7' on the I2C switch
+                   ;        before this routine is used.
+                   ;
+     Si5324_write: CALL I2C_initialise              ;ensure bus state and initialise 'sF'
+                   CALL I2C_start                   ;bus start (S)
+                   ;
+                   LOAD s5, Si5324_address          ;device address (7-bits)
+                   SL0 s5                           ;Write operation (LSB = 0)
+                   CALL I2C_Tx_byte                 ;Transmit address with write
+                   CALL I2C_Rx_ACK                  ;Receive ACK
+                   RETURN C                         ;Return on failure (Carry flag set)
+                   ;
+                   LOAD s5, sB                      ;Select Si5324 register
+                   CALL I2C_Tx_byte
+                   CALL I2C_Rx_ACK                  ;Receive ACK
+                   RETURN C                         ;Return on failure (Carry flag set)
+                   ;
+                   LOAD s5, sD                      ;Write to Si5324 register
+                   CALL I2C_Tx_byte
+                   CALL I2C_Rx_ACK                  ;Receive ACK
+                   RETURN C                         ;Return on failure (Carry flag set)
+                   ;
+                   CALL I2C_stop                    ;transmit stop (P)
+                   RETURN                           ;with Carry flag reset
+                   ;
+                   ;
+                   ;------------------------------------------------------------------------------------------
+                   ; Routine to read from the Si5324 (or Si5326) Precision Clock Multiplier
+                   ;------------------------------------------------------------------------------------------
+                   ;
+                   ; The Si5324 contains 49 'Serial Port Registers' each of which is 8-bits and described in
+                   ; the data sheet from Silicon Labs. The I2C transaction to read a value from a register
+                   ; first identifies the target register and then reads the value from it.
+                   ;
+                   ; When calling this routine, register 'sB' must specify the Si5324 register to be read
+                   ; and the value read from that Si570 register will be returned in register 'sD'.
+                   ;
+                   ; If for some reason communication with the Si5324 is unsuccessful then the CARRY flag will
+                   ; be set and this could be tested by your code and used to take appropriate actions.
+                   ;
+                   ; HINT - On the Xilinx KC705 Evaluation Board you must select 'CH7' on the I2C switch
+                   ;        before this routine is used.
+                   ;
+      Si5324_read: CALL I2C_initialise              ;ensure bus state and initialise 'sF'
+                   CALL I2C_start                   ;bus start (S)
+                   ;
+                   LOAD s5, Si5324_address          ;device address (7-bits)
+                   SL0 s5                           ;Write operation (LSB = 0)
+                   CALL I2C_Tx_byte                 ;Transmit address with write
+                   CALL I2C_Rx_ACK                  ;Receive ACK
+                   RETURN C                         ;Return on failure (Carry flag set)
+                   ;
+                   LOAD s5, sB                      ;Select Si5324 register
+                   CALL I2C_Tx_byte
+                   CALL I2C_Rx_ACK                  ;Receive ACK
+                   RETURN C                         ;Return on failure (Carry flag set)
+                   ;
+                   CALL I2C_start                   ;bus restart (Sr)
+                   ;
+                   LOAD s5, Si5324_address          ;device address (7-bits)
+                   SL1 s5                           ;Read operation (LSB = 1)
+                   CALL I2C_Tx_byte                 ;Transmit address with write
+                   CALL I2C_Rx_ACK                  ;Receive ACK
+                   RETURN C                         ;Return on failure (Carry flag set)
+                   ;
+                   CALL I2C_Rx_byte                 ;Read Si5324 register value
+                   LOAD sD, s5
+                   ;
+                   CALL I2C_Tx_NACK                 ;Transmit NACK to end read operation
+                   CALL I2C_stop                    ;transmit stop (P)
+                   RETURN                           ;with Carry flag reset
+                   ;
+                   ;
+                   ;------------------------------------------------------------------------------------------
+                   ; End of 'kc705_i2c_devices.psm'
+                   ;------------------------------------------------------------------------------------------
+                   ;

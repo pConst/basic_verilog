@@ -1,0 +1,1087 @@
+                         ;
+                         ;------------------------------------------------------------------------------------------
+                         ; Copyright © 2012-2013, Xilinx, Inc.
+                         ; This file contains confidential and proprietary information of Xilinx, Inc. and is
+                         ; protected under U.S. and international copyright and other intellectual property laws.
+                         ;------------------------------------------------------------------------------------------
+                         ;
+                         ; Disclaimer:
+                         ; This disclaimer is not a license and does not grant any rights to the materials
+                         ; distributed herewith. Except as otherwise provided in a valid license issued to
+                         ; you by Xilinx, and to the maximum extent permitted by applicable law: (1) THESE
+                         ; MATERIALS ARE MADE AVAILABLE "AS IS" AND WITH ALL FAULTS, AND XILINX HEREBY
+                         ; DISCLAIMS ALL WARRANTIES AND CONDITIONS, EXPRESS, IMPLIED, OR STATUTORY,
+                         ; INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, NON-INFRINGEMENT,
+                         ; OR FITNESS FOR ANY PARTICULAR PURPOSE; and (2) Xilinx shall not be liable
+                         ; (whether in contract or tort, including negligence, or under any other theory
+                         ; of liability) for any loss or damage of any kind or nature related to, arising
+                         ; under or in connection with these materials, including for any direct, or any
+                         ; indirect, special, incidental, or consequential loss or damage (including loss
+                         ; of data, profits, goodwill, or any type of loss or damage suffered as a result
+                         ; of any action brought by a third party) even if such damage or loss was
+                         ; reasonably foreseeable or Xilinx had been advised of the possibility of the same.
+                         ;
+                         ; CRITICAL APPLICATIONS
+                         ; Xilinx products are not designed or intended to be fail-safe, or for use in any
+                         ; application requiring fail-safe performance, such as life-support or safety
+                         ; devices or systems, Class III medical devices, nuclear facilities, applications
+                         ; related to the deployment of airbags, or any other applications that could lead
+                         ; to death, personal injury, or severe property or environmental damage
+                         ; (individually and collectively, "Critical Applications"). Customer assumes the
+                         ; sole risk and liability of any use of Xilinx products in Critical Applications,
+                         ; subject only to applicable laws and regulations governing limitations on product
+                         ; liability.
+                         ;
+                         ; THIS COPYRIGHT NOTICE AND DISCLAIMER MUST BE RETAINED AS PART OF THIS FILE AT ALL TIMES.
+                         ;
+                         ;------------------------------------------------------------------------------------------
+                         ;
+                         ;             _  ______ ____  ____  __  __  __
+                         ;            | |/ / ___|  _ \/ ___||  \/  |/ /_
+                         ;            | ' / |   | |_) \___ \| |\/| | '_ \
+                         ;            | . \ |___|  __/ ___) | |  | | (_) )
+                         ;            |_|\_\____|_|   |____/|_|  |_|\___/
+                         ;
+                         ;
+                         ;                PicoBlaze Reference Design.
+                         ;
+                         ;
+                         ; Ken Chapman - Xilinx Ltd
+                         ;
+                         ;  6th September 2012 - Initial version.
+                         ; 24th September 2012 - Corrections to comments only.
+                         ;    1st October 2012 - Read Virtual Switches.
+                         ;    3rd January 2013 - Constants to define PicoTerm colours.
+                         ;                       Set Virtual Switches.
+                         ;                       Hide DCS Transactions window.
+                         ;       29th May 2013 - Improve coding style to use 'DCS' and 'ST' constants.
+                         ;      28th June 2013 - Enhance DCS interception handler in UART_RX routine.
+                         ;                       Routines for LOG file and Random number DCS sequences.
+                         ;                       Improvements and additions to comments.
+                         ;
+                         ; This file contains routines intended to be used with PicoTerm. Please refer to
+                         ; 'PicoTerm_README.txt' for descriptions of PicoTerm features and the control
+                         ; sequences used with it. The descriptions below describe the routines and how
+                         ; they are implemented.
+                         ;
+                         ;     NOTE - This is not a standalone PSM file. This file should be included in
+                         ;            an application PSM file from which these routines are then called.
+                         ;
+                         ;                INCLUDE "PicoTerm_routines.psm"
+                         ;
+                         ;     NOTE - If the unique features provided by PicoTerm are to be exploited then
+                         ;            this file should be used in place of the 'uart_interface_routines.psm'
+                         ;            file. As described below, the 'UART_RX' routine provided in this file
+                         ;            contains additions to service the special PicoTerm features when required.
+                         ;
+                         ;
+                         ; Obviously communication with PicoTerm requires the UART macros to be connected to
+                         ; KCPSM6 and for PicoTerm to be connected and active. For example the Xilinx KC705
+                         ; Evaluation Kit has a USB/UART interface so the USB cable should be connected to
+                         ; your PC and PicoTerm connected to the corresponding virtual COM port.
+                         ;
+                         ;     IMPORTANT - This file contains routines to transmit and receive characters to and
+                         ;                 from the UART macros so the CONSTANT directives defined below must be
+                         ;                 set to correspond with your I/O port and scratch pad memory assignments.
+                         ;
+                         ;
+                         ;
+                         ; Default PicoTerm Window
+                         ; -----------------------
+                         ;
+                         ; The following three routines provide a simple interface with the UART macros and are
+                         ; the only ones that need to be used to receive characters from PicoTerm (e.g. keyboard
+                         ; entries) and transmit characters to be displayed in the default PicoTerm window. As
+                         ; such they are also suitable for use with any terminal used to display characters and
+                         ; facilitate keyboard entries.
+                         ;
+                         ;   reset_UART_macros - Resets the FIFO buffers in both the transmitter and receiver.
+                         ;
+                         ;   UART_TX - This routine will transmit the character provided in register 's5'.
+                         ;             If the transmitter FIFO buffer is already full then the routine will wait
+                         ;             for space to become available. Note that this could take up to 86.8us when
+                         ;             the baud rate is 115,200.
+                         ;
+                         ;   UART_RX - This routine will attempt to receive a character and return it in register
+                         ;             's5'. If the receiver FIFO buffer is empty then the routine will wait for
+                         ;             ~2,000 clock cycles and then timeout (the Zero flag will be set on return
+                         ;             if timeout occurs). The timeout can be used to prevent KCPSM6 from
+                         ;             'hanging' should UART communication fail or no characters be received.
+                         ;             This routine also intercepts 'Device Control Strings' should they be
+                         ;             received from PicoTerm (see description below).
+                         ;
+                         ;
+                         ; Escape Sequences
+                         ; ----------------
+                         ;
+                         ; PicoTerm supports 'Escape Sequences' that can clear the default window, position the
+                         ; cursor in the 'HOME' position and change the text colour. The following routines
+                         ; simply transmit these sequences using the UART_TX routine described above.
+                         ;
+                         ;   PicoTerm_CLS - Clear default window and position cursor to upper-left corner.
+                         ;
+                         ;   PicoTerm_HOME - Position cursor to upper-left corner of default window.
+                         ;
+                         ;   PicoTerm_text_Black    - Set subsequent character display to Black (PicoTerm default).
+                         ;   PicoTerm_text_Red      - Set subsequent character display to Red.
+                         ;   PicoTerm_text_Green    - Set subsequent character display to Green.
+                         ;   PicoTerm_text_Yellow   - Set subsequent character display to Yellow.
+                         ;   PicoTerm_text_Blue     - Set subsequent character display to Blue.
+                         ;   PicoTerm_text_Magenta  - Set subsequent character display to Magenta.
+                         ;   PicoTerm_text_Cyan     - Set subsequent character display to Cyan.
+                         ;   PicoTerm_text_Grey     - Set subsequent character display to Grey.
+                         ;   PicoTerm_text_White    - Set subsequent character display to White.
+                         ;
+                         ;
+                         ; Device Control Strings (DCS) Introduction
+                         ; -----------------------------------------
+                         ;
+                         ; The more unique features of PicoTerm are accessed using Device Control Strings (DCS).
+                         ; Like an 'Escape Sequence', the DCS require the appropriate sequences to be transmitted
+                         ; using the UART_TX routine described above. However, there is also the need to provide
+                         ; and/or receive information relating to each DCS sequence so these routines are more
+                         ; involved.
+                         ;
+                         ; There are two fundamental types of DCS used with PicoTerm. One type only delivers
+                         ; information to PicoTerm and therefore only requires the transmission of a DCS sequence.
+                         ; The 'Virtual 7-Segment Display' is an example of this type. The other type of DCS is
+                         ; used to request information from PicoTerm and will result in need to intercept and
+                         ; receive the response DCS from PicoTerm. The 'Time Value Sequence' being an example of
+                         ; this type.
+                         ;
+                         ; Receiving DCS responses from PicoTerm
+                         ;
+                         ; This has the potential to be complicated so is worthy of further description before
+                         ; the related routines are described or used. It is easier to appreciate the potential
+                         ; issues with an example in which PicoBlaze wants to know the time and uses the DCS
+                         ; 'Time Value Sequence' to obtain this information from PicoTerm.
+                         ;
+                         ; Initially, there is the straightforward task of transmitting the 'DCS, 't', 'ST'
+                         ; characters as implemented by the 'PicoTerm_Time_Value' routine which calls the 'UART_TX'
+                         ; routine three times. Once PicoTerm receives this sequence we can expect it to respond
+                         ; with the corresponding DCS sequence consisting of six characters ('DCS', 't', hours,
+                         ; minutes, seconds, 'ST') which the UART receiver macro will receive. It would then appear
+                         ; to be a simple case of reading the characters from the UART receiver FIFO using the
+                         ; 'UART_RX' routine six times. Indeed, this could be all that is required providing that
+                         ; the conditions are suitable. However, we can't guarantee that they will be!
+                         ;
+                         ; The first potential issue is that it will take time for the request sequence to be
+                         ; transmitted and for PicoTerm to respond. Whilst PicoBlaze could wait for this to
+                         ; happen, the potential issue is that other characters (e.g. keyboard entries) could be
+                         ; received from PicoTerm during that time. These characters together with any others
+                         ; already held in the receiver FIFO buffer would need to be read and processed before
+                         ; the DCS response can be read.
+                         ;
+                         ; The solution presented in this file is in the form of an enhanced 'UART_RX' routine
+                         ; which will automatically intercept any PicoTerm DCS sequence and store its contents
+                         ; in scratch pad memory locations. The only requirement is that the main program must
+                         ; make calls to the 'UART_RX' routine such any DSC sequences received from PicoTerm can
+                         ; be intercepted and any other characters can be processed as required by the main
+                         ; program. As such, calls to 'UART_RX' serve two purposes. Firstly, they allow characters
+                         ; prior to the DCS response to be read and processed in whatever way is required (i.e. no
+                         ; characters ar lost or have to be discarded). Secondly, every call made to 'UART_RX'
+                         ; provides the opportunity to intercept a DCS response from PicoTerm even if there are
+                         ; no other characters to return and it appears to have timed out.
+                         ;
+                         ; When 'UART_RX' receives a 'DCS' character it will continue to read all characters
+                         ; and store them in scratch pad memory until the 'ST' character is received. If
+                         ; necessary it will wait for all the characters to be sent from PicoTerm and received.
+                         ; Having received a DCS response the 'UART_RX' routine will end and return to the
+                         ; main program in the same way that it would if it had only attempted to receive and
+                         ; return one character in register 's5'. If there is no character in the buffer
+                         ; following 'ST' then 'UART_RX' will appear to time out in the usual way.
+                         ;
+                         ; The main program is responsible for processing the response that is stored in scratch
+                         ; pad memory. When 'UART_RX' intercepts a DCS response it will store all characters
+                         ; between, but not including, the 'DCS' or 'ST' characters. The character following 'DCS'
+                         ; is stored in scratch pad memory and can be used to identify the nature of the response.
+                         ;
+                         ;   Hint - Only issue one DCS request to PicoTerm at a time and wait for the response.
+                         ;          Before making the request, clear the first scratch pad memory location used to
+                         ;          store the PicoTerm response. This location can then monitored by the main
+                         ;          program to determine when the response has been received from PicoTerm whilst
+                         ;          otherwise making calls to UART_RX and processing any other characters.
+                         ;
+                         ;   CAUTION - Remember that the 'uart_rx6' macro only has a 16 character FIFO buffer and
+                         ;             that a PicoTerm DCS response will consist of multiple characters (e.g. 14 in
+                         ;             the case of the 'Date String Sequence'). Frequently calling the 'UART_RX'
+                         ;             routine following the transmission of a PicoTerm DCS sequence will avoid
+                         ;             buffer overflow. In this context 'frequently' is relative to the time
+                         ;             taken for the UART to receive characters so this is unlikely to be a
+                         ;             challenge (e.g. at 115,200 baud it takes 86.8us to receive each character
+                         ;             during PicoBlaze could execute 4,340 instructions when operating at 100MHz).
+                         ;
+                         ;
+                         ; The Virtual LED Display
+                         ; -----------------------
+                         ;
+                         ; This is one of the DCS sequences that only requires information to be transmitted to
+                         ; PicoTerm. The three bytes of information to be displayed on the virtual LEDs must be
+                         ; stored in scratch pad memory locations 'PicoTerm_LEDs_Red', 'PicoTerm_LEDs_Amber' and
+                         ; 'PicoTerm_LEDs_Green' before calling this routine.
+                         ;
+                         ;   PicoTerm_LEDs - Drives LEDs with values from scratch pad memory.
+                         ;
+                         ;
+                         ; Virtual 7-Segment Display
+                         ; -------------------------
+                         ;
+                         ; This is also a DCS sequence that only requires information to be transmitted to
+                         ; PicoTerm. The four bytes of information to be displayed on the virtual 7-Segement
+                         ; display must be must be stored in scratch pad memory locations 'PicoTerm_7seg_digit0',
+                         ; 'PicoTerm_7seg_digit1', 'PicoTerm_7seg_digit2' and 'PicoTerm_7seg_digit3' before
+                         ; calling this routine.
+                         ;
+                         ;   PicoTerm_7Segment - Drives 7-Segment digits with values from scratch pad memory.
+                         ;
+                         ;   nibble_to_7seg - This routine does not communicate with PicoTerm but is useful
+                         ;                    when preparing the 'digit' segment control bytes.
+                         ;
+                         ;
+                         ; Virtual Switches Window
+                         ; -----------------------
+                         ;
+                         ; This is also a DCS sequence that only requires information to be transmitted to
+                         ; PicoTerm. The two bytes of information to set the 16 virtual switches must be provided
+                         ; in registers 's9' (defining switches[15:8]) and 's8' (defining switches[7:0]) before
+                         ; calling this routine.
+                         ;
+                         ;   PicoTerm_set_Switches - Defines setting of the 16 virtual switches.
+                         ;                           First use will open the 'PicoTerm Virtual Switches' window
+                         ;                           (see also 'PicoTerm_read_Switches' below).
+                         ;
+                         ;
+                         ; DCS Requests
+                         ; ------------
+                         ;
+                         ; The following routines transmit the appropriate DCS sequence to request information.
+                         ; As described in 'Device Control Strings (DCS) Introduction' above, the PicoTerm
+                         ; response should be intercepted by the 'UART_RX' routine providing the main program
+                         ; makes calls to it. The DCS response will be stored in scratch pad memory locations
+                         ; 'PicoTerm_Response0' through to 'PicoTerm_Response11' with the response length, and
+                         ; hence the actual number of scratch pad memory locations used depending on the request
+                         ; made. Note that the 'DCS' and 'ST' characters are not stored.
+                         ;
+                         ;   PicoTerm_Ping           - 'Ping' Request
+                         ;   PicoTerm_Time_String    - Request Time String
+                         ;   PicoTerm_Time_Value     - Request Time Value
+                         ;   PicoTerm_Date_String    - Request Date String
+                         ;   PicoTerm_Date_Value     - Request Date Value
+                         ;   PicoTerm_read_Switches  - Request value of 16 virtual switches
+                         ;                             First use will open the 'PicoTerm Virtual Switches' window.
+                         ;                             (see also 'PicoTerm_set_Switches' above).
+                         ;   PicoTerm_Random         - Request a pseudo random number
+                         ;
+                         ;    Hint - Use 'Ping' to determine if PicoTerm is connected to PicoBlaze before
+                         ;           attempting to use any of the PicoTerm features. If another terminal
+                         ;           is being used then your program could display a message informing the
+                         ;           user to use PicoTerm or your program could continue in a way that
+                         ;           only used a normal terminal (i.e. text display).
+                         ;
+                         ;
+                         ; LOG Files
+                         ; ---------
+                         ;
+                         ; The following routines transmit the appropriate DCS sequence to open and close LOG
+                         ; files. When a LOG file is open, all characters transmitted to PicoTerm for display in
+                         ; the main terminal window will also be written to the LOG file. LOG files are
+                         ; automatically assigned a file name consistent with the date and time at which they
+                         ; are opened (e.g. 'PicoTerm_08May2013_154530.txt').
+                         ;
+                         ;   PicoTerm_open_log_file  - Open LOG file
+                         ;   PicoTerm_close_log_file - Close LOG file
+                         ;
+                         ;
+                         ; Reading Text Files
+                         ; ------------------
+                         ;
+                         ; This is a special case requiring careful handling by a program so no routines are
+                         ; provided in this file to cover these sequences. Please see 'PicoTerm_README.txt'
+                         ; for more information.
+                         ;
+                         ;
+                         ; DCS Transactions window
+                         ; -----------------------
+                         ;
+                         ; The 'PicoTerm DCS Transactions' window will automatically open an display brief
+                         ; messages indicating when DCS Requests are made. These messages can be reassuring
+                         ; and useful during code development but may prove to be distracting in a finished
+                         ; application. For this reason it is possible to close or suppress this window using
+                         ; a sequence implemented by the following routine.
+                         ;
+                         ;   PicoTerm_hide_DCS       - Hide and/or suppress the PicoTerm DCS Transactions window.
+                         ;
+                         ;
+                         ;
+                         ;------------------------------------------------------------------------------------------
+                         ; Hardware Constants
+                         ;------------------------------------------------------------------------------------------
+                         ;
+                         ; The CONSTANT directives below define the input and output ports assigned to the UART
+                         ; macros that typically implement the PicoTerm default baud rate of 115,200. Additional
+                         ; constants identify the allocation of signals to bits within a port.
+                         ;
+                         ;
+                         ;
+                         ; UART Status
+                         ; -----------
+                         ;
+                         CONSTANT UART_status_port, 00             ; Read status
+                         CONSTANT UART_Tx_data_present, 00000001'b ; Tx   data_present - bit0
+                         CONSTANT UART_Tx_half_full, 00000010'b    ;         half_full - bit1
+                         CONSTANT UART_Tx_full, 00000100'b         ;              full - bit2
+                         CONSTANT UART_Rx_data_present, 00001000'b ; Rx   data_present - bit3
+                         CONSTANT UART_Rx_half_full, 00010000'b    ;         half_full - bit4
+                         CONSTANT UART_Rx_full, 00100000'b         ;              full - bit5
+                         ;
+                         ; Write data to UART_TX6
+                         ; ----------------------
+                         ;
+                         CONSTANT UART_TX6_output_port, 01
+                         ;
+                         ; Read data from UART_RX6
+                         ; -----------------------
+                         ;
+                         CONSTANT UART_RX6_input_port, 01
+                         ;
+                         ; Reset UART buffers (Constant Optimised Port)
+                         ; --------------------------------------------
+                         ;
+                         CONSTANT reset_UART_port, 01
+                         CONSTANT UART_tx_reset, 00000001'b        ; uart_tx6 reset - bit0
+                         CONSTANT UART_rx_reset, 00000010'b        ; uart_rx6 reset - bit1
+                         CONSTANT UART_reset, 00000011'b           ; reset Tx and Rx
+                         CONSTANT UART_operate, 00000000'b         ; Tx and Rx free to operate
+                         ;
+                         ;
+                         ;------------------------------------------------------------------------------------------
+                         ; Scratch Pad Memory
+                         ;------------------------------------------------------------------------------------------
+                         ;
+                         ; The CONSTANT directives below define the allocation of scratch pad memory locations
+                         ; used to store information associated with PicoTerm Device Control Strings (DCS).
+                         ;
+                         ;   Hint - If you do not use certain PicoTerm features then the locations do not need
+                         ;          to be reserved. If a feature is not used then the corresponding routine can
+                         ;          also be removed to free program memory.
+                         ;
+                         CONSTANT PicoTerm_7seg_digit0, 00         ; 7-Segment Digit 0
+                         CONSTANT PicoTerm_7seg_digit1, 01         ; 7-Segment Digit 1
+                         CONSTANT PicoTerm_7seg_digit2, 02         ; 7-Segment Digit 2
+                         CONSTANT PicoTerm_7seg_digit3, 03         ; 7-Segment Digit 3
+                         ;
+                         CONSTANT PicoTerm_LEDs_Red, 04            ; Red LEDs
+                         CONSTANT PicoTerm_LEDs_Amber, 05          ; Amber (yellow) LEDs
+                         CONSTANT PicoTerm_LEDs_Green, 06          ; Green LEDs
+                         ;
+                         ;
+                         ; 12 locations need to be reserved for the longest PicoTerm DCS response. These must
+                         ; be in adjacent and ascending locations.
+                         ;
+                         CONSTANT PicoTerm_Response0, 07           ;Response identifier
+                         CONSTANT PicoTerm_Response1, 08           ;Response data
+                         CONSTANT PicoTerm_Response2, 09
+                         CONSTANT PicoTerm_Response3, 0A
+                         CONSTANT PicoTerm_Response4, 0B
+                         CONSTANT PicoTerm_Response5, 0C
+                         CONSTANT PicoTerm_Response6, 0D
+                         CONSTANT PicoTerm_Response7, 0E
+                         CONSTANT PicoTerm_Response8, 0F
+                         CONSTANT PicoTerm_Response9, 10
+                         CONSTANT PicoTerm_Response10, 11
+                         CONSTANT PicoTerm_Response11, 12
+                         ;
+                         ;
+                         ;------------------------------------------------------------------------------------------
+                         ; Colour Constants
+                         ;------------------------------------------------------------------------------------------
+                         ;
+                         ; The following constants correspond with the colour codes for text and graphics in the
+                         ; PicoTerm windows.
+                         ;
+                         CONSTANT Black, 30'd
+                         CONSTANT Red, 31'd
+                         CONSTANT Green, 32'd
+                         CONSTANT Yellow, 33'd
+                         CONSTANT Blue, 34'd
+                         CONSTANT Magenta, 35'd
+                         CONSTANT Cyan, 36'd
+                         CONSTANT Grey, 37'd
+                         CONSTANT White, 38'd
+                         ;
+                         ;
+                         ;--------------------------------------------------------------------------------------
+                         ; Routine to reset UART Buffers inside 'uart_tx6' and ''uart_rx6'.
+                         ;--------------------------------------------------------------------------------------
+                         ;
+                         ; This routine will generate and apply an active High reset pulse to the FIFO
+                         ; buffers in both the transmitter and receiver macros.
+                         ;
+                         ; Note that the reset signals have been assigned to a constant optimised output port
+                         ; so the 'OUTPUTK' instructions are used and no registers contents are affected.
+                         ;
+                         ; No registers are used.
+                         ;
+      reset_UART_macros: OUTPUTK UART_reset, reset_UART_port
+                         OUTPUTK UART_operate, reset_UART_port
+                         RETURN 
+                         ;
+                         ;
+                         ;--------------------------------------------------------------------------------------
+                         ; Routine to send one character to the UART Transmitter ('uart_tx6').
+                         ;--------------------------------------------------------------------------------------
+                         ;
+                         ; This routine will transmit the character provided in register 's5'.
+                         ;
+                         ; Before the character is output to the 'UART_TX6' macro the status of the FIFO buffer
+                         ; is checked to see if there is space. If the buffer is full then this routine will
+                         ; wait for space to become available (e.g. the time required for a previous character
+                         ; to be transmitted by the UART).
+                         ;
+                         ; Registers used s0 and s5 for the data (which is preserved)
+                         ;
+                UART_TX: INPUT s0, UART_status_port                ;Check if buffer is full
+                         TEST s0, UART_Tx_full
+                         JUMP NZ, UART_TX                          ;wait if full
+                         OUTPUT s5, UART_TX6_output_port
+                         RETURN 
+                         ;
+                         ;
+                         ;--------------------------------------------------------------------------------------
+                         ; Routine to attempt to receive one character from the UART Receiver ('uart_rx6').
+                         ; Will also intercept a Device Control String from PicoTerm.
+                         ;--------------------------------------------------------------------------------------
+                         ;
+                         ; This routine will attempt to receive one character from the 'UART_RX6' macro, and if
+                         ; successful, will return that character in register 's5' with Zero flag reset (Z=0).
+                         ;
+                         ; If there are no characters available to be read from the FIFO buffer within the
+                         ; 'UART_RX6' macro then this routine will timeout after ~2,000 clock cycles (20us at
+                         ; 100MHz) with the Zero flag set (Z=1). This timeout scheme ensures that KCPSM6
+                         ; cannot become stuck in this routine if no characters are received. If you do want
+                         ; KCPSM6 to wait indefinitely for a character to be received then perform a test of
+                         ; the Zero flag and repeat the call to this routine as shown in this example...
+                         ;
+                         ;          wait_for_UART_RX: CALL UART_RX
+                         ;                            JUMP Z, wait_for_UART_RX
+                         ;
+                         ; Each time this routine is called it will also attempt to intercept a Device Control
+                         ; String (DCS) from PicoTerm. If a 'DCS' character is received then this routine will
+                         ; continue to receive characters and store them in scratch pad memory until an 'ST'
+                         ; character is received indicating the end of the sequence. If necessary, the routine
+                         ; will wait for the 'ST' to be received (i.e. no timeout). Only the contents of the
+                         ; response are stored in scratch pad memory starting at location 'PicoTerm_Response0'
+                         ; (i.e. the 'DCS' and 'ST' characters are not stored).
+                         ;
+                         ; Note that once a Device Control String has been intercepted, the UART_RX routine will
+                         ; attempt to receive and return one more character to return in register 's5' or it will
+                         ; time out in the usual way.
+                         ;
+                         ; Registers used s0, s1 and s5.
+                         ;
+                         ; Test the UART receiver FIFO buffer to see if there are any characters waiting to be
+                         ; read. If the buffer is empty then wait up to 2,000 clock cycles before timing out
+                         ; with Z=1 (and C=0).
+                         ;
+                UART_RX: LOAD s1, 167'd                            ;Timeout = 167 x (6 instructions x 2 clock cycles)
+             rx_timeout: INPUT s0, UART_status_port
+                         TEST s0, UART_Rx_data_present             ;Z=0 and C=1 when data present
+                         JUMP NZ, read_Rx
+                         SUB s1, 1'd
+                         RETURN Z                                  ;Timeout returns with Z=1 and C=0
+                         JUMP rx_timeout
+                         ;
+                         ; When there is at least one character in buffer then read it into register s5.
+                         ; Look to see if the character is a 'DCS' indicating the start of a Device Control
+                         ; String that needs to be intercepted. If it is any other character then return it
+                         ; in register s5 with Z=1 (and C=1) to indicate that a character has been received.
+                         ;
+                read_Rx: INPUT s5, UART_RX6_input_port             ;read character from buffer
+                         COMPARE s5, DCS                           ;test for 'DCS' character
+                         JUMP Z, read_DCS                          ;If 'DCS' then read string
+                         TEST s0, UART_Rx_data_present             ;Z=0 and C=1
+                         RETURN                                    ;return character in 's5'
+                         ;
+                         ; When a 'DCS' character is received it indicates the start of a DCS sequence but
+                         ; the 'DCS' character itself is otherwise discarded. The remaining characters in the
+                         ; sequence are stored in scratch pad memory starting at location 'PicoTerm_Response0'.
+                         ;
+                         ; The first character defines the response and will be stored at 'PicoTerm_Response0'
+                         ;
+               read_DCS: CALL rx_one_character                     ;wait and receive character
+                         STORE s5, PicoTerm_Response0              ;store DCS identifying character in memory
+                         ;
+                         ; Any further characters of the sequence will be stored starting at 'PicoTerm_Response1'.
+                         ;
+                         LOAD s1, PicoTerm_Response1               ;pointer to scratch pad memory
+                         ;
+                         ; 'ST' is used to terminate the reading of the Device Control String. 'ST' has the code
+                         ; 9C hex so care is required to ensure that a character forming part of information
+                         ; payload of a DCS sequence does not result in premature termination of the read process.
+                         ;
+                         ; PicoTerm responses to 'Ping' (p), Read Date string (D) and Read Time string (T) will
+                         ; only contain the standard ASCII letters and numbers in the range 20 to 7A hex so these
+                         ; cannot be confused with 'ST'.
+                         ;
+                         ; PicoTerm responses to Read Date value (d) and Read Time string (T) will only contain
+                         ; byte values in the range 0 to 99 decimal (00 to 63 hex) so these will also avoid any
+                         ; confusion with 'ST'.
+                         ;
+                         ; In contrast, PicoTerm responses to Read switches (S) and Request a Pseudo Random Number
+                         ; (N) will contain byte values that could have any values including 9C hex that could
+                         ; be confused with 'ST' so special handling of these responses is required.
+                         ;
+                         ; The number of characters contained in each response are shown below.
+                         ;
+                         ;     DCS Response          Response
+                         ;   (first character)        Length (characters not including 'DCS' and 'ST')
+                         ;
+                         ;           P                   1
+                         ;           S                   3  <- Bytes may contain 9C hex
+                         ;           t                   4
+                         ;           d                   4
+                         ;           N                   4  <- Bytes may contain 9C hex
+                         ;           T                   9
+                         ;           D                  12
+                         ;
+                         ; Test first character to trap the special cases.
+                         ;
+                         COMPARE s5, "S"
+                         JUMP Z, DCS_S_response
+                         COMPARE s5, "N"
+                         JUMP Z, DCS_N_response
+                         ;
+                         ; For all other cases receive characters and store in scratch pad memory until the
+                         ; 'ST' character is observed. Register 'S1' already points to 'PicoTerm_Response1'.
+                         ;
+        rx_dcs_sequence: CALL rx_one_character                     ;wait and receive character
+                         COMPARE s5, ST                            ;test for 'ST' character
+                         JUMP Z, UART_RX                           ;If 'ST' then complete a normal UART receive
+                         ;
+                         STORE s5, (s1)                            ;store character
+                         ADD s1, 1'd                               ;increment pointer
+                         JUMP rx_dcs_sequence
+                         ;
+                         ; The Read switches (S) response contains 2 bytes which could be of any value.
+                         ;
+         DCS_S_response: CALL rx_one_character                     ;wait and receive switches(0)
+                         STORE s5, PicoTerm_Response1              ;store byte value
+                         CALL rx_one_character                     ;wait and receive switches(1)
+                         STORE s5, PicoTerm_Response2              ;store byte value
+                         JUMP rx_dcs_sequence                      ;complete sequence by receiving 'ST'
+                         ;
+                         ; The Request a Pseudo Random Number (N) response contains 3 bytes which could
+                         ; be of any value.
+                         ;
+         DCS_N_response: CALL rx_one_character                     ;wait and receive random(0)
+                         STORE s5, PicoTerm_Response1              ;store byte value
+                         CALL rx_one_character                     ;wait and receive random(1)
+                         STORE s5, PicoTerm_Response2              ;store byte value
+                         CALL rx_one_character                     ;wait and receive random(2)
+                         STORE s5, PicoTerm_Response3              ;store byte value
+                         JUMP rx_dcs_sequence                      ;complete sequence by receiving 'ST'
+                         ;
+                         ;
+                         ; Routine to wait for one character to be received by UART received.
+                         ; Character returned in 's5'. Note that this routine will not time out
+                         ; and is only intended for use by the code above.
+                         ;
+       rx_one_character: INPUT s0, UART_status_port                ;wait for next character
+                         TEST s0, UART_Rx_data_present
+                         JUMP Z, rx_one_character
+                         INPUT s5, UART_RX6_input_port             ;read character from buffer
+                         RETURN 
+                         ;
+                         ;
+                         ;--------------------------------------------------------------------------------------
+                         ; Routine to clear PicoTerm main terminal screen
+                         ;--------------------------------------------------------------------------------------
+                         ;
+                         ; Will clear the PicoTerm main terminal window and move the cursor to the HOME position
+                         ; (upper-left corner of window). The text colour is also set to the default of black.
+                         ;
+                         ;    'ESC' (1B hex = 27)
+                         ;    '['   (5B hex = 91)
+                         ;    '2'   (32 hex = 50)
+                         ;    'J'   (4A hex = 74)
+                         ;
+                         ; Registers used s0 and s5.
+                         ;
+           PicoTerm_CLS: CALL start_escape_sequence
+                         LOAD s5, "2"
+                         CALL UART_TX
+                         LOAD s5, "J"
+                         JUMP UART_TX                              ;includes RETURN
+                         ;
+                         ;
+                         ;--------------------------------------------------------------------------------------
+                         ; Routine to move cursor to HOME position
+                         ;--------------------------------------------------------------------------------------
+                         ;
+                         ; Will move the cursor to the HOME position (upper-left corner of window).
+                         ;
+                         ;    'ESC' (1B hex = 27)
+                         ;    '['   (5B hex = 91)
+                         ;    'H'   (48 hex = 72)
+                         ;
+                         ; Registers used s0 and s5.
+                         ;
+          PicoTerm_HOME: CALL start_escape_sequence
+                         LOAD s5, "H"
+                         JUMP UART_TX                              ;includes RETURN
+                         ;
+                         ;
+                         ;--------------------------------------------------------------------------------------
+                         ; Routines to set the colour of text in the main terminal window
+                         ;--------------------------------------------------------------------------------------
+                         ;
+                         ; These routines will set the colour in which all subsequent text will be displayed
+                         ; in the main terminal window. The default colour is black.
+                         ;
+                         ;    'ESC' (1B hex = 27)
+                         ;    '['   (5B hex = 91)
+                         ;    'n'   (Where 'n' defines the colour)
+                         ;          ( 1E hex = 30 for Black      )
+                         ;          ( 1F hex = 31 for Red        )
+                         ;          ( 20 hex = 32 for Green      )
+                         ;          ( 21 hex = 33 for Yellow     )
+                         ;          ( 22 hex = 34 for Blue       )
+                         ;          ( 23 hex = 35 for Magenta    )
+                         ;          ( 24 hex = 36 for Cyan       )
+                         ;          ( 25 hex = 37 for Grey       )
+                         ;          ( 26 hex = 38 for White      )
+                         ;
+                         ; Registers used s0 and s5.
+                         ;
+    PicoTerm_text_Black: CALL start_escape_sequence
+                         LOAD s5, Black
+                         JUMP UART_TX                              ;includes RETURN
+                         ;
+      PicoTerm_text_Red: CALL start_escape_sequence
+                         LOAD s5, Red
+                         JUMP UART_TX                              ;includes RETURN
+                         ;
+    PicoTerm_text_Green: CALL start_escape_sequence
+                         LOAD s5, Green
+                         JUMP UART_TX                              ;includes RETURN
+                         ;
+   PicoTerm_text_Yellow: CALL start_escape_sequence
+                         LOAD s5, Yellow
+                         JUMP UART_TX                              ;includes RETURN
+                         ;
+     PicoTerm_text_Blue: CALL start_escape_sequence
+                         LOAD s5, Blue
+                         JUMP UART_TX                              ;includes RETURN
+                         ;
+  PicoTerm_text_Magenta: CALL start_escape_sequence
+                         LOAD s5, Magenta
+                         JUMP UART_TX                              ;includes RETURN
+                         ;
+     PicoTerm_text_Cyan: CALL start_escape_sequence
+                         LOAD s5, Cyan
+                         JUMP UART_TX                              ;includes RETURN
+                         ;
+     PicoTerm_text_Grey: CALL start_escape_sequence
+                         LOAD s5, Grey
+                         JUMP UART_TX                              ;includes RETURN
+                         ;
+    PicoTerm_text_White: CALL start_escape_sequence
+                         LOAD s5, White
+                         JUMP UART_TX                              ;includes RETURN
+                         ;
+                         ;
+                         ;--------------------------------------------------------------------------------------
+                         ; Routine to set the Virtual LED Display
+                         ;--------------------------------------------------------------------------------------
+                         ;
+                         ; This DCS sequence only requires information to be transmitted to PicoTerm and will
+                         ; open and set the LEDs of the virtual LED display.
+                         ;
+                         ;     'DCS'
+                         ;     'L'
+                         ;     RED_control_byte
+                         ;     YELLOW_control_byte
+                         ;     GREEN_control_byte
+                         ;     'ST'
+                         ;
+                         ; The three control bytes must be defined in scratch pad memory locations
+                         ; 'PicoTerm_LEDs_Red', 'PicoTerm_LEDs_Amber' and 'PicoTerm_LEDs_Green' before
+                         ; calling this routine.
+                         ;
+                         ; Registers used s0 and s5.
+                         ;
+          PicoTerm_LEDs: CALL send_DCS
+                         LOAD s5, "L"
+                         CALL UART_TX
+                         FETCH s5, PicoTerm_LEDs_Red
+                         CALL UART_TX
+                         FETCH s5, PicoTerm_LEDs_Amber
+                         CALL UART_TX
+                         FETCH s5, PicoTerm_LEDs_Green
+                         CALL UART_TX
+                         JUMP send_ST                              ;includes RETURN
+                         ;
+                         ;
+                         ;--------------------------------------------------------------------------------------
+                         ; Routine to set the Virtual 7-Segment Display
+                         ;--------------------------------------------------------------------------------------
+                         ;
+                         ; This DCS sequence only requires information to be transmitted to PicoTerm and will
+                         ; open and set the segments of the virtual 7-segment display.
+                         ;
+                         ;     'DCS'
+                         ;     '7'
+                         ;     digit0 (segment control byte)
+                         ;     digit1 (segment control byte)
+                         ;     digit2 (segment control byte)
+                         ;     digit3 (segment control byte)
+                         ;     'ST'
+                         ;
+                         ; The four control bytes must be defined in scratch pad memory locations
+                         ; 'PicoTerm_7seg_digit0', 'PicoTerm_7seg_digit1', 'PicoTerm_7seg_digit2'
+                         ; and 'PicoTerm_7seg_digit3' before calling this routine.
+                         ;
+                         ; Hint - See 'nibble_to_7seg' routine below.
+                         ;
+                         ;
+                         ; Registers used s0 and s5.
+                         ;
+      PicoTerm_7Segment: CALL send_DCS
+                         LOAD s5, "7"
+                         CALL UART_TX
+                         FETCH s5, PicoTerm_7seg_digit0
+                         CALL UART_TX
+                         FETCH s5, PicoTerm_7seg_digit1
+                         CALL UART_TX
+                         FETCH s5, PicoTerm_7seg_digit2
+                         CALL UART_TX
+                         FETCH s5, PicoTerm_7seg_digit3
+                         CALL UART_TX
+                         JUMP send_ST                              ;includes RETURN
+                         ;
+                         ;
+                         ;------------------------------------------------------------------------------------------
+                         ; Convert 4-bit value to 7-Segment Digit
+                         ;------------------------------------------------------------------------------------------
+                         ;
+                         ; This routine converts the value provided in the lower 4-bits of register s0 into the
+                         ; 8-bit code required to drive a 7-Segment digit with the hexadecimal representation.
+                         ; The decimal point controlled by bit7 will be off.
+                         ;
+                         ; Registers used s0, sA and sB
+                         ;
+         nibble_to_7seg: AND s0, 00001111'b                        ;ensure value provided is only 4-bits
+                         LOAD sB, sevenseg_table'upper             ;start of table
+                         LOAD sA, sevenseg_table'lower
+                         ADD sA, s0                                ;Add offset to start of table
+                         ADDCY sB, 00
+                         CALL@ (sB, sA)                            ;Lookup 7-segment control byte from table
+                         RETURN                                    ;control byte returned in s0
+                         ;
+                         ;
+                         ; Conversion Table
+                         ;
+                         TABLE 7_segment_decode#, [3F,06,5B,4F,66,6D,7D,07,7F,6F,77,7C,39,5E,79,71]
+         sevenseg_table: LOAD&RETURN s0, 7_segment_decode#
+                         ;
+                         ;
+                         ;--------------------------------------------------------------------------------------
+                         ; Routine to request 'Ping'
+                         ;--------------------------------------------------------------------------------------
+                         ;
+                         ; This DCS sequence will be transmitted and should result in PicoTerm responding with
+                         ; a corresponding DCS sequence that will be intercepted by the UART_RX routine and
+                         ; stored in scratch pad memory starting at location 'PicoTerm_Response0'.
+                         ;
+                         ;     'DCS'
+                         ;     'p'
+                         ;     'ST'
+                         ;
+                         ; Registers used s0 and s5.
+                         ;
+          PicoTerm_Ping: CALL send_DCS
+                         LOAD s5, "p"
+                         CALL UART_TX
+                         JUMP send_ST                              ;includes RETURN
+                         ;
+                         ;
+                         ;--------------------------------------------------------------------------------------
+                         ; Routine to request Time String
+                         ;--------------------------------------------------------------------------------------
+                         ;
+                         ; This DCS sequence will be transmitted and should result in PicoTerm responding with
+                         ; a corresponding DCS sequence that will be intercepted by the UART_RX routine and
+                         ; stored in scratch pad memory starting at location 'PicoTerm_Response0'.
+                         ;
+                         ;     'DCS'
+                         ;     'T'
+                         ;     'ST'
+                         ;
+                         ; Registers used s0 and s5.
+                         ;
+   PicoTerm_Time_String: CALL send_DCS
+                         LOAD s5, "T"
+                         CALL UART_TX
+                         JUMP send_ST                              ;includes RETURN
+                         ;
+                         ;
+                         ;--------------------------------------------------------------------------------------
+                         ; Routine to request Time Value
+                         ;--------------------------------------------------------------------------------------
+                         ;
+                         ; This DCS sequence will be transmitted and should result in PicoTerm responding with
+                         ; a corresponding DCS sequence that will be intercepted by the UART_RX routine and
+                         ; stored in scratch pad memory starting at location 'PicoTerm_Response0'.
+                         ;
+                         ;     'DCS'
+                         ;     't'
+                         ;     'ST'
+                         ;
+                         ; Registers used s0 and s5.
+                         ;
+    PicoTerm_Time_Value: CALL send_DCS
+                         LOAD s5, "t"
+                         CALL UART_TX
+                         JUMP send_ST                              ;includes RETURN
+                         ;
+                         ;
+                         ;--------------------------------------------------------------------------------------
+                         ; Routine to request Date String
+                         ;--------------------------------------------------------------------------------------
+                         ;
+                         ; This DCS sequence will be transmitted and should result in PicoTerm responding with
+                         ; a corresponding DCS sequence that will be intercepted by the UART_RX routine and
+                         ; stored in scratch pad memory starting at location 'PicoTerm_Response0'.
+                         ;
+                         ;     'DCS'
+                         ;     'D'
+                         ;     'ST'
+                         ;
+                         ; Registers used s0 and s5.
+                         ;
+   PicoTerm_Date_String: CALL send_DCS
+                         LOAD s5, "D"
+                         CALL UART_TX
+                         JUMP send_ST                              ;includes RETURN
+                         ;
+                         ;
+                         ;--------------------------------------------------------------------------------------
+                         ; Routine to request Date Value
+                         ;--------------------------------------------------------------------------------------
+                         ;
+                         ; This DCS sequence will be transmitted and should result in PicoTerm responding with
+                         ; a corresponding DCS sequence that will be intercepted by the UART_RX routine and
+                         ; stored in scratch pad memory starting at location 'PicoTerm_Response0'.
+                         ;
+                         ;     'DCS'
+                         ;     'd'
+                         ;     'ST'
+                         ;
+                         ; Registers used s0 and s5.
+                         ;
+    PicoTerm_Date_Value: CALL send_DCS
+                         LOAD s5, "d"
+                         CALL UART_TX
+                         JUMP send_ST                              ;includes RETURN
+                         ;
+                         ;
+                         ;--------------------------------------------------------------------------------------
+                         ; Routine to request current States of Virtual Switches
+                         ;--------------------------------------------------------------------------------------
+                         ;
+                         ; This DCS sequence will be transmitted and should result in PicoTerm responding with
+                         ; a corresponding DCS sequence that will be intercepted by the UART_RX routine and
+                         ; stored in scratch pad memory starting at location 'PicoTerm_Response0'.
+                         ;
+                         ; First use of 'PicoTerm_read_Switches' or 'PicoTerm_set_Switches' will also open the
+                         ; 'PicoTerm Virtual Switches' window. If this routine is used to open the window then
+                         ; all switches will be off ('0').
+                         ;
+                         ;     'DCS'
+                         ;     'S'     (note upper case 'S')
+                         ;     'ST'
+                         ;
+                         ; Registers used s0 and s5.
+                         ;
+ PicoTerm_read_Switches: CALL send_DCS
+                         LOAD s5, "S"
+                         CALL UART_TX
+                         JUMP send_ST                              ;includes RETURN
+                         ;
+                         ;
+                         ;--------------------------------------------------------------------------------------
+                         ; Routine to set the States of Virtual Switches
+                         ;--------------------------------------------------------------------------------------
+                         ;
+                         ; This DCS sequence will be transmitted and will set the states of the 16 virtual
+                         ; switches as defined by the contents of registers [s9,s8]. PicoTerm will not respond
+                         ; with a DCS (use 'PicoTerm_read_Switches' to read switch states).
+                         ;
+                         ; First use of 'PicoTerm_read_Switches' or 'PicoTerm_set_Switches' will also open the
+                         ; 'PicoTerm Virtual Switches' window.
+                         ;
+                         ;     'DCS'
+                         ;     's'             (note lower case 's')
+                         ;     switches(0)     (new states of switches[7:0] as defined in register 's8')
+                         ;     switches(1)     (new states of switches[15:8]as defined in register 's9')
+                         ;     'ST'
+                         ;
+                         ; Registers used s0, s5, s8 and s9.
+                         ;
+  PicoTerm_set_Switches: CALL send_DCS
+                         LOAD s5, "s"
+                         CALL UART_TX
+                         LOAD s5, s8
+                         CALL UART_TX
+                         LOAD s5, s9
+                         CALL UART_TX
+                         JUMP send_ST                              ;includes RETURN
+                         ;
+                         ;
+                         ;--------------------------------------------------------------------------------------
+                         ; Routine to request a pseudo random number
+                         ;--------------------------------------------------------------------------------------
+                         ;
+                         ; This DCS sequence will be transmitted and will request a 24-bit pseudo random number
+                         ; to be returned in the range zero up to, and including, a maximum value defined by the
+                         ; contents of registers [s9,s8,s7].
+                         ;
+                         ; When PicoTerm receives this request it will respond with a corresponding DCS
+                         ; sequence containing the 3-byte (24-bit) pseudo random number that will be intercepted
+                         ; by the UART_RX routine and stored in scratch pad memory starting at location
+                         ; 'PicoTerm_Response0'.
+                         ;
+                         ;     'DCS'
+                         ;     'N'
+                         ;     max(0)        (maximum value[7:0]   as defined in register 's7')
+                         ;     max(1)        (maximum value[15:8]  as defined in register 's8')
+                         ;     max(2)        (maximum value[23:16] as defined in register 's9')
+                         ;     'ST'
+                         ;
+                         ; Registers used s0, s5, s8 and s9.
+                         ;
+        PicoTerm_Random: CALL send_DCS
+                         LOAD s5, "N"
+                         CALL UART_TX
+                         LOAD s5, s7
+                         CALL UART_TX
+                         LOAD s5, s8
+                         CALL UART_TX
+                         LOAD s5, s9
+                         CALL UART_TX
+                         JUMP send_ST                              ;includes RETURN
+                         ;
+                         ;
+                         ;--------------------------------------------------------------------------------------
+                         ; Routine to hide and/or suppress the 'PicoTerm DCS Transactions' window.
+                         ;--------------------------------------------------------------------------------------
+                         ;
+                         ; After this DCS sequence has been transmitted, PicoTerm will not open the 'PicoTerm
+                         ; DCS Transactions' window and will not display any messages relating to DSC
+                         ; sequences. If the 'PicoTerm DCS Transactions' window is already open then it will be
+                         ; closed. Suppressing this window can remove a distraction from an end application.
+                         ;
+                         ; It is strongly recommended that this sequence is only used once an application is
+                         ; fully developed and stable because the messages are there to help you see the
+                         ; responses to your requests and to see when mistakes have been made.
+                         ;
+                         ;     'DCS'
+                         ;     'h'
+                         ;     'ST'
+                         ;
+                         ; Registers used s0 and s5.
+                         ;
+      PicoTerm_hide_DCS: CALL send_DCS
+                         LOAD s5, "h"
+                         CALL UART_TX
+                         JUMP send_ST                              ;includes RETURN
+                         ;
+                         ;
+                         ;
+                         ;
+                         ;--------------------------------------------------------------------------------------
+                         ; Routines to open/close a PicoTerm LOG file.
+                         ;--------------------------------------------------------------------------------------
+                         ;
+                         ; Open a LOG file
+                         ;
+                         ;     'DCS'
+                         ;     'W'     (upper case)
+                         ;     'ST'
+                         ;
+                         ; After this DCS sequence has been transmitted PicoTerm will open a LOG file. All
+                         ; information sent to be displayed in the PicoTerm main terminal window will then
+                         ; also be written to the LOG file.
+                         ;
+                         ; The LOG file will be a '.txt' file with the name 'PicoTerm_' followed by the date
+                         ; and time that it was opened. It will be located in the same directory as the
+                         ; PicoTerm executable (PicoTerm.exe). A message will be displayed in the DCS
+                         ; Transactions window indicating when a LOG file is opened together with its name
+                         ; and location.
+                         ;
+                         ; If a LOG file is already open then it will be closed and a new LOG file opened.
+                         ;
+                         ; Registers used s0 and s5.
+                         ;
+ PicoTerm_open_log_file: CALL send_DCS
+                         LOAD s5, "W"
+                         CALL UART_TX
+                         JUMP send_ST                              ;includes RETURN
+                         ;
+                         ;
+                         ; Close LOG file
+                         ;
+                         ;     'DCS'
+                         ;     'w'     (lower case)
+                         ;     'ST'
+                         ;
+                         ; After this DCS sequence has been transmitted PicoTerm will close the LOG file.
+                         ; A message will be displayed in the DCS Transactions window.
+                         ;
+                         ; Registers used s0 and s5.
+                         ;
+PicoTerm_close_log_file: CALL send_DCS
+                         LOAD s5, "w"
+                         CALL UART_TX
+                         JUMP send_ST                              ;includes RETURN
+                         ;
+                         ;
+                         ;--------------------------------------------------------------------------------------
+                         ; Transmit the start of an Escape Sequence
+                         ;--------------------------------------------------------------------------------------
+                         ;
+                         ; PicoTerm escape sequences all begin with...
+                         ;
+                         ;    'ESC' (1B hex = 27)
+                         ;    '['   (5B hex = 91)
+                         ;
+                         ; Registers used s0 and s5.
+                         ;
+  start_escape_sequence: LOAD s5, ESC
+                         CALL UART_TX
+                         LOAD s5, "["
+                         CALL UART_TX
+                         RETURN 
+                         ;
+                         ;
+                         ;--------------------------------------------------------------------------------------
+                         ; Routines to transmit 'DCS' and 'ST' characters
+                         ;--------------------------------------------------------------------------------------
+                         ;
+                         ; Registers used s0 and s5.
+                         ;
+                         ; 'DCS' (90 hex = 144).
+                         ;
+               send_DCS: LOAD s5, DCS
+                         JUMP UART_TX                              ;includes RETURN
+                         ;
+                         ; 'ST' (9C hex = 156).
+                         ;
+                send_ST: LOAD s5, ST
+                         JUMP UART_TX                              ;includes RETURN
+                         ;
+                         ;
+                         ;------------------------------------------------------------------------------------------
+                         ; End of 'PicoTerm_routines.psm'
+                         ;------------------------------------------------------------------------------------------
+                         ;

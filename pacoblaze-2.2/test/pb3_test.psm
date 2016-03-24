@@ -1,0 +1,54 @@
+; pb3_test.psm
+; A very simple kcasm test for PacoBlaze3
+; We load some data to registers and do some loops while
+; one register is modified when an interrupt occurs
+
+; register definitions
+register r0, 0 ; alias register #0 (s0) as r0
+register r1, 1 ; alias register #1 (s1) as r1
+register ic, 15 ; counter register used by our interrupt service routine (isr)
+
+; constant definitions
+constant binary, %1001 ; a binary value
+constant octal, @77 ; an octal value
+constant decimal, &123 ; a decimal value
+constant hexadecimal, $ca ; an hexadecimal value
+constant character, 'a' ; a character value
+
+; our entry point
+start:
+	load r0, binary ; load r0 with the 'binary' value
+	load r1, $fe ; load r1 with $fe in hex
+	load ic, 0 ; set up the initial value of the interrupt counter register
+
+	load s2, 0 ; clear register #2
+	add s2, r0 ; add register #0 to register #2
+	addcy s2, r1 ; add with carry register #1 to register #2
+
+	interrupt enable ; enable interrupt
+
+; our first loop
+loop:
+_loop: ; 'loop' alias, same program counter
+	input s3, s2 ; read into register #3 with port value at id in register #2
+	subcy s3, 1 ; substract 1 with carry
+	output s3, s2 ; write back register #3 value
+	jump c, loop_1 ; jump if carry to 'loop_1'
+	srx s2 ; shift-right extended register #2
+
+loop_1: slx s3 ; shift-left extended register #3
+	call func ; call function 'func'
+	jump loop ; inconditional jump back to 'loop'
+
+func: ; a function
+	add s0, hexadecimal ; add 'hexadecimal' value to register #0
+	subcy s0, decimal ; substract with carry 'decimal' to register #0
+	return ; return back
+
+; our interrupt service routine
+isr:
+	add ic, 1 ; increment register ic (#15)
+	returni enable ; return from interrupt with interrupts enabled
+
+int:	address $3ff ; the interrupt entry point
+	jump isr ; jump to 'isr'

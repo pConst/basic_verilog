@@ -1,0 +1,625 @@
+                               ;
+                               ;------------------------------------------------------------------------------------------
+                               ; Copyright © 2012-2013, Xilinx, Inc.
+                               ; This file contains confidential and proprietary information of Xilinx, Inc. and is
+                               ; protected under U.S. and international copyright and other intellectual property laws.
+                               ;------------------------------------------------------------------------------------------
+                               ;
+                               ; Disclaimer:
+                               ; This disclaimer is not a license and does not grant any rights to the materials
+                               ; distributed herewith. Except as otherwise provided in a valid license issued to
+                               ; you by Xilinx, and to the maximum extent permitted by applicable law: (1) THESE
+                               ; MATERIALS ARE MADE AVAILABLE "AS IS" AND WITH ALL FAULTS, AND XILINX HEREBY
+                               ; DISCLAIMS ALL WARRANTIES AND CONDITIONS, EXPRESS, IMPLIED, OR STATUTORY,
+                               ; INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, NON-INFRINGEMENT,
+                               ; OR FITNESS FOR ANY PARTICULAR PURPOSE; and (2) Xilinx shall not be liable
+                               ; (whether in contract or tort, including negligence, or under any other theory
+                               ; of liability) for any loss or damage of any kind or nature related to, arising
+                               ; under or in connection with these materials, including for any direct, or any
+                               ; indirect, special, incidental, or consequential loss or damage (including loss
+                               ; of data, profits, goodwill, or any type of loss or damage suffered as a result
+                               ; of any action brought by a third party) even if such damage or loss was
+                               ; reasonably foreseeable or Xilinx had been advised of the possibility of the same.
+                               ;
+                               ; CRITICAL APPLICATIONS
+                               ; Xilinx products are not designed or intended to be fail-safe, or for use in any
+                               ; application requiring fail-safe performance, such as life-support or safety
+                               ; devices or systems, Class III medical devices, nuclear facilities, applications
+                               ; related to the deployment of airbags, or any other applications that could lead
+                               ; to death, personal injury, or severe property or environmental damage
+                               ; (individually and collectively, "Critical Applications"). Customer assumes the
+                               ; sole risk and liability of any use of Xilinx products in Critical Applications,
+                               ; subject only to applicable laws and regulations governing limitations on product
+                               ; liability.
+                               ;
+                               ; THIS COPYRIGHT NOTICE AND DISCLAIMER MUST BE RETAINED AS PART OF THIS FILE AT ALL TIMES.
+                               ;
+                               ;------------------------------------------------------------------------------------------
+                               ;
+                               ;
+                               ;             _  ______ ____  ____  __  __  __
+                               ;            | |/ / ___|  _ \/ ___||  \/  |/ /_
+                               ;            | ' / |   | |_) \___ \| |\/| | '_ \
+                               ;            | . \ |___|  __/ ___) | |  | | (_) )
+                               ;            |_|\_\____|_|   |____/|_|  |_|\___/
+                               ;
+                               ;
+                               ;                PicoBlaze Reference Design.
+                               ;
+                               ;
+                               ; Routines for XADC Communication, Control and Monitoring
+                               ;
+                               ; Ken Chapman - Xilinx Ltd
+                               ;
+                               ; 9th January 2013 - Initial Version
+                               ;
+                               ;
+                               ;     NOTE - This is not a standalone PSM file. Include this file in a program that
+                               ;            then calls these routines and works with the values in scratch pad memory.
+                               ;
+                               ;                INCLUDE "xadc_routines.psm"
+                               ;
+                               ;
+                               ;     IMPORTANT - These routines interact with input and output ports which must
+                               ;                 be appropriately defined to interface with XADC. The CONSTANT
+                               ;                 directives defined below must correspond with the port assignments.
+                               ;
+                               ;
+                               ; INTRODUCTION
+                               ; ------------
+                               ;
+                               ; This file implements two routines that allow the XADC registers to be read or written
+                               ; using the DRP and KCPSM6 interface circuit defined in the hardware. Please see the
+                               ; 'kc705_kcpsm6_xadc.vhd' reference design which contains full descriptions of the
+                               ; interface and various KCPSM6 input and output ports allocated to it.
+                               ;
+                               ; This file also includes routines which help to interpret and convert register values
+                               ; into their corresponding voltage and temperature values.
+                               ;
+                               ;------------------------------------------------------------------------------------------
+                               ; Hardware Constants
+                               ;------------------------------------------------------------------------------------------
+                               ;
+                               ; The following constants define the input and output ports allocated to the XADC DRP
+                               ; interface. These constants reflect the ports used in the 'kc705_kcpsm6_xadc.vhd'
+                               ; reference design file and should be modified if different ports are allocated in your
+                               ; own designs.
+                               ;
+                               ; Prior to initiating a read or write transaction, KCPSM6 must present the 7-bit address of
+                               ; the target XADC register to the DRP interface using the following output port.
+                               ;
+                               CONSTANT XADC_register_address, 80         ; register address[6:0]
+                               ;
+                               ; If a new value is to be written to an XADC configuration register then the 16-bit value
+                               ; must also be presented to the DRP interface using the following pair of output ports.
+                               ;
+                               CONSTANT XADC_write_data0, 82              ; new register value[7:0]
+                               CONSTANT XADC_write_data1, 83              ; new register value[15:8]
+                               ;
+                               ; To initiate a transaction with XADC a value is output to a Constant Optimised Output
+                               ; Port. The value of bit0 defines the state of DWE for read (0) or write (1).
+                               ;
+                               CONSTANT XADC_start_port, 02               ; 'k_write_strobe' starts transaction
+                               CONSTANT XADC_read_mode, 00000000'b        ;   DWE = 0   read - bit0
+                               CONSTANT XADC_write_mode, 00000001'b       ;   DWE = 1  write - bit0
+                               ;
+                               ; Once a transaction has been started, the hardware will present a 'transaction in progress'
+                               ; flag 'tip' to KCPSM6 via the 'XADC_status_port' defined below. KCPSM6 must wait for 'tip'
+                               ; to be Low (0) before proceeding to read the register value requested or starting another
+                               ; transaction. The status port also provides KCPSM6 with the ability to check if XADC is
+                               ; being used, or has been modified, by the JTAG interface. Finally, this port is also used
+                               ; to observe the over temperature alarm signal (OT).
+                               ;
+                               CONSTANT XADC_status_port, 04
+                               CONSTANT XADC_tip, 00000001'b              ; 'transaction in progress' - bit0
+                               CONSTANT XADC_JTAG_busy, 00000010'b        ; JTAG busy                 - bit1
+                               CONSTANT XADC_JTAG_locked, 00000100'b      ; JTAG locked               - bit2
+                               CONSTANT XADC_JTAG_modified, 00001000'b    ; JTAG modified             - bit3
+                               CONSTANT XADC_OT_alarm, 00010000'b         ; OT over temperature alarm - bit4
+                               ;
+                               ; Following completion of a read transaction the 16-bit contents of the XADC register can
+                               ; be read from the following pair of input ports.
+                               ;
+                               CONSTANT XADC_read_data0, 02               ; register value[7:0]
+                               CONSTANT XADC_read_data1, 03               ; register value[15:8]
+                               ;
+                               ; As well as the 'OT' alarm observed via the 'XADC_status_port', XADC generates up to
+                               ; 7 more alarm signals (plus an 8th alarm which is the logical-OR of the 7 alarms). The
+                               ; following constant define the input port used by KCPSM6 to observe these alarms and the
+                               ; bits to which they have been allocated.
+                               ;
+                               CONSTANT XADC_alarm_port, 05
+                               CONSTANT XADC_ALM0_Temperature, 00000001'b ; ALM(0) Temperature          - bit0
+                               CONSTANT XADC_ALM1_VCCINT, 00000010'b      ; ALM(1) VCCINT               - bit1
+                               CONSTANT XADC_ALM2_VCCAUX, 00000100'b      ; ALM(2) VCCAUX               - bit2
+                               CONSTANT XADC_ALM3_VCCBRAM, 00001000'b     ; ALM(3) VCCBRAM              - bit3
+                               CONSTANT XADC_ALM4_VCCPINT, 00010000'b     ; ALM(4) VCCPINT  (Zynq only) - bit4
+                               CONSTANT XADC_ALM5_VCCPAUX, 00100000'b     ; ALM(5) VCCPAUX  (Zynq only) - bit5
+                               CONSTANT XADC_ALM6_VCCO_DDR, 01000000'b    ; ALM(6) VCCO_DDR (Zynq only) - bit6
+                               CONSTANT XADC_ALM7, 10000000'b             ; ALM(7) Any alarm            - bit7
+                               ;
+                               ;
+                               ;------------------------------------------------------------------------------------------
+                               ; Routine to read and return the contents of an XADC register.
+                               ;------------------------------------------------------------------------------------------
+                               ;
+                               ; Reads XADC register via DRP.
+                               ; The 7-bit address of the register to be read must be provided in sA.
+                               ; The 16-bit register value will be returned in register pair [s9,s8].
+                               ;
+                               ; Registers used s0, s8, s9 (preserved) and sA.
+                               ;
+                               ;
+                    read_XADC: OUTPUT sA, XADC_register_address           ;set address (DADDR)
+                               OUTPUTK XADC_read_mode, XADC_start_port    ;Start read transaction (DWE = 0)
+                               CALL wait_for_XADC_DRP                     ;wait for DRP to complete
+                               INPUT s8, XADC_read_data0                  ;read register value into [s9,s8]
+                               INPUT s9, XADC_read_data1
+                               RETURN 
+                               ;
+                               ;
+                               ;------------------------------------------------------------------------------------------
+                               ; Routine to write new value to an XADC configuration register.
+                               ;------------------------------------------------------------------------------------------
+                               ;
+                               ; Write XADC register via DRP.
+                               ; The address of the register to be written must be provided in sA.
+                               ;
+                               ;     NOTE - There are only 32 writable configuration registers so the
+                               ;            register address  should be in the range 40 to 5F hex.
+                               ;
+                               ; The 16-bit value to be stored in the configuration register must be provided in
+                               ; register pair [s9,s8].
+                               ;
+                               ; Registers used s0, s8 (preserved), s9 (preserved) and sA (preserved).
+                               ;
+                   write_XADC: OUTPUT sA, XADC_register_address           ;set address (DADDR)
+                               OUTPUT s8, XADC_write_data0                ;set data (DI[7:0])
+                               OUTPUT s9, XADC_write_data1                ;set data (DI[15:8])
+                               OUTPUTK XADC_write_mode, XADC_start_port   ;Start write transaction (DWE = 1)
+                               ;
+                               ; Test the 'transaction in progress' until it is observed to be Low.
+                               ; This will complete a write transaction or indicates when a register value
+                               ; is available to be read following a read transaction.
+                               ;
+            wait_for_XADC_DRP: INPUT s0, XADC_status_port
+                               TEST s0, XADC_tip
+                               JUMP NZ, wait_for_XADC_DRP
+                               RETURN 
+                               ;
+                               ;
+                               ;------------------------------------------------------------------------------------------
+                               ; Routine to read the XADC status and alarm signals.
+                               ;------------------------------------------------------------------------------------------
+                               ;
+                               ; This routine is a simple read of the input ports associated with the XADC status and
+                               ; alarm signals with the bits returned in registers 's8' and 's9'.
+                               ;
+                               ;     Hint - Constants have been defined to identify the bit allocations.
+                               ;            e.g.    TEST s8, XADC_ALM1_VCCINT   will test the VCCINT alarm bit.
+                               ;
+                               ;
+                               ;  Register  Bit   XADC Signal                   CONSTANT defined to isolate bit
+                               ;
+                               ;     s8      0    ALM(0) Temperature            XADC_ALM0_Temperature
+                               ;     s8      1    ALM(1) VCCINT                 XADC_ALM1_VCCINT
+                               ;     s8      2    ALM(2) VCCAUX                 XADC_ALM2_VCCAUX
+                               ;     s8      3    ALM(3) VCCBRAM                XADC_ALM3_VCCBRAM
+                               ;     s8      4    ALM(4) VCCPINT  (Zynq only)   XADC_ALM4_VCCPINT
+                               ;     s8      5    ALM(5) VCCPAUX  (Zynq only)   XADC_ALM5_VCCPAUX
+                               ;     s8      6    ALM(6) VCCO_DDR (Zynq only)   XADC_ALM6_VCCO_DDR
+                               ;     s8      7    ALM(7) Any alarm              XADC_ALM7
+                               ;
+                               ;     s9      1    JTAG busy                     XADC_JTAG_busy
+                               ;     s9      2    JTAG locked                   XADC_JTAG_locked
+                               ;     s9      3    JTAG modified                 XADC_JTAG_modified
+                               ;     s9      4    OT over temperature alarm     XADC_OT_alarm
+                               ;
+                               ; Registers s8 and s9.
+                               ;
+             read_XADC_status: INPUT s8, XADC_alarm_port
+                               INPUT s9, XADC_status_port
+                               AND s9, 00011110'b                         ;mask unused bits
+                               RETURN 
+                               ;
+                               ;
+                               ;------------------------------------------------------------------------------------------
+                               ; Routine to convert XADC Temperature sample to degrees centigrade
+                               ;------------------------------------------------------------------------------------------
+                               ;
+                               ; Die temperature is obtained by reading the temperature status register (00 hex) from
+                               ; XADC (obviously the die temperature channel must have been sampled for the value to be
+                               ; valid and reasonably current).
+                               ;
+                               ; The temperature sample obtained when reading the status register is 16-bits. Of these,
+                               ; it is the 12 most significant bits which are immediately trustworthy and represent a die
+                               ; temperature with a theoretical range from -273degC to +230.7degC. The transfer function
+                               ; for the 12-bit sample is...
+                               ;
+                               ;    Temperature in degC = ((12-bit_ADC_code x 503.975) / 4096) - 273.15
+                               ;
+                               ; However, the use of sample averaging (built-in to XADC when enabled, in the application
+                               ; or a combination of both) can exploit the 4 least significant bits to minimize
+                               ; quantisation effects and/or improve resolution. So in this routine the full 16-bit
+                               ; value will be used and converted using the following modified transfer function.
+                               ;
+                               ;    Temperature in degC = ((16-bit_ADC_code x 503.975) / (16 x 4096)) - 273.15
+                               ;
+                               ; Note that only a part of the theoretical temperature range could ever be observed in
+                               ; practice (e.g. -40 to +100 for industrial grade devices) so it is of more value to
+                               ; preserve the potentially useful resolution than the unused range. As such this routine
+                               ; converts the raw status register value into a new 16-bit value which more directly
+                               ; relates to degrees centigrade in a practical range.
+                               ;
+                               ;    Hint - Without any form or sample averaging or filtering then the standard 12-bit
+                               ;           resolution corresponds with 'steps' of 0.123degC . It is useful to recognise
+                               ;           that this means that die temperature can be known and presented to the nearest
+                               ;           WHOLE degree using simple rounding. It can also be justified to round
+                               ;           temperature to the nearest one half of a degree. Note however that that it
+                               ;           would be inappropriate to represent die temperature using greater numerical
+                               ;           accuracy than the 0.123degC step size (i.e. a decimal representation using
+                               ;           more than one decimal place). So just because the converted value produced
+                               ;           by this routine appears to have greater resolution it should be used with
+                               ;           due consideration.
+                               ;
+                               ;
+                               ; This routine will take the 16-bit temperature status register value in register pair
+                               ; [s9,s8] and convert it to a 16-bit signed value in register pair [s3,s2] representing
+                               ; die temperature in degrees centigrade.
+                               ;
+                               ; A 16x16 bit multiplication routine generating a 32-bit product is used to maintain a
+                               ; high degree of precision throughout the conversion process. The 16-bit temperature
+                               ; sample is multiplied by a 16-bit constant representing the value 503.975.
+                               ;
+                               ;  503.975 x 128 = 64508.8  --> 64509 ---> FBFD hex
+                               ;
+                               ; Then a 32-bit constant representing 273.15 is subtracted.
+                               ;
+                               ;  273.15 x 128 x 16 x 4096 = 2291348275.2 --> 2291348275 ---> 88933333 hex
+                               ;
+                               ; The most significant 16-bits of the 32-bit result will then represent temperature in
+                               ; degrees centigrade with a signed <9.7> format meaning 9 integer bits and 7 fractional
+                               ; bits providing more than adequate range and precision.
+                               ;
+                               ;
+                               ; Example
+                               ;          16-bit ADC Code =  9A85 hex     (Theoretically +31.045 degC)
+                               ;
+                               ;                 9A85
+                               ;               x FBFD
+                               ;             --------
+                               ;             98191C71  -->     98191C71
+                               ;                             - 88933333
+                               ;                               --------
+                               ;                               0F85E93E  -->  0F85
+                               ;
+                               ;         0F85 hex = 3973 --> 3973 / 128 = 31.039 degC
+                               ;
+                               ;         0F85 hex = 0000111110000101  --> 000011111.0000101  <9.7> format
+                               ;                                              31 and 5/128
+                               ;
+                               ;
+                               ; Operational limits of an industrial grade device
+                               ;
+                               ;    Temp      16-bit       Converted       Meaning of
+                               ;    degC      ADC Code     <9.7> format    signed <9.7> value
+                               ;
+                               ;    -40       766E hex     EBFF hex        -5121/128 = -40.0078 (-40 and 1/128)
+                               ;   +100       BD8C hex     3200 hex        +12800/128 = +100.0  (+100 and 0/128)
+                               ;
+                               ;
+                               ; Registers used s0, s1, s2 ,s3, s4, s5, s6, s7, s8, s9
+                               ;
+                               ; Provide: [s9,s8] - 16-bit temperature status register value.
+                               ; Returns: [s3,s2] - 16-bit signed <9.7> format temperature in degrees centigrade.
+                               ;
+     convert_XADC_temperature: LOAD s5, s9                                ;copy original 16-bit sample
+                               LOAD s4, s8
+                               LOAD s7, FB                                ;16-bit constant representing 503.975
+                               LOAD s6, FD
+                               CALL mult_16x16                            ;[s5,s4]x[s7,s6]=[s3,s2,s1,s0]
+                               SUB s0, 33                                 ;subtract 32-bit constant representing 273.15
+                               SUBCY s1, 33
+                               SUBCY s2, 93
+                               SUBCY s3, 88
+                               RETURN                                     ;[s3,s2] holds signed <9.7> format
+                               ;
+                               ;
+                               ;------------------------------------------------------------------------------------------
+                               ; Routine to convert an internal supply sample to a 16-bit milli-Volt integer value
+                               ;------------------------------------------------------------------------------------------
+                               ;
+                               ; Internal supply voltages are associated with the following status registers (obviously
+                               ; a supply must have been sampled for the value stored in a register to be valid).
+                               ;
+                               ;   Power                 Status Registers (Hex addresses)
+                               ;   Supply           Last sample       Minimum        Maximum
+                               ;
+                               ;   VCCINT               01              25             21
+                               ;   VCCAUX               02              26             22
+                               ;   VCCBRAM              06              27             23
+                               ;
+                               ;   VCCPINT              0D              2C             28    (Zynq Only)
+                               ;   VCCPAUX              0E              2D             29    (Zynq Only)
+                               ;   VCCO_DDR             0F              2E             2A    (Zynq Only)
+                               ;
+                               ;
+                               ; The value obtained when reading a power supply status register is 16-bits. Of these,
+                               ; it is the 12 most significant bits which are immediately trustworthy and represent a
+                               ; voltage with a theoretical range from 0v to 2.999v. The transfer function for the
+                               ; 12-bit sample is...
+                               ;
+                               ;    Voltage = (12-bit_ADC_code / 4096) x 3
+                               ;
+                               ; However, the use of sample averaging (built-in to XADC when enabled, in the application
+                               ; or a combination of both) can exploit the 4 least significant bits to minimize
+                               ; quantisation effects and/or improve resolution. So in this routine the full 16-bit
+                               ; value will be used and converted using the following modified transfer function.
+                               ;
+                               ;    Voltage = (16-bit_ADC_code / (16 x 4096) ) x 3
+                               ;
+                               ;
+                               ; This routine takes a 16-bit voltage status register value in register pair [s9,s8] and
+                               ; converts it to a 16-bit unsigned integer representing voltage rounded to the nearest
+                               ; milli-volt (mV). The standard 12-bit resolution corresponds with 'steps' of 0.732mV so
+                               ; 1mV resolution is justified and reasonable especially as this routine will maintain
+                               ; higher precision throughout the conversion process.
+                               ;
+                               ; A 16x16 bit multiplication routine generating a 32-bit product is used to scale
+                               ; the status register value into a 'milli-volt' value aligned with the upper 16-bits of
+                               ; the 32-bit product. Following multiplication, bit15 of the product represents 0.5mV and
+                               ; this is used to round the final voltage value before it is returned.
+                               ;
+                               ;
+                               ; Example
+                               ;          16-bit ADC Code =  5555 hex     (Theoretically 1.000V = 1000mV)
+                               ;
+                               ;                 5555
+                               ;               x 0BB8  <-- Scaling factor
+                               ;             --------
+                               ;             03E7FC18  -->     03E7 (upper 16-bits of 32-bit product)
+                               ;                                + 1 (most significant bit of FC18 is High >=0.5mv)
+                               ;                               ----
+                               ;                               03E8  -->  1000mV
+                               ;
+                               ;
+                               ; Registers used s0, s1, s2 ,s3, s4, s5, s6, s7, s8, s9
+                               ;
+                               ; Provide: [s9,s8] - 16-bit supply voltage status register value.
+                               ; Returns: [s3,s2] - 16-bit unsigned voltage in milli-volts (mV).
+                               ;
+  convert_XADC_supply_voltage: LOAD s5, s9                                ;copy original 16-bit sample
+                               LOAD s4, s8
+                               LOAD s7, 0B                                ;16-bit scaling constant
+                               LOAD s6, B8
+                               CALL mult_16x16                            ;[s5,s4]x[s7,s6]=[s3,s2,s1,s0]
+                               TEST s1, 10000000'b                        ;round up to next mV if fraction
+                               ADDCY s2, 00                               ;  is 0.5mV or more
+                               ADDCY s3, 00
+                               RETURN                                     ;[s3,s2] holds 16-bit mV value
+                               ;
+                               ;
+                               ;------------------------------------------------------------------------------------------
+                               ; Routines to convert Unipolar and Bipolar samples to a 16-bit milli-Volt integer value
+                               ;------------------------------------------------------------------------------------------
+                               ;
+                               ; The external analogue inputs are associated with the following status registers.
+                               ; Obviously an analogue input must be connected to XADC and that input must have been
+                               ; sampled for the value stored in the corresponding status register to be valid.
+                               ;
+                               ;
+                               ;   Analogue            Status Register
+                               ;   Input               (Hex addresses)
+                               ;
+                               ;   VP/VN                     03
+                               ;   VAUXP[0]/VAUXN[0]         10
+                               ;   VAUXP[1]/VAUXN[1]         11
+                               ;   VAUXP[2]/VAUXN[2]         12
+                               ;   VAUXP[3]/VAUXN[3]         13
+                               ;   VAUXP[4]/VAUXN[4]         14
+                               ;   VAUXP[5]/VAUXN[5]         15
+                               ;   VAUXP[6]/VAUXN[6]         16
+                               ;   VAUXP[7]/VAUXN[7]         17
+                               ;   VAUXP[8]/VAUXN[8]         18
+                               ;   VAUXP[9]/VAUXN[9]         19
+                               ;   VAUXP[A]/VAUXN[A]         1A
+                               ;   VAUXP[B]/VAUXN[B]         1B
+                               ;   VAUXP[C]/VAUXN[C]         1C
+                               ;   VAUXP[D]/VAUXN[D]         1D
+                               ;   VAUXP[E]/VAUXN[E]         1E
+                               ;   VAUXP[F]/VAUXN[F]         1F
+                               ;
+                               ;
+                               ; An input can be configured to be Unipolar with an input voltage range of 0.0v to +1.0v or
+                               ; Bipolar with and input range of -0.5v to +0.5v. In each case the total voltage range is
+                               ; 1v and the value read from the status register reflects this range. The only difference
+                               ; being that the Unipolar value is unsigned and the Bipolar value is a signed using twos
+                               ; complement format.
+                               ;
+                               ; The value obtained when reading one of these status registers is 16-bits. Of these bits,
+                               ; it is the 12 most significant bits which are immediately trustworthy and represent a
+                               ; voltage with the following transfer function...
+                               ;
+                               ;    Voltage = 12-bit_ADC_code / 4096
+                               ;
+                               ; However, the use of sample averaging (built-in to XADC when enabled, in the application
+                               ; or a combination of both) can exploit the 4 least significant bits to minimize
+                               ; quantisation effects and/or improve resolution. So in this routine the full 16-bit
+                               ; value will be used and converted using the following modified transfer function.
+                               ;
+                               ;    Voltage = 16-bit_ADC_code / (16 x 4096)
+                               ;
+                               ; When an input is Unipolar the ADC_code is a 16-bit unsigned value and must be converted
+                               ; to represent a voltage in the range 0.0v to +1.0v. When an input is Bipolar the ADC_code
+                               ; is a 16-bit signed value (twos complement) and must be converted to represent a voltage
+                               ; in the range -0.5v to +0.5v.
+                               ;
+                               ;      16-bit          Unipolar    Unipolar         Bipolar    Bipolar
+                               ;      ADC_code        value       voltage          value      voltage
+                               ;
+                               ;       0000           0           0v                0           0v
+                               ;       7FFF           32767       0.49998v          +32767      +0.49998v
+                               ;       8000           32768       0.5v              -32768      -0.5v
+                               ;       FFFF           65535       0.99998v          -1          -0.0153v
+                               ;
+                               ; Both the routines provided below take a 16-bit voltage status register value in register
+                               ; pair [s9,s8] and convert it to a 16-bit signed integer representing voltage rounded to
+                               ; the nearest milli-volt (mV). The standard 12-bit resolution corresponds with 'steps' of
+                               ; 244uV so 1mV resolution is justified and reasonable especially as this routine will
+                               ; maintain higher precision throughout the conversion process. Note that the effect of
+                               ; rounding may result in converted values of 1000mv for Unipolar and +500mV for Bipolar
+                               ; even though the theoretical limit of the transfer function falls slightly short of these
+                               ; maximum positive levels.
+                               ;
+                               ; A Unipolar input should result in converted values in the range 0mV to 1000mv which is
+                               ; 0000 to 03E8 hex. Since all values are positive the 16-bit value could be considered to
+                               ; be an unsigned 16-bit integer. However, it can be useful to think in terms of the
+                               ; returned value being a 16-bit signed integer which only has positive values. In this
+                               ; way the same signed representation applies to both Unipolar and Bipolar values.
+                               ;
+                               ; A Bipolar input should result in values in the range -500mV to +500mv which is FE0C to
+                               ; 01F4 hex in 16-bit twos complement.
+                               ;
+                               ; The conversion process employs a 16x16 bit multiplication routine generating a 32-bit
+                               ; product which is used to scale the status register value into a 'milli-volt' value
+                               ; aligned with the upper 16-bits of the 32-bit product. Following multiplication of a
+                               ; positive value, bit15 of the product represents 0.5mV and this is used to round the
+                               ; final voltage value before it is returned.
+                               ;
+                               ; All Unipolar values are positive so the scaling and rounding is straightforward.
+                               ; Positive Bipolar values can also be handled in exactly the same way as Unipolar values.
+                               ; When a negative Bipolar value needs to be converted it will be complemented to form a
+                               ; positive value which can be scaled and rounded in the same way. The scaled and rounded
+                               ; result is then complemented to restore the negative polarity to the value. This scheme
+                               ; enables most of the code to be reused but also ensures that rounding effects are balanced
+                               ; around zero (something which is easy to get wrong when handling twos complement).
+                               ;
+                               ;
+                               ; Unipolar example
+                               ;
+                               ;          16-bit ADC Code =  E666 hex     (Theoretically 0.900V = 900mV)
+                               ;
+                               ;                 E666
+                               ;               x 03E8  <-- Scaling factor
+                               ;             --------
+                               ;             0383FE70  -->     0383 (upper 16-bits of 32-bit product)
+                               ;                                + 1 (most significant bit of FE70 High >=0.5mv)
+                               ;                               ----
+                               ;                               0384  -->  900mV
+                               ;
+                               ;
+                               ; Bipolar example - Positive
+                               ;
+                               ;          16-bit ADC Code =  6666 hex     (Theoretically +0.39999V = +400mV)
+                               ;
+                               ;   Most significant bit of 999A is Low so value is positive and can be converted
+                               ;   in the same way as a Unipolar value.
+                               ;
+                               ;                 6666
+                               ;               x 03E8  <-- Scaling factor
+                               ;             --------
+                               ;             018FFE70  -->     018F (upper 16-bits of 32-bit product)
+                               ;                                + 1 (most significant bit of FE70 high >= +0.5mv)
+                               ;                               ----
+                               ;                               0190  -->  +400mV
+                               ;
+                               ;
+                               ; Bipolar example - Negative
+                               ;
+                               ;          16-bit ADC Code =  999A hex     (Theoretically -0.39999V = -400mV)
+                               ;
+                               ;   Most significant bit of 999A is High so value is negative. In this case the value
+                               ;   is first converted to a positive number whilst remembering that the value is negative.
+                               ;
+                               ;        999A  --> invert all bits --> 6665 --> +1 --> 6666
+                               ;
+                               ;   Convert the positive value in the same way as a Unipolar value.
+                               ;
+                               ;                 6666
+                               ;               x 03E8  <-- Scaling factor
+                               ;             --------
+                               ;             018FFE70  -->     018F (upper 16-bits of 32-bit product)
+                               ;                                + 1 (most significant bit of FE70 high >= +0.5mv)
+                               ;                               ----
+                               ;                               0190  -->  +400mV
+                               ;
+                               ;   Restore the negative polarity.
+                               ;
+                               ;        0190  --> invert all bits --> FE6F  --> +1 --> FE70
+                               ;
+                               ;        FE70  -->  -400mV
+                               ;
+                               ;
+                               ; Unipolar Conversion
+                               ; -------------------
+                               ;
+                               ; Provide: [s9,s8] - 16-bit Unipolar external input status register value.
+                               ; Returns: [s3,s2] - 16-bit signed (but only positive) voltage in milli-volts (mV).
+                               ;
+                               ; Registers used s0, s1, s2 ,s3, s4, s5, s6, s7, s8, s9
+                               ;
+convert_XADC_unipolar_voltage: LOAD s5, s9                                ;copy original 16-bit sample
+                               LOAD s4, s8
+                               LOAD s7, 03                                ;16-bit scaling constant
+                               LOAD s6, E8
+                               CALL mult_16x16                            ;[s5,s4]x[s7,s6]=[s3,s2,s1,s0]
+                               TEST s1, 10000000'b                        ;round up to next mV if fraction
+                               ADDCY s2, 00                               ;  is 0.5mV or more
+                               ADDCY s3, 00
+                               RETURN                                     ;[s3,s2] holds 16-bit mV value
+                               ;
+                               ;
+                               ;
+                               ; Bipolar Conversion
+                               ; -------------------
+                               ;
+                               ; Provide: [s9,s8] - 16-bit Unipolar external input status register value.
+                               ; Returns: [s3,s2] - 16-bit signed (but only positive) voltage in milli-volts (mV).
+                               ;
+                               ; Registers used s0, s1, s2 ,s3, s4, s5, s6, s7, s8, s9
+                               ;
+ convert_XADC_bipolar_voltage: TEST s9, 10000000'b                        ;test sign of sample
+                               JUMP NZ, negative_bipolar
+                               JUMP convert_XADC_unipolar_voltage         ;includes return
+                               ;
+             negative_bipolar: XOR s8, FF                                 ;twos complement sample
+                               XOR s9, FF                                 ;to make positive
+                               ADD s8, 01
+                               ADDCY s9, 00
+                               CALL convert_XADC_unipolar_voltage         ;scale and round positive value
+                               XOR s2, FF                                 ;twos complement converted value
+                               XOR s3, FF                                 ;to make negative
+                               ADD s2, 01
+                               ADDCY s3, 00
+                               RETURN                                     ;[s3,s2] holds negative 16-bit mV value
+                               ;
+                               ;
+                               ;------------------------------------------------------------------------------------------
+                               ; 16-bit x 16-bit Multiplication routine (unsigned)
+                               ;------------------------------------------------------------------------------------------
+                               ;
+                               ;     16-bit input [s5,s4]        (contents of [s5,s4] are not changed)
+                               ;     16-bit input [s7,s6]
+                               ;     32-bit output [s3,s2,s1,s0]
+                               ;
+                   mult_16x16: LOAD s8, 16'd                              ;16-bits to multiply by
+                               LOAD s3, 00                                ;clear result
+                               LOAD s2, 00                                ;[s1,s0] do not need to be reset
+              mult_16x16_loop: SR0 s7                                     ;multiply by LSB to MSB
+                               SRA s6                                     ;
+                               JUMP NC, shift32
+                               ADD s2, s4                                 ;add [s5,s4] to upper 16-bits of result
+                               ADDCY s3, s5
+                      shift32: SRA s3                                     ;shift result right (/2)
+                               SRA s2                                     ;shift includes any carry from addition
+                               SRA s1
+                               SRA s0
+                               SUB s8, 1'd                                ;count iterations
+                               JUMP NZ, mult_16x16_loop
+                               RETURN 
+                               ;
+                               ;
+                               ;------------------------------------------------------------------------------------------
+                               ; End of 'xadc_routines.psm'
+                               ;------------------------------------------------------------------------------------------
+                               ;

@@ -1,0 +1,1916 @@
+/* Symbol Table */
+// ASCII_byte_to_hex = LABEL: 372
+// ASCII_letter = LABEL: 395
+// ASCII_to_hex = LABEL: 385
+// ISR = LABEL: 1013
+// ISR_preserve_s0 = CONSTANT: 0
+// MCS_address = LABEL: 103
+// SF_STS = CONSTANT: 128
+// SF_addr_hi_port = CONSTANT: 128
+// SF_addr_lo_port = CONSTANT: 32
+// SF_addr_mi_port = CONSTANT: 64
+// SF_buffer_write = LABEL: 119
+// SF_byte_read = LABEL: 224
+// SF_byte_write = LABEL: 234
+// SF_ce = CONSTANT: 2
+// SF_control_port = CONSTANT: 8
+// SF_data_in_port = CONSTANT: 2
+// SF_data_out_port = CONSTANT: 16
+// SF_erase_block = LABEL: 65
+// SF_information = LABEL: 194
+// SF_init = LABEL: 39
+// SF_read = CONSTANT: 1
+// SF_single_byte_write = LABEL: 157
+// SF_status = LABEL: 213
+// SF_we = CONSTANT: 4
+// UART_data = REGISTER: 15
+// UART_read_port = CONSTANT: 1
+// UART_write = LABEL: 309
+// UART_write_port = CONSTANT: 4
+// abort_erase = LABEL: 63
+// block_erase_command = LABEL: 44
+// blocks_erase = LABEL: 45
+// blocks_erase_loop = LABEL: 56
+// character_0 = CONSTANT: 48
+// character_1 = CONSTANT: 49
+// character_2 = CONSTANT: 50
+// character_3 = CONSTANT: 51
+// character_4 = CONSTANT: 52
+// character_5 = CONSTANT: 53
+// character_6 = CONSTANT: 54
+// character_7 = CONSTANT: 55
+// character_8 = CONSTANT: 56
+// character_9 = CONSTANT: 57
+// character_A = CONSTANT: 65
+// character_B = CONSTANT: 66
+// character_BS = CONSTANT: 8
+// character_C = CONSTANT: 67
+// character_CR = CONSTANT: 13
+// character_D = CONSTANT: 68
+// character_E = CONSTANT: 69
+// character_F = CONSTANT: 70
+// character_G = CONSTANT: 71
+// character_H = CONSTANT: 72
+// character_I = CONSTANT: 73
+// character_J = CONSTANT: 74
+// character_K = CONSTANT: 75
+// character_L = CONSTANT: 76
+// character_LF = CONSTANT: 10
+// character_M = CONSTANT: 77
+// character_N = CONSTANT: 78
+// character_O = CONSTANT: 79
+// character_P = CONSTANT: 80
+// character_Q = CONSTANT: 81
+// character_R = CONSTANT: 82
+// character_S = CONSTANT: 83
+// character_T = CONSTANT: 84
+// character_U = CONSTANT: 85
+// character_V = CONSTANT: 86
+// character_W = CONSTANT: 87
+// character_X = CONSTANT: 88
+// character_XOFF = CONSTANT: 19
+// character_XON = CONSTANT: 17
+// character_Y = CONSTANT: 89
+// character_Z = CONSTANT: 90
+// character_a = CONSTANT: 97
+// character_b = CONSTANT: 98
+// character_c = CONSTANT: 99
+// character_close = CONSTANT: 41
+// character_colon = CONSTANT: 58
+// character_comma = CONSTANT: 44
+// character_d = CONSTANT: 100
+// character_divide = CONSTANT: 47
+// character_dollar = CONSTANT: 36
+// character_e = CONSTANT: 101
+// character_equals = CONSTANT: 61
+// character_exclaim = CONSTANT: 33
+// character_f = CONSTANT: 102
+// character_fullstop = CONSTANT: 46
+// character_g = CONSTANT: 103
+// character_greater_than = CONSTANT: 62
+// character_h = CONSTANT: 104
+// character_i = CONSTANT: 105
+// character_j = CONSTANT: 106
+// character_k = CONSTANT: 107
+// character_l = CONSTANT: 108
+// character_less_than = CONSTANT: 60
+// character_m = CONSTANT: 109
+// character_minus = CONSTANT: 45
+// character_n = CONSTANT: 110
+// character_o = CONSTANT: 111
+// character_open = CONSTANT: 40
+// character_p = CONSTANT: 112
+// character_plus = CONSTANT: 43
+// character_q = CONSTANT: 113
+// character_question = CONSTANT: 63
+// character_r = CONSTANT: 114
+// character_s = CONSTANT: 115
+// character_semi_colon = CONSTANT: 59
+// character_space = CONSTANT: 32
+// character_t = CONSTANT: 116
+// character_u = CONSTANT: 117
+// character_v = CONSTANT: 118
+// character_w = CONSTANT: 119
+// character_x = CONSTANT: 120
+// character_y = CONSTANT: 121
+// character_z = CONSTANT: 122
+// cold_start = LABEL: 0
+// data_start = CONSTANT: 47
+// decimal_to_ASCII = LABEL: 311
+// delay_1ms = LABEL: 272
+// delay_1s = LABEL: 282
+// delay_1us = LABEL: 263
+// delay_1us_constant = CONSTANT: 11
+// delay_20ms = LABEL: 277
+// delay_40us = LABEL: 267
+// erase_command = LABEL: 42
+// get_data = LABEL: 150
+// hex_byte_to_ASCII = LABEL: 342
+// hex_to_ASCII = LABEL: 354
+// isr_send_character = LABEL: 1020
+// isr_send_xon = LABEL: 1019
+// line_start = CONSTANT: 43
+// new_low_address = LABEL: 114
+// number_char = LABEL: 357
+// obtain_8bits = LABEL: 397
+// onechar_to_value = LABEL: 324
+// program_MCS = LABEL: 76
+// program_command = LABEL: 71
+// prompt = LABEL: 7
+// read_MCS_byte = LABEL: 91
+// read_MCS_line = LABEL: 87
+// read_XON = LABEL: 301
+// read_character = LABEL: 292
+// read_command = LABEL: 163
+// read_from_UART = LABEL: 287
+// read_upper_case = LABEL: 34
+// rx_data_present = CONSTANT: 8
+// rx_full = CONSTANT: 32
+// rx_half_full = CONSTANT: 16
+// s0 = REGISTER: 0
+// s1 = REGISTER: 1
+// s2 = REGISTER: 2
+// s3 = REGISTER: 3
+// s4 = REGISTER: 4
+// s5 = REGISTER: 5
+// s6 = REGISTER: 6
+// s7 = REGISTER: 7
+// s8 = REGISTER: 8
+// s9 = REGISTER: 9
+// sA = REGISTER: 10
+// sB = REGISTER: 11
+// sC = REGISTER: 12
+// sD = REGISTER: 13
+// sE = REGISTER: 14
+// sF = REGISTER: 15
+// send_Abort = LABEL: 753
+// send_CR = LABEL: 403
+// send_Confirm = LABEL: 724
+// send_Erase = LABEL: 544
+// send_Erase_in_progress = LABEL: 521
+// send_ID = LABEL: 710
+// send_MCS_file = LABEL: 503
+// send_Menu = LABEL: 563
+// send_OK = LABEL: 556
+// send_SF_byte = LABEL: 182
+// send_SF_line = LABEL: 178
+// send_SF_page = LABEL: 177
+// send_Waiting_MCS_file = LABEL: 482
+// send_address = LABEL: 766
+// send_byte = LABEL: 715
+// send_counter_timer = LABEL: 256
+// send_data = LABEL: 782
+// send_equals = LABEL: 779
+// send_hex_3bytes = LABEL: 365
+// send_hex_byte = LABEL: 359
+// send_space = LABEL: 406
+// send_to_UART = LABEL: 305
+// send_welcome = LABEL: 409
+// set_SF_read_array_mode = LABEL: 244
+// spare1 = CONSTANT: 64
+// status_port = CONSTANT: 0
+// test_for_ten = LABEL: 312
+// twochar_to_value = LABEL: 328
+// tx_data_present = CONSTANT: 1
+// tx_full = CONSTANT: 4
+// tx_half_full = CONSTANT: 2
+// upper_case = LABEL: 318
+// wait_1ms = LABEL: 273
+// wait_1s = LABEL: 283
+// wait_1us = LABEL: 264
+// wait_20ms = LABEL: 278
+// wait_40us = LABEL: 268
+// wait_MCS_line_Start = LABEL: 88
+// wait_Rx_character = LABEL: 288
+// wait_SF_loop = LABEL: 249
+// wait_SF_ready = LABEL: 247
+// wait_XON = LABEL: 297
+// warm_start = LABEL: 5
+// welcome_start = LABEL: 3
+// write_buffer_loop = LABEL: 128
+// write_command = LABEL: 140
+// write_spm_data = LABEL: 82
+
+/* Program Code */
+// #1: ;KCPSM3 Program - UART programming of StrataFLASH memory on the Spartan-3E Starter Kit.
+// #2: ;
+// #3: ;Ken Chapman - Xilinx Ltd
+// #4: ;
+// #5: ;Version v1.00 - 28th March 2006
+// #6: ;
+// #7: ;This program uses a 115200 baud UART connection with XON/XOFF flow control
+// #8: ;to allow a standard MCS file for the configuration of a Spartan-3E device to
+// #9: ;be programmed into the Intel StrataFLASH device on the board.
+// #10: ;
+// #11: ;
+// #12: ;
+// #13: ;
+// #14: ;**************************************************************************************
+// #15: ; Port definitions
+// #16: ;**************************************************************************************
+// #17: ;
+// #18: ;
+// #19: CONSTANT(status_port,0) ;UART and filter status input
+// #20: CONSTANT(tx_data_present,1) ;  Transmitter  data present - bit0
+// #21: CONSTANT(tx_half_full,2) ;    FIFO          half full - bit1
+// #22: CONSTANT(tx_full,4) ;                       full - bit2
+// #23: CONSTANT(rx_data_present,8) ;               data present - bit3
+// #24: CONSTANT(rx_half_full,16) ;  Receiver        half full - bit4
+// #25: CONSTANT(rx_full,32) ;    FIFO               full - bit5
+// #26: CONSTANT(spare1,64) ;                  spare '0' - bit6
+// #27: CONSTANT(SF_STS,128) ;            StrataFLASH STS - bit7
+// #28: ;
+// #29: CONSTANT(UART_read_port,1) ;UART Rx data input
+// #30: ;
+// #31: CONSTANT(UART_write_port,4) ;UART Tx data output
+// #32: ;
+// #33: ;
+// #34: CONSTANT(SF_data_in_port,2) ;Read data from StrataFLASH device
+// #35: ;
+// #36: CONSTANT(SF_data_out_port,16) ;Data to write into StrataFLASH device
+// #37: ;
+// #38: CONSTANT(SF_addr_hi_port,128) ;StrataFLASH address[23:16]
+// #39: CONSTANT(SF_addr_mi_port,64) ;StrataFLASH address[15:8]
+// #40: CONSTANT(SF_addr_lo_port,32) ;StrataFLASH address[7:0]
+// #41: ;
+// #42: CONSTANT(SF_control_port,8) ;StrataFLASH control
+// #43: CONSTANT(SF_read,1) ;         active High read - bit0
+// #44: CONSTANT(SF_ce,2) ; active Low device enable - bit1
+// #45: CONSTANT(SF_we,4) ;         active Low write - bit2
+// #46: ;
+// #47: ;
+// #48: ;
+// #49: ;**************************************************************************************
+// #50: ; Special Register usage
+// #51: ;**************************************************************************************
+// #52: ;
+// #53: NAMEREG(sF,UART_data) ;used to pass data to and from the UART
+// #54: ;
+// #55: ;
+// #56: ;**************************************************************************************
+// #57: ; Useful data constants
+// #58: ;**************************************************************************************
+// #59: ;
+// #60: ;Constant to define a software delay of 1us. This must be adjusted to reflect the
+// #61: ;clock applied to KCPSM3. Every instruction executes in 2 clock cycles making the
+// #62: ;calculation highly predictable. The '6' in the following equation even allows for
+// #63: ;'CALL delay_1us' instruction in the initiating code.
+// #64: ;
+// #65: ; delay_1us_constant =  (clock_rate - 6)/4       Where 'clock_rate' is in MHz
+// #66: ;
+// #67: ;Example: For a 50MHz clock the constant value is (10-6)/4 = 11  (0B Hex).
+// #68: ;For clock rates below 10MHz the value of 1 must be used and the operation will
+// #69: ;become lower than intended.
+// #70: ;
+// #71: CONSTANT(delay_1us_constant,11)
+// #72: ;
+// #73: ;
+// #74: ;
+// #75: ;ASCII table
+// #76: ;
+// #77: CONSTANT(character_a,97)
+// #78: CONSTANT(character_b,98)
+// #79: CONSTANT(character_c,99)
+// #80: CONSTANT(character_d,100)
+// #81: CONSTANT(character_e,101)
+// #82: CONSTANT(character_f,102)
+// #83: CONSTANT(character_g,103)
+// #84: CONSTANT(character_h,104)
+// #85: CONSTANT(character_i,105)
+// #86: CONSTANT(character_j,106)
+// #87: CONSTANT(character_k,107)
+// #88: CONSTANT(character_l,108)
+// #89: CONSTANT(character_m,109)
+// #90: CONSTANT(character_n,110)
+// #91: CONSTANT(character_o,111)
+// #92: CONSTANT(character_p,112)
+// #93: CONSTANT(character_q,113)
+// #94: CONSTANT(character_r,114)
+// #95: CONSTANT(character_s,115)
+// #96: CONSTANT(character_t,116)
+// #97: CONSTANT(character_u,117)
+// #98: CONSTANT(character_v,118)
+// #99: CONSTANT(character_w,119)
+// #100: CONSTANT(character_x,120)
+// #101: CONSTANT(character_y,121)
+// #102: CONSTANT(character_z,122)
+// #103: CONSTANT(character_A,65)
+// #104: CONSTANT(character_B,66)
+// #105: CONSTANT(character_C,67)
+// #106: CONSTANT(character_D,68)
+// #107: CONSTANT(character_E,69)
+// #108: CONSTANT(character_F,70)
+// #109: CONSTANT(character_G,71)
+// #110: CONSTANT(character_H,72)
+// #111: CONSTANT(character_I,73)
+// #112: CONSTANT(character_J,74)
+// #113: CONSTANT(character_K,75)
+// #114: CONSTANT(character_L,76)
+// #115: CONSTANT(character_M,77)
+// #116: CONSTANT(character_N,78)
+// #117: CONSTANT(character_O,79)
+// #118: CONSTANT(character_P,80)
+// #119: CONSTANT(character_Q,81)
+// #120: CONSTANT(character_R,82)
+// #121: CONSTANT(character_S,83)
+// #122: CONSTANT(character_T,84)
+// #123: CONSTANT(character_U,85)
+// #124: CONSTANT(character_V,86)
+// #125: CONSTANT(character_W,87)
+// #126: CONSTANT(character_X,88)
+// #127: CONSTANT(character_Y,89)
+// #128: CONSTANT(character_Z,90)
+// #129: CONSTANT(character_0,48)
+// #130: CONSTANT(character_1,49)
+// #131: CONSTANT(character_2,50)
+// #132: CONSTANT(character_3,51)
+// #133: CONSTANT(character_4,52)
+// #134: CONSTANT(character_5,53)
+// #135: CONSTANT(character_6,54)
+// #136: CONSTANT(character_7,55)
+// #137: CONSTANT(character_8,56)
+// #138: CONSTANT(character_9,57)
+// #139: CONSTANT(character_colon,58)
+// #140: CONSTANT(character_fullstop,46)
+// #141: CONSTANT(character_semi_colon,59)
+// #142: CONSTANT(character_minus,45)
+// #143: CONSTANT(character_plus,43)
+// #144: CONSTANT(character_comma,44)
+// #145: CONSTANT(character_less_than,60) ;'<'
+// #146: CONSTANT(character_greater_than,62) ;'>'
+// #147: CONSTANT(character_open,40) ;'('
+// #148: CONSTANT(character_close,41) ;')'
+// #149: CONSTANT(character_divide,47) ;'/'
+// #150: CONSTANT(character_equals,61)
+// #151: CONSTANT(character_space,32)
+// #152: CONSTANT(character_CR,13) ;carriage return
+// #153: CONSTANT(character_LF,10) ;line feed
+// #154: CONSTANT(character_question,63) ;'?'
+// #155: CONSTANT(character_dollar,36)
+// #156: CONSTANT(character_exclaim,33) ;'!'
+// #157: CONSTANT(character_BS,8) ;Back Space command character
+// #158: CONSTANT(character_XON,17) ;Flow control ON
+// #159: CONSTANT(character_XOFF,19) ;Flow control OFF
+// #160: ;
+// #161: ;
+// #162: ;**************************************************************************************
+// #163: ; Scratch Pad Memory Locations
+// #164: ;**************************************************************************************
+// #165: ;
+// #166: CONSTANT(ISR_preserve_s0,0) ;preserve register during ISR
+// #167: ;
+// #168: ;
+// #169: ;
+// #170: ;Store up to one line of an MCS file as bytes
+// #171: ;A typical data line consists of:-
+// #172: ;:     Start character which is not stored
+// #173: ;10    Number of data bytes included (16 in this case)
+// #174: ;aaaa  Lower 16-bits of the storage address
+// #175: ;00    Record type (data in this case)
+// #176: ;dddd...   Data bytes (typically 16 which is the maximum)
+// #177: ;cc    Checksum
+// #178: ;CR/LF Line will end in carriage return and/or line feed which is not stored.
+// #179: ;
+// #180: ;So a total of 21 bytes could be stored before processing.
+// #181: ;This is located at the end of scratch pad memory.
+// #182: ;
+// #183: CONSTANT(line_start,43) ;21 bytes until end of memory
+// #184: CONSTANT(data_start,47) ;Start of data field if present
+// #185: ;
+// #186: ;
+// #187: ;**************************************************************************************
+// #188: ; Initialise the system and welcome message
+// #189: ;**************************************************************************************
+// #190: ;
+// @000 #191: [cold_start]
+30027 // @000 #191: CALL(SF_init) ;initialise StrataFLASH controls
+3011a // @001 #192: CALL(delay_1s) ;delay because UART is fast and JTAG startup sequence can be slow
+3c001 // @002 #193: ENABLE(INTERRUPT) ;Interrupt is used for XON/XOFF flow control
+// @003 #194: [welcome_start]
+30193 // @003 #194: CALL(send_CR)
+30199 // @004 #195: CALL(send_welcome) ;start up message and version number
+// #196: ;
+// #197: ;
+// #198: ;**************************************************************************************
+// #199: ; Main menu and command selection
+// #200: ;**************************************************************************************
+// #201: ;
+// #202: ;
+// @005 #203: [warm_start]
+30233 // @005 #203: CALL(send_Menu) ;Menu and command selection
+30193 // @006 #204: CALL(send_CR)
+// #205: ;
+// @007 #206: [prompt]
+30193 // @007 #206: CALL(send_CR)
+30193 // @008 #207: CALL(send_CR)
+00f3e // @009 #208: LOAD(UART_data,character_greater_than) ;prompt for input
+30131 // @00a #209: CALL(send_to_UART)
+30022 // @00b #210: CALL(read_upper_case)
+14045 // @00c #211: COMPARE(s0,character_E) ;test for commands and execute as required
+3502a // @00d #212: JUMP(Z,erase_command)
+14042 // @00e #213: COMPARE(s0,character_B)
+3502c // @00f #214: JUMP(Z,block_erase_command)
+14050 // @010 #215: COMPARE(s0,character_P)
+35047 // @011 #216: JUMP(Z,program_command)
+14057 // @012 #217: COMPARE(s0,character_W)
+3508c // @013 #218: JUMP(Z,write_command)
+14052 // @014 #219: COMPARE(s0,character_R)
+350a3 // @015 #220: JUMP(Z,read_command)
+14049 // @016 #221: COMPARE(s0,character_I)
+350c2 // @017 #222: JUMP(Z,SF_information)
+14048 // @018 #223: COMPARE(s0,character_H)
+35003 // @019 #224: JUMP(Z,welcome_start)
+14053 // @01a #225: COMPARE(s0,character_S)
+350d5 // @01b #226: JUMP(Z,SF_status)
+30193 // @01c #227: CALL(send_CR) ;no valid command input
+00f3f // @01d #228: LOAD(UART_data,character_question) ;display ???
+30131 // @01e #229: CALL(send_to_UART)
+30131 // @01f #230: CALL(send_to_UART)
+30131 // @020 #231: CALL(send_to_UART)
+34007 // @021 #232: JUMP(prompt) ;Try again!
+// #233: ;
+// #234: ;
+// @022 #235: [read_upper_case]
+3011f // @022 #235: CALL(read_from_UART) ;read command character from UART
+30131 // @023 #236: CALL(send_to_UART) ;echo character
+010f0 // @024 #237: LOAD(s0,UART_data) ;convert to upper case
+3013e // @025 #238: CALL(upper_case)
+2a000 // @026 #239: RETURN
+// #240: ;
+// #241: ;
+// #242: ;**************************************************************************************
+// #243: ; Initialise the StrataFlash Memory control signals.
+// #244: ;**************************************************************************************
+// #245: ;
+// #246: ; SF_read = 0   - Output enable off
+// #247: ; SF_ce = 1     - Deselect StrataFLASH memory
+// #248: ; SF_we = 1     - Write enable off
+// #249: ;
+// #250: ; Register used s0
+// #251: ;
+// @027 #252: [SF_init]
+00006 // @027 #252: LOAD(s0,6)
+2c008 // @028 #253: OUTPUT(s0,SF_control_port)
+2a000 // @029 #254: RETURN
+// #255: ;
+// #256: ;
+// #257: ;**************************************************************************************
+// #258: ; Erase Command - Perform bulk erase of the StrataFLASH memory
+// #259: ;**************************************************************************************
+// #260: ;
+// #261: ; This routine executes the block erase command 128 times with a different base
+// #262: ; address in each case.
+// #263: ;
+// #264: ; Note that this could take as long as 8 minutes 30 seconds
+// #265: ; and even typical times will be approximately 2 minutes.
+// #266: ;
+// #267: ; Registers used s1,s7,s8,s9
+// #268: ;
+// @02a #269: [erase_command]
+009fe // @02a #269: LOAD(s9,FE) ;define base address of block 127 = FE0000
+3402d // @02b #270: JUMP(blocks_erase)
+// #271: ;
+// #272: ;
+// #273: ;**************************************************************************************
+// #274: ; Block Erase Command - Performs erase of lowest 3 blocks of StrataFLASH memory which
+// #275: ; covers the address range 000000 to 05FFFF in which the configuration for an XC3S500E
+// #276: ; would be able to fit (000000 to 045470).
+// #277: ;**************************************************************************************
+// #278: ;
+// #279: ; This routine executes the block erase command 3 times with a different base
+// #280: ; address in each case.
+// #281: ;
+// #282: ; Each block is 128K bytes and therefore has an address range of 000000 to 01FFFF.
+// #283: ; So each block is separated by 020000 hex.
+// #284: ;
+// #285: ; Registers used s0,s1,s7,s8,s9
+// #286: ;
+// @02c #287: [block_erase_command]
+00904 // @02c #287: LOAD(s9,4) ;define base address of block 3 = 040000
+// @02d #288: [blocks_erase]
+30193 // @02d #288: CALL(send_CR)
+302d4 // @02e #289: CALL(send_Confirm) ;confirm command with a 'Y' which must be upper case
+3011f // @02f #290: CALL(read_from_UART) ;read command character from UART
+30131 // @030 #291: CALL(send_to_UART) ;echo input
+14f59 // @031 #292: COMPARE(UART_data,character_Y)
+3543f // @032 #293: JUMP(NZ,abort_erase)
+30193 // @033 #294: CALL(send_CR)
+30209 // @034 #295: CALL(send_Erase_in_progress)
+30193 // @035 #296: CALL(send_CR)
+00800 // @036 #297: LOAD(s8,0) ;define lower address of each block = xx0000
+00700 // @037 #298: LOAD(s7,0)
+// @038 #299: [blocks_erase_loop]
+00f2e // @038 #299: LOAD(UART_data,character_fullstop) ;progress dots
+30131 // @039 #300: CALL(send_to_UART)
+30041 // @03a #301: CALL(SF_erase_block) ;erase block
+1c902 // @03b #302: SUB(s9,2) ;decrement base address by 1 block
+35c38 // @03c #303: JUMP(NC,blocks_erase_loop) ;repeat until block 0 is erased
+3022c // @03d #304: CALL(send_OK)
+34007 // @03e #305: JUMP(prompt)
+// #306: ;
+// @03f #307: [abort_erase]
+302f1 // @03f #307: CALL(send_Abort)
+34007 // @040 #308: JUMP(prompt)
+// #309: ;
+// #310: ;
+// #311: ;**************************************************************************************
+// #312: ; Erase a single 128K Byte block of the StrataFlash Memory
+// #313: ;**************************************************************************************
+// #314: ;
+// #315: ; The 24-bit address of the block should be supplied in register set [s9,s8,s7].
+// #316: ;
+// #317: ; To erase a block the address must be set and then the block erase command (20 hex)
+// #318: ; written to the memory followed by the write confirm command (D0 hex).
+// #319: ;
+// #320: ; The act of erasing a block may take up to 1 second to complete. This routine
+// #321: ; waits for the memory to be ready before restoring the normal read array mode and
+// #322: ; returning.
+// #323: ;
+// #324: ; Registers used s1,s7,s8,s9
+// #325: ;
+// @041 #326: [SF_erase_block]
+00120 // @041 #326: LOAD(s1,32) ;block erase command
+300ea // @042 #327: CALL(SF_byte_write)
+001d0 // @043 #328: LOAD(s1,D0) ;write confirm command
+300ea // @044 #329: CALL(SF_byte_write)
+300f7 // @045 #330: CALL(wait_SF_ready) ;wait for erase to complete
+2a000 // @046 #331: RETURN
+// #332: ;
+// #333: ;
+// #334: ;**************************************************************************************
+// #335: ; Program Command - Program StrataFLASH memory with data defined in an MCS file
+// #336: ;**************************************************************************************
+// #337: ;
+// @047 #338: [program_command]
+30193 // @047 #338: CALL(send_CR)
+301e2 // @048 #339: CALL(send_Waiting_MCS_file)
+3004c // @049 #340: CALL(program_MCS)
+3022c // @04a #341: CALL(send_OK)
+34007 // @04b #342: JUMP(prompt)
+// #343: ;
+// #344: ;**************************************************************************************
+// #345: ; Program StrataFLASH memory with data defined in an MCS file
+// #346: ;**************************************************************************************
+// #347: ;
+// #348: ;Reads the MCS file from the UART and programs the Strata FLASH device at the locations.
+// #349: ;specified by the file contents.
+// #350: ;
+// #351: ;This routine will continue until an end of file record is detected.
+// #352: ;For each line of MCS received, the current address will be output so that
+// #353: ;progress can be monitored.
+// #354: ;
+// #355: ;
+// @04c #356: [program_MCS]
+30057 // @04c #356: CALL(read_MCS_line) ;read line from UART
+30067 // @04d #357: CALL(MCS_address) ;find start address and record type
+14b01 // @04e #358: COMPARE(sB,1) ;test for end record
+2b000 // @04f #359: RETURN(Z) ;end of programming
+14b04 // @050 #360: COMPARE(sB,4) ;test for extended address record
+3504c // @051 #361: JUMP(Z,program_MCS) ;no data with this record and upper address now correct
+// #362: ;
+// #363: ;Assume data record type 00 which is data so need to program specified number
+// #364: ;of bytes into memory at correct address.
+// #365: ;
+// @052 #366: [write_spm_data]
+3016d // @052 #366: CALL(send_hex_3bytes) ;send address to indicate progress
+30193 // @053 #367: CALL(send_CR)
+06a2b // @054 #368: FETCH(sA,line_start) ;read number of data bytes to program
+30077 // @055 #369: CALL(SF_buffer_write) ;write bytes to memory
+3404c // @056 #370: JUMP(program_MCS)
+// #371: ;
+// #372: ;
+// #373: ;**************************************************************************************
+// #374: ;Read one line of an MCS file into scratch pad memory
+// #375: ;**************************************************************************************
+// #376: ;
+// #377: ;Reads one line of MCS file format into scratch pad memory starting at location 'line_start'.
+// #378: ;
+// #379: ;The routine detects the line start character ':' ignoring any preceding characters. This
+// #380: ;will remove any additional CR or LF characters.
+// #381: ;
+// #382: ;It then reads each subsequent pair of ASCII characters, converts them to true hex in the
+// #383: ;range 00 to FF and stores them in scratch pad memory.
+// #384: ;
+// #385: ;The end of the line is determined by either a CR or LF character.
+// #386: ;
+// #387: ;The value last returned in register 'sE' will be the pointer to the location in
+// #388: ;scratch pad memory following the last byte for the line read.
+// #389: ;
+// @057 #390: [read_MCS_line]
+00e2b // @057 #390: LOAD(sE,line_start) ;initialise SPM memory pointer
+// @058 #391: [wait_MCS_line_Start]
+3011f // @058 #391: CALL(read_from_UART) ;read character
+14f3a // @059 #392: COMPARE(UART_data,character_colon) ;test for start character
+35458 // @05a #393: JUMP(NZ,wait_MCS_line_Start)
+// @05b #394: [read_MCS_byte]
+3011f // @05b #394: CALL(read_from_UART) ;read character
+14f0d // @05c #395: COMPARE(UART_data,character_CR) ;test for end of line
+2b000 // @05d #396: RETURN(Z)
+14f0a // @05e #397: COMPARE(UART_data,character_LF) ;test for end of line
+2b000 // @05f #398: RETURN(Z)
+013f0 // @060 #399: LOAD(s3,UART_data) ;upper nibble character
+3011f // @061 #400: CALL(read_from_UART) ;read character
+012f0 // @062 #401: LOAD(s2,UART_data) ;lower nibble character
+30174 // @063 #402: CALL(ASCII_byte_to_hex) ;convert to true hex value
+2f0e0 // @064 #403: STORE(s0,sE) ;write to SPM
+18e01 // @065 #404: ADD(sE,1) ;increment pointer
+3405b // @066 #405: JUMP(read_MCS_byte)
+// #406: ;
+// #407: ;
+// #408: ;**************************************************************************************
+// #409: ;Determine the current address for the line of an MCS file in scratch pad memory
+// #410: ;**************************************************************************************
+// #411: ;
+// #412: ;Checks the existing line data stored in scratch pad memory starting at location
+// #413: ;'line_start' and determines the current address.
+// #414: ;
+// #415: ;The address is in the register set [s9,s8,s7] before and after this routine is
+// #416: ;executed because not all address bits are defined by a given line of MCS and
+// #417: ;the undefined bits remain constant.
+// #418: ;
+// #419: ;A record type of 04 will update [s9].
+// #420: ;A record type of 00 will update [s8,s7].
+// #421: ;
+// #422: ;On return, the register sB will contain the record type and
+// #423: ;register sC will indicate the number of data bytes stored.
+// #424: ;
+// @067 #425: [MCS_address]
+00d2b // @067 #425: LOAD(sD,line_start) ;initialise SPM memory pointer
+07cd0 // @068 #426: FETCH(sC,sD) ;read number of bytes on line
+18d03 // @069 #427: ADD(sD,3) ;move to record type
+07bd0 // @06a #428: FETCH(sB,sD) ;read record type
+14b00 // @06b #429: COMPARE(sB,0) ;test for data record
+35072 // @06c #430: JUMP(Z,new_low_address)
+14b04 // @06d #431: COMPARE(sB,4) ;test for data record
+2b400 // @06e #432: RETURN(NZ)
+18d02 // @06f #433: ADD(sD,2) ;read upper 8-bits
+079d0 // @070 #434: FETCH(s9,sD)
+2a000 // @071 #435: RETURN
+// @072 #436: [new_low_address]
+1cd01 // @072 #436: SUB(sD,1) ;read lower 8-bits
+077d0 // @073 #437: FETCH(s7,sD)
+1cd01 // @074 #438: SUB(sD,1) ;read middle 8-bits
+078d0 // @075 #439: FETCH(s8,sD)
+2a000 // @076 #440: RETURN
+// #441: ;
+// #442: ;
+// #443: ;**************************************************************************************
+// #444: ; Write to Buffer of StrataFlash Memory and program
+// #445: ;**************************************************************************************
+// #446: ;
+// #447: ; Writing to the buffer allows faster operation than writing individual bytes.
+// #448: ; The buffer size is limited to 32 locations. To perform a buffer write the process
+// #449: ; is as follows:-
+// #450: ;   Write command for buffer write to StrataFLASH memory (E8 hex).
+// #451: ;      Base address for writing should also be set.
+// #452: ;   Read Status register and if not ready repeat command until it is.
+// #453: ;   Write a value specifying the number of bytes to be written LESS ONE.
+// #454: ;      In this program the number of bytes will be specified in register sA
+// #455: ;      and this value needs to be decremented before writing to the memory.
+// #456: ;   Write the correct number of actual data bytes with appropriate addresses.
+// #457: ;      Ideally the addresses do not cross the boundary of 32 locations
+// #458: ;      such that LSBs are always in the range 00000 to 11111 binary.
+// #459: ;      Crossing the boundary is OK but will take longer to program.
+// #460: ;   Write command to confirm operation (D0 hex).
+// #461: ;   Read Status register and wait for ready.
+// #462: ;
+// #463: ;   This routine additionally restores the normal read array mode before returning.
+// #464: ;
+// #465: ; The number of bytes to be written should be supplied in register sA and must be
+// #466: ; a value between 1 and 32 (01 and 20 hex).
+// #467: ;
+// #468: ; The 24-bit base address should be supplied in register set [s9,s8,s7].
+// #469: ; On return, this will be increased by the number of locations written.
+// #470: ;
+// #471: ; Scratch pad memory locations starting at location defined by constant
+// #472: ; 'data_start' should contain the data bytes to be written.
+// #473: ;
+// #474: ; The act of writing the buffer to the memory array may take up to 654us to complete.
+// #475: ; The time taken to program is recorded by register pair [sE,sD]. Each count
+// #476: ; equates to 15 instructions which is equivalent to 30 clock cycles (600ns at 50MHz).
+// #477: ;
+// #478: ; Registers used s0,s1,s7,s8,s9,sA,sD,sE
+// #479: ;
+// #480: ;
+// @077 #481: [SF_buffer_write]
+001e8 // @077 #481: LOAD(s1,E8) ;command for buffer write
+300ea // @078 #482: CALL(SF_byte_write)
+300e0 // @079 #483: CALL(SF_byte_read) ;read status register into s0
+12080 // @07a #484: TEST(s0,128) ;test ready/busy flag
+35077 // @07b #485: JUMP(Z,SF_buffer_write) ;repeat command until ready
+011a0 // @07c #486: LOAD(s1,sA) ;Specify number of bytes to write
+1c101 // @07d #487: SUB(s1,1) ;one less than actual number!
+300ea // @07e #488: CALL(SF_byte_write)
+0032f // @07f #489: LOAD(s3,data_start) ;point to data in scratch pad memory
+// @080 #490: [write_buffer_loop]
+07130 // @080 #490: FETCH(s1,s3) ;fetch data
+300ea // @081 #491: CALL(SF_byte_write) ;write to buffer
+18701 // @082 #492: ADD(s7,1) ;increment address
+1a800 // @083 #493: ADDCY(s8,0)
+1a900 // @084 #494: ADDCY(s9,0)
+18301 // @085 #495: ADD(s3,1) ;increment SPM pointer
+1ca01 // @086 #496: SUB(sA,1) ;count bytes remaining
+35480 // @087 #497: JUMP(NZ,write_buffer_loop)
+001d0 // @088 #498: LOAD(s1,D0) ;command to confirm write
+300ea // @089 #499: CALL(SF_byte_write)
+300f7 // @08a #500: CALL(wait_SF_ready) ;wait for program to complete and set read array mode
+2a000 // @08b #501: RETURN
+// #502: ;
+// #503: ;
+// #504: ;**************************************************************************************
+// #505: ; Write Command - Write one byte to specified address
+// #506: ;**************************************************************************************
+// #507: ;
+// @08c #508: [write_command]
+302fe // @08c #508: CALL(send_address) ;obtain 24-bit address 000000 to FFFFFF
+3018d // @08d #509: CALL(obtain_8bits)
+3588c // @08e #510: JUMP(C,write_command) ;bad input address
+01900 // @08f #511: LOAD(s9,s0)
+3018d // @090 #512: CALL(obtain_8bits)
+3588c // @091 #513: JUMP(C,write_command) ;bad input address
+01800 // @092 #514: LOAD(s8,s0)
+3018d // @093 #515: CALL(obtain_8bits)
+3588c // @094 #516: JUMP(C,write_command) ;bad input address
+01700 // @095 #517: LOAD(s7,s0)
+// @096 #518: [get_data]
+3030e // @096 #518: CALL(send_data) ;obtain 8-bit data 00 to FF into s0
+3018d // @097 #519: CALL(obtain_8bits)
+35896 // @098 #520: JUMP(C,get_data) ;bad input data
+3009d // @099 #521: CALL(SF_single_byte_write)
+30193 // @09a #522: CALL(send_CR)
+3022c // @09b #523: CALL(send_OK)
+34007 // @09c #524: JUMP(prompt)
+// #525: ;
+// #526: ;
+// #527: ;**************************************************************************************
+// #528: ; Write a single byte to StrataFlash Memory
+// #529: ;**************************************************************************************
+// #530: ;
+// #531: ; To write a single byte to StrataFLASH memory the address must be set and the
+// #532: ; single-word/byte program command (40 hex) sent to the memory. Then the data byte can
+// #533: ; be written to the memory using the same address.
+// #534: ;
+// #535: ; The 24-bit address should be supplied in register set [s9,s8,s7].
+// #536: ; Register s0 should contain the byte data to be written to the memory.
+// #537: ;
+// #538: ; The act of writing the memory array may take up to 175us to complete. This routine
+// #539: ; waits for the memory to be ready before restoring the normal read array mode and
+// #540: ; returning. The time taken to program is recorded by register pair [sE,sD]. Each count
+// #541: ; equates to 15 instructions which is equivalent to 30 clock cycles (600ns at 50MHz).
+// #542: ;
+// #543: ; Registers used s0,s1,s7,s8,s9,sD,sE   (s7,s8,s9 not changed)
+// #544: ;
+// #545: ; Registers used s0,s1,s7,s8,s9
+// #546: ;
+// @09d #547: [SF_single_byte_write]
+00140 // @09d #547: LOAD(s1,64) ;command for single byte program
+300ea // @09e #548: CALL(SF_byte_write)
+01100 // @09f #549: LOAD(s1,s0) ;write data to be programmed
+300ea // @0a0 #550: CALL(SF_byte_write)
+300f7 // @0a1 #551: CALL(wait_SF_ready) ;wait for program to complete
+2a000 // @0a2 #552: RETURN
+// #553: ;
+// #554: ;
+// #555: ;**************************************************************************************
+// #556: ;Read Command - Read one page of memory at specified address
+// #557: ;**************************************************************************************
+// #558: ;
+// @0a3 #559: [read_command]
+302fe // @0a3 #559: CALL(send_address) ;obtain 24-bit address 000000 to FFFFFF
+3018d // @0a4 #560: CALL(obtain_8bits) ;read value from UART
+358a3 // @0a5 #561: JUMP(C,read_command) ;bad input address
+01900 // @0a6 #562: LOAD(s9,s0)
+3018d // @0a7 #563: CALL(obtain_8bits)
+358a3 // @0a8 #564: JUMP(C,read_command) ;bad input address
+01800 // @0a9 #565: LOAD(s8,s0)
+3018d // @0aa #566: CALL(obtain_8bits)
+358a3 // @0ab #567: JUMP(C,read_command) ;bad input address
+01700 // @0ac #568: LOAD(s7,s0)
+30193 // @0ad #569: CALL(send_CR)
+300b1 // @0ae #570: CALL(send_SF_page)
+3022c // @0af #571: CALL(send_OK)
+34007 // @0b0 #572: JUMP(prompt)
+// #573: ;
+// #574: ;The start address should be provided in register set [s9,s8,s7].
+// #575: ;The display will be next 256 bytes displayed as 16 lines of 16 bytes
+// #576: ;with each line commencing with the address of the first byte.
+// #577: ;
+// @0b1 #578: [send_SF_page]
+00610 // @0b1 #578: LOAD(s6,16) ;16 lines to display
+// @0b2 #579: [send_SF_line]
+30193 // @0b2 #579: CALL(send_CR)
+3016d // @0b3 #580: CALL(send_hex_3bytes) ;display address
+30196 // @0b4 #581: CALL(send_space)
+00510 // @0b5 #582: LOAD(s5,16) ;16 bytes to display on a line
+// @0b6 #583: [send_SF_byte]
+30196 // @0b6 #583: CALL(send_space)
+300e0 // @0b7 #584: CALL(SF_byte_read) ;read byte into s0
+18701 // @0b8 #585: ADD(s7,1) ;increment StrataFLASH address
+1a800 // @0b9 #586: ADDCY(s8,0)
+1a900 // @0ba #587: ADDCY(s9,0)
+30167 // @0bb #588: CALL(send_hex_byte) ;display byte
+1c501 // @0bc #589: SUB(s5,1) ;count bytes per line
+354b6 // @0bd #590: JUMP(NZ,send_SF_byte)
+1c601 // @0be #591: SUB(s6,1) ;count lines
+354b2 // @0bf #592: JUMP(NZ,send_SF_line)
+30193 // @0c0 #593: CALL(send_CR)
+2a000 // @0c1 #594: RETURN
+// #595: ;
+// #596: ;
+// #597: ;**************************************************************************************
+// #598: ; ID Command - Read and display the device information for the StrataFLASH FLASH memory
+// #599: ;**************************************************************************************
+// #600: ;
+// #601: ; Normal response should be
+// #602: ;   Device Manufacturer Code (Intel) = 89 hex
+// #603: ;   Memory ID code for 128Mbit = 18 hex
+// #604: ;
+// #605: ; To read the device information the Read device information command (90)
+// #606: ; must be written to the memory. The information is read back but assumes
+// #607: ; that 16-bit words are being used and hence address bit0 is not really used.
+// #608: ; hence addresses 000000 and 0000001 both return the Device Manufacturer Code and
+// #609: ; addresses 000002 and 0000003 both return the Memory ID code.
+// #610: ;
+// #611: ; After reading the device information the read array command is written to the
+// #612: ; device to put it back to normal read mode.
+// #613: ;
+// #614: ; Registers used s0,s7,s8,s9
+// #615: ;
+// @0c2 #616: [SF_information]
+30193 // @0c2 #616: CALL(send_CR) ;send 'ID=' to terminal
+302c6 // @0c3 #617: CALL(send_ID)
+00f3d // @0c4 #618: LOAD(UART_data,character_equals)
+30131 // @0c5 #619: CALL(send_to_UART)
+30196 // @0c6 #620: CALL(send_space)
+00900 // @0c7 #621: LOAD(s9,0) ;define base address 000000
+00800 // @0c8 #622: LOAD(s8,0)
+00700 // @0c9 #623: LOAD(s7,0)
+00190 // @0ca #624: LOAD(s1,144) ;command to read device information
+300ea // @0cb #625: CALL(SF_byte_write)
+300e0 // @0cc #626: CALL(SF_byte_read) ;read Device Manufacturer Code into s0
+30167 // @0cd #627: CALL(send_hex_byte) ;display byte
+30196 // @0ce #628: CALL(send_space)
+00702 // @0cf #629: LOAD(s7,2) ;change address
+300e0 // @0d0 #630: CALL(SF_byte_read) ;read Memory ID code into s0
+30167 // @0d1 #631: CALL(send_hex_byte) ;display byte
+30193 // @0d2 #632: CALL(send_CR)
+300f4 // @0d3 #633: CALL(set_SF_read_array_mode) ;restore normal read array mode
+34007 // @0d4 #634: JUMP(prompt)
+// #635: ;
+// #636: ;
+// #637: ;**************************************************************************************
+// #638: ; Read StrataFLASH status register
+// #639: ;**************************************************************************************
+// #640: ;
+// #641: ; The main reason for reading the status register is to determine when the memory
+// #642: ; is ready or busy. This information is provided by bit7 (0=busy and 1=ready).
+// #643: ;
+// #644: ; The lower bits all indicate errors of some kind and therefore the only desirable
+// #645: ; response is 00 hex or 80 hex. In this program, no error checking or clearing
+// #646: ; is performed and the way this routine is executed from the menu only 80 hex is
+// #647: ; expected.
+// #648: ;
+// #649: ; To read the status register the read status register command must be written to
+// #650: ; the device. All subsequent reads are then result in the return of the status
+// #651: ; register. A different read command must be written to the device to stop this
+// #652: ; mode.
+// #653: ;
+// #654: ; This mode is also entered automatically when performing program and erase operations.
+// #655: ;
+// @0d5 #656: [SF_status]
+00900 // @0d5 #656: LOAD(s9,0) ;define base address 000000
+00800 // @0d6 #657: LOAD(s8,0)
+00700 // @0d7 #658: LOAD(s7,0)
+00170 // @0d8 #659: LOAD(s1,112) ;command to read status register
+300ea // @0d9 #660: CALL(SF_byte_write)
+30193 // @0da #661: CALL(send_CR)
+300e0 // @0db #662: CALL(SF_byte_read) ;read status register into s0
+30167 // @0dc #663: CALL(send_hex_byte) ;display byte
+30193 // @0dd #664: CALL(send_CR)
+300f4 // @0de #665: CALL(set_SF_read_array_mode)
+34007 // @0df #666: JUMP(prompt)
+// #667: ;
+// #668: ;
+// #669: ;**************************************************************************************
+// #670: ; Read a byte from StrataFlash Memory
+// #671: ;**************************************************************************************
+// #672: ;
+// #673: ; The 24-bit address should be supplied in register set [s9,s8,s7].
+// #674: ; Register s0 will return the byte data retrieved from the memory.
+// #675: ;
+// #676: ; To read a byte, the address needs to be set up on the address lines
+// #677: ; and the controls set as follows
+// #678: ;    SF_read = 1 - disable Spartan data outputs and enable StrataFlash outputs (OE=0)
+// #679: ;      SF_ce = 0 - enable StrataFLASH memory
+// #680: ;      SF_we = 1 - Write enable off
+// #681: ;
+// #682: ; The access time of the memory is 75ns. This is equivalent to 3.75 clock cycles at
+// #683: ; 50MHz. Since each KCPSM3 instruction takes 2 clock cycles to execute, two instructions
+// #684: ; provides adequate delay for the memory to be accessed.
+// #685: ;
+// #686: ; Registers used s0,s1,s7,s8,s9
+// #687: ;
+// @0e0 #688: [SF_byte_read]
+2c980 // @0e0 #688: OUTPUT(s9,SF_addr_hi_port) ;set 24-bit address
+2c840 // @0e1 #689: OUTPUT(s8,SF_addr_mi_port)
+2c720 // @0e2 #690: OUTPUT(s7,SF_addr_lo_port)
+00105 // @0e3 #691: LOAD(s1,5) ;set controls
+2c108 // @0e4 #692: OUTPUT(s1,SF_control_port)
+00106 // @0e5 #693: LOAD(s1,6) ;>75ns delay
+00106 // @0e6 #694: LOAD(s1,6) ;but do something useful!
+04002 // @0e7 #695: INPUT(s0,SF_data_in_port) ;read data byte
+2c108 // @0e8 #696: OUTPUT(s1,SF_control_port) ;clear controls
+2a000 // @0e9 #697: RETURN
+// #698: ;
+// #699: ;
+// #700: ;**************************************************************************************
+// #701: ; Write data or command byte to StrataFlash Memory
+// #702: ;**************************************************************************************
+// #703: ;
+// #704: ; The 24-bit address should be supplied in register set [s9,s8,s7].
+// #705: ; Register s1 should contain the byte to be written to the memory.
+// #706: ;
+// #707: ; To write a byte, the address needs to be set up on the address lines
+// #708: ; and the controls set as follows
+// #709: ;    SF_read = 0 - enable Spartan data outputs and disable StrataFlash outputs (OE=1)
+// #710: ;      SF_ce = 0 - enable StrataFLASH memory
+// #711: ;      SF_we = 0 - Write enable on
+// #712: ;
+// #713: ; The setup time of the memory is 60ns. This is equivalent to 3 clock cycles at
+// #714: ; 50MHz. Since each KCPSM3 instruction takes 2 clock cycles to execute, two instructions
+// #715: ; provides adequate delay for the memory.
+// #716: ;
+// #717: ; Registers used s1,s7,s8,s9
+// #718: ;
+// @0ea #719: [SF_byte_write]
+2c980 // @0ea #719: OUTPUT(s9,SF_addr_hi_port) ;set 24-bit address
+2c840 // @0eb #720: OUTPUT(s8,SF_addr_mi_port)
+2c720 // @0ec #721: OUTPUT(s7,SF_addr_lo_port)
+2c110 // @0ed #722: OUTPUT(s1,SF_data_out_port) ;set data byte to be written
+00100 // @0ee #723: LOAD(s1,0) ;set controls
+2c108 // @0ef #724: OUTPUT(s1,SF_control_port)
+00106 // @0f0 #725: LOAD(s1,6) ;>60ns delay
+00106 // @0f1 #726: LOAD(s1,6) ;but do something useful!
+2c108 // @0f2 #727: OUTPUT(s1,SF_control_port) ;clear controls
+2a000 // @0f3 #728: RETURN
+// #729: ;
+// #730: ;
+// #731: ;**************************************************************************************
+// #732: ; Set 'Read Array' mode on StrataFLASH
+// #733: ;**************************************************************************************
+// #734: ;
+// #735: ; The read array mode is the default mode of the memory and allows the contents
+// #736: ; of the memory to be read based on the supplied address.
+// #737: ;
+// #738: ; Read array is the default mode of the device, but it must also be placed back
+// #739: ; into this mode after programming, erasing or reading the status register.
+// #740: ;
+// #741: ; The read array command (FF hex) is written to the Strata flash memory.
+// #742: ;
+// #743: ; Registers used s1,s7,s8,s9
+// #744: ;
+// @0f4 #745: [set_SF_read_array_mode]
+001ff // @0f4 #745: LOAD(s1,FF) ;command to read array
+300ea // @0f5 #746: CALL(SF_byte_write)
+2a000 // @0f6 #747: RETURN
+// #748: ;
+// #749: ;
+// #750: ;**************************************************************************************
+// #751: ; Wait for StrataFLASH to be ready
+// #752: ;**************************************************************************************
+// #753: ;
+// #754: ; This routine will typically be used after instigating a program or erase
+// #755: ; command. It continuously reads the StrataFLASH status register and tests the
+// #756: ; information provided by bit7 which indicates if the memory is busy(0) or ready(1).
+// #757: ; The routine waits for the ready condition before sending a read array command
+// #758: ; which puts the memory back to normal read mode.
+// #759: ;
+// #760: ; During the polling process, a counter formed by register pair [sE,sD] records
+// #761: ; approximately how long the memory is busy. This can be used to evaluate programming
+// #762: ; and erase times if required. The timing loop is 15 instructions which is equivalent
+// #763: ; to 30 clock cycles (600ns at 50MHz)
+// #764: ;
+// #765: ; Registers used s0,s1,s7,s8,s9,sD,sE   (s7,s8,s9 not changed)
+// #766: ;
+// #767: ;
+// @0f7 #768: [wait_SF_ready]
+00e00 // @0f7 #768: LOAD(sE,0) ;clear 16-bit counter timer
+00d00 // @0f8 #769: LOAD(sD,0)
+// @0f9 #770: [wait_SF_loop]
+18d01 // @0f9 #770: ADD(sD,1) ;increment counter timer
+1ae00 // @0fa #771: ADDCY(sE,0)
+300e0 // @0fb #772: CALL(SF_byte_read) ;read status register into s0
+12080 // @0fc #773: TEST(s0,128) ;test ready/busy flag
+350f9 // @0fd #774: JUMP(Z,wait_SF_loop)
+300f4 // @0fe #775: CALL(set_SF_read_array_mode) ;restore normal read array mode
+2a000 // @0ff #776: RETURN
+// #777: ;
+// #778: ;
+// #779: ;**************************************************************************************
+// #780: ; Send 16-bit value in register pair [sE,sD] to UART
+// #781: ;**************************************************************************************
+// #782: ;
+// #783: ; In this program the register pair [sE,sD] indicates the programming time of the
+// #784: ; StrataFLASH memory in 600ns increments. This routine can be used to display that
+// #785: ; value if required.
+// #786: ;
+// @100 #787: [send_counter_timer]
+30193 // @100 #787: CALL(send_CR)
+010e0 // @101 #788: LOAD(s0,sE)
+30167 // @102 #789: CALL(send_hex_byte)
+010d0 // @103 #790: LOAD(s0,sD)
+30167 // @104 #791: CALL(send_hex_byte)
+30193 // @105 #792: CALL(send_CR)
+2a000 // @106 #793: RETURN
+// #794: ;
+// #795: ;
+// #796: ;**************************************************************************************
+// #797: ;Software delay routines
+// #798: ;**************************************************************************************
+// #799: ;
+// #800: ;Delay of 1us.
+// #801: ;
+// #802: ;Constant value defines reflects the clock applied to KCPSM3. Every instruction
+// #803: ;executes in 2 clock cycles making the calculation highly predictable. The '6' in
+// #804: ;the following equation even allows for 'CALL delay_1us' instruction in the initiating code.
+// #805: ;
+// #806: ; delay_1us_constant =  (clock_rate - 6)/4       Where 'clock_rate' is in MHz
+// #807: ;
+// #808: ;Registers used s0
+// #809: ;
+// @107 #810: [delay_1us]
+0000b // @107 #810: LOAD(s0,delay_1us_constant)
+// @108 #811: [wait_1us]
+1c001 // @108 #811: SUB(s0,1)
+35508 // @109 #812: JUMP(NZ,wait_1us)
+2a000 // @10a #813: RETURN
+// #814: ;
+// #815: ;Delay of 40us.
+// #816: ;
+// #817: ;Registers used s0, s1
+// #818: ;
+// @10b #819: [delay_40us]
+00128 // @10b #819: LOAD(s1,40) ;40 x 1us = 40us
+// @10c #820: [wait_40us]
+30107 // @10c #820: CALL(delay_1us)
+1c101 // @10d #821: SUB(s1,1)
+3550c // @10e #822: JUMP(NZ,wait_40us)
+2a000 // @10f #823: RETURN
+// #824: ;
+// #825: ;
+// #826: ;Delay of 1ms.
+// #827: ;
+// #828: ;Registers used s0, s1, s2
+// #829: ;
+// @110 #830: [delay_1ms]
+00219 // @110 #830: LOAD(s2,25) ;25 x 40us = 1ms
+// @111 #831: [wait_1ms]
+3010b // @111 #831: CALL(delay_40us)
+1c201 // @112 #832: SUB(s2,1)
+35511 // @113 #833: JUMP(NZ,wait_1ms)
+2a000 // @114 #834: RETURN
+// #835: ;
+// #836: ;Delay of 20ms.
+// #837: ;
+// #838: ;Delay of 20ms used during initialisation.
+// #839: ;
+// #840: ;Registers used s0, s1, s2, s3
+// #841: ;
+// @115 #842: [delay_20ms]
+00314 // @115 #842: LOAD(s3,20) ;20 x 1ms = 20ms
+// @116 #843: [wait_20ms]
+30110 // @116 #843: CALL(delay_1ms)
+1c301 // @117 #844: SUB(s3,1)
+35516 // @118 #845: JUMP(NZ,wait_20ms)
+2a000 // @119 #846: RETURN
+// #847: ;
+// #848: ;Delay of approximately 1 second.
+// #849: ;
+// #850: ;Registers used s0, s1, s2, s3, s4
+// #851: ;
+// @11a #852: [delay_1s]
+00414 // @11a #852: LOAD(s4,20) ;50 x 20ms = 1000ms
+// @11b #853: [wait_1s]
+30115 // @11b #853: CALL(delay_20ms)
+1c401 // @11c #854: SUB(s4,1)
+3551b // @11d #855: JUMP(NZ,wait_1s)
+2a000 // @11e #856: RETURN
+// #857: ;
+// #858: ;
+// #859: ;**************************************************************************************
+// #860: ;UART communication routines
+// #861: ;**************************************************************************************
+// #862: ;
+// #863: ;Read one character from the UART
+// #864: ;
+// #865: ;Character read will be returned in a register called 'UART_data'.
+// #866: ;
+// #867: ;The routine first tests the receiver FIFO buffer to see if data is present.
+// #868: ;If the FIFO is empty, the routine waits until there is a character to read.
+// #869: ;As this could take any amount of time the wait loop could include a call to a
+// #870: ;subroutine which performs a useful function.
+// #871: ;
+// #872: ;If the received character is an XOFF, then the routine will then wait
+// #873: ;for an XON to be received. This means that the rest of the program is held
+// #874: ;in suspense and therefore it can not transmit. Once an XON is received, it will
+// #875: ;again wait for a normal character before returning.
+// #876: ;
+// #877: ;NOTE: Characters between the XOFF and XON will be ignored in this version of the
+// #878: ;program!!!
+// #879: ;
+// #880: ;Interrupt is disabled during this routine to prevent a false situation. If the
+// #881: ;receiver half-full flag went High it should result in an interrupt transmitting
+// #882: ;an XOFF character. However, if this routine were able to read the receiver buffer
+// #883: ;at just about the same as the hardware detects the half-full flag, then it could
+// #884: ;think that an XON needs to be transmitted.
+// #885: ;
+// #886: ;
+// #887: ;Registers used s0 and UART_data
+// #888: ;
+// @11f #889: [read_from_UART]
+3c000 // @11f #889: DISABLE(INTERRUPT)
+// @120 #890: [wait_Rx_character]
+04000 // @120 #890: INPUT(s0,status_port) ;test Rx_FIFO buffer
+12008 // @121 #891: TEST(s0,rx_data_present)
+35524 // @122 #892: JUMP(NZ,read_character)
+34120 // @123 #893: JUMP(wait_Rx_character)
+// @124 #894: [read_character]
+04f01 // @124 #894: INPUT(UART_data,UART_read_port) ;read from FIFO
+14f13 // @125 #895: COMPARE(UART_data,character_XOFF) ;test for XOFF
+35129 // @126 #896: JUMP(Z,wait_XON)
+3c001 // @127 #897: ENABLE(INTERRUPT) ;normal finish
+2a000 // @128 #898: RETURN
+// @129 #899: [wait_XON]
+04000 // @129 #899: INPUT(s0,status_port) ;test Rx_FIFO buffer
+12008 // @12a #900: TEST(s0,rx_data_present)
+3552d // @12b #901: JUMP(NZ,read_XON)
+34129 // @12c #902: JUMP(wait_XON)
+// @12d #903: [read_XON]
+04f01 // @12d #903: INPUT(UART_data,UART_read_port) ;read from FIFO
+14f11 // @12e #904: COMPARE(UART_data,character_XON) ;test for XON
+35120 // @12f #905: JUMP(Z,wait_Rx_character) ;now wait for normal character
+34129 // @130 #906: JUMP(wait_XON) ;continue to wait for XON
+// #907: ;
+// #908: ;
+// #909: ;
+// #910: ;Transmit one character to the UART
+// #911: ;
+// #912: ;Character supplied in register called 'UART_data'.
+// #913: ;
+// #914: ;The routine first tests the transmit FIFO buffer is empty.
+// #915: ;If the FIFO currently has any data, the routine waits until it is empty.
+// #916: ;Ultimately this means that only one character is sent at a time which
+// #917: ;could be important if the PC at the other end of the link transmits
+// #918: ;an XOFF and needs the flow of data to terminate as soon as possible.
+// #919: ;
+// #920: ;Registers used s0
+// #921: ;
+// @131 #922: [send_to_UART]
+04000 // @131 #922: INPUT(s0,status_port) ;test Tx_FIFO buffer
+12001 // @132 #923: TEST(s0,tx_data_present)
+35135 // @133 #924: JUMP(Z,UART_write)
+34131 // @134 #925: JUMP(send_to_UART)
+// @135 #926: [UART_write]
+2cf04 // @135 #926: OUTPUT(UART_data,UART_write_port)
+2a000 // @136 #927: RETURN
+// #928: ;
+// #929: ;
+// #930: ;**************************************************************************************
+// #931: ;Useful ASCII conversion and handling routines
+// #932: ;**************************************************************************************
+// #933: ;
+// #934: ;Convert value provided in register s0 into ASCII characters
+// #935: ;
+// #936: ;The value provided must in the range 0 to 99 and will be converted into
+// #937: ;two ASCII characters.
+// #938: ;     The number of 'tens' will be represented by an ASCII character returned in register s1.
+// #939: ;     The number of 'units' will be represented by an ASCII character returned in register s0.
+// #940: ;
+// #941: ;The ASCII representations of '0' to '9' are 30 to 39 hexadecimal which is simply 30 hex added to
+// #942: ;the actual decimal value.
+// #943: ;
+// #944: ;Registers used s0 and s1.
+// #945: ;
+// @137 #946: [decimal_to_ASCII]
+00130 // @137 #946: LOAD(s1,48) ;load 'tens' counter with ASCII for '0'
+// @138 #947: [test_for_ten]
+18101 // @138 #947: ADD(s1,1) ;increment 'tens' value
+1c00a // @139 #948: SUB(s0,10) ;try to subtract 10 from the supplied value
+35d38 // @13a #949: JUMP(NC,test_for_ten) ;repeat if subtraction was possible without underflow.
+1c101 // @13b #950: SUB(s1,1) ;'tens' value one less ten due to underflow
+1803a // @13c #951: ADD(s0,58) ;restore units value (the remainder) and convert to ASCII
+2a000 // @13d #952: RETURN
+// #953: ;
+// #954: ;
+// #955: ;
+// #956: ;Convert character to upper case
+// #957: ;
+// #958: ;The character supplied in register s0.
+// #959: ;If the character is in the range 'a' to 'z', it is converted
+// #960: ;to the equivalent upper case character in the range 'A' to 'Z'.
+// #961: ;All other characters remain unchanged.
+// #962: ;
+// #963: ;Registers used s0.
+// #964: ;
+// @13e #965: [upper_case]
+14061 // @13e #965: COMPARE(s0,97) ;eliminate character codes below 'a' (61 hex)
+2b800 // @13f #966: RETURN(C)
+1407b // @140 #967: COMPARE(s0,123) ;eliminate character codes above 'z' (7A hex)
+2bc00 // @141 #968: RETURN(NC)
+0a0df // @142 #969: AND(s0,DF) ;mask bit5 to convert to upper case
+2a000 // @143 #970: RETURN
+// #971: ;
+// #972: ;
+// #973: ;Convert character '0' to '9' to numerical value in range 0 to 9
+// #974: ;
+// #975: ;The character supplied in register s0. If the character is in the
+// #976: ;range '0' to '9', it is converted to the equivalent decimal value.
+// #977: ;Characters not in the range '0' to '9' are signified by the return
+// #978: ;with the CARRY flag set.
+// #979: ;
+// #980: ;Registers used s0.
+// #981: ;
+// @144 #982: [onechar_to_value]
+180c6 // @144 #982: ADD(s0,C6) ;reject character codes above '9' (39 hex)
+2b800 // @145 #983: RETURN(C) ;carry flag is set
+1c0f6 // @146 #984: SUB(s0,F6) ;reject character codes below '0' (30 hex)
+2a000 // @147 #985: RETURN ;carry is set if value not in range
+// #986: ;
+// #987: ;
+// #988: ;Determine the numerical value of a two character decimal string held in
+// #989: ;scratch pad memory such the result is in the range 0 to 99 (00 to 63 hex).
+// #990: ;
+// #991: ;The string must be stored in two consecutive memory locations and the
+// #992: ;location of the first (tens) character supplied in the s1 register.
+// #993: ;The result is provided in register s2. Strings not using characters in the
+// #994: ;range '0' to '9' are signified by the return with the CARRY flag set.
+// #995: ;
+// #996: ;Registers used s0, s1 and s2.
+// #997: ;
+// @148 #998: [twochar_to_value]
+07010 // @148 #998: FETCH(s0,s1) ;read 'tens' character
+30144 // @149 #999: CALL(onechar_to_value) ;convert to numerical value
+2b800 // @14a #1000: RETURN(C) ;bad character - CARRY set
+01200 // @14b #1001: LOAD(s2,s0)
+20206 // @14c #1002: SL0(s2) ;multiply 'tens' value by 10 (0A hex)
+20206 // @14d #1003: SL0(s2)
+19200 // @14e #1004: ADD(s2,s0)
+20206 // @14f #1005: SL0(s2)
+18101 // @150 #1006: ADD(s1,1) ;read 'units' character
+07010 // @151 #1007: FETCH(s0,s1)
+30144 // @152 #1008: CALL(onechar_to_value) ;convert to numerical value
+2b800 // @153 #1009: RETURN(C) ;bad character - CARRY set
+19200 // @154 #1010: ADD(s2,s0) ;add units to result and clear CARRY flag
+2a000 // @155 #1011: RETURN
+// #1012: ;
+// #1013: ;
+// #1014: ;Convert hexadecimal value provided in register s0 into ASCII characters
+// #1015: ;
+// #1016: ;The value provided must can be any value in the range 00 to FF and will be converted into
+// #1017: ;two ASCII characters.
+// #1018: ;     The upper nibble will be represented by an ASCII character returned in register s2.
+// #1019: ;     The lower nibble will be represented by an ASCII character returned in register s1.
+// #1020: ;
+// #1021: ;The ASCII representations of '0' to '9' are 30 to 39 hexadecimal which is simply 30 hex
+// #1022: ;added to the actual decimal value. The ASCII representations of 'A' to 'F' are 41 to 46
+// #1023: ;hexadecimal requiring a further addition of 07 to the 30 already added.
+// #1024: ;
+// #1025: ;Registers used s0, s1 and s2.
+// #1026: ;
+// @156 #1027: [hex_byte_to_ASCII]
+01100 // @156 #1027: LOAD(s1,s0) ;remember value supplied
+2000e // @157 #1028: SR0(s0) ;isolate upper nibble
+2000e // @158 #1029: SR0(s0)
+2000e // @159 #1030: SR0(s0)
+2000e // @15a #1031: SR0(s0)
+30162 // @15b #1032: CALL(hex_to_ASCII) ;convert
+01200 // @15c #1033: LOAD(s2,s0) ;upper nibble value in s2
+01010 // @15d #1034: LOAD(s0,s1) ;restore complete value
+0a00f // @15e #1035: AND(s0,15) ;isolate lower nibble
+30162 // @15f #1036: CALL(hex_to_ASCII) ;convert
+01100 // @160 #1037: LOAD(s1,s0) ;lower nibble value in s1
+2a000 // @161 #1038: RETURN
+// #1039: ;
+// #1040: ;Convert hexadecimal value provided in register s0 into ASCII character
+// #1041: ;
+// #1042: ;Register used s0
+// #1043: ;
+// @162 #1044: [hex_to_ASCII]
+1c00a // @162 #1044: SUB(s0,10) ;test if value is in range 0 to 9
+35965 // @163 #1045: JUMP(C,number_char)
+18007 // @164 #1046: ADD(s0,7) ;ASCII char A to F in range 41 to 46
+// @165 #1047: [number_char]
+1803a // @165 #1047: ADD(s0,58) ;ASCII char 0 to 9 in range 30 to 40
+2a000 // @166 #1048: RETURN
+// #1049: ;
+// #1050: ;
+// #1051: ;Send the two character HEX value of the register contents 's0' to the UART
+// #1052: ;
+// #1053: ;Registers used s0, s1, s2
+// #1054: ;
+// @167 #1055: [send_hex_byte]
+30156 // @167 #1055: CALL(hex_byte_to_ASCII)
+01f20 // @168 #1056: LOAD(UART_data,s2)
+30131 // @169 #1057: CALL(send_to_UART)
+01f10 // @16a #1058: LOAD(UART_data,s1)
+30131 // @16b #1059: CALL(send_to_UART)
+2a000 // @16c #1060: RETURN
+// #1061: ;
+// #1062: ;
+// #1063: ;
+// #1064: ;Send the six character HEX value of the register contents [s9,s8,s7] to the UART
+// #1065: ;
+// #1066: ;Registers used s0, s1, s2
+// #1067: ;
+// @16d #1068: [send_hex_3bytes]
+01090 // @16d #1068: LOAD(s0,s9)
+30167 // @16e #1069: CALL(send_hex_byte)
+01080 // @16f #1070: LOAD(s0,s8)
+30167 // @170 #1071: CALL(send_hex_byte)
+01070 // @171 #1072: LOAD(s0,s7)
+30167 // @172 #1073: CALL(send_hex_byte)
+2a000 // @173 #1074: RETURN
+// #1075: ;
+// #1076: ;
+// #1077: ;Convert the HEX ASCII characters contained in 's3' and 's2' into
+// #1078: ;an equivalent hexadecimal value in register 's0'.
+// #1079: ;     The upper nibble is represented by an ASCII character in register s3.
+// #1080: ;     The lower nibble is represented by an ASCII character in register s2.
+// #1081: ;
+// #1082: ;Input characters must be in the range 00 to FF hexadecimal or the CARRY flag
+// #1083: ;will be set on return.
+// #1084: ;
+// #1085: ;Registers used s0, s2 and s3.
+// #1086: ;
+// @174 #1087: [ASCII_byte_to_hex]
+01030 // @174 #1087: LOAD(s0,s3) ;Take upper nibble
+30181 // @175 #1088: CALL(ASCII_to_hex) ;convert to value
+2b800 // @176 #1089: RETURN(C) ;reject if out of range
+01300 // @177 #1090: LOAD(s3,s0) ;remember value
+20306 // @178 #1091: SL0(s3) ;multiply value by 16 to put in upper nibble
+20306 // @179 #1092: SL0(s3)
+20306 // @17a #1093: SL0(s3)
+20306 // @17b #1094: SL0(s3)
+01020 // @17c #1095: LOAD(s0,s2) ;Take lower nibble
+30181 // @17d #1096: CALL(ASCII_to_hex) ;convert to value
+2b800 // @17e #1097: RETURN(C) ;reject if out of range
+0d030 // @17f #1098: OR(s0,s3) ;merge in the upper nibble with CARRY reset
+2a000 // @180 #1099: RETURN
+// #1100: ;
+// #1101: ;
+// #1102: ;Routine to convert ASCII data in 's0' to an equivalent HEX value.
+// #1103: ;
+// #1104: ;If character is not valid for hex, then CARRY is set on return.
+// #1105: ;
+// #1106: ;Register used s0
+// #1107: ;
+// @181 #1108: [ASCII_to_hex]
+180b9 // @181 #1108: ADD(s0,B9) ;test for above ASCII code 46 ('F')
+2b800 // @182 #1109: RETURN(C)
+1c0e9 // @183 #1110: SUB(s0,E9) ;normalise 0 to 9 with A-F in 11 to 16 hex
+2b800 // @184 #1111: RETURN(C) ;reject below ASCII code 30 ('0')
+1c011 // @185 #1112: SUB(s0,17) ;isolate A-F down to 00 to 05 hex
+35d8b // @186 #1113: JUMP(NC,ASCII_letter)
+18007 // @187 #1114: ADD(s0,7) ;test for above ASCII code 46 ('F')
+2b800 // @188 #1115: RETURN(C)
+1c0f6 // @189 #1116: SUB(s0,F6) ;convert to range 00 to 09
+2a000 // @18a #1117: RETURN
+// @18b #1118: [ASCII_letter]
+1800a // @18b #1118: ADD(s0,10) ;convert to range 0A to 0F
+2a000 // @18c #1119: RETURN
+// #1120: ;
+// #1121: ;
+// #1122: ;Read two hex characters from UART and convert to single byte data
+// #1123: ;
+// @18d #1124: [obtain_8bits]
+30022 // @18d #1124: CALL(read_upper_case) ;obtain one byte from UART
+01300 // @18e #1125: LOAD(s3,s0)
+30022 // @18f #1126: CALL(read_upper_case)
+01200 // @190 #1127: LOAD(s2,s0)
+30174 // @191 #1128: CALL(ASCII_byte_to_hex)
+2a000 // @192 #1129: RETURN
+// #1130: ;
+// #1131: ;**************************************************************************************
+// #1132: ;Text messages
+// #1133: ;**************************************************************************************
+// #1134: ;
+// #1135: ;
+// #1136: ;Send Carriage Return to the UART
+// #1137: ;
+// @193 #1138: [send_CR]
+00f0d // @193 #1138: LOAD(UART_data,character_CR)
+30131 // @194 #1139: CALL(send_to_UART)
+2a000 // @195 #1140: RETURN
+// #1141: ;
+// #1142: ;Send a space to the UART
+// #1143: ;
+// @196 #1144: [send_space]
+00f20 // @196 #1144: LOAD(UART_data,character_space)
+30131 // @197 #1145: CALL(send_to_UART)
+2a000 // @198 #1146: RETURN
+// #1147: ;
+// #1148: ;
+// #1149: ;Send 'PicoBlaze NOR FLASH Programmer' string to the UART
+// #1150: ;
+// @199 #1151: [send_welcome]
+30193 // @199 #1151: CALL(send_CR)
+30193 // @19a #1152: CALL(send_CR)
+00f50 // @19b #1153: LOAD(UART_data,character_P)
+30131 // @19c #1154: CALL(send_to_UART)
+00f69 // @19d #1155: LOAD(UART_data,character_i)
+30131 // @19e #1156: CALL(send_to_UART)
+00f63 // @19f #1157: LOAD(UART_data,character_c)
+30131 // @1a0 #1158: CALL(send_to_UART)
+00f6f // @1a1 #1159: LOAD(UART_data,character_o)
+30131 // @1a2 #1160: CALL(send_to_UART)
+00f42 // @1a3 #1161: LOAD(UART_data,character_B)
+30131 // @1a4 #1162: CALL(send_to_UART)
+00f6c // @1a5 #1163: LOAD(UART_data,character_l)
+30131 // @1a6 #1164: CALL(send_to_UART)
+00f61 // @1a7 #1165: LOAD(UART_data,character_a)
+30131 // @1a8 #1166: CALL(send_to_UART)
+00f7a // @1a9 #1167: LOAD(UART_data,character_z)
+30131 // @1aa #1168: CALL(send_to_UART)
+00f65 // @1ab #1169: LOAD(UART_data,character_e)
+30131 // @1ac #1170: CALL(send_to_UART)
+30196 // @1ad #1171: CALL(send_space)
+00f4e // @1ae #1172: LOAD(UART_data,character_N)
+30131 // @1af #1173: CALL(send_to_UART)
+00f4f // @1b0 #1174: LOAD(UART_data,character_O)
+30131 // @1b1 #1175: CALL(send_to_UART)
+00f52 // @1b2 #1176: LOAD(UART_data,character_R)
+30131 // @1b3 #1177: CALL(send_to_UART)
+30196 // @1b4 #1178: CALL(send_space)
+00f46 // @1b5 #1179: LOAD(UART_data,character_F)
+30131 // @1b6 #1180: CALL(send_to_UART)
+00f4c // @1b7 #1181: LOAD(UART_data,character_L)
+30131 // @1b8 #1182: CALL(send_to_UART)
+00f41 // @1b9 #1183: LOAD(UART_data,character_A)
+30131 // @1ba #1184: CALL(send_to_UART)
+00f53 // @1bb #1185: LOAD(UART_data,character_S)
+30131 // @1bc #1186: CALL(send_to_UART)
+00f48 // @1bd #1187: LOAD(UART_data,character_H)
+30131 // @1be #1188: CALL(send_to_UART)
+30196 // @1bf #1189: CALL(send_space)
+00f50 // @1c0 #1190: LOAD(UART_data,character_P)
+30131 // @1c1 #1191: CALL(send_to_UART)
+00f72 // @1c2 #1192: LOAD(UART_data,character_r)
+30131 // @1c3 #1193: CALL(send_to_UART)
+00f6f // @1c4 #1194: LOAD(UART_data,character_o)
+30131 // @1c5 #1195: CALL(send_to_UART)
+00f67 // @1c6 #1196: LOAD(UART_data,character_g)
+30131 // @1c7 #1197: CALL(send_to_UART)
+00f72 // @1c8 #1198: LOAD(UART_data,character_r)
+30131 // @1c9 #1199: CALL(send_to_UART)
+00f61 // @1ca #1200: LOAD(UART_data,character_a)
+30131 // @1cb #1201: CALL(send_to_UART)
+00f6d // @1cc #1202: LOAD(UART_data,character_m)
+30131 // @1cd #1203: CALL(send_to_UART)
+00f6d // @1ce #1204: LOAD(UART_data,character_m)
+30131 // @1cf #1205: CALL(send_to_UART)
+00f65 // @1d0 #1206: LOAD(UART_data,character_e)
+30131 // @1d1 #1207: CALL(send_to_UART)
+00f72 // @1d2 #1208: LOAD(UART_data,character_r)
+30131 // @1d3 #1209: CALL(send_to_UART)
+30196 // @1d4 #1210: CALL(send_space)
+00f76 // @1d5 #1211: LOAD(UART_data,character_v)
+30131 // @1d6 #1212: CALL(send_to_UART)
+00f31 // @1d7 #1213: LOAD(UART_data,character_1)
+30131 // @1d8 #1214: CALL(send_to_UART)
+00f2e // @1d9 #1215: LOAD(UART_data,character_fullstop)
+30131 // @1da #1216: CALL(send_to_UART)
+00f30 // @1db #1217: LOAD(UART_data,character_0)
+30131 // @1dc #1218: CALL(send_to_UART)
+00f30 // @1dd #1219: LOAD(UART_data,character_0)
+30131 // @1de #1220: CALL(send_to_UART)
+30193 // @1df #1221: CALL(send_CR)
+30193 // @1e0 #1222: CALL(send_CR)
+2a000 // @1e1 #1223: RETURN
+// #1224: ;
+// #1225: ;
+// #1226: ;
+// #1227: ;Send 'Waiting_MCS_file' string to the UART
+// #1228: ;
+// @1e2 #1229: [send_Waiting_MCS_file]
+00f57 // @1e2 #1229: LOAD(UART_data,character_W)
+30131 // @1e3 #1230: CALL(send_to_UART)
+00f61 // @1e4 #1231: LOAD(UART_data,character_a)
+30131 // @1e5 #1232: CALL(send_to_UART)
+00f69 // @1e6 #1233: LOAD(UART_data,character_i)
+30131 // @1e7 #1234: CALL(send_to_UART)
+00f74 // @1e8 #1235: LOAD(UART_data,character_t)
+30131 // @1e9 #1236: CALL(send_to_UART)
+00f69 // @1ea #1237: LOAD(UART_data,character_i)
+30131 // @1eb #1238: CALL(send_to_UART)
+00f6e // @1ec #1239: LOAD(UART_data,character_n)
+30131 // @1ed #1240: CALL(send_to_UART)
+00f67 // @1ee #1241: LOAD(UART_data,character_g)
+30131 // @1ef #1242: CALL(send_to_UART)
+30196 // @1f0 #1243: CALL(send_space)
+00f66 // @1f1 #1244: LOAD(UART_data,character_f)
+30131 // @1f2 #1245: CALL(send_to_UART)
+00f6f // @1f3 #1246: LOAD(UART_data,character_o)
+30131 // @1f4 #1247: CALL(send_to_UART)
+00f72 // @1f5 #1248: LOAD(UART_data,character_r)
+30131 // @1f6 #1249: CALL(send_to_UART)
+// @1f7 #1250: [send_MCS_file]
+30196 // @1f7 #1250: CALL(send_space)
+00f4d // @1f8 #1251: LOAD(UART_data,character_M)
+30131 // @1f9 #1252: CALL(send_to_UART)
+00f43 // @1fa #1253: LOAD(UART_data,character_C)
+30131 // @1fb #1254: CALL(send_to_UART)
+00f53 // @1fc #1255: LOAD(UART_data,character_S)
+30131 // @1fd #1256: CALL(send_to_UART)
+30196 // @1fe #1257: CALL(send_space)
+00f46 // @1ff #1258: LOAD(UART_data,character_F)
+30131 // @200 #1259: CALL(send_to_UART)
+00f69 // @201 #1260: LOAD(UART_data,character_i)
+30131 // @202 #1261: CALL(send_to_UART)
+00f6c // @203 #1262: LOAD(UART_data,character_l)
+30131 // @204 #1263: CALL(send_to_UART)
+00f65 // @205 #1264: LOAD(UART_data,character_e)
+30131 // @206 #1265: CALL(send_to_UART)
+30193 // @207 #1266: CALL(send_CR)
+2a000 // @208 #1267: RETURN
+// #1268: ;
+// #1269: ;
+// #1270: ;Send 'Erase in progress' string to the UART
+// #1271: ;
+// @209 #1272: [send_Erase_in_progress]
+30220 // @209 #1272: CALL(send_Erase)
+00f69 // @20a #1273: LOAD(UART_data,character_i)
+30131 // @20b #1274: CALL(send_to_UART)
+00f6e // @20c #1275: LOAD(UART_data,character_n)
+30131 // @20d #1276: CALL(send_to_UART)
+30196 // @20e #1277: CALL(send_space)
+00f50 // @20f #1278: LOAD(UART_data,character_P)
+30131 // @210 #1279: CALL(send_to_UART)
+00f72 // @211 #1280: LOAD(UART_data,character_r)
+30131 // @212 #1281: CALL(send_to_UART)
+00f6f // @213 #1282: LOAD(UART_data,character_o)
+30131 // @214 #1283: CALL(send_to_UART)
+00f67 // @215 #1284: LOAD(UART_data,character_g)
+30131 // @216 #1285: CALL(send_to_UART)
+00f72 // @217 #1286: LOAD(UART_data,character_r)
+30131 // @218 #1287: CALL(send_to_UART)
+00f65 // @219 #1288: LOAD(UART_data,character_e)
+30131 // @21a #1289: CALL(send_to_UART)
+00f73 // @21b #1290: LOAD(UART_data,character_s)
+30131 // @21c #1291: CALL(send_to_UART)
+30131 // @21d #1292: CALL(send_to_UART)
+30193 // @21e #1293: CALL(send_CR)
+2a000 // @21f #1294: RETURN
+// #1295: ;
+// #1296: ;
+// #1297: ;Send 'Erase ' string to the UART
+// #1298: ;
+// @220 #1299: [send_Erase]
+00f45 // @220 #1299: LOAD(UART_data,character_E)
+30131 // @221 #1300: CALL(send_to_UART)
+00f72 // @222 #1301: LOAD(UART_data,character_r)
+30131 // @223 #1302: CALL(send_to_UART)
+00f61 // @224 #1303: LOAD(UART_data,character_a)
+30131 // @225 #1304: CALL(send_to_UART)
+00f73 // @226 #1305: LOAD(UART_data,character_s)
+30131 // @227 #1306: CALL(send_to_UART)
+00f65 // @228 #1307: LOAD(UART_data,character_e)
+30131 // @229 #1308: CALL(send_to_UART)
+30196 // @22a #1309: CALL(send_space)
+2a000 // @22b #1310: RETURN
+// #1311: ;
+// #1312: ;
+// #1313: ;Send carriage return, 'OK' and carriage return to the UART
+// #1314: ;
+// @22c #1315: [send_OK]
+30193 // @22c #1315: CALL(send_CR)
+00f4f // @22d #1316: LOAD(UART_data,character_O)
+30131 // @22e #1317: CALL(send_to_UART)
+00f4b // @22f #1318: LOAD(UART_data,character_K)
+30131 // @230 #1319: CALL(send_to_UART)
+30193 // @231 #1320: CALL(send_CR)
+2a000 // @232 #1321: RETURN
+// #1322: ;
+// #1323: ;
+// #1324: ;
+// #1325: ;Send menu to the UART
+// #1326: ;
+// @233 #1327: [send_Menu]
+30193 // @233 #1327: CALL(send_CR)
+00f45 // @234 #1328: LOAD(UART_data,character_E)
+30131 // @235 #1329: CALL(send_to_UART)
+00f2d // @236 #1330: LOAD(UART_data,character_minus)
+30131 // @237 #1331: CALL(send_to_UART)
+30220 // @238 #1332: CALL(send_Erase)
+00f61 // @239 #1333: LOAD(UART_data,character_a)
+30131 // @23a #1334: CALL(send_to_UART)
+00f6c // @23b #1335: LOAD(UART_data,character_l)
+30131 // @23c #1336: CALL(send_to_UART)
+30131 // @23d #1337: CALL(send_to_UART)
+30193 // @23e #1338: CALL(send_CR)
+00f42 // @23f #1339: LOAD(UART_data,character_B)
+30131 // @240 #1340: CALL(send_to_UART)
+00f2d // @241 #1341: LOAD(UART_data,character_minus)
+30131 // @242 #1342: CALL(send_to_UART)
+30220 // @243 #1343: CALL(send_Erase)
+00f62 // @244 #1344: LOAD(UART_data,character_b)
+30131 // @245 #1345: CALL(send_to_UART)
+00f6c // @246 #1346: LOAD(UART_data,character_l)
+30131 // @247 #1347: CALL(send_to_UART)
+00f6f // @248 #1348: LOAD(UART_data,character_o)
+30131 // @249 #1349: CALL(send_to_UART)
+00f63 // @24a #1350: LOAD(UART_data,character_c)
+30131 // @24b #1351: CALL(send_to_UART)
+00f6b // @24c #1352: LOAD(UART_data,character_k)
+30131 // @24d #1353: CALL(send_to_UART)
+00f73 // @24e #1354: LOAD(UART_data,character_s)
+30131 // @24f #1355: CALL(send_to_UART)
+30196 // @250 #1356: CALL(send_space)
+00f31 // @251 #1357: LOAD(UART_data,character_1)
+30131 // @252 #1358: CALL(send_to_UART)
+00f2d // @253 #1359: LOAD(UART_data,character_minus)
+30131 // @254 #1360: CALL(send_to_UART)
+00f33 // @255 #1361: LOAD(UART_data,character_3)
+30131 // @256 #1362: CALL(send_to_UART)
+30193 // @257 #1363: CALL(send_CR)
+00f50 // @258 #1364: LOAD(UART_data,character_P)
+30131 // @259 #1365: CALL(send_to_UART)
+00f2d // @25a #1366: LOAD(UART_data,character_minus)
+30131 // @25b #1367: CALL(send_to_UART)
+00f50 // @25c #1368: LOAD(UART_data,character_P)
+30131 // @25d #1369: CALL(send_to_UART)
+00f72 // @25e #1370: LOAD(UART_data,character_r)
+30131 // @25f #1371: CALL(send_to_UART)
+00f6f // @260 #1372: LOAD(UART_data,character_o)
+30131 // @261 #1373: CALL(send_to_UART)
+00f67 // @262 #1374: LOAD(UART_data,character_g)
+30131 // @263 #1375: CALL(send_to_UART)
+00f72 // @264 #1376: LOAD(UART_data,character_r)
+30131 // @265 #1377: CALL(send_to_UART)
+00f61 // @266 #1378: LOAD(UART_data,character_a)
+30131 // @267 #1379: CALL(send_to_UART)
+00f6d // @268 #1380: LOAD(UART_data,character_m)
+30131 // @269 #1381: CALL(send_to_UART)
+301f7 // @26a #1382: CALL(send_MCS_file)
+00f57 // @26b #1383: LOAD(UART_data,character_W)
+30131 // @26c #1384: CALL(send_to_UART)
+00f2d // @26d #1385: LOAD(UART_data,character_minus)
+30131 // @26e #1386: CALL(send_to_UART)
+00f57 // @26f #1387: LOAD(UART_data,character_W)
+30131 // @270 #1388: CALL(send_to_UART)
+00f72 // @271 #1389: LOAD(UART_data,character_r)
+30131 // @272 #1390: CALL(send_to_UART)
+00f69 // @273 #1391: LOAD(UART_data,character_i)
+30131 // @274 #1392: CALL(send_to_UART)
+00f74 // @275 #1393: LOAD(UART_data,character_t)
+30131 // @276 #1394: CALL(send_to_UART)
+00f65 // @277 #1395: LOAD(UART_data,character_e)
+30131 // @278 #1396: CALL(send_to_UART)
+30196 // @279 #1397: CALL(send_space)
+302cb // @27a #1398: CALL(send_byte)
+30193 // @27b #1399: CALL(send_CR)
+00f52 // @27c #1400: LOAD(UART_data,character_R)
+30131 // @27d #1401: CALL(send_to_UART)
+00f2d // @27e #1402: LOAD(UART_data,character_minus)
+30131 // @27f #1403: CALL(send_to_UART)
+00f52 // @280 #1404: LOAD(UART_data,character_R)
+30131 // @281 #1405: CALL(send_to_UART)
+00f65 // @282 #1406: LOAD(UART_data,character_e)
+30131 // @283 #1407: CALL(send_to_UART)
+00f61 // @284 #1408: LOAD(UART_data,character_a)
+30131 // @285 #1409: CALL(send_to_UART)
+00f64 // @286 #1410: LOAD(UART_data,character_d)
+30131 // @287 #1411: CALL(send_to_UART)
+30196 // @288 #1412: CALL(send_space)
+00f32 // @289 #1413: LOAD(UART_data,character_2)
+30131 // @28a #1414: CALL(send_to_UART)
+00f35 // @28b #1415: LOAD(UART_data,character_5)
+30131 // @28c #1416: CALL(send_to_UART)
+00f36 // @28d #1417: LOAD(UART_data,character_6)
+30131 // @28e #1418: CALL(send_to_UART)
+30196 // @28f #1419: CALL(send_space)
+302cb // @290 #1420: CALL(send_byte)
+00f73 // @291 #1421: LOAD(UART_data,character_s)
+30131 // @292 #1422: CALL(send_to_UART)
+30193 // @293 #1423: CALL(send_CR)
+00f49 // @294 #1424: LOAD(UART_data,character_I)
+30131 // @295 #1425: CALL(send_to_UART)
+00f2d // @296 #1426: LOAD(UART_data,character_minus)
+30131 // @297 #1427: CALL(send_to_UART)
+00f44 // @298 #1428: LOAD(UART_data,character_D)
+30131 // @299 #1429: CALL(send_to_UART)
+00f65 // @29a #1430: LOAD(UART_data,character_e)
+30131 // @29b #1431: CALL(send_to_UART)
+00f76 // @29c #1432: LOAD(UART_data,character_v)
+30131 // @29d #1433: CALL(send_to_UART)
+00f69 // @29e #1434: LOAD(UART_data,character_i)
+30131 // @29f #1435: CALL(send_to_UART)
+00f63 // @2a0 #1436: LOAD(UART_data,character_c)
+30131 // @2a1 #1437: CALL(send_to_UART)
+00f65 // @2a2 #1438: LOAD(UART_data,character_e)
+30131 // @2a3 #1439: CALL(send_to_UART)
+30196 // @2a4 #1440: CALL(send_space)
+302c6 // @2a5 #1441: CALL(send_ID)
+30193 // @2a6 #1442: CALL(send_CR)
+00f48 // @2a7 #1443: LOAD(UART_data,character_H)
+30131 // @2a8 #1444: CALL(send_to_UART)
+00f2d // @2a9 #1445: LOAD(UART_data,character_minus)
+30131 // @2aa #1446: CALL(send_to_UART)
+00f48 // @2ab #1447: LOAD(UART_data,character_H)
+30131 // @2ac #1448: CALL(send_to_UART)
+00f65 // @2ad #1449: LOAD(UART_data,character_e)
+30131 // @2ae #1450: CALL(send_to_UART)
+00f6c // @2af #1451: LOAD(UART_data,character_l)
+30131 // @2b0 #1452: CALL(send_to_UART)
+00f70 // @2b1 #1453: LOAD(UART_data,character_p)
+30131 // @2b2 #1454: CALL(send_to_UART)
+30193 // @2b3 #1455: CALL(send_CR)
+00f53 // @2b4 #1456: LOAD(UART_data,character_S)
+30131 // @2b5 #1457: CALL(send_to_UART)
+00f2d // @2b6 #1458: LOAD(UART_data,character_minus)
+30131 // @2b7 #1459: CALL(send_to_UART)
+00f53 // @2b8 #1460: LOAD(UART_data,character_S)
+30131 // @2b9 #1461: CALL(send_to_UART)
+00f74 // @2ba #1462: LOAD(UART_data,character_t)
+30131 // @2bb #1463: CALL(send_to_UART)
+00f61 // @2bc #1464: LOAD(UART_data,character_a)
+30131 // @2bd #1465: CALL(send_to_UART)
+00f74 // @2be #1466: LOAD(UART_data,character_t)
+30131 // @2bf #1467: CALL(send_to_UART)
+00f75 // @2c0 #1468: LOAD(UART_data,character_u)
+30131 // @2c1 #1469: CALL(send_to_UART)
+00f73 // @2c2 #1470: LOAD(UART_data,character_s)
+30131 // @2c3 #1471: CALL(send_to_UART)
+30193 // @2c4 #1472: CALL(send_CR)
+2a000 // @2c5 #1473: RETURN
+// #1474: ;
+// #1475: ;
+// #1476: ;Send 'ID' to the UART
+// #1477: ;
+// @2c6 #1478: [send_ID]
+00f49 // @2c6 #1478: LOAD(UART_data,character_I)
+30131 // @2c7 #1479: CALL(send_to_UART)
+00f44 // @2c8 #1480: LOAD(UART_data,character_D)
+30131 // @2c9 #1481: CALL(send_to_UART)
+2a000 // @2ca #1482: RETURN
+// #1483: ;
+// #1484: ;
+// #1485: ;Send 'byte' to the UART
+// #1486: ;
+// @2cb #1487: [send_byte]
+00f62 // @2cb #1487: LOAD(UART_data,character_b)
+30131 // @2cc #1488: CALL(send_to_UART)
+00f79 // @2cd #1489: LOAD(UART_data,character_y)
+30131 // @2ce #1490: CALL(send_to_UART)
+00f74 // @2cf #1491: LOAD(UART_data,character_t)
+30131 // @2d0 #1492: CALL(send_to_UART)
+00f65 // @2d1 #1493: LOAD(UART_data,character_e)
+30131 // @2d2 #1494: CALL(send_to_UART)
+2a000 // @2d3 #1495: RETURN
+// #1496: ;
+// #1497: ;
+// #1498: ;Send 'Confirm Erase (Y/n) ' to the UART
+// #1499: ;
+// @2d4 #1500: [send_Confirm]
+30193 // @2d4 #1500: CALL(send_CR)
+00f43 // @2d5 #1501: LOAD(UART_data,character_C)
+30131 // @2d6 #1502: CALL(send_to_UART)
+00f6f // @2d7 #1503: LOAD(UART_data,character_o)
+30131 // @2d8 #1504: CALL(send_to_UART)
+00f6e // @2d9 #1505: LOAD(UART_data,character_n)
+30131 // @2da #1506: CALL(send_to_UART)
+00f66 // @2db #1507: LOAD(UART_data,character_f)
+30131 // @2dc #1508: CALL(send_to_UART)
+00f69 // @2dd #1509: LOAD(UART_data,character_i)
+30131 // @2de #1510: CALL(send_to_UART)
+00f72 // @2df #1511: LOAD(UART_data,character_r)
+30131 // @2e0 #1512: CALL(send_to_UART)
+00f6d // @2e1 #1513: LOAD(UART_data,character_m)
+30131 // @2e2 #1514: CALL(send_to_UART)
+30196 // @2e3 #1515: CALL(send_space)
+30220 // @2e4 #1516: CALL(send_Erase)
+00f28 // @2e5 #1517: LOAD(UART_data,character_open)
+30131 // @2e6 #1518: CALL(send_to_UART)
+00f59 // @2e7 #1519: LOAD(UART_data,character_Y)
+30131 // @2e8 #1520: CALL(send_to_UART)
+00f2f // @2e9 #1521: LOAD(UART_data,character_divide)
+30131 // @2ea #1522: CALL(send_to_UART)
+00f6e // @2eb #1523: LOAD(UART_data,character_n)
+30131 // @2ec #1524: CALL(send_to_UART)
+00f29 // @2ed #1525: LOAD(UART_data,character_close)
+30131 // @2ee #1526: CALL(send_to_UART)
+30196 // @2ef #1527: CALL(send_space)
+2a000 // @2f0 #1528: RETURN
+// #1529: ;
+// #1530: ;
+// #1531: ;Send 'Abort' to the UART
+// #1532: ;
+// @2f1 #1533: [send_Abort]
+30193 // @2f1 #1533: CALL(send_CR)
+00f41 // @2f2 #1534: LOAD(UART_data,character_A)
+30131 // @2f3 #1535: CALL(send_to_UART)
+00f62 // @2f4 #1536: LOAD(UART_data,character_b)
+30131 // @2f5 #1537: CALL(send_to_UART)
+00f6f // @2f6 #1538: LOAD(UART_data,character_o)
+30131 // @2f7 #1539: CALL(send_to_UART)
+00f72 // @2f8 #1540: LOAD(UART_data,character_r)
+30131 // @2f9 #1541: CALL(send_to_UART)
+00f74 // @2fa #1542: LOAD(UART_data,character_t)
+30131 // @2fb #1543: CALL(send_to_UART)
+30193 // @2fc #1544: CALL(send_CR)
+2a000 // @2fd #1545: RETURN
+// #1546: ;
+// #1547: ;Send 'address=' to the UART
+// #1548: ;
+// @2fe #1549: [send_address]
+30193 // @2fe #1549: CALL(send_CR)
+00f61 // @2ff #1550: LOAD(UART_data,character_a)
+30131 // @300 #1551: CALL(send_to_UART)
+00f64 // @301 #1552: LOAD(UART_data,character_d)
+30131 // @302 #1553: CALL(send_to_UART)
+30131 // @303 #1554: CALL(send_to_UART)
+00f72 // @304 #1555: LOAD(UART_data,character_r)
+30131 // @305 #1556: CALL(send_to_UART)
+00f65 // @306 #1557: LOAD(UART_data,character_e)
+30131 // @307 #1558: CALL(send_to_UART)
+00f73 // @308 #1559: LOAD(UART_data,character_s)
+30131 // @309 #1560: CALL(send_to_UART)
+30131 // @30a #1561: CALL(send_to_UART)
+// @30b #1562: [send_equals]
+00f3d // @30b #1562: LOAD(UART_data,character_equals)
+30131 // @30c #1563: CALL(send_to_UART)
+2a000 // @30d #1564: RETURN
+// #1565: ;
+// #1566: ;
+// #1567: ;Send 'data=' to the UART
+// #1568: ;
+// @30e #1569: [send_data]
+30193 // @30e #1569: CALL(send_CR)
+00f64 // @30f #1570: LOAD(UART_data,character_d)
+30131 // @310 #1571: CALL(send_to_UART)
+00f61 // @311 #1572: LOAD(UART_data,character_a)
+30131 // @312 #1573: CALL(send_to_UART)
+00f74 // @313 #1574: LOAD(UART_data,character_t)
+30131 // @314 #1575: CALL(send_to_UART)
+00f61 // @315 #1576: LOAD(UART_data,character_a)
+30131 // @316 #1577: CALL(send_to_UART)
+3430b // @317 #1578: JUMP(send_equals)
+// #1579: ;
+// #1580: ;
+// #1581: ;**************************************************************************************
+// #1582: ;Interrupt Service Routine (ISR)
+// #1583: ;**************************************************************************************
+// #1584: ;
+// #1585: ;An interrupt occurs whenever the status of the UART receiver FIFO 'half_full' flag
+// #1586: ;changes.
+// #1587: ;
+// #1588: ;A change from Low to High means that the buffer is becoming full and therefore
+// #1589: ;an XOFF character must be transmitted.
+// #1590: ;
+// #1591: ;A change from High to Low means that the buffer is starting to empty and therefore
+// #1592: ;an XON character can be transmitted to restart the flow of new characters.
+// #1593: ;
+// #1594: ;
+@3f5 // #1595: ADDRESS(1013) ;place at end of memory to keep separate
+// @3f5 #1596: [ISR]
+2e000 // @3f5 #1596: STORE(s0,ISR_preserve_s0) ;preserve register contents
+04000 // @3f6 #1597: INPUT(s0,status_port) ;test 'half_full' status of receiver buffer.
+12010 // @3f7 #1598: TEST(s0,rx_half_full)
+353fb // @3f8 #1599: JUMP(Z,isr_send_xon)
+00013 // @3f9 #1600: LOAD(s0,character_XOFF)
+343fc // @3fa #1601: JUMP(isr_send_character)
+// @3fb #1602: [isr_send_xon]
+00011 // @3fb #1602: LOAD(s0,character_XON)
+// @3fc #1603: [isr_send_character]
+2c004 // @3fc #1603: OUTPUT(s0,UART_write_port)
+06000 // @3fd #1604: FETCH(s0,ISR_preserve_s0) ;restore register contents
+38001 // @3fe #1605: RETURNI(ENABLE)
+// #1606: ;
+// #1607: ;
+// #1608: ;**************************************************************************************
+// #1609: ;Interrupt Vector
+// #1610: ;**************************************************************************************
+// #1611: ;
+@3ff // #1612: ADDRESS(1023)
+343f5 // @3ff #1613: JUMP(ISR)
+// #1614: ;
+// #1615: ;

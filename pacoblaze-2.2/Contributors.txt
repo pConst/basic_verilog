@@ -1,0 +1,8 @@
+Allan Herriman <ua.moc.matc@namirreh.nalla>
+	2005-04-07: wrong return address pushed in stack during interrupts.
+
+Ed Blanchard <moc.hcetixv@bde>
+	2005-11-29: output sX, (sY) not working as expected.
+
+John Providenza <moc.oborp@pnhoj>
+	2007-04-12: found bug in the return stack code.

@@ -1,0 +1,270 @@
+/*
+	Copyright (c) 2004, 2006 Pablo Bleyer Kocik.
+
+	Redistribution and use in source and binary forms, with or without
+	modification, are permitted provided that the following conditions are met:
+
+	1. Redistributions of source code must retain the above copyright notice, this
+	list of conditions and the following disclaimer.
+
+	2. Redistributions in binary form must reproduce the above copyright notice,
+	this list of conditions and the following disclaimer in the documentation
+	and/or other materials provided with the distribution.
+
+	3. The name of the author may not be used to endorse or promote products
+	derived from this software without specific prior written permission.
+
+	THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED
+	WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+	MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
+	EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+	SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+	PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+	BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
+	IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+	ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+	POSSIBILITY OF SUCH DAMAGE.
+*/
+
+options {
+	LOOKAHEAD = 2;
+	STATIC = false;
+}
+
+PARSER_BEGIN(KCAsm)
+
+import java.util.Vector;
+import java.util.Properties;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+class KCAsm {
+
+	/** Tracks the current line number. */
+	int lines = 1;
+	/** Assembler expressions (ie, the parsed program). */
+	Vector expressions;
+
+	public static void main(String[] args)
+	throws ParseException, IOException {
+		if (args.length < 2) {
+			usage();
+			return;
+		}
+
+		Properties pr = System.getProperties();
+		String s;
+		int kcpsm = -1, bram = -1;
+		String mn = null;
+
+		s = pr.getProperty("kcpsm");
+		if (s != null) kcpsm = Integer.parseInt(s);
+		s = pr.getProperty("bram");
+		if (s != null) bram = Integer.parseInt(s);
+		mn = pr.getProperty("module");
+
+		if (kcpsm < 1 || kcpsm > 3) { usage(); return; }
+		if (bram != 16 && bram != 18) { usage(); return; }
+		if (mn == null || mn.length() == 0) { usage(); return; }
+
+		FileInputStream fi = new FileInputStream(args[0]);
+
+		KCAsm p = new KCAsm(fi);
+		p.expressions = new Vector();
+		p.Start();
+		fi.close();
+
+		Assembler asm;
+		switch (kcpsm) {
+			case 1: asm = new Assembler1(p.expressions); break;
+			case 2: asm = new Assembler2(p.expressions); break;
+			case 3: asm = new Assembler3(p.expressions); break;
+			default: asm = null; break;
+		}
+
+		// FileOutputStream fo = new FileOutputStream(basename(args[0]) + ".rmh");
+		FileOutputStream fo = new FileOutputStream(args[1]);
+		fo.write(asm.toString().getBytes());
+		fo.close();
+
+		fo = new FileOutputStream(mn + ".v");
+		fo.write(asm.toBlockRAM(mn).getBytes());
+		fo.close();
+
+		// asm.toVerilog(args[0]);
+	}
+
+	static void usage() {
+		System.err.println(
+			"Usage: java -Dkcpsm={1,2,3} -Dbram={16,18} -Dmodule={name} KCAsm {psm_file} {rmh_file}"
+		);
+	}
+
+	static String basename(String n) {
+		int dp = n.indexOf('.');
+		return n.substring(0, dp-1).trim();
+	}
+}
+
+PARSER_END(KCAsm)
+
+
+SKIP : {" "|"\t"} // skip white spaces
+TOKEN : {
+	<#CR:"\n"|"\r"|"\r\n"> // end of line characters
+|	<EOL:<CR>>
+
+|	<WORD:["_","a"-"z","A"-"Z"](["_","a"-"z","A"-"Z","0"-"9"])*> // valid word
+| <PWORD:"("["_","a"-"z","A"-"Z"](["_","a"-"z","A"-"Z","0"-"9"])*")"> // bounded valid word
+
+|	<BINARY: "%"(["0"-"1"])+> // a binary number, eg %100101
+|	<OCTAL: "@"(["0"-"7"])+> // an octal number, eg @756
+|	<DECIMAL: "&"(["0"-"9"])+> // a decimal number, eg &123 or 123
+|	<HEXADECIMAL: ("$")?(["0"-"9","a"-"f","A"-"F"])+> // an hexadecimal number, eg $5a
+|	<ASCII: "'"~[]"'"> // an ascii character
+
+|	<LABEL: <WORD>":"> // valid label declaration - word followed by colon
+// | <SEMICOLON: ";"([" ","\t"])?> : IN_COMMENT
+| <SEMICOLON: ";"> : IN_COMMENT // a semicolon starts a comment
+}
+
+<IN_COMMENT> TOKEN : {
+	<COMMENT: (~["\n","\r"])*> : DEFAULT // accept as comment until end of line
+}
+
+/** Valid program is a sequence of valid expressions followed by EOF. */
+void
+Start() :
+{}
+{
+	(
+		Expression()
+	)*
+	<EOF>
+//	 {
+//		ListIterator i = expressions.listIterator();
+//		while (i.hasNext()) {
+//			Command c = (Command)i.next();
+//			ps.println(c.toString());
+//		}
+//	}
+}
+
+/** Valid expressions are labels, commands and comments. */
+void
+Expression() :
+{
+}
+{
+	LabelExpression()
+	(
+		<EOL> { lines += 1; }
+	)? // a label is optionally followed by an end of line
+	|
+	CommandExpression()
+	(
+		CommentExpression()
+		|
+		<EOL> { lines += 1; }
+	) // commands are ended by a comment or a new line
+	|
+	(CommentExpression())? // comments are always optional
+	<EOL> { lines += 1; } // valid expressions end with and end of line
+}
+
+/** Valid comment expressions start with a semicolon, which is not part of the
+	comment content.
+*/
+void
+CommentExpression() :
+{
+	Token t;
+}
+{
+	<SEMICOLON>	t = <COMMENT>
+	{ expressions.add(new Comment(lines, t.image)); }
+}
+
+/** Valid label expressions are words followed by a colon, which is not part of
+	the label content.
+*/
+void
+LabelExpression() :
+{
+	Token t;
+}
+{
+	t = <LABEL>
+	{ expressions.add(new Label(lines, t.image.replace(':', ' ').trim())); }
+}
+
+/** Valid command expressions consist of an initial word (command name),
+	followed by an optional, comma separated argument list.
+*/
+void
+CommandExpression() :
+{
+	Token t;
+	Command c;
+	Vector l = null;
+}
+{
+	t = <WORD> ( l = Arguments() )?
+	{ expressions.add(new Command(lines, t.image, l)); }
+}
+
+/** Valid numbers are binary, octal, decimal, hexadecimal and ascii character
+	values.
+*/
+Integer
+Number() :
+{
+	Token t;
+}
+{
+	t = <BINARY> { return Integer.valueOf(t.image.replace('%', ' ').trim(), 2); }
+	|
+	t = <OCTAL> { return Integer.valueOf(t.image.replace('@', ' ').trim(), 8); }
+	|
+	t = <DECIMAL> { return Integer.valueOf(t.image.replace('&', ' ').trim(), 10); }
+	|
+	t = <HEXADECIMAL> { return Integer.valueOf(t.image.replace('$', ' ').trim(), 16); }
+	|
+	t = <ASCII> { return new Integer((int)t.image.charAt(1)); }
+}
+
+/* A literal is a word (symbol name) or a number. */
+Object
+Literal() :
+{
+	Token t;
+	Integer n;
+}
+{
+	t = <WORD> { return t.image; }
+	|
+	t = <PWORD> {
+		return t.image.substring(1, t.image.length()-1);
+	}
+	|
+	n = Number() { return n; }
+}
+
+/* An argument list is a comma separated sequence of literals that are packed
+	into a vector.
+*/
+Vector
+Arguments() :
+{
+	Vector l = new Vector();
+	Object o;
+}
+{
+	o = Literal() { l.add(o); }
+	(
+		"," o = Literal() { l.add(o); }
+	)*
+	{ return l; }
+}
+
