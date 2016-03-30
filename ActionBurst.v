@@ -15,12 +15,12 @@
 
 wire [7:0] actions;
 ActionBurst AB1 (
-    .clk(clk200pll),
-    .nrst(1'b1),
-	.step_wdth(32'b1),
-	.start(E_ClockDivider[24]),
+    .clk(),
+    .nrst(),
+	.step_wdth(),
+	.start(),
 	.busy(),
-    .out(actions[7:0])
+    .out()
     );
 defparam AB1.WIDTH = 8;
 
