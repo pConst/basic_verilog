@@ -78,7 +78,7 @@ end
 
 genvar i;
 generate
-	for (i=0; i<WIDTH; i=i+1) begin
+	for (i=0; i<WIDTH; i=i+1) begin : AB_GEN_FOR
 		assign out[i] = PgOut && ( i == state[31:0] );
 	end
 endgenerate

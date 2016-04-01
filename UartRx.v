@@ -17,6 +17,7 @@ UartRx UR1 (
 	.rx_data(),
 	.rx_busy(),
 	.rx_done(),
+	.rx_err(),
 	.rxd()
     );
 defparam UR1.CLK_HZ = 200_000_000;
@@ -25,7 +26,7 @@ defparam UR1.BAUD = 9600;	// max. BAUD is CLK_HZ / 2
 --- INSTANTIATION TEMPLATE END ---*/
 
 
-module UartRx(clk, nrst, rx_data, rx_busy, rx_done, rxd);
+module UartRx(clk, nrst, rx_data, rx_busy, rx_done, rx_err, rxd);
 
 parameter CLK_HZ = 200_000_000;
 parameter BAUD = 9600;
@@ -37,6 +38,7 @@ input wire nrst;
 output reg [7:0] rx_data = 0;
 output reg rx_busy = 0;
 output reg rx_done = 0;		// read strobe
+output reg rx_err = 0;		// read strobe
 input wire rxd;
 
 
@@ -60,6 +62,7 @@ always @ (posedge clk) begin
 		rx_data[7:0] <= 0;
 		rx_busy <= 0;
 		rx_done <= 0;
+		rx_err <= 0;
 		rx_sample_cntr[15:0] <= (BAUD_DIVISOR_2 - 1);
 		rx_data_cntr[3:0] <= 4'b1000; 
 	end else begin
@@ -69,6 +72,7 @@ always @ (posedge clk) begin
 				rx_data[7:0] <= 0;
 				rx_busy <= 1;
 				rx_done <= 0;
+				rx_err <= 0;
 				rx_data_cntr[3:0] <= 4'b1000;
 			end // start_bit_strobe
 		end else begin
@@ -84,7 +88,7 @@ always @ (posedge clk) begin
 					if (rxd) begin
 						rx_done <= 1;
 					end	else begin
-						rx_busy <= 0;
+						rx_err <= 1;
 					end // rxd
 				end else begin						// do sample and shift data
 					rx_data[7:0] <= {rxd, rx_data[7:1]};
@@ -92,9 +96,10 @@ always @ (posedge clk) begin
 				end	// rx_data_cntr[3:0]
 			end // rx_do_sample
 			
-			if (rx_done) begin
+			if (rx_done || rx_err) begin
 				rx_busy <= 0;
 				rx_done <= 0;
+				rx_err <= 0;
 			end	// rx_done
 			
 		end	// ~rx_busy
