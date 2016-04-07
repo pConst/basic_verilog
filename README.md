@@ -3,8 +3,8 @@
 ####(licensed under CC BY-SA 4_0)
 
 
-**/Advanced Synthesis Cookbook/**		- useful code from Altera`s cookbook  
-**/KCPSM6_Release9_30Sept14/**		- Xilinx`s Picoblaze soft processor  
+**/Advanced Synthesis Cookbook/**		- useful code from Altera's cookbook  
+**/KCPSM6_Release9_30Sept14/**		- Xilinx's Picoblaze soft processor  
 **/pacoblaze-2.2/**		- version of Picoblaze adapted for Altera devices  
 
 **Main_tb.v**		- basic testbench template  
@@ -21,8 +21,11 @@
 **SimplePulseGen.v**		- generates one-cycle pulse with given delay  
 **StaticDelay.v**		- static delay made on Xilinx`s SRL16E primitives  
 **Synch.v**		- input synchronizer (and also "static delay module"), standard way to get rid of metastability issues  
+
 **UartRx.v**		- straightforward yet simple UART receiver implementation for FPGA written in Verilog  
 **UartTx.v**		- straightforward yet simple UART transmitter implementation for FPGA written in Verilog  
+**UartRxExtreme.v**		- extreme minimal UART receiver implementation for FPGA written in Verilog  
+**UartTxExtreme.v**		- extreme minimal UART transmitter implementation for FPGA written in Verilog  
 
 Also added some simple testbenches for selected modules
 
