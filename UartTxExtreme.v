@@ -5,9 +5,24 @@
 
 // INFO --------------------------------------------------------------------------------
 // Extreme minimal UART transmitter
+//  
+// CAUTION:
+// optimized for 20MHz/115200
+// tx_busy has been made asynchronous to tx_do_sample
+// tx_start has no internal protection and should be rised only when tx_busy is low
 
 
 /* --- INSTANTIATION TEMPLATE BEGIN ---
+
+reg [7:0] tx_sample_cntr = 0;
+always @ (posedge clk20) begin
+	if (tx_sample_cntr[7:0] == 0) begin
+		tx_sample_cntr[7:0] <= (173-1);
+	end else begin
+		tx_sample_cntr[7:0] <= tx_sample_cntr[7:0] - 1;
+	end
+end
+wire tx_do_sample = (tx_sample_cntr[7:0] == 0);
 
 UartTxExtreme UT1 (
     .clk(),
@@ -34,7 +49,6 @@ output reg txd = 1;
 
 
 reg [9:0] tx_shifter = 0;
-
 always @ (posedge clk) begin
 	if (tx_start) begin
 		tx_shifter[9:0] <= {1'b1,tx_data[7:0],1'b0};
