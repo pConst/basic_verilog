@@ -50,16 +50,16 @@ output reg txd = 1;
 
 reg [9:0] tx_shifter = 0;
 always @ (posedge clk) begin
-	if (tx_start) begin
+	if (tx_start && ~tx_busy) begin
 		tx_shifter[9:0] <= {1'b1,tx_data[7:0],1'b0};
 	end	// tx_start
 	
-	if (tx_do_sample) begin
+	if (tx_do_sample && tx_busy) begin
 		{tx_shifter[9:0],txd} <= {tx_shifter[9:0],txd} >> 1;
 	end	// tx_do_sample
 end
 
 assign
-	tx_busy = |tx_shifter[9:1];
+	tx_busy = (tx_shifter[9:0] != 0);
 
 endmodule
