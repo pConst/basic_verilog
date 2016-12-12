@@ -15,7 +15,7 @@
 
 UartTx UT1 (
     .clk(),
-    .nrst(),
+    .nrst( 1'b1 ),
 	//.tx_do_sample(),
 	.tx_data(),
 	.tx_start(),

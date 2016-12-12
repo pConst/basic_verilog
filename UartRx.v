@@ -14,7 +14,7 @@
 
 UartRx UR1 (
     .clk(),
-    .nrst(),
+    .nrst( 1'b1 ),
 	.rx_data(),
 	.rx_busy(),
 	.rx_done(),
@@ -45,14 +45,14 @@ output wire rx_err;
 input wire rxd;
 
 
-Synch S (
+StaticDelay SD (
     .clk(clk),
     .nrst(nrst),
     .in(rxd),
     .out(s_rxd)		// Synchronized rxd
     );
-defparam S.LENGTH = 2;
-defparam S.WIDTH = 1;
+defparam SD.LENGTH = 2;
+defparam SD.WIDTH = 1;
 
 
 reg rxd_prev = 0;
@@ -64,6 +64,7 @@ always @ (posedge clk) begin
 	end
 end
 wire start_bit_strobe = ~s_rxd & rxd_prev;
+
 
 reg [15:0] rx_sample_cntr = (BAUD_DIVISOR_2 - 1);
 wire rx_do_sample = (rx_sample_cntr[15:0] == 0);

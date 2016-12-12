@@ -4,18 +4,22 @@
 //--------------------------------------------------------------------------------
 
 // INFO --------------------------------------------------------------------------------
-//  Работает по двум отсчетам на входе, которые могут быть, а могут и не быть периодическими
-//  Переключается в оба состояния с задержкой на три такта
+// Debounce for two inpus signal samples. Signal may and maynot be periodic
+// Switches up and down with 3 ticks delay
 
 
-/* DeBounce DB1 (
+/* --- INSTANTIATION TEMPLATE BEGIN ---
+
+DeBounce DB1 (
 	.clk(),
-	.nrst(),
-	.en(),
+	.nrst( 1'b1 ),
+	.en( 1'b1 ),
 	.in(),
 	.out()
 	);
-defparam DB1.WIDTH = 1;*/
+defparam DB1.WIDTH = 1;
+
+--- INSTANTIATION TEMPLATE END ---*/
 
 
 module DeBounce(clk,nrst,en,in,out);

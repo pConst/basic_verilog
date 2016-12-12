@@ -4,11 +4,13 @@
 //--------------------------------------------------------------------------------
 
 // INFO --------------------------------------------------------------------------------
-//  Генератор импульса
-//  Работает начиная с low_wdth = 1, high_wdth = 1
+//  Pulse Generator
+// low_wdth and high_wdth must not be 0
 
 
-/*PulseGen PG1(
+/* --- INSTANTIATION TEMPLATE BEGIN ---
+
+PulseGen PG1(
     .clk(),
     .nrst(),
     .low_wdth(),
@@ -17,8 +19,9 @@
     .start(),
     .busy(),
     .out()
-    );*/
+    );
 
+--- INSTANTIATION TEMPLATE END ---*/
 
 module PulseGen(clk,nrst,low_wdth,high_wdth,rpt,start,busy,out);
 

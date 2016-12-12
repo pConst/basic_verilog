@@ -16,7 +16,7 @@
 wire [7:0] actions;
 ActionBurst AB1 (
     .clk(),
-    .nrst(),
+    .nrst( 1'b1 ),
 	.step_wdth(),
 	.start(),
 	.busy(),
@@ -46,7 +46,7 @@ PulseGen PG(
     .low_wdth(step_wdth[31:0]),
     .high_wdth(32'b1),
     .rpt(1'b1),
-    .start(1'b1),
+    .start( start ),
     .busy(),
     .out(PgOut)
     );

@@ -4,16 +4,19 @@
 //--------------------------------------------------------------------------------
 
 // INFO --------------------------------------------------------------------------------
-//  ƒелитель основного тактового сигнала.
-//  ѕозвол€ет получить производные медленные клоки синхронные с опорным.
+//  Divides main clock to get derivative slower synchronous clocks
 
 
-/*ClkDivider CD1 (
+/* --- INSTANTIATION TEMPLATE BEGIN ---
+
+ClkDivider CD1 (
     .clk(),
-    .nrst(),
+    .nrst( 1'b1 ),
     .out()
     );
-defparam CD1.WIDTH = 32;*/
+defparam CD1.WIDTH = 32;
+
+--- INSTANTIATION TEMPLATE END ---*/
 
 
 module ClkDivider(clk,nrst,out);
