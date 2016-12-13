@@ -1,5 +1,5 @@
 //--------------------------------------------------------------------------------
-// ActionBurst.v
+// ActionBurst2.v
 // Konstantin Pavlov, pavlovconst@gmail.com
 //--------------------------------------------------------------------------------
 
@@ -9,14 +9,15 @@
 //  Channels get triggered in sequense from out[0] to out[8]
 //  That is useful when you need to start some tasks in exact order, but there are no convinient signals to line them up.
 //  Instance of ActionBurst() is started by high level on start input and the only way to stop generation before all channels get triggered is to reset the instance
+//  This version of ActionBurst features different step widths
 
 
 /* --- INSTANTIATION TEMPLATE BEGIN ---
 
-ActionBurst AB1 (
+ActionBurst2 AB1 (
     .clk(  ),
     .nrst( 1'b1 ),
-	.step_wdth(  ),
+	.step_wdths( {32'h00000001,32'h00000002,32'h00000003,32'h00000004,32'h00000005,32'h00000006,32'h00000007,32'h00000008} ),
 	.start(  ),
 	.busy(  ),
     .out(  )
@@ -26,32 +27,40 @@ defparam AB1.WIDTH = 8;
 --- INSTANTIATION TEMPLATE END ---*/
 
 
-module ActionBurst(clk,nrst,step_wdth,start,busy,out);
+module ActionBurst2(clk,nrst,step_wdths,start,busy,out);
 
 parameter WIDTH = 8;
 
 input wire clk;
 input wire nrst;
-input wire [31:0] step_wdth;	// Module buffers step_wdth in PG instance on the SECOND cycle ater start applyed!
+input wire [(WIDTH*32-1):0] step_wdths;
 input wire start;
 output reg busy = 0;
 output wire [(WIDTH-1):0] out;
 
 wire PgOut;
 reg [31:0] state = 0;
-//reg [31:0] step_wdth_buf = 0; 	// buffering is done in PG
+
+wire [31:0] lw;
+
+genvar j;
+generate
+	for(j=0; j<32; j=j+1) begin : LW_FOR
+		assign lw[j] = step_wdths[state[31:0]*32+j];
+	end
+endgenerate
 
 PulseGen PG(
     .clk( clk ),
     .nrst( start || busy ),
-    .low_wdth( step_wdth[31:0] ),
+    .low_wdth( lw[31:0] ),
     .high_wdth( 32'b1 ),
-    .rpt( 1'b1 ),
+    .rpt( 1'b0 ),
     .start( busy ),
     .busy(  ),
     .out( PgOut )
     );
-
+	
 always @ (posedge clk) begin
 	if (~nrst) begin
 		state[31:0] <= 0;
