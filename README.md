@@ -10,17 +10,17 @@
 **Main_tb.v**		- basic testbench template  
 
 **ActionBurst.v**		- multichannel one-shot triggering module  
+**ActionBurst2.v**		- multichannel one-shot triggering with variable steps module  
 **ClkDivider.v**		- wide reference clock divider  
 **DeBounce.v**		- two-cycle debounce for input buttons  
-**DynDelay.v**		- dynamic delay made on general-purpose trigger elements  
+**DynDelay.v**		- dynamic delay for arbitrary input signal made on general-purpose trigger elements  
 **EdgeDetect.v**		- edge detector, gives one-tick pulses on every signal edge  
-**Encoder.v**		- encoder input module  
+**Encoder.v**		- digital encoder input logic module  
+**NDivide.v**		- primitive integer divider  
 **PulseGen.v**		- generates pulses with given width and delay  
 **ResetSet.v**		- SR trigger variant w/o metastable state, set dominates here  
 **SetReset.v**		- SR trigger variant w/o metastable state, reset dominates here  
-**SimplePulseGen.v**		- generates one-cycle pulse with given delay  
-**StaticDelay.v**		- static delay made on Xilinx`s SRL16E primitives  
-**Synch.v**		- input synchronizer (and also "static delay module"), standard way to get rid of metastability issues  
+**StaticDelay.v**		- static delay for arbitrary input signal made on Xilinx`s SRL16E primitives. Also serves as input synchronizer, a standard way to get rid of metastability issues  
 
 **UartRx.v**		- straightforward yet simple UART receiver implementation for FPGA written in Verilog  
 **UartTx.v**		- straightforward yet simple UART transmitter implementation for FPGA written in Verilog  
