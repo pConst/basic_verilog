@@ -1,10 +1,11 @@
-//--------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 // ClkDivider.v
 // Konstantin Pavlov, pavlovconst@gmail.com
-//--------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
-// INFO --------------------------------------------------------------------------------
-//  Divides main clock to get derivative slower synchronous clocks
+// INFO ------------------------------------------------------------------------
+// Divides main clock to get derivative slower synchronous clocks
+// See ClkDivider.sv file for SystemVerilog version of this module
 
 
 /* --- INSTANTIATION TEMPLATE BEGIN ---
@@ -28,12 +29,12 @@ output reg [(WIDTH-1):0] out = 0;
 parameter WIDTH = 32;
 
 always @ (posedge clk) begin
-	if (~nrst) begin
-		out[(WIDTH-1):0] <= 0;
-	end
-	else begin
-		out[(WIDTH-1):0] <= out[(WIDTH-1):0] + 1'b1;
-	end
+  if (~nrst) begin
+    out[(WIDTH-1):0] <= 0;
+  end
+  else begin
+    out[(WIDTH-1):0] <= out[(WIDTH-1):0] + 1'b1;
+  end
 end
 
 endmodule

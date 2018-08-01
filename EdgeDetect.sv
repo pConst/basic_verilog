@@ -1,11 +1,11 @@
-//--------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 // EdgeDetect.sv
 // Konstantin Pavlov, pavlovconst@gmail.com
-//--------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
-// INFO --------------------------------------------------------------------------------
-//  Variable width edge detector
-//  One tick propagation time
+// INFO ------------------------------------------------------------------------
+// Variable width edge detector
+// Features one tick propagation time
 
 
 /* --- INSTANTIATION TEMPLATE BEGIN ---
@@ -40,16 +40,16 @@ module EdgeDetect #(
 logic [(WIDTH-1):0] in_prev = 0;
 
 always_ff @(posedge clk) begin
-	if ( ~nrst ) begin
-	  in_prev <= 0;
-		rising <= 0;
-		falling <= 0;
-	end
-	else begin
-		in_prev <= in;
+  if ( ~nrst ) begin
+    in_prev <= 0;
+    rising <= 0;
+    falling <= 0;
+  end
+  else begin
+    in_prev <= in;
     rising[(WIDTH-1):0] <= in[(WIDTH-1):0] & ~in_prev[(WIDTH-1):0];
     falling[(WIDTH-1):0] <= ~in[(WIDTH-1):0] & in_prev[(WIDTH-1):0];
-	end
+  end
 end
 
 assign both[(WIDTH-1):0] = rising[(WIDTH-1):0] | falling[(WIDTH-1):0];
