@@ -52,7 +52,7 @@ module lifo #( parameter
   output logic [DATA_W-1:0] r_data,
 
   // helper ports
-  output logic [DATA_W-1:0] cnt,
+  output logic [DATA_W-1:0] cnt = 0,
   output logic empty,
   output logic full,
 
@@ -69,7 +69,6 @@ logic [DEPTH-1:0][DATA_W-1:0] data = 0;
 // please take attention to the case when cnt[]==0 && r_req==1'b1 && w_req==1'b1
 // this case makes no read/write to the lifo and should be handled externally
 
-integer i;
 always_ff @(posedge clk) begin
   if ( rst ) begin
     data <= 0;
@@ -111,7 +110,5 @@ always_comb begin
   fail = ( empty && r_req ) ||
          ( full && w_req );
 end
-
-
 
 endmodule

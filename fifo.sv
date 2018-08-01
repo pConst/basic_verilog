@@ -52,7 +52,7 @@ module fifo #( parameter
   output logic [DATA_W-1:0] r_data,
 
   // helper ports
-  output logic [DATA_W-1:0] cnt,
+  output logic [DATA_W-1:0] cnt = 0,
   output logic empty,
   output logic full,
 
@@ -121,7 +121,5 @@ always_comb begin
   fail = ( empty && r_req ) ||
          ( full && w_req );
 end
-
-
 
 endmodule
