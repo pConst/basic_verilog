@@ -6,7 +6,7 @@
 // INFO ------------------------------------------------------------------------
 //  "Physically" reverses signal order within multi-bit bus
 //  Thus in[7] signal becomes out[0], in[6] becomes out[1] and vise-versa
-//  Module is being synthesized into combinational logic only
+//  Module is no doubt synthesizable, but its instance does NOT occupy any FPGA resources!
 
 
 /* --- INSTANTIATION TEMPLATE BEGIN ---
@@ -32,7 +32,7 @@ module ReverseVector #(
 genvar i;
 
 generate
-  for (i = 0; i < (WIDTH/2) ; i++) begin
+  for (i = 0; i < (WIDTH/2) ; i++) begin : gen1
     always_comb begin
       out[i] = in[WIDTH-1-i];
       out[WIDTH-1-i] = in[i];
@@ -42,7 +42,7 @@ endgenerate
 
 // additional assign needed when WIDTH is odd
 generate
-  if ( WIDTH%2 ) begin
+  if ( WIDTH%2 ) begin : gen2
     always_comb begin
       out[WIDTH/2] = in[WIDTH/2];
     end // always_comb
