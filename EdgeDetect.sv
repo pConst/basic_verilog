@@ -4,19 +4,21 @@
 //------------------------------------------------------------------------------
 
 // INFO ------------------------------------------------------------------------
-// Variable width edge detector
-// Features one tick propagation time
+// Edge detector, ver.2
+// Combinational implementation (zero ticks delay)
+//
+// In case when "in" port has toggle rate 100% (changes every clock period)
+//    "rising" and "falling" outputs will completely replicate input
+//    "both" output will be always active in this case
 
 
 /* --- INSTANTIATION TEMPLATE BEGIN ---
 
-EdgeDetect #(
-  .WIDTH( 32 )
-) ED1 (
-  .clk( clk ),
-  .nrst( 1'b1 ),
-  .in(  ),
-  .rising(  ),
+EdgeDetect ED1[31:0] (
+  .clk( {32{clk}} ),
+  .nrst( {32{1'b1}} ),
+  .in( in[31:0] ),
+  .rising( out[31:0] ),
   .falling(  ),
   .both(  )
 );
@@ -24,34 +26,29 @@ EdgeDetect #(
 --- INSTANTIATION TEMPLATE END ---*/
 
 
-module EdgeDetect #(
-  WIDTH = 1
-)(
+module EdgeDetect(
   input clk,
   input nrst,
 
-  input [(WIDTH-1):0] in,
-  output logic [(WIDTH-1):0] rising = 0,
-  output logic [(WIDTH-1):0] falling = 0,
-  output [(WIDTH-1):0] both
+  input in,
+  output logic rising,
+  output logic falling,
+  output logic both
 );
 
-
-logic [(WIDTH-1):0] in_prev = 0;
-
+logic in_d = 0;
 always_ff @(posedge clk) begin
   if ( ~nrst ) begin
-    in_prev <= 0;
-    rising <= 0;
-    falling <= 0;
-  end
-  else begin
-    in_prev <= in;
-    rising[(WIDTH-1):0] <= in[(WIDTH-1):0] & ~in_prev[(WIDTH-1):0];
-    falling[(WIDTH-1):0] <= ~in[(WIDTH-1):0] & in_prev[(WIDTH-1):0];
+    in_d <= 0;
+  end else begin
+    in_d <= in;
   end
 end
 
-assign both[(WIDTH-1):0] = rising[(WIDTH-1):0] | falling[(WIDTH-1):0];
+always_comb begin
+  rising = nrst && (in && ~in_d);
+  falling = nrst && (~in && in_d);
+  both = nrst && (rising || falling);
+end
 
 endmodule
