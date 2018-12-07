@@ -1,6 +1,5 @@
 //--------------------------------------------------------------------------------
-// Encoder_test project, 201601
-// Main_tb.v
+// Encoder_tb.v
 // Konstantin Pavlov, pavlovconst@gmail.com
 //--------------------------------------------------------------------------------
 
@@ -10,7 +9,7 @@
 
 `timescale 1ns / 1ps
 
-module Main_tb();
+module Encoder_tb();
 
 reg clk200;
 initial begin

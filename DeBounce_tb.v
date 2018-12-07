@@ -1,5 +1,5 @@
 //--------------------------------------------------------------------------------
-// Main_TB.v
+// DeBounce_tb.v
 // Konstantin Pavlov, pavlovconst@gmail.com
 //--------------------------------------------------------------------------------
 
@@ -9,7 +9,7 @@
 
 `timescale 1ns / 1ps
 
-module Main_tb();
+module DeBounce_tb();
 
 reg clk200;
 initial begin

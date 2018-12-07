@@ -1,6 +1,5 @@
 //--------------------------------------------------------------------------------
-// PulseGen_test project, 201512
-// Main_tb.v
+// PulseGen.v
 // Konstantin Pavlov, pavlovconst@gmail.com
 //--------------------------------------------------------------------------------
 
@@ -10,12 +9,12 @@
 
 `timescale 1ns / 1ps
 
-module Main_tb();
+module PulseGen_tb();
 
 reg clk200;
 initial begin
         #0 clk200 = 1;
-        forever 
+        forever
             #2.5 clk200 = ~clk200;
 end
 
@@ -62,6 +61,5 @@ PulseGen PG1 (clk200,~rst,1,1,1'b1,start,busy1,out1);
 
 wire busy2,out2;
 PulseGen PG2 (clk200,~rst,{28'b0,RandomNumber1[3:0]},{28'b0,RandomNumber1[7:4]},1'b0,&RandomNumber1[2:0],busy2,out2);
-    
+
 endmodule
-	

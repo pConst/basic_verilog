@@ -55,11 +55,9 @@ ClkDivider #(
 );
 
 logic [31:0] E_DerivedClocks;
-EdgeDetect #(
-  .WIDTH( 32 )
-) ED1 (
-  .clk( clk200 ),
-  .nrst( nrst_once ),
+EdgeDetect ED1[31:0] (
+  .clk( {32{clk200}} ),
+  .nrst( {32{nrst_once}} ),
   .in( DerivedClocks[31:0] ),
   .rising( E_DerivedClocks[31:0] ),
   .falling(  ),

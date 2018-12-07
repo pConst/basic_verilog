@@ -1,5 +1,5 @@
 //--------------------------------------------------------------------------------
-// SimWrapper.v
+// ActionBurst_tb.v
 // Konstantin Pavlov, pavlovconst@gmail.com
 //--------------------------------------------------------------------------------
 
@@ -9,7 +9,7 @@
 
 `timescale 1ns / 1ps
 
-module SimWrapper();
+module ActionBurst_tb();
 
 reg clk200;
 initial begin
