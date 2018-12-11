@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// EdgeDetect_tb.sv
+// edge_detect_tb.sv
 // Konstantin Pavlov, pavlovconst@gmail.com
 //------------------------------------------------------------------------------
 
@@ -8,7 +8,7 @@
 
 `timescale 1ns / 1ps
 
-module EdgeDetect_tb();
+module edge_detect_tb();
 
 logic clk200;
 initial begin
@@ -71,7 +71,7 @@ end
 
 // Module under test ==========================================================
 
-EdgeDetect ED1[15:0] (
+edge_detect ED1[15:0] (
   .clk( {16{clk200}} ),
   .nrst( {16{nrst_once}} ),
   .in( RandomNumber1[15:0] ),

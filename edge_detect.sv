@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// EdgeDetect.sv
+// edge_detect.sv
 // Konstantin Pavlov, pavlovconst@gmail.com
 //------------------------------------------------------------------------------
 
@@ -14,7 +14,7 @@
 
 /* --- INSTANTIATION TEMPLATE BEGIN ---
 
-EdgeDetect ED1[31:0] (
+edge_detect ED1[31:0] (
   .clk( {32{clk}} ),
   .nrst( {32{1'b1}} ),
   .in( in[31:0] ),
@@ -26,7 +26,7 @@ EdgeDetect ED1[31:0] (
 --- INSTANTIATION TEMPLATE END ---*/
 
 
-module EdgeDetect(
+module edge_detect(
   input clk,
   input nrst,
 
