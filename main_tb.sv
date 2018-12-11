@@ -45,7 +45,7 @@ logic nrst_once;
 assign nrst_once = ~rst_once;
 
 logic [31:0] DerivedClocks;
-ClkDivider #(
+clk_divider #(
   .WIDTH( 32 )
 ) CD1 (
   .clk( clk200 ),
@@ -54,7 +54,7 @@ ClkDivider #(
 );
 
 logic [31:0] E_DerivedClocks;
-EdgeDetect ED1[31:0] (
+edge_detect ED1[31:0] (
   .clk( {32{clk200}} ),
   .nrst( {32{nrst_once}} ),
   .in( DerivedClocks[31:0] ),
