@@ -1,15 +1,15 @@
 //------------------------------------------------------------------------------
-// ReverseVector_tb.sv
+// reverse_vector_tb.sv
 // Konstantin Pavlov, pavlovconst@gmail.com
 //------------------------------------------------------------------------------
 
 // INFO ------------------------------------------------------------------------
-// testbench for ReverseVector module
+// testbench for reverse_vector module
 
 
 `timescale 1ns / 1ps
 
-module main_tb();
+module reverse_vector_tb();
 
 logic clk200;
 initial begin
@@ -84,7 +84,7 @@ end
 
 // odd width
 logic [14:0] reversed1;
-ReverseVector #(
+reverse_vector #(
   .WIDTH( 15 )         // WIDTH must be >=2
 ) RV1 (
   .in( RandomNumber1[14:0] ),
@@ -93,7 +93,7 @@ ReverseVector #(
 
 // even width
 logic [13:0] reversed2;
-ReverseVector #(
+reverse_vector #(
   .WIDTH( 14 )         // WIDTH must be >=2
 ) RV2 (
   .in( reversed1[13:0] ),

@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// ReverseVector.sv
+// reverse_vector.sv
 // Konstantin Pavlov, pavlovconst@gmail.com
 //------------------------------------------------------------------------------
 
@@ -11,7 +11,7 @@
 
 /* --- INSTANTIATION TEMPLATE BEGIN ---
 
-ReverseVector #(
+reverse_vector #(
   .WIDTH( 8 )         // WIDTH must be >=2
 ) RV1 (
   .in( smth[7:0] ),
@@ -21,7 +21,7 @@ ReverseVector #(
 --- INSTANTIATION TEMPLATE END ---*/
 
 
-module ReverseVector #(
+module reverse_vector #(
   WIDTH = 8         // WIDTH must be >=2
 )(
   input [(WIDTH-1):0] in,
