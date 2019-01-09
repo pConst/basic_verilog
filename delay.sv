@@ -9,12 +9,15 @@
 //          conveyor.sv
 //          synchronizer.sv
 //
-// Tip for Xilinx-based implementations:
-//    Leave nrst=1'b1 on purpose of inferring Xilinx`s SRL16E/SRL32E primitives
+// Tip for Xilinx-based implementations: Leave nrst=1'b1 and ena=1'b1 on
+// purpose of inferring Xilinx`s SRL16E/SRL32E primitives
+
 
 /* --- INSTANTIATION TEMPLATE BEGIN ---
 
-delay S1 (
+delay #(
+    .N( 2 )
+) S1 (
     .clk( clk ),
     .nrst( 1'b1 ),
     .ena( 1'b1 )
