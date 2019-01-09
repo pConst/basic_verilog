@@ -16,11 +16,11 @@
 /* --- INSTANTIATION TEMPLATE BEGIN ---
 
 delay #(
-    .N( 2 )
+    .LENGTH( 2 )
 ) S1 (
     .clk( clk ),
     .nrst( 1'b1 ),
-    .ena( 1'b1 )
+    .ena( 1'b1 ),
     .in(  ),
     .out(  )
 );
@@ -29,8 +29,8 @@ delay #(
 
 
 module delay #(
-  parameter N = 2;   // delay/synchronizer chain length
-                     // default length for synchronizer chain is 2
+  parameter LENGTH = 2;   // delay/synchronizer chain length
+                          // default length for synchronizer chain is 2
 )(
   input clk,
   input nrst,
@@ -40,16 +40,16 @@ module delay #(
 );
 
 
-(* ASYNC_REG = "TRUE" *) logic [N:0] data = 0;
+(* ASYNC_REG = "TRUE" *) logic [LENGTH:0] data = 0;
 always_ff @(posedge clk) begin
   if (~nrst) begin
-		data[N:0] <= 0;
+    data[LENGTH:0] <= 0;
   end else if (ena) begin
-  	data[N:0] <= {data[N-1:0],in};
+    data[LENGTH:0] <= {data[LENGTH-1:0],in};
   end
 end
 
 assign
-    out = data[N];
+    out = data[LENGTH];
 
 endmodule
