@@ -23,12 +23,12 @@ reset_set RS1 (
 
 
 module reset_set(
-  input wire clk,
-  input wire nrst,
-  input wire s,
-  input wire r,
-  output reg q = 0,   // aka "present state"
-  output wire nq
+  input clk,
+  input nrst,
+  input s,
+  input r,
+  output logic q = 0,   // aka "present state"
+  output nq
 );
 
 always_ff @(posedge clk) begin
