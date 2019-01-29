@@ -12,15 +12,16 @@ module main_tb();
 
 logic clk200;
 initial begin
-  #0 clk200 = 1;
+  #0 clk200 = 1'b0;
   forever
     #2.5 clk200 = ~clk200;
 end
 
 logic rst;
 initial begin
-  #10.2 rst = 1;
-  #5 rst = 0;
+  #0 rst = 1'b0;
+  #10.2 rst = 1'b1;
+  #5 rst = 1'b0;
   //#10000;
   forever begin
     #9985 rst = ~rst;
@@ -33,12 +34,13 @@ assign nrst = ~rst;
 
 logic rst_once;
 initial begin       // initializing non-X data before PLL starts
-  #10.2 rst_once = 1;
-  #5 rst_once = 0;
+  #0 rst_once = 1'b0;
+  #10.2 rst_once = 1'b1;
+  #5 rst_once = 1'b0;
 end
 initial begin
-  #510.2 rst_once = 1;    // PLL starts at 500ns, clock appears, so doing the reset for modules
-  #5 rst_once = 0;
+  #510.2 rst_once = 1'b1;    // PLL starts at 500ns, clock appears, so doing the reset for modules
+  #5 rst_once = 1'b0;
 end
 
 logic nrst_once;
