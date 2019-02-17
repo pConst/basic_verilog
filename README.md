@@ -13,6 +13,10 @@ Author: Konstantin Pavlov, pavlovconst@gmail.com
 * **/pacoblaze-2.2/**   - version of Picoblaze adapted for Altera devices
 
 * **/scripts/**   - useful TCL scripts
+* **/scripts/compile.tcl**   - Modelsim no-project-mode compile script
+* **/scripts/quartus_custom_report.tcl**   - custom reporting or report analisys for Intel Quartus IDE
+* **/scripts/quartus_system_console_init.tcl**   - initialization script for reading/writing Avalon-MM through JTAG-to-Avalon-MM bridge IP
+* **/scripts/write_avalon_mm_from_file.tcl**   - writing bulk binary data from binary file to Avalon-MM through JTAG-to-Avalon-MM bridge IP
 
 * **main_tb.sv**   - basic testbench template
 
