@@ -41,14 +41,11 @@ logic nrst;
 assign nrst = ~rst;
 
 logic rst_once;
-initial begin       // initializing non-X data before PLL starts
+initial begin
   #0 rst_once = 1'b0;
   #10.2 rst_once = 1'b1;
   #5 rst_once = 1'b0;
 end
-initial begin
-  #510.2 rst_once = 1'b1;    // PLL starts at 500ns, clock appears, so doing the reset for modules
-  #5 rst_once = 1'b0;
 end
 
 logic nrst_once;

@@ -28,7 +28,7 @@ dynamic_delay #(
 --- INSTANTIATION TEMPLATE END ---*/
 
 
-module dynamic_delay #(
+module dynamic_delay #( parameter
   LENGTH = 8,               // maximum delay chain width
   SEL_W = $clog2(LENGTH)    // output selector width
 )(

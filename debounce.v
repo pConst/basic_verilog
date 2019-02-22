@@ -1,16 +1,17 @@
 //--------------------------------------------------------------------------------
-// DeBounce.v
+// debounce.v
 // Konstantin Pavlov, pavlovconst@gmail.com
 //--------------------------------------------------------------------------------
 
 // INFO --------------------------------------------------------------------------------
-// Debounce for two inpus signal samples. Signal may and maynot be periodic
+// Debounce for two inpus signal samples
+// Signal may and maynot be periodic
 // Switches up and down with 3 ticks delay
 
 
 /* --- INSTANTIATION TEMPLATE BEGIN ---
 
-DeBounce DB1 (
+debounce DB1 (
 	.clk(),
 	.nrst( 1'b1 ),
 	.en( 1'b1 ),
@@ -22,7 +23,7 @@ defparam DB1.WIDTH = 1;
 --- INSTANTIATION TEMPLATE END ---*/
 
 
-module DeBounce(clk,nrst,en,in,out);
+module debounce(clk,nrst,en,in,out);
 
 input wire clk;
 input wire nrst;
@@ -51,7 +52,7 @@ end
 
 wire [(WIDTH-1):0] switch_hi = (d2[(WIDTH-1):0] & d1[(WIDTH-1):0]);
 wire [(WIDTH-1):0] n_switch_lo = (d2[(WIDTH-1):0] | d1[(WIDTH-1):0]);
-    
+
 SetReset SR (
 	.clk(clk),
 	.nrst(nrst),

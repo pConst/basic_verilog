@@ -28,15 +28,15 @@ delay #(
 --- INSTANTIATION TEMPLATE END ---*/
 
 
-module delay #(
-  parameter LENGTH = 2;   // delay/synchronizer chain length
+module delay #( parameter
+  LENGTH = 2              // delay/synchronizer chain length
                           // default length for synchronizer chain is 2
 )(
   input clk,
   input nrst,
   input ena,
   input in,
-  output out,
+  output out
 );
 
 

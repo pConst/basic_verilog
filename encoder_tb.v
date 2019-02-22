@@ -1,5 +1,5 @@
 //--------------------------------------------------------------------------------
-// DeBounce_tb.v
+// encoder_tb.v
 // Konstantin Pavlov, pavlovconst@gmail.com
 //--------------------------------------------------------------------------------
 
@@ -9,12 +9,12 @@
 
 `timescale 1ns / 1ps
 
-module DeBounce_tb();
+module encoder_tb();
 
 reg clk200;
 initial begin
         #0 clk200 = 1;
-        forever 
+        forever
             #2.5 clk200 = ~clk200;
 end
 
@@ -30,28 +30,17 @@ initial begin
 end
 wire nrst = ~rst;
 
-reg rst_once;
-initial begin       // initializing non-X data before PLL starts
-        #10.2 rst_once = 1;
-        #5 rst_once = 0;
-end
-initial begin
-        #510.2 rst_once = 1;    // PLL starts at 500ns, clock appears, so doing the reset for modules
-        #5 rst_once = 0;
-end
-wire nrst_once = ~rst_once;
-
 wire [31:0] DerivedClocks;
 ClkDivider CD1 (
     .clk(clk200),
-    .nrst(nrst_once),
+    .nrst(nrst),
     .out(DerivedClocks[31:0]));
 defparam CD1.WIDTH = 32;
 
 wire [31:0] E_DerivedClocks;
 EdgeDetect ED1 (
     .clk(clk200),
-    .nrst(nrst_once),
+    .nrst(nrst),
     .in(DerivedClocks[31:0]),
     .rising(E_DerivedClocks[31:0]),
     .falling(),
@@ -60,11 +49,17 @@ EdgeDetect ED1 (
 defparam ED1.WIDTH = 32;
 
 wire [15:0] RandomNumber1;
+reg rst_once;
+initial begin
+        #10.2 rst_once = 1;
+        #5 rst_once = 0;
+end
+
 c_rand RNG1 (
     .clk(clk200),
     .rst(rst_once),
     .reseed(1'b0),
-    .seed_val(DerivedClocks[31:0]),
+    .seed_val(DerivedClocks[15:0]),
     .out(RandomNumber1[15:0]));
 
 reg start;
@@ -75,16 +70,14 @@ end
 
 //=================================================
 
-wire den = RandomNumber1[1] && RandomNumber1[2];
-wire dbout;
-DeBounce DB1 (
+wire p,m;
+encoder E1(
 	.clk(clk200),
-	.nrst(nrst_once),
-	.en(den),
-	.in(RandomNumber1[0]),
-	.out(dbout)
+	.nrst(nrst),
+	.incA(RandomNumber1[0]),
+	.incB(RandomNumber1[1]),
+	.plus1(p),
+	.minus1(m)
 	);
-defparam DB1.WIDTH = 1;
-    
+
 endmodule
-	

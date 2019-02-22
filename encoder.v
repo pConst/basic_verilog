@@ -1,13 +1,13 @@
 //--------------------------------------------------------------------------------
-// Encoder.v
+// encoder.v
 // Konstantin Pavlov, pavlovconst@gmail.com
 //--------------------------------------------------------------------------------
 
 // INFO --------------------------------------------------------------------------------
-//  Digital encoder logic
+//  Digital encoder
 
 
-/*Encoder E1(
+/*encoder E1(
 	.clk(),
 	.nrst(),
 	.incA(),
@@ -17,7 +17,7 @@
 	);*/
 
 
-module Encoder(clk,nrst,incA,incB,plus1,minus1);
+module encoder(clk,nrst,incA,incB,plus1,minus1);
 
 input wire clk;
 input wire nrst;

@@ -21,7 +21,7 @@ reverse_vector #(
 --- INSTANTIATION TEMPLATE END ---*/
 
 
-module reverse_vector #(
+module reverse_vector #( parameter
   WIDTH = 8         // WIDTH must be >=2
 )(
   input [(WIDTH-1):0] in,

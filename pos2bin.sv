@@ -25,7 +25,7 @@ pos2bin #(
 --- INSTANTIATION TEMPLATE END ---*/
 
 
-module pos2bin #(
+module pos2bin #( parameter
   BIN_WIDTH = 8,
   POS_WIDTH = 2**BIN_WIDTH
 )(

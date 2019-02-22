@@ -21,7 +21,7 @@ clk_divider #(
 --- INSTANTIATION TEMPLATE END ---*/
 
 
-module clk_divider #(
+module clk_divider #( parameter
   WIDTH = 32
 )(
   input clk,
