@@ -29,8 +29,8 @@ delay #(
 
 
 module delay #( parameter
-  LENGTH = 2              // delay/synchronizer chain length
-                          // default length for synchronizer chain is 2
+  LENGTH = 2    // delay/synchronizer chain length
+                // default length for synchronizer chain is 2
 )(
   input clk,
   input nrst,
@@ -40,16 +40,16 @@ module delay #( parameter
 );
 
 
-(* ASYNC_REG = "TRUE" *) logic [LENGTH:0] data = 0;
+logic [LENGTH-1:0] data = 0;
 always_ff @(posedge clk) begin
   if (~nrst) begin
-    data[LENGTH:0] <= 0;
+    data[LENGTH-1:0] <= 0;
   end else if (ena) begin
-    data[LENGTH:0] <= {data[LENGTH-1:0],in};
+    data[LENGTH-1:0] <= {data[LENGTH-2:0],in};
   end
 end
 
 assign
-    out = data[LENGTH];
+    out = data[LENGTH-1];
 
 endmodule
