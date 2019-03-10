@@ -1,6 +1,8 @@
 ﻿# basic_verilog
 ### Some basic must-have verilog modules
+
 (licensed under CC BY-SA 4_0)
+
 Author: Konstantin Pavlov, pavlovconst@gmail.com
 
 
@@ -10,9 +12,9 @@ Author: Konstantin Pavlov, pavlovconst@gmail.com
 * **/KCPSM6_Release9_30Sept14/**    - Xilinx's Picoblaze soft processor
 * **/pacoblaze-2.2/**   - version of Picoblaze adapted for Altera devices
 
-* **Main_tb.v**   - basic testbench template
+* **/scripts/**   - useful TCL scripts
 
-* **compile.tcl**   - tcl script to configure and run Modelsim compilation without need to create simulation project manually
+* **main_tb.sv**   - basic testbench template
 
 * **ActionBurst**   - multichannel one-shot triggering module
 * **ActionBurst2**    - multichannel one-shot triggering with variable steps module
