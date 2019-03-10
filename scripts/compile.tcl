@@ -18,12 +18,21 @@ set library_file_list {
 
   work {fifo_tb.sv
         fifo.sv
+        test.vo
         c_rand.v
         edge_detect.sv
         clk_divider.sv}
 }
 
+        ../../c_rand.v
+        ../../edge_detect.sv
+        ../../delay.sv
+        ../../clk_divider.sv}
+}
+
 set vsim_params "-L altera_mf_ver -L altera_mf -L lpm_ver -L lpm"
+# add these parameters when simulating Quartus netlists
+# "+transport_int_delays +transport_path_delays -L altera_ver -L altera_lnsim_ver -L cyclonev_ver -L lpm_ver -L sgate_ver -L cyclonev_hssi_ver -L altera_mf_ver -L cyclonev_pcie_hip_ver"
 
 set top_level work.fifo_tb
 
