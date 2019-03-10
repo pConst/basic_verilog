@@ -12,35 +12,35 @@ add wave -noupdate /spi_master_tb/SM1/spi_rd_cmd_rise
 add wave -noupdate /spi_master_tb/SM1/spi_busy
 add wave -noupdate -radix decimal /spi_master_tb/SM1/sequence_cntr
 add wave -noupdate /spi_master_tb/SM1/rd_nwr
-add wave -noupdate -radix binary /spi_master_tb/SM1/data_out
-add wave -noupdate -radix binary /spi_master_tb/SM1/data_in
-add wave -noupdate /spi_master_tb/SM1/data_out_buf
+add wave -noupdate -radix binary /spi_master_tb/SM1/mosi_data
+add wave -noupdate -radix binary /spi_master_tb/SM1/miso_data
+add wave -noupdate /spi_master_tb/SM1/mosi_data_buf
 add wave -noupdate -color Yellow /spi_master_tb/SM1/clk_pin
 add wave -noupdate -color Yellow /spi_master_tb/SM1/ncs_pin
-add wave -noupdate -color Yellow /spi_master_tb/SM1/d_out_pin
-add wave -noupdate -color Yellow /spi_master_tb/SM1/d_oe
-add wave -noupdate -color Yellow /spi_master_tb/SM1/d_in_pin
+add wave -noupdate -color Yellow /spi_master_tb/SM1/mosi_pin
+add wave -noupdate -color Yellow /spi_master_tb/SM1/oe_pin
+add wave -noupdate -color Yellow /spi_master_tb/SM1/miso_pin
 add wave -noupdate /spi_master_tb/SM1/spi_clk_rise_d2
 add wave -noupdate /spi_master_tb/SM1/spi_clk_fall_d2
-add wave -noupdate /spi_master_tb/SM1/d_in_pin_d2
+add wave -noupdate /spi_master_tb/SM1/miso_pin_d2
 add wave -noupdate -color {Medium Violet Red} -radix decimal /spi_master_tb/SM2/sequence_cntr
 add wave -noupdate -color {Medium Violet Red} /spi_master_tb/SM2/clk_pin
 add wave -noupdate -color {Medium Violet Red} /spi_master_tb/SM2/ncs_pin
-add wave -noupdate -color {Medium Violet Red} /spi_master_tb/SM2/d_out_pin
-add wave -noupdate -color {Medium Violet Red} /spi_master_tb/SM2/d_oe
-add wave -noupdate -color {Medium Violet Red} /spi_master_tb/SM2/d_in_pin
+add wave -noupdate -color {Medium Violet Red} /spi_master_tb/SM2/mosi_pin
+add wave -noupdate -color {Medium Violet Red} /spi_master_tb/SM2/oe_pin
+add wave -noupdate -color {Medium Violet Red} /spi_master_tb/SM2/miso_pin
 add wave -noupdate -color {Cornflower Blue} /spi_master_tb/SM3/sequence_cntr
 add wave -noupdate -color {Cornflower Blue} /spi_master_tb/SM3/clk_pin
 add wave -noupdate -color {Cornflower Blue} /spi_master_tb/SM3/ncs_pin
-add wave -noupdate -color {Cornflower Blue} /spi_master_tb/SM3/d_out_pin
-add wave -noupdate -color {Cornflower Blue} /spi_master_tb/SM3/d_oe
-add wave -noupdate -color {Cornflower Blue} /spi_master_tb/SM3/d_in_pin
+add wave -noupdate -color {Cornflower Blue} /spi_master_tb/SM3/mosi_pin
+add wave -noupdate -color {Cornflower Blue} /spi_master_tb/SM3/oe_pin
+add wave -noupdate -color {Cornflower Blue} /spi_master_tb/SM3/miso_pin
 add wave -noupdate -color {Orange Red} /spi_master_tb/SM4/sequence_cntr
 add wave -noupdate -color {Orange Red} /spi_master_tb/SM4/clk_pin
 add wave -noupdate -color {Orange Red} /spi_master_tb/SM4/ncs_pin
-add wave -noupdate -color {Orange Red} /spi_master_tb/SM4/d_out_pin
-add wave -noupdate -color {Orange Red} /spi_master_tb/SM4/d_oe
-add wave -noupdate -color {Orange Red} /spi_master_tb/SM4/d_in_pin
+add wave -noupdate -color {Orange Red} /spi_master_tb/SM4/mosi_pin
+add wave -noupdate -color {Orange Red} /spi_master_tb/SM4/oe_pin
+add wave -noupdate -color {Orange Red} /spi_master_tb/SM4/miso_pin
 TreeUpdate [SetDefaultTree]
 WaveRestoreCursors {{Cursor 1} {801886 ps} 0}
 quietly wave cursor active 1

@@ -18,6 +18,7 @@ set library_file_list {
 
   work {spi_master_tb.sv
         ../spi_master.sv
+        ../reverse_vector.sv
         c_rand.v
         ../edge_detect.sv
         ../delay.sv
