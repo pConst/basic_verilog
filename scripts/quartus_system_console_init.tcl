@@ -43,7 +43,6 @@ proc sleep { N } {
    after [expr {int($N * 1000)}]
 }
 
-# reading/Writing service master
 puts "INIT DONE"
 
 # closing the service

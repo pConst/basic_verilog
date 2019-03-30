@@ -5,6 +5,6 @@ rem  Konstantin Pavlov, pavlovconst@gmail.com
 rem ------------------------------------------------------------------------------
 
 echo "Converting .SOF to .RBF"
-quartus_cpf -c PIN400_CC_dummy.sof PIN400_CC_dummy.rbf
+quartus_cpf -c PRJ_NAME.sof PRJ_NAME.rbf
 pause
 exit

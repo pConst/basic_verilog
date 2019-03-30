@@ -28,6 +28,7 @@ proc write_avalon_mm_from_file { filename } {
   set db1 0
   set db0 0
   set i 0
+  set b_str " kbytes done"
   while {$i < $rbf_len} {
 
     binary scan $data x${i}H2H2H2H2 db0 db1 db2 db3
@@ -35,7 +36,6 @@ proc write_avalon_mm_from_file { filename } {
     # puts 0x$db0$db1$db2$db3
     master_write_32 $claim_path 0x20 0x$db0$db1$db2$db3
 
-    set b_str " bytes done"
     if { 0 == [ expr $i % 1024 ] } {
       puts $i$b_str
     }

@@ -1,7 +1,9 @@
 ﻿# basic_verilog
 ### Some basic must-have verilog modules
 
+
 (licensed under CC BY-SA 4_0)
+
 
 Author: Konstantin Pavlov, pavlovconst@gmail.com
 
@@ -12,13 +14,16 @@ Author: Konstantin Pavlov, pavlovconst@gmail.com
 * **/KCPSM6_Release9_30Sept14/**    - Xilinx's Picoblaze soft processor
 * **/pacoblaze-2.2/**   - version of Picoblaze adapted for Altera devices
 
+
 * **/scripts/**   - useful TCL scripts
 * **/scripts/compile.tcl**   - Modelsim no-project-mode compile script
 * **/scripts/quartus_custom_report.tcl**   - custom reporting or report analisys for Intel Quartus IDE
 * **/scripts/quartus_system_console_init.tcl**   - initialization script for reading/writing Avalon-MM through JTAG-to-Avalon-MM bridge IP
 * **/scripts/write_avalon_mm_from_file.tcl**   - writing bulk binary data from binary file to Avalon-MM through JTAG-to-Avalon-MM bridge IP
 
+
 * **main_tb.sv**   - basic testbench template
+
 
 * **ActionBurst**   - multichannel one-shot triggering module
 * **ActionBurst2**    - multichannel one-shot triggering with variable steps module
@@ -43,6 +48,7 @@ Author: Konstantin Pavlov, pavlovconst@gmail.com
 * **UartTx**    - straightforward yet simple UART transmitter implementation for FPGA written in Verilog
 * **UartRxExtreme**   - extreme minimal UART receiver implementation for FPGA written in Verilog
 * **UartTxExtreme**   - extreme minimal UART transmitter implementation for FPGA written in Verilog
+
 
 
 Also added testbenches for selected modules
