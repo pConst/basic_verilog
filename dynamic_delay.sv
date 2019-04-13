@@ -36,7 +36,7 @@ module dynamic_delay #( parameter
   input nrst,
   input ena,
   input in,
-  input [SEL_W:0] sel,     // output selector
+  input [SEL_W-1:0] sel,     // output selector
   output logic out
 );
 
@@ -52,7 +52,7 @@ always_ff @(posedge clk) begin
     for (i=1; i<LENGTH; i=i+1) begin
       data[i] <= data[i-1];
     end
-    out <= data[sel[SEL_W:0]];
+    out <= data[sel[SEL_W-1:0]];
   end
 end
 
