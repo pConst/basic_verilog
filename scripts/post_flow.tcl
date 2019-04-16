@@ -35,61 +35,88 @@ set hs_t 0
 set ms_t 0
 set ss_t 0
 
-set file [open [join [list "./OUTPUT/" [lindex $argv 2] ".map.rpt"] ""] r]
-while {[gets $file line] != -1} {
-  set time [string range $line 24 31]
-  if {[string first "Info: Elapsed time:" $line] != -1} {
-    post_message [ join [ list "map:   " $time ] "" ]
-    scan $time "%d:%d:%d" hs ms ss
-    set hs_t [expr {$hs_t + $hs} ]
-    set ms_t [expr {$ms_t + $ms} ]
-    set ss_t [expr {$ss_t + $ss} ]
+set filename [join [list "./OUTPUT/" [lindex $argv 2] ".map.rpt"]
+if { [file exists $filename] } {
+  set file [open $filename r]
+  while {[gets $file line] != -1} {
+    set time [string range $line 24 31]
+    if {[string first "Info: Elapsed time:" $line] != -1} {
+      post_message [ join [ list "map:   " $time ] "" ]
+      scan $time "%d:%d:%d" hs ms ss
+      set hs_t [expr {$hs_t + $hs} ]
+      set ms_t [expr {$ms_t + $ms} ]
+      set ss_t [expr {$ss_t + $ss} ]
+    }
   }
+  close $file
 }
-close $file
 
 
-set file [open [join [list "./OUTPUT/" [lindex $argv 2] ".fit.rpt"] ""] r]
-while {[gets $file line] != -1} {
-  set time [string range $line 24 31]
-  if {[string first "Info: Elapsed time:" $line] != -1} {
-    post_message [ join [ list "fit:   " $time ] "" ]
-    scan $time "%d:%d:%d" hs ms ss
-    set hs_t [expr {$hs_t + $hs} ]
-    set ms_t [expr {$ms_t + $ms} ]
-    set ss_t [expr {$ss_t + $ss} ]
+set filename [join [list "./OUTPUT/" [lindex $argv 2] ".fit.rpt"]
+if { [file exists $filename] } {
+  set file [open $filename r]
+  while {[gets $file line] != -1} {
+    set time [string range $line 24 31]
+    if {[string first "Info: Elapsed time:" $line] != -1} {
+      post_message [ join [ list "fit:   " $time ] "" ]
+      scan $time "%d:%d:%d" hs ms ss
+      set hs_t [expr {$hs_t + $hs} ]
+      set ms_t [expr {$ms_t + $ms} ]
+      set ss_t [expr {$ss_t + $ss} ]
+    }
   }
+  close $file
 }
-close $file
 
-
-set file [open [join [list "./OUTPUT/" [lindex $argv 2] ".asm.rpt"] ""] r]
-while {[gets $file line] != -1} {
-  set time [string range $line 24 31]
-  if {[string first "Info: Elapsed time:" $line] != -1} {
-    post_message [ join [ list "asm:   " $time ] "" ]
-    scan $time "%d:%d:%d" hs ms ss
-    set hs_t [expr {$hs_t + $hs} ]
-    set ms_t [expr {$ms_t + $ms} ]
-    set ss_t [expr {$ss_t + $ss} ]
+set filename [join [list "./OUTPUT/" [lindex $argv 2] ".asm.rpt"]
+if { [file exists $filename] } {
+  set file [open $filename r]
+  while {[gets $file line] != -1} {
+    set time [string range $line 24 31]
+    if {[string first "Info: Elapsed time:" $line] != -1} {
+      post_message [ join [ list "asm:   " $time ] "" ]
+      scan $time "%d:%d:%d" hs ms ss
+      set hs_t [expr {$hs_t + $hs} ]
+      set ms_t [expr {$ms_t + $ms} ]
+      set ss_t [expr {$ss_t + $ss} ]
+    }
   }
+  close $file
 }
-close $file
 
-
-set file [open [join [list "./OUTPUT/" [lindex $argv 2] ".sta.rpt"] ""] r]
-while {[gets $file line] != -1} {
-  set time [string range $line 24 31]
-  if {[string first "Info: Elapsed time:" $line] != -1} {
-    post_message [ join [ list "sta:   " $time ] "" ]
-    scan $time "%d:%d:%d" hs ms ss
-    set hs_t [expr {$hs_t + $hs} ]
-    set ms_t [expr {$ms_t + $ms} ]
-    set ss_t [expr {$ss_t + $ss} ]
+# timequest execution time for newer versions of Quartus
+set filename [join [list "./OUTPUT/" [lindex $argv 2] ".sta.rpt"]
+if { [file exists $filename] } {
+  set file [open $filename ""] r]
+  while {[gets $file line] != -1} {
+    set time [string range $line 24 31]
+    if {[string first "Info: Elapsed time:" $line] != -1} {
+      post_message [ join [ list "sta:   " $time ] "" ]
+      scan $time "%d:%d:%d" hs ms ss
+      set hs_t [expr {$hs_t + $hs} ]
+      set ms_t [expr {$ms_t + $ms} ]
+      set ss_t [expr {$ss_t + $ss} ]
+    }
   }
+  close $file
 }
-close $file
 
+# classic timing analizer execution time for older versions of Quartus
+set filename [join [list "./OUTPUT/" [lindex $argv 2] ".tan.rpt"]
+if { [file exists $filename] } {
+  set file [open $filename ""] r]
+  while {[gets $file line] != -1} {
+    set time [string range $line 24 31]
+    if {[string first "Info: Elapsed time:" $line] != -1} {
+      post_message [ join [ list "tan:   " $time ] "" ]
+      scan $time "%d:%d:%d" hs ms ss
+      set hs_t [expr {$hs_t + $hs} ]
+      set ms_t [expr {$ms_t + $ms} ]
+      set ss_t [expr {$ss_t + $ss} ]
+    }
+  }
+  close $file
+}
 
 while { $ss_t >= 60 } {
   set ss_t [expr $ss_t - 60]
