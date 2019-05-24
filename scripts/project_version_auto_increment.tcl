@@ -1,5 +1,5 @@
 #------------------------------------------------------------------------------
-# project_version.tcl
+# project_version_auto_increment.tcl
 # Konstantin Pavlov, pavlovconst@gmail.com
 #------------------------------------------------------------------------------
 

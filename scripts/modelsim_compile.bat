@@ -1,10 +1,10 @@
 @echo off
 rem ------------------------------------------------------------------------------
-rem  compile.bat
+rem  modelsim_compile.bat
 rem  Konstantin Pavlov, pavlovconst@gmail.com
 rem
 rem  This is a support script for launching "Modelsim compile script" on Windows
 rem ------------------------------------------------------------------------------
 
 
-modelsim.exe -do compile.tcl
+modelsim.exe -do modelsim_compile.tcl
