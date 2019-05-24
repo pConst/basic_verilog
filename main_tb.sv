@@ -6,6 +6,9 @@
 // INFO ------------------------------------------------------------------------
 // Testbench template with basic clocking, reset and random stimulus signals
 
+// use this define to make some things differently in simulation
+`define SIMULATION yes
+
 `timescale 1ns / 1ps
 
 module main_tb();
