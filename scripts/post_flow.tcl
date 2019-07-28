@@ -14,6 +14,54 @@
 
 
 #===============================================================================
+# Printing current SOF version
+post_message "=== VERSION ======================================================"
+set data 0
+set ver 0
+set ver_hi 0
+set ver_lo 0
+
+#file mkdir "./DEBUG"
+set ver_filename "./DEBUG/version.bin"
+
+# reading version
+if { [file exists $ver_filename] } {
+  set file [open $ver_filename "r"]
+  fconfigure $file -translation binary
+  set data [read $file 2]
+  binary scan $data H4 ver
+  set ver 0x${ver}
+  close $file
+}
+
+set ver_hi [expr $ver / 256 ]
+set ver_lo [expr $ver % 256 ]
+
+post_message [ join [ list "Current project version: " [format %d $ver] ] "" ]
+post_message [ join [ list "Version HIGH byte: 0x" [format %02x $ver_hi] ] "" ]
+post_message [ join [ list "Version LOW byte: 0x" [format %02x $ver_lo] ] "" ]
+
+#===============================================================================
+# copying sof file to archieve
+post_message "=== SOF ARCHIEVE ================================================="
+set sof_dir "./OUTPUT/"
+set sof_arch_dir "./SOF_ARCHIEVE/"
+set sof_filename [join [list [lindex $argv 2] ".sof"] ""]
+set new_sof_filename [join [list [lindex $argv 2] "_v" [format %02x $ver_hi] [format %02x $ver_lo] ".sof"] ""]
+if { [file exists ${sof_dir}${sof_filename}] } {
+  if { [file exists $sof_arch_dir] } {
+    post_message "Copying existing .sof file to archieve directory"
+    file copy ${sof_dir}${sof_filename} ${sof_arch_dir}
+    post_message "Adding version identifier to archieved .sof file"
+    file rename ${sof_arch_dir}${sof_filename} ${sof_arch_dir}${new_sof_filename}
+  }
+}
+# if { [file exists ${sof_dir}${sof_filename}] } {
+#   post_message "Adding version identifier to existing .sof file"
+#   file rename ${sof_dir}${sof_filename} ${sof_dir}${new_sof_filename}
+# }
+
+#===============================================================================
 # Set warning on implicit nets declaration
 post_message "=== ERRORS ======================================================="
 set file [open [join [list "./OUTPUT/" [lindex $argv 2] ".map.rpt"] ""] r]
@@ -128,7 +176,4 @@ while { $ms_t >= 60 } {
 }
 post_message "----------------------------------"
 post_message [ join [ list "TOTAL: " [format "%02d:%02d:%02d" $hs_t $ms_t $ss_t]] "" ]
-
-
-
 

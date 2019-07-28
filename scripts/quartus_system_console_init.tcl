@@ -39,8 +39,13 @@ proc rd { a i } {
   master_read_32 $claim_path 0x00 1
 }
 
+# pause next operations for N milliseconds
 proc sleep { N } {
-   after [expr {int($N * 1000)}]
+   after [expr {int($N)}]
+}
+
+proc random_int {} {
+    return [expr {int(rand()*4294967296)}]
 }
 
 puts "INIT DONE"

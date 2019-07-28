@@ -8,12 +8,18 @@
 # Stores version in binary format in "version.bin" file
 # Exports updated "version.vh" define file every time compilation begins
 #
+# Script generates "./SOURCE/version.vh" header that could bу included into the
+# project. Definitions from that file, like version number, or random seed value
+# are accessible from your application logic
+#
 # Script requires following QSF assignment
 # set_global_assignment -name PRE_FLOW_SCRIPT_FILE "quartus_sh:project_version.tcl"
 # set_global_assignment -name VERILOG_FILE version.vh
 
-post_message "=== PROJECT VERSION =============================================="
 
+#===============================================================================
+# Incrementing and printing current SOF version
+post_message "=== VERSION ======================================================"
 set data 0
 set ver 0
 set ver_hi 0
@@ -44,6 +50,14 @@ post_message [ join [ list "Current project version: " [format %d $ver ] ] "" ]
 post_message [ join [ list "Version HIGH byte: 0x" [format %02x $ver_hi ] ] "" ]
 post_message [ join [ list "Version LOW byte: 0x" [format %02x $ver_lo ] ] "" ]
 
+# generating random value that changes every new compilation
+set rand_hi [expr {int(rand()*4294967296)}]
+set rand_lo [expr {int(rand()*4294967296)}]
+
+post_message [ join [ list "Random seed: 0x" \
+                         [format %04x $rand_hi ] \
+                         [format %04x $rand_lo ] ] "" ]
+
 # writing new version
 set file [open $ver_filename "w"]
 fconfigure $file -translation binary
@@ -63,5 +77,10 @@ puts $file "// Project version is auto-incremented every time compilation begins
 puts $file ""
 puts $file [ join [ list "`define VERSION_HIGH 8'h" [format %02x $ver_hi ] ] "" ]
 puts $file [ join [ list "`define VERSION_LOW 8'h" [format %02x $ver_lo ]] "" ]
+puts $file ""
+puts $file [ join [ list "`define RAND_SEED 64'h" \
+                         [format %04x $rand_hi ] \
+                         [format %04x $rand_lo ] ] "" ]
+puts $file ""
 close $file
 
