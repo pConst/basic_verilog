@@ -77,7 +77,8 @@ end
 // Modules under test ==========================================================
 
 pulse_stretch #(
-  .LENGTH( 8 )
+  .WIDTH( 8 ),
+  .USE_CNTR( 0 )
 ) ps1 (
   .clk( clk200 ),
   .nrst( nrst ),
@@ -85,5 +86,14 @@ pulse_stretch #(
   .out(  )
 );
 
+pulse_stretch #(
+  .WIDTH( 8 ),
+  .USE_CNTR( 1 )
+) ps2 (
+  .clk( clk200 ),
+  .nrst( nrst ),
+  .in( start ),
+  .out(  )
+);
 
 endmodule

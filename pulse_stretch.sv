@@ -5,15 +5,16 @@
 
 // INFO --------------------------------------------------------------------------------
 // Pulse stretcher/extender module
-//   this implementftion uses a simple delay line
-//   suits when LENGTH of desired output pulse is low
-//   when you need wide output pulses - counter implementation will make sense
+//   this implementftion uses a simple delay line or counter to stretch pulses
+//   WIDTH parameter sets output pulse width
+//   if you need variable output poulse width, see pulse_gen.sv module
 
 
 /* --- INSTANTIATION TEMPLATE BEGIN ---
 
 pulse_stretch #(
-  .LENGTH( 8 )
+  .WIDTH( 8 )
+  .USE_COUNTER(0)
 ) ps1 (
   .clk( clk ),
   .nrst( nrst ),
@@ -24,7 +25,9 @@ pulse_stretch #(
 --- INSTANTIATION TEMPLATE END ---*/
 
 module pulse_stretch #( parameter
-  LENGTH = 8
+  WIDTH = 8,
+  USE_CNTR = 0      // ==0  - stretcher is implemented on delay line
+                    // ==1  - stretcher is implemented on counter
 )(
   input clk,
   input nrst,
@@ -34,27 +37,54 @@ module pulse_stretch #( parameter
 );
 
 
+localparam CNTR_WIDTH = $clog2(WIDTH) + 1;
+
 generate
 
-  if ( LENGTH == 0 ) begin
+  if ( WIDTH == 0 ) begin
     assign out = 0;
 
-  end else if( LENGTH == 1 ) begin
+  end else if( WIDTH == 1 ) begin
     assign out = in;
 
   end else begin
-    logic [LENGTH-1:0] shifter = '0;
-    always_ff @(posedge clk) begin
-      if( ~nrst ) begin
-        shifter[LENGTH-1:0] <= '0;
-      end else begin
-        shifter[LENGTH-1:0] <= {shifter[LENGTH-2:0],in};
-      end // nrst
-    end // always
+    if( USE_CNTR == '0 ) begin
+      // delay line
 
-    assign out = |shifter[LENGTH-1:0];
+      logic [WIDTH-1:0] shifter = '0;
+      always_ff @(posedge clk) begin
+        if( ~nrst ) begin
+          shifter[WIDTH-1:0] <= '0;
+        end else begin
+          // shifting
+          shifter[WIDTH-1:0] <= {shifter[WIDTH-2:0],in};
+        end // nrst
+      end // always
 
-  end // if LENGTH
+      assign out = (shifter[WIDTH-1:0] != '0);
+
+    end else begin
+      // counter
+
+      logic [CNTR_WIDTH-1:0] cntr = '0;
+      always_ff @(posedge clk) begin
+        if( ~nrst ) begin
+          cntr[CNTR_WIDTH-1:0] <= '0;
+        end else begin
+          if( in ) begin
+            // setting counter
+            cntr[CNTR_WIDTH-1:0] <= WIDTH;
+          end else if( out ) begin
+            // decrementing counter
+            cntr[CNTR_WIDTH-1:0] <= cntr[CNTR_WIDTH-1:0] - 1'b1;
+          end
+        end // nrst
+      end // always
+
+      assign out = (cntr[CNTR_WIDTH-1:0] != '0);
+
+    end
+  end // if WIDTH
 endgenerate
 
 
