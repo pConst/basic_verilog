@@ -4,8 +4,8 @@
 //--------------------------------------------------------------------------------
 
 // INFO --------------------------------------------------------------------------------
-//  SR trigger variant
-//  No metastable state. SET dominates here
+//  Synchronous SR trigger variant
+//  No metastable state. SET signal dominates here
 
 
 /* --- INSTANTIATION TEMPLATE BEGIN ---
@@ -32,11 +32,11 @@ module reset_set(
 );
 
 always_ff @(posedge clk) begin
-  if (~nrst) begin
+  if( ~nrst ) begin
     q = 0;
   end else begin
-    if r q = 0;
-    if s q = 1;
+    if( r ) q = 1'b0;
+    if( s ) q = 1'b1;
   end
 end
 
