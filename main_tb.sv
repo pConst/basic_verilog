@@ -74,13 +74,21 @@ edge_detect ed1[31:0] (
   .both(  )
 );
 
-logic [15:0] RandomNumber1;
+logic [31:0] RandomNumber1;
 c_rand rng1 (
   .clk( clk200 ),
-  .rst( rst_once ),
-  .reseed( 1'b0 ),
-  .seed_val( DerivedClocks[31:0] ),
+  .rst( 1'b0 ),
+  .reseed( rst_once ),
+  .seed_val( DerivedClocks[31:0] ^ (DerivedClocks[31:0] << 1) ),
   .out( RandomNumber1[15:0] )
+);
+
+c_rand rng2 (
+  .clk( clk200 ),
+  .rst( 1'b0 ),
+  .reseed( rst_once ),
+  .seed_val( DerivedClocks[31:0] ^ (DerivedClocks[31:0] << 2) ),
+  .out( RandomNumber1[31:16] )
 );
 
 logic start;
