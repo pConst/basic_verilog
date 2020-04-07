@@ -12,7 +12,7 @@
 
 #===============================================================================
 # compuiting elapsed time
-post_message "=== COMPILE TIME ================================================="
+puts "=== COMPILE TIME ================================================="
 
 set hs 0
 set ms 0
@@ -22,13 +22,13 @@ set ms_t 0
 set ss_t 0
 
 scan [get_property STATS.ELAPSED [get_runs synth_1]] "%d:%d:%d" hs ms ss
-post_message [ join [ list "synth:   " [post_message [format "%02d:%02d:%02d" $hs $ms $ss]] ] ] "" ]
+puts [ join [ list "synth:   " [puts [format "%02d:%02d:%02d" $hs $ms $ss]] ] "" ]
 set hs_t [expr {$hs_t + $hs} ]
 set ms_t [expr {$ms_t + $ms} ]
 set ss_t [expr {$ss_t + $ss} ]
 
 scan [get_property STATS.ELAPSED [get_runs impl_1]] "%d:%d:%d" hs ms ss
-post_message [ join [ list "impl:    " [post_message [format "%02d:%02d:%02d" $hs $ms $ss]] ] ] "" ]
+puts [ join [ list "impl:    " [puts [format "%02d:%02d:%02d" $hs $ms $ss]] ] "" ]
 set hs_t [expr {$hs_t + $hs} ]
 set ms_t [expr {$ms_t + $ms} ]
 set ss_t [expr {$ss_t + $ss} ]
@@ -41,8 +41,8 @@ while { $ms_t >= 60 } {
   set ms_t [expr $ms_t - 60]
   set hs_t [expr $hs_t + 1]
 }
-post_message "----------------------------------"
-post_message [ join [ list "TOTAL: " [format "%02d:%02d:%02d" $hs_t $ms_t $ss_t]] "" ]
+puts "----------------------------------"
+puts [ join [ list "TOTAL: " [format "%02d:%02d:%02d" $hs_t $ms_t $ss_t]] "" ]
 
 
 
