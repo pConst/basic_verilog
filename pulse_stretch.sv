@@ -73,7 +73,7 @@ generate
         end else begin
           if( in ) begin
             // setting counter
-            cntr[CNTR_WIDTH-1:0] <= WIDTH;
+            cntr[CNTR_WIDTH-1:0] <= CNTR_WIDTH'(WIDTH);
           end else if( out ) begin
             // decrementing counter
             cntr[CNTR_WIDTH-1:0] <= cntr[CNTR_WIDTH-1:0] - 1'b1;

@@ -5,7 +5,7 @@
 
 // INFO ------------------------------------------------------------------------
 //  "Physically" reverses bytes order within multi-byte array
-//  Thus in[15] signal becomes out[7], in[0] becomes out[8] and vise-versa
+//  Thus in[15] byte becomes out[7], in[0] becomes out[8] and vise-versa
 //  Module could be used to convert big-endian data to little-endian
 //  Module is no doubt synthesizable, but its instance does NOT occupy any FPGA resources!
 
