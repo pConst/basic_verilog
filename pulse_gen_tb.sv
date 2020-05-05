@@ -18,6 +18,14 @@ initial begin
     #2.5 clk200 = ~clk200;
 end
 
+// external device "asynchronous" clock
+logic clk33;
+initial begin
+  #0 clk33 = 1'b0;
+  forever
+    #15.151 clk33 = ~clk33;
+end
+
 logic rst;
 initial begin
   #0 rst = 1'b0;
@@ -63,89 +71,100 @@ edge_detect ed1[31:0] (
   .both(  )
 );
 
-logic [15:0] RandomNumber1;
+logic [31:0] RandomNumber1;
 c_rand rng1 (
   .clk( clk200 ),
-  .rst( rst_once ),
-  .reseed( 1'b0 ),
-  .seed_val( DerivedClocks[31:0] ),
+  .rst( 1'b0 ),
+  .reseed( rst_once ),
+  .seed_val( DerivedClocks[31:0] ^ (DerivedClocks[31:0] << 1) ),
   .out( RandomNumber1[15:0] )
+);
+
+c_rand rng2 (
+  .clk( clk200 ),
+  .rst( 1'b0 ),
+  .reseed( rst_once ),
+  .seed_val( DerivedClocks[31:0] ^ (DerivedClocks[31:0] << 2) ),
+  .out( RandomNumber1[31:16] )
 );
 
 logic start;
 initial begin
   #0 start = 1'b0;
   #100 start = 1'b1;
-  #10 start = 1'b0;
+  #20 start = 1'b0;
 end
 
 // Modules under test ==========================================================
 
 // simple static test
-pulse_gen #(
-  .CNTR_WIDTH( 32 )
+/*pulse_gen #(
+  .CNTR_WIDTH( 8 )
 ) pg1 (
   .clk( clk200 ),
   .nrst( nrst_once ),
-  .low_width(  32'd1 ),
-  .high_width( 32'd1 ),
-  .rpt( 1'b0 ),
+
   .start( start ),
-  .busy(  ),
-  .out(  )
+  .cntr_max( 15 ),
+  .cntr_low( 0 ),
+
+  .out(  ),
+  .busy(  )
 );
+*/
 
 // random test
 pulse_gen #(
-  .CNTR_WIDTH( 32 )
-) pg2 (
+  .CNTR_WIDTH( 8 )
+) pg1 (
   .clk( clk200 ),
   .nrst( nrst_once ),
-  .low_width(  {28'd0,RandomNumber1[3:0]} ),
-  .high_width( {28'd0,RandomNumber1[7:4]} ),
-  .rpt( 1'b1 ),
-  .start( start ),
-  .busy(  ),
-  .out(  )
+
+  .start( 1'b1 ),
+  .cntr_max( 16 ),
+  .cntr_low( {4'b0,RandomNumber1[3:0]} ),
+
+  .out(  ),
+  .busy(  )
 );
 
 
-logic [31:0] pg3_in_high_width = '0;
-logic pg3_out;
-logic pg3_out_rise;
+logic [31:0] in_high_width = '0;
+logic out;
+logic out_rise;
 
-edge_detect pg3_out_ed (
+edge_detect out_ed (
   .clk( clk200 ),
   .nrst( nrst_once ),
-  .in( pg3_out ),
-  .rising( pg3_out_rise ),
+  .in( out ),
+  .rising( out_rise ),
   .falling(  ),
   .both(  )
 );
 
 always_ff @(posedge clk200) begin
   if( ~nrst_once ) begin
-     pg3_in_high_width[31:0] <= 1'b1;
+     in_high_width[31:0] <= 1'b0;
   end else begin
-    if( pg3_out_rise ) begin
-      pg3_in_high_width[31:0] <= pg3_in_high_width[31:0] + 1'b1;
+    if( out_rise ) begin
+      in_high_width[31:0] <= in_high_width[31:0] + 1'b1;
     end
   end
 end
 
 // PWM test
-pulse_gen #(
-  .CNTR_WIDTH( 32 )
-) pg3 (
+/*pulse_gen #(
+  .CNTR_WIDTH( 8 )
+) pg1 (
   .clk( clk200 ),
   .nrst( nrst_once ),
-  .low_width( 32'd1 ),
-  .high_width( pg3_in_high_width[31:0] ),
-  .rpt( 1'b1 ),
-  .start( start ),
-  .busy(  ),
-  .out( pg3_out )
-);
 
+  .start( 1'b1 ),
+  .cntr_max( 15 ),
+  .cntr_low( {4'b0,in_high_width[3:0]} ),
+
+  .out( out ),
+  .busy(  )
+);*/
 
 endmodule
