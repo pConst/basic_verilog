@@ -1,15 +1,15 @@
 //------------------------------------------------------------------------------
-// pulse_gen_tb.sv
+// pwm_modulator_tb.sv
 // Konstantin Pavlov, pavlovconst@gmail.com
 //------------------------------------------------------------------------------
 
 // INFO ------------------------------------------------------------------------
-// testbench for pulse_gen.sv module
+// testbench for pwm_modulator.sv module
 
 
 `timescale 1ns / 1ps
 
-module pulse_gen_tb();
+module pwm_modulator_tb();
 
 logic clk200;
 initial begin
@@ -97,74 +97,39 @@ end
 
 // Modules under test ==========================================================
 
-// simple static test
-/*pulse_gen #(
-  .CNTR_WIDTH( 8 )
-) pg1 (
-  .clk( clk200 ),
-  .nrst( nrst_once ),
+localparam MOD_WIDTH = 5;
 
-  .start( start ),
-  .cntr_max( 15 ),
-  .cntr_low( 0 ),
+logic [MOD_WIDTH-1:0] sp = '0;
+logic [31:0][MOD_WIDTH-1:0] sin_table =
+{ 5'd16, 5'd19, 5'd22, 5'd25, 5'd27, 5'd29, 5'd31, 5'd31,
+  5'd31, 5'd31, 5'd30, 5'd28, 5'd26, 5'd23, 5'd20, 5'd17,
+  5'd14, 5'd11, 5'd8,  5'd5,  5'd3,  5'd1,  5'd0,  5'd0,
+  5'd0,  5'd0,  5'd2,  5'd4,  5'd6,  5'd9,  5'd12, 5'd15};
 
-  .pulse_out(  ),
-  .busy(  )
-);
-*/
-
-// random test
-pulse_gen #(
-  .CNTR_WIDTH( 8 )
-) pg1 (
-  .clk( clk200 ),
-  .nrst( nrst_once ),
-
-  .start( 1'b1 ),
-  .cntr_max( 16 ),
-  .cntr_low( {4'b0,RandomNumber1[3:0]} ),
-
-  .pulse_out(  ),
-  .busy(  )
-);
-
-
-logic [31:0] in_high_width = '0;
-logic out;
-logic out_rise;
-
-edge_detect out_ed (
-  .clk( clk200 ),
-  .nrst( nrst_once ),
-  .in( out ),
-  .rising( out_rise ),
-  .falling(  ),
-  .both(  )
-);
-
+logic strobe;
 always_ff @(posedge clk200) begin
   if( ~nrst_once ) begin
-     in_high_width[31:0] <= 1'b0;
+    sp[MOD_WIDTH-1:0] <= '0;
   end else begin
-    if( out_rise ) begin
-      in_high_width[31:0] <= in_high_width[31:0] + 1'b1;
+    if( strobe ) begin
+      sp[MOD_WIDTH-1:0] <= sp[MOD_WIDTH-1:0] + 1'b1;
     end
   end
 end
 
-// PWM test
-/*pulse_gen #(
-  .CNTR_WIDTH( 8 )
-) pg1 (
+pwm_modulator #(
+  .PWM_PERIOD_DIV( MOD_WIDTH+1 ),     // MOD_WIDTH+1 is a minimum
+  .MOD_WIDTH( MOD_WIDTH )
+) pwm1 (
   .clk( clk200 ),
   .nrst( nrst_once ),
 
-  .start( 1'b1 ),
-  .cntr_max( 15 ),
-  .cntr_low( {4'b0,in_high_width[3:0]} ),
+  .mod_setpoint( sin_table[sp[MOD_WIDTH-1:0]][MOD_WIDTH-1:0] ),
+  .pwm_out(  ),
 
-  .pulse_out( out ),
+  .start_strobe( strobe ),
   .busy(  )
-);*/
+);
+
 
 endmodule

@@ -1,29 +1,28 @@
 //------------------------------------------------------------------------------
-// pwm_gen.sv
+// pdm_modulator.sv
 // Konstantin Pavlov, pavlovconst@gmail.com
 //------------------------------------------------------------------------------
 
 // INFO ------------------------------------------------------------------------
-// PWM generator module
+// Pulse density modulation (PDM) generator module
 //
-// - expecting 8-bit control signal input
+// - expecting 8-bit control signal input by default
 // - system clock is 100 MHz by default
-// - PWM clock is 1.5KHz by default
+//
+// - see also pwm_modulator.sv for pulse width modulation generator
 
 
 /* --- INSTANTIATION TEMPLATE BEGIN ---
 
-pwm_gen #(
-  .CLK_HZ( 100_000_000 ),            // 100 MHz
-  .PWM_PERIOD_DIV( 16 )              // 100MHz/2^16= ~1.526 KHz
-
+pdm_modulator #(
+  .PDM_PERIOD_DIV( 9 )
   .MOD_WIDTH( 8 )                    // from 0 to 255
-) pwm1 (
+) pdm1 (
   .clk( clk ),
   .nrst( nrst ),
 
   .control(  ),
-  .pwm_out(  ),
+  .pdm_out(  ),
 
   .start_strobe(  ),
   .busy(  )
@@ -31,10 +30,11 @@ pwm_gen #(
 
 --- INSTANTIATION TEMPLATE END ---*/
 
-module pwm_gen #( parameter
+module pdm_modulator #( parameter
   CLK_HZ = 100_000_000,
-  PWM_PERIOD_DIV = 16,                // must be > MOD_WIDTH
-  PWM_PERIOD_HZ = CLK_HZ / (2**PWM_PERIOD_DIV),
+  PDM_PERIOD_DIV = 16,                // must be > MOD_WIDTH
+  PDM_MIN_PERIOD_HZ = CLK_HZ / (2**PDM_PERIOD_DIV) * (0+2),    // two PDM clock cycles
+  PDM_MAX_PERIOD_HZ = CLK_HZ / (2**PDM_PERIOD_DIV) * (256+2),
 
   MOD_WIDTH = 8                       // modulation bitness
 )(
@@ -42,7 +42,7 @@ module pwm_gen #( parameter
   input nrst,                         // negative reset
 
   input [MOD_WIDTH-1:0] mod_setpoint, // modulation setpoint
-  output pwm_out,                     // active HIGH output
+  output pdm_out,                     // active HIGH output
 
   // status outputs
   output start_strobe,                // period start strobe
@@ -62,23 +62,18 @@ clk_divider #(
 );
 
 
-// optional setpoint inversion
-logic [MOD_WIDTH-1:0] mod_setpoint_inv;
-assign mod_setpoint_inv[MOD_WIDTH-1:0] = {MOD_WIDTH{1'b1}} - mod_setpoint[MOD_WIDTH-1:0];
-
-
 // pulse generator
 pulse_gen #(
   .CNTR_WIDTH( MOD_WIDTH+1 )
 ) pg1 (
-  .clk( div_clk[(PWM_PERIOD_DIV-1)-MOD_WIDTH] ),
+  .clk( div_clk[(PDM_PERIOD_DIV-1)-MOD_WIDTH] ),
   .nrst( nrst ),
 
   .start( 1'b1 ),
-  .cntr_max( {1'b0, {MOD_WIDTH{1'b1}} } ),
-  .cntr_low( {1'b0, mod_setpoint_inv[MOD_WIDTH-1:0] } ),
+  .cntr_max( mod_setpoint[MOD_WIDTH-1:0]+2 ),
+  .cntr_low( 1 ),
 
-  .pulse_out( pwm_out ),
+  .pulse_out( pdm_out ),
 
   .start_strobe( start_strobe ),
   .busy( busy )

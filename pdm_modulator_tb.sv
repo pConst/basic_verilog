@@ -1,15 +1,15 @@
 //------------------------------------------------------------------------------
-// pwm_gen_tb.sv
+// pdm_modulator_tb.sv
 // Konstantin Pavlov, pavlovconst@gmail.com
 //------------------------------------------------------------------------------
 
 // INFO ------------------------------------------------------------------------
-// testbench for pwm_gen.sv module
+// testbench for pdm_modulator.sv module
 
 
 `timescale 1ns / 1ps
 
-module pwm_gen_tb();
+module pdm_modulator_tb();
 
 logic clk200;
 initial begin
@@ -106,29 +106,28 @@ logic [31:0][MOD_WIDTH-1:0] sin_table =
   5'd14, 5'd11, 5'd8,  5'd5,  5'd3,  5'd1,  5'd0,  5'd0,
   5'd0,  5'd0,  5'd2,  5'd4,  5'd6,  5'd9,  5'd12, 5'd15};
 
-logic strobe;
+
 always_ff @(posedge clk200) begin
   if( ~nrst_once ) begin
     sp[MOD_WIDTH-1:0] <= '0;
   end else begin
-    if( strobe ) begin
+    if( E_DerivedClocks[3] ) begin
       sp[MOD_WIDTH-1:0] <= sp[MOD_WIDTH-1:0] + 1'b1;
     end
   end
 end
 
-pwm_gen #(
-  .CLK_HZ( 200_000_000 ),
-  .PWM_PERIOD_DIV( MOD_WIDTH+1 ),     // MOD_WIDTH+1 is a minimum
+pdm_modulator #(
+  .PDM_PERIOD_DIV( MOD_WIDTH+1 ),     // MOD_WIDTH+1 is a minimum
   .MOD_WIDTH( MOD_WIDTH )
-) pwm1 (
+) pdm1 (
   .clk( clk200 ),
   .nrst( nrst_once ),
 
   .mod_setpoint( sin_table[sp[MOD_WIDTH-1:0]][MOD_WIDTH-1:0] ),
-  .pwm_out(  ),
+  .pdm_out(  ),
 
-  .start_strobe( strobe ),
+  .start_strobe(  ),
   .busy(  )
 );
 
