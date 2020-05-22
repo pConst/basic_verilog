@@ -1,13 +1,13 @@
 @echo off
 rem ------------------------------------------------------------------------------
-rem  clean.bat
+rem  clean_quartus.bat
 rem  Konstantin Pavlov, pavlovconst@gmail.com
 rem ------------------------------------------------------------------------------
 
 rem   Use this file as a boilerplate for your custom clean script
 rem   for Quartus projects
 
-SET PROJ=MY_PROLECT_NAME
+SET PROJ=MY_PROJECT_NAME
 
 rem Common junk files
 del /s /q .\%PROJ%.qws
