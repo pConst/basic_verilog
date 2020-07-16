@@ -45,6 +45,7 @@ module delay #( parameter
   LENGTH = 2,          // delay/synchronizer chain length
   WIDTH = 1,           // signal width
   TYPE = "CELLS",      // "ALTERA_BLOCK_RAM" infers block ram fifo
+                       //   "ALTERA_TAPS" infers altshift_taps
                        //   all other values infer registers
 
   CNTR_W = $clog2(LENGTH)
@@ -77,23 +78,11 @@ generate
 
   end else begin
     if( TYPE=="ALTERA_BLOCK_RAM" && LENGTH>=4 ) begin
-
-      logic [CNTR_W-1:0] delay_cntr = '0;
-
-      logic fifo_output_ena;
-      assign fifo_output_ena = (delay_cntr[CNTR_W-1:0] == LENGTH);
-
-      always_ff @(posedge clk) begin
-        if( ~nrst ) begin
-          delay_cntr[CNTR_W-1:0] <= '0;
-        end else begin
-          if( ena && ~fifo_output_ena) begin
-            delay_cntr[CNTR_W-1:0] <= delay_cntr[CNTR_W-1:0] + 1'b1;
-          end
-        end
-      end
-
       logic [WIDTH-1:0] fifo_out;
+      logic [CNTR_W-1:0] usedw;
+      logic fifo_out_ena;
+      assign fifo_out_ena = (usedw[CNTR_W-1:0] == LENGTH-1);
+
       scfifo #(
         .LPM_WIDTH( WIDTH ),
         .LPM_NUMWORDS( LENGTH ),   // must be at least 4
@@ -101,13 +90,9 @@ generate
         .LPM_SHOWAHEAD( "ON" ),
         .UNDERFLOW_CHECKING( "ON" ),
         .OVERFLOW_CHECKING( "ON" ),
-        .ALMOST_FULL_VALUE( 0 ),
-        .ALMOST_EMPTY_VALUE( 0 ),
         .ENABLE_ECC( "FALSE" ),
         .ALLOW_RWCYCLE_WHEN_FULL( "ON" ),
-        .USE_EAB( "ON" ),
-        .MAXIMIZE_SPEED( 5 ),
-        .DEVICE_FAMILY( "Cyclone V" )
+        .USE_EAB( "ON" )
       ) internal_fifo (
         .clock( clk ),
         .aclr( 1'b0 ),
@@ -115,18 +100,70 @@ generate
 
         .data( in[WIDTH-1:0] ),
         .wrreq( ena ),
-        .rdreq( ena && fifo_output_ena ),
+        .rdreq( ena && fifo_out_ena ),
 
         .q( fifo_out[WIDTH-1:0] ),
         .empty(  ),
         .full(  ),
         .almost_full(  ),
         .almost_empty(  ),
-        .usedw(  ),
+        .usedw( usedw[CNTR_W-1:0] ),
         .eccstatus(  )
       );
 
-      assign out[WIDTH-1:0] = (fifo_output_ena)?(fifo_out[WIDTH-1:0]):('0);
+      logic [WIDTH-1:0] reg_out = '0;
+      always_ff @(posedge clk) begin
+        if( ~nrst ) begin
+          reg_out[WIDTH-1:0] <= '0;
+        end else if( ena && fifo_out_ena ) begin
+          reg_out[WIDTH-1:0] <= fifo_out[WIDTH-1:0];
+        end
+      end
+
+      assign out[WIDTH-1:0] = reg_out[WIDTH-1:0];
+
+    end else if( TYPE=="ALTERA_TAPS" && LENGTH>=4 ) begin
+
+      logic [WIDTH-1:0] fifo_out;
+      logic [CNTR_W-1:0] delay_cntr = CNTR_W'(LENGTH-1);
+
+      logic fifo_out_ena;
+      assign fifo_out_ena = (delay_cntr[CNTR_W-1:0] == '0);
+
+      always_ff @(posedge clk) begin
+        if( ~nrst ) begin
+          delay_cntr[CNTR_W-1:0] <= CNTR_W'(LENGTH-1);
+        end else if( ena && ~fifo_out_ena ) begin
+          delay_cntr[CNTR_W-1:0] <= delay_cntr[CNTR_W-1:0] - 1'b1;
+        end
+      end
+
+      altshift_taps #(
+        .intended_device_family( "Cyclone V" ),
+        .lpm_hint( "RAM_BLOCK_TYPE=AUTO" ),
+        .lpm_type( "altshift_taps" ),
+        .number_of_taps( 1 ),
+        .tap_distance( LENGTH-1 ),  // min. of 3
+        .width( WIDTH )
+      ) internal_taps (
+        //.aclr( 1'b0 ),
+        //.sclr( ~nrst ),
+        .clock( clk ),
+        .clken( ena ),
+        .shiftin( in[WIDTH-1:0] ),
+        .shiftout( fifo_out[WIDTH-1:0] )
+      );
+
+      logic [WIDTH-1:0] reg_out = '0;
+      always_ff @(posedge clk) begin
+        if( ~nrst ) begin
+          reg_out[WIDTH-1:0] <= '0;
+        end else if( ena && fifo_out_ena ) begin
+          reg_out[WIDTH-1:0] <= fifo_out[WIDTH-1:0];
+        end
+      end
+
+      assign out[WIDTH-1:0] = reg_out[WIDTH-1:0];
 
     end else begin
 
