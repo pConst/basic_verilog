@@ -88,31 +88,116 @@ c_rand rng2 (
   .out( RandomNumber1[31:16] )
 );
 
+logic [31:0] RandomNumber1_d1;
+always_ff @(posedge clk200) begin
+  RandomNumber1_d1[31:0] <= RandomNumber1[31:0];
+end
+
 // Module under test ==========================================================
 
-logic wrreg;
-logic valid;
+`define W_ENA = yes;
+`define W_2WORD_ENA = yes;
+
+`define R_ENA = yes;
+`define R_2WORD_ENA = yes;
+
+
+logic dis_writes = 1'b0;
+logic [2:0] wrreq;
+always_ff @(posedge clk200) begin
+`ifdef W_ENA
+    if( ~dis_writes ) begin
+      if( RandomNumber1[12:11] == 2'b11 ) begin
+        wrreq[2:0] <= 3'b010;
+  `ifdef W_2WORD_ENA
+      end else if( RandomNumber1[12:11] == 2'b00 ) begin
+        wrreq[2:0] <= 3'b100;
+  `endif
+      end else begin
+        wrreq[2:0] <= 3'b001;
+      end
+    end else begin
+      wrreq[2:0] <= 3'b001;
+    end
+`else
+  wrreq[2:0] <= 3'b001;
+`endif
+end
+
+logic [1:0] empty;
+logic [1:0] full;
+logic [4:0] usedw;
+
+logic [7:0] od0;
+logic [7:0] od1;
+
+logic [2:0] rdreq;
+always_ff @(posedge clk200) begin
+`ifdef R_ENA
+    if( (usedw[4:0] >= 4) ) begin //&& dis_writes ) begin
+      if( RandomNumber1[14:13] == 2'b11 ) begin
+        rdreq[2:0] <= 3'b010;
+        //$display("RD 1 %h",od0[7:0]);
+    `ifdef R_2WORD_ENA
+      end else if( RandomNumber1[14:13] == 2'b00 ) begin
+        rdreq[2:0] <= 3'b100;
+        //$display("RD 2 %h",od0[7:0]);
+        //$display("RD 2 %h",od1[7:0]);
+    `endif
+      end else begin
+        rdreq[2:0] <= 3'b001;
+      end
+    end else begin
+      rdreq[2:0] <= 3'b001;
+    end
+`else
+  rdreq[2:0] <= 3'b001;
+`endif
+end
+
+always_ff @(posedge clk200) begin
+  if( ~nrst_once ) begin
+    dis_writes <= 1'b0;
+  end else begin
+    if( |full[1:0] ) begin
+      dis_writes <= 1'b1;
+    end
+  end
+end
+
+// helper bits
+logic w_word;
+assign w_word = (wrreq[2:0] == 3'b010);
+logic w_two;
+assign w_two = (wrreq[2:0] == 3'b100);
+
+logic r_word;
+assign r_word = (rdreq[2:0] == 3'b010);
+logic r_two;
+assign r_two = (rdreq[2:0] == 3'b100);
+
+
 
 preview_fifo #(
-  .WIDTH( 16 ),
-  .DEPTH( 16 )
-) pf (
+  .WIDTH( 8 ),
+  .DEPTH( 32 )
+) M (
   .clk( clk200 ),
   .nrst( nrst_once ),
 
   // input port
-  .wrreq( wrreg ),
-  .ena( (wrreg && |RandomNumber1[1:0]) ),
-  .id0( RandomNumber1[15:0] ),
-  .id1( RandomNumber1[31:16] ),
+  .wrreq( wrreq[2:0] ),
+  .id0( RandomNumber1_d1[15:0] ),
+  .id1( RandomNumber1_d1[31:16] ),
 
   // output port
-  .valid( valid ),
-  .shift_req_oh( {3{valid}} &
-                  3'b010 ),
-                  //RandomNumber1[15:13] ),
-  .od0(  ),
-  .od1(  )
+  .rdreq( rdreq[2:0] ),
+  .od0( od0[7:0] ),
+  .od1( od1[7:0] ),
+
+  .empty( empty[1:0] ),
+  .full( full[1:0] ),
+  .usedw( usedw[4:0] )
 );
 
 
