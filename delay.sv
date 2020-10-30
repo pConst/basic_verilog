@@ -28,7 +28,8 @@
 delay #(
     .LENGTH( 2 ),
     .WIDTH( 1 ),
-    .TYPE( "CELLS" )
+    .TYPE( "CELLS" ),
+    .REGISTER_OUTPUTS( "FALSE" )
 ) S1 (
     .clk( clk ),
     .nrst( 1'b1 ),
@@ -42,11 +43,17 @@ delay #(
 
 
 module delay #( parameter
-  LENGTH = 2,          // delay/synchronizer chain length
-  WIDTH = 1,           // signal width
-  TYPE = "CELLS",      // "ALTERA_BLOCK_RAM" infers block ram fifo
-                       //   "ALTERA_TAPS" infers altshift_taps
-                       //   all other values infer registers
+  LENGTH = 2,                  // delay/synchronizer chain length
+  WIDTH = 1,                   // signal width
+
+  TYPE = "CELLS",              // "ALTERA_BLOCK_RAM" infers block ram fifo
+                               //   "ALTERA_TAPS" infers altshift_taps
+                               //   all other values infer registers
+
+  REGISTER_OUTPUTS = "FALSE",  // for block RAM implementations: "TRUE" means that
+                               //   last delay stage will be implemented
+                               //   by means of cell registers to improve timing
+                               //   all other values infer block RAMs only
 
   CNTR_W = $clog2(LENGTH)
 )(
@@ -77,11 +84,18 @@ generate
     assign out[WIDTH-1:0] = data[WIDTH-1:0];
 
   end else begin
-    if( TYPE=="ALTERA_BLOCK_RAM" && LENGTH>=4 ) begin
+    if( TYPE=="ALTERA_BLOCK_RAM" && LENGTH>=3 ) begin
+
       logic [WIDTH-1:0] fifo_out;
+      logic full;
       logic [CNTR_W-1:0] usedw;
+
       logic fifo_out_ena;
-      assign fifo_out_ena = (usedw[CNTR_W-1:0] == LENGTH-1);
+      if( REGISTER_OUTPUTS=="TRUE" ) begin
+        assign fifo_out_ena = (usedw[CNTR_W-1:0] == LENGTH-1);
+      end else begin
+        assign fifo_out_ena = full;
+      end
 
       scfifo #(
         .LPM_WIDTH( WIDTH ),
@@ -104,7 +118,7 @@ generate
 
         .q( fifo_out[WIDTH-1:0] ),
         .empty(  ),
-        .full(  ),
+        .full( full ),
         .almost_full(  ),
         .almost_empty(  ),
         .usedw( usedw[CNTR_W-1:0] ),
@@ -120,9 +134,14 @@ generate
         end
       end
 
-      assign out[WIDTH-1:0] = reg_out[WIDTH-1:0];
+      if( REGISTER_OUTPUTS=="TRUE" ) begin
+        assign out[WIDTH-1:0] = reg_out[WIDTH-1:0];
+      end else begin
+        // avoiding first word fall-through
+        assign out[WIDTH-1:0] = (fifo_out_ena)?(fifo_out[WIDTH-1:0]):('0);
+      end
 
-    end else if( TYPE=="ALTERA_TAPS" && LENGTH>=4 ) begin
+    end else if( TYPE=="ALTERA_TAPS" && LENGTH>=2 ) begin
 
       logic [WIDTH-1:0] fifo_out;
       logic [CNTR_W-1:0] delay_cntr = CNTR_W'(LENGTH-1);
@@ -143,7 +162,7 @@ generate
         .lpm_hint( "RAM_BLOCK_TYPE=AUTO" ),
         .lpm_type( "altshift_taps" ),
         .number_of_taps( 1 ),
-        .tap_distance( LENGTH-1 ),  // min. of 3
+        .tap_distance( (REGISTER_OUTPUTS=="TRUE")?(LENGTH-1):(LENGTH) ),  // min. of 3
         .width( WIDTH )
       ) internal_taps (
         //.aclr( 1'b0 ),
@@ -154,6 +173,7 @@ generate
         .shiftout( fifo_out[WIDTH-1:0] )
       );
 
+      if( REGISTER_OUTPUTS=="TRUE" ) begin
       logic [WIDTH-1:0] reg_out = '0;
       always_ff @(posedge clk) begin
         if( ~nrst ) begin
@@ -162,8 +182,10 @@ generate
           reg_out[WIDTH-1:0] <= fifo_out[WIDTH-1:0];
         end
       end
-
-      assign out[WIDTH-1:0] = reg_out[WIDTH-1:0];
+        assign out[WIDTH-1:0] = reg_out[WIDTH-1:0];
+      end else begin
+        assign out[WIDTH-1:0] = fifo_out[WIDTH-1:0];
+      end
 
     end else begin
 
