@@ -13,8 +13,8 @@
 /* --- INSTANTIATION TEMPLATE BEGIN ---
 
 pulse_stretch #(
-  .WIDTH( 8 )
-  .USE_COUNTER(0)
+  .WIDTH( 8 ),
+  .USE_CNTR( 0 )
 ) ps1 (
   .clk( clk ),
   .nrst( nrst ),

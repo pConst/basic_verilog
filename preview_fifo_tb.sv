@@ -126,7 +126,7 @@ end
 
 logic [1:0] empty;
 logic [1:0] full;
-logic [4:0] usedw;
+logic [5:0] usedw;
 
 logic [7:0] od0;
 logic [7:0] od1;
@@ -134,7 +134,7 @@ logic [7:0] od1;
 logic [2:0] rdreq;
 always_ff @(posedge clk200) begin
 `ifdef R_ENA
-    if( (usedw[4:0] >= 4) ) begin //&& dis_writes ) begin
+    if( (usedw[5:0] >= 4) ) begin //&& dis_writes ) begin
       if( RandomNumber1[14:13] == 2'b11 ) begin
         rdreq[2:0] <= 3'b010;
         //$display("RD 1 %h",od0[7:0]);
@@ -197,7 +197,7 @@ preview_fifo #(
 
   .empty( empty[1:0] ),
   .full( full[1:0] ),
-  .usedw( usedw[4:0] )
+  .usedw( usedw[5:0] )
 );
 
 

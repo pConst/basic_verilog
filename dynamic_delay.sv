@@ -34,18 +34,20 @@ dynamic_delay #(
 
 
 module dynamic_delay #( parameter
-  LENGTH = 63,                            // maximum delay chain length
-  WIDTH = 4,                              // data width
+  LENGTH = 63,                        // maximum delay chain length
+  WIDTH = 4,                          // data width
 
-  SEL_W = $clog2( (LENGTH+1)*WIDTH )      // output selector width
-                                          //  plus one is for zero delay element
+  SEL_W = $clog2( (LENGTH+1)*WIDTH )  // output selector width
+                                      //  plus one is for zero delay element
 )(
   input clk,
   input nrst,
   input ena,
-  input [WIDTH-1:0] in,                   // input data
-  input [SEL_W-1:0] sel,                  // output selector
-  output logic [WIDTH-1:0] out            // output data
+  input [WIDTH-1:0] in,               // input data
+                                      // bit in[0] is the "oldest" one
+                                      // bit in[WIDTH] is considered the most recent
+  input [SEL_W-1:0] sel,              // output selector
+  output logic [WIDTH-1:0] out        // output data
 );
 
 

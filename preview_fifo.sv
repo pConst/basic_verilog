@@ -18,20 +18,25 @@
 
 preview_fifo #(
   .WIDTH( 16 ),
-  .DEPTH( 16 )
+  .DEPTH( 16 )     // must be at least 8
 ) pf (
   .clk( clk ),
   .nrst( nrst ),
 
   // input port
-  .wrreq(  ),      // 3 bit one-hot
-  .id0(  ),        // first word
-  .id1(  ),        // secong word
+  .wrreq(  ),           // 3 bit one-hot
+  .id0(  ),             // first word
+  .id1(  ),             // secong word
 
   // output port
-  .rdreq(  ),      // 3 bit one-hot
-  .od0(  ),        // first word
-  .od1(  )         // second word
+  .rdreq(  ),           // 3 bit one-hot
+  .od0(  ),             // first word
+  .od1(  ),             // second word
+
+  .empty( [1:0] ),      // 2'b00, 2'b10 or 2'b11
+  .full( [1:0] ),       // 2'b11, 2'b01 or 2'b00
+  .usedw( [USED_W:0] )  // attention to the width!
+
 );
 
 --- INSTANTIATION TEMPLATE END ---*/
@@ -66,7 +71,8 @@ module preview_fifo #( parameter
                                  // when FIFO has no words -
                                  //  both of these flags will be active
   output [1:0] full,             // "full" flags, logic is similar to "empty"
-  output [USED_W-1:0] usedw      // word count
+  output logic[USED_W:0] usedw   // word count, attention to the additional
+                                 //  MSB for holding word count when full
 );
 
 
@@ -80,10 +86,6 @@ logic [1:0][WIDTH-1:0] f_wrdata;
 
 logic [1:0] f_rdreq;
 logic [1:0][WIDTH-1:0] f_rddata;
-
-// usedw0[] == usedw1[] OR usedw0[] == (usedw1[]-1) combinations are possible
-logic [1:0][USED_W-2:0] f_usedw;
-
 
 // underflow and owerflow protection flags
 logic w0_valid, w1_valid, w2_valid;
@@ -148,11 +150,11 @@ always_ff @(posedge clk) begin
   end else begin
     if( wr_ptr ) begin
       if( wrreq[2:0] == 3'b010 && w1_valid ) begin
-        wr_ptr = ~wr_ptr;  // no protection against full
+        wr_ptr = ~wr_ptr;
       end
     end else begin
       if( wrreq[2:0] == 3'b010 && w0_valid ) begin
-        wr_ptr = ~wr_ptr;  // no protection against full
+        wr_ptr = ~wr_ptr;
       end
     end
   end // nrst
@@ -221,6 +223,9 @@ end
 
 // internal FIFOs itself =======================================================
 
+  logic [1:0][USED_W-2:0] f_usedw_i;
+  logic [1:0][USED_W-1:0] f_usedw;
+
   scfifo #(
     .LPM_WIDTH( WIDTH ),
     .LPM_NUMWORDS( DEPTH/2 ),   // must be at least 4
@@ -231,7 +236,7 @@ end
     .ENABLE_ECC( "FALSE" ),
     .ALLOW_RWCYCLE_WHEN_FULL( "ON" ),
     .USE_EAB( "ON" )
-  ) fifo0 (
+  ) internal_fifo0 (
     .clock( clk ),
     .aclr( 1'b0 ),
     .sclr( ~nrst ),
@@ -243,7 +248,7 @@ end
     .q( f_rddata[0][WIDTH-1:0] ),
     .empty( empty[0] ),
     .full( full[0] ),
-    .usedw( f_usedw[0][USED_W-2:0] )
+    .usedw( f_usedw_i[0][USED_W-2:0] )
   );
 
   scfifo #(
@@ -256,7 +261,7 @@ end
     .ENABLE_ECC( "FALSE" ),
     .ALLOW_RWCYCLE_WHEN_FULL( "ON" ),
     .USE_EAB( "ON" )
-  ) fifo1 (
+  ) internal_fifo1 (
     .clock( clk ),
     .aclr( 1'b0 ),
     .sclr( ~nrst ),
@@ -268,11 +273,18 @@ end
     .q( f_rddata[1][WIDTH-1:0] ),
     .empty( empty[1] ),
     .full( full[1] ),
-    .usedw( f_usedw[1][USED_W-2:0] )
+    .usedw( f_usedw_i[1][USED_W-2:0] )
   );
 
-assign usedw[USED_W-1:0] = f_usedw[0][USED_W-2:0] + f_usedw[1][USED_W-2:0];
-
+  always_comb begin
+    f_usedw[0][USED_W-1:0] = ( full[0] )?
+                             ( 1<<(USED_W-1) ):
+                             ( {1'b0,f_usedw_i[0][USED_W-2:0]} );
+    f_usedw[1][USED_W-1:0] = ( full[1] )?
+                             ( 1<<(USED_W-1) ):
+                             ( {1'b0,f_usedw_i[1][USED_W-2:0]} );
+    usedw[USED_W:0] = f_usedw[0][USED_W-1:0] + f_usedw[1][USED_W-1:0];
+  end
 
 endmodule
 
