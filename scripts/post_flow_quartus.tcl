@@ -48,18 +48,37 @@ set sof_dir "./OUTPUT/"
 set sof_arch_dir "./SOF_ARCHIEVE/"
 set sof_filename [join [list [lindex $argv 2] ".sof"] ""]
 set new_sof_filename [join [list [lindex $argv 2] "_v" [format %02x $ver_hi] [format %02x $ver_lo] ".sof"] ""]
+
 if { [file exists ${sof_dir}${sof_filename}] } {
-  if { [file exists $sof_arch_dir] } {
+  if { [file exists ${sof_arch_dir}] } {
+    if { [file exists ${sof_arch_dir}${new_sof_filename}] } {
     post_message "Copying existing .sof file to archieve directory"
     file copy ${sof_dir}${sof_filename} ${sof_arch_dir}
     post_message "Adding version identifier to archieved .sof file"
     file rename ${sof_arch_dir}${sof_filename} ${sof_arch_dir}${new_sof_filename}
+    } else {
+      post_message "Destination .sof file already exists. Copying to archieve cancelled"
+    }
   }
 }
-# if { [file exists ${sof_dir}${sof_filename}] } {
-#   post_message "Adding version identifier to existing .sof file"
-#   file rename ${sof_dir}${sof_filename} ${sof_dir}${new_sof_filename}
-# }
+
+#===============================================================================
+# copying OUTPUT dir to archieve
+post_message "=== OUTPUT ARCHIEVE ================================================="
+set out_dir "./OUTPUT/"
+set out_arch_dir "./OUTPUT_ARCHIEVE/"
+set new_out_dirname [join [list "OUTPUT_v" [format %02x $ver_hi] [format %02x $ver_lo] ] ""]
+
+if { [file exists ${out_dir}] } {
+  if { [file exists ${out_arch_dir}] } {
+    if { [file exists ${out_arch_dir}${new_out_dirname}] } {
+      post_message "Destination OUTPUT archeive already exists. Copying to archieve cancelled"
+    } else {
+      post_message "Copying existing OUTPUT directory to archieve"
+      exec cp -r ${out_dir} ${out_arch_dir}${new_out_dirname}
+    }
+  }
+}
 
 #===============================================================================
 # Set warning on implicit nets declaration
@@ -83,7 +102,7 @@ set hs_t 0
 set ms_t 0
 set ss_t 0
 
-set filename [join [list "./OUTPUT/" [lindex $argv 2] ".map.rpt"]
+set filename [join [list "./OUTPUT/" [lindex $argv 2] ".map.rpt"] ""]
 if { [file exists $filename] } {
   set file [open $filename r]
   while {[gets $file line] != -1} {
@@ -100,7 +119,7 @@ if { [file exists $filename] } {
 }
 
 
-set filename [join [list "./OUTPUT/" [lindex $argv 2] ".fit.rpt"]
+set filename [join [list "./OUTPUT/" [lindex $argv 2] ".fit.rpt"] ""]
 if { [file exists $filename] } {
   set file [open $filename r]
   while {[gets $file line] != -1} {
@@ -116,7 +135,7 @@ if { [file exists $filename] } {
   close $file
 }
 
-set filename [join [list "./OUTPUT/" [lindex $argv 2] ".asm.rpt"]
+set filename [join [list "./OUTPUT/" [lindex $argv 2] ".asm.rpt"] ""]
 if { [file exists $filename] } {
   set file [open $filename r]
   while {[gets $file line] != -1} {
@@ -133,9 +152,9 @@ if { [file exists $filename] } {
 }
 
 # timequest execution time for newer versions of Quartus
-set filename [join [list "./OUTPUT/" [lindex $argv 2] ".sta.rpt"]
+set filename [join [list "./OUTPUT/" [lindex $argv 2] ".sta.rpt"] ""]
 if { [file exists $filename] } {
-  set file [open $filename ""] r]
+  set file [open $filename r]
   while {[gets $file line] != -1} {
     set time [string range $line 24 31]
     if {[string first "Info: Elapsed time:" $line] != -1} {
@@ -150,9 +169,9 @@ if { [file exists $filename] } {
 }
 
 # classic timing analizer execution time for older versions of Quartus
-set filename [join [list "./OUTPUT/" [lindex $argv 2] ".tan.rpt"]
+set filename [join [list "./OUTPUT/" [lindex $argv 2] ".tan.rpt"] ""]
 if { [file exists $filename] } {
-  set file [open $filename ""] r]
+  set file [open $filename r]
   while {[gets $file line] != -1} {
     set time [string range $line 24 31]
     if {[string first "Info: Elapsed time:" $line] != -1} {
