@@ -15,13 +15,13 @@
 //  |
 //  |            <---------- DELAY -------->
 //  |                                        ___
-//  |___,___,___,___,___,___,___,___,___,___|   |___,___,___, on
+//  |___,___,___,___,___,___,___,___,___,___|   |___,___,___, on_event
 //  |
-//  |___,___,___,___,___,___,___,___,___,___,
-//  |   ,   ,   ,   ,   ,   ,   ,   ,   ,   |___,___,___,___, before_event
+//  |           ,___,___,___,___,___,___,___,
+//  |___,___,___|   ,   ,   ,   ,   ,   ,   |___,___,___,___, before_event
 //  |
-//  |___,___,                                ___,___,___,___,
-//  |   ,   |___,___,___,___,___,___,___,___|   ,   ,   ,   , after_event
+//  |___,___,___                             ___,___,___,___,
+//  |   ,   ,   |___,___,___,___,___,___,___|   ,   ,   ,   , after_event
 //  |
 //
 
@@ -42,9 +42,9 @@ delayed_event #(
 
 --- INSTANTIATION TEMPLATE END ---*/
 
-module pulse_gen #( parameter
+module delayed_event #( parameter
   DELAY = 32,
-  CNTR_WIDTH = $clog(DELAY)
+  CNTR_WIDTH = $clog2(DELAY)
 )(
   input clk,                          // system clock
   input nrst,                         // negative reset
@@ -56,7 +56,7 @@ module pulse_gen #( parameter
 );
 
 
-logic [CNTR_WIDTH-1:0] seq_cntr = DELAY;
+logic [CNTR_WIDTH-1:0] seq_cntr = CNTR_WIDTH'(DELAY);
 
 logic seq_cntr_is_0;
 assign seq_cntr_is_0 = (seq_cntr[CNTR_WIDTH-1:0]=='0);
