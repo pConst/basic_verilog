@@ -1,0 +1,12 @@
+<?xml version="1" encoding="UTF-8"?>
+<!DOCTYPE gowin-fpga-project>
+<Project>
+    <Template>FPGA</Template>
+    <Version>5</Version>
+    <Device name="GW2A-55C" pn="GW2A-LV55PG1156C7/I6">gw2a55c-009</Device>
+    <FileList>
+        <File path="src/dynamic_delay.sv" type="file.verilog" enable="1"/>
+        <File path="src/main.sv" type="file.verilog" enable="1"/>
+        <File path="src/timing.sdc" type="file.sdc" enable="1"/>
+    </FileList>
+</Project>
