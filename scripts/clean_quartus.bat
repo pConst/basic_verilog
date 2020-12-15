@@ -12,12 +12,17 @@ SET PROJ=MY_PROJECT_NAME
 rem Common junk files
 del /s /q .\%PROJ%.qws
 del /s /q .\c5_pin_model_dump.txt
+del /s /q .\%PROJ%.ipregen.rpt
+del /s /f /q .\.qsys_edit\*
+rmdir /s /q .\.qsys_edit\
 
 rem Compilation databases
 del /s /f /q .\db\*
 rmdir /s /q .\db\
 del /s /f /q .\incremental_db\*
 rmdir /s /q .\incremental_db\
+del /s /f /q .\greybox_tmp\*
+rmdir /s /q .\greybox_tmp\
 
 rem Output directory
 del /s /f /q .\OUTPUT\*
