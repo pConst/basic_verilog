@@ -28,6 +28,7 @@ module main(
 
 dynamic_delay #(
   .LENGTH( `LENGTH ),
+  .WIDTH( 1 ),
   .SEL_W( `SEL_W )
 ) dd [`WIDTH-1:0] (
   .clk( {`WIDTH{clk}} ),
