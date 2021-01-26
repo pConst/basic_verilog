@@ -1,0 +1,30 @@
+
+
+Compilation time results for reference benchmark projects
+=========================================================
+
+
+
+Xeon E5-2630 v4, RAM 32GB, Windows 7
+------------------------------------
+quartus_benchmark - 4m 58s  ( Quartus Lite 17 )
+vivado_benchmark  - 5m 58s  ( Vivado 2019.2 )
+gowin_benchmark   - 4m 15s  ( Gowin_V1.9.6Beta )
+ise_benchmark     - 9m 10s  ( ISE 12.4 )
+
+
+
+Xeon E5-2630 v4, RAM 32GB, Windows 7,
+project files on RamDisk
+-------------------------------------
+quartus_benchmark - 4m 57s  ( Quartus Lite 17 )
+vivado_benchmark  - 5m 56s  ( Vivado 2019.2 )
+
+
+
+Xeon E5-2630 v4, RAM 32GB, Windows 7,
+project files on RamDisk,
+HyperThreading OFF
+-------------------------------------
+quartus_benchmark - 4m 50s  ( Quartus Lite 17 )
+vivado_benchmark  - 5m 43s  ( Vivado 2019.2 )
