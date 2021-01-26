@@ -5,7 +5,12 @@
 
 // INFO --------------------------------------------------------------------------------
 //
-//
+
+
+CAUTION !
+THIS CODE IS OBSOLETE NOW. PLEASE USE "uart_tx.sv", "uart_rx.sv" BLOCKS
+AND THEIR TESTBENCHES INSTEAD
+
 
 `timescale 1ns / 1ps
 
@@ -14,7 +19,7 @@ module SimWrapper();
 reg clk200;
 initial begin
         #0 clk200 = 1;
-        forever 
+        forever
             #2.5 clk200 = ~clk200;
 end
 
@@ -92,7 +97,7 @@ defparam UT1.BAUD = 100_000_000;
 UartRx UR1 (
     .clk(clk200),
     .nrst(nrst),
-	
+
 	.rx_data(),
 	.rx_busy(),
 	.rx_done(),

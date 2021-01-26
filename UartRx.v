@@ -10,6 +10,10 @@
 //  Features early asynchronous 'busy' reset
 
 
+CAUTION !
+THIS CODE IS OBSOLETE NOW. PLEASE USE "uart_rx.sv" VERSION INSTEAD
+
+
 /* --- INSTANTIATION TEMPLATE BEGIN ---
 
 UartRx UR1 (
@@ -85,7 +89,7 @@ always @ (posedge clk) begin
 			end else begin
 				rx_sample_cntr[15:0] <= rx_sample_cntr[15:0] - 1;	// counting and sampling only when 'busy'
 			end
-			
+
 			if (rx_do_sample) begin
 				if (rx_data_9th_bit == 1) begin
 					rx_busy <= 0;		// early asynchronous 'busy' reset
@@ -93,7 +97,7 @@ always @ (posedge clk) begin
 					{rx_data[7:0],rx_data_9th_bit} <= {s_rxd, rx_data[7:0]};
 				end	//
 			end // rx_do_sample
-			
+
 		end	// ~rx_busy
 	end // ~nrst
 end

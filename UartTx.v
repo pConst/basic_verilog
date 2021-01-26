@@ -11,6 +11,10 @@
 //  If multiple UartTX instances should be inferred - make tx_sample_cntr logic common for all TX instances for effective chip area usage
 
 
+CAUTION !
+THIS CODE IS OBSOLETE NOW. PLEASE USE "uart_tx.sv" VERSION INSTEAD
+
+
 /* --- INSTANTIATION TEMPLATE BEGIN ---
 
 UartTx UT1 (
@@ -69,14 +73,14 @@ always @ (posedge clk) begin
 				tx_busy <= 1;
 			end
 		end else begin
-		
+
 			if (tx_do_sample) begin		// next bit
 				{tx_shifter[9:0],txd} <= {tx_shifter[9:0],txd} >> 1;	// txd MUST change only on tx_do_sample although data may be loaded earlier
 				if (~|tx_shifter[9:1]) begin		// early asynchronous 'busy' reset
 					tx_busy <= 0;					// txd still holds data, but shifter is ready to get new info
-				end			
+				end
 			end	// tx_do_sample
-			
+
 		end	// ~tx_busy
 	end // ~nrst
 end
