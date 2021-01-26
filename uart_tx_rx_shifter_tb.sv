@@ -101,10 +101,10 @@ logic serial_data;
 logic start;
 
 // continious transfer (no automatic data check implemented)
-//assign start = 1'b1;
+assign start = 1'b1;
 
 // random transfer (features automatic data check)
-assign start = ~tx_busy && &RandomNumber1[11:8];
+//assign start = ~tx_busy && &RandomNumber1[11:8];
 
 uart_tx_shifter #(
   .START_BITS( `STB ),

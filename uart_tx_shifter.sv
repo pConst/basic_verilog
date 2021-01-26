@@ -77,7 +77,7 @@ always_ff @(posedge clk) begin
             if( tx_start ) begin
               // buffering input data
               tx_data_buf[DATA_BITS-1:0] <= tx_data[DATA_BITS-1:0];
-              state_cntr[7:0] <= START_BITS-1;
+              state_cntr[7:0] <= START_BITS - 1'b1;
               tx_state <= tx_state.next();
             end // tx_start
           end // state_cntr
@@ -91,7 +91,7 @@ always_ff @(posedge clk) begin
             state_cntr[7:0]--;
           end else begin
             // transition
-            state_cntr[7:0] <= DATA_BITS-1;
+            state_cntr[7:0] <= DATA_BITS - 1'b1;
             tx_state <= tx_state.next();
           end // state_cntr
 
@@ -105,7 +105,7 @@ always_ff @(posedge clk) begin
             state_cntr[7:0]--;
           end else begin
             // transition
-            state_cntr[7:0] <= STOP_BITS-1;
+            state_cntr[7:0] <= STOP_BITS - 1'b1;
             tx_state <= tx_state.next();
           end // state_cntr
 
