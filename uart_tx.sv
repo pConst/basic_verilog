@@ -32,7 +32,7 @@ uart_tx #(
 --- INSTANTIATION TEMPLATE END ---*/
 
 
-module uart_tx #(
+module uart_tx #( parameter
   CLK_HZ = 200_000_000,
   BAUD = 9600,
   bit [15:0] BAUD_DIVISOR = CLK_HZ / BAUD
@@ -49,7 +49,7 @@ module uart_tx #(
 
 logic [9:0] tx_shifter = '0;
 logic [15:0] tx_sample_cntr = '0;
-always @ (posedge clk) begin
+always_ff @ (posedge clk) begin
   if( (~nrst) || (tx_sample_cntr[15:0] == '0) ) begin
     tx_sample_cntr[15:0] <= (BAUD_DIVISOR-1'b1);
   end else begin
@@ -61,7 +61,7 @@ logic tx_do_sample;
 assign tx_do_sample = (tx_sample_cntr[15:0] == '0);
 
 
-always @ (posedge clk) begin
+always_ff @ (posedge clk) begin
   if( ~nrst ) begin
     tx_busy <= 1'b0;
     tx_shifter[9:0] <= '0;
