@@ -1,0 +1,85 @@
+FMAX summary report for iterative compilation
+5
+; 356.38 MHz ; 356.38 MHz      ; clk1       ;      ;
+; 445.24 MHz ; 445.24 MHz      ; clk2       ;      ;
+6
+; 329.71 MHz ; 329.71 MHz      ; clk1       ;      ;
+; 376.51 MHz ; 376.51 MHz      ; clk2       ;      ;
+7
+; 322.27 MHz ; 322.27 MHz      ; clk1       ;      ;
+; 412.71 MHz ; 412.71 MHz      ; clk2       ;      ;
+8
+; 330.58 MHz ; 330.58 MHz      ; clk1       ;      ;
+; 341.88 MHz ; 341.88 MHz      ; clk2       ;      ;
+9
+; 322.48 MHz ; 322.48 MHz      ; clk1       ;      ;
+; 382.12 MHz ; 382.12 MHz      ; clk2       ;      ;
+10
+; 288.68 MHz ; 288.68 MHz      ; clk1       ;      ;
+; 353.23 MHz ; 353.23 MHz      ; clk2       ;      ;
+11
+; 303.03 MHz ; 303.03 MHz      ; clk2       ;      ;
+; 316.36 MHz ; 316.36 MHz      ; clk1       ;      ;
+12
+; 300.48 MHz ; 300.48 MHz      ; clk1       ;      ;
+; 323.62 MHz ; 323.62 MHz      ; clk2       ;      ;
+13
+; 276.24 MHz ; 276.24 MHz      ; clk1       ;      ;
+; 281.29 MHz ; 281.29 MHz      ; clk2       ;      ;
+14
+; 283.53 MHz ; 283.53 MHz      ; clk1       ;      ;
+; 301.11 MHz ; 301.11 MHz      ; clk2       ;      ;
+15
+; 257.33 MHz ; 257.33 MHz      ; clk1       ;      ;
+; 300.93 MHz ; 300.93 MHz      ; clk2       ;      ;
+16
+; 268.02 MHz ; 268.02 MHz      ; clk1       ;      ;
+; 282.81 MHz ; 282.81 MHz      ; clk2       ;      ;
+17
+; 248.45 MHz ; 248.45 MHz      ; clk1       ;      ;
+; 287.77 MHz ; 287.77 MHz      ; clk2       ;      ;
+18
+; 246.97 MHz ; 246.97 MHz      ; clk2       ;      ;
+; 268.1 MHz  ; 268.1 MHz       ; clk1       ;      ;
+19
+; 254.32 MHz ; 254.32 MHz      ; clk1       ;      ;
+; 279.56 MHz ; 279.56 MHz      ; clk2       ;      ;
+20
+; 254.07 MHz ; 254.07 MHz      ; clk1       ;      ;
+; 277.55 MHz ; 277.55 MHz      ; clk2       ;      ;
+21
+; 249.07 MHz ; 249.07 MHz      ; clk2       ;      ;
+; 264.27 MHz ; 264.27 MHz      ; clk1       ;      ;
+22
+; 242.13 MHz ; 242.13 MHz      ; clk1       ;      ;
+; 260.55 MHz ; 260.55 MHz      ; clk2       ;      ;
+23
+; 246.73 MHz ; 246.73 MHz      ; clk2       ;      ;
+; 255.56 MHz ; 255.56 MHz      ; clk1       ;      ;
+24
+; 219.88 MHz ; 219.88 MHz      ; clk2       ;      ;
+; 258.33 MHz ; 258.33 MHz      ; clk1       ;      ;
+25
+; 257.33 MHz ; 257.33 MHz      ; clk1       ;      ;
+; 266.31 MHz ; 266.31 MHz      ; clk2       ;      ;
+26
+; 229.57 MHz ; 229.57 MHz      ; clk2       ;      ;
+; 258.87 MHz ; 258.87 MHz      ; clk1       ;      ;
+27
+; 238.83 MHz ; 238.83 MHz      ; clk2       ;      ;
+; 247.65 MHz ; 247.65 MHz      ; clk1       ;      ;
+28
+; 236.74 MHz ; 236.74 MHz      ; clk2       ;      ;
+; 259.27 MHz ; 259.27 MHz      ; clk1       ;      ;
+29
+; 233.32 MHz ; 233.32 MHz      ; clk2       ;      ;
+; 251.57 MHz ; 251.57 MHz      ; clk1       ;      ;
+30
+; 222.62 MHz ; 222.62 MHz      ; clk1       ;      ;
+; 238.04 MHz ; 238.04 MHz      ; clk2       ;      ;
+31
+; 229.62 MHz ; 229.62 MHz      ; clk1       ;      ;
+; 229.99 MHz ; 229.99 MHz      ; clk2       ;      ;
+32
+; 190.62 MHz ; 190.62 MHz      ; clk2       ;      ;
+; 228.83 MHz ; 228.83 MHz      ; clk1       ;      ;
