@@ -28,40 +28,63 @@
 
 PROJ_DIR = $(shell pwd)
 PROJ = $(shell ls -1 *.qpf | tail -n1 | awk '{ gsub(".qpf","") } 1' )
-#SRCS = $(shell ls -R1 SOURCE/*.{v,sv,vh,sdc,tcl,hex,bin} 2>/dev/null | grep -v ':' )
-№SRCS = $(shell ls -R1 SOURCE/* )
+#SRCS = $(shell ls -R1 src/*.{v,sv,vh,sdc,tcl,hex,bin} 2>/dev/null | grep -v ':' )
+SRCS = $(shell ls -R1 src/* )
 
 QPF = $(PROJ).qpf
 QSF = $(PROJ).qsf
-SOF = ./OUTPUT/$(PROJ).sof
-POF = ./OUTPUT/$(PROJ).pof
-RBF = ./OUTPUT/$(PROJ).rbf
-JAM = ./OUTPUT/$(PROJ).jam
+SOF = ./out/$(PROJ).sof
+POF = ./out/$(PROJ).pof
+RBF = ./out/$(PROJ).rbf
+JAM = ./out/$(PROJ).jam
 
 PRE_SCRIPT = './DEBUG/pre_flow.tcl'
 POST_SCRIPT = './DEBUG/post_flow.tcl'
 
-MAP_REPORT = ./OUTPUT/$(PROJ).map.rpt
-FIT_REPORT = ./OUTPUT/$(PROJ).fit.rpt
+MAP_REPORT = ./out/$(PROJ).map.rpt
+FIT_REPORT = ./out/$(PROJ).fit.rpt
 
 DSE_CONFIG = $(PROJ).dse
 
-TARGET_IP = '192.168.1.1'
-TARGET_PORT = 'USB-1'
-TARGET_CHIP = '1'
+TARGET_IP = 192.168.1.1
+TARGET_PORT = USB-1
+TARGET_CHIP = 1
 
 
+# OS deterction algorithm
+ifeq '$(findstring ;,$(PATH))' ';'
+	DET_OS := Windows
+else
+	DET_OS := $(shell uname 2>/dev/null || echo Unknown)
+	DET_OS := $(patsubst CYGWIN%,Cygwin,$(DET_OS))
+	DET_OS := $(patsubst MSYS%,MSYS,$(DET_OS))
+	DET_OS := $(patsubst MINGW%,MSYS,$(DET_OS))
+endif
 
-.PHONY: all info clean stp gui
+
+# selecting Quartus based on detected OS
+ifeq '$(DET_OS)' 'Cygwin'
+	QUARTUS_DIR =  /cygdrive/c/intelFPGA_lite/20.1/quartus/bin64/
+else
+	QUARTUS_DIR =  ~/intelFPGA_lite/20.1/quartus/bin64/
+endif
+
+
+.SILENT: info clean
+
+.PHONY: all info gui clean stp report
 
 
 all: sta sof
 
 
+
 info:
-	echo -e \\n '    Project directory: ' $(PROJ_DIR) \
+	echo -e \\n '    Detected OS: ' $(DET_OS)\
+					\\n '    Project directory: ' $(PROJ_DIR) \
 	        \\n '    Project name: ' $(PROJ) \
 	        \\n '    Preject sources: ' $(SRCS)
+
 
 gui:
 	quartus $(QPF) 1>/dev/null
@@ -69,56 +92,56 @@ gui:
 
 $(MAP_REPORT): $(SRCS) $(QPF) $(QSF)
 	$(shell if test -f $(PRE_SCRIPT); then quartus_sh -t $(PRE_SCRIPT) compile $(PROJ) $(PROJ); fi )
-	quartus_map --no_banner \
-	            --read_settings_files=on \
-	            --write_settings_files=off \
-	            --64bit $(PROJ) -c $(PROJ)
+	$(QUARTUS_DIR)quartus_map --no_banner \
+		--read_settings_files=on \
+		--write_settings_files=off \
+		--64bit $(PROJ) -c $(PROJ)
 	# dont use --effort=fast because it can dramatically increase fitting time
-map: $(PROJ).map.rpt
+map: $(MAP_REPORT)
 
 
 $(FIT_REPORT): $(MAP_REPORT)
-	# quartus_cdb --read_settings_files=on \
+	# $(QUARTUS_DIR)quartus_cdb --read_settings_files=on \
 	#             --write_settings_files=off \
 	#             --64bit $(PROJ) -c $(PROJ)
-	quartus_fit --no_banner \
-	            --read_settings_files=on \
-	            --write_settings_files=off \
-	            --inner_num=1 \
-	            --one_fit_attempt=on \
-	            --pack_register=off \
-	            --effort=fast \
-	            --64bit $(PROJ) -c $(PROJ)
+	$(QUARTUS_DIR)quartus_fit --no_banner \
+		--read_settings_files=on \
+		--write_settings_files=off \
+		--inner_num=1 \
+		--one_fit_attempt=on \
+		--pack_register=off \
+		--effort=fast \
+		--64bit $(PROJ) -c $(PROJ)
 	# using --io_smart_recompile for secondary fitter launches is tricky
 fit: $(FIT_REPORT)
 
 
 $(SOF): $(FIT_REPORT)
-	quartus_asm --no_banner \
-	            --read_settings_files=off \
-	            --write_settings_files=off \
-	            --64bit $(PROJ) -c $(PROJ)
+	$(QUARTUS_DIR)quartus_asm --no_banner \
+		--read_settings_files=off \
+		--write_settings_files=off \
+		--64bit $(PROJ) -c $(PROJ)
 asm: $(SOF)
 
 
 sta: $(FIT_REPORT)
-	quartus_sta $(PROJ) -c $(PROJ)
+	$(QUARTUS_DIR)quartus_sta $(PROJ) -c $(PROJ)
 	#$(shell if test -f $(POST_SCRIPT); then quartus_sh -t $(POST_SCRIPT) compile $(PROJ) $(PROJ); fi )
 
 stap: $(FIT_REPORT)
-	quartus_sta --parallel --model=slow $(PROJ) -c $(PROJ)
+	$(QUARTUS_DIR)quartus_sta --parallel --model=slow $(PROJ) -c $(PROJ)
 	#$(shell if test -f $(POST_SCRIPT); then quartus_sh -t $(POST_SCRIPT) compile $(PROJ) $(PROJ); fi )
 
 
 $(POF): $(SOF)
-	quartus_cpf --no_banner \
-	            -c $(SOF) $(POF)
+	$(QUARTUS_DIR)quartus_cpf --no_banner \
+		-c $(SOF) $(POF)
 $(RBF): $(SOF)
-	quartus_cpf --no_banner \
-	            -c $(SOF) $(RBF)
+	$(QUARTUS_DIR)quartus_cpf --no_banner \
+		-c $(SOF) $(RBF)
 $(JAM): $(SOF)
-	quartus_cpf --no_banner \
-	            -c $(SOF) $(JAM)
+	$(QUARTUS_DIR)quartus_cpf --no_banner \
+		-c $(SOF) $(JAM)
 sof: $(SOF)
 pof: $(POF)
 rbf: $(RBF)
@@ -126,40 +149,49 @@ jam: $(JAM)
 
 
 prog: sof
-	quartus_pgm --no_banner \
-	            -c "USB-Blaster on $(TARGET_IP) [$(TARGET_PORT)]" -m jtag \
-	            -o "P;$(SOF)@$(TARGET_CHIP)"
+	$(QUARTUS_DIR)quartus_pgm --no_banner \
+		-c "USB-Blaster on $(TARGET_IP) [$(TARGET_PORT)]" -m jtag \
+		-o "P;$(SOF)@$(TARGET_CHIP)"
 
 prog_pof: pof
-	quartus_pgm --no_banner \
-	            -c "USB-Blaster on $(TARGET_IP) [$(TARGET_PORT)]" -m jtag \
-	            -o "BVP;$(POF)@$(TARGET_CHIP)"
+	$(QUARTUS_DIR)quartus_pgm --no_banner \
+	  -c "USB-Blaster on $(TARGET_IP) [$(TARGET_PORT)]" -m jtag \
+	  -o "BVP;$(POF)@$(TARGET_CHIP)"
 
 prog_rbf: rbf
-	quartus_pgm --no_banner \
-	            -c "USB-Blaster on $(TARGET_IP) [$(TARGET_PORT)]" -m jtag \
-	            -o "BVP;$(RBF)@$(TARGET_CHIP)"
+	$(QUARTUS_DIR)quartus_pgm --no_banner \
+	  -c "USB-Blaster on $(TARGET_IP) [$(TARGET_PORT)]" -m jtag \
+	  -o "BVP;$(RBF)@$(TARGET_CHIP)"
+
+
+# report compilation time and timing summary
+report:
+	# TODO
 
 
 clean:
 	# clean common junk files
-	rm -rfv $(PROJ).qws c5_pin_model_dump.txt $(PROJ).ipregen.rpt .qsys_edit/
+	rm -rfv *.qws
+	rm -rfv *_assignment_defaults.qdf
+	rm -rfv c5_pin_model_dump.txt
+	rm -rfv *ipregen.rpt
+	rm -rfv .qsys_edit/
 	# clean compilation databases
 	rm -rfv db/ incremental_db/ greybox_tmp/
 	# clean output directory
-	rm -rfv OUTPUT/
+	rm -rfv out/
 	# clean hard memory controller
-	rm -rfv ddr3_hmc_ddr3_0_p0_0_summary.csv ddr3_hmc_ddr3_0_p0_1_summary.csv
+	rm -rfv *_ddr3_0_p0_0_summary.csv
 	# clean design space explorer files
 	rm -rfv dse/ dse1_base.qpf dse1_base.qsf $(PROJ).dse.rpt $(PROJ).archive.rpt
 	# clean early power estimator files
-	rm -rfv $(PROJ)_early_pwr.csv
+	rm -rfv *_early_pwr.csv
 	# TODO: add project-specific files to remove here
 
 
 
 dse: $(DSE_CONFIG)
-	quartus_dse --no_banner \
+	$(QUARTUS_DIR)quartus_dse --no_banner \
 	            --terminate off \
 	            --num-parallel-processors 10 \
 	            --auto-discover-files on \
@@ -200,8 +232,8 @@ gtkwave: $(SRCS)
 
 
 stp:
-	quartus_stp --no_banner \
-	            $(QPF)
+	$(QUARTUS_DIR)quartus_stp --no_banner \
+		$(QPF)
 
 
 

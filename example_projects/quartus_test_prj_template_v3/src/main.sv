@@ -4,7 +4,7 @@
 //------------------------------------------------------------------------------
 
 // INFO ------------------------------------------------------------------------
-// Test project template, v2
+// Test project template, v3
 //
 // - use this as a boilerplate project for fast prototyping
 // - inputs and outputs are registered to allow valid timequest output
@@ -36,20 +36,20 @@ end
 
 // place your test logic here ==================================================
 
-// logic [31:0] divided_clk;
-// clk_divider #(
-//   .WIDTH( 32 )
-// ) cd1 (
-//   .clk( clk ),
-//   .nrst( nrst ),
-//   .ena( 1'b1 ),
-//   .out( divided_clk[31:0] )
-// );
+logic [31:0] divided_clk;
+clk_divider #(
+  .WIDTH( 32 )
+) cd1 (
+  .clk( clk ),
+  .nrst( nrst ),
+  .ena( 1'b1 ),
+  .out( divided_clk[31:0] )
+);
 
-// logic [`WIDTH-1:0] out_data_comb = 0;
-// always_comb begin
-//   out_data_comb <= out_data_comb[`WIDTH-1:0] ^ divided_clk[31:0];
-// end
+logic [`WIDTH-1:0] out_data_comb = 0;
+always_comb begin
+  out_data_comb <= out_data_comb[`WIDTH-1:0] ^ divided_clk[31:0];
+end
 
 
 // =============================================================================

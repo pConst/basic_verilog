@@ -29,7 +29,7 @@
 PROJ_DIR = $(shell pwd)
 PROJ = $(shell ls -1 *.qpf | tail -n1 | awk '{ gsub(".qpf","") } 1' )
 #SRCS = $(shell ls -R1 SOURCE/*.{v,sv,vh,sdc,tcl,hex,bin} 2>/dev/null | grep -v ':' )
-№SRCS = $(shell ls -R1 SOURCE/* )
+SRCS = $(shell ls -R1 SOURCE/* )
 
 QPF = $(PROJ).qpf
 QSF = $(PROJ).qsf
@@ -46,9 +46,11 @@ FIT_REPORT = ./OUTPUT/$(PROJ).fit.rpt
 
 DSE_CONFIG = $(PROJ).dse
 
-TARGET_IP = '192.168.1.1'
-TARGET_PORT = 'USB-1'
-TARGET_CHIP = '1'
+TARGET_IP = 192.168.1.1
+TARGET_PORT = USB-1
+TARGET_CHIP = 1
+
+QUARTUS_DIR =  /cygdrive/c/intelFPGA_lite/20.1/quartus/bin64/
 
 
 
@@ -69,7 +71,7 @@ gui:
 
 $(MAP_REPORT): $(SRCS) $(QPF) $(QSF)
 	$(shell if test -f $(PRE_SCRIPT); then quartus_sh -t $(PRE_SCRIPT) compile $(PROJ) $(PROJ); fi )
-	quartus_map --no_banner \
+	$(QUARTUS_DIR)quartus_map --no_banner \
 	            --read_settings_files=on \
 	            --write_settings_files=off \
 	            --64bit $(PROJ) -c $(PROJ)
@@ -78,10 +80,10 @@ map: $(PROJ).map.rpt
 
 
 $(FIT_REPORT): $(MAP_REPORT)
-	# quartus_cdb --read_settings_files=on \
+	# $(QUARTUS_DIR)quartus_cdb --read_settings_files=on \
 	#             --write_settings_files=off \
 	#             --64bit $(PROJ) -c $(PROJ)
-	quartus_fit --no_banner \
+	$(QUARTUS_DIR)quartus_fit --no_banner \
 	            --read_settings_files=on \
 	            --write_settings_files=off \
 	            --inner_num=1 \
@@ -94,7 +96,7 @@ fit: $(FIT_REPORT)
 
 
 $(SOF): $(FIT_REPORT)
-	quartus_asm --no_banner \
+	$(QUARTUS_DIR)quartus_asm --no_banner \
 	            --read_settings_files=off \
 	            --write_settings_files=off \
 	            --64bit $(PROJ) -c $(PROJ)
@@ -102,22 +104,22 @@ asm: $(SOF)
 
 
 sta: $(FIT_REPORT)
-	quartus_sta $(PROJ) -c $(PROJ)
+	$(QUARTUS_DIR)quartus_sta $(PROJ) -c $(PROJ)
 	#$(shell if test -f $(POST_SCRIPT); then quartus_sh -t $(POST_SCRIPT) compile $(PROJ) $(PROJ); fi )
 
 stap: $(FIT_REPORT)
-	quartus_sta --parallel --model=slow $(PROJ) -c $(PROJ)
+	$(QUARTUS_DIR)quartus_sta --parallel --model=slow $(PROJ) -c $(PROJ)
 	#$(shell if test -f $(POST_SCRIPT); then quartus_sh -t $(POST_SCRIPT) compile $(PROJ) $(PROJ); fi )
 
 
 $(POF): $(SOF)
-	quartus_cpf --no_banner \
+	$(QUARTUS_DIR)quartus_cpf --no_banner \
 	            -c $(SOF) $(POF)
 $(RBF): $(SOF)
-	quartus_cpf --no_banner \
+	$(QUARTUS_DIR)quartus_cpf --no_banner \
 	            -c $(SOF) $(RBF)
 $(JAM): $(SOF)
-	quartus_cpf --no_banner \
+	$(QUARTUS_DIR)quartus_cpf --no_banner \
 	            -c $(SOF) $(JAM)
 sof: $(SOF)
 pof: $(POF)
@@ -126,17 +128,17 @@ jam: $(JAM)
 
 
 prog: sof
-	quartus_pgm --no_banner \
+	$(QUARTUS_DIR)quartus_pgm --no_banner \
 	            -c "USB-Blaster on $(TARGET_IP) [$(TARGET_PORT)]" -m jtag \
 	            -o "P;$(SOF)@$(TARGET_CHIP)"
 
 prog_pof: pof
-	quartus_pgm --no_banner \
+	$(QUARTUS_DIR)quartus_pgm --no_banner \
 	            -c "USB-Blaster on $(TARGET_IP) [$(TARGET_PORT)]" -m jtag \
 	            -o "BVP;$(POF)@$(TARGET_CHIP)"
 
 prog_rbf: rbf
-	quartus_pgm --no_banner \
+	$(QUARTUS_DIR)quartus_pgm --no_banner \
 	            -c "USB-Blaster on $(TARGET_IP) [$(TARGET_PORT)]" -m jtag \
 	            -o "BVP;$(RBF)@$(TARGET_CHIP)"
 
@@ -159,7 +161,7 @@ clean:
 
 
 dse: $(DSE_CONFIG)
-	quartus_dse --no_banner \
+	$(QUARTUS_DIR)quartus_dse --no_banner \
 	            --terminate off \
 	            --num-parallel-processors 10 \
 	            --auto-discover-files on \
@@ -200,7 +202,7 @@ gtkwave: $(SRCS)
 
 
 stp:
-	quartus_stp --no_banner \
+	$(QUARTUS_DIR)quartus_stp --no_banner \
 	            $(QPF)
 
 

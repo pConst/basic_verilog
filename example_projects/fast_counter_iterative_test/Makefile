@@ -23,7 +23,7 @@ VAR = $(shell seq $(VAR_START) ${VAR_STOP})
 JOBS = $(addprefix job,${VAR})
 
 
-.PHONY: all fmax clean
+.PHONY: all report clean
 
 
 all: fmax
@@ -36,18 +36,24 @@ ${JOBS}: job%:
 	$(MAKE) -C ./$* stap
 
 fmax: ${JOBS}
-	echo "FMAX summary report for iterative compilation" | tee > ./fmax.rpt; \
+	echo '# FMAX summary report for iterative compilation' > ./fmax.csv; \
 	for (( var = $(VAR_START); var <= $(VAR_STOP); var++ )); do \
-		echo "$$var" | tee >> ./fmax.rpt; \
+		{ echo $$var ', '; \
+			cat ./$$var/OUTPUT/test.sta.rpt | \
+			grep -A2 '; Fmax       ; Restricted Fmax ; Clock Name ; Note ;' | \
+			tail -n1 | cut -d\; -f3 | cut -d' ' -f2; echo ', '; \
 		cat ./$$var/OUTPUT/test.sta.rpt | \
 		grep -A3 '; Fmax       ; Restricted Fmax ; Clock Name ; Note ;' | \
-		tail -n2 | tee >> ./fmax.rpt; \
+			tail -n1 | cut -d\; -f3 | cut -d' ' -f2; } >> ./fmax.csv; \
 	done; \
-	echo 'fmax.rpt file done'
+	echo 'fmax.csv file done'
+
+report: ./fmax.csv
+	cat ./fmax.csv
 
 clean:
 	for (( var = $(VAR_START); var <= $(VAR_STOP); var++ )); do \
 		rm -rfv ./$$var; \
-		rm -rfv ./fmax.rpt; \
+		rm -rfv ./fmax.csv; \
 	done
 

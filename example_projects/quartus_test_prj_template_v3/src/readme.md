@@ -1,0 +1,2 @@
+
+verilog rtl code directory
