@@ -1,6 +1,6 @@
 @echo off
 rem ------------------------------------------------------------------------------
-rem  clean.bat
+rem  hard_clean_vivado.bat
 rem  Konstantin Pavlov, pavlovconst@gmail.com
 rem ------------------------------------------------------------------------------
 
