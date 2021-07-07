@@ -1,15 +1,19 @@
-basic_verilog
-=============
+Must-have verilog systemverilog modules
+---------------------------------------
 
-Some basic must-have verilog modules
-------------------------------------
+Hello! This is a collection of verilog systemverilog synthesizable modules.<br>
+All the code is highly reusable across typical FPGA projects and mainstream FPGA vendors.<br>
+Please feel free to contact me in case you found any code issues.<br>
+Also, give me a pleasure, tell me if the code has got succesfully implemented in your hobby, scientific or industrial projects!<br>
 
-(licensed under CC BY-SA 4_0)
-  
-Author: Konstantin Pavlov, pavlovconst@gmail.com
+Konstantin Pavlov, pavlovconst@gmail.com
 
-CONTENTS:
----------
+The code is licensed under CC BY-SA 4_0.<br>
+You can remix, transform, and build upon the material for any purpose, even commercially<br>
+You must provide the name of the creator and distribute your contributions under the same license as the original<br>
+
+Directories description:
+-----------------------
 
 | DIRECTORY | DESCRIPTION |
 |-----------|-------------|
@@ -19,6 +23,9 @@ CONTENTS:
 | example_projects/ | FPGA project examples |
 | benchmark_projects/ | compilation time benchmarks for a dosen of FPGA types |
 | scripts/ | useful TCL scripts |
+
+Scripts description:
+--------------------
 
 | SCRIPT | DESCRIPTION |
 |--------|-------------|
@@ -36,6 +43,9 @@ CONTENTS:
 | scripts/set_project_directory.tcl | changes current directory to match project directory in Vivado IDE |
 | scripts/write_avalon_mm_from_file.tcl | writing bulk binary data from binary file to Avalon-MM through JTAG-to-Avalon-MM bridge IP |
 
+Modules description:
+--------------------
+ 
 | MODULE | DESCRIPTION |
 |--------|-------------|
 | ActionBurst.v | multichannel one-shot triggering module |
@@ -49,7 +59,7 @@ CONTENTS:
 | dynamic_delay.sv | dynamic delay for arbitrary input signal |
 | edge_detect.sv | combinational edge detector, gives one-tick pulses on every signal edge |
 | encoder.v | digital encoder input logic module |
-| fifo.sv | single-clock FIFO buffer (queue) implementation |
+| fifo_single_clock_reg_*.sv | single-clock FIFO buffer (queue) implementation |
 | gray2bin.sv | combinational binary to Gray code converter |
 | leave_one_hot.sv | combinational module that leaves only lowest hot bit |
 | lifo.sv | single-clock LIFO buffer (stack) implementation |
