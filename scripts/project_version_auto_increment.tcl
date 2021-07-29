@@ -25,8 +25,12 @@ set ver 0
 set ver_hi 0
 set ver_lo 0
 
-#file mkdir "./DEBUG"
 set ver_filename "version.bin"
+
+#if dev id file exists, version will be auto-incremented
+#if not, project will be bit-to-bit identical to last compilation state
+#this is also useful for automatic build configuration
+set dev_filename "../_i_am_a_dev"
 
 # reading version
 if { [file exists $ver_filename] } {
@@ -38,11 +42,13 @@ if { [file exists $ver_filename] } {
   close $file
 }
 
-# converting signed to unsigned
-# set ver [expr $ver & 0xFFFF];
-
 # incrementing version
+if { [file exists $dev_filename] } {
+  post_message "Sucess finding dev id file. Incrementing version"
 set ver [expr $ver + 1 ]
+} else {
+  post_message "Failed finding dev id file. Project version preserved"
+}
 set ver_hi [expr $ver / 256 ]
 set ver_lo [expr $ver % 256 ]
 
@@ -50,6 +56,7 @@ post_message [ join [ list "Current project version: " [format %d $ver ] ] "" ]
 post_message [ join [ list "Version HIGH byte: 0x" [format %02x $ver_hi ] ] "" ]
 post_message [ join [ list "Version LOW byte: 0x" [format %02x $ver_lo ] ] "" ]
 
+if { [file exists $dev_filename] } {
 # generating random value that changes every new compilation
 set rand_hi [expr {int(rand()*4294967296)}]
 set rand_lo [expr {int(rand()*4294967296)}]
@@ -66,14 +73,24 @@ puts -nonewline $file $data
 close $file
 
 # generating version.vh define file
-#file mkdir "./SOURCES"
 set def_filename "version.vh"
 
 post_message "Generating version.vh define file"
 set file [open $def_filename "w"]
 puts $file "// version.vh"
 puts $file "// This file is auto-generated. Please dont edit manually"
-puts $file "// Project version is auto-incremented every time compilation begins"
+  puts $file "// Project version and random seed value are auto-incremented"
+  puts $file "// every time compilation begins"
+  puts $file ""
+  puts $file "// Update: Version auto-increment is turned off by default"
+  puts $file "// to support for automatic compilation"
+  puts $file ""
+  puts $file "// To turn on version auto-increment on the developers machine - "
+  puts $file "// create an empty file named '../_i_am_a_dev'"
+  puts $file "// (the path is referred to the project folder) "
+  puts $file ""
+  puts $file "// Please don`t add dev id file to version control so that anyone"
+  puts $file "// else get a bit-to-bit copy of your compilation result"
 puts $file ""
 puts $file [ join [ list "`define VERSION_HIGH 8'h" [format %02x $ver_hi ] ] "" ]
 puts $file [ join [ list "`define VERSION_LOW 8'h" [format %02x $ver_lo ]] "" ]
