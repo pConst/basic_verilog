@@ -1,94 +1,105 @@
-//--------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 // cdc_strobe.sv
 // Konstantin Pavlov, pavlovconst@gmail.com
-//--------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
-// INFO --------------------------------------------------------------------------------
+// INFO ------------------------------------------------------------------------
 // Clock crossing setup for single-pulse strobes
-// CDC stands for "clock data crossing"
+// Strobes could trigger transfers of almost-static data between clock doamins
 //
-// This is a simplest form of strobe CDC circuit. Good enough for rare single
-//   strobe events. This module does NOT support close-standing strobes,
-//   placed in adjacent lock cycles
+// -  Maximum input strobe rate is every second clk1 clock cycle
 //
-// Don`t forget to write false_path constraints for all your synchronizers
-//   The best way to do it - is to mark all synchonizer delay.sv instances
-//   with "_SYNC_ATTR" suffix. After that, just one constraint is required:
+// -  Input strobe may span several clock cycles, but it will be considered one
+//    event and only one single-cycle strobe will be generated to the output
+//
+// -  When clk2 is essentially less than clk1 it is possible that strb2 will
+//    remain HIGH for several consecutive clk2 cycles. On the output every
+//    HIGH cycle should be considered as a separate strobe event
+//
+// -  When clk2 is essentially less than clk1 - output strobes could even
+//    "overlap" or miss. In this case, please restrict input strobe event rate
+//
+// -  cdc_strobe module features a 2 clock cycles propagation delay
+//
+//
+//
+// False_path constraint is required from all nodes with "_FP_ATTR" suffix
 //
 // For Quartus:
-// set_false_path -to [get_registers {*delay:*_SYNC_ATTR*|data[1]*}]
+// set_false_path -from [get_registers {*_FP_ATTR*}]
 //
 // For Vivado:
-// set_false_path -to [get_cells -hier -filter {NAME =~ *_SYNC_ATTR/data_reg[1]*}]
+// set_false_path -from [get_cells -hier -filter {NAME =~ *_FP_ATTR*}]
 //
 
 
 /* --- INSTANTIATION TEMPLATE BEGIN ---
 
-cdc_strobe CS [7:0] (
-  .clk1_i( {8{clk1}} ),
-  .nrst1_i( {8{1'b1}} ),
-  .strb1_i( input_strobes[7:0] ),
+cdc_strobe_v2 cdc_wr_req (
+  .arst( 1'b0 ),
 
-  .clk2_i( {8{clk2}} ),
-  .strb2_o( output_strobes[7:0] )
+  .clk1( clk1 ),
+  .nrst1( 1'b1 ),
+  .strb1( wr_req_clk1 ),
+
+  .clk2( {8{clk2}} ),
+  .nrst2( 1'b1 ),
+  .strb2( wr_req_clk2 )
 );
 
 --- INSTANTIATION TEMPLATE END ---*/
 
 
-module cdc_strobe #( parameter
-  PRE_STRETCH( 2 )      // number of cycles to stretch input strobe
-)(
-  input clk1_i,         // clock domain 1 clock
-  input nrst1_i,        // clock domain 1 reset (inversed)
-  input strb1_i,        // clock domain 1 strobe
+module cdc_strobe (
+  input arst,         // async reset
 
-  input clk2_i,         // clock domain 2 clock
-  output strb2_o        // clock domain 2 strobe
+  input clk1,         // clock domain 1 clock
+  input nrst1,        // clock domain 1 reset (inversed)
+  input strb1,        // clock domain 1 strobe
+
+  input clk2,         // clock domain 2 clock
+  input nrst2,        // clock domain 2 reset (inversed)
+  output strb2        // clock domain 2 strobe
 );
 
-// This signal should be at_least(!!!) one clk2_i period long
-// Preliminary stretching is usually nessesary, unless you are crossing
-//   to essentialy high-frequency clock clk2_i, that is > 2*clk1_i
-logic strb1_stretched;
+  // buffering strb1
+  logic strb1_b = 1'b0;
+  always @(posedge clk1 or posedge arst) begin
+    if( arst || ~nrst1 ) begin
+      strb1_b <= '0;
+    end else begin
+      strb1_b <= strb1;
+    end
+  end
 
-pulse_stretch #(
-  .WIDTH( PRE_STRETCH ),
-  .USE_CNTR( 0 )
-) stretch_strb1 (
-  .clk( clk1_i ),
-  .nrst( nrst1_i ),
-  .in( strb1_i ),
-  .out( strb1_stretched )
-);
+  // strb1 edge detector
+  // prevents secondary strobe generation in case strb1 is not one-cycle-high
+  logic strb1_ed;
+  assign strb1_ed = (~strb1_b && strb1) && ~arst;
 
-// This is a synchronized signal in clk2_i clock domain,
-//   but no guarantee, that it is one-cycle-high
-logic strb2_stretched;
 
-delay #(
-    .LENGTH( 2 ),
-    .WIDTH( 1 ),
-    .TYPE( "CELLS" ),
-    .REGISTER_OUTPUTS( "FALSE" )
-) delay_strb1_SYNC_ATTR (
-    .clk( clk2_i ),
-    .nrst( 1'b1 ),
-    .ena( 1'b1 ),
+  // 2 bit gray counter, it must NEVER be reset
+  logic [1:0] gc_FP_ATTR = '0;
+  always @(posedge clk1) begin
+    if( strb1_ed ) begin
+      gc_FP_ATTR[1:0] <= {gc_FP_ATTR[0],~gc_FP_ATTR[1]}; // incrementing counter
+    end
+  end
 
-    .in( strb1_stretched ),
-    .out( strb2_stretched )
-);
+  // buffering counter value on clk2
+  // gray counter does not need a synchronizer
+  logic [1:0][1:0] gc_b = '0;
+  always @(posedge clk2 or posedge arst) begin
+    if( arst || ~nrst2 ) begin
+      gc_b[1:0] <= {2{gc_FP_ATTR[1:0]}};
+    end else begin
+      gc_b[1:0] <= {gc_b[0],gc_FP_ATTR[1:0]}; // shifting left
+    end
+  end
 
-edge_detect ed_strb2 (
-  .clk( clk2_i ),
-  .nrst( 1'b1 ),
-  .in( strb2_stretched ),
-  .rising( strb2_o ),      // and now the signal is definitely one-cycle-high
-  .falling(  ),
-  .both(  )
-);
+  // gray_bit_b edge detector
+  assign strb2 = (gc_b[1][1:0] != gc_b[0][1:0] ) && ~arst;
+
 
 endmodule
 
