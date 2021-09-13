@@ -22,32 +22,18 @@ reverse_vector #(
 
 
 module reverse_vector #( parameter
-  WIDTH = 8         // WIDTH must be >=2
+  WIDTH = 8
 )(
   input [(WIDTH-1):0] in,
   output logic [(WIDTH-1):0] out
 );
 
-
-genvar i;
-
-generate
-  for (i = 0; i < (WIDTH/2) ; i++) begin : gen1
-    always_comb begin
-      out[i] = in[WIDTH-1-i];
-      out[WIDTH-1-i] = in[i];
-    end // always_comb
-  end // for
-endgenerate
-
-// additional assign needed when WIDTH is odd
-generate
-  if ( WIDTH%2 ) begin : gen2
-    always_comb begin
-      out[WIDTH/2] = in[WIDTH/2];
-    end // always_comb
-  end // for
-endgenerate
-
+  integer i;
+  always_comb begin
+    for (i = 0; i < WIDTH ; i++) begin : gen_reverse
+      out[i] = in[(WIDTH-1)-i];
+    end // for
+  end // always_comb
 
 endmodule
+
