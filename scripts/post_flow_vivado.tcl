@@ -11,9 +11,10 @@
 # Set this script as a post.tcl for "Generate bitstream" step
 
 #===============================================================================
-# compuiting elapsed time
-puts "=== COMPILE TIME ================================================="
 
+puts "=== post_flow_vivado ================================================="
+
+# compuiting elapsed time
 set hs 0
 set ms 0
 set ss 0
@@ -45,5 +46,11 @@ puts "----------------------------------"
 puts [ join [ list "TOTAL: " [format "%02d:%02d:%02d" $hs_t $ms_t $ss_t]] "" ]
 
 
+# cd to project directory
+set work_directory [file dirname [get_property NAME [get_files "*[get_property top [current_fileset]]*.sv" ] ]]
+#set work_directory [get_property DIRECTORY [current_project]]
+cd $work_directory
+puts -nonewline "Changed directory to " ; pwd
 
+puts ""
 
