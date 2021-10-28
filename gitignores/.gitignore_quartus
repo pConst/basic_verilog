@@ -1,0 +1,33 @@
+#------------------------------------------------------------------------------
+# .gitignore for Intel Quartus
+# Konstantin Pavlov, pavlovconst@gmail.com
+#------------------------------------------------------------------------------
+
+# INFO ------------------------------------------------------------------------
+# rename the file to ".gitignore" and place into your Quartus project directory
+#
+
+
+# junk files
+*.qws
+*_assignment_defaults.qdf
+c5_pin_model_dump.txt
+*.ipregen.rpt
+*_summary.csv
+*_early_pwr.csv
+
+# junk directories
+/.qsys_edit
+/db
+/incremental_db
+/greybox_tmp
+
+# design space explorer
+/dse
+dse1_base.qpf
+dse1_base.qsf
+*.dse.rpt
+*.archive.rpt
+
+/out
+

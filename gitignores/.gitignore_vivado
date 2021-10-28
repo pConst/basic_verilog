@@ -1,0 +1,19 @@
+#------------------------------------------------------------------------------
+# .gitignore for Xilinx Vivado
+# Konstantin Pavlov, pavlovconst@gmail.com
+#------------------------------------------------------------------------------
+
+# INFO ------------------------------------------------------------------------
+# rename the file to ".gitignore" and place into your Vivado project directory
+#
+
+
+*.cache
+*.hw
+*.runs
+*.sim
+.Xil
+
+*.jou
+*.log
+
