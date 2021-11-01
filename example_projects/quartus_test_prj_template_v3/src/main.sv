@@ -48,7 +48,7 @@ clk_divider #(
 
 logic [`WIDTH-1:0] out_data_comb = 0;
 always_comb begin
-  out_data_comb <= out_data_comb[`WIDTH-1:0] ^ divided_clk[31:0];
+  out_data_comb[`WIDTH-1:0] <= out_data_comb[`WIDTH-1:0] ^ divided_clk[31:0];
 end
 
 

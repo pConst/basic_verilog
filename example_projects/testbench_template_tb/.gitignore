@@ -1,0 +1,16 @@
+#------------------------------------------------------------------------------
+# .gitignore for Mentor Modelsim
+# Konstantin Pavlov, pavlovconst@gmail.com
+#------------------------------------------------------------------------------
+
+# INFO ------------------------------------------------------------------------
+# rename the file to ".gitignore" and place into your testbench directory
+#
+
+
+transcript
+work*
+modelsim.ini
+start_time.txt
+vsim.wlf
+
