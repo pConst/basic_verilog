@@ -1,0 +1,29 @@
+char 1
+signed char 1
+unsigned char 1
+short 2
+short int 2
+signed short 2
+signed short int 2
+unsigned short 2
+unsigned short int 2
+int 4
+signed 4
+signed int 4
+unsigned 4
+unsigned int 4
+long 4
+long int 4
+signed long 4
+signed long int 4
+unsigned long 4
+unsigned long int 4
+long long 8
+long long int 8
+signed long long 8
+signed long long int 8
+unsigned long long 8
+unsigned long long int 8
+float 4
+double 8
+long double 8
