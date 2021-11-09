@@ -65,7 +65,9 @@ module cdc_strobe (
   // buffering strb1
   logic strb1_b = 1'b0;
   always @(posedge clk1 or posedge arst) begin
-    if( arst || ~nrst1 ) begin
+    if( arst ) begin
+      strb1_b <= '0;
+    end else if( ~nrst1 ) begin  // Quartus demands to split these if conditions
       strb1_b <= '0;
     end else begin
       strb1_b <= strb1;
@@ -90,7 +92,9 @@ module cdc_strobe (
   // gray counter does not need a synchronizer
   logic [1:0][1:0] gc_b = '0;
   always @(posedge clk2 or posedge arst) begin
-    if( arst || ~nrst2 ) begin
+    if( arst ) begin
+      gc_b[1:0] <= {2{gc_FP_ATTR[1:0]}};
+    end else if( ~nrst2 ) begin  // Quartus demands to split these if conditions
       gc_b[1:0] <= {2{gc_FP_ATTR[1:0]}};
     end else begin
       gc_b[1:0] <= {gc_b[0],gc_FP_ATTR[1:0]}; // shifting left
