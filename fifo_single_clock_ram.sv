@@ -15,6 +15,7 @@
 //  - configurable depth and data width
 //  - only "normal" mode is supported here, no FWFT mode
 //  - protected against overflow and underflow
+//  - provides fifo contents initialization (!)
 //
 
 
@@ -49,7 +50,8 @@ module fifo_single_clock_ram #( parameter
   DEPTH_W = $clog2(DEPTH)+1,      // elements counter width, extra bit to store
                                   // "fifo full" state, see cnt[] variable comments
 
-  DATA_W = 32                     // data field width
+  DATA_W = 32,                    // data field width
+  INIT_FILE = ""
 )(
 
   input clk,
@@ -87,7 +89,7 @@ assign r_req_f = r_req && ~empty;
 true_dual_port_write_first_2_clock_ram #(
   .RAM_WIDTH( DATA_W ),
   .RAM_DEPTH( DEPTH ),
-  .INIT_FILE( "" )
+  .INIT_FILE( INIT_FILE )
 ) data_ram (
   .clka( clk ),
   .addra( w_ptr[DEPTH_W-1:0] ),
@@ -149,75 +151,6 @@ always_comb begin
   fail = ( empty && r_req ) ||
          ( full && w_req );
 end
-
-endmodule
-
-
-
-module true_dual_port_write_first_2_clock_ram #( parameter
-  RAM_WIDTH = 16,
-  RAM_DEPTH = 8,
-  INIT_FILE = ""
-)(
-  input clka,
-  input [clogb2(RAM_DEPTH-1)-1:0] addra,
-  input ena,
-  input wea,
-  input [RAM_WIDTH-1:0] dina,
-  output [RAM_WIDTH-1:0] douta,
-
-  input clkb,
-  input [clogb2(RAM_DEPTH-1)-1:0] addrb,
-  input enb,
-  input web,
-  input [RAM_WIDTH-1:0] dinb,
-  output [RAM_WIDTH-1:0] doutb
-);
-
-  reg [RAM_WIDTH-1:0] BRAM [RAM_DEPTH-1:0];
-  reg [RAM_WIDTH-1:0] ram_data_a = {RAM_WIDTH{1'b0}};
-  reg [RAM_WIDTH-1:0] ram_data_b = {RAM_WIDTH{1'b0}};
-
-  // either initializes the memory values to a specified file or to all zeros
-  //   to match hardware
-  generate
-    if (INIT_FILE != "") begin: use_init_file
-      initial
-        $readmemh(INIT_FILE, BRAM, 0, RAM_DEPTH-1);
-    end else begin: init_bram_to_zero
-      integer ram_index;
-      initial
-        for (ram_index = 0; ram_index < RAM_DEPTH; ram_index = ram_index + 1)
-          BRAM[ram_index] = {RAM_WIDTH{1'b0}};
-    end
-  endgenerate
-
-  always @(posedge clka)
-    if (ena)
-      if (wea) begin
-        BRAM[addra] <= dina;
-        ram_data_a <= dina;
-      end else
-        ram_data_a <= BRAM[addra];
-
-  always @(posedge clkb)
-    if (enb)
-      if (web) begin
-        BRAM[addrb] <= dinb;
-        ram_data_b <= dinb;
-      end else
-        ram_data_b <= BRAM[addrb];
-
-  // no output register
-  assign douta = ram_data_a;
-  assign doutb = ram_data_b;
-
-  // calculates the address width based on specified RAM depth
-  function integer clogb2;
-    input integer depth;
-      for (clogb2=0; depth>0; clogb2=clogb2+1)
-        depth = depth >> 1;
-  endfunction
 
 endmodule
 

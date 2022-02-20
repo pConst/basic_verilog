@@ -45,13 +45,13 @@ integer i;
 
 logic found_hot;
 always_comb begin
-  err_multi_hot=0;
-  bin[(BIN_WIDTH-1):0]=0;
+  err_multi_hot = 0;
+  bin[(BIN_WIDTH-1):0] = 0;
   found_hot = 0;
-  for (i = 0; i < POS_WIDTH ; i++) begin
+  for (i=0; i<POS_WIDTH; i++) begin
 
     if ( ~found_hot && pos[i] ) begin
-      bin[(BIN_WIDTH-1):0] = i;
+      bin[(BIN_WIDTH-1):0] = i[(BIN_WIDTH-1):0];
     end
 
     if ( found_hot && pos[i] ) begin
