@@ -54,9 +54,15 @@ module true_dual_port_write_first_2_clock_ram #( parameter
   output [RAM_WIDTH-1:0] doutb
 );
 
+
+
   logic [RAM_WIDTH-1:0] BRAM [RAM_DEPTH-1:0];
   logic [RAM_WIDTH-1:0] ram_data_a = {RAM_WIDTH{1'b0}};
   logic [RAM_WIDTH-1:0] ram_data_b = {RAM_WIDTH{1'b0}};
+
+  // ONLY FOR QUARTUS IDE
+  // You can provide initialization in convinient .mif format
+  //(* ram_init_file = INIT_FILE *) logic [RAM_WIDTH-1:0] BRAM [RAM_DEPTH-1:0];
 
   // either initializes the memory values to a specified file or to all zeros
   generate
