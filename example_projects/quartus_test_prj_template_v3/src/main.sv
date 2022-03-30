@@ -28,27 +28,27 @@ module main(
 logic [`WIDTH-1:0] in_data_reg = 0;
 always_ff @(posedge clk) begin
   if( ~nrst ) begin
-    in_data_reg <= '0;
+    in_data_reg[`WIDTH-1:0] <= '0;
   end else begin
-    in_data_reg <= in_data;
+    in_data_reg[`WIDTH-1:0] <= in_data;
   end
 end
 
 // place your test logic here ==================================================
 
-logic [31:0] divided_clk;
+logic [31:0] div_clk;
 clk_divider #(
   .WIDTH( 32 )
 ) cd1 (
   .clk( clk ),
   .nrst( nrst ),
   .ena( 1'b1 ),
-  .out( divided_clk[31:0] )
+  .out( div_clk[31:0] )
 );
 
 logic [`WIDTH-1:0] out_data_comb = 0;
 always_comb begin
-  out_data_comb[`WIDTH-1:0] <= out_data_comb[`WIDTH-1:0] ^ divided_clk[31:0];
+  out_data_comb[`WIDTH-1:0] <= in_data_reg[`WIDTH-1:0] ^ div_clk[31:0];
 end
 
 
