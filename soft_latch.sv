@@ -1,5 +1,6 @@
 //------------------------------------------------------------------------------
 // soft_latch.sv
+// published as part of https://github.com/pConst/basic_verilog
 // Konstantin Pavlov, pavlovconst@gmail.com
 //------------------------------------------------------------------------------
 
@@ -40,7 +41,7 @@ soft_latch #(
   .WIDTH( 16 )
 ) SL1 (
   .clk( clk ),
-  .nrst( 1'b1 ),
+  .anrst( 1'b1 ),
   .latch(  ),
   .in(  ),
   .out(  )
@@ -50,10 +51,10 @@ soft_latch #(
 
 
 module soft_latch #( parameter
-  WIDTH = 1                         // data width
+  bit [7:0] WIDTH = 1               // data width
 )(
   input clk,                        // clock
-  input nrst,                       // inverted reset
+  input anrst,                      // inverted reset
 
   input latch,                      // latch strobe
   input [WIDTH-1:0] in,             // data in
@@ -63,8 +64,8 @@ module soft_latch #( parameter
 logic [WIDTH-1:0] in_buf = '0;
 
 // buffering input data
-always_ff @(posedge clk) begin
-  if( ~nrst ) begin
+always_ff @(posedge clk or negedge anrst) begin
+  if( ~anrst ) begin
     in_buf[WIDTH-1:0] <= '0;
   end else if( latch ) begin
     in_buf[WIDTH-1:0] <= in[WIDTH-1:0];
@@ -73,7 +74,7 @@ end
 
 // mixing combinational and buffered data to the output
 always_comb begin
-  if( ~nrst ) begin
+  if( ~anrst ) begin
     out[WIDTH-1:0] <= '0;
   end else if( latch ) begin
     out[WIDTH-1:0] <= in[WIDTH-1:0];
