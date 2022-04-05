@@ -1,5 +1,9 @@
+#------------------------------------------------------------------------------
+# Vivado test project template
+# published as part of https://github.com/pConst/basic_verilog
 # Konstantin Pavlov, pavlovconst@gmail.com
-# Arty board base project template
+#------------------------------------------------------------------------------
+
 
 # clocks =======================================================================
 create_clock -name clk -period 8.000 -waveform {0.000 4.000} [get_ports { clk }]

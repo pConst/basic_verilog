@@ -1,0 +1,65 @@
+Info: Starting: Create HDL design files for synthesis
+Info: qsys-generate J:\basic_verilog\example_projects\quartus_test_prj_template_v4\ip\jtag_io.qsys --synthesis=VERILOG --output-directory=J:\basic_verilog\example_projects\quartus_test_prj_template_v4\ip\jtag_io\synthesis --family="Cyclone V" --part=5CSEBA6U23I7
+Progress: Loading ip/jtag_io.qsys
+Progress: Reading input file
+Progress: Adding clk_0 [clock_source 20.1]
+Progress: Parameterizing module clk_0
+Progress: Adding in0 [altera_avalon_pio 20.1]
+Progress: Parameterizing module in0
+Progress: Adding in1 [altera_avalon_pio 20.1]
+Progress: Parameterizing module in1
+Progress: Adding master_0 [altera_jtag_avalon_master 20.1]
+Progress: Parameterizing module master_0
+Progress: Adding out0 [altera_avalon_pio 20.1]
+Progress: Parameterizing module out0
+Progress: Adding out1 [altera_avalon_pio 20.1]
+Progress: Parameterizing module out1
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: jtag_io.in0: PIO inputs are not hardwired in test bench. Undefined values will be read from PIO inputs during simulation.
+Info: jtag_io.in1: PIO inputs are not hardwired in test bench. Undefined values will be read from PIO inputs during simulation.
+Info: jtag_io: Generating jtag_io "jtag_io" for QUARTUS_SYNTH
+Info: in0: Starting RTL generation for module 'jtag_io_in0'
+Info: in0:   Generation command is [exec C:/intelfpga_lite/20.1/quartus/bin64/perl/bin/perl.exe -I C:/intelfpga_lite/20.1/quartus/bin64/perl/lib -I C:/intelfpga_lite/20.1/quartus/sopc_builder/bin/europa -I C:/intelfpga_lite/20.1/quartus/sopc_builder/bin -I C:/intelfpga_lite/20.1/quartus/../ip/altera/sopc_builder_ip/common -I C:/intelfpga_lite/20.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio -- C:/intelfpga_lite/20.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio/generate_rtl.pl --name=jtag_io_in0 --dir=C:/Users/Pavlov/AppData/Local/Temp/alt9083_1757229078663084904.dir/0002_in0_gen/ --quartus_dir=C:/intelfpga_lite/20.1/quartus --verilog --config=C:/Users/Pavlov/AppData/Local/Temp/alt9083_1757229078663084904.dir/0002_in0_gen//jtag_io_in0_component_configuration.pl  --do_build_sim=0  ]
+Info: in0: Done RTL generation for module 'jtag_io_in0'
+Info: in0: "jtag_io" instantiated altera_avalon_pio "in0"
+Info: master_0: "jtag_io" instantiated altera_jtag_avalon_master "master_0"
+Info: out0: Starting RTL generation for module 'jtag_io_out0'
+Info: out0:   Generation command is [exec C:/intelfpga_lite/20.1/quartus/bin64/perl/bin/perl.exe -I C:/intelfpga_lite/20.1/quartus/bin64/perl/lib -I C:/intelfpga_lite/20.1/quartus/sopc_builder/bin/europa -I C:/intelfpga_lite/20.1/quartus/sopc_builder/bin -I C:/intelfpga_lite/20.1/quartus/../ip/altera/sopc_builder_ip/common -I C:/intelfpga_lite/20.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio -- C:/intelfpga_lite/20.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio/generate_rtl.pl --name=jtag_io_out0 --dir=C:/Users/Pavlov/AppData/Local/Temp/alt9083_1757229078663084904.dir/0003_out0_gen/ --quartus_dir=C:/intelfpga_lite/20.1/quartus --verilog --config=C:/Users/Pavlov/AppData/Local/Temp/alt9083_1757229078663084904.dir/0003_out0_gen//jtag_io_out0_component_configuration.pl  --do_build_sim=0  ]
+Info: out0: Done RTL generation for module 'jtag_io_out0'
+Info: out0: "jtag_io" instantiated altera_avalon_pio "out0"
+Info: avalon_st_adapter: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_001: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_002: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_003: Inserting error_adapter: error_adapter_0
+Info: mm_interconnect_0: "jtag_io" instantiated altera_mm_interconnect "mm_interconnect_0"
+Info: rst_controller: "jtag_io" instantiated altera_reset_controller "rst_controller"
+Info: jtag_phy_embedded_in_jtag_master: "master_0" instantiated altera_jtag_dc_streaming "jtag_phy_embedded_in_jtag_master"
+Info: timing_adt: "master_0" instantiated timing_adapter "timing_adt"
+Info: fifo: "master_0" instantiated altera_avalon_sc_fifo "fifo"
+Info: b2p: "master_0" instantiated altera_avalon_st_bytes_to_packets "b2p"
+Info: p2b: "master_0" instantiated altera_avalon_st_packets_to_bytes "p2b"
+Info: transacto: "master_0" instantiated altera_avalon_packets_to_master "transacto"
+Info: b2p_adapter: "master_0" instantiated channel_adapter "b2p_adapter"
+Info: p2b_adapter: "master_0" instantiated channel_adapter "p2b_adapter"
+Info: master_0_master_translator: "mm_interconnect_0" instantiated altera_merlin_master_translator "master_0_master_translator"
+Info: out0_s1_translator: "mm_interconnect_0" instantiated altera_merlin_slave_translator "out0_s1_translator"
+Info: master_0_master_agent: "mm_interconnect_0" instantiated altera_merlin_master_agent "master_0_master_agent"
+Info: out0_s1_agent: "mm_interconnect_0" instantiated altera_merlin_slave_agent "out0_s1_agent"
+Info: router: "mm_interconnect_0" instantiated altera_merlin_router "router"
+Info: router_001: "mm_interconnect_0" instantiated altera_merlin_router "router_001"
+Info: master_0_master_limiter: "mm_interconnect_0" instantiated altera_merlin_traffic_limiter "master_0_master_limiter"
+Info: Reusing file J:/basic_verilog/example_projects/quartus_test_prj_template_v4/ip/jtag_io/synthesis/submodules/altera_avalon_sc_fifo.v
+Info: Reusing file J:/basic_verilog/example_projects/quartus_test_prj_template_v4/ip/jtag_io/synthesis/submodules/altera_avalon_st_pipeline_base.v
+Info: cmd_demux: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "cmd_demux"
+Info: cmd_mux: "mm_interconnect_0" instantiated altera_merlin_multiplexer "cmd_mux"
+Info: rsp_demux: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "rsp_demux"
+Info: rsp_mux: "mm_interconnect_0" instantiated altera_merlin_multiplexer "rsp_mux"
+Info: Reusing file J:/basic_verilog/example_projects/quartus_test_prj_template_v4/ip/jtag_io/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: avalon_st_adapter: "mm_interconnect_0" instantiated altera_avalon_st_adapter "avalon_st_adapter"
+Info: error_adapter_0: "avalon_st_adapter" instantiated error_adapter "error_adapter_0"
+Info: jtag_io: Done "jtag_io" with 27 modules, 42 files
+Info: qsys-generate succeeded.
+Info: Finished: Create HDL design files for synthesis

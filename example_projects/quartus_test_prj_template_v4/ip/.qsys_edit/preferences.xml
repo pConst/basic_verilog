@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<preferences>
+ <debug showDebugMenu="0" />
+ <systemtable filter="All Interfaces">
+  <columns>
+   <connections preferredWidth="95" />
+   <irq preferredWidth="34" />
+  </columns>
+ </systemtable>
+ <library
+   expandedCategories="Library/Processors and Peripherals/Peripherals,Library/Interface Protocols/Audio &amp; Video,Library/University Program/Audio &amp; Video/Video,Library,Library/Basic Functions/Bridges and Adaptors,Library/Interface Protocols/PCI Express,Library/Processors and Peripherals/Co-Processors,Library/Interface Protocols/PCI Express/Example Design Components,Library/Basic Functions/Simulation; Debug and Verification/Debug and Performance,Project,Library/Processors and Peripherals/Embedded Processors,Library/Interface Protocols/PCI Express/QSYS Example Designs,Library/Basic Functions/Configuration and Programming,Library/Basic Functions/Clocks; PLLs and Resets,Library/Basic Functions/Bridges and Adaptors/Streaming,Library/Interface Protocols/Ethernet,Library/University Program/Generic IO,Library/Basic Functions/Bridges and Adaptors/Memory Mapped,Library/Basic Functions/Clocks; PLLs and Resets/PLL,Library/Processors and Peripherals/Co-Processors/Nios II Custom Instructions,Library/Interface Protocols/RapidIO,Library/University Program,Library/Interface Protocols/Transceiver PHY,Library/Processors and Peripherals,Library/Basic Functions/Simulation; Debug and Verification,Library/Basic Functions,Library/Interface Protocols,Library/Basic Functions/Simulation; Debug and Verification/Simulation,Library/Interface Protocols/Ethernet/Reference Design Components,Library/University Program/Clock,Library/University Program/Audio &amp; Video" />
+ <window width="1928" height="1062" x="-4" y="-4" />
+ <generation path="_PROJECT_NAME_/" block_symbol_file="0" />
+</preferences>

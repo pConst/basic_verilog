@@ -1,12 +1,12 @@
 //------------------------------------------------------------------------------
-// Vivado test project template
+// Quartus test project template
 // published as part of https://github.com/pConst/basic_verilog
 // Konstantin Pavlov, pavlovconst@gmail.com
 //------------------------------------------------------------------------------
 
 // INFO ------------------------------------------------------------------------
-// Vivado test project template, v2
-// Compatible with Digilent Arty-7020 board
+// Quartus test project template, v4
+// Compatible with DE10-Nano board
 //
 // - use this as a boilerplate project for fast prototyping
 // - inputs and outputs are registered to allow valid timequest output
@@ -24,70 +24,46 @@
 
 module main(
 
-  input clk,         // 125 MHz
-  input [1:0] sw,
+  input FPGA_CLK1_50,
+  input FPGA_CLK2_50,
+  input FPGA_CLK3_50,
 
-  // RGB LEDs
-  output led4_r,led4_g,led4_b,
-  output led5_r,led5_g,led5_b,
+  // ADC
+  input ADC_CONVST,
+  input ADC_SCK,
+  input ADC_SDI,
+  input ADC_SDO,
 
-  output [3:0] led,
-  input [4:0] btn,
+  // ARDUINO
+  input ARDUINO_RESET_N,
+  input [15:0] ARDUINO_IO,
 
-  // PMOD Headers
-  output [4:1] ja_p, [4:1] ja_n,
-  output [4:1] jb_p, [4:1] jb_n,
+  // HDMI
+  input [23:0] HDMI_TX_D,
+  input HDMI_I2C_SCL,
+  input HDMI_I2C_SDA,
+  input HDMI_I2S,
+  input HDMI_LRCLK,
+  input HDMI_MCLK,
+  input HDMI_SCLK,
+  input HDMI_TX_CLK,
+  input HDMI_TX_DE,
+  input HDMI_TX_HS,
+  input HDMI_TX_INT,
+  input HDMI_TX_VS,
 
-  // Audio Out
-  output aud_pwm, aud_sd,
+  // GPIO
+  input [35:0] GPIO_0,
+  output [35:0] GPIO_1,
+  input [1:0] KEY,
+  input [3:0] SW,
+  output [7:0] LED,
 
-  // crypto SDA
-  output crypto_sda,
-
-  // HDMI RX Signals
-  //output hdmi_rx_cec,
-  //output hdmi_rx_clk_p,
-  //output hdmi_rx_clk_n,
-  //output [2:0] hdmi_rx_d_p,
-  //output [2:0] hdmi_rx_d_n,
-  //output hdmi_rx_hpd,
-  //output hdmi_rx_scl,
-  //output hdmi_rx_sda,
-
-  // HDMI TX Signals
-  // output hdmi_tx_cec,
-  // output hdmi_tx_clk_p,
-  // output hdmi_tx_clk_n,
-  // input [2:0] hdmi_tx_d_p,
-  // input [2:0] hdmi_tx_d_n,
-  // output hdmi_tx_hpdn,        // hpdn!
-  // output hdmi_tx_scl,
-  // output hdmi_tx_sda,
-
-  // Single Ended Analog Inputs
-  input [5:0] ck_an_p,
-  input [5:0] ck_an_n,
-
-  // Digital I/O On Outer Analog Header
-  output [5:0] ck_a,
-  // Digital I/O On Inner Analog Header
-  //
-
-  // Digital I/O Low
-  output [13:0] ck_io_low,
-
-  // Digital I/O High
-  output [41:26] ck_io_high,
-
-  // SPI
-  output ck_miso, ck_mosi, ck_sck, ck_ss,
-  // I2C
-  output ck_scl, ck_sda,
-  // Misc
-  output ck_ioa
+  // virtual pins
+  input [`WIDTH-1:0] in_data,
+  input [`WIDTH-1:0] in_datb,
+  output logic [`WIDTH-1:0] out_data = '0
 );
-
-`VIVADO_MODULE_HEADER
 
 
 // clocks ======================================================================
@@ -98,11 +74,11 @@ logic clk500;
 
 logic nrst;
 
-clk_wiz_0 sys_pll (
-  .clk_in1( clk ),
-  .resetn(1'b1),
-  .clk_out1( clk125 ),
-  .clk_out2( clk500 ),
+sys_pll sys_pll_b (
+  .refclk( FPGA_CLK1_50 ),
+  .rst( 1'b0 ),
+  .outclk_0( clk125 ),
+  .outclk_1( clk500 ),
   .locked( sys_pll_locked )
 );
 
@@ -126,17 +102,17 @@ clk_divider #(
   .out( div_clk500[31:0] )
 );
 
-assign led4_g = div_clk125[25];
+assign LED[7] = div_clk125[25];
 
 // nrst ========================================================================
-logic [1:0] sw_s;
-logic [4:0] btn_s;
+logic [3:0] sw_s;
+logic [1:0] key_s;
 
 always_ff @(posedge clk125) begin
-  nrst <= ~btn_s[0];  // external reset
+  nrst <= ~key_s[0];  // external reset
 end
 
-assign led4_b = ~nrst;
+assign LED[6] = ~nrst;
 
 // buttons =====================================================================
 
@@ -147,27 +123,26 @@ delay #(
     .clk( clk125 ),
     .nrst( 1'b1 ),
     .ena( 1'b1 ),
-    .in( {btn[3:0], sw[1:0]} ),
-    .out( {btn_s[3:0], sw_s[1:0]} )
+    .in( {SW[3:0], KEY[1:0]} ),
+    .out( {sw_s[3:0], key_s[1:0]} )
 );
 
-logic [1:0] sw_s_rise;
-logic [4:0] btn_s_rise;
+logic [3:0] sw_s_rise;
+logic [1:0] key_s_rise;
 
 edge_detect #(
   .WIDTH( 6 )
 ) sw_s_ed (
   .clk( clk125 ),
   .anrst( nrst ),
-  .in( {btn_s[3:0], sw_s[1:0]} ),
-  .rising( {btn_s_rise[3:0], sw_s_rise[1:0]} ),
+  .in( {sw_s[3:0], key_s[1:0]} ),
+  .rising( {sw_s_rise[3:0], key_s_rise[1:0]} ),
   .falling(  ),
   .both(  )
 );
 
 // =============================================================================
 
-logic [`WIDTH-1:0] in_data;
 // input registers
 logic [`WIDTH-1:0] in_data_reg = 0;
 always_ff @(posedge clk500) begin
@@ -186,7 +161,6 @@ always_comb begin
 end
 
 // output registers
-logic [`WIDTH-1:0] out_data = '0;
 always_ff @(posedge clk500) begin
   if( ~nrst ) begin
     out_data[`WIDTH-1:0] <= '0;
@@ -195,37 +169,24 @@ always_ff @(posedge clk500) begin
   end
 end
 
-
-vio_0 debug_vio (
-  .clk( clk500 ),
-  .probe_out0( in_data[`WIDTH-1:0] ),
-  .probe_in0( div_clk500[31:0] ),
-  .probe_in1( out_data[`WIDTH-1:0] )
-);
-
 // =============================================================================
 
-OBUFDS #(
-  .IOSTANDARD("DEFAULT"),
-  .SLEW("FAST")
-) ja_b [4:1] (
-  .I( div_clk125[24:21] ),
-  .O( ja_p[4:1] ),
-  .OB( ja_n[4:1] )
-);
+/*logic [`WIDTH-1:0] in_datc;
+logic [`WIDTH-1:0] in_datd;
+logic [`WIDTH-1:0] out_datc;
+assign out_datc[`WIDTH-1:0] = in_datc[`WIDTH-1:0] | in_datd[`WIDTH-1:0];
 
-OBUFDS #(
-  .IOSTANDARD("DEFAULT"),
-  .SLEW("FAST")
-) jb_b [4:1] (
-  .I( div_clk125[24:21] ),
-  .O( jb_p[4:1] ),
-  .OB( jb_n[4:1] )
+jtag_io jtag_io_b (
+  .clk_clk( clk125 ),
+  .reset_reset_n( nrst ),
+  .out0_export( in_datc[`WIDTH-1:0] ),
+  .out1_export( in_datd[`WIDTH-1:0] ),
+  .in0_export( div_clk125[31:0] ),
+  .in1_export( out_datc[`WIDTH-1:0] )
 );
+*/
 
 `include "clogb2.svh"
-
-`VIVADO_MODULE_FOOTER
 
 endmodule
 

@@ -7,7 +7,7 @@ rem ----------------------------------------------------------------------------
 rem Use this file as a boilerplate for your custom clean script
 rem for Vivado/Vitis projects
 
-SET PROJ=arty_base_prj
+SET PROJ=test
 
 del /s /f /q .\%PROJ%.cache\*
 rmdir /s /q .\%PROJ%.cache\

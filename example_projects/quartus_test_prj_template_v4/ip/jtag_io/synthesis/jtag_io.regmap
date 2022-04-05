@@ -1,0 +1,478 @@
+<?xml version="1.0"?>
+<device xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="1.0" xs:noNamespaceSchemaLocation="CMSIS-SVD_Schema_1_0.xsd">
+<name>jtag_io</name>
+<peripherals>
+<peripheral>
+      <name>jtag_io_out1_s1_altera_avalon_pio</name><baseAddress>0x00000000</baseAddress> 
+      <addressBlock>
+        <offset>0x0</offset>
+        <size>32</size>
+        <usage>registers</usage>
+      </addressBlock>
+      <registers>
+        <register>     
+         <name>DATA</name>  
+         <displayName>Data</displayName>
+         <description>Reading from data returns the value present at the input ports. If the PIO core hardware is configured in output-only mode, reading from data returns an undefined value. Writing to data stores the value to a register that drives the output ports. If the PIO core hardware is configured in input-only mode, writing to data has no effect. If the PIO core hardware is in bidirectional mode, the registered value appears on an output port only when the corresponding bit in the direction register is set to 1 (output).</description>
+         <addressOffset>0x0</addressOffset>
+         <size>32</size>
+         <access>read-write</access>
+         <resetValue>0x0</resetValue>
+         <resetMask>0xffffffff</resetMask> 
+         <fields>
+           <field><name>data</name>
+           <description>Reads: Data value currently on PIO inputs. Writes: New value to drive on PIO outputs.</description>
+            <bitOffset>0x0</bitOffset>
+            <bitWidth>32</bitWidth>
+            <access>read-write</access>
+        </field>
+       </fields>
+     </register> 
+        <register>     
+         <name>DIRECTION</name>  
+         <displayName>Direction</displayName>
+         <description>The direction register controls the data direction for each PIO port, assuming the port is bidirectional. When bit n in direction is set to 1, port n drives out the value in the corresponding bit of the data register The direction register only exists when the PIO core hardware is configured in bidirectional mode. The mode (input, output, or bidirectional) is specified at system generation time, and cannot be changed at runtime. In input-only or output-only mode, the direction register does not exist. In this case, reading direction returns an undefined value, writing direction has no effect. After reset, all bits of direction are 0, so that all bidirectional I/O ports are configured as inputs. If those PIO ports are connected to device pins, the pins are held in a high-impedance state. In bi-directional mode, to change the direction of the PIO port, reprogram the direction register.</description>
+         <addressOffset>0x4</addressOffset>
+         <size>32</size>
+         <access>read-write</access>
+         <resetValue>0x0</resetValue>
+         <resetMask>0xffffffff</resetMask> 
+         <fields>
+           <field><name>direction</name>
+            <description>Individual direction control for each I/O port. A value of 0 sets the direction to input; 1 sets the direction to output.</description>
+            <bitOffset>0x0</bitOffset>
+            <bitWidth>32</bitWidth>
+            <access>read-write</access>
+        </field>
+       </fields>
+     </register> 
+        <register>     
+         <name>IRQ_MASK</name>  
+         <displayName>Interrupt mask</displayName>
+         <description>Setting a bit in the interruptmask register to 1 enables interrupts for the corresponding PIO input port. Interrupt behavior depends on the hardware configuration of the PIO core. The interruptmask register only exists when the hardware is configured to generate IRQs. If the core cannot generate IRQs, reading interruptmask returns an undefined value, and writing to interruptmask has no effect. After reset, all bits of interruptmask are zero, so that interrupts are disabled for all PIO ports.</description>
+         <addressOffset>0x8</addressOffset>
+         <size>32</size>
+         <access>read-write</access>
+         <resetValue>0x0</resetValue>
+         <resetMask>0xffffffff</resetMask> 
+         <fields>
+           <field><name>interruptmask</name>
+            <description>IRQ enable/disable for each input port. Setting a bit to 1 enables interrupts for the corresponding port.</description>
+            <bitOffset>0x0</bitOffset>
+            <bitWidth>32</bitWidth>
+            <access>read-write</access>
+        </field>
+       </fields>
+     </register> 
+        <register>     
+         <name>EDGE_CAP</name>  
+         <displayName>Edge capture</displayName>
+         <description>Bit n in the edgecapture register is set to 1 whenever an edge is detected on input port n. An Avalon-MM master peripheral can read the edgecapture register to determine if an edge has occurred on any of the PIO input ports. If the option Enable bit-clearing for edge capture register is turned off, writing any value to the edgecapture register clears all bits in the register. Otherwise, writing a 1 to a particular bit in the register clears only that bit. The type of edge(s) to detect is fixed in hardware at system generation time. The edgecapture register only exists when the hardware is configured to capture edges. If the core is not configured to capture edges, reading from edgecapture returns an undefined value, and writing to edgecapture has no effect.</description>
+         <addressOffset>0xc</addressOffset>
+         <size>32</size>
+         <access>read-write</access>
+         <resetValue>0x0</resetValue>
+         <resetMask>0xffffffff</resetMask> 
+         <fields>
+           <field><name>edgecapture</name>
+            <description>Edge detection for each input port.</description>
+            <bitOffset>0x0</bitOffset>
+            <bitWidth>32</bitWidth>
+            <access>read-write</access>
+        </field>
+       </fields>
+     </register> 
+        <register>
+         <name>SET_BIT</name>  
+         <displayName>Outset</displayName>
+         <description>You can use the outset register to set individual bits of the output port. For example, to set bit 6 of the output port, write 0x40 to the outset register. This register is only present when the option Enable individual bit set/clear output register is turned on.</description>
+         <addressOffset>0x10</addressOffset>
+         <size>32</size>
+         <access>write-only</access>
+         <resetValue>0x0</resetValue>
+         <resetMask>0xffffffff</resetMask> 
+         <fields>
+           <field><name>outset</name>
+            <description>Specifies which bit of the output port to set.</description>
+            <bitOffset>0x0</bitOffset>
+            <bitWidth>32</bitWidth>
+            <access>write-only</access>
+        </field>
+       </fields>
+     </register> 
+        <register>     
+         <name>CLEAR_BITS</name>  
+         <displayName>Outclear</displayName>
+         <description>You can use the outclear register to clear individual bits of the output port. For example, writing 0x08 to the outclear register clears bit 3 of the output port. This register is only present when the option Enable individual bit set/clear output register is turned on.</description>
+         <addressOffset>0x14</addressOffset>
+         <size>32</size>
+         <access>write-only</access>
+         <resetValue>0x0</resetValue>
+         <resetMask>0xffffffff</resetMask> 
+         <fields>
+           <field><name>outclear</name>
+            <description>Specifies which output bit to clear.</description>
+            <bitOffset>0x0</bitOffset>
+            <bitWidth>32</bitWidth>
+            <access>write-only</access>
+        </field>
+       </fields>
+     </register>            
+    </registers>
+   </peripheral>
+  <peripheral>
+      <name>jtag_io_out0_s1_altera_avalon_pio</name><baseAddress>0x00000000</baseAddress> 
+      <addressBlock>
+        <offset>0x0</offset>
+        <size>32</size>
+        <usage>registers</usage>
+      </addressBlock>
+      <registers>
+        <register>     
+         <name>DATA</name>  
+         <displayName>Data</displayName>
+         <description>Reading from data returns the value present at the input ports. If the PIO core hardware is configured in output-only mode, reading from data returns an undefined value. Writing to data stores the value to a register that drives the output ports. If the PIO core hardware is configured in input-only mode, writing to data has no effect. If the PIO core hardware is in bidirectional mode, the registered value appears on an output port only when the corresponding bit in the direction register is set to 1 (output).</description>
+         <addressOffset>0x0</addressOffset>
+         <size>32</size>
+         <access>read-write</access>
+         <resetValue>0x0</resetValue>
+         <resetMask>0xffffffff</resetMask> 
+         <fields>
+           <field><name>data</name>
+           <description>Reads: Data value currently on PIO inputs. Writes: New value to drive on PIO outputs.</description>
+            <bitOffset>0x0</bitOffset>
+            <bitWidth>32</bitWidth>
+            <access>read-write</access>
+        </field>
+       </fields>
+     </register> 
+        <register>     
+         <name>DIRECTION</name>  
+         <displayName>Direction</displayName>
+         <description>The direction register controls the data direction for each PIO port, assuming the port is bidirectional. When bit n in direction is set to 1, port n drives out the value in the corresponding bit of the data register The direction register only exists when the PIO core hardware is configured in bidirectional mode. The mode (input, output, or bidirectional) is specified at system generation time, and cannot be changed at runtime. In input-only or output-only mode, the direction register does not exist. In this case, reading direction returns an undefined value, writing direction has no effect. After reset, all bits of direction are 0, so that all bidirectional I/O ports are configured as inputs. If those PIO ports are connected to device pins, the pins are held in a high-impedance state. In bi-directional mode, to change the direction of the PIO port, reprogram the direction register.</description>
+         <addressOffset>0x4</addressOffset>
+         <size>32</size>
+         <access>read-write</access>
+         <resetValue>0x0</resetValue>
+         <resetMask>0xffffffff</resetMask> 
+         <fields>
+           <field><name>direction</name>
+            <description>Individual direction control for each I/O port. A value of 0 sets the direction to input; 1 sets the direction to output.</description>
+            <bitOffset>0x0</bitOffset>
+            <bitWidth>32</bitWidth>
+            <access>read-write</access>
+        </field>
+       </fields>
+     </register> 
+        <register>     
+         <name>IRQ_MASK</name>  
+         <displayName>Interrupt mask</displayName>
+         <description>Setting a bit in the interruptmask register to 1 enables interrupts for the corresponding PIO input port. Interrupt behavior depends on the hardware configuration of the PIO core. The interruptmask register only exists when the hardware is configured to generate IRQs. If the core cannot generate IRQs, reading interruptmask returns an undefined value, and writing to interruptmask has no effect. After reset, all bits of interruptmask are zero, so that interrupts are disabled for all PIO ports.</description>
+         <addressOffset>0x8</addressOffset>
+         <size>32</size>
+         <access>read-write</access>
+         <resetValue>0x0</resetValue>
+         <resetMask>0xffffffff</resetMask> 
+         <fields>
+           <field><name>interruptmask</name>
+            <description>IRQ enable/disable for each input port. Setting a bit to 1 enables interrupts for the corresponding port.</description>
+            <bitOffset>0x0</bitOffset>
+            <bitWidth>32</bitWidth>
+            <access>read-write</access>
+        </field>
+       </fields>
+     </register> 
+        <register>     
+         <name>EDGE_CAP</name>  
+         <displayName>Edge capture</displayName>
+         <description>Bit n in the edgecapture register is set to 1 whenever an edge is detected on input port n. An Avalon-MM master peripheral can read the edgecapture register to determine if an edge has occurred on any of the PIO input ports. If the option Enable bit-clearing for edge capture register is turned off, writing any value to the edgecapture register clears all bits in the register. Otherwise, writing a 1 to a particular bit in the register clears only that bit. The type of edge(s) to detect is fixed in hardware at system generation time. The edgecapture register only exists when the hardware is configured to capture edges. If the core is not configured to capture edges, reading from edgecapture returns an undefined value, and writing to edgecapture has no effect.</description>
+         <addressOffset>0xc</addressOffset>
+         <size>32</size>
+         <access>read-write</access>
+         <resetValue>0x0</resetValue>
+         <resetMask>0xffffffff</resetMask> 
+         <fields>
+           <field><name>edgecapture</name>
+            <description>Edge detection for each input port.</description>
+            <bitOffset>0x0</bitOffset>
+            <bitWidth>32</bitWidth>
+            <access>read-write</access>
+        </field>
+       </fields>
+     </register> 
+        <register>
+         <name>SET_BIT</name>  
+         <displayName>Outset</displayName>
+         <description>You can use the outset register to set individual bits of the output port. For example, to set bit 6 of the output port, write 0x40 to the outset register. This register is only present when the option Enable individual bit set/clear output register is turned on.</description>
+         <addressOffset>0x10</addressOffset>
+         <size>32</size>
+         <access>write-only</access>
+         <resetValue>0x0</resetValue>
+         <resetMask>0xffffffff</resetMask> 
+         <fields>
+           <field><name>outset</name>
+            <description>Specifies which bit of the output port to set.</description>
+            <bitOffset>0x0</bitOffset>
+            <bitWidth>32</bitWidth>
+            <access>write-only</access>
+        </field>
+       </fields>
+     </register> 
+        <register>     
+         <name>CLEAR_BITS</name>  
+         <displayName>Outclear</displayName>
+         <description>You can use the outclear register to clear individual bits of the output port. For example, writing 0x08 to the outclear register clears bit 3 of the output port. This register is only present when the option Enable individual bit set/clear output register is turned on.</description>
+         <addressOffset>0x14</addressOffset>
+         <size>32</size>
+         <access>write-only</access>
+         <resetValue>0x0</resetValue>
+         <resetMask>0xffffffff</resetMask> 
+         <fields>
+           <field><name>outclear</name>
+            <description>Specifies which output bit to clear.</description>
+            <bitOffset>0x0</bitOffset>
+            <bitWidth>32</bitWidth>
+            <access>write-only</access>
+        </field>
+       </fields>
+     </register>            
+    </registers>
+   </peripheral>
+  <peripheral>
+      <name>jtag_io_in1_s1_altera_avalon_pio</name><baseAddress>0x00000000</baseAddress> 
+      <addressBlock>
+        <offset>0x0</offset>
+        <size>32</size>
+        <usage>registers</usage>
+      </addressBlock>
+      <registers>
+        <register>     
+         <name>DATA</name>  
+         <displayName>Data</displayName>
+         <description>Reading from data returns the value present at the input ports. If the PIO core hardware is configured in output-only mode, reading from data returns an undefined value. Writing to data stores the value to a register that drives the output ports. If the PIO core hardware is configured in input-only mode, writing to data has no effect. If the PIO core hardware is in bidirectional mode, the registered value appears on an output port only when the corresponding bit in the direction register is set to 1 (output).</description>
+         <addressOffset>0x0</addressOffset>
+         <size>32</size>
+         <access>read-write</access>
+         <resetValue>0x0</resetValue>
+         <resetMask>0xffffffff</resetMask> 
+         <fields>
+           <field><name>data</name>
+           <description>Reads: Data value currently on PIO inputs. Writes: New value to drive on PIO outputs.</description>
+            <bitOffset>0x0</bitOffset>
+            <bitWidth>32</bitWidth>
+            <access>read-write</access>
+        </field>
+       </fields>
+     </register> 
+        <register>     
+         <name>DIRECTION</name>  
+         <displayName>Direction</displayName>
+         <description>The direction register controls the data direction for each PIO port, assuming the port is bidirectional. When bit n in direction is set to 1, port n drives out the value in the corresponding bit of the data register The direction register only exists when the PIO core hardware is configured in bidirectional mode. The mode (input, output, or bidirectional) is specified at system generation time, and cannot be changed at runtime. In input-only or output-only mode, the direction register does not exist. In this case, reading direction returns an undefined value, writing direction has no effect. After reset, all bits of direction are 0, so that all bidirectional I/O ports are configured as inputs. If those PIO ports are connected to device pins, the pins are held in a high-impedance state. In bi-directional mode, to change the direction of the PIO port, reprogram the direction register.</description>
+         <addressOffset>0x4</addressOffset>
+         <size>32</size>
+         <access>read-write</access>
+         <resetValue>0x0</resetValue>
+         <resetMask>0xffffffff</resetMask> 
+         <fields>
+           <field><name>direction</name>
+            <description>Individual direction control for each I/O port. A value of 0 sets the direction to input; 1 sets the direction to output.</description>
+            <bitOffset>0x0</bitOffset>
+            <bitWidth>32</bitWidth>
+            <access>read-write</access>
+        </field>
+       </fields>
+     </register> 
+        <register>     
+         <name>IRQ_MASK</name>  
+         <displayName>Interrupt mask</displayName>
+         <description>Setting a bit in the interruptmask register to 1 enables interrupts for the corresponding PIO input port. Interrupt behavior depends on the hardware configuration of the PIO core. The interruptmask register only exists when the hardware is configured to generate IRQs. If the core cannot generate IRQs, reading interruptmask returns an undefined value, and writing to interruptmask has no effect. After reset, all bits of interruptmask are zero, so that interrupts are disabled for all PIO ports.</description>
+         <addressOffset>0x8</addressOffset>
+         <size>32</size>
+         <access>read-write</access>
+         <resetValue>0x0</resetValue>
+         <resetMask>0xffffffff</resetMask> 
+         <fields>
+           <field><name>interruptmask</name>
+            <description>IRQ enable/disable for each input port. Setting a bit to 1 enables interrupts for the corresponding port.</description>
+            <bitOffset>0x0</bitOffset>
+            <bitWidth>32</bitWidth>
+            <access>read-write</access>
+        </field>
+       </fields>
+     </register> 
+        <register>     
+         <name>EDGE_CAP</name>  
+         <displayName>Edge capture</displayName>
+         <description>Bit n in the edgecapture register is set to 1 whenever an edge is detected on input port n. An Avalon-MM master peripheral can read the edgecapture register to determine if an edge has occurred on any of the PIO input ports. If the option Enable bit-clearing for edge capture register is turned off, writing any value to the edgecapture register clears all bits in the register. Otherwise, writing a 1 to a particular bit in the register clears only that bit. The type of edge(s) to detect is fixed in hardware at system generation time. The edgecapture register only exists when the hardware is configured to capture edges. If the core is not configured to capture edges, reading from edgecapture returns an undefined value, and writing to edgecapture has no effect.</description>
+         <addressOffset>0xc</addressOffset>
+         <size>32</size>
+         <access>read-write</access>
+         <resetValue>0x0</resetValue>
+         <resetMask>0xffffffff</resetMask> 
+         <fields>
+           <field><name>edgecapture</name>
+            <description>Edge detection for each input port.</description>
+            <bitOffset>0x0</bitOffset>
+            <bitWidth>32</bitWidth>
+            <access>read-write</access>
+        </field>
+       </fields>
+     </register> 
+        <register>
+         <name>SET_BIT</name>  
+         <displayName>Outset</displayName>
+         <description>You can use the outset register to set individual bits of the output port. For example, to set bit 6 of the output port, write 0x40 to the outset register. This register is only present when the option Enable individual bit set/clear output register is turned on.</description>
+         <addressOffset>0x10</addressOffset>
+         <size>32</size>
+         <access>write-only</access>
+         <resetValue>0x0</resetValue>
+         <resetMask>0xffffffff</resetMask> 
+         <fields>
+           <field><name>outset</name>
+            <description>Specifies which bit of the output port to set.</description>
+            <bitOffset>0x0</bitOffset>
+            <bitWidth>32</bitWidth>
+            <access>write-only</access>
+        </field>
+       </fields>
+     </register> 
+        <register>     
+         <name>CLEAR_BITS</name>  
+         <displayName>Outclear</displayName>
+         <description>You can use the outclear register to clear individual bits of the output port. For example, writing 0x08 to the outclear register clears bit 3 of the output port. This register is only present when the option Enable individual bit set/clear output register is turned on.</description>
+         <addressOffset>0x14</addressOffset>
+         <size>32</size>
+         <access>write-only</access>
+         <resetValue>0x0</resetValue>
+         <resetMask>0xffffffff</resetMask> 
+         <fields>
+           <field><name>outclear</name>
+            <description>Specifies which output bit to clear.</description>
+            <bitOffset>0x0</bitOffset>
+            <bitWidth>32</bitWidth>
+            <access>write-only</access>
+        </field>
+       </fields>
+     </register>            
+    </registers>
+   </peripheral>
+  <peripheral>
+      <name>jtag_io_in0_s1_altera_avalon_pio</name><baseAddress>0x00000000</baseAddress> 
+      <addressBlock>
+        <offset>0x0</offset>
+        <size>32</size>
+        <usage>registers</usage>
+      </addressBlock>
+      <registers>
+        <register>     
+         <name>DATA</name>  
+         <displayName>Data</displayName>
+         <description>Reading from data returns the value present at the input ports. If the PIO core hardware is configured in output-only mode, reading from data returns an undefined value. Writing to data stores the value to a register that drives the output ports. If the PIO core hardware is configured in input-only mode, writing to data has no effect. If the PIO core hardware is in bidirectional mode, the registered value appears on an output port only when the corresponding bit in the direction register is set to 1 (output).</description>
+         <addressOffset>0x0</addressOffset>
+         <size>32</size>
+         <access>read-write</access>
+         <resetValue>0x0</resetValue>
+         <resetMask>0xffffffff</resetMask> 
+         <fields>
+           <field><name>data</name>
+           <description>Reads: Data value currently on PIO inputs. Writes: New value to drive on PIO outputs.</description>
+            <bitOffset>0x0</bitOffset>
+            <bitWidth>32</bitWidth>
+            <access>read-write</access>
+        </field>
+       </fields>
+     </register> 
+        <register>     
+         <name>DIRECTION</name>  
+         <displayName>Direction</displayName>
+         <description>The direction register controls the data direction for each PIO port, assuming the port is bidirectional. When bit n in direction is set to 1, port n drives out the value in the corresponding bit of the data register The direction register only exists when the PIO core hardware is configured in bidirectional mode. The mode (input, output, or bidirectional) is specified at system generation time, and cannot be changed at runtime. In input-only or output-only mode, the direction register does not exist. In this case, reading direction returns an undefined value, writing direction has no effect. After reset, all bits of direction are 0, so that all bidirectional I/O ports are configured as inputs. If those PIO ports are connected to device pins, the pins are held in a high-impedance state. In bi-directional mode, to change the direction of the PIO port, reprogram the direction register.</description>
+         <addressOffset>0x4</addressOffset>
+         <size>32</size>
+         <access>read-write</access>
+         <resetValue>0x0</resetValue>
+         <resetMask>0xffffffff</resetMask> 
+         <fields>
+           <field><name>direction</name>
+            <description>Individual direction control for each I/O port. A value of 0 sets the direction to input; 1 sets the direction to output.</description>
+            <bitOffset>0x0</bitOffset>
+            <bitWidth>32</bitWidth>
+            <access>read-write</access>
+        </field>
+       </fields>
+     </register> 
+        <register>     
+         <name>IRQ_MASK</name>  
+         <displayName>Interrupt mask</displayName>
+         <description>Setting a bit in the interruptmask register to 1 enables interrupts for the corresponding PIO input port. Interrupt behavior depends on the hardware configuration of the PIO core. The interruptmask register only exists when the hardware is configured to generate IRQs. If the core cannot generate IRQs, reading interruptmask returns an undefined value, and writing to interruptmask has no effect. After reset, all bits of interruptmask are zero, so that interrupts are disabled for all PIO ports.</description>
+         <addressOffset>0x8</addressOffset>
+         <size>32</size>
+         <access>read-write</access>
+         <resetValue>0x0</resetValue>
+         <resetMask>0xffffffff</resetMask> 
+         <fields>
+           <field><name>interruptmask</name>
+            <description>IRQ enable/disable for each input port. Setting a bit to 1 enables interrupts for the corresponding port.</description>
+            <bitOffset>0x0</bitOffset>
+            <bitWidth>32</bitWidth>
+            <access>read-write</access>
+        </field>
+       </fields>
+     </register> 
+        <register>     
+         <name>EDGE_CAP</name>  
+         <displayName>Edge capture</displayName>
+         <description>Bit n in the edgecapture register is set to 1 whenever an edge is detected on input port n. An Avalon-MM master peripheral can read the edgecapture register to determine if an edge has occurred on any of the PIO input ports. If the option Enable bit-clearing for edge capture register is turned off, writing any value to the edgecapture register clears all bits in the register. Otherwise, writing a 1 to a particular bit in the register clears only that bit. The type of edge(s) to detect is fixed in hardware at system generation time. The edgecapture register only exists when the hardware is configured to capture edges. If the core is not configured to capture edges, reading from edgecapture returns an undefined value, and writing to edgecapture has no effect.</description>
+         <addressOffset>0xc</addressOffset>
+         <size>32</size>
+         <access>read-write</access>
+         <resetValue>0x0</resetValue>
+         <resetMask>0xffffffff</resetMask> 
+         <fields>
+           <field><name>edgecapture</name>
+            <description>Edge detection for each input port.</description>
+            <bitOffset>0x0</bitOffset>
+            <bitWidth>32</bitWidth>
+            <access>read-write</access>
+        </field>
+       </fields>
+     </register> 
+        <register>
+         <name>SET_BIT</name>  
+         <displayName>Outset</displayName>
+         <description>You can use the outset register to set individual bits of the output port. For example, to set bit 6 of the output port, write 0x40 to the outset register. This register is only present when the option Enable individual bit set/clear output register is turned on.</description>
+         <addressOffset>0x10</addressOffset>
+         <size>32</size>
+         <access>write-only</access>
+         <resetValue>0x0</resetValue>
+         <resetMask>0xffffffff</resetMask> 
+         <fields>
+           <field><name>outset</name>
+            <description>Specifies which bit of the output port to set.</description>
+            <bitOffset>0x0</bitOffset>
+            <bitWidth>32</bitWidth>
+            <access>write-only</access>
+        </field>
+       </fields>
+     </register> 
+        <register>     
+         <name>CLEAR_BITS</name>  
+         <displayName>Outclear</displayName>
+         <description>You can use the outclear register to clear individual bits of the output port. For example, writing 0x08 to the outclear register clears bit 3 of the output port. This register is only present when the option Enable individual bit set/clear output register is turned on.</description>
+         <addressOffset>0x14</addressOffset>
+         <size>32</size>
+         <access>write-only</access>
+         <resetValue>0x0</resetValue>
+         <resetMask>0xffffffff</resetMask> 
+         <fields>
+           <field><name>outclear</name>
+            <description>Specifies which output bit to clear.</description>
+            <bitOffset>0x0</bitOffset>
+            <bitWidth>32</bitWidth>
+            <access>write-only</access>
+        </field>
+       </fields>
+     </register>            
+    </registers>
+   </peripheral>
+  </peripherals>
+</device>

@@ -1,0 +1,11 @@
+	component jtag_io is
+		port (
+			clk_clk       : in  std_logic                     := 'X';             -- clk
+			in0_export    : in  std_logic_vector(31 downto 0) := (others => 'X'); -- export
+			in1_export    : in  std_logic_vector(31 downto 0) := (others => 'X'); -- export
+			out0_export   : out std_logic_vector(31 downto 0);                    -- export
+			out1_export   : out std_logic_vector(31 downto 0);                    -- export
+			reset_reset_n : in  std_logic                     := 'X'              -- reset_n
+		);
+	end component jtag_io;
+
