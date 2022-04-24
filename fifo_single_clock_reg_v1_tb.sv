@@ -100,7 +100,7 @@ end
 //`define BARE_SCFIFO yes
 
 // initialization is not supported for Altera fifo
-`define TEST_INIT yes
+//`define TEST_INIT yes
 
 logic full1, empty1;
 logic full1_d1, empty1_d1;
@@ -134,9 +134,10 @@ fifo_single_clock_reg_v1 #(
   .FWFT_MODE( "FALSE" ),
 `endif
   .DEPTH( 8 ),
-  .DATA_W( 16 ),
+  .DATA_W( 16 )
 
 `ifdef TEST_INIT
+  ,
   // optional initialization
   .USE_INIT_FILE( "TRUE" ),
   .INIT_CNT( 10 )

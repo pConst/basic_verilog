@@ -16,9 +16,10 @@
 //  - configurable depth and data width
 //  - one write- and one read- port in "FWFT" or "normal" mode
 //  - protected against overflow and underflow
-//  - simultaneous read and write operations supported if not full and not empty
-//  - only read operation is performed when (full && r_req && w_req)
-//  - only write operation is performed when (empty && r_req && w_req)
+//  - simultaneous read and write operations supported BUT:
+//        only read will happen if simultaneous rw from full fifo
+//        only write will happen if simultaneous rw from empty fifo
+//        Always honor empty and full flags!
 //  - (new!) optional fifo contents initialization
 //
 //  See also "lifo.sv" module for similar LIFO buffer implementation
@@ -110,15 +111,6 @@ module fifo_single_clock_reg_v1 #( parameter
   // cnt[] vector always holds fifo elements count
   // data[cnt[]] points to the first empty fifo slot
   // when fifo is full data[cnt[]] points "outside" of data[]
-
-  // filtered requests
-  logic w_req_f;
-  assign w_req_f = w_req && ~full;
-
-  logic r_req_f;
-  assign r_req_f = r_req && ~empty;
-
-
   always_ff @(posedge clk) begin
     integer i;
     if ( ~nrst ) begin
@@ -131,34 +123,49 @@ module fifo_single_clock_reg_v1 #( parameter
       end
       data_buf[DATA_W-1:0] <= '0;
     end else begin
-      unique case ({w_req_f, r_req_f})
+      unique case ({w_req, r_req})
         2'b00: ; // nothing
 
         2'b01: begin  // reading out
-          for ( i = (DEPTH-1); i > 0; i=i-1 ) begin
-            data[i-1] <= data[i];
+          if( ~empty ) begin
+            for ( i = (DEPTH-1); i > 0; i=i-1 ) begin
+              data[i-1] <= data[i];
+            end
+            cnt[DEPTH_W-1:0] <= cnt[DEPTH_W-1:0] - 1'b1;
+            data_buf[DATA_W-1:0] <= data[0];
           end
-          cnt[DEPTH_W-1:0] <= cnt[DEPTH_W-1:0] - 1'b1;
         end
 
         2'b10: begin  // writing in
-          data[cnt[DEPTH_W-1:0]] <= w_data[DATA_W-1:0];
-          cnt[DEPTH_W-1:0] <= cnt[DEPTH_W-1:0] + 1'b1;
+          if( ~full ) begin
+            data[cnt[DEPTH_W-1:0]] <= w_data[DATA_W-1:0];
+            cnt[DEPTH_W-1:0] <= cnt[DEPTH_W-1:0] + 1'b1;
+          end
         end
 
         2'b11: begin  // simultaneously reading and writing
-          for ( i = (DEPTH-1); i > 0; i=i-1 ) begin
-            data[i-1] <= data[i];
+          if( empty ) begin
+            data[cnt[DEPTH_W-1:0]] <= w_data[DATA_W-1:0];
+            cnt[DEPTH_W-1:0] <= cnt[DEPTH_W-1:0] + 1'b1;
+          end else if( full ) begin
+            for ( i = (DEPTH-1); i > 0; i=i-1 ) begin
+              data[i-1] <= data[i];
+            end
+            cnt[DEPTH_W-1:0] <= cnt[DEPTH_W-1:0] - 1'b1;
+            data_buf[DATA_W-1:0] <= data[0];
+          end else begin
+            for ( i = (DEPTH-1); i > 0; i=i-1 ) begin
+              if( i == cnt[DEPTH_W-1:0] ) begin
+                data[i-1] <= w_data[DATA_W-1:0];
+              end else begin
+                data[i-1] <= data[i];
+              end
+            end
+            //cnt[DEPTH_W-1:0] <=  // data counter does not change here
+            data_buf[DATA_W-1:0] <= data[0];
           end
-          data[cnt[DEPTH_W-1:0]-1] <= w_data[DATA_W-1:0];
-          // data counter does not change here
         end
       endcase
-
-      // data buffer works only for normal fifo mode
-      if( r_req_f ) begin
-        data_buf[DATA_W-1:0] <= data[0];
-      end
     end
   end
 
@@ -166,14 +173,14 @@ module fifo_single_clock_reg_v1 #( parameter
     empty = ( cnt[DEPTH_W-1:0] == '0 );
     full = ( cnt[DEPTH_W-1:0] == DEPTH );
 
-    if( FWFT_MODE == "TRUE" ) begin
+    if( FWFT_MODE == "TRUE" ) begin    // first-word fall-through mode
       if( ~empty ) begin
-        r_data[DATA_W-1:0] = data[0];   // first-word fall-through mode
+        r_data[DATA_W-1:0] = data[0];
       end else begin
         r_data[DATA_W-1:0] = '0;
       end
-    end else begin
-      r_data[DATA_W-1:0] = data_buf[DATA_W-1:0];   // normal mode
+    end else begin    // normal mode
+      r_data[DATA_W-1:0] = data_buf[DATA_W-1:0];
     end
 
     fail = ( empty && r_req ) ||

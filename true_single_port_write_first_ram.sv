@@ -1,5 +1,6 @@
 //------------------------------------------------------------------------------
 // true_single_port_write_first_ram.sv
+// published as part of https://github.com/pConst/basic_verilog
 // Konstantin Pavlov, pavlovconst@gmail.com
 //------------------------------------------------------------------------------
 
@@ -31,6 +32,8 @@ true_single_port_write_first_ram #(
 module true_single_port_write_first_ram #( parameter
   RAM_WIDTH = 16,
   RAM_DEPTH = 8,
+
+  // optional initialization parameters
   RAM_STYLE = "",
   INIT_FILE = ""
 )(

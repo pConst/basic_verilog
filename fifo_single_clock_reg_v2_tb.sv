@@ -91,13 +91,16 @@ end
 
 
 // comment or uncomment to test FWFT and normal fifo modes
-`define TEST_FWFT yes
+//`define TEST_FWFT yes
 
 // comment or uncomment to sweep-test or random test
 //`define TEST_SWEEP yes
 
 // comment or uncomment to use bare scfifo or quartus wizard-generated wrappers
 //`define BARE_SCFIFO yes
+
+// initialization is not supported for Altera fifo
+//`define TEST_INIT yes
 
 logic full1, empty1;
 logic full1_d1, empty1_d1;
@@ -132,9 +135,20 @@ fifo_single_clock_reg_v2 #(
 `endif
   .DEPTH( 8 ),
   .DATA_W( 16 )
+
+`ifdef TEST_INIT
+  ,
+  // optional initialization
+  .USE_INIT_FILE( "TRUE" ),
+  .INIT_CNT( 10 )
+`endif
 ) FF1 (
   .clk( clk200 ),
+`ifdef TEST_INIT
+  .nrst( 1'b1 ),
+`else
   .nrst( nrst_once ),
+`endif
 
 `ifdef TEST_SWEEP
   .w_req( ~direction1 && &RandomNumber1[10] ),

@@ -15,8 +15,8 @@
 true_dual_port_write_first_2_clock_ram #(
   .RAM_WIDTH( DATA_W ),
   .RAM_DEPTH( DEPTH ),
-  .RAM_STYLE( "init.mem" ),  // "block","register","M10K","logic",...
-  .INIT_FILE( "" )
+  .RAM_STYLE( "block" ),  // "block","register","M10K","logic",...
+  .INIT_FILE( "init.mem" )
 ) DR1 (
   .clka( w_clk ),
   .addra( w_ptr[DEPTH_W-1:0] ),
@@ -39,6 +39,8 @@ true_dual_port_write_first_2_clock_ram #(
 module true_dual_port_write_first_2_clock_ram #( parameter
   RAM_WIDTH = 16,
   RAM_DEPTH = 8,
+
+  // optional initialization parameters
   RAM_STYLE = "",
   INIT_FILE = ""
 )(

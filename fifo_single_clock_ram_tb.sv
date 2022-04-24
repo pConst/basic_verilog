@@ -4,7 +4,7 @@
 //------------------------------------------------------------------------------
 
 // INFO ------------------------------------------------------------------------
-// testbench for fifo_single_clock_reg_ram.sv module
+// testbench for fifo_single_clock_ram.sv module
 //
 
 `timescale 1ns / 1ps
@@ -89,14 +89,18 @@ end
 
 // Module under test ==========================================================
 
+
 // comment or uncomment to test FWFT and normal fifo modes
 //`define TEST_FWFT yes
 
 // comment or uncomment to sweep-test or random test
-`define TEST_SWEEP yes
+//`define TEST_SWEEP yes
 
 // comment or uncomment to use bare scfifo or quartus wizard-generated wrappers
 //`define BARE_SCFIFO yes
+
+// initialization is not supported for Altera fifo
+//`define TEST_INIT yes
 
 logic full1, empty1;
 logic full1_d1, empty1_d1;
@@ -124,11 +128,29 @@ end
 logic [3:0] cnt1;
 logic [15:0] data_out1;
 fifo_single_clock_ram #(
+`ifdef TEST_FWFT
+  .FWFT_MODE( "TRUE" ),
+`else
+  .FWFT_MODE( "FALSE" ),
+`endif
   .DEPTH( 8 ),
-  .DATA_W( 16 )
+  .DATA_W( 16 ),
+
+  .RAM_STYLE( "logic" )
+
+`ifdef TEST_INIT
+  ,
+  // optional initialization
+  .INIT_FILE( "fifo_single_clock_ram_init.mem" ),
+  .INIT_CNT( 10 )
+`endif
 ) FF1 (
   .clk( clk200 ),
+`ifdef TEST_INIT
+  .nrst( 1'b1 ),
+`else
   .nrst( nrst_once ),
+`endif
 
 `ifdef TEST_SWEEP
   .w_req( ~direction1 && &RandomNumber1[10] ),
@@ -177,8 +199,9 @@ end
 //==============================================================================
 
 logic [15:0] data_out2;
+`ifdef BARE_SCFIFO
 
-  DCFIFO #(
+  SCFIFO #(
     .LPM_WIDTH( 16 ),
     .LPM_NUMWORDS( 8 ),
     .LPM_WIDTHU( $clog2(8) ), /// CEIL(LOG2(LPM_NUMWORDS)),
@@ -190,23 +213,12 @@ logic [15:0] data_out2;
   `endif
     .UNDERFLOW_CHECKING( "ON" ),
     .OVERFLOW_CHECKING( "ON" ),
-
+    .ALLOW_RWCYCLE_WHEN_FULL( "ON" ),
     .ADD_RAM_OUTPUT_REGISTER( "OFF" ),
-    .ENABLE_ECC( "FALSE" ),
 
-    // output delay to the usedw[] outputs
-    .DELAY_RDUSEDW( 1 ),          // one clock cycle by default
-    .DELAY_WRUSEDW( 1 ),
-    // Pipe length used for synchronization and metastability resolving
-      // If the rdclk and wrclk are unrelated, most often used values range from 2 to 4
-      // If they are syncronized to one another, 0 might be used
-    .RDSYNC_DELAYPIPE( 3 ),       // from the wrclk to the rdclk subsystem
-    .WRSYNC_DELAYPIPE( 3 ),       // from the rdclk to the wrclk subsystem
-    .CLOCKS_ARE_SYNCHRONIZED( "TRUE" ),  // Are the clocks sufficiently synchronized (or clock multiples of each other with no pashe shift)
-      // such that the synchronization and pipeline registers may be elliminated
-    .ADD_USEDW_MSB_BIT( "ON" ),
-    .WRITE_ACLR_SYNCH( "OFF" ),
-    .READ_ACLR_SYNCH( "OFF" )
+    .ALMOST_FULL_VALUE( 0 ),
+    .ALMOST_EMPTY_VALUE( 0 ),
+    .ENABLE_ECC( "FALSE" )
 
     //.USE_EAB( "ON" ),
     //.MAXIMIZE_SPEED( 5 ),
@@ -214,35 +226,63 @@ logic [15:0] data_out2;
     //.OPTIMIZE_FOR_SPEED( 5 ),
     //.CBXI_PARAMETER( "NOTHING" )
   ) FF2 (
+    .clock( clk200 ),
     .aclr( 1'b0 ),
+    .sclr( ~nrst_once ),
 
-    .wrclk( clk200 ),
   `ifdef TEST_SWEEP
     .wrreq( ~direction1 && &RandomNumber1[10] ),
     .data( RandomNumber1[15:0] ),
-  `else
-    .wrreq( &RandomNumber1[10:9] ),
-    .data( RandomNumber1[15:0] ),
-  `endif
-    .wrempty(  ),
-    .wrfull(  ),
-    .wrusedw(  ),
 
-    .rdclk( clk200 ),
-  `ifdef TEST_SWEEP
     .rdreq( direction1 && &RandomNumber1[10] ),
     .q( data_out2[15:0] ),
   `else
+    .wrreq( &RandomNumber1[10:9] ),
+    .data( RandomNumber1[15:0] ),
+
     .rdreq( &RandomNumber1[8:7] ),
     .q( data_out2[15:0] ),
   `endif
-    .rdempty( empty2 ),
-    .rdfull( full2 ),
-    .rdusedw(  ),
+
+    .empty( empty2 ),
+    .full( full2 ),
+
+    .almost_empty(  ),
+    .almost_full(  ),
+    .usedw(  ),
 
     .eccstatus(  )
   );
 
+`else
+
+  `ifdef TEST_FWFT
+  altera_fifo FF2 (
+  `else
+  altera_fifo_normal FF2 (
+  `endif
+    .clock ( clk200 ),
+
+  `ifdef TEST_SWEEP
+    .wrreq( ~direction1 && &RandomNumber1[10] ),
+    .data( RandomNumber1[15:0] ),
+
+    .rdreq( direction1 && &RandomNumber1[10] ),
+    .q( data_out2[15:0] ),
+  `else
+    .wrreq( &RandomNumber1[10:9] ),
+    .data( RandomNumber1[15:0] ),
+
+    .rdreq( &RandomNumber1[8:7] ),
+    .q( data_out2[15:0] ),
+  `endif
+
+    .empty ( empty2 ),
+    .full ( full2 ),
+    .usedw (  )
+  );
+
+`endif
 
 //==============================================================================
 
@@ -273,5 +313,9 @@ always_ff @(posedge clk200) begin
   end
 end
 
+// this condition is being processed differently by altera`s scfifo and
+//   the custom fifo implementation
+logic test_cond;
+assign test_cond = empty1 && &RandomNumber1[10:9] && &RandomNumber1[8:7];
 
 endmodule
