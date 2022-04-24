@@ -1,5 +1,6 @@
 //------------------------------------------------------------------------------
 // main_tb.sv
+// published as part of https://github.com/pConst/basic_verilog
 // Konstantin Pavlov, pavlovconst@gmail.com
 //------------------------------------------------------------------------------
 
@@ -21,11 +22,17 @@ initial begin
 end
 
 // external device "asynchronous" clock
-logic clk33;
+logic clk33a;
 initial begin
-  #0 clk33 = 1'b0;
+  #0 clk33a = 1'b0;
   forever
-    #15.151 clk33 = ~clk33;
+    #7 clk33a = ~clk33a;
+end
+
+logic clk33;
+//assign clk33 = clk33a;
+always @(*) begin
+  clk33 = #($urandom_range(0, 2000)*10ps) clk33a;
 end
 
 logic rst;

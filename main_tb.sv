@@ -1,5 +1,6 @@
 //------------------------------------------------------------------------------
 // main_tb.sv
+// published as part of https://github.com/pConst/basic_verilog
 // Konstantin Pavlov, pavlovconst@gmail.com
 //------------------------------------------------------------------------------
 

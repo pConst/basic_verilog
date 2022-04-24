@@ -28,6 +28,8 @@ set vsim_params "-L altera_mf_ver -L altera_mf -L lpm_ver -L lpm"
 
 set top_level work.main_tb
 
+set suppress_err_list ""
+
 # Console commands:
 # r = Recompile changed and dependent files
 # rr = Recompile everything
@@ -61,7 +63,7 @@ foreach {library file_list} $library_file_list {
       if [regexp {.vhdl?$} $file] {
         vcom -93 $file
       } else {
-        vlog $file
+        vlog $file -suppress $suppress_err_list
       }
       set last_compile_time 0
     }
