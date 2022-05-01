@@ -1,5 +1,6 @@
 //------------------------------------------------------------------------------
-// delay.v
+// delay.sv
+// published as part of https://github.com/pConst/basic_verilog
 // Konstantin Pavlov, pavlovconst@gmail.com
 //------------------------------------------------------------------------------
 
@@ -12,16 +13,15 @@
 // Tip for Xilinx-based implementations: Leave nrst=1'b1 and ena=1'b1 on
 // purpose of inferring Xilinx`s SRL16E/SRL32E primitives
 //
-//
 // CAUTION: delay module is widely used for synchronizing signals across clock
 //   domains. When synchronizing, please exclude input data paths from timing
-//   analisys manually by writing appropriate set_false_path SDC constraint
+//   analysis manually by writing appropriate set_false_path SDC constraint
 //
 // Version 2 introduces "ALTERA_BLOCK_RAM" option to implement delays using
-//   block RAM. Quartus can make shifters on block RAM aautomatically
+//   block RAM. Quartus can make shifters on block RAM automatically
 //   using 'altshift_taps' internal module when "Auto Shift Register
 //   Replacement" option is ON
-
+//
 
 /* --- INSTANTIATION TEMPLATE BEGIN ---
 

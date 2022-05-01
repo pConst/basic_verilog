@@ -1,11 +1,12 @@
 //------------------------------------------------------------------------------
 // clk_divider.sv
+// published as part of https://github.com/pConst/basic_verilog
 // Konstantin Pavlov, pavlovconst@gmail.com
 //------------------------------------------------------------------------------
 
 // INFO ------------------------------------------------------------------------
 //  Divides main clock to get derivative slower synchronous clocks
-
+//
 
 /* --- INSTANTIATION TEMPLATE BEGIN ---
 
@@ -27,13 +28,13 @@ module clk_divider #( parameter
   input clk,
   input nrst,
   input ena,
-  output logic [(WIDTH-1):0] out = 0
+  output logic [(WIDTH-1):0] out = '0
 );
 
 
 always_ff @(posedge clk) begin
   if ( ~nrst ) begin
-    out[(WIDTH-1):0] <= 0;
+    out[(WIDTH-1):0] <= '0;
   end else if (ena) begin
     out[(WIDTH-1):0] <= out[(WIDTH-1):0] + 1'b1;
   end

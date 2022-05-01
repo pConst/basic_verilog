@@ -81,8 +81,6 @@ always_comb begin
   end else begin
     out[WIDTH-1:0] <= in_buf[WIDTH-1:0];
   end
-
-
 end
 
 endmodule
