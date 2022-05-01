@@ -1,5 +1,6 @@
 #------------------------------------------------------------------------------
 # Vivado_init.tcl
+# published as part of https://github.com/pConst/basic_verilog
 # Konstantin Pavlov, pavlovconst@gmail.com
 #------------------------------------------------------------------------------
 
@@ -82,3 +83,13 @@ proc el_time {} {
     puts [ join [ list "TOTAL: " [format "%02d:%02d:%02d" $hs_t $ms_t $ss_t]] "" ]
     puts ""
 }
+
+# compuiting fmax, in MHz, given target clock in MHz
+proc fmax {target_clock} {
+    open_run impl_1
+    puts [ join [ list \
+        [expr round(1e3/((1e3/$target_clock)-[get_property SLACK [get_timing_paths]]))] \
+        " MHz" ] "" ]
+    puts ""
+}
+

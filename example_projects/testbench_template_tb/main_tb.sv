@@ -73,7 +73,7 @@ clk_divider #(
 logic [31:0] E_DerivedClocks;
 edge_detect ed1[31:0] (
   .clk( {32{clk200}} ),
-  .nrst( {32{nrst_once}} ),
+  .anrst( {32{nrst_once}} ),
   .in( DerivedClocks[31:0] ),
   .rising( E_DerivedClocks[31:0] ),
   .falling(  ),
