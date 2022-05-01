@@ -1,0 +1,11 @@
+
+
+*.cache
+*.hw
+*.runs
+*.sim
+.Xil
+
+*.jou
+*.log
+
