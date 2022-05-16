@@ -1,0 +1,21 @@
+#------------------------------------------------------------------------------
+# .gitignore for Gowin IDE
+# Konstantin Pavlov, pavlovconst@gmail.com
+#------------------------------------------------------------------------------
+
+# INFO ------------------------------------------------------------------------
+# rename the file to ".gitignore" and place into your Gowin project directory
+#
+
+
+# junk files
+*.gprj.user
+impl/gwsynthesis/*.html
+impl/gwsynthesis/*.xml
+impl/gwsynthesis/*.log
+impl/gwsynthesis/*.vg
+
+# junk directories
+/impl/pnr
+/impl/temp
+

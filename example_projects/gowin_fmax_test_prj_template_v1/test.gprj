@@ -1,0 +1,18 @@
+<?xml version="1" encoding="UTF-8"?>
+<!DOCTYPE gowin-fpga-project>
+<Project>
+    <Template>FPGA</Template>
+    <Version>5</Version>
+    <Device name="GW1NR-9C" pn="GW1NR-LV9QN88PC6/I5">gw1nr9c-004</Device>
+    <FileList>
+        <File path="ip/sys_pll/sys_pll.v" type="file.verilog" enable="1"/>
+        <File path="src/clk_divider.sv" type="file.verilog" enable="1"/>
+        <File path="src/delay.sv" type="file.verilog" enable="1"/>
+        <File path="src/edge_detect.sv" type="file.verilog" enable="1"/>
+        <File path="src/main.sv" type="file.verilog" enable="1"/>
+        <File path="src/test.cst" type="file.cst" enable="1"/>
+        <File path="src/main.sdc" type="file.sdc" enable="1"/>
+        <File path="src/clogb2.svh" type="file.other" enable="1"/>
+        <File path="src/define.svh" type="file.other" enable="1"/>
+    </FileList>
+</Project>
