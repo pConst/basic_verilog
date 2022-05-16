@@ -1,6 +1,6 @@
-### readme for "scripts_for_intel_hls" directory
-### published as part of https://github.com/pConst/basic_verilog
-### Konstantin Pavlov, pavlovconst@gmail.com
+// readme for "scripts_for_intel_hls" directory   
+// published as part of https://github.com/pConst/basic_verilog   
+// Konstantin Pavlov, pavlovconst@gmail.com   
 
 
 The directory contains automation scripts to work with Intel HLS technology on Windows machines.

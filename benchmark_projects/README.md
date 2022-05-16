@@ -1,6 +1,6 @@
-### readme for "benchmark_projects" directory
-### published as part of https://github.com/pConst/basic_verilog
-### Konstantin Pavlov, pavlovconst@gmail.com
+// readme for "benchmark_projects" directory   
+// published as part of https://github.com/pConst/basic_verilog   
+// Konstantin Pavlov, pavlovconst@gmail.com   
 
 
 The directory contains single reference System Verilog codebase, compiled consistently for multiple FPGA platforms and vendors. 
