@@ -1,10 +1,11 @@
 //------------------------------------------------------------------------------
 // main.sv
+// published as part of https://github.com/pConst/basic_verilog
 // Konstantin Pavlov, pavlovconst@gmail.com
 //------------------------------------------------------------------------------
 
 // INFO ------------------------------------------------------------------------
-// Vivado benchmark project
+// Gowin benchmark project
 //
 // This project uses dynamic_delay.sv module to model both high-register count and
 // combinational-intensive design. See "Messages" tab for TOTAL time

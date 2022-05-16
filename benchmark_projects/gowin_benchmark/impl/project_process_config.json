@@ -1,7 +1,7 @@
 {
  "Allow_Duplicate_Modules" : false,
  "Annotated_Properties_for_Analyst" : true,
- "BACKGROUND_PROGRAMMING" : false,
+ "BACKGROUND_PROGRAMMING" : "off",
  "COMPRESS" : false,
  "CRC_CHECK" : true,
  "Clock_Conversion" : true,
@@ -22,10 +22,14 @@
  "Generate_Post_Place_File" : false,
  "Generate_SDF_File" : false,
  "GwSyn_Loop_Limit" : 2000,
+ "HOTBOOT" : false,
+ "I2C" : false,
+ "I2C_SLAVE_ADDR" : "00",
  "Implicit_Initial_Value_Support" : false,
  "IncludePath" : [
 
  ],
+ "Incremental_Compile" : "",
  "Initialize_Primitives" : false,
  "JTAG" : false,
  "MODE_IO" : false,
@@ -34,10 +38,14 @@
  "Number_of_Critical_Paths" : "",
  "Number_of_Start/End_Points" : "",
  "OUTPUT_BASE_NAME" : "gowin_benchmark",
+ "POWER_ON_RESET" : false,
  "PRINT_BSRAM_VALUE" : true,
+ "PROGRAM_DONE_BYPASS" : false,
  "Pipelining" : true,
+ "PlaceInRegToIob" : true,
+ "PlaceIoRegToIob" : true,
+ "PlaceOutRegToIob" : true,
  "Place_Option" : "0",
- "Place_register_to_IOB" : true,
  "Process_Configuration_Verion" : "1.0",
  "Promote_Physical_Constraint_Warning_to_Error" : false,
  "Push_Tristates" : true,
@@ -67,5 +75,6 @@
  "Verilog_Standard" : "Vlg_Std_Sysv2017",
  "WAKE_UP" : "0",
  "Write_Vendor_Constraint_File" : true,
- "dsp_balance" : false
+ "dsp_balance" : false,
+ "show_all_warnings" : false
 }

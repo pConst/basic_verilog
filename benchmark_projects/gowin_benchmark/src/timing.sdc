@@ -1,5 +1,6 @@
 #------------------------------------------------------------------------------
 # timing.sdc
+# published as part of https://github.com/pConst/basic_verilog
 # Konstantin Pavlov, pavlovconst@gmail.com
 #------------------------------------------------------------------------------
 

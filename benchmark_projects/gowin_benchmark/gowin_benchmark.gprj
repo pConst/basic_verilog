@@ -7,6 +7,7 @@
     <FileList>
         <File path="src/dynamic_delay.sv" type="file.verilog" enable="1"/>
         <File path="src/main.sv" type="file.verilog" enable="1"/>
+        <File path="src/gowin_benchmark.cst" type="file.cst" enable="1"/>
         <File path="src/timing.sdc" type="file.sdc" enable="1"/>
     </FileList>
 </Project>

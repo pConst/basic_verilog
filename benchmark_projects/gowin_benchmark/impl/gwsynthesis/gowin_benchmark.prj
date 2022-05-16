@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE gowin-synthesis-project>
+<Project>
+    <Version>beta</Version>
+    <Device id="GW2A-55C" package="PBGA1156" speed="7" partNumber="GW2A-LV55PG1156C7/I6"/>
+    <FileList>
+        <File path="J:\basic_verilog\benchmark_projects\gowin_benchmark\src\dynamic_delay.sv" type="verilog"/>
+        <File path="J:\basic_verilog\benchmark_projects\gowin_benchmark\src\main.sv" type="verilog"/>
+    </FileList>
+    <OptionList>
+        <Option type="disable_insert_pad" value="0"/>
+        <Option type="dsp_balance" value="0"/>
+        <Option type="looplimit" value="2000"/>
+        <Option type="output_file" value="J:\basic_verilog\benchmark_projects\gowin_benchmark\impl\gwsynthesis\gowin_benchmark.vg"/>
+        <Option type="print_all_synthesis_warning" value="0"/>
+        <Option type="ram_rw_check" value="1"/>
+        <Option type="top_module" value="main"/>
+        <Option type="verilog_language" value="sysv-2017"/>
+        <Option type="vhdl_language" value="vhdl-1993"/>
+    </OptionList>
+</Project>
