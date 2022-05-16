@@ -1,11 +1,11 @@
-readme for "benchmark_projects" directory
-published as part of https://github.com/pConst/basic_verilog
-Konstantin Pavlov, pavlovconst@gmail.com
+### readme for "benchmark_projects" directory
+### published as part of https://github.com/pConst/basic_verilog
+### Konstantin Pavlov, pavlovconst@gmail.com
 
 
 The directory contains single reference System Verilog codebase, compiled consistently for multiple FPGA platforms and vendors. 
 
-Supported and committed IDE projects include
+Supported IDE projects include
 * Xilinx ISE
 * Xilinx Vivado
 * Intel Quartus
