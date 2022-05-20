@@ -1,11 +1,12 @@
 @echo off
 rem ------------------------------------------------------------------------------
 rem  clean_vivado.bat
+rem  published as part of https://github.com/pConst/basic_verilog
 rem  Konstantin Pavlov, pavlovconst@gmail.com
 rem ------------------------------------------------------------------------------
 
-rem   Use this file as a boilerplate for your custom clean script
-rem   for Vivado projects
+rem Use this file as a boilerplate for your custom clean script
+rem for Vivado/Vitis projects
 
 
 SET PROJ=test
@@ -27,6 +28,7 @@ rmdir /s /q  .\.Xil\
 
 del /s /f /q .\*.jou
 del /s /f /q .\*.log
+del /s /f /q .\*.str
 
 pause
 goto :eof
