@@ -93,3 +93,9 @@ proc fmax {target_clock} {
     puts ""
 }
 
+# export hardware for Vitis IDE
+proc eh {} {
+    write_hw_platform -fixed -force -include_bit -file ./main.xsa
+    puts ""
+}
+
