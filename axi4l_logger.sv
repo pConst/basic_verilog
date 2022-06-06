@@ -164,6 +164,10 @@ module axi4l_logger #( parameter
   logic [31:0] w_addr_f;
   logic [31:0] w_data_f;
   logic [31:0] w_rnwr_f;
+  logic fifo_wren;
+
+  assign fifo_wren = aw_w_req_d1 || ar_w_req_d1;
+
   always_comb begin
     if( aw_w_req_d1 ) begin
       w_addr_f[31:0] = s_axi_awaddr_buf[31:0];
@@ -185,6 +189,50 @@ module axi4l_logger #( parameter
   logic [31:0] r_data_f;
   logic [31:0] r_rnwr_f;
 
+
+  logic fifo_wren_filt;
+
+  // comment this line to undefine
+  `define FILTER_REPETITIVE_READS yes
+
+`ifdef FILTER_REPETITIVE_READS
+  logic [31:0] last_w_addr_f;
+  logic [31:0] last_w_data_f;
+  logic [31:0] last_w_rnwr_f;
+  always_ff @( posedge clk_axi or negedge anrst_axi ) begin
+    if( ~anrst_axi ) begin
+      last_w_addr_f[31:0] <= '0;
+      last_w_data_f[31:0] <= '0;
+      last_w_rnwr_f[31:0] <= '0;
+    end else begin
+      if( fifo_wren ) begin
+        if( w_rnwr_f ) begin
+          // buffering only RD operations
+          last_w_addr_f[31:0] <= w_addr_f[31:0];
+          last_w_data_f[31:0] <= w_data_f[31:0];
+          last_w_rnwr_f[31:0] <= w_rnwr_f[31:0];
+        end else begin
+          // resetting on WR operations
+          last_w_addr_f[31:0] <= '0;
+          last_w_data_f[31:0] <= '0;
+          last_w_rnwr_f[31:0] <= '0;
+        end
+      end // fifo_wren
+
+    end
+  end
+
+  // filtering out repetitive RD operations where address and data are identical
+  assign fifo_wren_filt = fifo_wren &&
+                       ~( (last_w_addr_f[31:0] == w_addr_f[31:0]) &&
+                          (last_w_data_f[31:0] == w_data_f[31:0]) &&
+                          (last_w_rnwr_f[31:0] == w_rnwr_f[31:0]) );
+`else
+  // no filtering
+  assign fifo_wren_filt = fifo_wren;
+`endif
+
+
   FIFO18E1 #(
     .ALMOST_EMPTY_OFFSET     ( 13'h0006      ), // min. value is 6 for FWFT mode, Sets the almost empty threshold
     .ALMOST_FULL_OFFSET      ( 13'h0005      ), // min. value is 4, Sets almost full threshold
@@ -201,7 +249,7 @@ module axi4l_logger #( parameter
     .RSTREG      ( 1'b0               ), // 1-bit input: Output register set/reset
 
     .WRCLK       ( clk_axi            ), // 1-bit input: Write clock
-    .WREN        ( aw_w_req_d1 || ar_w_req_d1 ), // 1-bit input: Write enable
+    .WREN        ( fifo_wren_filt     ), // 1-bit input: Write enable
     .DI          ( w_addr_f[31:0]     ), // 32-bit input: Data input
     .DIP         ( 4'b0               ), // 4-bit input: Parity input
     .FULL        (                    ), // 1-bit output: Full flag
@@ -236,7 +284,7 @@ module axi4l_logger #( parameter
     .RSTREG      ( 1'b0               ), // 1-bit input: Output register set/reset
 
     .WRCLK       ( clk_axi            ), // 1-bit input: Write clock
-    .WREN        ( aw_w_req_d1 || ar_w_req_d1 ), // 1-bit input: Write enable
+    .WREN        ( fifo_wren_filt     ), // 1-bit input: Write enable
     .DI          ( w_data_f[31:0]     ), // 32-bit input: Data input
     .DIP         ( 4'b0               ), // 4-bit input: Parity input
     .FULL        (                    ), // 1-bit output: Full flag
@@ -271,7 +319,7 @@ module axi4l_logger #( parameter
     .RSTREG      ( 1'b0               ), // 1-bit input: Output register set/reset
 
     .WRCLK       ( clk_axi            ), // 1-bit input: Write clock
-    .WREN        ( aw_w_req_d1 || ar_w_req_d1 ), // 1-bit input: Write enable
+    .WREN        ( fifo_wren_filt     ), // 1-bit input: Write enable
     .DI          ( w_rnwr_f[31:0]     ), // 32-bit input: Data input
     .DIP         ( 4'b0               ), // 4-bit input: Parity input
     .FULL        (                    ), // 1-bit output: Full flag
