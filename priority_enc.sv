@@ -26,7 +26,7 @@ priority_enc #(
 
 module priority_enc #( parameter
   WIDTH = 32,
-  WIDTH_W = $clog2(WIDTH)
+  WIDTH_W = $clogb2(WIDTH)
 )(
   input  [WIDTH-1:0] id,      // input data bus
 
@@ -36,34 +36,37 @@ module priority_enc #( parameter
 );
 
 
-// reversed id[] data
-// conventional operation of priority encoder is when MSB bits have a priority
-logic [WIDTH-1:0] id_r;
-reverse_vector #(
-  .WIDTH( WIDTH )  // WIDTH must be >=2
-) reverse_b (
-  .in( id[WIDTH-1:0] ),
-  .out( id_r[WIDTH-1:0] )
-);
+  // reversed id[] data
+  // conventional operation of priority encoder is when MSB bits have a priority
+  logic [WIDTH-1:0] id_r;
+  reverse_vector #(
+    .WIDTH( WIDTH )  // WIDTH must be >=2
+  ) reverse_b (
+    .in( id[WIDTH-1:0] ),
+    .out( id_r[WIDTH-1:0] )
+  );
 
-leave_one_hot #(
-  .WIDTH( WIDTH )
-) one_hot_b (
-  .in( id_r[WIDTH-1:0] ),
-  .out( od_filt[WIDTH-1:0] )
-);
+  leave_one_hot #(
+    .WIDTH( WIDTH )
+  ) one_hot_b (
+    .in( id_r[WIDTH-1:0] ),
+    .out( od_filt[WIDTH-1:0] )
+  );
 
-logic err_no_hot;
-assign od_valid = ~err_no_hot;
+  logic err_no_hot;
+  assign od_valid = ~err_no_hot;
 
-pos2bin #(
-  .BIN_WIDTH( WIDTH_W )
-) pos2bin_b (
-  .pos( od_filt[WIDTH-1:0] ),
-  .bin( od_bin[WIDTH_W-1:0] ),
+  pos2bin #(
+    .BIN_WIDTH( WIDTH_W )
+  ) pos2bin_b (
+    .pos( od_filt[WIDTH-1:0] ),
+    .bin( od_bin[WIDTH_W-1:0] ),
 
-  .err_no_hot( err_no_hot ),
-  .err_multi_hot(  )
-);
+    .err_no_hot( err_no_hot ),
+    .err_multi_hot(  )
+  );
+
+  `include "clogb2.svh"
 
 endmodule
+
