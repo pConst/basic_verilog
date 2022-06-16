@@ -21,7 +21,7 @@ echo INFO: The script may sometimes take a long time to complete
 
 for /R /d %%D in (*) do (
 
-  echo %%~fD
+  rem echo %%~fD
   cd %%~fD
 
   if exist clean.bat @echo | call clean.bat

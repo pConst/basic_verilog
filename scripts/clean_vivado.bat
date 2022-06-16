@@ -9,26 +9,33 @@ rem Use this file as a boilerplate for your custom clean script
 rem for Vivado/Vitis projects
 
 
-SET PROJ=test
+for /R %%f in (*.xpr) do (
+  echo "Project name is %%~nf"
 
-del /s /f /q .\%PROJ%.cache\*
-rmdir /s /q  .\%PROJ%.cache\
+  del /s /f /q .\%%~nf.cache\*
+  rmdir /s /q  .\%%~nf.cache\
 
-del /s /f /q .\%PROJ%.hw\*
-rmdir /s /q  .\%PROJ%.hw\
+  del /s /f /q .\%%~nf.hw\*
+  rmdir /s /q  .\%%~nf.hw\
 
-rem del /s /f /q .\%PROJ%.runs\*
-rem rmdir /s /q  .\%PROJ%.runs\
+  del /s /f /q .\%%~nf.ip_user_files\*
+  rmdir /s /q  .\%%~nf.ip_user_files\
 
-del /s /f /q .\%PROJ%.sim\*
-rmdir /s /q  .\%PROJ%.sim\
+  del /s /f /q .\%%~nf.runs\*
+  rmdir /s /q  .\%%~nf.runs\
 
-del /s /f /q .\.Xil\*
-rmdir /s /q  .\.Xil\
+  del /s /f /q .\%%~nf.sim\*
+  rmdir /s /q  .\%%~nf.sim\
 
-del /s /f /q .\*.jou
-del /s /f /q .\*.log
-del /s /f /q .\*.str
+  del /s /f /q .\.Xil\*
+  rmdir /s /q  .\.Xil\
+
+  del /s /f /q .\*.jou
+  del /s /f /q .\*.log
+  del /s /f /q .\*.str
+  del /s /f /q .\*.tmp
+
+)
 
 pause
 goto :eof
