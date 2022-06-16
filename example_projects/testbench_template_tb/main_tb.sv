@@ -60,42 +60,34 @@ end
 logic nrst_once;
 assign nrst_once = ~rst_once;
 
-logic [31:0] DerivedClocks;
+logic [31:0] clk200_div;
 clk_divider #(
   .WIDTH( 32 )
 ) cd1 (
   .clk( clk200 ),
   .nrst( nrst_once ),
   .ena( 1'b1 ),
-  .out( DerivedClocks[31:0] )
+  .out( clk200_div[31:0] )
 );
 
-logic [31:0] E_DerivedClocks;
+logic [31:0] clk200_div_rise;
 edge_detect ed1[31:0] (
   .clk( {32{clk200}} ),
   .anrst( {32{nrst_once}} ),
-  .in( DerivedClocks[31:0] ),
-  .rising( E_DerivedClocks[31:0] ),
+  .in( clk200_div[31:0] ),
+  .rising( clk200_div_rise[31:0] ),
   .falling(  ),
   .both(  )
 );
 
-logic [31:0] RandomNumber1;
-c_rand rng1 (
-  .clk( clk200 ),
-  .rst( 1'b0 ),
-  .reseed( rst_once ),
-  .seed_val( DerivedClocks[31:0] ^ (DerivedClocks[31:0] << 1) ),
-  .out( RandomNumber1[15:0] )
-);
-
-c_rand rng2 (
-  .clk( clk200 ),
-  .rst( 1'b0 ),
-  .reseed( rst_once ),
-  .seed_val( DerivedClocks[31:0] ^ (DerivedClocks[31:0] << 2) ),
-  .out( RandomNumber1[31:16] )
-);
+logic [31:0] rnd_data;
+always_ff @(posedge clk200) begin
+  if( ~nrst_once ) begin
+    rnd_data[31:0] <= $random( 1 );  // seeding
+  end else begin
+    rnd_data[31:0] <= $random;
+  end
+end
 
 logic start;
 initial begin
@@ -104,7 +96,11 @@ initial begin
   #20 start = 1'b0;
 end
 
-// Module under test ==========================================================
+//initial begin
+//  #1000 $finish;
+//end
+
+// Module under test ===========================================================
 
 logic [15:0] seq_cntr = '0;
 
@@ -121,7 +117,7 @@ always_ff @(posedge clk200) begin
 
     if( seq_cntr[15:0]<300 ) begin
       id[31:0] <= '1;
-      //id[31:0] <= {4{RandomNumber1[15:0]}};
+      //id[31:0] <= {4{rnd_data[15:0]}};
     end else begin
       id[31:0] <= '0;
     end

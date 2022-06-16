@@ -17,18 +17,17 @@
 set library_file_list {
 
   work {main_tb.sv
-        # main.sv
-        c_rand.v
+        main.sv
+        clk_divider.sv
         edge_detect.sv
-        delay.sv
-        clk_divider.sv}
+        delay.sv}
 }
 
 set vsim_params "-L altera_mf_ver -L altera_mf -L lpm_ver -L lpm"
 
 set top_level work.main_tb
 
-set suppress_err_list ""
+set suppress_err_list 0
 
 # Console commands:
 # r = Recompile changed and dependent files
