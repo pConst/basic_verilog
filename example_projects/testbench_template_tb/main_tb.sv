@@ -15,25 +15,30 @@
 module main_tb();
 
 logic clk200;
-initial begin
-  #0 clk200 = 1'b0;
-  forever
-    #2.5 clk200 = ~clk200;
-end
+sim_clk_gen #(
+  .FREQ( 200_000_000 ), // in Hz
+  .PHASE( 0 ),          // in degrees
+  .DUTY( 50 ),          // in percentage
+  .DISTORT( 10 )        // in picoseconds
+) clk200_gen (
+  .ena( 1'b1 ),
+  .clk( clk200 ),
+  .clkd(  )
+);
 
 // external device "asynchronous" clock
-logic clk33a;
-initial begin
-  #0 clk33a = 1'b0;
-  forever
-    #7 clk33a = ~clk33a;
-end
-
 logic clk33;
-//assign clk33 = clk33a;
-always @(*) begin
-  clk33 = #($urandom_range(0, 2000)*10ps) clk33a;
-end
+logic clk33d;
+sim_clk_gen #(
+  .FREQ( 200_000_000 ), // in Hz
+  .PHASE( 0 ),          // in degrees
+  .DUTY( 50 ),          // in percentage
+  .DISTORT( 1000 )      // in picoseconds
+) clk33_gen (
+  .ena( 1'b1 ),
+  .clk( clk33 ),
+  .clkd( clk33d )
+);
 
 logic rst;
 initial begin
@@ -138,13 +143,13 @@ module_under_test #(
 );
 
 // emulating external divice ==================================================
-// that works asynchronously on clk33 clock
+// that works asynchronously on distorted clk33d clock
 
-assign ADC1_SCLKOUT = clk33;
+assign ADC1_SCLKOUT = clk33d;
 
 logic [15:0] test_data = 16'b1010_1100_1100_1111;
 logic [7:0] adc1_seq_cntr = 0;
-always_ff @(posedge clk33) begin
+always_ff @(posedge clk33d) begin
   if( adc1_seq_cntr[7:0]==0 && ~ADC1_nCONV ) begin
     ADC1_BUSY <= 1'b1;
     ADC1_SDOUT <= test_data[15];

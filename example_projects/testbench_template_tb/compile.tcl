@@ -17,7 +17,7 @@
 set library_file_list {
 
   work {main_tb.sv
-        main.sv
+        sim_clk_gen.sv
         clk_divider.sv
         edge_detect.sv
         delay.sv}
