@@ -12,6 +12,7 @@ del /s /q .\wave.do
 del /s /q .\modelsim.ini
 del /s /q .\start_time.txt
 del /s /q .\vsim.wlf
+del /s /q .\vish_stacktrace.vstf
 
 del /s /f /q .\work\*
 rmdir /s /q .\work\
