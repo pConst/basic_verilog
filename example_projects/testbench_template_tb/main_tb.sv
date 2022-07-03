@@ -14,6 +14,15 @@
 
 module main_tb();
 
+initial begin
+  // Print out time markers in nanoseconds
+  // Example:  $display("[T=%0t] start=%d", $realtime, start);
+  $timeformat(-9, 3, " ns");
+
+  // seed value setting is intentionally manual to achieve repeatability between sim runs
+  $urandom( 1 );  // SEED value
+end
+
 logic clk200;
 sim_clk_gen #(
   .FREQ( 200_000_000 ), // in Hz
@@ -26,44 +35,7 @@ sim_clk_gen #(
   .clkd(  )
 );
 
-// external device "asynchronous" clock
-logic clk33;
-logic clk33d;
-sim_clk_gen #(
-  .FREQ( 200_000_000 ), // in Hz
-  .PHASE( 0 ),          // in degrees
-  .DUTY( 50 ),          // in percentage
-  .DISTORT( 1000 )      // in picoseconds
-) clk33_gen (
-  .ena( 1'b1 ),
-  .clk( clk33 ),
-  .clkd( clk33d )
-);
-
-logic rst;
-initial begin
-  #0 rst = 1'b0;
-  #10.2 rst = 1'b1;
-  #5 rst = 1'b0;
-  //#10000;
-  forever begin
-    #9985 rst = ~rst;
-    #5 rst = ~rst;
-  end
-end
-
-logic nrst;
-assign nrst = ~rst;
-
-logic rst_once;
-initial begin
-  #0 rst_once = 1'b0;
-  #10.2 rst_once = 1'b1;
-  #5 rst_once = 1'b0;
-end
-
 logic nrst_once;
-assign nrst_once = ~rst_once;
 
 logic [31:0] clk200_div;
 clk_divider #(
@@ -85,25 +57,86 @@ edge_detect ed1[31:0] (
   .both(  )
 );
 
-logic [31:0] rnd_data;
-always_ff @(posedge clk200) begin
-  if( ~nrst_once ) begin
-    rnd_data[31:0] <= $random( 1 );  // seeding
-  end else begin
-    rnd_data[31:0] <= $random;
+// external device "asynchronous" clock
+logic clk33;
+logic clk33d;
+sim_clk_gen #(
+  .FREQ( 200_000_000 ), // in Hz
+  .PHASE( 0 ),          // in degrees
+  .DUTY( 50 ),          // in percentage
+  .DISTORT( 1000 )      // in picoseconds
+) clk33_gen (
+  .ena( 1'b1 ),
+  .clk( clk33 ),
+  .clkd( clk33d )
+);
+
+
+logic rst;
+initial begin
+  rst = 1'b0; // initialization
+  repeat( 1 ) @(posedge clk200);
+
+  forever begin
+    repeat( 1 ) @(posedge clk200); // synchronous rise
+    rst = 1'b1;
+    //$urandom( 1 ); // uncomment to get the same random pattern EVERY nrst
+
+    repeat( 2 ) @(posedge clk200); // synchronous fall, controls rst pulse width
+    rst = 1'b0;
+
+    repeat( 100 ) @(posedge clk200); // controls test body width
   end
 end
+logic nrst;
+assign nrst = ~rst;
 
-logic start;
+
+logic rst_once;
 initial begin
-  #0 start = 1'b0;
-  #100 start = 1'b1;
-  #20 start = 1'b0;
+  rst_once = 1'b0; // initialization
+  repeat( 1 ) @(posedge clk200);
+
+  repeat( 1 ) @(posedge clk200); // synchronous rise
+  rst_once = 1'b1;
+
+  repeat( 2 ) @(posedge clk200); // synchronous fall, controls rst_once pulse width
+  rst_once = 1'b0;
+end
+//logic nrst_once; // declared before
+assign nrst_once = ~rst_once;
+
+
+// random pattern generation
+logic [31:0] rnd_data;
+always_ff @(posedge clk200) begin
+  rnd_data[31:0] <= $urandom;
+  end
+
+initial forever begin
+  @(posedge nrst);
+  $display("[T=%0t] rnd_data[]=%h", $realtime, rnd_data[31:0]);
 end
 
-//initial begin
-//  #1000 $finish;
-//end
+
+// helper start strobe appears unpredictable up to 20 clocks after nrst
+logic start;
+initial forever begin
+  start = 1'b0; // initialization
+
+  @(posedge nrst); // synchronous rise after EVERY nrst
+  repeat( $urandom_range(0, 20) ) @(posedge clk200);
+  start = 1'b1;
+
+  @(posedge clk200); // synchronous fall exactly 1 clock after rise
+  start = 1'b0;
+end
+
+
+initial begin
+//  #10000 $stop;
+//  #10000 $finish;
+end
 
 // Module under test ===========================================================
 
