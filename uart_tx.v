@@ -1,5 +1,6 @@
 //------------------------------------------------------------------------------
-// uart_tx.sv
+// uart_tx.v
+// published as part of https://github.com/pConst/basic_verilog
 // Konstantin Pavlov, pavlovconst@gmail.com
 //------------------------------------------------------------------------------
 
@@ -13,7 +14,7 @@
 //  If multiple UartTX instances should be inferred - make tx_sample_cntr logic
 //    that is common for all TX instances for effective chip area usage
 //
-//  see also "uart_tx.v" for equivalent Verilog version
+//  see also "uart_tx.sv" for equivalent SystemVerilog version
 //
 
 
@@ -46,28 +47,28 @@ module uart_tx #( parameter
 
   input [7:0] tx_data,
   input tx_start,                 // write strobe
-  output logic tx_busy = 1'b0,
-  output logic txd = 1'b1
+  output reg tx_busy = 1'b0,
+  output reg txd = 1'b1
 );
 
-logic [9:0] tx_shifter = '0;
-logic [15:0] tx_sample_cntr = '0;
-always_ff @ (posedge clk) begin
-  if( (~nrst) || (tx_sample_cntr[15:0] == '0) ) begin
+reg [9:0] tx_shifter = 0;
+reg [15:0] tx_sample_cntr = 0;
+always @ (posedge clk) begin
+  if( (~nrst) || (tx_sample_cntr[15:0] == 0) ) begin
     tx_sample_cntr[15:0] <= (BAUD_DIVISOR-1'b1);
   end else begin
     tx_sample_cntr[15:0] <= tx_sample_cntr[15:0] - 1'b1;
   end
 end
 
-logic tx_do_sample;
-assign tx_do_sample = (tx_sample_cntr[15:0] == '0);
+wire tx_do_sample;
+assign tx_do_sample = (tx_sample_cntr[15:0] == 0);
 
 
-always_ff @ (posedge clk) begin
+always @ (posedge clk) begin
   if( ~nrst ) begin
     tx_busy <= 1'b0;
-    tx_shifter[9:0] <= '0;
+    tx_shifter[9:0] <= 0;
     txd <= 1'b1;
   end else begin
     if( ~tx_busy ) begin

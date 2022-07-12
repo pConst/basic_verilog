@@ -1,19 +1,20 @@
 //------------------------------------------------------------------------------
-// uart_rx.sv
+// uart_rx.v
 // published as part of https://github.com/pConst/basic_verilog
 // Konstantin Pavlov, pavlovconst@gmail.com
 //------------------------------------------------------------------------------
 
 // INFO ------------------------------------------------------------------------
 //  Straightforward yet simple UART receiver implementation
-//    for FPGA written in SystemVerilog
+//    for FPGA written in Verilog
 //
 //  Expects at least one stop bit
 //  Features continuous data aquisition at BAUD levels up to CLK_HZ / 2
 //  Features early asynchronous 'busy' reset
 //
-//  see also "uart_rx.v" for equivalent Verilog version
+//  see also "uart_rx.sv" for equivalent SystemVerilog version
 //
+
 
 /* --- INSTANTIATION TEMPLATE BEGIN ---
 
@@ -40,16 +41,16 @@ module uart_rx #( parameter
   input clk,
   input nrst,
 
-  output logic [7:0] rx_data = '0,
-  output logic rx_busy = 1'b0,
-  output logic rx_done,         // read strobe
-  output logic rx_err,
+  output reg [7:0] rx_data = 0,
+  output reg rx_busy = 1'b0,
+  output rx_done,  // read strobe
+  output rx_err,
   input rxd
 );
 
 
 // synchronizing external rxd pin to avoid metastability
-logic rxd_s;
+wire rxd_s;
 delay #(
   .LENGTH( 2 ),
   .WIDTH( 1 )
@@ -62,7 +63,7 @@ delay #(
 );
 
 
-logic start_bit_strobe;
+wire start_bit_strobe;
 edge_detect rxd_fall_detector (
   .clk( clk ),
   .anrst( nrst ),
@@ -71,19 +72,19 @@ edge_detect rxd_fall_detector (
 );
 
 
-logic [15:0] rx_sample_cntr = (BAUD_DIVISOR_2 - 1'b1);
+reg [15:0] rx_sample_cntr = (BAUD_DIVISOR_2 - 1'b1);
 
-logic rx_do_sample;
-assign rx_do_sample = (rx_sample_cntr[15:0] == '0);
+wire rx_do_sample;
+assign rx_do_sample = (rx_sample_cntr[15:0] == 1'b0);
 
 
 // {rx_data[7:0],rx_data_9th_bit} is actually a shift register
-logic rx_data_9th_bit = 1'b0;
-always_ff @ (posedge clk) begin
+reg rx_data_9th_bit = 1'b0;
+always @ (posedge clk) begin
   if( ~nrst ) begin
     rx_busy <= 1'b0;
     rx_sample_cntr <= (BAUD_DIVISOR_2 - 1'b1);
-    {rx_data[7:0],rx_data_9th_bit} <= '0;
+    {rx_data[7:0],rx_data_9th_bit} <= 0;
   end else begin
     if( ~rx_busy ) begin
       if( start_bit_strobe ) begin
@@ -96,7 +97,7 @@ always_ff @ (posedge clk) begin
       end
     end else begin
 
-      if( rx_sample_cntr[15:0] == '0 ) begin
+      if( rx_sample_cntr[15:0] == 0 ) begin
         // wait for 1-bit-period till next sample
         rx_sample_cntr[15:0] <= (BAUD_DIVISOR_2 * 2 - 1'b1);
       end else begin
@@ -117,7 +118,7 @@ always_ff @ (posedge clk) begin
   end // ~nrst
 end
 
-always_comb begin
+always @* begin
   // rx_done and rx_busy fall simultaneously
   rx_done <= rx_data_9th_bit && rx_do_sample && rxd_s;
   rx_err <= rx_data_9th_bit && rx_do_sample && ~rxd_s;
