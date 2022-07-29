@@ -34,6 +34,9 @@ for /R %%f in (*.xpr) do (
   del /s /f /q .\*.log
   del /s /f /q .\*.str
   del /s /f /q .\*.tmp
+  del /s /f /q .\usage_statistics_webtalk.*
+
+  del /s /f /q *.xsa
 
 )
 
