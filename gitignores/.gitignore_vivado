@@ -11,11 +11,18 @@
 
 *.cache
 *.hw
+*.gen
 *.ip_user_files
 *.runs
 *.sim
 .Xil
 
+*.srcs/sources*/bd/**
+!*.srcs/sources*/bd/**/*.xci
+*.srcs/sources*/ip/**
+!*.srcs/sources*/ip/**/*.xci
+
+.ioplanning
 *.jou
 *.log
 *.str
