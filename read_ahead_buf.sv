@@ -120,14 +120,11 @@ module read_ahead_buf #( parameter
   logic latch_req;
   logic [DATA_W-1:0] r_data_latch;
   always_comb begin
-    latch_req = (fantom_read || normal_read) ||
+    latch_req = ( fantom_read || normal_read ) ||
                 ( fifo_empty && r_req );        // buffer depletion
 
-    if( ( fantom_read || normal_read ) ||
-        ( fifo_empty && r_req ) ) begin
+    if( latch_req ) begin
       r_data_latch[DATA_W-1:0] = fifo_r_data[DATA_W-1:0];
-    //end else if( fifo_empty && r_req ) begin  // buffer depletion
-    //  r_data_latch[DATA_W-1:0] = '0;
     end else begin
       r_data_latch[DATA_W-1:0] = '0;
     end
