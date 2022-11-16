@@ -41,7 +41,7 @@ module true_dual_port_write_first_2_clock_ram #( parameter
   RAM_DEPTH = 8,
 
   // optional initialization parameters
-  RAM_STYLE = "",
+  RAM_STYLE = "block",
   INIT_FILE = ""
 )(
   input clka,

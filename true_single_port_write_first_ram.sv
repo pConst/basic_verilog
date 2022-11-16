@@ -15,8 +15,8 @@
 true_single_port_write_first_ram #(
   .RAM_WIDTH( DATA_W ),
   .RAM_DEPTH( DEPTH ),
-  .RAM_STYLE( "init.mem" ),  // "block","register","M10K","logic",...
-  .INIT_FILE( "" )
+  .RAM_STYLE( "block" ),  // "block","register","M10K","logic",...
+  .INIT_FILE( "init.mem" )
 ) SR1 (
   .clka( w_clk ),
   .addra( w_ptr[DEPTH_W-1:0] ),
@@ -34,7 +34,7 @@ module true_single_port_write_first_ram #( parameter
   RAM_DEPTH = 8,
 
   // optional initialization parameters
-  RAM_STYLE = "",
+  RAM_STYLE = "block",
   INIT_FILE = ""
 )(
   input clka,
