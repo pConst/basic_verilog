@@ -1,3 +1,6 @@
 [submodule "vivado_design_space_explorer_template"]
 	path = vivado_design_space_explorer_template
 	url = https://github.com/pConst/vivado_design_space_explorer_template.git
+[submodule "quartus_design_space_explorer_template"]
+	path = quartus_design_space_explorer_template
+	url = https://github.com/pConst/quartus_design_space_explorer_template.git
