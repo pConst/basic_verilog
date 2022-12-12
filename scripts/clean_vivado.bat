@@ -12,8 +12,14 @@ rem for Vivado/Vitis projects
 for /R %%f in (*.xpr) do (
   echo "Project name is %%~nf"
 
+  del /s /f /q .\.Xil\*
+  rmdir /s /q  .\.Xil\
+
   del /s /f /q .\%%~nf.cache\*
   rmdir /s /q  .\%%~nf.cache\
+
+  del /s /f /q .\%%~nf.gen\*
+  rmdir /s /q  .\%%~nf.gen\
 
   del /s /f /q .\%%~nf.hw\*
   rmdir /s /q  .\%%~nf.hw\
@@ -27,8 +33,6 @@ for /R %%f in (*.xpr) do (
   del /s /f /q .\%%~nf.sim\*
   rmdir /s /q  .\%%~nf.sim\
 
-  del /s /f /q .\.Xil\*
-  rmdir /s /q  .\.Xil\
 
   del /s /f /q .\*.jou
   del /s /f /q .\*.log
