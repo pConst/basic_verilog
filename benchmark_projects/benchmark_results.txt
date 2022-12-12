@@ -34,6 +34,7 @@ HyperThreading OFF
 ------------------------------------
 quartus_benchmark - 1m 58s  ( Quartus Lite 20.1.1 )
 vivado_benchmark  - 4m 07s  ( Vivado 2021.2 )
+vivado_benchmark  - 4m 05s  ( Vivado 2022.1 )
 
 Intel i7 13700K, RAM 128GB, Windows 10
 ------------------------------------
