@@ -1,0 +1,33 @@
+#------------------------------------------------------------------------------
+# .gitignore for Xilinx Vivado
+# published as part of https://github.com/pConst/basic_verilog
+# Konstantin Pavlov, pavlovconst@gmail.com
+#------------------------------------------------------------------------------
+
+# INFO ------------------------------------------------------------------------
+# rename the file to ".gitignore" and place into your Vivado project directory
+#
+
+
+*.cache
+*.hw
+*.gen
+*.ip_user_files
+*.runs
+*.sim
+.Xil
+
+*.srcs/sources*/bd/**
+!*.srcs/sources*/bd/**/*.xci
+*.srcs/sources*/ip/**
+!*.srcs/sources*/ip/**/*.xci
+
+.ioplanning
+*.jou
+*.log
+*.str
+*.tmp
+usage_statistics_webtalk.*
+
+*.xsa
+
