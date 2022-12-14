@@ -1,0 +1,16 @@
+#------------------------------------------------------------------------------
+# .gitignore for KCPSM directory
+# published as part of https://github.com/pConst/basic_verilog
+# Konstantin Pavlov, pavlovconst@gmail.com
+#------------------------------------------------------------------------------
+
+# INFO ------------------------------------------------------------------------
+# rename the file to ".gitignore" and place into your KCPSM project directory
+#
+
+
+*.exe
+*.txt
+*.fmt
+*.log
+
