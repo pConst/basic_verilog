@@ -1,0 +1,21 @@
+3.3
+Added PSU_DYNAMIC_DDR_CONFIG_EN to MPSoC preset 
+Added 1.1 as compatible board rev 
+
+3.2
+Updated DDR4 CLK IOSTANDARDs
+
+3.1
+Updated PS_REF_CLK frequency to match ZCU102 board UG
+Added FMC support 
+
+3.0
+production device support
+Revised MPSOC clock settings for Display port
+APU frequency chnaged from 1100M to 1200Mhz
+
+
+2.1
+GT configuration revised from DP-DP-USB-SATA to PCIe-DP-USB-SATA
+PMU GPI is disbaled
+

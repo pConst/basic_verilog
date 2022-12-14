@@ -1,0 +1,33 @@
+{
+  "config": {
+    "items": [
+      {
+        "infra": {
+          "name": "ac701", 
+          "display": "Artix-7 AC701 Evaluation Platform", 
+          "revision": "1.4", 
+          "description": "Artix-7 AC701 Evaluation Platform", 
+          "company": "xilinx.com", 
+          "company_display": "Xilinx", 
+          "author": "Vanitha", 
+          "contributors": [
+            {
+              "group": "Xilinx", 
+              "url": "www.xilinx.com"
+            }
+          ], 
+          "category": "Single Part", 
+          "website": "http://www.xilinx.com/ac701", 
+          "search-keywords": [
+            "ac701", 
+            "xilinx.com", 
+            "board", 
+            "Single Part"
+          ]
+        }
+      }
+    ]
+  },
+  "_major": 1,
+  "_minor": 0
+}

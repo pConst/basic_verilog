@@ -1,0 +1,33 @@
+{
+  "config": {
+    "items": [
+      {
+        "infra": {
+          "name": "vc709", 
+          "display": "Virtex-7 VC709 Evaluation Platform", 
+          "revision": "1.8", 
+          "description": "Virtex-7 VC709 Evaluation Platform", 
+          "company": "xilinx.com", 
+          "company_display": "Xilinx", 
+          "author": "Vanitha", 
+          "contributors": [
+            {
+              "group": "Xilinx", 
+              "url": "www.xilinx.com"
+            }
+          ], 
+          "category": "Single Part", 
+          "website": "http://www.xilinx.com/vc709", 
+          "search-keywords": [
+            "vc709", 
+            "xilinx.com", 
+            "board", 
+            "Single Part"
+          ]
+        }
+      }
+    ]
+  },
+  "_major": 1,
+  "_minor": 0
+}

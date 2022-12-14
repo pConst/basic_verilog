@@ -1,0 +1,33 @@
+{
+  "config": {
+    "items": [
+      {
+        "infra": {
+          "name": "vcu110", 
+          "display": "Virtex-UltraScale VCU110 Evaluation Platform", 
+          "revision": "1.4", 
+          "description": "Virtex-UltraScale VCU110 Evaluation Platform", 
+          "company": "xilinx.com", 
+          "company_display": "Xilinx", 
+          "author": "Vanitha", 
+          "contributors": [
+            {
+              "group": "Xilinx", 
+              "url": "www.xilinx.com"
+            }
+          ], 
+          "category": "Single Part", 
+          "website": "www.xilinx.com/vcu110", 
+          "search-keywords": [
+            "vcu110", 
+            "xilinx.com", 
+            "board", 
+            "Single Part"
+          ]
+        }
+      }
+    ]
+  }, 
+  "_major": 1, 
+  "_minor": 0
+}

@@ -1,0 +1,33 @@
+{
+  "config": {
+    "items": [
+      {
+        "infra": {
+          "name": "kc705", 
+          "display": "Kintex-7 KC705 Evaluation Platform", 
+          "revision": "1.6", 
+          "description": "Kintex-7 KC705 Evaluation Platform", 
+          "company": "xilinx.com", 
+          "company_display": "Xilinx", 
+          "author": "Vanitha", 
+          "contributors": [
+            {
+              "group": "Xilinx", 
+              "url": "www.xilinx.com"
+            }
+          ], 
+          "category": "Single Part", 
+          "website": "http://www.xilinx.com/kc705", 
+          "search-keywords": [
+            "kc705", 
+            "xilinx.com", 
+            "board", 
+            "Single Part"
+          ]
+        }
+      }
+    ]
+  },
+  "_major": 1,
+  "_minor": 0
+}

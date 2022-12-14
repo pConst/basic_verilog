@@ -1,0 +1,33 @@
+{
+  "config": {
+    "items": [
+      {
+        "infra": {
+          "name": "nexys4_ddr", 
+          "display": "Nexys4 DDR", 
+          "revision": "1.1", 
+          "description": "Nexys4 DDR", 
+          "company": "digilentinc.com", 
+          "company_display": "Digilent Inc", 
+          "author": "ArtVVB", 
+          "contributors": [
+            {
+              "group": "Digilent Inc", 
+              "url": "digilentinc.com"
+            }
+          ], 
+          "category": "Single Part", 
+          "website": "www.digilentinc.com/nexys4", 
+          "search-keywords": [
+            "nexys4_ddr", 
+            "digilentinc.com", 
+            "board", 
+            "Single Part"
+          ]
+        }
+      }
+    ]
+  }, 
+  "_major": 1, 
+  "_minor": 0
+}

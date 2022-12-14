@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?> 
+<!-- ##################################################################### -->
+<!-- ##TE File Version:1.2-->
+<!-- ##Vivado Version:2018.2-->
+<!-- ##TE Last Modification:2018.09.04-->
+<!-- ##################################################################### -->
+<!-- ##general board part description-->
+<!-- ##Info: board part name: board_vendor:board_name:part0:file_version  , use all lower case-->
+<board schema_version="2.1" vendor="trenz.biz" name="te0808_9eg_1e" display_name="UltraSOM (ZYNQ-UltraScale+) TE0808-9EG-1E(A: 2GB DDR). SPRT PCB: REV04." url="trenz.org/te0808-info" preset_file="preset.xml">
+  <images>
+    <image name="te0808_board.png" display_name="ZYNQ-UltraScale+ TE0808 BOARD" sub_type="board">
+      <description>ZYNQ-UltraScale+ TE0808 Board File Image</description>
+    </image>
+  </images>
+<!-- ##################################################################### -->
+<!-- ##Board PCB Revision -->
+<!-- ##Currently revision with highest id is only displayed in Vivado. Write supported revisions to description too!-->
+  <compatible_board_revisions>
+    <!--insert supported revisions-->
+    <revision id="0">0.4</revision>
+  </compatible_board_revisions>
+<!-- ##################################################################### -->
+<!-- ##Board File Revision -->
+<!-- ##Description, see https://wiki.trenz-electronic.de/display/PD/TE+Board+Part+Files -->
+  <file_version>1.0</file_version>
+<!-- ##################################################################### -->
+<!-- ##Board descriptions -->
+  <description>Zynq UltraScale+ TE0808-9EG-1E(A: 2GB DDR) Board (form factor 5.2x7.6 cm) with 4x 512 MByte DDR4, speed grade -1 and extended temperature range. Board Part is only with minimum PS-Setup. Use for own carrier or simple SDK debugging. User must configure B2B MIOs manually, depending on his carrier board connection. Without user PS configuration only JTAG and QSPI boot is possible with this board part file.</description>
+<!-- ##################################################################### -->
+<!-- ##Board components. Special component part0=fpga -->
+<!-- ##set display_name and correct part_name for fpga-->
+<!-- ##add part interfaces and corresponding component here -->
+  <components>
+    <component name="part0" display_name="TE0808 UltraSOM (ZYNQ-UltraScale+)" type="fpga" part_name="xczu9eg-ffvc900-1-e" pin_map_file="part0_pins.xml" vendor="xilinx" spec_url="www.xilinx.com">
+      <description>FPGA part on the board</description>
+      <interfaces>
+        <!--insert fpga interfaces here, see ug895 or other board part files-->
+        <interface mode="master" name="ps8_fixedio" type="xilinx.com:zynq_ultra_ps_e:fixedio_rtl:1.0" of_component="ps8_fixedio" preset_proc="zynq_ultra_ps_e_preset"> 
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="zynq_ultra_ps_e" order="0"/>
+          </preferred_ips>
+        </interface>
+      </interfaces>
+    </component>
+    <!--insert interface components here, see ug895 or other board part files-->
+    <component name="ps8_fixedio" display_name="PS8 fixed IO" type="chip" sub_type="fixed_io" major_group=""/>
+  </components>
+<!-- ##################################################################### -->
+<!-- ##Board jtag chains for partx  -->
+  <jtag_chains>
+    <jtag_chain name="chain1">
+      <position name="0" component="part0"/>
+    </jtag_chain>
+  </jtag_chains>
+<!-- ##################################################################### -->
+<!-- ##connections between interfaces definition and part0_pins.xml  -->
+  <connections>	
+    <!--insert interface connections here, see ug895 or other board part files-->
+  </connections>
+<!-- ##################################################################### -->
+<!-- ##Additional IO interface rules-->
+  <ip_associated_rules>
+    <ip_associated_rule name="default">
+      <!--insert interface ip rules here, see ug895 or other board part files-->
+    </ip_associated_rule>
+  </ip_associated_rules>
+<!-- ##################################################################### -->
+</board>

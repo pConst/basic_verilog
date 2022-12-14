@@ -1,0 +1,33 @@
+{
+  "config": {
+    "items": [
+      {
+        "infra": {
+          "name": "cmod_a7-35t", 
+          "display": "Cmod A7-35t", 
+          "revision": "1.1", 
+          "description": "Cmod A7-35t", 
+          "company": "digilentinc.com", 
+          "company_display": "Digilent Inc", 
+          "author": "ArtVVB", 
+          "contributors": [
+            {
+              "group": "Digilent Inc", 
+              "url": "digilentinc.com"
+            }
+          ], 
+          "category": "Single Part", 
+          "website": "https://reference.digilentinc.com/cmod_a7", 
+          "search-keywords": [
+            "cmod_a7-35t", 
+            "digilentinc.com", 
+            "board", 
+            "Single Part"
+          ]
+        }
+      }
+    ]
+  }, 
+  "_major": 1, 
+  "_minor": 0
+}

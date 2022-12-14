@@ -1,0 +1,33 @@
+{
+  "config": {
+    "items": [
+      {
+        "infra": {
+          "name": "te0725_100_2i", 
+          "display": "Artix-7 TE0725_100_2I9. SPRT PCB: REV01, REV02, REV03", 
+          "revision": "1.0", 
+          "description": "Artix-7 TE0725_100_2I9 Board (form factor 3.5x7.3 cm) with 8MB HyperRAM and industrial temperature range. Supported PCB Revisions: REV01 REV02, REV03.", 
+          "company": "trenz.biz", 
+          "company_display": "Trenz Electronic GmbH", 
+          "author": "trenz.biz", 
+          "contributors": [
+            {
+              "group": "Trenz Electronic GmbH", 
+              "url": "https://www.trenz-electronic.de/"
+            }
+          ], 
+          "category": "Single Part", 
+          "website": "trenz.org/te0725-info", 
+          "search-keywords": [
+            "te0725_100_2i", 
+            "trenz.biz", 
+            "board", 
+            "Single Part"
+          ]
+        }
+      }
+    ]
+  }, 
+  "_major": 1, 
+  "_minor": 0
+}

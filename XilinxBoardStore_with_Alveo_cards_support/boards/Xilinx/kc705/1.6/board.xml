@@ -1,0 +1,2028 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<board schema_version="2.1" vendor="xilinx.com" name="kc705" display_name="Kintex-7 KC705 Evaluation Platform" url="www.xilinx.com/kc705" preset_file="preset.xml">
+  <images>
+    <image name="kc705_board.jpeg" display_name="KC705 BOARD" sub_type="board">
+      <description>KC705 Board File Image</description>
+    </image>
+  </images>
+  <compatible_board_revisions>
+    <revision id="0">1.1</revision>
+  </compatible_board_revisions>
+  <file_version>1.6</file_version>
+  <description>Kintex-7 KC705 Evaluation Platform</description>
+  <parameters>
+    <parameter name="heat_sink_type" value="medium" value_type="string"/>
+    <parameter name="heat_sink_temperature" value_type="range" value_min="20.0" value_max="30.0"/>
+  </parameters>
+  <jumpers>
+    <jumper name="SW13_M0" default_value="false">
+      <description>Impacts connection between flash_qspi and flash_bpi.If value=true, flash_qspi will be enabled</description>
+    </jumper>
+    <jumper name="SW13_M1" default_value="true">
+      <description>Impacts connection between flash_qspi and flash_bpi.If value=true, flash_bpi will be enabled</description>
+    </jumper>
+    <jumper name="J29_P1_P2" default_value="true">
+      <description>value=true will configure component phy to work in MII or GMII mode or RGMII mode based on J30 and J64</description>
+    </jumper>
+    <jumper name="J29_P2_P3" default_value="false">
+      <description>value=true will configure component phy to work in SGMII mode.</description>
+    </jumper>
+    <jumper name="J30_P1_P2" default_value="true">
+      <description>value=true will configure component phy to work in MII or GMII mode.</description>
+    </jumper>
+    <jumper name="J30_P2_P3" default_value="false">
+      <description>value=true will configure component phy to work in SGMII mode.</description>
+    </jumper>
+    <jumper name="J64" default_value="false">
+      <description>value=true will configure component phy either to work RGMII mode.</description>
+    </jumper>
+  </jumpers>
+  
+
+<components>
+  <component name="fmc_lpc_connector" display_name="FMC_LPC" type="connector" sub_type="fmc_lpc">
+  <pins>
+    <pin index="82" name="fmc_lpc_dp0_c2m_p"></pin> <!-- C2 -->
+    <pin index="83" name="fmc_lpc_dp0_c2m_n"></pin> <!-- C3 -->
+    <pin index="86" name="fmc_lpc_dp0_m2c_p"></pin> <!-- C6 -->
+    <pin index="87" name="fmc_lpc_dp0_m2c_n"></pin> <!-- C7 -->
+    <pin index="90" name="fmc_lpc_la06_p"></pin> <!-- C10 -->
+    <pin index="91" name="fmc_lpc_la06_n"></pin> <!-- C11 -->
+    <pin index="94" name="fmc_lpc_la10_p"></pin> <!-- C14 -->
+    <pin index="95" name="fmc_lpc_la10_n"></pin> <!-- C15 -->
+    <pin index="98" name="fmc_lpc_la14_p"></pin> <!-- C18 -->
+    <pin index="99" name="fmc_lpc_la14_n"></pin> <!-- C19 -->
+    <pin index="102" name="fmc_lpc_la18_p"></pin> <!-- C22 -->
+    <pin index="103" name="fmc_lpc_la18_n"></pin> <!-- C23 -->
+    <pin index="106" name="fmc_lpc_la27_p"></pin> <!-- C26 -->
+    <pin index="107" name="fmc_lpc_la27_n"></pin> <!-- C27 -->
+    <pin index="124" name="fmc_lpc_gbtclk0_m2c_p"></pin> <!-- D4 -->
+    <pin index="125" name="fmc_lpc_gbtclk0_m2c_n"></pin> <!-- D5 -->
+    <pin index="128" name="fmc_lpc_la01_p"></pin> <!-- D8 -->
+    <pin index="129" name="fmc_lpc_la01_n"></pin> <!-- D9 -->
+    <pin index="131" name="fmc_lpc_la05_p"></pin> <!-- D11 -->
+    <pin index="132" name="fmc_lpc_la05_n"></pin> <!-- D12 -->
+    <pin index="134" name="fmc_lpc_la09_p"></pin> <!-- D14 -->
+    <pin index="135" name="fmc_lpc_la09_n"></pin> <!-- D15 -->
+    <pin index="137" name="fmc_lpc_la13_p"></pin> <!-- D17 -->
+    <pin index="138" name="fmc_lpc_la13_n"></pin> <!-- D18 -->
+    <pin index="140" name="fmc_lpc_la17_p"></pin> <!-- D20 -->
+    <pin index="141" name="fmc_lpc_la17_n"></pin> <!-- D21 -->
+    <pin index="143" name="fmc_lpc_la23_p"></pin> <!-- D23 -->
+    <pin index="144" name="fmc_lpc_la23_n"></pin> <!-- D24 -->
+    <pin index="146" name="fmc_lpc_la26_p"></pin> <!-- D26 -->
+    <pin index="147" name="fmc_lpc_la26_n"></pin> <!-- D27 -->
+    <pin index="242" name="fmc_lpc_clk1_m2c_p"></pin> <!-- G2 -->
+    <pin index="243" name="fmc_lpc_clk1_m2c_n"></pin> <!-- G3 -->
+    <pin index="246" name="fmc_lpc_la00_p"></pin> <!-- G6 -->
+    <pin index="247" name="fmc_lpc_la00_n"></pin> <!-- G7 -->
+    <pin index="249" name="fmc_lpc_la03_p"></pin> <!-- G9 -->
+    <pin index="250" name="fmc_lpc_la03_n"></pin> <!-- G10 -->
+    <pin index="252" name="fmc_lpc_la08_p"></pin> <!-- G12 -->
+    <pin index="253" name="fmc_lpc_la08_n"></pin> <!-- G13 -->
+    <pin index="255" name="fmc_lpc_la12_p"></pin> <!-- G15 -->
+    <pin index="256" name="fmc_lpc_la12_n"></pin> <!-- G16 -->
+    <pin index="258" name="fmc_lpc_la16_p"></pin> <!-- G18 -->
+    <pin index="259" name="fmc_lpc_la16_n"></pin> <!-- G19 -->
+    <pin index="261" name="fmc_lpc_la20_p"></pin> <!-- G21 -->
+    <pin index="262" name="fmc_lpc_la20_n"></pin> <!-- G22 -->
+    <pin index="264" name="fmc_lpc_la22_p"></pin> <!-- G24 -->
+    <pin index="265" name="fmc_lpc_la22_n"></pin> <!-- G25 -->
+    <pin index="267" name="fmc_lpc_la25_p"></pin> <!-- G27 -->
+    <pin index="268" name="fmc_lpc_la25_n"></pin> <!-- G28 -->
+    <pin index="270" name="fmc_lpc_la29_p"></pin> <!-- G30 -->
+    <pin index="271" name="fmc_lpc_la29_n"></pin> <!-- G31 -->
+    <pin index="273" name="fmc_lpc_la31_p"></pin> <!-- G33 -->
+    <pin index="274" name="fmc_lpc_la31_n"></pin> <!-- G34 -->
+    <pin index="276" name="fmc_lpc_la33_p"></pin> <!-- G36 -->
+    <pin index="277" name="fmc_lpc_la33_n"></pin> <!-- G37 -->
+    <pin index="282" name="fmc_lpc_prsnt_m2c_b_ls"></pin> <!-- prsnt_m2c_l -->
+    <pin index="284" name="fmc_lpc_clk0_m2c_p"></pin> <!-- H4 -->
+    <pin index="285" name="fmc_lpc_clk0_m2c_n"></pin> <!-- H5 -->
+    <pin index="287" name="fmc_lpc_la02_p"></pin> <!-- H7 -->
+    <pin index="288" name="fmc_lpc_la02_n"></pin> <!-- H8 -->
+    <pin index="290" name="fmc_lpc_la04_p"></pin> <!-- H10 -->
+    <pin index="291" name="fmc_lpc_la04_n"></pin> <!-- H11 -->
+    <pin index="293" name="fmc_lpc_la07_p"></pin> <!-- H13 -->
+    <pin index="294" name="fmc_lpc_la07_n"></pin> <!-- H14 -->
+    <pin index="296" name="fmc_lpc_la11_p"></pin> <!-- H16 -->
+    <pin index="297" name="fmc_lpc_la11_n"></pin> <!-- H17 -->
+    <pin index="299" name="fmc_lpc_la15_p"></pin> <!-- H19 -->
+    <pin index="300" name="fmc_lpc_la15_n"></pin> <!-- H20 -->
+    <pin index="302" name="fmc_lpc_la19_p"></pin> <!-- H22 -->
+    <pin index="303" name="fmc_lpc_la19_n"></pin> <!-- H23 -->
+    <pin index="305" name="fmc_lpc_la21_p"></pin> <!-- H25 -->
+    <pin index="306" name="fmc_lpc_la21_n"></pin> <!-- H26 -->
+    <pin index="308" name="fmc_lpc_la24_p"></pin> <!-- H28 -->
+    <pin index="309" name="fmc_lpc_la24_n"></pin> <!-- H29 -->
+    <pin index="311" name="fmc_lpc_la28_p"></pin> <!-- H31 -->
+    <pin index="312" name="fmc_lpc_la28_n"></pin> <!-- H32 -->
+    <pin index="314" name="fmc_lpc_la30_p"></pin> <!-- H34 -->
+    <pin index="315" name="fmc_lpc_la30_n"></pin> <!-- H35 -->
+    <pin index="317" name="fmc_lpc_la32_p"></pin> <!-- H37 -->
+    <pin index="318" name="fmc_lpc_la32_n"></pin> <!-- H38 -->
+  </pins>
+  </component>
+
+  <component name="fmc_hpc_connector" display_name="FMC_HPC" type="connector" sub_type="fmc_hpc">
+  <pins>
+    <pin index="2" name="fmc_hpc_dp1_m2c_p"></pin> <!-- A2 -->
+    <pin index="3" name="fmc_hpc_dp1_m2c_n"></pin> <!-- A3 -->
+    <pin index="6" name="fmc_hpc_dp2_m2c_p"></pin> <!-- A6 -->
+    <pin index="7" name="fmc_hpc_dp2_m2c_n"></pin> <!-- A7 -->
+    <pin index="10" name="fmc_hpc_dp3_m2c_p"></pin> <!-- A10 -->
+    <pin index="11" name="fmc_hpc_dp3_m2c_n"></pin> <!-- A11 -->
+    <pin index="22" name="fmc_hpc_dp1_c2m_p"></pin> <!-- A22 -->
+    <pin index="23" name="fmc_hpc_dp1_c2m_n"></pin> <!-- A23 -->
+    <pin index="26" name="fmc_hpc_dp2_c2m_p"></pin> <!-- A26 -->
+    <pin index="27" name="fmc_hpc_dp2_c2m_n"></pin> <!-- A27 -->
+    <pin index="30" name="fmc_hpc_dp3_c2m_p"></pin> <!-- A30 -->
+    <pin index="31" name="fmc_hpc_dp3_c2m_n"></pin> <!-- A31 -->
+    <pin index="60" name="fmc_hpc_gbtclk1_m2c_p"></pin> <!-- B20 -->
+    <pin index="61" name="fmc_hpc_gbtclk1_m2c_n"></pin> <!-- B21 -->
+    <pin index="82" name="fmc_hpc_dp0_c2m_p"></pin> <!-- C2 -->
+    <pin index="83" name="fmc_hpc_dp0_c2m_n"></pin> <!-- C3 -->
+    <pin index="86" name="fmc_hpc_dp0_m2c_p"></pin> <!-- C6 -->
+    <pin index="87" name="fmc_hpc_dp0_m2c_n"></pin> <!-- C7 -->
+    <pin index="90" name="fmc_hpc_la06_p"></pin> <!-- C10 -->
+    <pin index="91" name="fmc_hpc_la06_n"></pin> <!-- C11 -->
+    <pin index="94" name="fmc_hpc_la10_p"></pin> <!-- C14 -->
+    <pin index="95" name="fmc_hpc_la10_n"></pin> <!-- C15 -->
+    <pin index="98" name="fmc_hpc_la14_p"></pin> <!-- C18 -->
+    <pin index="99" name="fmc_hpc_la14_n"></pin> <!-- C19 -->
+    <pin index="102" name="fmc_hpc_la18_p"></pin> <!-- C22 -->
+    <pin index="103" name="fmc_hpc_la18_n"></pin> <!-- C23 -->
+    <pin index="106" name="fmc_hpc_la27_p"></pin> <!-- C26 -->
+    <pin index="107" name="fmc_hpc_la27_n"></pin> <!-- C27 -->
+    <pin index="124" name="fmc_hpc_gbtclk0_m2c_p"></pin> <!-- D4 -->
+    <pin index="125" name="fmc_hpc_gbtclk0_m2c_n"></pin> <!-- D5 -->
+    <pin index="128" name="fmc_hpc_la01_p"></pin> <!-- D8 -->
+    <pin index="129" name="fmc_hpc_la01_n"></pin> <!-- D9 -->
+    <pin index="131" name="fmc_hpc_la05_p"></pin> <!-- D11 -->
+    <pin index="132" name="fmc_hpc_la05_n"></pin> <!-- D12 -->
+    <pin index="134" name="fmc_hpc_la09_p"></pin> <!-- D14 -->
+    <pin index="135" name="fmc_hpc_la09_n"></pin> <!-- D15 -->
+    <pin index="137" name="fmc_hpc_la13_p"></pin> <!-- D17 -->
+    <pin index="138" name="fmc_hpc_la13_n"></pin> <!-- D18 -->
+    <pin index="140" name="fmc_hpc_la17_p"></pin> <!-- D20 -->
+    <pin index="141" name="fmc_hpc_la17_n"></pin> <!-- D21 -->
+    <pin index="143" name="fmc_hpc_la23_p"></pin> <!-- D23 -->
+    <pin index="144" name="fmc_hpc_la23_n"></pin> <!-- D24 -->
+    <pin index="146" name="fmc_hpc_la26_p"></pin> <!-- D26 -->
+    <pin index="147" name="fmc_hpc_la26_n"></pin> <!-- D27 -->
+    <pin index="162" name="fmc_hpc_ha01_p"></pin> <!-- E2 -->
+    <pin index="163" name="fmc_hpc_ha01_n"></pin> <!-- E3 -->
+    <pin index="166" name="fmc_hpc_ha05_p"></pin> <!-- E6 -->
+    <pin index="167" name="fmc_hpc_ha05_n"></pin> <!-- E7 -->
+    <pin index="169" name="fmc_hpc_ha09_p"></pin> <!-- E9 -->
+    <pin index="170" name="fmc_hpc_ha09_n"></pin> <!-- E10 -->
+    <pin index="172" name="fmc_hpc_ha13_p"></pin> <!-- E12 -->
+    <pin index="173" name="fmc_hpc_ha13_n"></pin> <!-- E13 -->
+    <pin index="175" name="fmc_hpc_ha16_p"></pin> <!-- E15 -->
+    <pin index="176" name="fmc_hpc_ha16_n"></pin> <!-- E16 -->
+    <pin index="178" name="fmc_hpc_ha20_p"></pin> <!-- E18 -->
+    <pin index="179" name="fmc_hpc_ha20_n"></pin> <!-- E19 -->
+    <pin index="201" name="fmc_hpc_pg_m2c_ls"></pin> <!-- pg_m2c -->
+    <pin index="204" name="fmc_hpc_ha00_p"></pin> <!-- F4 -->
+    <pin index="205" name="fmc_hpc_ha00_n"></pin> <!-- F5 -->
+    <pin index="207" name="fmc_hpc_ha04_p"></pin> <!-- F7 -->
+    <pin index="208" name="fmc_hpc_ha04_n"></pin> <!-- F8 -->
+    <pin index="210" name="fmc_hpc_ha08_p"></pin> <!-- F10 -->
+    <pin index="211" name="fmc_hpc_ha08_n"></pin> <!-- F11 -->
+    <pin index="213" name="fmc_hpc_ha12_p"></pin> <!-- F13 -->
+    <pin index="214" name="fmc_hpc_ha12_n"></pin> <!-- F14 -->
+    <pin index="216" name="fmc_hpc_ha15_p"></pin> <!-- F16 -->
+    <pin index="217" name="fmc_hpc_ha15_n"></pin> <!-- F17 -->
+    <pin index="219" name="fmc_hpc_ha19_p"></pin> <!-- F19 -->
+    <pin index="220" name="fmc_hpc_ha19_n"></pin> <!-- F20 -->
+    <pin index="242" name="fmc_hpc_clk1_m2c_p"></pin> <!-- G2 -->
+    <pin index="243" name="fmc_hpc_clk1_m2c_n"></pin> <!-- G3 -->
+    <pin index="246" name="fmc_hpc_la00_p"></pin> <!-- G6 -->
+    <pin index="247" name="fmc_hpc_la00_n"></pin> <!-- G7 -->
+    <pin index="249" name="fmc_hpc_la03_p"></pin> <!-- G9 -->
+    <pin index="250" name="fmc_hpc_la03_n"></pin> <!-- G10 -->
+    <pin index="252" name="fmc_hpc_la08_p"></pin> <!-- G12 -->
+    <pin index="253" name="fmc_hpc_la08_n"></pin> <!-- G13 -->
+    <pin index="255" name="fmc_hpc_la12_p"></pin> <!-- G15 -->
+    <pin index="256" name="fmc_hpc_la12_n"></pin> <!-- G16 -->
+    <pin index="258" name="fmc_hpc_la16_p"></pin> <!-- G18 -->
+    <pin index="259" name="fmc_hpc_la16_n"></pin> <!-- G19 -->
+    <pin index="261" name="fmc_hpc_la20_p"></pin> <!-- G21 -->
+    <pin index="262" name="fmc_hpc_la20_n"></pin> <!-- G22 -->
+    <pin index="264" name="fmc_hpc_la22_p"></pin> <!-- G24 -->
+    <pin index="265" name="fmc_hpc_la22_n"></pin> <!-- G25 -->
+    <pin index="267" name="fmc_hpc_la25_p"></pin> <!-- G27 -->
+    <pin index="268" name="fmc_hpc_la25_n"></pin> <!-- G28 -->
+    <pin index="270" name="fmc_hpc_la29_p"></pin> <!-- G30 -->
+    <pin index="271" name="fmc_hpc_la29_n"></pin> <!-- G31 -->
+    <pin index="273" name="fmc_hpc_la31_p"></pin> <!-- G33 -->
+    <pin index="274" name="fmc_hpc_la31_n"></pin> <!-- G34 -->
+    <pin index="276" name="fmc_hpc_la33_p"></pin> <!-- G36 -->
+    <pin index="277" name="fmc_hpc_la33_n"></pin> <!-- G37 -->
+    <pin index="282" name="fmc_hpc_prsnt_m2c_b_ls"></pin> <!-- prsnt_m2c_l -->
+    <pin index="284" name="fmc_hpc_clk0_m2c_p"></pin> <!-- H4 -->
+    <pin index="285" name="fmc_hpc_clk0_m2c_n"></pin> <!-- H5 -->
+    <pin index="287" name="fmc_hpc_la02_p"></pin> <!-- H7 -->
+    <pin index="288" name="fmc_hpc_la02_n"></pin> <!-- H8 -->
+    <pin index="290" name="fmc_hpc_la04_p"></pin> <!-- H10 -->
+    <pin index="291" name="fmc_hpc_la04_n"></pin> <!-- H11 -->
+    <pin index="293" name="fmc_hpc_la07_p"></pin> <!-- H13 -->
+    <pin index="294" name="fmc_hpc_la07_n"></pin> <!-- H14 -->
+    <pin index="296" name="fmc_hpc_la11_p"></pin> <!-- H16 -->
+    <pin index="297" name="fmc_hpc_la11_n"></pin> <!-- H17 -->
+    <pin index="299" name="fmc_hpc_la15_p"></pin> <!-- H19 -->
+    <pin index="300" name="fmc_hpc_la15_n"></pin> <!-- H20 -->
+    <pin index="302" name="fmc_hpc_la19_p"></pin> <!-- H22 -->
+    <pin index="303" name="fmc_hpc_la19_n"></pin> <!-- H23 -->
+    <pin index="305" name="fmc_hpc_la21_p"></pin> <!-- H25 -->
+    <pin index="306" name="fmc_hpc_la21_n"></pin> <!-- H26 -->
+    <pin index="308" name="fmc_hpc_la24_p"></pin> <!-- H28 -->
+    <pin index="309" name="fmc_hpc_la24_n"></pin> <!-- H29 -->
+    <pin index="311" name="fmc_hpc_la28_p"></pin> <!-- H31 -->
+    <pin index="312" name="fmc_hpc_la28_n"></pin> <!-- H32 -->
+    <pin index="314" name="fmc_hpc_la30_p"></pin> <!-- H34 -->
+    <pin index="315" name="fmc_hpc_la30_n"></pin> <!-- H35 -->
+    <pin index="317" name="fmc_hpc_la32_p"></pin> <!-- H37 -->
+    <pin index="318" name="fmc_hpc_la32_n"></pin> <!-- H38 -->
+    <pin index="326" name="fmc_hpc_ha03_p"></pin> <!-- J6 -->
+    <pin index="327" name="fmc_hpc_ha03_n"></pin> <!-- J7 -->
+    <pin index="329" name="fmc_hpc_ha07_p"></pin> <!-- J9 -->
+    <pin index="330" name="fmc_hpc_ha07_n"></pin> <!-- J10 -->
+    <pin index="332" name="fmc_hpc_ha11_p"></pin> <!-- J12 -->
+    <pin index="333" name="fmc_hpc_ha11_n"></pin> <!-- J13 -->
+    <pin index="335" name="fmc_hpc_ha14_p"></pin> <!-- J15 -->
+    <pin index="336" name="fmc_hpc_ha14_n"></pin> <!-- J16 -->
+    <pin index="338" name="fmc_hpc_ha18_p"></pin> <!-- J18 -->
+    <pin index="339" name="fmc_hpc_ha18_n"></pin> <!-- J19 -->
+    <pin index="341" name="fmc_hpc_ha22_p"></pin> <!-- J21 -->
+    <pin index="342" name="fmc_hpc_ha22_n"></pin> <!-- J22 -->
+    <pin index="367" name="fmc_hpc_ha02_p"></pin> <!-- K7 -->
+    <pin index="368" name="fmc_hpc_ha02_n"></pin> <!-- K8 -->
+    <pin index="370" name="fmc_hpc_ha06_p"></pin> <!-- K10 -->
+    <pin index="371" name="fmc_hpc_ha06_n"></pin> <!-- K11 -->
+    <pin index="373" name="fmc_hpc_ha10_p"></pin> <!-- K13 -->
+    <pin index="374" name="fmc_hpc_ha10_n"></pin> <!-- K14 -->
+    <pin index="376" name="fmc_hpc_ha17_p"></pin> <!-- K16 -->
+    <pin index="377" name="fmc_hpc_ha17_n"></pin> <!-- K17 -->
+    <pin index="379" name="fmc_hpc_ha21_p"></pin> <!-- K19 -->
+    <pin index="380" name="fmc_hpc_ha21_n"></pin> <!-- K20 -->
+    <pin index="382" name="fmc_hpc_ha23_p"></pin> <!-- K22 -->
+    <pin index="383" name="fmc_hpc_ha23_n"></pin> <!-- K23 -->
+  </pins>
+  </component>
+
+    <component name="part0" display_name="Kintex-7 KC705 Evaluation Platform" type="fpga" part_name="xc7k325tffg900-2" pin_map_file="part0_pins.xml" vendor="xilinx" spec_url="www.xilinx.com/kc705">
+      <description>FPGA part on the board</description>
+      <interfaces>
+        <interface mode="master" name="ddr3_sdram" type="xilinx.com:interface:ddrx_rtl:1.0" of_component="ddr3_sdram" preset_proc="ddr3_sdram_preset">
+          <description>DDR3 board interface, it can use MIG IP for connection. </description>
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="mig_7series" order="0"/>
+          </preferred_ips>
+        </interface>
+        <interface mode="master" name="gmii" type="xilinx.com:interface:gmii_rtl:1.0" of_component="phy_onboard" preset_proc="gmii_preset">
+          <description>Primary interface to communicate with ethernet phy in GMII mode. </description>
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_ethernet" order="0"/>
+          </preferred_ips>
+          <port_maps>
+            <port_map logical_port="TXD" physical_port="gmii_txd" dir="out" left="7" right="0">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="PHY_TXD0"/>
+                <pin_map port_index="1" component_pin="PHY_TXD1"/>
+                <pin_map port_index="2" component_pin="PHY_TXD2"/>
+                <pin_map port_index="3" component_pin="PHY_TXD3"/>
+                <pin_map port_index="4" component_pin="PHY_TXD4"/>
+                <pin_map port_index="5" component_pin="PHY_TXD5"/>
+                <pin_map port_index="6" component_pin="PHY_TXD6"/>
+                <pin_map port_index="7" component_pin="PHY_TXD7"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="TX_EN" physical_port="gmii_tx_en" dir="out">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="PHY_TXCTL_TXEN"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="TX_ER" physical_port="gmii_tx_er" dir="out">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="PHY_TXER"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="GTX_CLK" physical_port="gmii_gtx_clk" dir="out">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="PHY_TXC_GTXCLK"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="TX_CLK" physical_port="gmii_tx_clk" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="PHY_TXCLK"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="RXD" physical_port="gmii_rxd" dir="in" left="7" right="0">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="PHY_RXD0"/>
+                <pin_map port_index="1" component_pin="PHY_RXD1"/>
+                <pin_map port_index="2" component_pin="PHY_RXD2"/>
+                <pin_map port_index="3" component_pin="PHY_RXD3"/>
+                <pin_map port_index="4" component_pin="PHY_RXD4"/>
+                <pin_map port_index="5" component_pin="PHY_RXD5"/>
+                <pin_map port_index="6" component_pin="PHY_RXD6"/>
+                <pin_map port_index="7" component_pin="PHY_RXD7"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="RX_DV" physical_port="gmii_rx_dv" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="PHY_RXCTL_RXDV"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="RX_ER" physical_port="gmii_rx_er" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="PHY_RXER"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="RX_CLK" physical_port="gmii_rx_clk" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="PHY_RXCLK"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="COL" physical_port="gmii_col" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="PHY_COL"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="CRS" physical_port="gmii_crs" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="PHY_CRS"/>
+              </pin_maps>
+            </port_map>
+          </port_maps>
+          <enablement_dependencies>
+            <jumpers>
+              <jumper name="J29_P1_P2">true</jumper>
+              <jumper name="J29_P2_P3">false</jumper>
+              <jumper name="J30_P1_P2">true</jumper>
+              <jumper name="J30_P2_P3">false</jumper>
+              <jumper name="J64">false</jumper>
+            </jumpers>
+          </enablement_dependencies>
+        </interface>
+        <interface mode="master" name="mii" type="xilinx.com:interface:mii_rtl:1.0" of_component="phy_onboard" preset_proc="mii_preset">
+          <description>Primary interface to communicate with ethernet phy in MII mode. </description>
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_ethernet" order="0"/>
+          </preferred_ips>
+          <port_maps>
+            <port_map logical_port="TXD" physical_port="mii_txd" dir="out" left="3" right="0">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="PHY_TXD0"/>
+                <pin_map port_index="1" component_pin="PHY_TXD1"/>
+                <pin_map port_index="2" component_pin="PHY_TXD2"/>
+                <pin_map port_index="3" component_pin="PHY_TXD3"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="TX_EN" physical_port="mii_tx_en" dir="out">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="PHY_TXCTL_TXEN"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="TX_CLK" physical_port="mii_tx_clk" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="PHY_TXCLK"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="COL" physical_port="mii_col" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="PHY_COL"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="RXD" physical_port="mii_rxd" dir="out" left="3" right="0">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="PHY_RXD0"/>
+                <pin_map port_index="1" component_pin="PHY_RXD1"/>
+                <pin_map port_index="2" component_pin="PHY_RXD2"/>
+                <pin_map port_index="3" component_pin="PHY_RXD3"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="RX_ER" physical_port="mii_rx_er" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="PHY_RXER"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="TX_ER" physical_port="mii_tx_er" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="PHY_TXER"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="RX_CLK" physical_port="mii_rx_clk" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="PHY_RXCLK"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="CRS" physical_port="mii_crs" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="PHY_CRS"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="RX_DV" physical_port="mii_rx_dv" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="PHY_RXCTL_RXDV"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="RST_N" physical_port="mii_phy_rst_n" dir="out">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="PHY_RESET"/>
+              </pin_maps>
+            </port_map>
+          </port_maps>
+          <enablement_dependencies>
+            <jumpers>
+              <jumper name="J29_P1_P2">true</jumper>
+              <jumper name="J29_P2_P3">false</jumper>
+              <jumper name="J30_P1_P2">true</jumper>
+              <jumper name="J30_P2_P3">false</jumper>
+              <jumper name="J64">false</jumper>
+            </jumpers>
+          </enablement_dependencies>
+        </interface>
+        <interface mode="master" name="rgmii" type="xilinx.com:interface:rgmii_rtl:1.0" of_component="phy_onboard" preset_proc="rgmii_preset">
+          <description>Primary interface to communicate with ethernet phy in RGMII mode. </description>
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_ethernet" order="0"/>
+          </preferred_ips>
+          <port_maps>
+            <port_map logical_port="TD" physical_port="rgmii_td" dir="out" left="3" right="0">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="PHY_TXD0"/>
+                <pin_map port_index="1" component_pin="PHY_TXD1"/>
+                <pin_map port_index="2" component_pin="PHY_TXD2"/>
+                <pin_map port_index="3" component_pin="PHY_TXD3"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="TX_CTL" physical_port="rgmii_tx_ctl" dir="out">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="PHY_TXCTL_TXEN"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="TXC" physical_port="rgmii_txc" dir="out" name="rgmii_txc">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="PHY_TXC_GTXCLK"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="RD" physical_port="rgmii_rd" dir="out" left="3" right="0">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="PHY_RXD0"/>
+                <pin_map port_index="1" component_pin="PHY_RXD1"/>
+                <pin_map port_index="2" component_pin="PHY_RXD2"/>
+                <pin_map port_index="3" component_pin="PHY_RXD3"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="RX_CTL" physical_port="rgmii_rx_ctl" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="PHY_RXCTL_RXDV"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="RXC" physical_port="rgmii_rxc" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="PHY_RXCLK"/>
+              </pin_maps>
+            </port_map>
+          </port_maps>
+          <enablement_dependencies>
+            <jumpers>
+              <jumper name="J29_P1_P2">true</jumper>
+              <jumper name="J29_P2_P3">false</jumper>
+              <jumper name="J30_P1_P2">false</jumper>
+              <jumper name="J30_P2_P3">false</jumper>
+              <jumper name="J64">true</jumper>
+            </jumpers>
+          </enablement_dependencies>
+        </interface>
+        <interface mode="master" name="sgmii" type="xilinx.com:interface:sgmii_rtl:1.0" of_component="phy_onboard" preset_proc="sgmii_preset">
+          <parameters>
+            <parameter name="gt_loc" value="GTXE2_CHANNEL_X0Y9"/>
+          </parameters>
+          <description>Primary interface to communicate with ethernet phy in SGMII mode. </description>
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_ethernet" order="0"/>
+          </preferred_ips>
+          <port_maps>
+            <port_map logical_port="TXN" physical_port="sgmii_txn" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="SGMII_TX_N"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="TXP" physical_port="sgmii_txp" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="SGMII_TX_P"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="RXN" physical_port="sgmii_rxn" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="SGMII_RX_N"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="RXP" physical_port="sgmii_rxp" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="SGMII_RX_P"/>
+              </pin_maps>
+            </port_map>
+          </port_maps>
+          <enablement_dependencies>
+            <jumpers>
+              <jumper name="J29_P1_P2">false</jumper>
+              <jumper name="J29_P2_P3">true</jumper>
+              <jumper name="J30_P1_P2">false</jumper>
+              <jumper name="J30_P2_P3">true</jumper>
+              <jumper name="J64">false</jumper>
+            </jumpers>
+          </enablement_dependencies>
+        </interface>
+        <interface mode="master" name="mdio_io" type="xilinx.com:interface:mdio_io:1.0" of_component="phy_onboard">
+          <description>Secondary interface to communicate with ethernet phy when mode is selected as MII,GMII,1000BaseX. </description>
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="tri_mode_ethernet_mac" order="0"/>
+          </preferred_ips>
+          <port_maps>
+            <port_map logical_port="IO" physical_port="mdio_io" dir="inout">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="PHY_MDIO"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="MDC" physical_port="mdio_io_mdc" dir="out">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="PHY_MDC"/>
+              </pin_maps>
+            </port_map>
+          </port_maps>
+        </interface>
+        <interface mode="master" name="mdio_mdc" type="xilinx.com:interface:mdio_rtl:1.0" of_component="phy_onboard">
+          <description>Secondary interface to communicate with ethernet phy when mode is selected as SGMII. </description>
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_ethernet" order="0"/>
+          </preferred_ips>
+          <port_maps>
+            <port_map logical_port="MDIO_I" physical_port="mdio_i" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="PHY_MDIO"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="MDIO_O" physical_port="mdio_o" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="PHY_MDIO"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="MDIO_T" physical_port="mdio_t" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="PHY_MDIO"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="MDC" physical_port="mdc" dir="out">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="PHY_MDC"/>
+              </pin_maps>
+            </port_map>
+          </port_maps>
+        </interface>
+        <interface mode="master" name="phy_reset_out" type="xilinx.com:signal:reset_rtl:1.0" of_component="phy_onboard">
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_ethernet" order="0"/>
+          </preferred_ips>
+          <port_maps>
+            <port_map logical_port="RESET" physical_port="phy_rst_out" dir="out">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="PHY_RESET"/>
+              </pin_maps>
+            </port_map>
+          </port_maps>
+        </interface>
+        <interface mode="master" name="dip_switches_4bits" type="xilinx.com:interface:gpio_rtl:1.0" of_component="dip_switches_4bits" preset_proc="dip_switches_4bits_preset">
+          <description>4-position user DIP Switch</description>
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_gpio" order="0"/>
+          </preferred_ips>
+          <port_maps>
+            <port_map logical_port="TRI_I" physical_port="dip_switches_tri_i" dir="in" left="3" right="0">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="GPIO_DIP_SW0"/>
+                <pin_map port_index="1" component_pin="GPIO_DIP_SW1"/>
+                <pin_map port_index="2" component_pin="GPIO_DIP_SW2"/>
+                <pin_map port_index="3" component_pin="GPIO_DIP_SW3"/>
+              </pin_maps>
+            </port_map>
+          </port_maps>
+        </interface>
+        <interface mode="master" name="rotary_switch" type="xilinx.com:interface:gpio_rtl:1.0" of_component="rotary_switch" preset_proc="rotary_switch_preset">
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_gpio" order="0"/>
+          </preferred_ips>
+          <port_maps>
+            <port_map logical_port="TRI_I" physical_port="rotary_inca_push_incb_tri_i" dir="in" left="2" right="0">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="ROTARY_INCA"/>
+                <pin_map port_index="1" component_pin="ROTARY_PUSH"/>
+                <pin_map port_index="2" component_pin="ROTARY_INCB"/>
+              </pin_maps>
+            </port_map>
+          </port_maps>
+        </interface>
+        <interface mode="slave" name="sys_diff_clock" type="xilinx.com:interface:diff_clock_rtl:1.0" of_component="sys_diff_clock" preset_proc="sys_diff_clock_preset">
+          <parameters>
+            <parameter name="frequency" value="200000000"/>
+          </parameters>
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="clk_wiz" order="0"/>
+          </preferred_ips>
+          <port_maps>
+            <port_map logical_port="CLK_P" physical_port="clk_p" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="SYSCLK_P"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="CLK_N" physical_port="clk_n" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="SYSCLK_N"/>
+              </pin_maps>
+            </port_map>
+          </port_maps>
+        </interface>
+        <interface mode="slave" name="sgmii_mgt_clk" type="xilinx.com:interface:diff_clock_rtl:1.0" of_component="sgmii_mgt_clk">
+          <parameters>
+            <parameter name="type" value="ETH_MGT_CLK"/>
+            <parameter name="frequency" value="125000000"/>
+          </parameters>
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_ethernet" order="0"/>
+          </preferred_ips>
+          <port_maps>
+            <port_map logical_port="CLK_P" physical_port="sgmii_mgt_clkp" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="SGMIICLK_Q0_P"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="CLK_N" physical_port="sgmii_mgt_clkn" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="SGMIICLK_Q0_N"/>
+              </pin_maps>
+            </port_map>
+          </port_maps>
+          <enablement_dependencies>
+            <parameters>
+              <parameter name="SGMII_MGT_CLK">true</parameter>
+              <parameter name="SMA_MGT_CLK">false</parameter>
+            </parameters>
+          </enablement_dependencies>
+        </interface>
+        <interface mode="master" name="sma_lvds" type="xilinx.com:interface:sgmii_rtl:1.0" of_component="phy_sma_lvds" preset_proc="sma_lvds_preset">
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_ethernet" order="0"/>
+          </preferred_ips>
+          <port_maps>
+            <port_map logical_port="TXN" physical_port="sma_lvds_txn" dir="out">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="USER_SMA_GPIO_N"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="TXP" physical_port="sma_lvds_txp" dir="out">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="USER_SMA_GPIO_P"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="RXN" physical_port="sma_lvds_rxn" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="USER_SMA_CLOCK_N"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="RXP" physical_port="sma_lvds_rxp" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="USER_SMA_CLOCK_P"/>
+              </pin_maps>
+            </port_map>
+          </port_maps>
+        </interface>
+        <interface mode="slave" name="sma_mgt_clk" type="xilinx.com:interface:diff_clock_rtl:1.0" of_component="sma_mgt_clk">
+          <parameters>
+            <parameter name="type" value="ETH_MGT_CLK"/>
+            <parameter name="frequency" value="125000000"/>
+          </parameters>
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_ethernet" order="0"/>
+          </preferred_ips>
+          <port_maps>
+            <port_map logical_port="CLK_P" physical_port="sma_mgt_clkp" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="SMA_MGT_REFCLK_P"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="CLK_N" physical_port="sma_mgt_clkn" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="SMA_MGT_REFCLK_N"/>
+              </pin_maps>
+            </port_map>
+          </port_maps>
+          <enablement_dependencies>
+            <parameters>
+              <parameter name="SGMII_MGT_CLK">false</parameter>
+              <parameter name="SMA_MGT_CLK">true</parameter>
+            </parameters>
+          </enablement_dependencies>
+        </interface>
+        <interface mode="master" name="linear_flash" type="xilinx.com:interface:emc_rtl:1.0" of_component="linear_flash" preset_proc="emc_preset">
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_emc" order="0"/>
+          </preferred_ips>
+          <port_maps>
+            <port_map logical_port="ADDR" physical_port="linear_flash_addr" dir="inout" left="26" right="1">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="FLASH_A0"/>
+                <pin_map port_index="1" component_pin="FLASH_A1"/>
+                <pin_map port_index="2" component_pin="FLASH_A2"/>
+                <pin_map port_index="3" component_pin="FLASH_A3"/>
+                <pin_map port_index="4" component_pin="FLASH_A4"/>
+                <pin_map port_index="5" component_pin="FLASH_A5"/>
+                <pin_map port_index="6" component_pin="FLASH_A6"/>
+                <pin_map port_index="7" component_pin="FLASH_A7"/>
+                <pin_map port_index="8" component_pin="FLASH_A8"/>
+                <pin_map port_index="9" component_pin="FLASH_A9"/>
+                <pin_map port_index="10" component_pin="FLASH_A10"/>
+                <pin_map port_index="11" component_pin="FLASH_A11"/>
+                <pin_map port_index="12" component_pin="FLASH_A12"/>
+                <pin_map port_index="13" component_pin="FLASH_A13"/>
+                <pin_map port_index="14" component_pin="FLASH_A14"/>
+                <pin_map port_index="15" component_pin="FLASH_A15"/>
+                <pin_map port_index="16" component_pin="FLASH_A16"/>
+                <pin_map port_index="17" component_pin="FLASH_A17"/>
+                <pin_map port_index="18" component_pin="FLASH_A18"/>
+                <pin_map port_index="19" component_pin="FLASH_A19"/>
+                <pin_map port_index="20" component_pin="FLASH_A20"/>
+                <pin_map port_index="21" component_pin="FLASH_A21"/>
+                <pin_map port_index="22" component_pin="FLASH_A22"/>
+                <pin_map port_index="23" component_pin="FLASH_A23"/>
+                <pin_map port_index="24" component_pin="FLASH_A24"/>
+                <pin_map port_index="25" component_pin="FLASH_A25"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="DQ_I" physical_port="linear_flash_dq_i" dir="inout" left="15" right="0">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="FLASH_D0"/>
+                <pin_map port_index="1" component_pin="FLASH_D1"/>
+                <pin_map port_index="2" component_pin="FLASH_D2"/>
+                <pin_map port_index="3" component_pin="FLASH_D3"/>
+                <pin_map port_index="4" component_pin="FLASH_D4"/>
+                <pin_map port_index="5" component_pin="FLASH_D5"/>
+                <pin_map port_index="6" component_pin="FLASH_D6"/>
+                <pin_map port_index="7" component_pin="FLASH_D7"/>
+                <pin_map port_index="8" component_pin="FLASH_D8"/>
+                <pin_map port_index="9" component_pin="FLASH_D9"/>
+                <pin_map port_index="10" component_pin="FLASH_D10"/>
+                <pin_map port_index="11" component_pin="FLASH_D11"/>
+                <pin_map port_index="12" component_pin="FLASH_D12"/>
+                <pin_map port_index="13" component_pin="FLASH_D13"/>
+                <pin_map port_index="14" component_pin="FLASH_D14"/>
+                <pin_map port_index="15" component_pin="FLASH_D15"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="DQ_O" physical_port="linear_flash_dq_o" dir="inout" left="15" right="0">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="FLASH_D0"/>
+                <pin_map port_index="1" component_pin="FLASH_D1"/>
+                <pin_map port_index="2" component_pin="FLASH_D2"/>
+                <pin_map port_index="3" component_pin="FLASH_D3"/>
+                <pin_map port_index="4" component_pin="FLASH_D4"/>
+                <pin_map port_index="5" component_pin="FLASH_D5"/>
+                <pin_map port_index="6" component_pin="FLASH_D6"/>
+                <pin_map port_index="7" component_pin="FLASH_D7"/>
+                <pin_map port_index="8" component_pin="FLASH_D8"/>
+                <pin_map port_index="9" component_pin="FLASH_D9"/>
+                <pin_map port_index="10" component_pin="FLASH_D10"/>
+                <pin_map port_index="11" component_pin="FLASH_D11"/>
+                <pin_map port_index="12" component_pin="FLASH_D12"/>
+                <pin_map port_index="13" component_pin="FLASH_D13"/>
+                <pin_map port_index="14" component_pin="FLASH_D14"/>
+                <pin_map port_index="15" component_pin="FLASH_D15"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="DQ_T" physical_port="linear_flash_dq_t" dir="inout" left="15" right="0">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="FLASH_D0"/>
+                <pin_map port_index="1" component_pin="FLASH_D1"/>
+                <pin_map port_index="2" component_pin="FLASH_D2"/>
+                <pin_map port_index="3" component_pin="FLASH_D3"/>
+                <pin_map port_index="4" component_pin="FLASH_D4"/>
+                <pin_map port_index="5" component_pin="FLASH_D5"/>
+                <pin_map port_index="6" component_pin="FLASH_D6"/>
+                <pin_map port_index="7" component_pin="FLASH_D7"/>
+                <pin_map port_index="8" component_pin="FLASH_D8"/>
+                <pin_map port_index="9" component_pin="FLASH_D9"/>
+                <pin_map port_index="10" component_pin="FLASH_D10"/>
+                <pin_map port_index="11" component_pin="FLASH_D11"/>
+                <pin_map port_index="12" component_pin="FLASH_D12"/>
+                <pin_map port_index="13" component_pin="FLASH_D13"/>
+                <pin_map port_index="14" component_pin="FLASH_D14"/>
+                <pin_map port_index="15" component_pin="FLASH_D15"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="ADV_LDN" physical_port="linear_flash_adv_ldn" dir="inout">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="FLASH_ADV_B"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="OEN" physical_port="linear_flash_oen" dir="inout">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="FLASH_OE_B"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="WEN" physical_port="linear_flash_wen" dir="inout">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="FLASH_FWE_B"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="CE_N" physical_port="linear_flash_ce_n" dir="inout">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="FPGA_FCS"/>
+              </pin_maps>
+            </port_map>
+          </port_maps>
+          <enablement_dependencies>
+            <jumpers>
+              <jumper name="SW13_M0">false</jumper>
+              <jumper name="SW13_M1">true</jumper>
+            </jumpers>
+          </enablement_dependencies>
+        </interface>
+        <interface mode="master" name="spi_flash" type="xilinx.com:interface:spi_rtl:1.0" of_component="spi_flash">
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_quad_spi" order="0"/>
+          </preferred_ips>
+          <port_maps>
+            <port_map logical_port="IO0_I" physical_port="spi_io0_i" dir="inout">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="FLASH_D0"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="IO0_O" physical_port="spi_io0_o" dir="inout">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="FLASH_D0"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="IO0_T" physical_port="spi_io0_t" dir="inout">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="FLASH_D0"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="IO1_I" physical_port="spi_io1_i" dir="inout">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="FLASH_D1"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="IO1_O" physical_port="spi_io1_o" dir="inout">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="FLASH_D1"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="IO1_T" physical_port="spi_io1_t" dir="inout">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="FLASH_D1"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="IO2_I" physical_port="spi_io2_i" dir="inout">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="FLASH_D2"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="IO2_O" physical_port="spi_io2_o" dir="inout">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="FLASH_D2"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="IO2_T" physical_port="spi_io2_t" dir="inout">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="FLASH_D2"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="IO3_I" physical_port="spi_io3_i" dir="inout">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="FLASH_D3"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="IO3_O" physical_port="spi_io3_o" dir="inout">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="FLASH_D3"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="IO3_T" physical_port="spi_io3_t" dir="inout">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="FLASH_D3"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="SS_I" physical_port="spi_ss_i" dir="inout">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="FPGA_FCS"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="SS_O" physical_port="spi_ss_o" dir="inout">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="FPGA_FCS"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="SS_T" physical_port="spi_ss_t" dir="inout">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="FPGA_FCS"/>
+              </pin_maps>
+            </port_map>
+          </port_maps>
+          <enablement_dependencies>
+            <jumpers>
+              <jumper name="SW13_M0">true</jumper>
+              <jumper name="SW13_M1">false</jumper>
+            </jumpers>
+          </enablement_dependencies>
+        </interface>
+        <interface mode="master" name="led_8bits" type="xilinx.com:interface:gpio_rtl:1.0" of_component="led_8bits" preset_proc="led_8bits_preset">
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_gpio" order="0"/>
+          </preferred_ips>
+          <port_maps>
+            <port_map logical_port="TRI_O" physical_port="leds_8bits_tri_o" dir="out" left="7" right="0">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="GPIO_LED_0_LS"/>
+                <pin_map port_index="1" component_pin="GPIO_LED_1_LS"/>
+                <pin_map port_index="2" component_pin="GPIO_LED_2_LS"/>
+                <pin_map port_index="3" component_pin="GPIO_LED_3_LS"/>
+                <pin_map port_index="4" component_pin="GPIO_LED_4_LS"/>
+                <pin_map port_index="5" component_pin="GPIO_LED_5_LS"/>
+                <pin_map port_index="6" component_pin="GPIO_LED_6_LS"/>
+                <pin_map port_index="7" component_pin="GPIO_LED_7_LS"/>
+              </pin_maps>
+            </port_map>
+          </port_maps>
+        </interface>
+        <interface mode="master" name="lcd_7bits" type="xilinx.com:interface:gpio_rtl:1.0" of_component="lcd_7bits" preset_proc="lcd_7bits_preset">
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_gpio" order="0"/>
+          </preferred_ips>
+          <port_maps>
+            <port_map logical_port="TRI_O" physical_port="lcd_7bits_tri_o" dir="out" left="6" right="0">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="LCD_E_LS"/>
+                <pin_map port_index="1" component_pin="LCD_RS_LS"/>
+                <pin_map port_index="2" component_pin="LCD_RW_LS"/>
+                <pin_map port_index="3" component_pin="LCD_DB7_LS"/>
+                <pin_map port_index="4" component_pin="LCD_DB6_LS"/>
+                <pin_map port_index="5" component_pin="LCD_DB5_LS"/>
+                <pin_map port_index="6" component_pin="LCD_DB4_LS"/>
+              </pin_maps>
+            </port_map>
+          </port_maps>
+        </interface>
+        <interface mode="master" name="rs232_uart" type="xilinx.com:interface:uart_rtl:1.0" of_component="rs232_uart" preset_proc="rs232_uart_preset">
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_uartlite" order="0"/>
+          </preferred_ips>
+          <port_maps>
+            <port_map logical_port="TxD" physical_port="rs232_uart_txd" dir="out">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="USB_TX"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="RxD" physical_port="rs232_uart_rxd" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="USB_RX"/>
+              </pin_maps>
+            </port_map>
+          </port_maps>
+        </interface>
+        <interface mode="master" name="sfp" type="xilinx.com:interface:sfp_rtl:1.0" of_component="phy_sfp" preset_proc="sfp_preset">
+          <parameters>
+            <parameter name="gt_loc" value="GTXE2_CHANNEL_X0Y10"/>
+          </parameters>
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_ethernet" order="0"/>
+          </preferred_ips>
+          <port_maps>
+            <port_map logical_port="TXN" physical_port="sfp_txn" dir="out" name="sfp_txn">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="SFP_TX_N"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="TXP" physical_port="sfp_txp" dir="out" name="sfp_txp">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="SFP_TX_P"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="RXN" physical_port="sfp_rxn" dir="in" name="sfp_rxn">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="SFP_RX_N"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="RXP" physical_port="sfp_rxp" dir="in" name="sfp_rxp">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="SFP_RX_P"/>
+              </pin_maps>
+            </port_map>
+          </port_maps>
+        </interface>
+        <interface mode="master" name="sfp_sgmii" type="xilinx.com:interface:sgmii_rtl:1.0" of_component="phy_sfp" preset_proc="sfp_sgmii_preset">
+          <parameters>
+            <parameter name="gt_loc" value="GTXE2_CHANNEL_X0Y10"/>
+          </parameters>
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_ethernet" order="0"/>
+          </preferred_ips>
+          <port_maps>
+            <port_map logical_port="TXN" physical_port="sfp_sgmii_txn" dir="out">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="SFP_TX_N"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="TXP" physical_port="sfp_sgmii_txp" dir="out">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="SFP_TX_P"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="RXN" physical_port="sfp_sgmii_rxn" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="SFP_RX_N"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="RXP" physical_port="sfp_sgmii_rxp" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="SFP_RX_P"/>
+              </pin_maps>
+            </port_map>
+          </port_maps>
+        </interface>
+        <interface mode="master" name="sma_sfp" type="xilinx.com:interface:sfp_rtl:1.0" of_component="phy_sma" preset_proc="sma_sfp_preset">
+          <parameters>
+            <parameter name="gt_loc" value="GTXE2_CHANNEL_X0Y8"/>
+          </parameters>
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_ethernet" order="0"/>
+          </preferred_ips>
+          <port_maps>
+            <port_map logical_port="TXN" physical_port="sma_sfp_txn" dir="out">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="SMA_MGT_TX_P"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="TXP" physical_port="sma_sfp_txp" dir="out">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="SMA_MGT_TX_N"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="RXN" physical_port="sma_sfp_rxn" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="SMA_MGT_RX_P"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="RXP" physical_port="sma_sfp_rxp" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="SMA_MGT_RX_N"/>
+              </pin_maps>
+            </port_map>
+          </port_maps>
+        </interface>
+        <interface mode="master" name="sma_sgmii" type="xilinx.com:interface:sgmii_rtl:1.0" of_component="phy_sma" preset_proc="sma_sgmii_preset">
+          <parameters>
+            <parameter name="gt_loc" value="GTXE2_CHANNEL_X0Y8"/>
+          </parameters>
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_ethernet" order="0"/>
+          </preferred_ips>
+          <port_maps>
+            <port_map logical_port="TXN" physical_port="sma_sgmii_txn" dir="out">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="SMA_MGT_TX_P"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="TXP" physical_port="sma_sgmii_txp" dir="out">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="SMA_MGT_TX_N"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="RXN" physical_port="sma_sgmii_rxn" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="SMA_MGT_RX_P"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="RXP" physical_port="sma_sgmii_rxp" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="SMA_MGT_RX_N"/>
+              </pin_maps>
+            </port_map>
+          </port_maps>
+        </interface>
+        <interface mode="master" name="iic_main" type="xilinx.com:interface:iic_rtl:1.0" of_component="iic_main">
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_iic" order="0"/>
+          </preferred_ips>
+          <port_maps>
+            <port_map logical_port="SDA_I" physical_port="iic_main_sda_i" dir="inout">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="IIC_SDA_MAIN"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="SDA_O" physical_port="iic_main_sda_o" dir="inout">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="IIC_SDA_MAIN"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="SDA_T" physical_port="iic_main_sda_t" dir="inout">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="IIC_SDA_MAIN"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="SCL_I" physical_port="iic_main_scl_i" dir="inout">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="IIC_SCL_MAIN"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="SCL_O" physical_port="iic_main_scl_o" dir="inout">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="IIC_SCL_MAIN"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="SCL_T" physical_port="iic_main_scl_t" dir="inout">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="IIC_SCL_MAIN"/>
+              </pin_maps>
+            </port_map>
+          </port_maps>
+        </interface>
+        <interface mode="slave" name="reset" type="xilinx.com:signal:reset_rtl:1.0" of_component="reset">
+          <parameters>
+            <parameter name="rst_polarity" value="1"/>
+          </parameters>
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="proc_sys_reset" order="0"/>
+          </preferred_ips>
+          <port_maps>
+            <port_map logical_port="RESET" physical_port="reset" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="CPU_RESET"/>
+              </pin_maps>
+            </port_map>
+          </port_maps>
+        </interface>
+        <interface mode="master" name="push_buttons_5bits" type="xilinx.com:interface:gpio_rtl:1.0" of_component="push_buttons_5bits" preset_proc="push_buttons_5bits_preset">
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_gpio" order="0"/>
+          </preferred_ips>
+          <port_maps>
+            <port_map logical_port="TRI_I" physical_port="push_buttons_5bits_tri" dir="in" left="4" right="0">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="GPIO_SW_C"/>
+                <pin_map port_index="1" component_pin="GPIO_SW_W"/>
+                <pin_map port_index="2" component_pin="GPIO_SW_S"/>
+                <pin_map port_index="3" component_pin="GPIO_SW_E"/>
+                <pin_map port_index="4" component_pin="GPIO_SW_N"/>
+              </pin_maps>
+            </port_map>
+          </port_maps>
+        </interface>
+
+	<interface mode="slave" name="pcie_refclk" type="xilinx.com:interface:diff_clock_rtl:1.0" of_component="pcie_refclk" preset_proc="pcie_refclk_preset">
+	  <parameters>
+	    <parameter name="type" value="PCIE_MGT_CLK"/>
+	    <parameter name="frequency" value="100000000"/>
+	  </parameters>
+	  <preferred_ips>
+	    <preferred_ip vendor="xilinx.com" library="ip" name="util_ds_buf" order="0"/>
+	  </preferred_ips>
+	  <port_maps>
+	    <port_map logical_port="CLK_P" physical_port="pcie_mgt_clkp" dir="in">
+	      <pin_maps>
+		<pin_map port_index="0" component_pin="pcie_mgt_clkp"/>
+	      </pin_maps>
+	    </port_map>
+	    <port_map logical_port="CLK_N" physical_port="pcie_mgt_clkn" dir="in">
+	      <pin_maps>
+		<pin_map port_index="0" component_pin="pcie_mgt_clkn"/>
+	      </pin_maps>
+	    </port_map>
+	  </port_maps>
+	</interface>
+
+<interface mode="master" name="pci_express_x1" type="xilinx.com:interface:pcie_7x_mgt_rtl:1.0" of_component="pci_express" preset_proc="pciex1_preset">
+          <preferred_ips>
+		  <preferred_ip vendor="xilinx.com" library="ip" name="xdma" order="0"/>
+          </preferred_ips>
+          <port_maps>
+            <port_map logical_port="txn" physical_port="pcie_tx0_n" dir="out">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="pcie_tx0_n"/> 
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="rxn" physical_port="pcie_rx0_n" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="pcie_rx0_n"/> 
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="txp" physical_port="pcie_tx0_p" dir="out">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="pcie_tx0_p"/> 
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="rxp" physical_port="pcie_rx0_p" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="pcie_rx0_p"/> 
+              </pin_maps>
+            </port_map>
+          </port_maps>
+          <parameters>
+            <parameter name="block_location" value="X0Y0" />
+          </parameters>
+        </interface>
+		<interface mode="master" name="pci_express_x2" type="xilinx.com:interface:pcie_7x_mgt_rtl:1.0" of_component="pci_express" preset_proc="pciex2_preset">
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="xdma" order="0"/>
+          </preferred_ips>
+          <port_maps>
+            <port_map logical_port="txn" physical_port="pcie_tx0_nx2" dir="out" left="1" right="0">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="pcie_tx0_n"/>
+				<pin_map port_index="1" component_pin="pcie_tx1_n"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="rxn" physical_port="pcie_rx0_nx2" dir="in" left="1" right="0">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="pcie_rx0_n"/> 
+				<pin_map port_index="1" component_pin="pcie_rx1_n"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="txp" physical_port="pcie_tx0_px2" dir="out" left="1" right="0">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="pcie_tx0_p"/>
+				<pin_map port_index="1" component_pin="pcie_tx1_p"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="rxp" physical_port="pcie_rx0_px2" dir="in" left="1" right="0">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="pcie_rx0_p"/> 
+				<pin_map port_index="1" component_pin="pcie_rx1_p"/>
+              </pin_maps>
+            </port_map>
+          </port_maps>
+          <parameters>
+            <parameter name="block_location" value="X0Y0" />
+          </parameters>
+        </interface>
+		<interface mode="master" name="pci_express_x4" type="xilinx.com:interface:pcie_7x_mgt_rtl:1.0" of_component="pci_express" preset_proc="pciex4_preset">
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="xdma" order="0"/>
+          </preferred_ips>
+          <port_maps>
+            <port_map logical_port="txn" physical_port="pcie_tx_nx4" dir="out" left="3" right="0">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="pcie_tx0_n"/>
+				<pin_map port_index="1" component_pin="pcie_tx1_n"/>
+				<pin_map port_index="2" component_pin="pcie_tx2_n"/>
+				<pin_map port_index="3" component_pin="pcie_tx3_n"/>				
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="rxn" physical_port="pcie_rx_nx4" dir="in" left="3" right="0">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="pcie_rx0_n"/> 
+				<pin_map port_index="1" component_pin="pcie_rx1_n"/>
+				<pin_map port_index="2" component_pin="pcie_rx2_n"/>
+				<pin_map port_index="3" component_pin="pcie_rx3_n"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="txp" physical_port="pcie_tx_px4" dir="out" left="3" right="0">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="pcie_tx0_p"/>
+				<pin_map port_index="1" component_pin="pcie_tx1_p"/>
+				<pin_map port_index="2" component_pin="pcie_tx2_p"/>
+				<pin_map port_index="3" component_pin="pcie_tx3_p"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="rxp" physical_port="pcie_rx_px4" dir="in" left="3" right="0">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="pcie_rx0_p"/> 
+				<pin_map port_index="1" component_pin="pcie_rx1_p"/>
+				<pin_map port_index="2" component_pin="pcie_rx2_p"/>
+				<pin_map port_index="3" component_pin="pcie_rx3_p"/>
+              </pin_maps>
+            </port_map>
+          </port_maps>
+          <parameters>
+            <parameter name="block_location" value="X0Y0" />
+          </parameters>
+        </interface>
+		<interface mode="master" name="pci_express_x8" type="xilinx.com:interface:pcie_7x_mgt_rtl:1.0" of_component="pci_express" preset_proc="pciex8_preset">
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="xdma" order="0"/>
+          </preferred_ips>
+          <port_maps>
+            <port_map logical_port="txn" physical_port="pcie_tx_nx8" dir="out" left="7" right="0">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="pcie_tx0_n"/>
+                <pin_map port_index="1" component_pin="pcie_tx1_n"/>
+				<pin_map port_index="2" component_pin="pcie_tx2_n"/>
+				<pin_map port_index="3" component_pin="pcie_tx3_n"/>
+				<pin_map port_index="4" component_pin="pcie_tx4_n"/>
+				<pin_map port_index="5" component_pin="pcie_tx5_n"/>
+				<pin_map port_index="6" component_pin="pcie_tx6_n"/>
+				<pin_map port_index="7" component_pin="pcie_tx7_n"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="rxn" physical_port="pcie_rx_nx8" dir="in" left="7" right="0">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="pcie_rx0_n"/>
+				<pin_map port_index="1" component_pin="pcie_rx1_n"/>
+				<pin_map port_index="2" component_pin="pcie_rx2_n"/>
+				<pin_map port_index="3" component_pin="pcie_rx3_n"/>
+				<pin_map port_index="4" component_pin="pcie_rx4_n"/>
+				<pin_map port_index="5" component_pin="pcie_rx5_n"/>
+				<pin_map port_index="6" component_pin="pcie_rx6_n"/>
+				<pin_map port_index="7" component_pin="pcie_rx7_n"/>					
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="txp" physical_port="pcie_tx_px8" dir="out" left="7" right="0">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="pcie_tx0_p"/> 
+				<pin_map port_index="1" component_pin="pcie_tx1_p"/>
+				<pin_map port_index="2" component_pin="pcie_tx2_p"/>
+				<pin_map port_index="3" component_pin="pcie_tx3_p"/>
+				<pin_map port_index="4" component_pin="pcie_tx4_p"/>
+				<pin_map port_index="5" component_pin="pcie_tx5_p"/>
+				<pin_map port_index="6" component_pin="pcie_tx6_p"/>
+				<pin_map port_index="7" component_pin="pcie_tx7_p"/>	
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="rxp" physical_port="pcie_rx_px8" dir="in" left="7" right="0">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="pcie_rx0_p"/>
+				<pin_map port_index="1" component_pin="pcie_rx1_p"/>
+				<pin_map port_index="2" component_pin="pcie_rx2_p"/>
+				<pin_map port_index="3" component_pin="pcie_rx3_p"/>
+				<pin_map port_index="4" component_pin="pcie_rx4_p"/>
+				<pin_map port_index="5" component_pin="pcie_rx5_p"/>
+				<pin_map port_index="6" component_pin="pcie_rx6_p"/>
+				<pin_map port_index="7" component_pin="pcie_rx7_p"/>				
+              </pin_maps>
+            </port_map>
+          </port_maps>
+          <parameters>
+            <parameter name="block_location" value="X0Y0" />
+          </parameters>
+        </interface>
+        <interface mode="slave" name="pcie_perstn" type="xilinx.com:signal:reset_rtl:1.0" of_component="pci_express">
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_ethernet" order="0"/>
+          </preferred_ips>
+          <port_maps>
+            <port_map logical_port="RST" physical_port="pcie_perstn_rst" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="pcie_perstn_rst"/> 
+              </pin_maps>
+            </port_map>
+          </port_maps>
+          <parameters>
+            <parameter name="rst_polarity" value="0" />
+            <parameter name="type" value="PCIE_PERST" />
+          </parameters>
+        </interface>
+
+
+      </interfaces>
+    </component>
+    <component name="ddr3_sdram" display_name="DDR3 SDRAM" type="chip" sub_type="ddr" major_group="External Memory" part_name="MT8JTF12864HZ-1G6G1" vendor="Micron" spec_url="www.micron.com/memory">
+      <description>1 GB DDR3 memory SODIMM </description>
+      <parameters>
+        <parameter name="ddr_type" value="ddr3"/>
+        <parameter name="size" value="1GB"/>
+      </parameters>
+    </component>
+    <component name="phy_onboard" display_name="Onboard PHY" type="chip" sub_type="ethernet" major_group="Ethernet Configurations" part_name="M88E1111_BAB1C000" vendor="Marvell" spec_url="www.marvell.com">
+      <description>PHY on the board</description>
+      <component_modes>
+        <component_mode name="mii" display_name="MII mode">
+          <description>To enable this mode jumpers need to be {J29_P1_P2 true} {J30_P1_P2 true} {J64 false}</description>
+          <interfaces>
+            <interface name="mii" order="0"/>
+            <interface name="mdio_mdc" order="1" optional="true"/>
+            <interface name="phy_reset_out" order="2" optional="true"/>
+          </interfaces>
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_ethernet" order="0"/>
+          </preferred_ips>
+        </component_mode>
+        <component_mode name="gmii" display_name="GMII mode">
+          <description>To enable this mode jumpers need to be {J29_P1_P2 true} {J30_P1_P2 true} {J64 false}</description>
+          <interfaces>
+            <interface name="gmii"/>
+            <interface name="mdio_mdc"/>
+            <interface name="phy_reset_out" optional="true"/>
+          </interfaces>
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_ethernet" order="0"/>
+          </preferred_ips>
+        </component_mode>
+        <component_mode name="sgmii" display_name="SGMII mode">
+          <description>To enable this mode jumpers need to be {J29_P2_P3 true} {J30_P2_P3 true} {J64 false}</description>
+          <interfaces>
+            <interface name="sgmii"/>
+            <interface name="mdio_mdc" optional="true"/>
+            <interface name="phy_reset_out" optional="true"/>
+            <interface name="sgmii_mgt_clk" optional="true"/>
+          </interfaces>
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_ethernet" order="0"/>
+          </preferred_ips>
+        </component_mode>
+        <component_mode name="rgmii" display_name="RGMII mode">
+          <description>To enable this mode jumpers need to be {J29_P1_P2 true} {J30_P1_P2 false} {J30_P2_P3 false} {J64 true}</description>
+          <interfaces>
+            <interface name="rgmii"/>
+            <interface name="mdio_mdc"/>
+            <interface name="phy_reset_out" optional="true"/>
+          </interfaces>
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_ethernet" order="0"/>
+          </preferred_ips>
+        </component_mode>
+      </component_modes>
+    </component>
+    <component name="dip_switches_4bits" display_name="DIP switches" type="chip" sub_type="switch" major_group="General Purpose Input or Output" part_name="SDA05H1SBD" vendor="CandK" spec_url="www.ck-components.com">
+      <description>DIP Switches 3 to 0</description>
+    </component>
+    <component name="rotary_switch" display_name="Rotary switch" type="chip" sub_type="switch" major_group="General Purpose Input or Output" part_name="EVQ-WK4001" vendor="Panasonic" spec_url="www.panasonic.com">
+      <description>Edge Drive Jog Encoder Rotary Switch, INCB, PUSH, INCA, Active High</description>
+    </component>
+    <component name="sys_diff_clock" display_name="System differential clock" type="chip" sub_type="system_clock" major_group="Clock Sources" part_name="SiT9102AI" vendor="Si Time" spec_url="www.sitime.com">
+      <description>2.5V LVDS differential 200 MHz oscillator used as system differential clock on the board</description>
+      <parameters>
+        <parameter name="frequency" value="200000000"/>
+      </parameters>
+    </component>
+    <component name="sgmii_mgt_clk" display_name="SGMII MGT CLOCK" type="chip" sub_type="mgt_clock" major_group="Ethernet Configurations" part_name="ICS844021I" >
+      <description>Ethernet 125 MHz SGMII GTX Clock</description>
+      <parameters>
+        <parameter name="frequency" value="125000000"/>
+      </parameters>
+    </component>
+    <component name="phy_sfp" display_name="PHY using SFP" type="chip" sub_type="sfp" major_group="Ethernet Configurations">
+      <description>PHY outside the board connected through sfp</description>
+      <component_modes>
+        <component_mode name="sfp_with_sma_mgt_clock" display_name="SFP using SMA MGT clock">
+          <interfaces>
+            <interface name="sfp"/>
+            <interface name="sma_mgt_clk" optional="true"/>
+          </interfaces>
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_ethernet" order="0"/>
+          </preferred_ips>
+        </component_mode>
+        <component_mode name="sfp_with_sgmii_mgt_clock" display_name="SFP using SGMII MGT clock">
+          <interfaces>
+            <interface name="sfp"/>
+            <interface name="sgmii_mgt_clk" optional="true"/>
+          </interfaces>
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_ethernet" order="0"/>
+          </preferred_ips>
+        </component_mode>
+        <component_mode name="sfp_sgmii_with_sma_mgt_clock" display_name="SFP_SGMII using SMA MGT clock">
+          <interfaces>
+            <interface name="sfp_sgmii"/>
+            <interface name="sma_mgt_clk" optional="true"/>
+          </interfaces>
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_ethernet" order="0"/>
+          </preferred_ips>
+        </component_mode>
+        <component_mode name="sfp_sgmii_with_sgmii_mgt_clock" display_name="SFP_SGMII using SGMII MGT clock">
+          <interfaces>
+            <interface name="sfp_sgmii"/>
+            <interface name="sgmii_mgt_clk" optional="true"/>
+          </interfaces>
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_ethernet" order="0"/>
+          </preferred_ips>
+        </component_mode>
+      </component_modes>
+    </component>
+    <component name="phy_sma" display_name="PHY using SMA" type="chip" sub_type="sma" major_group="Ethernet Configurations" part_name="32K10K-400L5" vendor="Rosenberger">
+      <description>PHY outside the board connected through sma</description>
+      <component_modes>
+        <component_mode name="sma_sfp_with_sgmii_mgt_clock" display_name="SMA_SFP using SGMII MGT clock">
+          <interfaces>
+            <interface name="sma_sfp"/>
+            <interface name="sgmii_mgt_clk" optional="true"/>
+          </interfaces>
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_ethernet" order="0"/>
+          </preferred_ips>
+        </component_mode>
+        <component_mode name="sma_sfp_with_sma_mgt_clock" display_name="SMA_SFP using SMA MGT clock">
+          <interfaces>
+            <interface name="sma_sfp"/>
+            <interface name="sma_mgt_clk" optional="true"/>
+          </interfaces>
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_ethernet" order="0"/>
+          </preferred_ips>
+        </component_mode>
+        <component_mode name="sma_sgmii_with_sgmii_mgt_clock" display_name="SMA_SGMII using SGMII mgt clock">
+          <interfaces>
+            <interface name="sma_sgmii"/>
+            <interface name="sgmii_mgt_clk" optional="true"/>
+          </interfaces>
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_ethernet" order="0"/>
+          </preferred_ips>
+        </component_mode>
+        <component_mode name="sma_sgmii_with_sma_mgt_clock" display_name="SMA_SGMII using SMA MGT clock">
+          <interfaces>
+            <interface name="sma_sgmii"/>
+            <interface name="sma_mgt_clk" optional="true"/>
+          </interfaces>
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_ethernet" order="0"/>
+          </preferred_ips>
+        </component_mode>
+      </component_modes>
+    </component>	    
+    <component name="phy_sma_lvds" display_name="PHY using SMA in LVDS mode" type="chip" sub_type="sma" major_group="Ethernet Configurations">
+      <description>PHY outside the board connected through sma in lvds mode</description>
+      <component_modes>
+        <component_mode name="sma_lvds" display_name="SMA LVDS mode">
+          <interfaces>
+            <interface name="sma_lvds"/>
+          </interfaces>
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_ethernet" order="0"/>
+          </preferred_ips>
+        </component_mode>
+      </component_modes>
+    </component>	    
+    <component name="sma_mgt_clk" display_name="SMA MGT clock" type="chip" sub_type="sma" major_group="Ethernet Configurations" part_name="32K10K-400L5" vendor="Rosenberger">
+      <description>SMA MGT CLOCK</description>
+      <parameters>
+        <parameter name="frequency" value="125000000"/>
+      </parameters>
+    </component>
+    <component name="linear_flash" display_name="Linear flash" type="chip" sub_type="memory_flash_bpi" major_group="External Memory" part_name="PC28F00AP30TF" vendor="Micron" spec_url="www.micron.com/memory">
+      <description>128 MB of nonvolatile storage that can be used for configuration or software storage</description>
+      <component_modes>
+        <component_mode name="linear_flash" display_name="Linear flash">
+          <description>To enable this mode jumpers need to be {SW13_M0 false} {SW13_M1 true}</description>
+          <interfaces>
+            <interface name="linear_flash" order="0"/>
+          </interfaces>
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_emc" order="0"/>
+          </preferred_ips>
+        </component_mode>
+      </component_modes>
+    </component>
+    <component name="spi_flash" display_name="SPI flash" type="chip" sub_type="memory_flash_qspi" major_group="External Memory" part_name="N25Q128A13BSF40F" vendor="Micron" spec_url="www.micron.com/memory">
+      <description>128 MB of nonvolatile storage that can be used for configuration or data storage</description>
+      <component_modes>
+        <component_mode name="spi_flash" display_name="Spi flash">
+          <description>To enable this mode jumpers need to be {SW13_M0 true} {SW13_M1 false}</description>
+          <interfaces>
+            <interface name="spi_flash" order="0"/>
+          </interfaces>
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_quad_spi" order="0"/>
+          </preferred_ips>
+        </component_mode>
+      </component_modes>
+    </component>
+    <component name="led_8bits" display_name="LED" type="chip" sub_type="led" major_group="General Purpose Input or Output">
+      <description>LEDs, 7 to 0, Active High</description>
+    </component>
+    <component name="lcd_7bits" display_name="LCD" type="chip" sub_type="lcd" major_group="General Purpose Input or Output">
+      <description>A 2-line by 16-character display </description>
+    </component>
+    <component name="rs232_uart" display_name="UART" type="chip" sub_type="uart" major_group="Miscellaneous" part_name="CP2103GM" vendor="SiliconLabs">
+      <description>USB-to-UART Bridge, which allows a connection to a host computer with a USB port </description>
+      <pins>
+        <pin index="0" name="rs232_uart_USB_TX" iostandard="LVCMOS25"/>
+        <pin index="1" name="rs232_uart_USB_RX" iostandard="LVCMOS25"/>
+      </pins>
+    </component>
+    <component name="iic_main" display_name="IIC" type="chip" sub_type="mux" major_group="Miscellaneous">
+      <description>I2C</description>
+    </component>
+    <component name="reset" display_name="FPGA Reset" type="chip" sub_type="system_reset" major_group="Reset" part_name="TL3301EP100QG" vendor="ESwitch">
+      <description>CPU Reset Push Button, Active High</description>
+    </component>
+    <component name="push_buttons_5bits" display_name="Push buttons" type="chip" sub_type="push_button" major_group="General Purpose Input or Output" part_name="TL3301EP100QG" vendor="ESwitch">
+      <description>Push Buttons, C W E S N, Active High</description>
+    </component>
+<component name="pcie_refclk" display_name="PCIe MGT reference Clock" type="chip" sub_type="mgt_clock" major_group="Clock Sources" part_name="pcie_8lane_edge" vendor="Clock" spec_url="">
+      <description>Clock input from PCI Express edge connector</description>
+      <parameters>
+        <parameter name="frequency" value="100000000"/>
+      </parameters>
+    </component>
+	
+   <component name="pci_express" display_name="PCI Express" type="chip" sub_type="chip" major_group="Miscellaneous">
+      <description>PCI Express</description>
+      <component_modes>
+        <component_mode name="pci_express_x1" display_name="pci_express x1 ">
+          <interfaces>
+            <interface name="pci_express_x1"/>
+            <interface name="pcie_perstn" optional="true"/>
+            <interface name="pcie_refclk" optional="true"/>
+          </interfaces>
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="xdma" order="0"/>
+          </preferred_ips>
+        </component_mode>
+		<component_mode name="pci_express_x2" display_name="pci_express x2 ">
+          <interfaces>
+            <interface name="pci_express_x2"/>
+            <interface name="pcie_perstn" optional="true"/>
+            <interface name="pcie_refclk" optional="true"/>
+          </interfaces>
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="xdma" order="0"/>
+          </preferred_ips>
+        </component_mode>
+		<component_mode name="pci_express_x4" display_name="pci_express x4 ">
+          <interfaces>
+            <interface name="pci_express_x4"/>
+            <interface name="pcie_perstn" optional="true"/>
+            <interface name="pcie_refclk" optional="true"/>
+          </interfaces>
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="xdma" order="0"/>
+          </preferred_ips>
+        </component_mode>
+		<component_mode name="pci_express_x8" display_name="pci_express x8 ">
+          <interfaces>
+            <interface name="pci_express_x8"/>
+            <interface name="pcie_perstn" optional="true"/>
+            <interface name="pcie_refclk" optional="true"/>
+          </interfaces>
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="xdma" order="0"/>
+          </preferred_ips>
+        </component_mode>
+      </component_modes>
+    </component>
+  </components>
+  <jtag_chains>
+    <jtag_chain name="chain1">
+      <position name="0" component="part0"/>
+    </jtag_chain>
+  </jtag_chains>
+  
+
+<connections>
+  <connection name="part0_fmc_lpc" component1="part0" component2="fmc_lpc_connector">
+    <connection_map name="part0_fmc_lpc_la12_p" c1_st_index="292" c1_end_index="292" c2_st_index="255" c2_end_index="255" />
+    <connection_map name="part0_fmc_lpc_la12_n" c1_st_index="293" c1_end_index="293" c2_st_index="256" c2_end_index="256" />
+    <connection_map name="part0_fmc_lpc_la13_p" c1_st_index="294" c1_end_index="294" c2_st_index="137" c2_end_index="137" />
+    <connection_map name="part0_fmc_lpc_la13_n" c1_st_index="295" c1_end_index="295" c2_st_index="138" c2_end_index="138" />
+    <connection_map name="part0_fmc_lpc_la16_p" c1_st_index="296" c1_end_index="296" c2_st_index="258" c2_end_index="258" />
+    <connection_map name="part0_fmc_lpc_la16_n" c1_st_index="297" c1_end_index="297" c2_st_index="259" c2_end_index="259" />
+    <connection_map name="part0_fmc_lpc_la15_p" c1_st_index="298" c1_end_index="298" c2_st_index="299" c2_end_index="299" />
+    <connection_map name="part0_fmc_lpc_la15_n" c1_st_index="299" c1_end_index="299" c2_st_index="300" c2_end_index="300" />
+    <connection_map name="part0_fmc_lpc_la14_p" c1_st_index="300" c1_end_index="300" c2_st_index="98" c2_end_index="98" />
+    <connection_map name="part0_fmc_lpc_la14_n" c1_st_index="301" c1_end_index="301" c2_st_index="99" c2_end_index="99" />
+    <connection_map name="part0_fmc_lpc_la01_p" c1_st_index="302" c1_end_index="302" c2_st_index="128" c2_end_index="128" />
+    <connection_map name="part0_fmc_lpc_la01_n" c1_st_index="303" c1_end_index="303" c2_st_index="129" c2_end_index="129" />
+    <connection_map name="part0_fmc_lpc_la00_p" c1_st_index="304" c1_end_index="304" c2_st_index="246" c2_end_index="246" />
+    <connection_map name="part0_fmc_lpc_la00_n" c1_st_index="305" c1_end_index="305" c2_st_index="247" c2_end_index="247" />
+    <connection_map name="part0_fmc_lpc_clk0_m2c_p" c1_st_index="306" c1_end_index="306" c2_st_index="284" c2_end_index="284" />
+    <connection_map name="part0_fmc_lpc_clk0_m2c_n" c1_st_index="307" c1_end_index="307" c2_st_index="285" c2_end_index="285" />
+    <connection_map name="part0_fmc_lpc_la10_p" c1_st_index="308" c1_end_index="308" c2_st_index="94" c2_end_index="94" />
+    <connection_map name="part0_fmc_lpc_la10_n" c1_st_index="309" c1_end_index="309" c2_st_index="95" c2_end_index="95" />
+    <connection_map name="part0_fmc_lpc_la11_p" c1_st_index="310" c1_end_index="310" c2_st_index="296" c2_end_index="296" />
+    <connection_map name="part0_fmc_lpc_la11_n" c1_st_index="311" c1_end_index="311" c2_st_index="297" c2_end_index="297" />
+    <connection_map name="part0_fmc_lpc_la09_p" c1_st_index="312" c1_end_index="312" c2_st_index="134" c2_end_index="134" />
+    <connection_map name="part0_fmc_lpc_la09_n" c1_st_index="313" c1_end_index="313" c2_st_index="135" c2_end_index="135" />
+    <connection_map name="part0_fmc_lpc_la07_p" c1_st_index="314" c1_end_index="314" c2_st_index="293" c2_end_index="293" />
+    <connection_map name="part0_fmc_lpc_la07_n" c1_st_index="315" c1_end_index="315" c2_st_index="294" c2_end_index="294" />
+    <connection_map name="part0_fmc_lpc_la02_p" c1_st_index="316" c1_end_index="316" c2_st_index="287" c2_end_index="287" />
+    <connection_map name="part0_fmc_lpc_la02_n" c1_st_index="317" c1_end_index="317" c2_st_index="288" c2_end_index="288" />
+    <connection_map name="part0_fmc_lpc_la05_p" c1_st_index="318" c1_end_index="318" c2_st_index="131" c2_end_index="131" />
+    <connection_map name="part0_fmc_lpc_la05_n" c1_st_index="319" c1_end_index="319" c2_st_index="132" c2_end_index="132" />
+    <connection_map name="part0_fmc_lpc_la08_p" c1_st_index="320" c1_end_index="320" c2_st_index="252" c2_end_index="252" />
+    <connection_map name="part0_fmc_lpc_la08_n" c1_st_index="321" c1_end_index="321" c2_st_index="253" c2_end_index="253" />
+    <connection_map name="part0_fmc_lpc_la03_p" c1_st_index="322" c1_end_index="322" c2_st_index="249" c2_end_index="249" />
+    <connection_map name="part0_fmc_lpc_la03_n" c1_st_index="323" c1_end_index="323" c2_st_index="250" c2_end_index="250" />
+    <connection_map name="part0_fmc_lpc_la04_p" c1_st_index="324" c1_end_index="324" c2_st_index="290" c2_end_index="290" />
+    <connection_map name="part0_fmc_lpc_la04_n" c1_st_index="325" c1_end_index="325" c2_st_index="291" c2_end_index="291" />
+    <connection_map name="part0_fmc_lpc_la06_p" c1_st_index="326" c1_end_index="326" c2_st_index="90" c2_end_index="90" />
+    <connection_map name="part0_fmc_lpc_la06_n" c1_st_index="327" c1_end_index="327" c2_st_index="91" c2_end_index="91" />
+    <connection_map name="part0_fmc_lpc_la33_p" c1_st_index="328" c1_end_index="328" c2_st_index="276" c2_end_index="276" />
+    <connection_map name="part0_fmc_lpc_la33_n" c1_st_index="329" c1_end_index="329" c2_st_index="277" c2_end_index="277" />
+    <connection_map name="part0_fmc_lpc_la32_p" c1_st_index="330" c1_end_index="330" c2_st_index="317" c2_end_index="317" />
+    <connection_map name="part0_fmc_lpc_la32_n" c1_st_index="331" c1_end_index="331" c2_st_index="318" c2_end_index="318" />
+    <connection_map name="part0_fmc_lpc_la31_p" c1_st_index="332" c1_end_index="332" c2_st_index="273" c2_end_index="273" />
+    <connection_map name="part0_fmc_lpc_la31_n" c1_st_index="333" c1_end_index="333" c2_st_index="274" c2_end_index="274" />
+    <connection_map name="part0_fmc_lpc_la30_p" c1_st_index="334" c1_end_index="334" c2_st_index="314" c2_end_index="314" />
+    <connection_map name="part0_fmc_lpc_la30_n" c1_st_index="335" c1_end_index="335" c2_st_index="315" c2_end_index="315" />
+    <connection_map name="part0_fmc_lpc_la18_p" c1_st_index="336" c1_end_index="336" c2_st_index="102" c2_end_index="102" />
+    <connection_map name="part0_fmc_lpc_la18_n" c1_st_index="337" c1_end_index="337" c2_st_index="103" c2_end_index="103" />
+    <connection_map name="part0_fmc_lpc_la17_p" c1_st_index="338" c1_end_index="338" c2_st_index="140" c2_end_index="140" />
+    <connection_map name="part0_fmc_lpc_la17_n" c1_st_index="339" c1_end_index="339" c2_st_index="141" c2_end_index="141" />
+    <connection_map name="part0_fmc_lpc_clk1_m2c_p" c1_st_index="340" c1_end_index="340" c2_st_index="242" c2_end_index="242" />
+    <connection_map name="part0_fmc_lpc_clk1_m2c_n" c1_st_index="341" c1_end_index="341" c2_st_index="243" c2_end_index="243" />
+    <connection_map name="part0_fmc_lpc_la29_p" c1_st_index="342" c1_end_index="342" c2_st_index="270" c2_end_index="270" />
+    <connection_map name="part0_fmc_lpc_la29_n" c1_st_index="343" c1_end_index="343" c2_st_index="271" c2_end_index="271" />
+    <connection_map name="part0_fmc_lpc_la26_p" c1_st_index="344" c1_end_index="344" c2_st_index="146" c2_end_index="146" />
+    <connection_map name="part0_fmc_lpc_la26_n" c1_st_index="345" c1_end_index="345" c2_st_index="147" c2_end_index="147" />
+    <connection_map name="part0_fmc_lpc_la28_p" c1_st_index="346" c1_end_index="346" c2_st_index="311" c2_end_index="311" />
+    <connection_map name="part0_fmc_lpc_la28_n" c1_st_index="347" c1_end_index="347" c2_st_index="312" c2_end_index="312" />
+    <connection_map name="part0_fmc_lpc_la27_p" c1_st_index="348" c1_end_index="348" c2_st_index="106" c2_end_index="106" />
+    <connection_map name="part0_fmc_lpc_la27_n" c1_st_index="349" c1_end_index="349" c2_st_index="107" c2_end_index="107" />
+    <connection_map name="part0_fmc_lpc_la24_p" c1_st_index="350" c1_end_index="350" c2_st_index="308" c2_end_index="308" />
+    <connection_map name="part0_fmc_lpc_la24_n" c1_st_index="351" c1_end_index="351" c2_st_index="309" c2_end_index="309" />
+    <connection_map name="part0_fmc_lpc_la25_p" c1_st_index="352" c1_end_index="352" c2_st_index="267" c2_end_index="267" />
+    <connection_map name="part0_fmc_lpc_la25_n" c1_st_index="353" c1_end_index="353" c2_st_index="268" c2_end_index="268" />
+    <connection_map name="part0_fmc_lpc_la22_p" c1_st_index="354" c1_end_index="354" c2_st_index="264" c2_end_index="264" />
+    <connection_map name="part0_fmc_lpc_la22_n" c1_st_index="355" c1_end_index="355" c2_st_index="265" c2_end_index="265" />
+    <connection_map name="part0_fmc_lpc_la21_p" c1_st_index="356" c1_end_index="356" c2_st_index="305" c2_end_index="305" />
+    <connection_map name="part0_fmc_lpc_la21_n" c1_st_index="357" c1_end_index="357" c2_st_index="306" c2_end_index="306" />
+    <connection_map name="part0_fmc_lpc_la23_p" c1_st_index="358" c1_end_index="358" c2_st_index="143" c2_end_index="143" />
+    <connection_map name="part0_fmc_lpc_la23_n" c1_st_index="359" c1_end_index="359" c2_st_index="144" c2_end_index="144" />
+    <connection_map name="part0_fmc_lpc_la20_p" c1_st_index="360" c1_end_index="360" c2_st_index="261" c2_end_index="261" />
+    <connection_map name="part0_fmc_lpc_la20_n" c1_st_index="361" c1_end_index="361" c2_st_index="262" c2_end_index="262" />
+    <connection_map name="part0_fmc_lpc_la19_p" c1_st_index="362" c1_end_index="362" c2_st_index="302" c2_end_index="302" />
+    <connection_map name="part0_fmc_lpc_la19_n" c1_st_index="363" c1_end_index="363" c2_st_index="303" c2_end_index="303" />
+    <connection_map name="part0_fmc_lpc_prsnt_m2c_b_ls" c1_st_index="364" c1_end_index="364" c2_st_index="282" c2_end_index="282" />
+    <connection_map name="part0_fmc_lpc_gbtclk0_m2c_n" c1_st_index="365" c1_end_index="365" c2_st_index="125" c2_end_index="125" />
+    <connection_map name="part0_fmc_lpc_gbtclk0_m2c_p" c1_st_index="366" c1_end_index="366" c2_st_index="124" c2_end_index="124" />
+    <connection_map name="part0_fmc_lpc_dp0_c2m_p" c1_st_index="367" c1_end_index="367" c2_st_index="82" c2_end_index="82" />
+    <connection_map name="part0_fmc_lpc_dp0_m2c_p" c1_st_index="368" c1_end_index="368" c2_st_index="86" c2_end_index="86" />
+    <connection_map name="part0_fmc_lpc_dp0_c2m_n" c1_st_index="369" c1_end_index="369" c2_st_index="83" c2_end_index="83" />
+    <connection_map name="part0_fmc_lpc_dp0_m2c_n" c1_st_index="370" c1_end_index="370" c2_st_index="87" c2_end_index="87" />
+  </connection>
+
+  <connection name="part0_fmc_hpc" component1="part0" component2="fmc_hpc_connector">
+    <connection_map name="part0_fmc_hpc_prsnt_m2c_b_ls" c1_st_index="150" c1_end_index="150" c2_st_index="282" c2_end_index="282" />
+    <connection_map name="part0_fmc_hpc_pg_m2c_ls" c1_st_index="151" c1_end_index="151" c2_st_index="201" c2_end_index="201" />
+    <connection_map name="part0_fmc_hpc_la16_p" c1_st_index="152" c1_end_index="152" c2_st_index="258" c2_end_index="258" />
+    <connection_map name="part0_fmc_hpc_la16_n" c1_st_index="153" c1_end_index="153" c2_st_index="259" c2_end_index="259" />
+    <connection_map name="part0_fmc_hpc_la15_p" c1_st_index="154" c1_end_index="154" c2_st_index="299" c2_end_index="299" />
+    <connection_map name="part0_fmc_hpc_la15_n" c1_st_index="155" c1_end_index="155" c2_st_index="300" c2_end_index="300" />
+    <connection_map name="part0_fmc_hpc_la14_p" c1_st_index="156" c1_end_index="156" c2_st_index="98" c2_end_index="98" />
+    <connection_map name="part0_fmc_hpc_la14_n" c1_st_index="157" c1_end_index="157" c2_st_index="99" c2_end_index="99" />
+    <connection_map name="part0_fmc_hpc_la13_p" c1_st_index="158" c1_end_index="158" c2_st_index="137" c2_end_index="137" />
+    <connection_map name="part0_fmc_hpc_la13_n" c1_st_index="159" c1_end_index="159" c2_st_index="138" c2_end_index="138" />
+    <connection_map name="part0_fmc_hpc_la01_p" c1_st_index="160" c1_end_index="160" c2_st_index="128" c2_end_index="128" />
+    <connection_map name="part0_fmc_hpc_la01_n" c1_st_index="161" c1_end_index="161" c2_st_index="129" c2_end_index="129" />
+    <connection_map name="part0_fmc_hpc_la00_p" c1_st_index="162" c1_end_index="162" c2_st_index="246" c2_end_index="246" />
+    <connection_map name="part0_fmc_hpc_la00_n" c1_st_index="163" c1_end_index="163" c2_st_index="247" c2_end_index="247" />
+    <connection_map name="part0_fmc_hpc_clk0_m2c_p" c1_st_index="164" c1_end_index="164" c2_st_index="284" c2_end_index="284" />
+    <connection_map name="part0_fmc_hpc_clk0_m2c_n" c1_st_index="165" c1_end_index="165" c2_st_index="285" c2_end_index="285" />
+    <connection_map name="part0_fmc_hpc_la07_p" c1_st_index="166" c1_end_index="166" c2_st_index="293" c2_end_index="293" />
+    <connection_map name="part0_fmc_hpc_la07_n" c1_st_index="167" c1_end_index="167" c2_st_index="294" c2_end_index="294" />
+    <connection_map name="part0_fmc_hpc_la12_p" c1_st_index="168" c1_end_index="168" c2_st_index="255" c2_end_index="255" />
+    <connection_map name="part0_fmc_hpc_la12_n" c1_st_index="169" c1_end_index="169" c2_st_index="256" c2_end_index="256" />
+    <connection_map name="part0_fmc_hpc_la10_p" c1_st_index="170" c1_end_index="170" c2_st_index="94" c2_end_index="94" />
+    <connection_map name="part0_fmc_hpc_la10_n" c1_st_index="171" c1_end_index="171" c2_st_index="95" c2_end_index="95" />
+    <connection_map name="part0_fmc_hpc_la09_p" c1_st_index="172" c1_end_index="172" c2_st_index="134" c2_end_index="134" />
+    <connection_map name="part0_fmc_hpc_la09_n" c1_st_index="173" c1_end_index="173" c2_st_index="135" c2_end_index="135" />
+    <connection_map name="part0_fmc_hpc_la08_p" c1_st_index="174" c1_end_index="174" c2_st_index="252" c2_end_index="252" />
+    <connection_map name="part0_fmc_hpc_la08_n" c1_st_index="175" c1_end_index="175" c2_st_index="253" c2_end_index="253" />
+    <connection_map name="part0_fmc_hpc_la02_p" c1_st_index="176" c1_end_index="176" c2_st_index="287" c2_end_index="287" />
+    <connection_map name="part0_fmc_hpc_la02_n" c1_st_index="177" c1_end_index="177" c2_st_index="288" c2_end_index="288" />
+    <connection_map name="part0_fmc_hpc_la04_p" c1_st_index="178" c1_end_index="178" c2_st_index="290" c2_end_index="290" />
+    <connection_map name="part0_fmc_hpc_la04_n" c1_st_index="179" c1_end_index="179" c2_st_index="291" c2_end_index="291" />
+    <connection_map name="part0_fmc_hpc_la11_p" c1_st_index="180" c1_end_index="180" c2_st_index="296" c2_end_index="296" />
+    <connection_map name="part0_fmc_hpc_la11_n" c1_st_index="181" c1_end_index="181" c2_st_index="297" c2_end_index="297" />
+    <connection_map name="part0_fmc_hpc_la05_p" c1_st_index="182" c1_end_index="182" c2_st_index="131" c2_end_index="131" />
+    <connection_map name="part0_fmc_hpc_la05_n" c1_st_index="183" c1_end_index="183" c2_st_index="132" c2_end_index="132" />
+    <connection_map name="part0_fmc_hpc_la03_p" c1_st_index="184" c1_end_index="184" c2_st_index="249" c2_end_index="249" />
+    <connection_map name="part0_fmc_hpc_la03_n" c1_st_index="185" c1_end_index="185" c2_st_index="250" c2_end_index="250" />
+    <connection_map name="part0_fmc_hpc_la06_p" c1_st_index="186" c1_end_index="186" c2_st_index="90" c2_end_index="90" />
+    <connection_map name="part0_fmc_hpc_la06_n" c1_st_index="187" c1_end_index="187" c2_st_index="91" c2_end_index="91" />
+    <connection_map name="part0_fmc_hpc_la33_p" c1_st_index="188" c1_end_index="188" c2_st_index="276" c2_end_index="276" />
+    <connection_map name="part0_fmc_hpc_la33_n" c1_st_index="189" c1_end_index="189" c2_st_index="277" c2_end_index="277" />
+    <connection_map name="part0_fmc_hpc_la32_p" c1_st_index="190" c1_end_index="190" c2_st_index="317" c2_end_index="317" />
+    <connection_map name="part0_fmc_hpc_la32_n" c1_st_index="191" c1_end_index="191" c2_st_index="318" c2_end_index="318" />
+    <connection_map name="part0_fmc_hpc_la31_p" c1_st_index="192" c1_end_index="192" c2_st_index="273" c2_end_index="273" />
+    <connection_map name="part0_fmc_hpc_la31_n" c1_st_index="193" c1_end_index="193" c2_st_index="274" c2_end_index="274" />
+    <connection_map name="part0_fmc_hpc_la30_p" c1_st_index="194" c1_end_index="194" c2_st_index="314" c2_end_index="314" />
+    <connection_map name="part0_fmc_hpc_la30_n" c1_st_index="195" c1_end_index="195" c2_st_index="315" c2_end_index="315" />
+    <connection_map name="part0_fmc_hpc_la18_p" c1_st_index="196" c1_end_index="196" c2_st_index="102" c2_end_index="102" />
+    <connection_map name="part0_fmc_hpc_la18_n" c1_st_index="197" c1_end_index="197" c2_st_index="103" c2_end_index="103" />
+    <connection_map name="part0_fmc_hpc_la17_p" c1_st_index="198" c1_end_index="198" c2_st_index="140" c2_end_index="140" />
+    <connection_map name="part0_fmc_hpc_la17_n" c1_st_index="199" c1_end_index="199" c2_st_index="141" c2_end_index="141" />
+    <connection_map name="part0_fmc_hpc_clk1_m2c_p" c1_st_index="200" c1_end_index="200" c2_st_index="242" c2_end_index="242" />
+    <connection_map name="part0_fmc_hpc_clk1_m2c_n" c1_st_index="201" c1_end_index="201" c2_st_index="243" c2_end_index="243" />
+    <connection_map name="part0_fmc_hpc_la20_p" c1_st_index="202" c1_end_index="202" c2_st_index="261" c2_end_index="261" />
+    <connection_map name="part0_fmc_hpc_la20_n" c1_st_index="203" c1_end_index="203" c2_st_index="262" c2_end_index="262" />
+    <connection_map name="part0_fmc_hpc_la28_p" c1_st_index="204" c1_end_index="204" c2_st_index="311" c2_end_index="311" />
+    <connection_map name="part0_fmc_hpc_la28_n" c1_st_index="205" c1_end_index="205" c2_st_index="312" c2_end_index="312" />
+    <connection_map name="part0_fmc_hpc_la19_p" c1_st_index="206" c1_end_index="206" c2_st_index="302" c2_end_index="302" />
+    <connection_map name="part0_fmc_hpc_la19_n" c1_st_index="207" c1_end_index="207" c2_st_index="303" c2_end_index="303" />
+    <connection_map name="part0_fmc_hpc_la29_p" c1_st_index="208" c1_end_index="208" c2_st_index="270" c2_end_index="270" />
+    <connection_map name="part0_fmc_hpc_la29_n" c1_st_index="209" c1_end_index="209" c2_st_index="271" c2_end_index="271" />
+    <connection_map name="part0_fmc_hpc_la25_p" c1_st_index="210" c1_end_index="210" c2_st_index="267" c2_end_index="267" />
+    <connection_map name="part0_fmc_hpc_la25_n" c1_st_index="211" c1_end_index="211" c2_st_index="268" c2_end_index="268" />
+    <connection_map name="part0_fmc_hpc_la22_p" c1_st_index="212" c1_end_index="212" c2_st_index="264" c2_end_index="264" />
+    <connection_map name="part0_fmc_hpc_la22_n" c1_st_index="213" c1_end_index="213" c2_st_index="265" c2_end_index="265" />
+    <connection_map name="part0_fmc_hpc_la24_p" c1_st_index="214" c1_end_index="214" c2_st_index="308" c2_end_index="308" />
+    <connection_map name="part0_fmc_hpc_la24_n" c1_st_index="215" c1_end_index="215" c2_st_index="309" c2_end_index="309" />
+    <connection_map name="part0_fmc_hpc_la21_p" c1_st_index="216" c1_end_index="216" c2_st_index="305" c2_end_index="305" />
+    <connection_map name="part0_fmc_hpc_la21_n" c1_st_index="217" c1_end_index="217" c2_st_index="306" c2_end_index="306" />
+    <connection_map name="part0_fmc_hpc_la26_p" c1_st_index="218" c1_end_index="218" c2_st_index="146" c2_end_index="146" />
+    <connection_map name="part0_fmc_hpc_la26_n" c1_st_index="219" c1_end_index="219" c2_st_index="147" c2_end_index="147" />
+    <connection_map name="part0_fmc_hpc_la23_p" c1_st_index="220" c1_end_index="220" c2_st_index="143" c2_end_index="143" />
+    <connection_map name="part0_fmc_hpc_la23_n" c1_st_index="221" c1_end_index="221" c2_st_index="144" c2_end_index="144" />
+    <connection_map name="part0_fmc_hpc_la27_p" c1_st_index="222" c1_end_index="222" c2_st_index="106" c2_end_index="106" />
+    <connection_map name="part0_fmc_hpc_la27_n" c1_st_index="223" c1_end_index="223" c2_st_index="107" c2_end_index="107" />
+    <connection_map name="part0_fmc_hpc_ha13_p" c1_st_index="224" c1_end_index="224" c2_st_index="172" c2_end_index="172" />
+    <connection_map name="part0_fmc_hpc_ha13_n" c1_st_index="225" c1_end_index="225" c2_st_index="173" c2_end_index="173" />
+    <connection_map name="part0_fmc_hpc_ha16_p" c1_st_index="226" c1_end_index="226" c2_st_index="175" c2_end_index="175" />
+    <connection_map name="part0_fmc_hpc_ha16_n" c1_st_index="227" c1_end_index="227" c2_st_index="176" c2_end_index="176" />
+    <connection_map name="part0_fmc_hpc_ha23_p" c1_st_index="228" c1_end_index="228" c2_st_index="382" c2_end_index="382" />
+    <connection_map name="part0_fmc_hpc_ha23_n" c1_st_index="229" c1_end_index="229" c2_st_index="383" c2_end_index="383" />
+    <connection_map name="part0_fmc_hpc_ha20_p" c1_st_index="230" c1_end_index="230" c2_st_index="178" c2_end_index="178" />
+    <connection_map name="part0_fmc_hpc_ha20_n" c1_st_index="231" c1_end_index="231" c2_st_index="179" c2_end_index="179" />
+    <connection_map name="part0_fmc_hpc_ha18_p" c1_st_index="232" c1_end_index="232" c2_st_index="338" c2_end_index="338" />
+    <connection_map name="part0_fmc_hpc_ha18_n" c1_st_index="233" c1_end_index="233" c2_st_index="339" c2_end_index="339" />
+    <connection_map name="part0_fmc_hpc_ha22_p" c1_st_index="234" c1_end_index="234" c2_st_index="341" c2_end_index="341" />
+    <connection_map name="part0_fmc_hpc_ha22_n" c1_st_index="235" c1_end_index="235" c2_st_index="342" c2_end_index="342" />
+    <connection_map name="part0_fmc_hpc_ha15_p" c1_st_index="236" c1_end_index="236" c2_st_index="216" c2_end_index="216" />
+    <connection_map name="part0_fmc_hpc_ha15_n" c1_st_index="237" c1_end_index="237" c2_st_index="217" c2_end_index="217" />
+    <connection_map name="part0_fmc_hpc_ha21_p" c1_st_index="238" c1_end_index="238" c2_st_index="379" c2_end_index="379" />
+    <connection_map name="part0_fmc_hpc_ha21_n" c1_st_index="239" c1_end_index="239" c2_st_index="380" c2_end_index="380" />
+    <connection_map name="part0_fmc_hpc_ha14_p" c1_st_index="240" c1_end_index="240" c2_st_index="335" c2_end_index="335" />
+    <connection_map name="part0_fmc_hpc_ha14_n" c1_st_index="241" c1_end_index="241" c2_st_index="336" c2_end_index="336" />
+    <connection_map name="part0_fmc_hpc_ha19_p" c1_st_index="242" c1_end_index="242" c2_st_index="219" c2_end_index="219" />
+    <connection_map name="part0_fmc_hpc_ha19_n" c1_st_index="243" c1_end_index="243" c2_st_index="220" c2_end_index="220" />
+    <connection_map name="part0_fmc_hpc_ha01_p" c1_st_index="244" c1_end_index="244" c2_st_index="162" c2_end_index="162" />
+    <connection_map name="part0_fmc_hpc_ha01_n" c1_st_index="245" c1_end_index="245" c2_st_index="163" c2_end_index="163" />
+    <connection_map name="part0_fmc_hpc_ha17_p" c1_st_index="246" c1_end_index="246" c2_st_index="376" c2_end_index="376" />
+    <connection_map name="part0_fmc_hpc_ha17_n" c1_st_index="247" c1_end_index="247" c2_st_index="377" c2_end_index="377" />
+    <connection_map name="part0_fmc_hpc_ha00_p" c1_st_index="248" c1_end_index="248" c2_st_index="204" c2_end_index="204" />
+    <connection_map name="part0_fmc_hpc_ha00_n" c1_st_index="249" c1_end_index="249" c2_st_index="205" c2_end_index="205" />
+    <connection_map name="part0_fmc_hpc_ha09_p" c1_st_index="250" c1_end_index="250" c2_st_index="169" c2_end_index="169" />
+    <connection_map name="part0_fmc_hpc_ha09_n" c1_st_index="251" c1_end_index="251" c2_st_index="170" c2_end_index="170" />
+    <connection_map name="part0_fmc_hpc_ha03_p" c1_st_index="252" c1_end_index="252" c2_st_index="326" c2_end_index="326" />
+    <connection_map name="part0_fmc_hpc_ha03_n" c1_st_index="253" c1_end_index="253" c2_st_index="327" c2_end_index="327" />
+    <connection_map name="part0_fmc_hpc_ha04_p" c1_st_index="254" c1_end_index="254" c2_st_index="207" c2_end_index="207" />
+    <connection_map name="part0_fmc_hpc_ha04_n" c1_st_index="255" c1_end_index="255" c2_st_index="208" c2_end_index="208" />
+    <connection_map name="part0_fmc_hpc_ha10_p" c1_st_index="256" c1_end_index="256" c2_st_index="373" c2_end_index="373" />
+    <connection_map name="part0_fmc_hpc_ha10_n" c1_st_index="257" c1_end_index="257" c2_st_index="374" c2_end_index="374" />
+    <connection_map name="part0_fmc_hpc_ha02_p" c1_st_index="258" c1_end_index="258" c2_st_index="367" c2_end_index="367" />
+    <connection_map name="part0_fmc_hpc_ha02_n" c1_st_index="259" c1_end_index="259" c2_st_index="368" c2_end_index="368" />
+    <connection_map name="part0_fmc_hpc_ha05_p" c1_st_index="260" c1_end_index="260" c2_st_index="166" c2_end_index="166" />
+    <connection_map name="part0_fmc_hpc_ha05_n" c1_st_index="261" c1_end_index="261" c2_st_index="167" c2_end_index="167" />
+    <connection_map name="part0_fmc_hpc_ha08_p" c1_st_index="262" c1_end_index="262" c2_st_index="210" c2_end_index="210" />
+    <connection_map name="part0_fmc_hpc_ha08_n" c1_st_index="263" c1_end_index="263" c2_st_index="211" c2_end_index="211" />
+    <connection_map name="part0_fmc_hpc_ha06_p" c1_st_index="264" c1_end_index="264" c2_st_index="370" c2_end_index="370" />
+    <connection_map name="part0_fmc_hpc_ha06_n" c1_st_index="265" c1_end_index="265" c2_st_index="371" c2_end_index="371" />
+    <connection_map name="part0_fmc_hpc_ha11_p" c1_st_index="266" c1_end_index="266" c2_st_index="332" c2_end_index="332" />
+    <connection_map name="part0_fmc_hpc_ha11_n" c1_st_index="267" c1_end_index="267" c2_st_index="333" c2_end_index="333" />
+    <connection_map name="part0_fmc_hpc_ha12_p" c1_st_index="268" c1_end_index="268" c2_st_index="213" c2_end_index="213" />
+    <connection_map name="part0_fmc_hpc_ha12_n" c1_st_index="269" c1_end_index="269" c2_st_index="214" c2_end_index="214" />
+    <connection_map name="part0_fmc_hpc_ha07_p" c1_st_index="270" c1_end_index="270" c2_st_index="329" c2_end_index="329" />
+    <connection_map name="part0_fmc_hpc_ha07_n" c1_st_index="271" c1_end_index="271" c2_st_index="330" c2_end_index="330" />
+    <connection_map name="part0_fmc_hpc_dp3_c2m_p" c1_st_index="272" c1_end_index="272" c2_st_index="30" c2_end_index="30" />
+    <connection_map name="part0_fmc_hpc_dp3_m2c_p" c1_st_index="273" c1_end_index="273" c2_st_index="10" c2_end_index="10" />
+    <connection_map name="part0_fmc_hpc_dp3_c2m_n" c1_st_index="274" c1_end_index="274" c2_st_index="31" c2_end_index="31" />
+    <connection_map name="part0_fmc_hpc_dp3_m2c_n" c1_st_index="275" c1_end_index="275" c2_st_index="11" c2_end_index="11" />
+    <connection_map name="part0_fmc_hpc_dp2_c2m_p" c1_st_index="276" c1_end_index="276" c2_st_index="26" c2_end_index="26" />
+    <connection_map name="part0_fmc_hpc_dp2_m2c_p" c1_st_index="277" c1_end_index="277" c2_st_index="6" c2_end_index="6" />
+    <connection_map name="part0_fmc_hpc_dp2_c2m_n" c1_st_index="278" c1_end_index="278" c2_st_index="27" c2_end_index="27" />
+    <connection_map name="part0_fmc_hpc_gbtclk0_m2c_p" c1_st_index="279" c1_end_index="279" c2_st_index="124" c2_end_index="124" />
+    <connection_map name="part0_fmc_hpc_dp2_m2c_n" c1_st_index="280" c1_end_index="280" c2_st_index="7" c2_end_index="7" />
+    <connection_map name="part0_fmc_hpc_gbtclk0_m2c_n" c1_st_index="281" c1_end_index="281" c2_st_index="125" c2_end_index="125" />
+    <connection_map name="part0_fmc_hpc_gbtclk1_m2c_n" c1_st_index="282" c1_end_index="282" c2_st_index="61" c2_end_index="61" />
+    <connection_map name="part0_fmc_hpc_gbtclk1_m2c_p" c1_st_index="283" c1_end_index="283" c2_st_index="60" c2_end_index="60" />
+    <connection_map name="part0_fmc_hpc_dp1_c2m_p" c1_st_index="284" c1_end_index="284" c2_st_index="22" c2_end_index="22" />
+    <connection_map name="part0_fmc_hpc_dp1_m2c_p" c1_st_index="285" c1_end_index="285" c2_st_index="2" c2_end_index="2" />
+    <connection_map name="part0_fmc_hpc_dp1_c2m_n" c1_st_index="286" c1_end_index="286" c2_st_index="23" c2_end_index="23" />
+    <connection_map name="part0_fmc_hpc_dp1_m2c_n" c1_st_index="287" c1_end_index="287" c2_st_index="3" c2_end_index="3" />
+    <connection_map name="part0_fmc_hpc_dp0_c2m_p" c1_st_index="288" c1_end_index="288" c2_st_index="82" c2_end_index="82" />
+    <connection_map name="part0_fmc_hpc_dp0_m2c_p" c1_st_index="289" c1_end_index="289" c2_st_index="86" c2_end_index="86" />
+    <connection_map name="part0_fmc_hpc_dp0_c2m_n" c1_st_index="290" c1_end_index="290" c2_st_index="83" c2_end_index="83" />
+    <connection_map name="part0_fmc_hpc_dp0_m2c_n" c1_st_index="291" c1_end_index="291" c2_st_index="87" c2_end_index="87" />
+  </connection>
+
+    <connection name="part0_dip_switches_4bits" component1="part0" component2="dip_switches_4bits">
+      <connection_map name="part0_dip_switches_4bits_1" typical_delay="5" c1_st_index="0" c1_end_index="3" c2_st_index="0" c2_end_index="3"/>
+    </connection>
+    <connection name="part0_phy_onboard" component1="part0" component2="phy_onboard">
+      <connection_map name="part0_phy_onboard_1" typical_delay="5" min_delay="4" max_delay="10" c1_st_index="4" c1_end_index="24" c2_st_index="0" c2_end_index="20">
+        <nets>
+          <net index="17" typical_delay="6" min_delay="4" max_delay="8"/>
+          <net index="18" typical_delay="7" min_delay="5" max_delay="9"/>
+        </nets>
+      </connection_map>
+      <connection_map name="part0_phy_onboard_2" typical_delay="5" c1_st_index="113" c1_end_index="120" c2_st_index="21" c2_end_index="28"/>
+    </connection>
+    <connection name="part0_iic_main" component1="part0" component2="iic_main">
+      <connection_map name="part0_iic_main_1" typical_delay="5" c1_st_index="25" c1_end_index="27" c2_st_index="0" c2_end_index="2"/>
+    </connection>
+    <connection name="part0_led_8bits" component1="part0" component2="led_8bits">
+      <connection_map name="part0_led_8bits_1" typical_delay="5" c1_st_index="28" c1_end_index="35" c2_st_index="0" c2_end_index="7"/>
+    </connection>
+    <connection name="part0_lcd_7bits" component1="part0" component2="lcd_7bits">
+      <connection_map name="part0_lcd_1" typical_delay="5" c1_st_index="36" c1_end_index="42" c2_st_index="0" c2_end_index="6"/>
+    </connection>
+<connection name="part0_pcie" component1="part0" component2="pci_express">
+      <connection_map name="part0_pciexpress" typical_delay="5" c1_st_index="371" c1_end_index="405" c2_st_index="0" c2_end_index="34"/>
+    </connection>
+    <connection name="part0_linear_flash" component1="part0" component2="linear_flash" >
+      <connection_map name="part0_linear_flash_1" typical_delay="5" c1_st_index="43" c1_end_index="87" c2_st_index="0" c2_end_index="44">
+        <enablement_dependencies>
+          <jumpers>
+            <jumper name="SW13_M0">false</jumper>
+            <jumper name="SW13_M1">true</jumper>
+          </jumpers>
+        </enablement_dependencies>
+      </connection_map>
+      <connection_map name="part0_linear_flash_2" typical_delay="5" c1_st_index="149" c1_end_index="149" c2_st_index="45" c2_end_index="45">
+        <enablement_dependencies>
+          <jumpers>
+            <jumper name="SW13_M0">false</jumper>
+            <jumper name="SW13_M1">true</jumper>
+          </jumpers>
+        </enablement_dependencies>
+      </connection_map>
+    </connection>
+    <connection name="part0_push_buttons_5bits" component1="part0" component2="push_buttons_5bits">
+      <connection_map name="part0_push_buttons_5bits_1" typical_delay="5" c1_st_index="88" c1_end_index="92" c2_st_index="0" c2_end_index="4"/>
+    </connection>
+    <connection name="part0_phy_sfp" component1="part0" component2="SFP">
+      <connection_map name="part0_phy_sfp_1" typical_delay="5" c1_st_index="99" c1_end_index="102" c2_st_index="0" c2_end_index="3"/>
+    </connection>
+    <connection name="part0_sma" component1="part0" component2="SMA">
+      <connection_map name="part0_sma_1" typical_delay="5" c1_st_index="109" c1_end_index="112" c2_st_index="0" c2_end_index="3"/>
+    </connection>
+    <connection name="part0_rotary_switch" component1="part0" component2="rotary_switch">
+      <connection_map name="part0_rotary_switch_1" typical_delay="5" c1_st_index="125" c1_end_index="127" c2_st_index="0" c2_end_index="2"/>
+    </connection>
+    <connection name="part0_rs232_uart" component1="part0" component2="rs232_uart">
+      <connection_map name="part0_rs232_uart_1" typical_delay="5" c1_st_index="94" c1_end_index="95" c2_st_index="0" c2_end_index="1"/>
+    </connection>
+    <connection name="part0_reset" component1="part0" component2="reset">
+      <connection_map name="part0_reset_1" typical_delay="5" c1_st_index="132" c1_end_index="132" component2="reset" c2_st_index="0" c2_end_index="0"/>
+    </connection>
+    <connection name="part0_sys_diff_clock" component1="part0" component2="sys_diff_clock">
+      <connection_map name="part0_sys_diff_clock_1" typical_delay="5" c1_st_index="130" c1_end_index="131" c2_st_index="0" c2_end_index="1"/>
+    </connection>
+    <connection name="part0_sgmii_mgt_clk" component1="part0" component2="sgmii_mgt_clk">
+      <connection_map name="part0_sgmii_mgt_clk_1" typical_delay="5" c1_st_index="128" c1_end_index="129" c2_st_index="0" c2_end_index="1"/>
+    </connection>
+    <connection name="part0_sma_lvds" component1="part0" component2="phy_sma_lvds">
+      <connection_map name="part0_sma_lvds_1" typical_delay="5" c1_st_index="103" c1_end_index="106" c2_st_index="0" c2_end_index="3"/>
+    </connection>
+    <connection name="part0_phy_sma_lvds" component1="part0" component2="phy_sma_lvds">
+      <connection_map name="part0_phy_phy_sma_lvds_1" typical_delay="5" c1_st_index="107" c1_end_index="108" c2_st_index="0" c2_end_index="1"/>
+    </connection>
+    <connection name="part0_spi_flash" component1="part0" component2="spi_flash">
+      <connection_map name="part0_spi_flash_1" typical_delay="5" c1_st_index="81" c1_end_index="84" c2_st_index="0" c2_end_index="3">
+        <enablement_dependencies>
+          <jumpers>
+            <jumper name="SW13_M0">true</jumper>
+            <jumper name="SW13_M1">false</jumper>
+          </jumpers>
+        </enablement_dependencies>
+      </connection_map>
+      <connection_map name="part0_spi_flash_2" typical_delay="5" c1_st_index="149" c1_end_index="149" c2_st_index="4" c2_end_index="4">
+        <enablement_dependencies>
+          <jumpers>
+            <jumper name="SW13_M0">true</jumper>
+            <jumper name="SW13_M1">false</jumper>
+          </jumpers>
+        </enablement_dependencies>
+      </connection_map>
+    </connection>
+  </connections>
+  
+<ip_associated_rules>
+
+  <ip_associated_rule name="default">
+  
+    <ip vendor="xilinx.com" library="ip" name="axi_ethernet" version="*" ip_interface="mgt_clk">
+        <associated_board_interfaces>
+			<associated_board_interface name="sgmii_mgt_clk" order="1"/> 
+			<associated_board_interface name="sma_mgt_clk" order="0"/> 
+      </associated_board_interfaces>
+    </ip>
+	
+    <ip vendor="xilinx.com" library="ip" name="axi_ethernet" version="*" ip_interface="phy_rst_n">
+       <associated_board_interfaces>
+			<associated_board_interface name="phy_reset_out" order="0"/> 
+       </associated_board_interfaces>
+    </ip>
+	
+    <ip vendor="xilinx.com" library="ip" name="gig_ethernet_pcs_pma" version="*" ip_interface="gtrefclk_in">
+        <associated_board_interfaces>
+			<associated_board_interface name="sgmii_mgt_clk" order="1"/> 
+			<associated_board_interface name="sma_mgt_clk" order="0"/> 
+       </associated_board_interfaces>
+    </ip>
+	
+    <ip vendor="xilinx.com" library="ip" name="util_ds_buf" version="*" ip_interface="CLK_IN_D">
+         <associated_board_interfaces>
+            <associated_board_interface name="pcie_refclk" order="0"/> 
+			<associated_board_interface name="sys_diff_clock" order="1"/> 
+         </associated_board_interfaces>
+    </ip>
+	
+  </ip_associated_rule>
+</ip_associated_rules>
+</board>

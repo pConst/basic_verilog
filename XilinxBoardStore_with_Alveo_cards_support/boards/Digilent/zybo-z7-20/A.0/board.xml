@@ -1,0 +1,994 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?> 
+<board schema_version="2.0" vendor="digilentinc.com" name="zybo-z7-20" display_name="Zybo Z7-20" url="http://www.digilentinc.com" preset_file="preset.xml" >
+<compatible_board_revisions>
+  <revision id="0">B.2</revision>
+</compatible_board_revisions>
+<file_version>1.0</file_version>
+<description>Zybo Z7-20</description>
+<components>
+  <component name="part0" display_name="Zybo Z7-20" type="fpga" part_name="xc7z020clg400-1" pin_map_file="part0_pins.xml" vendor="xilinx" spec_url="http://www.digilentinc.com">
+    <interfaces>
+      <interface mode="master" name="btns_4bits" type="xilinx.com:interface:gpio_rtl:1.0" of_component="btns_4bits" preset_proc="push_buttons_4bits_preset">
+        <port_maps>
+          <port_map logical_port="TRI_I" physical_port="btns_4bits_tri_i" dir="in" left="3" right="0"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="btns_4bits_tri_i_0"/> 
+              <pin_map port_index="1" component_pin="btns_4bits_tri_i_1"/> 
+              <pin_map port_index="2" component_pin="btns_4bits_tri_i_2"/> 
+              <pin_map port_index="3" component_pin="btns_4bits_tri_i_3"/> 
+            </pin_maps>
+          </port_map>
+        </port_maps>
+      </interface>
+      <interface mode="master" name="leds_4bits" type="xilinx.com:interface:gpio_rtl:1.0" of_component="leds_4bits" preset_proc="led_4bits_preset">
+        <port_maps>
+          <port_map logical_port="TRI_O" physical_port="leds_4bits_tri_o" dir="out" left="3" right="0"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="leds_4bits_tri_o_0"/> 
+              <pin_map port_index="1" component_pin="leds_4bits_tri_o_1"/> 
+              <pin_map port_index="2" component_pin="leds_4bits_tri_o_2"/> 
+              <pin_map port_index="3" component_pin="leds_4bits_tri_o_3"/> 
+            </pin_maps>
+          </port_map>
+		  <port_map logical_port="TRI_I" physical_port="leds_4bits_tri_o" dir="in" left="3" right="0"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="leds_4bits_tri_o_0"/> 
+              <pin_map port_index="1" component_pin="leds_4bits_tri_o_1"/> 
+              <pin_map port_index="2" component_pin="leds_4bits_tri_o_2"/> 
+              <pin_map port_index="3" component_pin="leds_4bits_tri_o_3"/> 
+            </pin_maps>
+          </port_map>
+		  <port_map logical_port="TRI_T" physical_port="leds_4bits_tri_o" dir="out" left="3" right="0"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="leds_4bits_tri_o_0"/> 
+              <pin_map port_index="1" component_pin="leds_4bits_tri_o_1"/> 
+              <pin_map port_index="2" component_pin="leds_4bits_tri_o_2"/> 
+              <pin_map port_index="3" component_pin="leds_4bits_tri_o_3"/> 
+            </pin_maps>
+          </port_map>
+        </port_maps>
+      </interface>
+      <interface mode="master" name="ps7_fixedio" type="xilinx.com:display_processing_system7:fixedio_rtl:1.0" of_component="ps7_fixedio" preset_proc="ps7_preset"> 
+      </interface>
+      <interface mode="master" name="sws_4bits" type="xilinx.com:interface:gpio_rtl:1.0" of_component="sws_4bits" preset_proc="dip_switches_4bits_preset">
+		<port_maps>
+          <port_map logical_port="TRI_I" physical_port="sws_4bits_tri_i" dir="in" left="3" right="0"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="sws_4bits_tri_i_0"/> 
+              <pin_map port_index="1" component_pin="sws_4bits_tri_i_1"/> 
+              <pin_map port_index="2" component_pin="sws_4bits_tri_i_2"/> 
+              <pin_map port_index="3" component_pin="sws_4bits_tri_i_3"/> 
+            </pin_maps>
+          </port_map>
+        </port_maps>
+      </interface>
+      <interface mode="slave" name="sys_clock" type="xilinx.com:signal:clock_rtl:1.0" of_component="sys_clock" preset_proc="sys_clock_preset">
+        <port_maps>
+          <port_map logical_port="CLK" physical_port="sys_clk" dir="in">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="sys_clk"/> 
+            </pin_maps>
+          </port_map>
+        </port_maps>
+        <parameters>
+          <parameter name="frequency" value="125000000" />
+       </parameters>
+      </interface>
+	   
+	  	  <interface mode="slave" name="hdmi_in" type="digilentinc.com:interface:tmds_rtl:1.0" of_component="hdmi_in" preset_proc="hdmi_in_preset">
+        <preferred_ips>
+			<preferred_ip vendor="digilentinc.com" library="ip" name="dvi2rgb" order="0"/>
+		</preferred_ips>
+		<port_maps>
+          <port_map logical_port="CLK_P" physical_port="TMDS_IN_clk_p" dir="in">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="TMDS_IN_clk_p"/> 
+            </pin_maps>
+          </port_map>
+          <port_map logical_port="CLK_N" physical_port="TMDS_IN_clk_n" dir="in">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="TMDS_IN_clk_n"/> 
+            </pin_maps>
+          </port_map>
+          <port_map logical_port="DATA_P" physical_port="TMDS_IN_D_P" dir="in" left="2" right="0">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="TMDS_IN_data_p_0"/> 
+			  <pin_map port_index="1" component_pin="TMDS_IN_data_p_1"/> 
+			  <pin_map port_index="2" component_pin="TMDS_IN_data_p_2"/> 
+            </pin_maps>
+          </port_map>
+          <port_map logical_port="DATA_N" physical_port="TMDS_IN_D_N" dir="in" left="2" right="0">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="TMDS_IN_data_n_0"/> 
+			  <pin_map port_index="1" component_pin="TMDS_IN_data_n_1"/> 
+			  <pin_map port_index="2" component_pin="TMDS_IN_data_n_2"/> 
+            </pin_maps>
+          </port_map>
+        </port_maps>
+      </interface>
+	   <interface mode="master" name="hdmi_in_ddc" type="xilinx.com:interface:iic_rtl:1.0" of_component="hdmi_in" preset_proc="hdmi_in_preset">
+        <description>HDMI DDC</description>
+		<preferred_ips>
+			<preferred_ip vendor="digilentinc.com" library="ip" name="dvi2rgb" order="0"/>
+		</preferred_ips>
+		<port_maps>
+          <port_map logical_port="SDA_I" physical_port="hdmi_in_ddc_sda" dir="in">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="hdmi_in_ddc_sda"/> 
+            </pin_maps>
+          </port_map>
+          <port_map logical_port="SDA_O" physical_port="hdmi_in_ddc_sda" dir="out">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="hdmi_in_ddc_sda"/> 
+            </pin_maps>
+          </port_map>
+          <port_map logical_port="SDA_T" physical_port="hdmi_in_ddc_sda" dir="out">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="hdmi_in_ddc_sda"/> 
+            </pin_maps>
+          </port_map>
+          <port_map logical_port="SCL_I" physical_port="hdmi_in_ddc_scl" dir="in">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="hdmi_in_ddc_scl"/> 
+            </pin_maps>
+          </port_map>
+          <port_map logical_port="SCL_O" physical_port="hdmi_in_ddc_scl" dir="out">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="hdmi_in_ddc_scl"/> 
+            </pin_maps>
+          </port_map>
+          <port_map logical_port="SCL_T" physical_port="hdmi_in_ddc_scl" dir="out">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="hdmi_in_ddc_scl"/> 
+            </pin_maps>
+          </port_map>
+        </port_maps>
+      </interface>
+      <interface mode="master" name="hdmi_in_hpd_led" type="xilinx.com:interface:gpio_rtl:1.0" of_component="hdmi_in_hpd_led" preset_proc="output_1bit_preset">
+        <port_maps>
+          <port_map logical_port="TRI_O" physical_port="hdmi_rx_hpd" dir="out">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="hdmi_rx_hpd"/> 
+            </pin_maps>
+          </port_map>
+		  <port_map logical_port="TRI_I" physical_port="hdmi_rx_hpd" dir="in">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="hdmi_rx_hpd"/> 
+            </pin_maps>
+          </port_map>
+		  <port_map logical_port="TRI_T" physical_port="hdmi_rx_hpd" dir="out">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="hdmi_rx_hpd"/> 
+            </pin_maps>
+          </port_map>
+        </port_maps>
+      </interface>
+      <interface mode="master" name="hdmi_out" type="digilentinc.com:interface:tmds_rtl:1.0" of_component="hdmi_out">
+        <description>HDMI Out</description>
+		<preferred_ips>
+			<preferred_ip vendor="digilentinc.com" library="ip" name="rgb2dvi" order="0"/>
+		</preferred_ips>
+		<port_maps>
+          <port_map logical_port="CLK_P" physical_port="TMDS_OUT_clk_p" dir="out">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="TMDS_OUT_clk_p"/> 
+            </pin_maps>
+          </port_map>
+          <port_map logical_port="CLK_N" physical_port="TMDS_OUT_clk_n" dir="out">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="TMDS_OUT_clk_n"/> 
+            </pin_maps>
+          </port_map>
+          <port_map logical_port="DATA_P" physical_port="TMDS_OUT_D_P" dir="out" left="2" right="0">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="TMDS_OUT_data_p_0"/> 
+			  <pin_map port_index="1" component_pin="TMDS_OUT_data_p_1"/> 
+			  <pin_map port_index="2" component_pin="TMDS_OUT_data_p_2"/> 
+            </pin_maps>
+          </port_map>
+          <port_map logical_port="DATA_N" physical_port="TMDS_OUT_D_N" dir="out" left="2" right="0">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="TMDS_OUT_data_n_0"/> 
+			  <pin_map port_index="1" component_pin="TMDS_OUT_data_n_1"/> 
+			  <pin_map port_index="2" component_pin="TMDS_OUT_data_n_2"/> 
+            </pin_maps>
+          </port_map>
+        </port_maps>
+      </interface>
+      <interface mode="master" name="hdmi_out_hpd_led" type="xilinx.com:interface:gpio_rtl:1.0" of_component="hdmi_out_hpd_led" preset_proc="output_1bit_preset">
+        <port_maps>
+          <port_map logical_port="TRI_O" physical_port="hdmi_tx_hpd" dir="out">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="hdmi_tx_hpd"/> 
+            </pin_maps>
+          </port_map>
+		  <port_map logical_port="TRI_I" physical_port="hdmi_tx_hpd" dir="in">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="hdmi_tx_hpd"/> 
+            </pin_maps>
+          </port_map>
+		  <port_map logical_port="TRI_T" physical_port="hdmi_tx_hpd" dir="out">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="hdmi_tx_hpd"/> 
+            </pin_maps>
+          </port_map>
+        </port_maps>
+      </interface>
+	   
+	  <interface mode="master" name="ja" type="digilentinc.com:interface:pmod_rtl:1.0" of_component="ja">
+        <port_maps>
+          <port_map logical_port="PIN1_I" physical_port="JA1" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA1"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN1_O" physical_port="JA1" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA1"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN1_T" physical_port="JA1" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA1"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN2_I" physical_port="JA2" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA2"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN2_O" physical_port="JA2" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA2"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN2_T" physical_port="JA2" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA2"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN3_I" physical_port="JA3" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA3"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN3_O" physical_port="JA3" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA3"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN3_T" physical_port="JA3" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA3"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN4_I" physical_port="JA4" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA4"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN4_O" physical_port="JA4" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA4"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN4_T" physical_port="JA4" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA4"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN7_I" physical_port="JA7" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA7"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN7_O" physical_port="JA7" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA7"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN7_T" physical_port="JA7" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA7"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN8_I" physical_port="JA8" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA8"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN8_O" physical_port="JA8" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA8"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN8_T" physical_port="JA8" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA8"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN9_I" physical_port="JA9" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA9"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN9_O" physical_port="JA9" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA9"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN9_T" physical_port="JA9" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA9"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN10_I" physical_port="JA10" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA10"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN10_O" physical_port="JA10" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA10"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN10_T" physical_port="JA10" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA10"/> 
+			</pin_maps>
+		  </port_map>
+        </port_maps>
+      </interface>
+	  <interface mode="master" name="jb" type="digilentinc.com:interface:pmod_rtl:1.0" of_component="jb">
+        <port_maps>
+          <port_map logical_port="PIN1_I" physical_port="JB1" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JB1"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN1_O" physical_port="JB1" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JB1"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN1_T" physical_port="JB1" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JB1"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN2_I" physical_port="JB2" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JB2"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN2_O" physical_port="JB2" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JB2"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN2_T" physical_port="JB2" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JB2"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN3_I" physical_port="JB3" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JB3"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN3_O" physical_port="JB3" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JB3"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN3_T" physical_port="JB3" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JB3"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN4_I" physical_port="JB4" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JB4"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN4_O" physical_port="JB4" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JB4"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN4_T" physical_port="JB4" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JB4"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN7_I" physical_port="JB7" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JB7"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN7_O" physical_port="JB7" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JB7"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN7_T" physical_port="JB7" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JB7"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN8_I" physical_port="JB8" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JB8"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN8_O" physical_port="JB8" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JB8"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN8_T" physical_port="JB8" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JB8"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN9_I" physical_port="JB9" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JB9"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN9_O" physical_port="JB9" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JB9"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN9_T" physical_port="JB9" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JB9"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN10_I" physical_port="JB10" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JB10"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN10_O" physical_port="JB10" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JB10"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN10_T" physical_port="JB10" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JB10"/> 
+			</pin_maps>
+		  </port_map>
+        </port_maps>
+      </interface>
+	  <interface mode="master" name="jc" type="digilentinc.com:interface:pmod_rtl:1.0" of_component="jc">
+        <port_maps>
+          <port_map logical_port="PIN1_I" physical_port="JC1" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JC1"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN1_O" physical_port="JC1" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JC1"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN1_T" physical_port="JC1" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JC1"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN2_I" physical_port="JC2" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JC2"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN2_O" physical_port="JC2" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JC2"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN2_T" physical_port="JC2" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JC2"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN3_I" physical_port="JC3" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JC3"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN3_O" physical_port="JC3" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JC3"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN3_T" physical_port="JC3" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JC3"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN4_I" physical_port="JC4" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JC4"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN4_O" physical_port="JC4" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JC4"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN4_T" physical_port="JC4" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JC4"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN7_I" physical_port="JC7" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JC7"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN7_O" physical_port="JC7" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JC7"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN7_T" physical_port="JC7" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JC7"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN8_I" physical_port="JC8" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JC8"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN8_O" physical_port="JC8" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JC8"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN8_T" physical_port="JC8" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JC8"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN9_I" physical_port="JC9" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JC9"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN9_O" physical_port="JC9" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JC9"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN9_T" physical_port="JC9" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JC9"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN10_I" physical_port="JC10" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JC10"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN10_O" physical_port="JC10" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JC10"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN10_T" physical_port="JC10" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JC10"/> 
+			</pin_maps>
+		  </port_map>
+        </port_maps>
+      </interface>
+	  <interface mode="master" name="jd" type="digilentinc.com:interface:pmod_rtl:1.0" of_component="jd">
+        <port_maps>
+          <port_map logical_port="PIN1_I" physical_port="JD1" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JD1"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN1_O" physical_port="JD1" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JD1"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN1_T" physical_port="JD1" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JD1"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN2_I" physical_port="JD2" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JD2"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN2_O" physical_port="JD2" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JD2"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN2_T" physical_port="JD2" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JD2"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN3_I" physical_port="JD3" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JD3"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN3_O" physical_port="JD3" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JD3"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN3_T" physical_port="JD3" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JD3"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN4_I" physical_port="JD4" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JD4"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN4_O" physical_port="JD4" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JD4"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN4_T" physical_port="JD4" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JD4"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN7_I" physical_port="JD7" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JD7"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN7_O" physical_port="JD7" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JD7"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN7_T" physical_port="JD7" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JD7"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN8_I" physical_port="JD8" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JD8"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN8_O" physical_port="JD8" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JD8"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN8_T" physical_port="JD8" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JD8"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN9_I" physical_port="JD9" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JD9"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN9_O" physical_port="JD9" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JD9"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN9_T" physical_port="JD9" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JD9"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN10_I" physical_port="JD10" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JD10"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN10_O" physical_port="JD10" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JD10"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN10_T" physical_port="JD10" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JD10"/> 
+			</pin_maps>
+		  </port_map>
+        </port_maps>
+      </interface>
+	  <interface mode="master" name="je" type="digilentinc.com:interface:pmod_rtl:1.0" of_component="je">
+        <port_maps>
+          <port_map logical_port="PIN1_I" physical_port="JE1" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JE1"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN1_O" physical_port="JE1" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JE1"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN1_T" physical_port="JE1" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JE1"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN2_I" physical_port="JE2" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JE2"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN2_O" physical_port="JE2" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JE2"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN2_T" physical_port="JE2" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JE2"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN3_I" physical_port="JE3" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JE3"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN3_O" physical_port="JE3" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JE3"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN3_T" physical_port="JE3" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JE3"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN4_I" physical_port="JE4" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JE4"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN4_O" physical_port="JE4" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JE4"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN4_T" physical_port="JE4" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JE4"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN7_I" physical_port="JE7" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JE7"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN7_O" physical_port="JE7" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JE7"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN7_T" physical_port="JE7" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JE7"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN8_I" physical_port="JE8" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JE8"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN8_O" physical_port="JE8" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JE8"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN8_T" physical_port="JE8" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JE8"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN9_I" physical_port="JE9" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JE9"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN9_O" physical_port="JE9" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JE9"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN9_T" physical_port="JE9" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JE9"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN10_I" physical_port="JE10" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JE10"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN10_O" physical_port="JE10" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JE10"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN10_T" physical_port="JE10" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JE10"/> 
+			</pin_maps>
+		  </port_map>
+        </port_maps>
+      </interface>
+	  <interface mode="master" name="rgb_led" type="xilinx.com:interface:gpio_rtl:1.0" of_component="rgb_led" preset_proc="output_6bits_preset">
+        <description>2 RGB LEDs</description>
+		<preferred_ips>
+			<preferred_ip vendor="xilinx.com" library="ip" name="axi_gpio" order="0"/>
+		</preferred_ips>
+		<port_maps>
+          <port_map logical_port="TRI_O" physical_port="rgb_led_tri_o" dir="out" left="5" right="0"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="rgb_led_tri_o_0"/> 
+              <pin_map port_index="1" component_pin="rgb_led_tri_o_1"/> 
+              <pin_map port_index="2" component_pin="rgb_led_tri_o_2"/> 
+              <pin_map port_index="3" component_pin="rgb_led_tri_o_3"/> 
+              <pin_map port_index="4" component_pin="rgb_led_tri_o_4"/> 
+              <pin_map port_index="5" component_pin="rgb_led_tri_o_5"/> 
+            </pin_maps>
+          </port_map>
+		  <port_map logical_port="TRI_I" physical_port="rgb_led_tri_o" dir="in" left="5" right="0"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="rgb_led_tri_o_0"/> 
+              <pin_map port_index="1" component_pin="rgb_led_tri_o_1"/> 
+              <pin_map port_index="2" component_pin="rgb_led_tri_o_2"/> 
+              <pin_map port_index="3" component_pin="rgb_led_tri_o_3"/> 
+              <pin_map port_index="4" component_pin="rgb_led_tri_o_4"/> 
+              <pin_map port_index="5" component_pin="rgb_led_tri_o_5"/> 
+            </pin_maps>
+          </port_map>
+		  <port_map logical_port="TRI_T" physical_port="rgb_led_tri_o" dir="out" left="5" right="0"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="rgb_led_tri_o_0"/> 
+              <pin_map port_index="1" component_pin="rgb_led_tri_o_1"/> 
+              <pin_map port_index="2" component_pin="rgb_led_tri_o_2"/> 
+              <pin_map port_index="3" component_pin="rgb_led_tri_o_3"/> 
+              <pin_map port_index="4" component_pin="rgb_led_tri_o_4"/> 
+              <pin_map port_index="5" component_pin="rgb_led_tri_o_5"/> 
+            </pin_maps>
+          </port_map>
+        </port_maps>
+      </interface>
+    </interfaces>
+  </component>
+  
+  <component name="btns_4bits" display_name="4 Buttons" type="chip" sub_type="push_button" major_group="GPIO">
+	<description>Buttons 3 to 0</description>
+  </component>
+  <component name="ja" display_name="Connector JA" type="chip" sub_type="chip" major_group="Pmod">
+	<description>Pmod Connector JA</description>
+  </component>
+  <component name="jb" display_name="Connector JB" type="chip" sub_type="chip" major_group="Pmod">
+	<description>Pmod Connector JB</description>
+  </component>
+  <component name="jc" display_name="Connector JC" type="chip" sub_type="chip" major_group="Pmod">
+	<description>Pmod Connector JC</description>
+  </component>
+  <component name="jd" display_name="Connector JD" type="chip" sub_type="chip" major_group="Pmod">
+	<description>Pmod Connector JD</description>
+  </component>
+  <component name="je" display_name="Connector JE" type="chip" sub_type="chip" major_group="Pmod">
+	<description>Pmod Connector JE</description>
+  </component>
+  <component name="leds_4bits" display_name="4 LEDs" type="chip" sub_type="led" major_group="GPIO">
+	<description>LEDs 3 to 0</description>
+  </component>
+  <component name="ps7_fixedio" display_name="ps7_fixedio" type="chip" sub_type="fixed_io" major_group=""/>
+  <component name="sws_4bits" display_name="4 Switches" type="chip" sub_type="switch" major_group="GPIO">
+	<description>DIP Switches 3 to 0</description>
+  </component>
+  <component name="sys_clock" display_name="System Clock" type="chip" sub_type="system_clock" major_group="Clocks">
+	<description>3.3V Single-Ended 50 MHz oscillator used as system clock on the board</description>
+  </component>
+  <component name="rgb_led" display_name="2 RGB LEDS" type="chip" sub_type="led" major_group="GPIO">
+	<description>RGB leds 5 to 0 (3 per LED, Ordered "RGBRGB")</description>
+  </component>  
+  
+  <component name="hdmi_in" display_name="HDMI In" type="chip" sub_type="fixed_io" major_group="HDMI">
+	<description>HDMI input (Requires Digilent's TMDS interface)</description>
+	<component_modes>
+        <component_mode name="HDMI_IN" display_name="HDMI In">
+		  <interfaces>
+            <interface name="hdmi_in" order="0"/>
+            <interface name="hdmi_in_ddc" order="1"/>
+          </interfaces>
+		</component_mode>
+	 </component_modes>
+  </component>
+  <component name="hdmi_in_hpd_led" display_name="HDMI In HPD" type="chip" sub_type="led" major_group="HDMI">
+	<description>HDMI in HPD (Connected to LD8)</description>
+  </component>
+  <component name="hdmi_out" display_name="HDMI out" type="chip" sub_type="fixed_io" major_group="HDMI">
+	<description>HDMI Out (Requires Digilent's TMDS interface)</description>
+  </component>
+  <component name="hdmi_out_hpd_led" display_name="HDMI out HPD" type="chip" sub_type="led" major_group="HDMI">
+	<description>HDMI out HPD</description>
+  </component>
+
+  
+  
+  
+</components>
+<jtag_chains>
+  <jtag_chain name="chain1">
+    <position name="0" component="part0"/>
+  </jtag_chain>
+</jtag_chains>
+<connections>
+  <connection name="part0_btns_4bits" component1="part0" component2="btns_4bits">
+    <connection_map name="part0_btns_4bits_1" c1_st_index="0" c1_end_index="3" c2_st_index="0" c2_end_index="3"/>
+  </connection>
+  <connection name="part0_leds_4bits" component1="part0" component2="leds_4bits">
+    <connection_map name="part0_leds_4bits_1" c1_st_index="4" c1_end_index="7" c2_st_index="0" c2_end_index="3"/>
+  </connection>
+  <connection name="part0_sws_4bits" component1="part0" component2="sws_4bits">
+    <connection_map name="part0_sws_4bits_1" c1_st_index="8" c1_end_index="11" c2_st_index="0" c2_end_index="3"/>
+  </connection>
+  <connection name="part0_sys_clock" component1="part0" component2="sys_clock">
+    <connection_map name="part0_sys_clock_1" c1_st_index="12" c1_end_index="12" c2_st_index="0" c2_end_index="0"/>
+  </connection>
+  
+   
+  <connection name="part0_hdmi_in" component1="part0" component2="hdmi_in">
+    <connection_map name="part0_hdmi_in_1" c1_st_index="14" c1_end_index="21" c2_st_index="0" c2_end_index="7"/>
+	
+	<connection_map name="part0_hdmi_in_ddc" c1_st_index="31" c1_end_index="32" c2_st_index="0" c2_end_index="1"/>
+  </connection>
+  
+  <connection name="part0_hdmi_in_hpd_led" component1="part0" component2="hdmi_in_hpd_led">
+    <connection_map name="part0_hdmi_in_hpd_led_1" c1_st_index="13" c1_end_index="13" c2_st_index="0" c2_end_index="0"/>
+  </connection>
+  
+  <connection name="part0_hdmi_out" component1="part0" component2="hdmi_out">
+    <connection_map name="part0_hdmi_out_1" c1_st_index="23" c1_end_index="30" c2_st_index="0" c2_end_index="7"/>
+  </connection>
+  
+  <connection name="part0_hdmi_out_hpd_led" component1="part0" component2="hdmi_out_hpd_led">
+    <connection_map name="part0_hdmi_out_hpd_led_1" c1_st_index="22" c1_end_index="22" c2_st_index="0" c2_end_index="0"/>
+  </connection>
+   
+  
+  <connection name="part0_ja" component1="part0" component2="ja">
+    <connection_map name="part0_ja_1" c1_st_index="39" c1_end_index="46" c2_st_index="0" c2_end_index="7"/>
+  </connection>
+  <connection name="part0_jb" component1="part0" component2="jb">
+    <connection_map name="part0_jb_1" c1_st_index="47" c1_end_index="54" c2_st_index="0" c2_end_index="7"/>
+  </connection>
+  <connection name="part0_jc" component1="part0" component2="jc">
+    <connection_map name="part0_jc_1" c1_st_index="55" c1_end_index="62" c2_st_index="0" c2_end_index="7"/>
+  </connection>
+  <connection name="part0_jd" component1="part0" component2="jd">
+    <connection_map name="part0_jd_1" c1_st_index="63" c1_end_index="70" c2_st_index="0" c2_end_index="7"/>
+  </connection>
+  <connection name="part0_je" component1="part0" component2="je">
+    <connection_map name="part0_je_1" c1_st_index="71" c1_end_index="78" c2_st_index="0" c2_end_index="7"/>
+  </connection>
+  <connection name="part0_rgb_led" component1="part0" component2="rgb_led">
+    <connection_map name="part0_rgb_led_1" c1_st_index="33" c1_end_index="38" c2_st_index="0" c2_end_index="5"/>
+  </connection>  
+</connections>
+</board>

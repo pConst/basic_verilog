@@ -1,0 +1,33 @@
+{
+  "config": {
+    "items": [
+      {
+        "infra": {
+          "name": "cora-z7-07s", 
+          "display": "Cora Z7-07S", 
+          "revision": "1.0", 
+          "description": "Cora Z7-07S", 
+          "company": "digilentinc.com", 
+          "company_display": "Digilent Inc", 
+          "author": "ArtVVB", 
+          "contributors": [
+            {
+              "group": "Digilent Inc", 
+              "url": "digilentinc.com"
+            }
+          ], 
+          "category": "Single Part", 
+          "website": "http://www.digilentinc.com", 
+          "search-keywords": [
+            "cora-z7-07s", 
+            "digilentinc.com", 
+            "board", 
+            "Single Part"
+          ]
+        }
+      }
+    ]
+  }, 
+  "_major": 1, 
+  "_minor": 0
+}

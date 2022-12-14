@@ -1,0 +1,33 @@
+{
+  "config": {
+    "items": [
+      {
+        "infra": {
+          "name": "v350_es", 
+          "display": "V350 ES0 Data Center Accelerator Card", 
+          "revision": "1.0", 
+          "description": "V350 ES0 Data Center Accelerator Card", 
+          "company": "xilinx.com", 
+          "company_display": "Xilinx", 
+          "author": "Vanitha", 
+          "contributors": [
+            {
+              "group": "Xilinx", 
+              "url": "www.xilinx.com"
+            }
+          ], 
+          "category": "Single Part", 
+          "website": "http://www.xilinx.com/v350", 
+          "search-keywords": [
+            "v350", 
+            "xilinx.com", 
+            "board", 
+            "Single Part"
+          ]
+        }
+      }
+    ]
+  },
+  "_major": 1,
+  "_minor": 0
+}

@@ -1,0 +1,688 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?> 
+<board schema_version="2.0" vendor="digilentinc.com" name="cora-z7-10" display_name="Cora Z7-10" url="http://www.digilentinc.com" preset_file="preset.xml" >
+	<compatible_board_revisions>
+		<revision id="0">B.0</revision>
+	</compatible_board_revisions>
+	<file_version>1.0</file_version>
+	<description>Cora Z7-10</description>
+	<components>
+		<component name="part0" display_name="Cora Z7-10" type="fpga" part_name="xc7z010clg400-1" pin_map_file="part0_pins.xml" vendor="xilinx.com" spec_url="http://www.digilentinc.com">
+			<interfaces>
+				<interface mode="master" name="ps7_fixedio" type="xilinx.com:display_processing_system7:fixedio_rtl:1.0" of_component="ps7_fixedio" preset_proc="ps7_preset"> 
+				</interface>
+				<interface mode="slave" name="sys_clock" type="xilinx.com:signal:clock_rtl:1.0" of_component="sys_clock" preset_proc="sys_clock_preset">
+					<port_maps>
+						<port_map logical_port="CLK" physical_port="sys_clk" dir="in">
+							<pin_maps>
+								<pin_map port_index="0" component_pin="sys_clk"/> 
+							</pin_maps>
+						</port_map>
+					</port_maps>
+					<parameters>
+						<parameter name="frequency" value="125000000" />
+					</parameters>
+				</interface>
+				<interface mode="master" name="btns_2bits" type="xilinx.com:interface:gpio_rtl:1.0" of_component="btns_2bits" preset_proc="input_2bits_preset">
+					<description>2 Push Buttons</description>
+					<preferred_ips>
+						<preferred_ip vendor="xilinx.com" library="ip" name="axi_gpio" order="0"/>
+					</preferred_ips>
+					<port_maps>
+						<port_map logical_port="TRI_I" physical_port="btns_2bits_tri_i" dir="in" left="1" right="0"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="btns_2bits_tri_i_0"/> 
+								<pin_map port_index="1" component_pin="btns_2bits_tri_i_1"/> 
+							</pin_maps>
+						</port_map>
+					</port_maps>
+				</interface>
+				<interface mode="master" name="rgb_leds" type="xilinx.com:interface:gpio_rtl:1.0" of_component="rgb_leds" preset_proc="output_6bits_preset">
+					<description>2 RGB LEDs</description>
+					<preferred_ips>
+						<preferred_ip vendor="xilinx.com" library="ip" name="axi_gpio" order="0"/>
+					</preferred_ips>
+					<port_maps>
+						<port_map logical_port="TRI_O" physical_port="rgb_leds_tri_o" dir="out" left="5" right="0"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="rgb_leds_tri_o_0"/> 
+								<pin_map port_index="1" component_pin="rgb_leds_tri_o_1"/>
+								<pin_map port_index="2" component_pin="rgb_leds_tri_o_2"/>
+								<pin_map port_index="3" component_pin="rgb_leds_tri_o_3"/>
+								<pin_map port_index="4" component_pin="rgb_leds_tri_o_4"/>
+								<pin_map port_index="5" component_pin="rgb_leds_tri_o_5"/>
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="TRI_I" physical_port="rgb_leds_tri_o" dir="in" left="5" right="0"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="rgb_leds_tri_o_0"/> 
+								<pin_map port_index="1" component_pin="rgb_leds_tri_o_1"/> 
+								<pin_map port_index="2" component_pin="rgb_leds_tri_o_2"/> 
+								<pin_map port_index="3" component_pin="rgb_leds_tri_o_3"/> 
+								<pin_map port_index="4" component_pin="rgb_leds_tri_o_4"/> 
+								<pin_map port_index="5" component_pin="rgb_leds_tri_o_5"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="TRI_T" physical_port="rgb_leds_tri_o" dir="out" left="5" right="0"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="rgb_leds_tri_o_0"/> 
+								<pin_map port_index="1" component_pin="rgb_leds_tri_o_1"/> 
+								<pin_map port_index="2" component_pin="rgb_leds_tri_o_2"/> 
+								<pin_map port_index="3" component_pin="rgb_leds_tri_o_3"/> 
+								<pin_map port_index="4" component_pin="rgb_leds_tri_o_4"/> 
+								<pin_map port_index="5" component_pin="rgb_leds_tri_o_5"/> 
+							</pin_maps>
+						</port_map>
+					</port_maps>
+				</interface>
+				<interface mode="master" name="ja" type="digilentinc.com:interface:pmod_rtl:1.0" of_component="ja">
+					<port_maps>
+						<port_map logical_port="PIN1_I" physical_port="JA1" dir="in"> 
+							<pin_maps>
+							<pin_map port_index="0" component_pin="JA1"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN1_O" physical_port="JA1" dir="out"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JA1"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN1_T" physical_port="JA1" dir="out"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JA1"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN2_I" physical_port="JA2" dir="in"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JA2"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN2_O" physical_port="JA2" dir="out"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JA2"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN2_T" physical_port="JA2" dir="out"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JA2"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN3_I" physical_port="JA3" dir="in"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JA3"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN3_O" physical_port="JA3" dir="out"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JA3"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN3_T" physical_port="JA3" dir="out"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JA3"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN4_I" physical_port="JA4" dir="in"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JA4"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN4_O" physical_port="JA4" dir="out"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JA4"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN4_T" physical_port="JA4" dir="out"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JA4"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN7_I" physical_port="JA7" dir="in"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JA7"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN7_O" physical_port="JA7" dir="out"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JA7"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN7_T" physical_port="JA7" dir="out"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JA7"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN8_I" physical_port="JA8" dir="in"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JA8"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN8_O" physical_port="JA8" dir="out"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JA8"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN8_T" physical_port="JA8" dir="out"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JA8"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN9_I" physical_port="JA9" dir="in"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JA9"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN9_O" physical_port="JA9" dir="out"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JA9"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN9_T" physical_port="JA9" dir="out"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JA9"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN10_I" physical_port="JA10" dir="in"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JA10"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN10_O" physical_port="JA10" dir="out"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JA10"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN10_T" physical_port="JA10" dir="out"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JA10"/> 
+							</pin_maps>
+						</port_map>
+					</port_maps>
+				</interface>
+				<interface mode="master" name="jb" type="digilentinc.com:interface:pmod_rtl:1.0" of_component="jb">
+					<port_maps>
+						<port_map logical_port="PIN1_I" physical_port="JB1" dir="in"> 
+							<pin_maps>
+							<pin_map port_index="0" component_pin="JB1"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN1_O" physical_port="JB1" dir="out"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JB1"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN1_T" physical_port="JB1" dir="out"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JB1"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN2_I" physical_port="JB2" dir="in"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JB2"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN2_O" physical_port="JB2" dir="out"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JB2"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN2_T" physical_port="JB2" dir="out"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JB2"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN3_I" physical_port="JB3" dir="in"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JB3"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN3_O" physical_port="JB3" dir="out"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JB3"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN3_T" physical_port="JB3" dir="out"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JB3"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN4_I" physical_port="JB4" dir="in"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JB4"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN4_O" physical_port="JB4" dir="out"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JB4"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN4_T" physical_port="JB4" dir="out"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JB4"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN7_I" physical_port="JB7" dir="in"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JB7"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN7_O" physical_port="JB7" dir="out"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JB7"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN7_T" physical_port="JB7" dir="out"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JB7"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN8_I" physical_port="JB8" dir="in"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JB8"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN8_O" physical_port="JB8" dir="out"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JB8"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN8_T" physical_port="JB8" dir="out"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JB8"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN9_I" physical_port="JB9" dir="in"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JB9"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN9_O" physical_port="JB9" dir="out"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JB9"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN9_T" physical_port="JB9" dir="out"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JB9"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN10_I" physical_port="JB10" dir="in"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JB10"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN10_O" physical_port="JB10" dir="out"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JB10"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="PIN10_T" physical_port="JB10" dir="out"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="JB10"/> 
+							</pin_maps>
+						</port_map>
+					</port_maps>
+				</interface>
+				<interface mode="master" name="shield_i2c" type="xilinx.com:interface:iic_rtl:1.0" of_component="shield_i2c">
+					<description>Shield I2C</description>
+					<preferred_ips>
+						<preferred_ip vendor="xilinx.com" library="ip" name="axi_iic" order="0"/>
+					</preferred_ips>
+					<port_maps>
+						<port_map logical_port="SDA_I" physical_port="shield_i2c_sda_i" dir="in">
+							<pin_maps>
+								<pin_map port_index="0" component_pin="shield_i2c_sda_i"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="SDA_O" physical_port="shield_i2c_sda_o" dir="out">
+							<pin_maps>
+								<pin_map port_index="0" component_pin="shield_i2c_sda_i"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="SDA_T" physical_port="shield_i2c_sda_t" dir="out">
+							<pin_maps>
+								<pin_map port_index="0" component_pin="shield_i2c_sda_i"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="SCL_I" physical_port="shield_i2c_scl_i" dir="in">
+							<pin_maps>
+								<pin_map port_index="0" component_pin="shield_i2c_scl_i"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="SCL_O" physical_port="shield_i2c_scl_o" dir="out">
+							<pin_maps>
+								<pin_map port_index="0" component_pin="shield_i2c_scl_i"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="SCL_T" physical_port="shield_i2c_scl_t" dir="out">
+							<pin_maps>
+								<pin_map port_index="0" component_pin="shield_i2c_scl_i"/> 
+							</pin_maps>
+						</port_map>
+					</port_maps>
+				</interface>
+				<interface mode="master" name="shield_spi" type="xilinx.com:interface:spi_rtl:1.0" of_component="shield_spi" preset_proc="shield_spi_preset">
+					<description>Shield SPI</description>
+					<preferred_ips>
+						<preferred_ip vendor="xilinx.com" library="ip" name="axi_quad_spi" order="0"/>
+					</preferred_ips>
+					<port_maps>
+						<port_map logical_port="IO0_I" physical_port="shield_spi_mosi_i" dir="in">
+							<pin_maps>
+								<pin_map port_index="0" component_pin="shield_spi_mosi_i"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="IO0_O" physical_port="shield_spi_mosi_o" dir="out">
+							<pin_maps>
+								<pin_map port_index="0" component_pin="shield_spi_mosi_i"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="IO0_T" physical_port="shield_spi_mosi_t" dir="out">
+							<pin_maps>
+								<pin_map port_index="0" component_pin="shield_spi_mosi_i"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="IO1_I" physical_port="shield_spi_miso_i" dir="in">
+							<pin_maps>
+								<pin_map port_index="0" component_pin="shield_spi_miso_i"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="IO1_O" physical_port="shield_spi_miso_o" dir="out">
+							<pin_maps>
+								<pin_map port_index="0" component_pin="shield_spi_miso_i"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="IO1_T" physical_port="shield_spi_miso_t" dir="out">
+							<pin_maps>
+								<pin_map port_index="0" component_pin="shield_spi_miso_i"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="SCK_I" physical_port="shield_spi_sck_i" dir="in">
+							<pin_maps>
+								<pin_map port_index="0" component_pin="shield_spi_sck_i"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="SCK_O" physical_port="shield_spi_sck_o" dir="out">
+							<pin_maps>
+								<pin_map port_index="0" component_pin="shield_spi_sck_i"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="SCK_T" physical_port="shield_spi_sck_t" dir="out">
+							<pin_maps>
+								<pin_map port_index="0" component_pin="shield_spi_sck_i"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="SS_I" physical_port="shield_spi_ss_i" dir="in">
+							<pin_maps>
+								<pin_map port_index="0" component_pin="shield_spi_ss_i"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="SS_O" physical_port="shield_spi_ss_o" dir="out">
+							<pin_maps>
+								<pin_map port_index="0" component_pin="shield_spi_ss_i"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="SS_T" physical_port="shield_spi_ss_t" dir="out">
+							<pin_maps>
+								<pin_map port_index="0" component_pin="shield_spi_ss_i"/> 
+							</pin_maps>
+						</port_map>
+					</port_maps>
+				</interface>
+				<interface mode="master" name="shield_dp0_dp13" type="xilinx.com:interface:gpio_rtl:1.0" of_component="shield_dp0_dp13" preset_proc="shield_dp0_dp13_preset">
+					<preferred_ips>
+						<preferred_ip vendor="xilinx.com" library="ip" name="axi_gpio" order="0"/>
+					</preferred_ips>
+					<port_maps>
+						<port_map logical_port="TRI_I" physical_port="shield_dp0_dp13_tri_i" dir="in" left="13" right="0"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="shield_dp0_dp13_tri_i_0"/> 
+								<pin_map port_index="1" component_pin="shield_dp0_dp13_tri_i_1"/> 
+								<pin_map port_index="2" component_pin="shield_dp0_dp13_tri_i_2"/> 
+								<pin_map port_index="3" component_pin="shield_dp0_dp13_tri_i_3"/> 
+								<pin_map port_index="4" component_pin="shield_dp0_dp13_tri_i_4"/> 
+								<pin_map port_index="5" component_pin="shield_dp0_dp13_tri_i_5"/> 
+								<pin_map port_index="6" component_pin="shield_dp0_dp13_tri_i_6"/> 
+								<pin_map port_index="7" component_pin="shield_dp0_dp13_tri_i_7"/> 
+								<pin_map port_index="8" component_pin="shield_dp0_dp13_tri_i_8"/> 
+								<pin_map port_index="9" component_pin="shield_dp0_dp13_tri_i_9"/> 
+								<pin_map port_index="10" component_pin="shield_dp0_dp13_tri_i_10"/> 
+								<pin_map port_index="11" component_pin="shield_dp0_dp13_tri_i_11"/> 
+								<pin_map port_index="12" component_pin="shield_dp0_dp13_tri_i_12"/> 
+								<pin_map port_index="13" component_pin="shield_dp0_dp13_tri_i_13"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="TRI_O" physical_port="shield_dp0_dp13_tri_o" dir="out" left="13" right="0"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="shield_dp0_dp13_tri_i_0"/> 
+								<pin_map port_index="1" component_pin="shield_dp0_dp13_tri_i_1"/> 
+								<pin_map port_index="2" component_pin="shield_dp0_dp13_tri_i_2"/> 
+								<pin_map port_index="3" component_pin="shield_dp0_dp13_tri_i_3"/> 
+								<pin_map port_index="4" component_pin="shield_dp0_dp13_tri_i_4"/> 
+								<pin_map port_index="5" component_pin="shield_dp0_dp13_tri_i_5"/> 
+								<pin_map port_index="6" component_pin="shield_dp0_dp13_tri_i_6"/> 
+								<pin_map port_index="7" component_pin="shield_dp0_dp13_tri_i_7"/> 
+								<pin_map port_index="8" component_pin="shield_dp0_dp13_tri_i_8"/> 
+								<pin_map port_index="9" component_pin="shield_dp0_dp13_tri_i_9"/> 
+								<pin_map port_index="10" component_pin="shield_dp0_dp13_tri_i_10"/> 
+								<pin_map port_index="11" component_pin="shield_dp0_dp13_tri_i_11"/> 
+								<pin_map port_index="12" component_pin="shield_dp0_dp13_tri_i_12"/> 
+								<pin_map port_index="13" component_pin="shield_dp0_dp13_tri_i_13"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="TRI_T" physical_port="shield_dp0_dp13_tri_t" dir="out" left="13" right="0"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="shield_dp0_dp13_tri_i_0"/> 
+								<pin_map port_index="1" component_pin="shield_dp0_dp13_tri_i_1"/> 
+								<pin_map port_index="2" component_pin="shield_dp0_dp13_tri_i_2"/> 
+								<pin_map port_index="3" component_pin="shield_dp0_dp13_tri_i_3"/> 
+								<pin_map port_index="4" component_pin="shield_dp0_dp13_tri_i_4"/> 
+								<pin_map port_index="5" component_pin="shield_dp0_dp13_tri_i_5"/> 
+								<pin_map port_index="6" component_pin="shield_dp0_dp13_tri_i_6"/> 
+								<pin_map port_index="7" component_pin="shield_dp0_dp13_tri_i_7"/> 
+								<pin_map port_index="8" component_pin="shield_dp0_dp13_tri_i_8"/> 
+								<pin_map port_index="9" component_pin="shield_dp0_dp13_tri_i_9"/> 
+								<pin_map port_index="10" component_pin="shield_dp0_dp13_tri_i_10"/> 
+								<pin_map port_index="11" component_pin="shield_dp0_dp13_tri_i_11"/> 
+								<pin_map port_index="12" component_pin="shield_dp0_dp13_tri_i_12"/> 
+								<pin_map port_index="13" component_pin="shield_dp0_dp13_tri_i_13"/> 
+							</pin_maps>
+						</port_map>
+					</port_maps>
+				</interface>
+				<interface mode="master" name="shield_dp26_dp41" type="xilinx.com:interface:gpio_rtl:1.0" of_component="shield_dp26_dp41" preset_proc="shield_dp26_dp41_preset">
+					<preferred_ips>
+						<preferred_ip vendor="xilinx.com" library="ip" name="axi_gpio" order="0"/>
+					</preferred_ips>
+					<port_maps>
+						<port_map logical_port="TRI_I" physical_port="shield_dp26_dp41_tri_i" dir="in" left="15" right="0"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="shield_dp26_dp41_tri_i_0"/> 
+								<pin_map port_index="1" component_pin="shield_dp26_dp41_tri_i_1"/> 
+								<pin_map port_index="2" component_pin="shield_dp26_dp41_tri_i_2"/> 
+								<pin_map port_index="3" component_pin="shield_dp26_dp41_tri_i_3"/> 
+								<pin_map port_index="4" component_pin="shield_dp26_dp41_tri_i_4"/> 
+								<pin_map port_index="5" component_pin="shield_dp26_dp41_tri_i_5"/> 
+								<pin_map port_index="6" component_pin="shield_dp26_dp41_tri_i_6"/> 
+								<pin_map port_index="7" component_pin="shield_dp26_dp41_tri_i_7"/> 
+								<pin_map port_index="8" component_pin="shield_dp26_dp41_tri_i_8"/> 
+								<pin_map port_index="9" component_pin="shield_dp26_dp41_tri_i_9"/> 
+								<pin_map port_index="10" component_pin="shield_dp26_dp41_tri_i_10"/> 
+								<pin_map port_index="11" component_pin="shield_dp26_dp41_tri_i_11"/> 
+								<pin_map port_index="12" component_pin="shield_dp26_dp41_tri_i_12"/> 
+								<pin_map port_index="13" component_pin="shield_dp26_dp41_tri_i_13"/> 
+								<pin_map port_index="14" component_pin="shield_dp26_dp41_tri_i_14"/> 
+								<pin_map port_index="15" component_pin="shield_dp26_dp41_tri_i_15"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="TRI_O" physical_port="shield_dp26_dp41_tri_o" dir="out" left="15" right="0"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="shield_dp26_dp41_tri_i_0"/> 
+								<pin_map port_index="1" component_pin="shield_dp26_dp41_tri_i_1"/> 
+								<pin_map port_index="2" component_pin="shield_dp26_dp41_tri_i_2"/> 
+								<pin_map port_index="3" component_pin="shield_dp26_dp41_tri_i_3"/> 
+								<pin_map port_index="4" component_pin="shield_dp26_dp41_tri_i_4"/> 
+								<pin_map port_index="5" component_pin="shield_dp26_dp41_tri_i_5"/> 
+								<pin_map port_index="6" component_pin="shield_dp26_dp41_tri_i_6"/> 
+								<pin_map port_index="7" component_pin="shield_dp26_dp41_tri_i_7"/> 
+								<pin_map port_index="8" component_pin="shield_dp26_dp41_tri_i_8"/> 
+								<pin_map port_index="9" component_pin="shield_dp26_dp41_tri_i_9"/> 
+								<pin_map port_index="10" component_pin="shield_dp26_dp41_tri_i_10"/> 
+								<pin_map port_index="11" component_pin="shield_dp26_dp41_tri_i_11"/> 
+								<pin_map port_index="12" component_pin="shield_dp26_dp41_tri_i_12"/> 
+								<pin_map port_index="13" component_pin="shield_dp26_dp41_tri_i_13"/> 
+								<pin_map port_index="14" component_pin="shield_dp26_dp41_tri_i_14"/> 
+								<pin_map port_index="15" component_pin="shield_dp26_dp41_tri_i_15"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="TRI_T" physical_port="shield_dp26_dp41_tri_t" dir="out" left="15" right="0"> 
+							<pin_maps>
+								<pin_map port_index="0" component_pin="shield_dp26_dp41_tri_i_0"/> 
+								<pin_map port_index="1" component_pin="shield_dp26_dp41_tri_i_1"/> 
+								<pin_map port_index="2" component_pin="shield_dp26_dp41_tri_i_2"/> 
+								<pin_map port_index="3" component_pin="shield_dp26_dp41_tri_i_3"/> 
+								<pin_map port_index="4" component_pin="shield_dp26_dp41_tri_i_4"/> 
+								<pin_map port_index="5" component_pin="shield_dp26_dp41_tri_i_5"/> 
+								<pin_map port_index="6" component_pin="shield_dp26_dp41_tri_i_6"/> 
+								<pin_map port_index="7" component_pin="shield_dp26_dp41_tri_i_7"/> 
+								<pin_map port_index="8" component_pin="shield_dp26_dp41_tri_i_8"/> 
+								<pin_map port_index="9" component_pin="shield_dp26_dp41_tri_i_9"/> 
+								<pin_map port_index="10" component_pin="shield_dp26_dp41_tri_i_10"/> 
+								<pin_map port_index="11" component_pin="shield_dp26_dp41_tri_i_11"/> 
+								<pin_map port_index="12" component_pin="shield_dp26_dp41_tri_i_12"/> 
+								<pin_map port_index="13" component_pin="shield_dp26_dp41_tri_i_13"/> 
+								<pin_map port_index="14" component_pin="shield_dp26_dp41_tri_i_14"/> 
+								<pin_map port_index="15" component_pin="shield_dp26_dp41_tri_i_15"/> 
+							</pin_maps>
+						</port_map>
+					</port_maps>
+				</interface>
+				<interface mode="master" name="user_dio" type="xilinx.com:interface:gpio_rtl:1.0" of_component="user_dio" preset_proc="user_dio_preset">
+					<preferred_ips>
+						<preferred_ip vendor="xilinx.com" library="ip" name="axi_gpio" order="0"/>
+					</preferred_ips>
+					<port_maps>
+						<port_map logical_port="TRI_I" physical_port="user_dio_tri_i" dir="in" left="11" right="0"> 
+							<pin_maps>
+								<pin_map port_index="0"  component_pin="user_dio_tri_i_0"/> 
+								<pin_map port_index="1"  component_pin="user_dio_tri_i_1"/> 
+								<pin_map port_index="2"  component_pin="user_dio_tri_i_2"/> 
+								<pin_map port_index="3"  component_pin="user_dio_tri_i_3"/> 
+								<pin_map port_index="4"  component_pin="user_dio_tri_i_4"/> 
+								<pin_map port_index="5"  component_pin="user_dio_tri_i_5"/> 
+								<pin_map port_index="6"  component_pin="user_dio_tri_i_6"/> 
+								<pin_map port_index="7"  component_pin="user_dio_tri_i_7"/> 
+								<pin_map port_index="8"  component_pin="user_dio_tri_i_8"/> 
+								<pin_map port_index="9"  component_pin="user_dio_tri_i_9"/> 
+								<pin_map port_index="10" component_pin="user_dio_tri_i_10"/> 
+								<pin_map port_index="11" component_pin="user_dio_tri_i_11"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="TRI_O" physical_port="user_dio_tri_o" dir="out" left="11" right="0"> 
+							<pin_maps>
+								<pin_map port_index="0"  component_pin="user_dio_tri_i_0"/> 
+								<pin_map port_index="1"  component_pin="user_dio_tri_i_1"/> 
+								<pin_map port_index="2"  component_pin="user_dio_tri_i_2"/> 
+								<pin_map port_index="3"  component_pin="user_dio_tri_i_3"/> 
+								<pin_map port_index="4"  component_pin="user_dio_tri_i_4"/> 
+								<pin_map port_index="5"  component_pin="user_dio_tri_i_5"/> 
+								<pin_map port_index="6"  component_pin="user_dio_tri_i_6"/> 
+								<pin_map port_index="7"  component_pin="user_dio_tri_i_7"/> 
+								<pin_map port_index="8"  component_pin="user_dio_tri_i_8"/> 
+								<pin_map port_index="9"  component_pin="user_dio_tri_i_9"/> 
+								<pin_map port_index="10" component_pin="user_dio_tri_i_10"/> 
+								<pin_map port_index="11" component_pin="user_dio_tri_i_11"/> 
+							</pin_maps>
+						</port_map>
+						<port_map logical_port="TRI_T" physical_port="user_dio_tri_t" dir="out" left="11" right="0"> 
+							<pin_maps>
+								<pin_map port_index="0"  component_pin="user_dio_tri_i_0"/> 
+								<pin_map port_index="1"  component_pin="user_dio_tri_i_1"/> 
+								<pin_map port_index="2"  component_pin="user_dio_tri_i_2"/> 
+								<pin_map port_index="3"  component_pin="user_dio_tri_i_3"/> 
+								<pin_map port_index="4"  component_pin="user_dio_tri_i_4"/> 
+								<pin_map port_index="5"  component_pin="user_dio_tri_i_5"/> 
+								<pin_map port_index="6"  component_pin="user_dio_tri_i_6"/> 
+								<pin_map port_index="7"  component_pin="user_dio_tri_i_7"/> 
+								<pin_map port_index="8"  component_pin="user_dio_tri_i_8"/> 
+								<pin_map port_index="9"  component_pin="user_dio_tri_i_9"/> 
+								<pin_map port_index="10" component_pin="user_dio_tri_i_10"/> 
+								<pin_map port_index="11" component_pin="user_dio_tri_i_11"/> 
+							</pin_maps>
+						</port_map>
+					</port_maps>
+				</interface>
+			</interfaces>
+		</component>
+		<component name="ps7_fixedio" display_name="ps7_fixedio" type="chip" sub_type="fixed_io" major_group=""/>
+		<component name="sys_clock" display_name="System Clock" type="chip" sub_type="system_clock" major_group="Clocks">
+			<description>3.3V Single-Ended 125 MHz oscillator used as system clock on the board</description>
+		</component>
+		<component name="btns_2bits" display_name="2 Buttons" type="chip" sub_type="push_button" major_group="GPIO">
+			<description>Buttons 1 to 0</description>
+		</component>
+		<component name="ja" display_name="Connector JA" type="chip" sub_type="chip" major_group="Pmod">
+			<description>Pmod Connector JA</description>
+		</component>
+		<component name="jb" display_name="Connector JB" type="chip" sub_type="chip" major_group="Pmod">
+			<description>Pmod Connector JB</description>
+		</component>
+		<component name="rgb_leds" display_name="2 RGB LEDs" type="chip" sub_type="led" major_group="GPIO">
+			<description>RGB LEDs 5 to 0 (3 bits per LED, ordered "RGBRGB")</description>
+		</component>
+		<component name="shield_i2c" display_name="Shield I2C on J3" type="chip" sub_type="mux" major_group="I2C">
+			<description>Shield I2C</description>
+		</component>
+		<component name="shield_spi" display_name="Shield SPI on J7" type="chip" sub_type="mux" major_group="SPI">
+			<description>Shield SPI</description>
+		</component>
+		<component name="shield_dp0_dp13" display_name="Shield Pins 0 to 13" type="chip" sub_type="led" major_group="GPIO">
+			<description>Digital Shield pins DP0 through DP13</description>
+		</component>
+		<component name="shield_dp26_dp41" display_name="Shield Pins 26 to 41" type="chip" sub_type="led" major_group="GPIO">
+			<description>Digital Shield pins DP26 through DP41</description>
+		</component>
+		<component name="user_dio" display_name="User Digital I/O on J1" type="chip" sub_type="led" major_group="GPIO">
+			<description>User Digital I/O pins 1 through 12</description>
+		</component>
+	
+	</components>
+
+	<jtag_chains>
+		<jtag_chain name="chain1">
+			<position name="0" component="part0"/>
+		</jtag_chain>
+	</jtag_chains>
+
+	<connections>
+		<connection name="part0_sys_clock" component1="part0" component2="sys_clock">
+			<connection_map name="part0_sys_clock_1" c1_st_index="0" c1_end_index="0" c2_st_index="0" c2_end_index="0"/>
+		</connection>
+		<connection name="part0_btns_2bits" component1="part0" component2="btns_2bits">
+			<connection_map name="part0_btns_2bits_1" c1_st_index="1" c1_end_index="2" c2_st_index="0" c2_end_index="1"/>
+		</connection>
+		<connection name="part0_rgb_leds" component1="part0" component2="rgb_leds">
+			<connection_map name="part0_rgb_leds_1" c1_st_index="3" c1_end_index="8" c2_st_index="0" c2_end_index="5"/>
+		</connection>
+		<connection name="part0_ja" component1="part0" component2="ja">
+			<connection_map name="part0_ja_1" c1_st_index="9" c1_end_index="16" c2_st_index="0" c2_end_index="7"/>
+		</connection>
+		<connection name="part0_jb" component1="part0" component2="jb">
+			<connection_map name="part0_jb_1" c1_st_index="17" c1_end_index="24" c2_st_index="0" c2_end_index="7"/>
+		</connection>
+		<connection name="part0_shield_i2c" component1="part0" component2="shield_i2c">
+			<connection_map name="part0_shield_i2c_1" c1_st_index="25" c1_end_index="26" c2_st_index="0" c2_end_index="1"/>
+		</connection>
+		<connection name="part0_shield_dp0_dp13" component1="part0" component2="shield_dp0_dp13">
+			<connection_map name="part0_shield_dp0_dp13_1" c1_st_index="27" c1_end_index="40" c2_st_index="0" c2_end_index="13"/>
+		</connection>
+		<connection name="part0_shield_dp26_dp41" component1="part0" component2="shield_dp26_dp41">
+			<connection_map name="part0_shield_dp26_dp41_1" c1_st_index="41" c1_end_index="56" c2_st_index="0" c2_end_index="15"/>
+		</connection>
+		<connection name="part0_shield_spi" component1="part0" component2="shield_spi">
+			<connection_map name="part0_shield_spi_1" c1_st_index="57" c1_end_index="60" c2_st_index="0" c2_end_index="3"/>
+		</connection>
+		<connection name="part0_user_dio" component1="part0" component2="user_dio">
+			<connection_map name="part0_user_dio_1" c1_st_index="61" c1_end_index="72" c2_st_index="0" c2_end_index="11"/>
+		</connection>
+	</connections>
+</board>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?> 
+<board schema_version="2.1" vendor="em.avnet.com" name="Ultra96" display_name="Ultra96 Evaluation Platform" url="http://ultra96.org/product/ultra96" preset_file="preset.xml">
+<images>
+    <image name="ultra96.jpg" display_name="Ultra96 Evaluation Platform" sub_type="board">
+      <description>Ultra96 Board File Image</description>
+    </image>
+  </images>
+  <compatible_board_revisions>
+	<revision id="0">Rev 1</revision>
+  </compatible_board_revisions>
+  <file_version>1.2</file_version>
+  <description>Ultra96 Evaluation Platform</description>
+  <parameters>
+    <parameter name="heat_sink_type" value="medium" value_type="string"/>
+    <parameter name="heat_sink_temperature" value_type="range" value_min="20.0" value_max="30.0"/>
+  </parameters>
+  <jumpers>
+  </jumpers>
+  
+  <components>   
+  
+     <component name="part0" display_name="Ultra96 Evaluation Platform" type="fpga" part_name="xczu3eg-sbva484-1-e" pin_map_file="part0_pins.xml" vendor="xilinx" spec_url="http://ultra96.org/product/ultra96">
+      <description>FPGA part on the board</description>
+	  
+      <interfaces>
+	    <interface mode="master" name="ps8_fixedio" type="xilinx.com:zynq_ultra_ps_e:fixedio_rtl:1.0" of_component="ps8_fixedio" preset_proc="zynq_ultra_ps_e_preset"> 
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="zynq_ultra_ps_e" order="0"/>
+          </preferred_ips>
+        </interface>
+      </interfaces> 
+    </component>
+	
+    <component name="ps8_fixedio" display_name="PS8 fixed IO" type="chip" sub_type="fixed_io" major_group=""/>
+
+  </components>
+	
+  <jtag_chains>
+    <jtag_chain name="chain1">
+      <position name="0" component="part0"/>
+    </jtag_chain>
+  </jtag_chains>
+  
+  
+</board>
+

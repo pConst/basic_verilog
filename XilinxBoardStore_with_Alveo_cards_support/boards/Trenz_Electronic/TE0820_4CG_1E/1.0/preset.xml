@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!-- ##################################################################### -->
+<!-- ##TE File Version:1.0-->
+<!-- ##TE Last Modification:2018.06.18 -->
+<!-- ##################################################################### -->
+<ip_presets schema="1.0">
+  <!--insert ip presets here, see ug895 or other board part files-->
+  <ip_preset preset_proc_name="zynq_ultra_ps_e_preset"> 
+    <ip vendor="xilinx.com" library="ip" name="zynq_ultra_ps_e" version="*"> 
+      <user_parameters>
+        <user_parameter  name="CONFIG.PSU_BANK_0_IO_STANDARD" value="LVCMOS18"/>
+        <user_parameter  name="CONFIG.PSU_BANK_1_IO_STANDARD" value="LVCMOS33"/>
+        <user_parameter  name="CONFIG.PSU_BANK_2_IO_STANDARD" value="LVCMOS18"/>
+        <user_parameter  name="CONFIG.PSU_BANK_3_IO_STANDARD" value="LVCMOS18"/>
+        <user_parameter  name="CONFIG.PSU__PSS_REF_CLK__FREQMHZ" value="33.33333"/>
+        <user_parameter  name="CONFIG.PSU__QSPI__PERIPHERAL__ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PSU__QSPI__PERIPHERAL__MODE" value="Dual Parallel"/>
+        <user_parameter  name="CONFIG.PSU__QSPI__PERIPHERAL__DATA_MODE" value="x4"/>
+        <user_parameter  name="CONFIG.PSU__QSPI__GRP_FBCLK__ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PSU__I2C0__PERIPHERAL__ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PSU__I2C0__PERIPHERAL__IO" value="MIO 38 .. 39"/>
+        <user_parameter  name="CONFIG.PSU__SD0__PERIPHERAL__ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PSU__SD0__SLOT_TYPE" value="eMMC"/>
+        <user_parameter  name="CONFIG.PSU__SD0__PERIPHERAL__IO" value="MIO 13 .. 22"/>
+        <user_parameter  name="CONFIG.PSU__SD0__RESET__ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PSU__SD0__GRP_POW__IO" value="MIO 23"/>
+        <user_parameter  name="CONFIG.PSU__TTC0__PERIPHERAL__ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PSU__TTC1__PERIPHERAL__ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PSU__TTC2__PERIPHERAL__ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PSU__TTC3__PERIPHERAL__ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PSU__SWDT0__PERIPHERAL__ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PSU__SWDT1__PERIPHERAL__ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PSU__UART0__PERIPHERAL__ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PSU__UART0__PERIPHERAL__IO" value="MIO 30 .. 31"/>
+        <user_parameter  name="CONFIG.PSU__DDRC__BUS_WIDTH" value="32 Bit"/>
+        <user_parameter  name="CONFIG.PSU__DDRC__BG_ADDR_COUNT" value="1"/>
+        <user_parameter  name="CONFIG.PSU__DDRC__DEVICE_CAPACITY" value="4096 MBits"/>
+        <user_parameter  name="CONFIG.PSU__DDRC__DRAM_WIDTH" value="16 Bits"/>
+        <user_parameter  name="CONFIG.PSU__DDRC__ROW_ADDR_COUNT" value="15"/>
+        <user_parameter  name="CONFIG.PSU__DDRC__SPEED_BIN" value="DDR4_2400R"/>
+        <user_parameter  name="CONFIG.PSU__DDRC__DDR4_T_REF_MODE" value="1"/>
+        <user_parameter  name="CONFIG.PSU__SD1__PERIPHERAL__ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PSU__SD1__SLOT_TYPE" value="SD 2.0"/>
+        <user_parameter  name="CONFIG.PSU__SD1__PERIPHERAL__IO" value="MIO 46 .. 51"/>
+        <user_parameter  name="CONFIG.PSU_MIO_46_PULLUPDOWN" value="disable"/>
+        <user_parameter  name="CONFIG.PSU_MIO_46_INPUT_TYPE" value="cmos"/>
+        <user_parameter  name="CONFIG.PSU_MIO_47_PULLUPDOWN" value="disable"/>
+        <user_parameter  name="CONFIG.PSU_MIO_47_INPUT_TYPE" value="cmos"/>
+        <user_parameter  name="CONFIG.PSU_MIO_48_PULLUPDOWN" value="disable"/>
+        <user_parameter  name="CONFIG.PSU_MIO_48_INPUT_TYPE" value="cmos"/>
+        <user_parameter  name="CONFIG.PSU_MIO_49_PULLUPDOWN" value="disable"/>
+        <user_parameter  name="CONFIG.PSU_MIO_49_INPUT_TYPE" value="cmos"/>
+        <user_parameter  name="CONFIG.PSU_MIO_50_PULLUPDOWN" value="disable"/>
+        <user_parameter  name="CONFIG.PSU_MIO_50_INPUT_TYPE" value="cmos"/>
+        <user_parameter  name="CONFIG.PSU_MIO_51_PULLUPDOWN" value="disable"/>
+        <user_parameter  name="CONFIG.PSU__ENET3__PERIPHERAL__ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PSU__ENET3__PERIPHERAL__IO" value="MIO 64 .. 75"/>
+        <user_parameter  name="CONFIG.PSU__ENET3__GRP_MDIO__ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PSU__ENET3__GRP_MDIO__IO" value="MIO 76 .. 77"/>
+        <user_parameter  name="CONFIG.PSU__USB0__PERIPHERAL__ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PSU__USB0__PERIPHERAL__IO" value="MIO 52 .. 63"/>
+        <user_parameter  name="CONFIG.PSU__USB3_0__PERIPHERAL__ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PSU__USB0__REF_CLK_FREQ" value="100"/>
+        <user_parameter  name="CONFIG.PSU__GPIO0_MIO__PERIPHERAL__ENABLE" value="1"/>
+      </user_parameters>
+    </ip>
+  </ip_preset>
+   
+</ip_presets>

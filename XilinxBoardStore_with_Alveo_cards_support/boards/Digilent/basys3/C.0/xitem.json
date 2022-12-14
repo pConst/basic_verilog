@@ -1,0 +1,33 @@
+{
+  "config": {
+    "items": [
+      {
+        "infra": {
+          "name": "basys3", 
+          "display": "Basys3", 
+          "revision": "1.1", 
+          "description": "Basys3", 
+          "company": "digilentinc.com", 
+          "company_display": "Digilent Inc", 
+          "author": "ArtVVB", 
+          "contributors": [
+            {
+              "group": "Digilent Inc", 
+              "url": "digilentinc.com"
+            }
+          ], 
+          "category": "Single Part", 
+          "website": "www.digilentinc.com/basys3", 
+          "search-keywords": [
+            "basys3", 
+            "digilentinc.com", 
+            "board", 
+            "Single Part"
+          ]
+        }
+      }
+    ]
+  }, 
+  "_major": 1, 
+  "_minor": 0
+}

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?> 
+<!-- ##################################################################### -->
+<!-- ##TE File Version:1.0-->
+<!-- ##TE Last Modification:2018.01.31-->
+<!-- ##################################################################### -->
+<!-- ## replace part_name with correct FPGA PART from board.xml-->
+<part_info part_name="xczu4cg-sfvc784-1-e">
+  <pins>
+    <!--insert ip pin settings and locations here, see ug895 or other board part files-->
+  </pins>
+</part_info>

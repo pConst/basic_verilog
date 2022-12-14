@@ -1,0 +1,33 @@
+{
+  "config": {
+    "items": [
+      {
+        "infra": {
+          "name": "arty-a7-100", 
+          "display": "Arty A7-100", 
+          "revision": "1.0", 
+          "description": "Arty A7-100", 
+          "company": "digilentinc.com", 
+          "company_display": "Digilent Inc", 
+          "author": "ArtVVB", 
+          "contributors": [
+            {
+              "group": "Digilent Inc", 
+              "url": "digilentinc.com"
+            }
+          ], 
+          "category": "Single Part", 
+          "website": "www.digilentinc.com/Arty-A7-100", 
+          "search-keywords": [
+            "arty-a7-100", 
+            "digilentinc.com", 
+            "board", 
+            "Single Part"
+          ]
+        }
+      }
+    ]
+  }, 
+  "_major": 1, 
+  "_minor": 0
+}

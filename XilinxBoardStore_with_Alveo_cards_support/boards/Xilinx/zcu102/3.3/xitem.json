@@ -1,0 +1,33 @@
+{
+  "config": {
+    "items": [
+      {
+        "infra": {
+          "name": "zcu102", 
+          "display": "Zynq UltraScale+ ZCU102 Evaluation Board", 
+          "revision": "3.3", 
+          "description": "Zynq UltraScale+ ZCU102 Evaluation Board", 
+          "company": "xilinx.com", 
+          "company_display": "Xilinx", 
+          "author": "Vanitha", 
+          "contributors": [
+            {
+              "group": "Xilinx", 
+              "url": "www.xilinx.com"
+            }
+          ], 
+          "category": "Single Part", 
+          "website": "www.xilinx.com/zcu102", 
+          "search-keywords": [
+            "zcu102", 
+            "xilinx.com", 
+            "board", 
+            "Single Part"
+          ]
+        }
+      }
+    ]
+  }, 
+  "_major": 1, 
+  "_minor": 0
+}

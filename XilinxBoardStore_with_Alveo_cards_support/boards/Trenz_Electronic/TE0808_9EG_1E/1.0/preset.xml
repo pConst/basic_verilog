@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?> 
+<!-- ##################################################################### -->
+<!-- ##TE File Version:1.0-->
+<!-- ##TE Last Modification:2018.01.16 -->
+<!-- ##################################################################### -->
+<ip_presets schema="1.0">
+  <!--insert ip presets here, see ug895 or other board part files-->
+  <ip_preset preset_proc_name="zynq_ultra_ps_e_preset"> 
+    <ip vendor="xilinx.com" library="ip" name="zynq_ultra_ps_e" version="*"> 
+      <user_parameters>
+        <user_parameter  name="CONFIG.PSU_BANK_0_IO_STANDARD" value="LVCMOS18"/>
+        <user_parameter  name="CONFIG.PSU_BANK_1_IO_STANDARD" value="LVCMOS18"/>
+        <user_parameter  name="CONFIG.PSU_BANK_2_IO_STANDARD" value="LVCMOS18"/>
+        <user_parameter  name="CONFIG.PSU_BANK_3_IO_STANDARD" value="LVCMOS18"/>
+        <user_parameter  name="CONFIG.PSU__PSS_REF_CLK__FREQMHZ" value="33.33333"/>
+        <user_parameter  name="CONFIG.PSU__QSPI__PERIPHERAL__ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PSU__QSPI__PERIPHERAL__MODE" value="Dual Parallel"/>
+        <user_parameter  name="CONFIG.PSU__QSPI__PERIPHERAL__DATA_MODE" value="x4"/>
+        <user_parameter  name="CONFIG.PSU__QSPI__GRP_FBCLK__ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PSU__TTC0__PERIPHERAL__ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PSU__TTC1__PERIPHERAL__ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PSU__TTC2__PERIPHERAL__ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PSU__TTC3__PERIPHERAL__ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PSU__SWDT0__PERIPHERAL__ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PSU__SWDT1__PERIPHERAL__ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PSU__UART0__PERIPHERAL__ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PSU__UART0__PERIPHERAL__IO" value="MIO 42 .. 43"/>
+        <user_parameter  name="CONFIG.PSU__DDRC__BG_ADDR_COUNT" value="1"/>
+        <user_parameter  name="CONFIG.PSU__DDRC__ROW_ADDR_COUNT" value="15"/>
+        <user_parameter  name="CONFIG.PSU__DDRC__DEVICE_CAPACITY" value="4096 MBits"/>
+        <user_parameter  name="CONFIG.PSU__DDRC__DRAM_WIDTH" value="16 Bits"/>
+        <user_parameter  name="CONFIG.PSU__DDRC__SPEED_BIN" value="DDR4_2400R"/>
+        <user_parameter  name="CONFIG.PSU__DDRC__FGRM" value="4X"/>
+      </user_parameters>
+    </ip>
+  </ip_preset>
+   
+</ip_presets>

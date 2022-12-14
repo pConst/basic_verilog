@@ -1,0 +1,33 @@
+{
+  "config": {
+    "items": [
+      {
+        "infra": {
+          "name": "Ultra96", 
+          "display": "Ultra96 Evaluation Platform", 
+          "revision": "1.2", 
+          "description": "Ultra96 Evaluation Platform", 
+          "company": "em.avnet.com", 
+          "company_display": "Avnet", 
+          "author": "Vivado_test", 
+          "contributors": [
+            {
+              "group": "Avnet", 
+              "url": "http://ultra96.org/product/ultra96"
+            }
+          ], 
+          "category": "Single Part", 
+          "website": "http://ultra96.org/product/ultra96", 
+          "search-keywords": [
+            "Ultra96", 
+            "em.avnet.com", 
+            "board", 
+            "Single Part"
+          ]
+        }
+      }
+    ]
+  }, 
+  "_major": 1, 
+  "_minor": 0
+}

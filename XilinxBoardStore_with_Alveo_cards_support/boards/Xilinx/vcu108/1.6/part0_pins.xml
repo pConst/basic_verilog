@@ -1,0 +1,636 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<part_info part_name="xcvu095ffva2104e-2">
+  <pins>
+    <pin index="0" name ="GPIO_DIP_SW0" iostandard="LVCMOS12" loc="BC40"/>
+    <pin index="1" name ="GPIO_DIP_SW1" iostandard="LVCMOS12" loc="L19"/>
+    <pin index="2" name ="GPIO_DIP_SW2" iostandard="LVCMOS12" loc="C37"/>
+    <pin index="3" name ="GPIO_DIP_SW3" iostandard="LVCMOS12" loc="C38"/>
+
+    <pin index="4" name ="SGMII_TX_N" iostandard="DIFF_HSTL_I_18" loc="AR22"/>
+    <pin index="5" name ="SGMII_TX_P" iostandard="DIFF_HSTL_I_18" loc="AR23"/>
+    <pin index="6" name ="SGMII_RX_N" iostandard="DIFF_HSTL_I_18" loc="AT24"/>
+    <pin index="7" name ="SGMII_RX_P" iostandard="DIFF_HSTL_I_18" loc="AR24"/>
+
+    <pin index="8" name ="IIC_MUX_RESET_B" iostandard="LVCMOS18" loc="AM23"/>
+    <pin index="9" name ="IIC_SCL_MAIN" iostandard="LVCMOS18" loc="AN21" drive="8" slew="SLOW"/>
+    <pin index="10" name ="IIC_SDA_MAIN" iostandard="LVCMOS18" loc="AP21" drive="8" slew="SLOW"/>
+
+    <pin index="11" name ="GPIO_LED_0_LS" iostandard="LVCMOS12" loc="AT32" drive="8"/>
+    <pin index="12" name ="GPIO_LED_1_LS" iostandard="LVCMOS12" loc="AV34" drive="8"/>
+    <pin index="13" name ="GPIO_LED_2_LS" iostandard="LVCMOS12" loc="AY30" drive="8"/>
+    <pin index="14" name ="GPIO_LED_3_LS" iostandard="LVCMOS12" loc="BB32" drive="8"/>
+    <pin index="15" name ="GPIO_LED_4_LS" iostandard="LVCMOS12" loc="BF32" drive="8"/>
+    <pin index="16" name ="GPIO_LED_5_LS" iostandard="LVCMOS12" loc="AV36" drive="8"/>
+    <pin index="17" name ="GPIO_LED_6_LS" iostandard="LVCMOS12" loc="AY35" drive="8"/>
+    <pin index="18" name ="GPIO_LED_7_LS" iostandard="LVCMOS12" loc="BA37" drive="8"/>
+
+    <pin index="19" name ="GPIO_SW_C" iostandard="LVCMOS12" loc="AW27"/>
+    <pin index="20" name ="GPIO_SW_W" iostandard="LVCMOS12" loc="M22"/>
+    <pin index="21" name ="GPIO_SW_S" iostandard="LVCMOS12" loc="D9"/>
+    <pin index="22" name ="GPIO_SW_E" iostandard="LVCMOS12" loc="A10"/>
+    <pin index="23" name ="GPIO_SW_N" iostandard="LVCMOS12" loc="E34"/>
+
+    <pin index="24" name ="USB_UART_CTS" iostandard="LVCMOS18" loc="BF24"/>
+    <!-- NOTE for pin index 94 & 95 iostandard is defined in component rs232_uart 
+    iostandard is optional attribute for fpga pins & it will be always overwritten by component(non fpga) level pin attributes -->
+    <pin index="25" name ="USB_UART_TX" loc="BE24"/>
+    <pin index="26" name ="USB_UART_RX" loc="BC24"/>
+    <pin index="27" name ="USB_UART_RTS" iostandard="LVCMOS18" loc="BD22"/>
+    <pin index="28" name ="CPU_RESET" iostandard="LVCMOS12" loc="E36"/>
+    <pin index="29" name ="sysclk1_300_p" iostandard="LVDS" loc="G31" />
+    <pin index="30" name ="sysclk1_300_n" iostandard="LVDS" loc="F31" />
+    <pin index="31" name ="SGMIICLK_P" iostandard="LVDS_25" loc="AT22"/>
+    <pin index="32" name ="SGMIICLK_N" iostandard="LVDS_25" loc="AU22"/>
+    <pin index="33" name ="mdc" iostandard="LVCMOS18" loc="AV21"/>
+    <pin index="34" name ="mdio_i" iostandard="LVCMOS18" loc="AV24"/>
+    <pin index="35" name ="phy_rst_out" iostandard="LVCMOS18" loc="AU21"/> 
+    <pin index="36" name ="user_prog_clock_p" iostandard="LVDS_25" loc="AU23" DIFF_TERM="TRUE"/>
+    <pin index="37" name ="user_prog_clock_n" iostandard="LVDS_25" loc="AV23" DIFF_TERM="TRUE"/>
+    <pin index="38" name ="sysclk2_300_p" iostandard="LVDS" loc="G22" />
+    <pin index="39" name ="sysclk2_300_n" iostandard="LVDS" loc="G21" />
+    <pin index="40" name ="c1_ddr4_adr0" iostandard="SSTL12_DCI" loc="C30" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="41" name ="c1_ddr4_adr1" iostandard="SSTL12_DCI" loc="D32" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="42" name ="c1_ddr4_adr2" iostandard="SSTL12_DCI" loc="B30" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="43" name ="c1_ddr4_adr3" iostandard="SSTL12_DCI" loc="C33" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="44" name ="c1_ddr4_adr4" iostandard="SSTL12_DCI" loc="E32" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="45" name ="c1_ddr4_adr5" iostandard="SSTL12_DCI" loc="A29" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="46" name ="c1_ddr4_adr6" iostandard="SSTL12_DCI" loc="C29" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="47" name ="c1_ddr4_adr7" iostandard="SSTL12_DCI" loc="E29" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="48" name ="c1_ddr4_adr8" iostandard="SSTL12_DCI" loc="A30" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="49" name ="c1_ddr4_adr9" iostandard="SSTL12_DCI" loc="C32" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="50" name ="c1_ddr4_adr10" iostandard="SSTL12_DCI" loc="A31" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="51" name ="c1_ddr4_adr11" iostandard="SSTL12_DCI" loc="A33" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="52" name ="c1_ddr4_adr12" iostandard="SSTL12_DCI" loc="F29" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="53" name ="c1_ddr4_adr13" iostandard="SSTL12_DCI" loc="B32" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="54" name ="c1_ddr4_adr14" iostandard="SSTL12_DCI" loc="D29" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="55" name ="c1_ddr4_adr15" iostandard="SSTL12_DCI" loc="B31" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="56" name ="c1_ddr4_adr16" iostandard="SSTL12_DCI" loc="B33" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="57" name ="c1_ddr4_ba0" iostandard="SSTL12_DCI" loc="G30" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="58" name ="c1_ddr4_ba1" iostandard="SSTL12_DCI" loc="F30" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="59" name ="c1_ddr4_bg" iostandard="SSTL12_DCI" loc="F33" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="60" name ="c1_ddr4_ck_c" iostandard="DIFF_SSTL12_DCI" loc="D31" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="61" name ="c1_ddr4_ck_t" iostandard="DIFF_SSTL12_DCI" loc="E31" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="62" name ="c1_ddr4_cke" iostandard="SSTL12_DCI" loc="K29" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="63" name ="c1_ddr4_cs_n" iostandard="SSTL12_DCI" loc="D30" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="64" name ="c1_ddr4_act_n" iostandard="SSTL12_DCI" loc="E33" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="65" name ="c1_ddr4_dq0" iostandard="POD12_DCI" loc="J37" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="66" name ="c1_ddr4_dq1" iostandard="POD12_DCI" loc="H40" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="67" name ="c1_ddr4_dq2" iostandard="POD12_DCI" loc="F38" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="68" name ="c1_ddr4_dq3" iostandard="POD12_DCI" loc="H39" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="69" name ="c1_ddr4_dq4" iostandard="POD12_DCI" loc="K37" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="70" name ="c1_ddr4_dq5" iostandard="POD12_DCI" loc="G40" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="71" name ="c1_ddr4_dq6" iostandard="POD12_DCI" loc="F39" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="72" name ="c1_ddr4_dq7" iostandard="POD12_DCI" loc="F40" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="73" name ="c1_ddr4_dq8" iostandard="POD12_DCI" loc="F36" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="74" name ="c1_ddr4_dq9" iostandard="POD12_DCI" loc="J36" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="75" name ="c1_ddr4_dq10" iostandard="POD12_DCI" loc="F35" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="76" name ="c1_ddr4_dq11" iostandard="POD12_DCI" loc="J35" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="77" name ="c1_ddr4_dq12" iostandard="POD12_DCI" loc="G37" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="78" name ="c1_ddr4_dq13" iostandard="POD12_DCI" loc="H35" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="79" name ="c1_ddr4_dq14" iostandard="POD12_DCI" loc="G36" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="80" name ="c1_ddr4_dq15" iostandard="POD12_DCI" loc="H37" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="81" name ="c1_ddr4_dq16" iostandard="POD12_DCI" loc="C39" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="82" name ="c1_ddr4_dq17" iostandard="POD12_DCI" loc="A38" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="83" name ="c1_ddr4_dq18" iostandard="POD12_DCI" loc="B40" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="84" name ="c1_ddr4_dq19" iostandard="POD12_DCI" loc="D40" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="85" name ="c1_ddr4_dq20" iostandard="POD12_DCI" loc="E38" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="86" name ="c1_ddr4_dq21" iostandard="POD12_DCI" loc="B38" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="87" name ="c1_ddr4_dq22" iostandard="POD12_DCI" loc="E37" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="88" name ="c1_ddr4_dq23" iostandard="POD12_DCI" loc="C40" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="89" name ="c1_ddr4_dq24" iostandard="POD12_DCI" loc="C34" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="90" name ="c1_ddr4_dq25" iostandard="POD12_DCI" loc="A34" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="91" name ="c1_ddr4_dq26" iostandard="POD12_DCI" loc="D34" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="92" name ="c1_ddr4_dq27" iostandard="POD12_DCI" loc="A35" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="93" name ="c1_ddr4_dq28" iostandard="POD12_DCI" loc="A36" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="94" name ="c1_ddr4_dq29" iostandard="POD12_DCI" loc="C35" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="95" name ="c1_ddr4_dq30" iostandard="POD12_DCI" loc="B35" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="96" name ="c1_ddr4_dq31" iostandard="POD12_DCI" loc="D35" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="97" name ="c1_ddr4_dq32" iostandard="POD12_DCI" loc="N27" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="98" name ="c1_ddr4_dq33" iostandard="POD12_DCI" loc="R27" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="99" name ="c1_ddr4_dq34" iostandard="POD12_DCI" loc="N24" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="100" name ="c1_ddr4_dq35" iostandard="POD12_DCI" loc="R24" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="101" name ="c1_ddr4_dq36" iostandard="POD12_DCI" loc="P24" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="102" name ="c1_ddr4_dq37" iostandard="POD12_DCI" loc="P26" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="103" name ="c1_ddr4_dq38" iostandard="POD12_DCI" loc="P27" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="104" name ="c1_ddr4_dq39" iostandard="POD12_DCI" loc="T24" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="105" name ="c1_ddr4_dq40" iostandard="POD12_DCI" loc="K27" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="106" name ="c1_ddr4_dq41" iostandard="POD12_DCI" loc="L26" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="107" name ="c1_ddr4_dq42" iostandard="POD12_DCI" loc="J27" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="108" name ="c1_ddr4_dq43" iostandard="POD12_DCI" loc="K28" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="109" name ="c1_ddr4_dq44" iostandard="POD12_DCI" loc="K26" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="110" name ="c1_ddr4_dq45" iostandard="POD12_DCI" loc="M25" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="111" name ="c1_ddr4_dq46" iostandard="POD12_DCI" loc="J26" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="112" name ="c1_ddr4_dq47" iostandard="POD12_DCI" loc="L28" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="113" name ="c1_ddr4_dq48" iostandard="POD12_DCI" loc="E27" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="114" name ="c1_ddr4_dq49" iostandard="POD12_DCI" loc="E28" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="115" name ="c1_ddr4_dq50" iostandard="POD12_DCI" loc="E26" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="116" name ="c1_ddr4_dq51" iostandard="POD12_DCI" loc="H27" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="117" name ="c1_ddr4_dq52" iostandard="POD12_DCI" loc="F25" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="118" name ="c1_ddr4_dq53" iostandard="POD12_DCI" loc="F28" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="119" name ="c1_ddr4_dq54" iostandard="POD12_DCI" loc="G25" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="120" name ="c1_ddr4_dq55" iostandard="POD12_DCI" loc="G27" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="121" name ="c1_ddr4_dq56" iostandard="POD12_DCI" loc="B28" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="122" name ="c1_ddr4_dq57" iostandard="POD12_DCI" loc="A28" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="123" name ="c1_ddr4_dq58" iostandard="POD12_DCI" loc="B25" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="124" name ="c1_ddr4_dq59" iostandard="POD12_DCI" loc="B27" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="125" name ="c1_ddr4_dq60" iostandard="POD12_DCI" loc="D25" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="126" name ="c1_ddr4_dq61" iostandard="POD12_DCI" loc="C27" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="127" name ="c1_ddr4_dq62" iostandard="POD12_DCI" loc="C25" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="128" name ="c1_ddr4_dq63" iostandard="POD12_DCI" loc="D26" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="129" name ="c1_ddr4_dqs_c0" iostandard="DIFF_POD12_DCI" loc="G38" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="130" name ="c1_ddr4_dqs_c1" iostandard="DIFF_POD12_DCI" loc="G35" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="131" name ="c1_ddr4_dqs_c2" iostandard="DIFF_POD12_DCI" loc="A40" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="132" name ="c1_ddr4_dqs_c3" iostandard="DIFF_POD12_DCI" loc="B37" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="133" name ="c1_ddr4_dqs_c4" iostandard="DIFF_POD12_DCI" loc="N25" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="134" name ="c1_ddr4_dqs_c5" iostandard="DIFF_POD12_DCI" loc="L25" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="135" name ="c1_ddr4_dqs_c6" iostandard="DIFF_POD12_DCI" loc="G28" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="136" name ="c1_ddr4_dqs_c7" iostandard="DIFF_POD12_DCI" loc="A26" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="137" name ="c1_ddr4_dqs_t0" iostandard="DIFF_POD12_DCI" loc="H38" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="138" name ="c1_ddr4_dqs_t1" iostandard="DIFF_POD12_DCI" loc="H34" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="139" name ="c1_ddr4_dqs_t2" iostandard="DIFF_POD12_DCI" loc="A39" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="140" name ="c1_ddr4_dqs_t3" iostandard="DIFF_POD12_DCI" loc="B36" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="141" name ="c1_ddr4_dqs_t4" iostandard="DIFF_POD12_DCI" loc="P25" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="142" name ="c1_ddr4_dqs_t5" iostandard="DIFF_POD12_DCI" loc="L24" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="143" name ="c1_ddr4_dqs_t6" iostandard="DIFF_POD12_DCI" loc="H28" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="144" name ="c1_ddr4_dqs_t7" iostandard="DIFF_POD12_DCI" loc="B26" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="145" name ="c1_ddr4_odt" iostandard="SSTL12_DCI" loc="J31" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="146" name ="c1_ddr4_reset_n" iostandard="LVCMOS12" loc="M28" drive="8"/>
+    <pin index="147" name ="c1_ddr4_dm_dbi_n0" iostandard="POD12_DCI" loc="J39" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="148" name ="c1_ddr4_dm_dbi_n1" iostandard="POD12_DCI" loc="F34" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="149" name ="c1_ddr4_dm_dbi_n2" iostandard="POD12_DCI" loc="E39" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="150" name ="c1_ddr4_dm_dbi_n3" iostandard="POD12_DCI" loc="D37" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="151" name ="c1_ddr4_dm_dbi_n4" iostandard="POD12_DCI" loc="T26" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="152" name ="c1_ddr4_dm_dbi_n5" iostandard="POD12_DCI" loc="M27" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="153" name ="c1_ddr4_dm_dbi_n6" iostandard="POD12_DCI" loc="G26" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="154" name ="c1_ddr4_dm_dbi_n7" iostandard="POD12_DCI" loc="D27" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="155" name ="pcie_mgt_clkn" loc="AL8"/>
+    <pin index="156" name ="pcie_mgt_clkp" loc="AL9"/>
+    <pin index="157" name ="pcie_rx0_n" loc="AJ3"/>
+    <pin index="158" name ="pcie_rx1_n" loc="AK1"/>
+    <pin index="159" name ="pcie_rx2_n" loc="AM1"/>
+    <pin index="160" name ="pcie_rx3_n" loc="AP1"/>
+    <pin index="161" name ="pcie_rx4_n" loc="AT1"/>
+    <pin index="162" name ="pcie_rx5_n" loc="AV1"/>
+    <pin index="163" name ="pcie_rx6_n" loc="AY1"/>
+    <pin index="164" name ="pcie_rx7_n" loc="BB1"/>
+    <pin index="165" name ="pcie_rx0_p" loc="AJ4"/>
+    <pin index="166" name ="pcie_rx1_p" loc="AK2"/>
+    <pin index="167" name ="pcie_rx2_p" loc="AM2"/>
+    <pin index="168" name ="pcie_rx3_p" loc="AP2"/>
+    <pin index="169" name ="pcie_rx4_p" loc="AT2"/>
+    <pin index="170" name ="pcie_rx5_p" loc="AV2"/>
+    <pin index="171" name ="pcie_rx6_p" loc="AY2"/>
+    <pin index="172" name ="pcie_rx7_p" loc="BB2"/>
+    <pin index="173" name ="pcie_tx0_n" loc="AP6"/>
+    <pin index="174" name ="pcie_tx1_n" loc="AR4"/>
+    <pin index="175" name ="pcie_tx2_n" loc="AT6"/>
+    <pin index="176" name ="pcie_tx3_n" loc="AU4"/>
+    <pin index="177" name ="pcie_tx4_n" loc="AW4"/>
+    <pin index="178" name ="pcie_tx5_n" loc="BA4"/>
+    <pin index="179" name ="pcie_tx6_n" loc="BC4"/>
+    <pin index="180" name ="pcie_tx7_n" loc="BE4"/>
+    <pin index="181" name ="pcie_tx0_p" loc="AP7"/>
+    <pin index="182" name ="pcie_tx1_p" loc="AR5"/>
+    <pin index="183" name ="pcie_tx2_p" loc="AT7"/>
+    <pin index="184" name ="pcie_tx3_p" loc="AU5"/>
+    <pin index="185" name ="pcie_tx4_p" loc="AW5"/>
+    <pin index="186" name ="pcie_tx5_p" loc="BA5"/>
+    <pin index="187" name ="pcie_tx6_p" loc="BC5"/>
+    <pin index="188" name ="pcie_tx7_p" loc="BE5"/>
+    <pin index="189" name ="pcie_perstn_rst" iostandard="LVCMOS18" loc="AM17"/>	
+    <pin index="190" name ="sysclk_125_p" iostandard="LVDS" loc="BC9" DIFF_TERM="TRUE"/>
+    <pin index="191" name ="sysclk_125_n" iostandard="LVDS" loc="BC8" DIFF_TERM="TRUE"/>
+    <pin index="192" name ="c2_ddr4_odt" iostandard="SSTL12_DCI" loc="BB29" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="193" name ="c2_ddr4_reset_n" iostandard="LVCMOS12" loc="BF40" drive="8"/>
+    <pin index="194" name ="c2_ddr4_act_n" iostandard="SSTL12_DCI" loc="AW28" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="195" name ="c2_ddr4_adr0" iostandard="SSTL12_DCI" loc="AM27" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="196" name ="c2_ddr4_adr1" iostandard="SSTL12_DCI" loc="AT25" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="197" name ="c2_ddr4_adr2" iostandard="SSTL12_DCI" loc="AN25" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="198" name ="c2_ddr4_adr3" iostandard="SSTL12_DCI" loc="AN26" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="199" name ="c2_ddr4_adr4" iostandard="SSTL12_DCI" loc="AR25" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="200" name ="c2_ddr4_adr5" iostandard="SSTL12_DCI" loc="AU28" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="201" name ="c2_ddr4_adr6" iostandard="SSTL12_DCI" loc="AU27" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="202" name ="c2_ddr4_adr7" iostandard="SSTL12_DCI" loc="AR28" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="203" name ="c2_ddr4_adr8" iostandard="SSTL12_DCI" loc="AP25" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="204" name ="c2_ddr4_adr9" iostandard="SSTL12_DCI" loc="AM26" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="205" name ="c2_ddr4_adr10" iostandard="SSTL12_DCI" loc="AP26" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="206" name ="c2_ddr4_adr11" iostandard="SSTL12_DCI" loc="AN28" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="207" name ="c2_ddr4_adr12" iostandard="SSTL12_DCI" loc="AR27" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="208" name ="c2_ddr4_adr13" iostandard="SSTL12_DCI" loc="AP28" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="209" name ="c2_ddr4_adr14" iostandard="SSTL12_DCI" loc="AL27" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="210" name ="c2_ddr4_adr15" iostandard="SSTL12_DCI" loc="AP27" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="211" name ="c2_ddr4_adr16" iostandard="SSTL12_DCI" loc="AM28" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="212" name ="c2_ddr4_ba0" iostandard="SSTL12_DCI" loc="AU26" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="213" name ="c2_ddr4_ba1" iostandard="SSTL12_DCI" loc="AV26" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="214" name ="c2_ddr4_bg" iostandard="SSTL12_DCI" loc="AV28" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="215" name ="c2_ddr4_ck_c" iostandard="DIFF_SSTL12_DCI" loc="AT27" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="216" name ="c2_ddr4_ck_t" iostandard="DIFF_SSTL12_DCI" loc="AT26" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="217" name ="c2_ddr4_cke" iostandard="SSTL12_DCI" loc="AY29" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="218" name ="c2_ddr4_cs_n" iostandard="SSTL12_DCI" loc="AW26" output_impedance="RDRV_40_40" slew="FAST"/>
+    <pin index="219" name ="c2_ddr4_dq0" iostandard="POD12_DCI" loc="BE30" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="220" name ="c2_ddr4_dq1" iostandard="POD12_DCI" loc="BE33" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="221" name ="c2_ddr4_dq2" iostandard="POD12_DCI" loc="BD30" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="222" name ="c2_ddr4_dq3" iostandard="POD12_DCI" loc="BD33" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="223" name ="c2_ddr4_dq4" iostandard="POD12_DCI" loc="BD31" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="224" name ="c2_ddr4_dq5" iostandard="POD12_DCI" loc="BC33" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="225" name ="c2_ddr4_dq6" iostandard="POD12_DCI" loc="BD32" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="226" name ="c2_ddr4_dq7" iostandard="POD12_DCI" loc="BC31" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="227" name ="c2_ddr4_dq8" iostandard="POD12_DCI" loc="BA31" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="228" name ="c2_ddr4_dq9" iostandard="POD12_DCI" loc="AY33" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="229" name ="c2_ddr4_dq10" iostandard="POD12_DCI" loc="BA30" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="230" name ="c2_ddr4_dq11" iostandard="POD12_DCI" loc="AW31" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="231" name ="c2_ddr4_dq12" iostandard="POD12_DCI" loc="AW32" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="232" name ="c2_ddr4_dq13" iostandard="POD12_DCI" loc="BB33" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="233" name ="c2_ddr4_dq14" iostandard="POD12_DCI" loc="AY32" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="234" name ="c2_ddr4_dq15" iostandard="POD12_DCI" loc="BA32" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="235" name ="c2_ddr4_dq16" iostandard="POD12_DCI" loc="AT31" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="236" name ="c2_ddr4_dq17" iostandard="POD12_DCI" loc="AV31" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="237" name ="c2_ddr4_dq18" iostandard="POD12_DCI" loc="AV30" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="238" name ="c2_ddr4_dq19" iostandard="POD12_DCI" loc="AU33" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="239" name ="c2_ddr4_dq20" iostandard="POD12_DCI" loc="AU31" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="240" name ="c2_ddr4_dq21" iostandard="POD12_DCI" loc="AU32" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="241" name ="c2_ddr4_dq22" iostandard="POD12_DCI" loc="AW30" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="242" name ="c2_ddr4_dq23" iostandard="POD12_DCI" loc="AU34" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="243" name ="c2_ddr4_dq24" iostandard="POD12_DCI" loc="AT29" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="244" name ="c2_ddr4_dq25" iostandard="POD12_DCI" loc="AT34" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="245" name ="c2_ddr4_dq26" iostandard="POD12_DCI" loc="AT30" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="246" name ="c2_ddr4_dq27" iostandard="POD12_DCI" loc="AR33" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="247" name ="c2_ddr4_dq28" iostandard="POD12_DCI" loc="AR30" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="248" name ="c2_ddr4_dq29" iostandard="POD12_DCI" loc="AN30" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="249" name ="c2_ddr4_dq30" iostandard="POD12_DCI" loc="AP30" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="250" name ="c2_ddr4_dq31" iostandard="POD12_DCI" loc="AN31" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="251" name ="c2_ddr4_dq32" iostandard="POD12_DCI" loc="BF34" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="252" name ="c2_ddr4_dq33" iostandard="POD12_DCI" loc="BF36" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="253" name ="c2_ddr4_dq34" iostandard="POD12_DCI" loc="BC35" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="254" name ="c2_ddr4_dq35" iostandard="POD12_DCI" loc="BE37" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="255" name ="c2_ddr4_dq36" iostandard="POD12_DCI" loc="BE34" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="256" name ="c2_ddr4_dq37" iostandard="POD12_DCI" loc="BD36" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="257" name ="c2_ddr4_dq38" iostandard="POD12_DCI" loc="BF37" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="258" name ="c2_ddr4_dq39" iostandard="POD12_DCI" loc="BC36" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="259" name ="c2_ddr4_dq40" iostandard="POD12_DCI" loc="BD37" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="260" name ="c2_ddr4_dq41" iostandard="POD12_DCI" loc="BE38" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="261" name ="c2_ddr4_dq42" iostandard="POD12_DCI" loc="BD38" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="262" name ="c2_ddr4_dq43" iostandard="POD12_DCI" loc="BD40" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="263" name ="c2_ddr4_dq44" iostandard="POD12_DCI" loc="BB38" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="264" name ="c2_ddr4_dq45" iostandard="POD12_DCI" loc="BB39" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="265" name ="c2_ddr4_dq46" iostandard="POD12_DCI" loc="BC39" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="266" name ="c2_ddr4_dq47" iostandard="POD12_DCI" loc="BC38" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="267" name ="c2_ddr4_dq48" iostandard="POD12_DCI" loc="AW40" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="268" name ="c2_ddr4_dq49" iostandard="POD12_DCI" loc="BA40" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="269" name ="c2_ddr4_dq50" iostandard="POD12_DCI" loc="AY39" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="270" name ="c2_ddr4_dq51" iostandard="POD12_DCI" loc="AY38" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="271" name ="c2_ddr4_dq52" iostandard="POD12_DCI" loc="AY40" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="272" name ="c2_ddr4_dq53" iostandard="POD12_DCI" loc="BA39" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="273" name ="c2_ddr4_dq54" iostandard="POD12_DCI" loc="BB36" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="274" name ="c2_ddr4_dq55" iostandard="POD12_DCI" loc="BB37" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="275" name ="c2_ddr4_dq56" iostandard="POD12_DCI" loc="AV38" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="276" name ="c2_ddr4_dq57" iostandard="POD12_DCI" loc="AU38" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="277" name ="c2_ddr4_dq58" iostandard="POD12_DCI" loc="AU39" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="278" name ="c2_ddr4_dq59" iostandard="POD12_DCI" loc="AW35" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="279" name ="c2_ddr4_dq60" iostandard="POD12_DCI" loc="AU40" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="280" name ="c2_ddr4_dq61" iostandard="POD12_DCI" loc="AV40" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="281" name ="c2_ddr4_dq62" iostandard="POD12_DCI" loc="AW36" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="282" name ="c2_ddr4_dq63" iostandard="POD12_DCI" loc="AV39" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="283" name ="c2_ddr4_dqs_c0" iostandard="DIFF_POD12_DCI" loc="BF31" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="284" name ="c2_ddr4_dqs_c1" iostandard="DIFF_POD12_DCI" loc="BA34" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="285" name ="c2_ddr4_dqs_c2" iostandard="DIFF_POD12_DCI" loc="AV29" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="286" name ="c2_ddr4_dqs_c3" iostandard="DIFF_POD12_DCI" loc="AP32" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="287" name ="c2_ddr4_dqs_c4" iostandard="DIFF_POD12_DCI" loc="BF35" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="288" name ="c2_ddr4_dqs_c5" iostandard="DIFF_POD12_DCI" loc="BF39" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="289" name ="c2_ddr4_dqs_c6" iostandard="DIFF_POD12_DCI" loc="BA36" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="290" name ="c2_ddr4_dqs_c7" iostandard="DIFF_POD12_DCI" loc="AW38" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="291" name ="c2_ddr4_dqs_t0" iostandard="DIFF_POD12_DCI" loc="BF30" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="292" name ="c2_ddr4_dqs_t1" iostandard="DIFF_POD12_DCI" loc="AY34" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="293" name ="c2_ddr4_dqs_t2" iostandard="DIFF_POD12_DCI" loc="AU29" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="294" name ="c2_ddr4_dqs_t3" iostandard="DIFF_POD12_DCI" loc="AP31" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="295" name ="c2_ddr4_dqs_t4" iostandard="DIFF_POD12_DCI" loc="BE35" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="296" name ="c2_ddr4_dqs_t5" iostandard="DIFF_POD12_DCI" loc="BE39" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="297" name ="c2_ddr4_dqs_t6" iostandard="DIFF_POD12_DCI" loc="BA35" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="298" name ="c2_ddr4_dqs_t7" iostandard="DIFF_POD12_DCI" loc="AW37" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="299" name ="c2_ddr4_dm_dbi_n0" iostandard="POD12_DCI" loc="BE32" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="300" name ="c2_ddr4_dm_dbi_n1" iostandard="POD12_DCI" loc="BB31" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="301" name ="c2_ddr4_dm_dbi_n2" iostandard="POD12_DCI" loc="AV33" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="302" name ="c2_ddr4_dm_dbi_n3" iostandard="POD12_DCI" loc="AR32" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="303" name ="c2_ddr4_dm_dbi_n4" iostandard="POD12_DCI" loc="BC34" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="304" name ="c2_ddr4_dm_dbi_n5" iostandard="POD12_DCI" loc="BE40" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="305" name ="c2_ddr4_dm_dbi_n6" iostandard="POD12_DCI" loc="AY37" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    <pin index="306" name ="c2_ddr4_dm_dbi_n7" iostandard="POD12_DCI" loc="AV35" output_impedance="RDRV_40_40" slew="FAST" ibuf_low_pwr="FALSE" ODT="RTT_40" equalization="EQ_LEVEL2" pre_emphasis="RDRV_240"/>
+    
+    <pin index="307" name ="be_TX_N0" loc="AT43"/>
+    <pin index="308" name ="be_TX_P0" loc="AT42"/>
+    <pin index="309" name ="be_RX_N0" loc="AR46"/>
+    <pin index="310" name ="be_RX_P0" loc="AR45"/>
+    <pin index="311" name ="be_TX_N1" loc="AP43"/>
+    <pin index="312" name ="be_TX_P1" loc="AP42"/>
+    <pin index="313" name ="be_RX_N1" loc="AN46"/>
+    <pin index="314" name ="be_RX_P1" loc="AN45"/>
+    <pin index="315" name ="be_TX_N2" loc="AM43"/>
+    <pin index="316" name ="be_TX_P2" loc="AM42"/>
+    <pin index="317" name ="be_RX_N2" loc="AL46"/>
+    <pin index="318" name ="be_RX_P2" loc="AL45"/>
+    <pin index="319" name ="be_TX_N3" loc="AL41"/>
+    <pin index="320" name ="be_TX_P3" loc="AL40"/>
+    <pin index="321" name ="be_RX_N3" loc="AJ46"/>
+    <pin index="322" name ="be_RX_P3" loc="AJ45"/>
+    <pin index="323" name ="bullseye_mgt_si570_clock3_p" loc="AH38"/>
+    <pin index="324" name ="bullseye_mgt_si570_clock3_n" loc="AH39"/>
+    <pin index="325" name ="bullseye_gty_refclk_p" loc="AK38"/>
+    <pin index="326" name ="bullseye_gty_refclk_n" loc="AK39"/>
+    
+	
+    <pin index="327" name ="qsfp_TX_N0" loc="AK43"/>
+    <pin index="328" name ="qsfp_TX_P0" loc="AK42"/>
+    <pin index="329" name ="qsfp_RX_N0" loc="AG46"/>
+    <pin index="330" name ="qsfp_RX_P0" loc="AG45"/>
+    <pin index="331" name ="qsfp_TX_N1" loc="AJ41"/>
+    <pin index="332" name ="qsfp_TX_P1" loc="AJ40"/>
+    <pin index="333" name ="qsfp_RX_N1" loc="AF44"/>
+    <pin index="334" name ="qsfp_RX_P1" loc="AF43"/>
+    <pin index="335" name ="qsfp_TX_N2" loc="AG41"/>
+    <pin index="336" name ="qsfp_TX_P2" loc="AG40"/>
+    <pin index="337" name ="qsfp_RX_N2" loc="AD44"/>
+    <pin index="338" name ="qsfp_RX_P2" loc="AD43"/>
+    <pin index="339" name ="qsfp_TX_N3" loc="AE41"/>
+    <pin index="340" name ="qsfp_TX_P3" loc="AE40"/>
+    <pin index="341" name ="qsfp_RX_N3" loc="AD44"/>
+    <pin index="342" name ="qsfp_RX_P3" loc="AD43"/>
+    <pin index="343" name ="qsfp_mgt_si570_clock2_p" loc="AF38"/>
+    <pin index="344" name ="qsfp_mgt_si570_clock2_n" loc="AF39"/>
+    <pin index="345" name ="qsfp_si5328_clock2_p" loc="AD38"/>
+    <pin index="346" name ="qsfp_si5328_clock2_n" loc="AD39"/>
+
+	<pin index="347" name ="cfp2_TX_N0" loc="F43"/>
+    <pin index="348" name ="cfp2_TX_P0" loc="F42"/>
+    <pin index="349" name ="cfp2_RX_N0" loc="J46"/>
+    <pin index="350" name ="cfp2_RX_P0" loc="J45"/>
+    <pin index="351" name ="cfp2_TX_N1" loc="K43"/>
+    <pin index="352" name ="cfp2_TX_P1" loc="K42"/>
+    <pin index="353" name ="cfp2_RX_N1" loc="N46"/>
+    <pin index="354" name ="cfp2_RX_P1" loc="N45"/>
+    <pin index="355" name ="cfp2_TX_N2" loc="M43"/>
+    <pin index="356" name ="cfp2_TX_P2" loc="M42"/>
+    <pin index="357" name ="cfp2_RX_N2" loc="R46"/>
+    <pin index="358" name ="cfp2_RX_P2" loc="R45"/>
+    <pin index="359" name ="cfp2_TX_N3" loc="H43"/>
+    <pin index="360" name ="cfp2_TX_P3" loc="H42"/>
+    <pin index="361" name ="cfp2_RX_N3" loc="L46"/>
+    <pin index="362" name ="cfp2_RX_P3" loc="L45"/>
+    <pin index="363" name ="cfp2_mgt_si570_clock1_p" loc="V38"/>
+    <pin index="364" name ="cfp2_mgt_si570_clock1_n" loc="V39"/>
+    <pin index="365" name ="cfp2_si5328_clock1_p" loc="T38"/>
+    <pin index="366" name ="cfp2_si5328_clock1_n" loc="T39"/>
+	<!-- ################################END OF FILE ###############################################-->
+	
+	
+	<!-- fmc_hpc0 -->
+
+	<pin index="400" name="fmc_hpc0_la00_cc_n" iostandard="LVDS" loc="BA9"/>	
+	<pin index="401" name="fmc_hpc0_la00_cc_p" iostandard="LVDS" loc="AY9"/>	
+	<pin index="402" name="fmc_hpc0_la01_cc_n" iostandard="LVDS" loc="BD10"/>
+	<pin index="403" name="fmc_hpc0_la01_cc_p" iostandard="LVDS" loc="BC10"/>
+	
+	<pin index="404" name="fmc_hpc0_la02_n" iostandard="LVCMOS18" loc="BB7"/>
+	<pin index="405" name="fmc_hpc0_la02_p" iostandard="LVCMOS18" loc="BA7"/>
+	<pin index="406" name="fmc_hpc0_la03_n" iostandard="LVCMOS18" loc="BD7"/>
+	<pin index="407" name="fmc_hpc0_la03_p" iostandard="LVCMOS18" loc="BD8"/>
+	<pin index="408" name="fmc_hpc0_la04_n" iostandard="LVCMOS18" loc="BE7"/>
+	<pin index="409" name="fmc_hpc0_la04_p" iostandard="LVCMOS18" loc="BE8"/>
+	<pin index="410" name="fmc_hpc0_la05_n" iostandard="LVCMOS18" loc="BF11"/>
+	<pin index="411" name="fmc_hpc0_la05_p" iostandard="LVCMOS18" loc="BF12"/>
+	<pin index="412" name="fmc_hpc0_la06_n" iostandard="LVCMOS18" loc="BE9"/>
+	<pin index="413" name="fmc_hpc0_la06_p" iostandard="LVCMOS18" loc="BE10"/>	
+	<pin index="414" name="fmc_hpc0_la07_n" iostandard="LVCMOS18" loc="BE12"/>
+	<pin index="415" name="fmc_hpc0_la07_p" iostandard="LVCMOS18" loc="BD12"/>	
+	<pin index="416" name="fmc_hpc0_la08_n" iostandard="LVCMOS18" loc="BF9"/>
+	<pin index="417" name="fmc_hpc0_la08_p" iostandard="LVCMOS18" loc="BF10"/>	
+	<pin index="418" name="fmc_hpc0_la09_n" iostandard="LVCMOS18" loc="BE13"/>
+	<pin index="419" name="fmc_hpc0_la09_p" iostandard="LVCMOS18" loc="BD13"/>
+	<pin index="420" name="fmc_hpc0_la10_n" iostandard="LVCMOS18" loc="BF14"/>	
+	<pin index="421" name="fmc_hpc0_la10_p" iostandard="LVCMOS18" loc="BE14"/>		
+	<pin index="422" name="fmc_hpc0_la11_n" iostandard="LVCMOS18" loc="BD11"/>	
+	<pin index="423" name="fmc_hpc0_la11_p" iostandard="LVCMOS18" loc="BC11"/>	
+	<pin index="424" name="fmc_hpc0_la12_n" iostandard="LVCMOS18" loc="BF15"/>	
+	<pin index="425" name="fmc_hpc0_la12_p" iostandard="LVCMOS18" loc="BE15"/>
+	<pin index="426" name="fmc_hpc0_la13_n" iostandard="LVCMOS18" loc="BB14"/>	
+	<pin index="427" name="fmc_hpc0_la13_p" iostandard="LVCMOS18" loc="BA14"/>	
+	<pin index="428" name="fmc_hpc0_la14_n" iostandard="LVCMOS18" loc="BB12"/>	
+	<pin index="429" name="fmc_hpc0_la14_p" iostandard="LVCMOS18" loc="BB13"/>	
+	<pin index="430" name="fmc_hpc0_la15_n" iostandard="LVCMOS18" loc="AV8"/>	
+	<pin index="431" name="fmc_hpc0_la15_p" iostandard="LVCMOS18" loc="AV9"/>	
+	<pin index="432" name="fmc_hpc0_la16_n" iostandard="LVCMOS18" loc="AY7"/>	
+	<pin index="433" name="fmc_hpc0_la16_p" iostandard="LVCMOS18" loc="AY8"/>	
+	
+	<pin index="434" name="fmc_hpc0_la17_cc_n" iostandard="LVDS" loc="AV13"/>	
+	<pin index="435" name="fmc_hpc0_la17_cc_p" iostandard="LVDS" loc="AV14"/>	
+	<pin index="436" name="fmc_hpc0_la18_cc_n" iostandard="LVDS" loc="AR13"/>	
+	<pin index="437" name="fmc_hpc0_la18_cc_p" iostandard="LVDS" loc="AP13"/>	
+	
+	<pin index="438" name="fmc_hpc0_la19_n" iostandard="LVCMOS18" loc="AW15"/>
+	<pin index="439" name="fmc_hpc0_la19_p" iostandard="LVCMOS18" loc="AV15"/>  
+	<pin index="440" name="fmc_hpc0_la20_n" iostandard="LVCMOS18" loc="AY14"/>
+	<pin index="441" name="fmc_hpc0_la20_p" iostandard="LVCMOS18" loc="AY15"/>
+	<pin index="442" name="fmc_hpc0_la21_n" iostandard="LVCMOS18" loc="AP16"/>
+	<pin index="443" name="fmc_hpc0_la21_p" iostandard="LVCMOS18" loc="AN16"/>	
+	<pin index="444" name="fmc_hpc0_la22_n" iostandard="LVCMOS18" loc="AP15"/>
+	<pin index="445" name="fmc_hpc0_la22_p" iostandard="LVCMOS18" loc="AN15"/>
+	<pin index="446" name="fmc_hpc0_la23_n" iostandard="LVCMOS18" loc="AT15"/>
+	<pin index="447" name="fmc_hpc0_la23_p" iostandard="LVCMOS18" loc="AT16"/>
+	<pin index="448" name="fmc_hpc0_la24_n" iostandard="LVCMOS18" loc="AL15"/>
+	<pin index="449" name="fmc_hpc0_la24_p" iostandard="LVCMOS18" loc="AK15"/>
+	<pin index="450" name="fmc_hpc0_la25_n" iostandard="LVCMOS18" loc="AM12"/>
+	<pin index="451" name="fmc_hpc0_la25_p" iostandard="LVCMOS18" loc="AM13"/>
+	<pin index="452" name="fmc_hpc0_la26_n" iostandard="LVCMOS18" loc="AM14"/>
+	<pin index="453" name="fmc_hpc0_la26_p" iostandard="LVCMOS18" loc="AL14"/>
+	<pin index="454" name="fmc_hpc0_la27_n" iostandard="LVCMOS18" loc="AN13"/>
+	<pin index="455" name="fmc_hpc0_la27_p" iostandard="LVCMOS18" loc="AN14"/>
+	<pin index="456" name="fmc_hpc0_la28_n" iostandard="LVCMOS18" loc="AJ12"/>
+	<pin index="457" name="fmc_hpc0_la28_p" iostandard="LVCMOS18" loc="AJ13"/>
+	<pin index="458" name="fmc_hpc0_la29_n" iostandard="LVCMOS18" loc="AK13"/>
+	<pin index="459" name="fmc_hpc0_la29_p" iostandard="LVCMOS18" loc="AK14"/>
+	<pin index="460" name="fmc_hpc0_la30_n" iostandard="LVCMOS18" loc="AL12"/>
+	<pin index="461" name="fmc_hpc0_la30_p" iostandard="LVCMOS18" loc="AK12"/>
+	<pin index="462" name="fmc_hpc0_la31_n" iostandard="LVCMOS18" loc="AR12"/>
+	<pin index="463" name="fmc_hpc0_la31_p" iostandard="LVCMOS18" loc="AP12"/>
+	<pin index="464" name="fmc_hpc0_la32_n" iostandard="LVCMOS18" loc="AV11"/>
+	<pin index="465" name="fmc_hpc0_la32_p" iostandard="LVCMOS18" loc="AU11"/>	
+	<pin index="466" name="fmc_hpc0_la33_n" iostandard="LVCMOS18" loc="AV16"/>
+	<pin index="467" name="fmc_hpc0_la33_p" iostandard="LVCMOS18" loc="AU16"/>	
+	
+	<pin index="468" name="fmc_hpc0_dp0_c2m_p"  loc="G5"/>
+	<pin index="469" name="fmc_hpc0_dp0_c2m_n"  loc="G4"/>	
+	<pin index="470" name="fmc_hpc0_dp0_m2c_p"  loc="K2"/>
+	<pin index="471" name="fmc_hpc0_dp0_m2c_n"  loc="K1"/>
+	<pin index="472" name="fmc_hpc0_dp1_c2m_p"  loc="F7"/>
+	<pin index="473" name="fmc_hpc0_dp1_c2m_n"  loc="F6"/>	
+	<pin index="474" name="fmc_hpc0_dp1_m2c_p"  loc="H2"/>
+	<pin index="475" name="fmc_hpc0_dp1_m2c_n"  loc="H1"/>
+	<pin index="476" name="fmc_hpc0_dp2_c2m_p"  loc="E5"/>
+	<pin index="477" name="fmc_hpc0_dp2_c2m_n"  loc="E4"/>	
+	<pin index="478" name="fmc_hpc0_dp2_m2c_p"  loc="F2"/>
+	<pin index="479" name="fmc_hpc0_dp2_m2c_n"  loc="F1"/>
+	<pin index="480" name="fmc_hpc0_dp3_c2m_p"  loc="C5"/>
+	<pin index="481" name="fmc_hpc0_dp3_c2m_n"  loc="C4"/>	
+	<pin index="482" name="fmc_hpc0_dp3_m2c_p"  loc="D2"/>
+	<pin index="483" name="fmc_hpc0_dp3_m2c_n"  loc="D1"/>	
+	<pin index="484" name="fmc_hpc0_dp4_c2m_p"  loc="L5"/>
+	<pin index="485" name="fmc_hpc0_dp4_c2m_n"  loc="L4"/>	
+	<pin index="486" name="fmc_hpc0_dp4_m2c_p"  loc="T2"/>
+	<pin index="487" name="fmc_hpc0_dp4_m2c_n"  loc="T1"/>
+	<pin index="488" name="fmc_hpc0_dp5_c2m_p"  loc="K7"/>
+	<pin index="489" name="fmc_hpc0_dp5_c2m_n"  loc="K6"/>	
+	<pin index="490" name="fmc_hpc0_dp5_m2c_p"  loc="R4"/>
+	<pin index="491" name="fmc_hpc0_dp5_m2c_n"  loc="R3"/>
+	<pin index="492" name="fmc_hpc0_dp6_c2m_p"  loc="J5"/>
+	<pin index="493" name="fmc_hpc0_dp6_c2m_n"  loc="J4"/>	
+	<pin index="494" name="fmc_hpc0_dp6_m2c_p"  loc="P2"/>
+	<pin index="495" name="fmc_hpc0_dp6_m2c_n"  loc="P1"/>
+	<pin index="496" name="fmc_hpc0_dp7_c2m_p"  loc="H7"/>
+	<pin index="497" name="fmc_hpc0_dp7_c2m_n"  loc="H6"/>	
+	<pin index="498" name="fmc_hpc0_dp7_m2c_p"  loc="M2"/>
+	<pin index="499" name="fmc_hpc0_dp7_m2c_n"  loc="M1"/>	
+	
+	<pin index="500" name="fmc_hpc0_clk0_m2c_n" iostandard="LVDS" loc="BB8"/>	
+	<pin index="501" name="fmc_hpc0_clk0_m2c_p" iostandard="LVDS" loc="BB9"/>	
+	<pin index="502" name="fmc_hpc0_clk1_m2c_n" iostandard="LVDS" loc="AU13"/>	
+	<pin index="503" name="fmc_hpc0_clk1_m2c_p" iostandard="LVDS" loc="AU14"/>	
+	
+	<pin index="504" name="fmc_hpc0_gbtclk0_m2c_p" loc="R9"/>
+	<pin index="505" name="fmc_hpc0_gbtclk0_m2c_n" loc="R8"/>	
+	<pin index="506" name="fmc_hpc0_gbtclk1_m2c_p" loc="N9"/>
+	<pin index="507" name="fmc_hpc0_gbtclk1_m2c_n" loc="N8"/>	  
+	
+	<pin index="508" name="fmc_hpc0_prsnt_m2c_b_ls" iostandard="LVCMOS18" loc="AL19"/>	  
+  
+  
+	<!-- fmc_hpc1 -->  
+	<pin index="510" name="fmc_hpc1_la00_cc_n" iostandard="LVDS" loc="R33"/>
+	<pin index="511" name="fmc_hpc1_la00_cc_p" iostandard="LVDS" loc="T33"/>	
+	<pin index="512" name="fmc_hpc1_la01_cc_n" iostandard="LVDS" loc="P36"/>
+	<pin index="513" name="fmc_hpc1_la01_cc_p" iostandard="LVDS" loc="P35"/>
+	
+	<pin index="514" name="fmc_hpc1_la02_n" iostandard="LVCMOS18" loc="M33"/>
+	<pin index="515" name="fmc_hpc1_la02_p" iostandard="LVCMOS18" loc="N33"/>
+	<pin index="516" name="fmc_hpc1_la03_n" iostandard="LVCMOS18" loc="N35"/>
+	<pin index="517" name="fmc_hpc1_la03_p" iostandard="LVCMOS18" loc="N34"/>
+	<pin index="518" name="fmc_hpc1_la04_n" iostandard="LVCMOS18" loc="L38"/>
+	<pin index="519" name="fmc_hpc1_la04_p" iostandard="LVCMOS18" loc="M37"/>
+	<pin index="520" name="fmc_hpc1_la05_n" iostandard="LVCMOS18" loc="M38"/>
+	<pin index="521" name="fmc_hpc1_la05_p" iostandard="LVCMOS18" loc="N38"/>
+	<pin index="522" name="fmc_hpc1_la06_n" iostandard="LVCMOS18" loc="N37"/>
+	<pin index="523" name="fmc_hpc1_la06_p" iostandard="LVCMOS18" loc="P37"/>	
+	<pin index="524" name="fmc_hpc1_la07_n" iostandard="LVCMOS18" loc="K34"/>
+	<pin index="525" name="fmc_hpc1_la07_p" iostandard="LVCMOS18" loc="L34"/>	
+	<pin index="526" name="fmc_hpc1_la08_n" iostandard="LVCMOS18" loc="L35"/>
+	<pin index="527" name="fmc_hpc1_la08_p" iostandard="LVCMOS18" loc="M35"/>	
+	<pin index="528" name="fmc_hpc1_la09_n" iostandard="LVCMOS18" loc="L36"/>
+	<pin index="529" name="fmc_hpc1_la09_p" iostandard="LVCMOS18" loc="M36"/>	
+	<pin index="530" name="fmc_hpc1_la10_n" iostandard="LVCMOS18" loc="M32"/>
+	<pin index="531" name="fmc_hpc1_la10_p" iostandard="LVCMOS18" loc="N32"/>	
+	<pin index="532" name="fmc_hpc1_la11_n" iostandard="LVCMOS18" loc="W31"/>
+	<pin index="533" name="fmc_hpc1_la11_p" iostandard="LVCMOS18" loc="Y31"/>
+	<pin index="534" name="fmc_hpc1_la12_n" iostandard="LVCMOS18" loc="P31"/>
+	<pin index="535" name="fmc_hpc1_la12_p" iostandard="LVCMOS18" loc="R31"/>	
+	<pin index="536" name="fmc_hpc1_la13_n" iostandard="LVCMOS18" loc="T31"/>
+	<pin index="537" name="fmc_hpc1_la13_p" iostandard="LVCMOS18" loc="T30"/>
+	<pin index="538" name="fmc_hpc1_la14_n" iostandard="LVCMOS18" loc="K33"/>
+	<pin index="539" name="fmc_hpc1_la14_p" iostandard="LVCMOS18" loc="L33"/>
+	<pin index="540" name="fmc_hpc1_la15_n" iostandard="LVCMOS18" loc="T35"/>
+	<pin index="541" name="fmc_hpc1_la15_p" iostandard="LVCMOS18" loc="T34"/>
+	<pin index="542" name="fmc_hpc1_la16_n" iostandard="LVCMOS18" loc="U32"/>
+	<pin index="543" name="fmc_hpc1_la16_p" iostandard="LVCMOS18" loc="U31"/>
+	
+	<pin index="544" name="fmc_hpc1_la17_cc_n" iostandard="LVDS" loc="AK32"/>
+	<pin index="545" name="fmc_hpc1_la17_cc_p" iostandard="LVDS" loc="AJ32"/>	
+	<pin index="546" name="fmc_hpc1_la18_cc_n" iostandard="LVDS" loc="AM32"/>	
+	<pin index="547" name="fmc_hpc1_la18_cc_p" iostandard="LVDS" loc="AL32"/>	
+	
+	<pin index="548" name="fmc_hpc1_la19_n" iostandard="LVCMOS18" loc="AT40"/>
+	<pin index="549" name="fmc_hpc1_la19_p" iostandard="LVCMOS18" loc="AT39"/>
+	<pin index="550" name="fmc_hpc1_la20_n" iostandard="LVCMOS18" loc="AT37"/>
+	<pin index="551" name="fmc_hpc1_la20_p" iostandard="LVCMOS18" loc="AR37"/>
+	<pin index="552" name="fmc_hpc1_la21_n" iostandard="LVCMOS18" loc="AT36"/>
+	<pin index="553" name="fmc_hpc1_la21_p" iostandard="LVCMOS18" loc="AT35"/>	
+	<pin index="554" name="fmc_hpc1_la22_n" iostandard="LVCMOS18" loc="AL31"/>
+	<pin index="555" name="fmc_hpc1_la22_p" iostandard="LVCMOS18" loc="AL30"/>
+	<pin index="556" name="fmc_hpc1_la23_n" iostandard="LVCMOS18" loc="AP33"/>
+	<pin index="557" name="fmc_hpc1_la23_p" iostandard="LVCMOS18" loc="AN33"/>
+	<pin index="558" name="fmc_hpc1_la24_n" iostandard="LVCMOS18" loc="AN36"/>
+	<pin index="559" name="fmc_hpc1_la24_p" iostandard="LVCMOS18" loc="AM36"/>
+	<pin index="560" name="fmc_hpc1_la25_n" iostandard="LVCMOS18" loc="AP37"/>
+	<pin index="561" name="fmc_hpc1_la25_p" iostandard="LVCMOS18" loc="AP36"/>
+	<pin index="562" name="fmc_hpc1_la26_n" iostandard="LVCMOS18" loc="AM29"/>
+	<pin index="563" name="fmc_hpc1_la26_p" iostandard="LVCMOS18" loc="AL29"/>
+	<pin index="564" name="fmc_hpc1_la27_n" iostandard="LVCMOS18" loc="AR35"/>
+	<pin index="565" name="fmc_hpc1_la27_p" iostandard="LVCMOS18" loc="AP35"/>
+	<pin index="566" name="fmc_hpc1_la28_n" iostandard="LVCMOS18" loc="AL36"/>
+	<pin index="567" name="fmc_hpc1_la28_p" iostandard="LVCMOS18" loc="AL35"/>
+	<pin index="568" name="fmc_hpc1_la29_n" iostandard="LVCMOS18" loc="AR38"/>
+	<pin index="569" name="fmc_hpc1_la29_p" iostandard="LVCMOS18" loc="AP38"/>	
+	
+	<pin index="570" name="fmc_hpc1_dp0_c2m_p"  loc="AN5"/>
+	<pin index="571" name="fmc_hpc1_dp0_c2m_n"  loc="AN4"/>	
+	<pin index="572" name="fmc_hpc1_dp0_m2c_p"  loc="AH2"/>
+	<pin index="573" name="fmc_hpc1_dp0_m2c_n"  loc="AH1"/>
+	<pin index="574" name="fmc_hpc1_dp1_c2m_p"  loc="AM7"/>
+	<pin index="575" name="fmc_hpc1_dp1_c2m_n"  loc="AM6"/>	
+	<pin index="576" name="fmc_hpc1_dp1_m2c_p"  loc="AG4"/>
+	<pin index="577" name="fmc_hpc1_dp1_m2c_n"  loc="AG3"/>
+	<pin index="578" name="fmc_hpc1_dp2_c2m_p"  loc="AK7"/>
+	<pin index="579" name="fmc_hpc1_dp2_c2m_n"  loc="AK6"/>	
+	<pin index="580" name="fmc_hpc1_dp2_m2c_p"  loc="AF2"/>
+	<pin index="581" name="fmc_hpc1_dp2_m2c_n"  loc="AF1"/>
+	<pin index="582" name="fmc_hpc1_dp3_c2m_p"  loc="AH7"/>
+	<pin index="583" name="fmc_hpc1_dp3_c2m_n"  loc="AH6"/>	
+	<pin index="584" name="fmc_hpc1_dp3_m2c_p"  loc="AE4"/>
+	<pin index="585" name="fmc_hpc1_dp3_m2c_n"  loc="AE3"/>	
+	<pin index="586" name="fmc_hpc1_dp4_c2m_p"  loc="AF7"/>
+	<pin index="587" name="fmc_hpc1_dp4_c2m_n"  loc="AF6"/>	
+	<pin index="588" name="fmc_hpc1_dp4_m2c_p"  loc="AD2"/>
+	<pin index="589" name="fmc_hpc1_dp4_m2c_n"  loc="AD1"/>
+	<pin index="590" name="fmc_hpc1_dp5_c2m_p"  loc="AD7"/>
+	<pin index="591" name="fmc_hpc1_dp5_c2m_n"  loc="AD6"/>	
+	<pin index="592" name="fmc_hpc1_dp5_m2c_p"  loc="AC4"/>
+	<pin index="593" name="fmc_hpc1_dp5_m2c_n"  loc="AC3"/>
+	<pin index="594" name="fmc_hpc1_dp6_c2m_p"  loc="AB7"/>
+	<pin index="595" name="fmc_hpc1_dp6_c2m_n"  loc="AB6"/>	
+	<pin index="596" name="fmc_hpc1_dp6_m2c_p"  loc="AB2"/>
+	<pin index="597" name="fmc_hpc1_dp6_m2c_n"  loc="AB1"/>
+	<pin index="598" name="fmc_hpc1_dp7_c2m_p"  loc="Y7"/>
+	<pin index="599" name="fmc_hpc1_dp7_c2m_n"  loc="Y6"/>	
+	<pin index="600" name="fmc_hpc1_dp7_m2c_p"  loc="AA4"/>
+	<pin index="601" name="fmc_hpc1_dp7_m2c_n"  loc="AA3"/>
+	
+	<pin index="602" name="fmc_hpc1_clk0_m2c_n" iostandard="LVDS" loc="P32"/>
+	<pin index="603" name="fmc_hpc1_clk0_m2c_p" iostandard="LVDS" loc="R32"/>	
+    <pin index="604" name="fmc_hpc1_clk1_m2c_n" iostandard="LVDS" loc="AL34"/>
+	<pin index="605" name="fmc_hpc1_clk1_m2c_p" iostandard="LVDS" loc="AK34"/>	
+	
+	<pin index="606" name="fmc_hpc1_gbtclk0_m2c_p" loc="AC9"/>
+	<pin index="607" name="fmc_hpc1_gbtclk0_m2c_n" loc="AC8"/>	
+	<pin index="608" name="fmc_hpc1_gbtclk1_m2c_p" loc="AA9"/>
+	<pin index="609" name="fmc_hpc1_gbtclk1_m2c_n" loc="AA8"/>	
+	
+	<pin index="610" name="fmc_hpc1_la31_n" iostandard="LVCMOS18" loc="AN35"/>	
+	<pin index="611" name="fmc_hpc1_la31_p" iostandard="LVCMOS18" loc="AN34"/>	
+	<pin index="612" name="fmc_hpc1_la33_n" iostandard="LVCMOS18" loc="AG33"/>	
+	<pin index="613" name="fmc_hpc1_la33_p" iostandard="LVCMOS18" loc="AG32"/>	
+	<pin index="614" name="fmc_hpc1_la30_n" iostandard="LVCMOS18" loc="AJ31"/>	
+	<pin index="615" name="fmc_hpc1_la30_p" iostandard="LVCMOS18" loc="AJ30"/>	
+	<pin index="616" name="fmc_hpc1_la32_n" iostandard="LVCMOS18" loc="AH31"/>	
+	<pin index="617" name="fmc_hpc1_la32_p" iostandard="LVCMOS18" loc="AG31"/>	
+	
+	
+	<pin index="618" name="fmc_hpc1_prsnt_m2c_b_ls" iostandard="LVCMOS18" loc="BD23"/>	 
+	
+	
+	<pin index="650" name="sysmon_vaux0_p"  loc="BA16"/>
+    <pin index="651" name="sysmon_vaux0_n"  loc="BA15"/>
+    <pin index="652" name="sysmon_vaux2_p"  loc="AW8"/>
+    <pin index="653" name="sysmon_vaux2_n"  loc="AW7"/>	
+    <pin index="654" name="sysmon_vaux8_p"  loc="BC15"/>
+    <pin index="655" name="sysmon_vaux8_n"  loc="BD15"/>		
+
+	
+  </pins>       
+</part_info>    
+                

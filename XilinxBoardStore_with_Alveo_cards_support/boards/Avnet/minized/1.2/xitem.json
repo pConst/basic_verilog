@@ -1,0 +1,33 @@
+{
+  "config": {
+    "items": [
+      {
+        "infra": {
+          "name": "minized", 
+          "display": "MiniZed", 
+          "revision": "1.2", 
+          "description": "MiniZed", 
+          "company": "em.avnet.com", 
+          "company_display": "Avnet", 
+          "author": "zedhed", 
+          "contributors": [
+            {
+              "group": "Avnet", 
+              "url": "avnet.com"
+            }
+          ], 
+          "category": "Single Part", 
+          "website": "http://www.minized.org", 
+          "search-keywords": [
+            "minized", 
+            "em.avnet.com", 
+            "board", 
+            "Single Part"
+          ]
+        }
+      }
+    ]
+  }, 
+  "_major": 1, 
+  "_minor": 0
+}

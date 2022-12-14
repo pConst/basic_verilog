@@ -1,0 +1,33 @@
+{
+  "config": {
+    "items": [
+      {
+        "infra": {
+          "name": "tec0850_15eg_1e", 
+          "display": "UltraScale+ Zynq TEC0850-15EG-1E. SPRT PCB: REV02", 
+          "revision": "1.0", 
+          "description": "UltraScale+ Zynq TEC0850-15EG-1E. Board (form factor 10.0 x 16.2 cm) with DDR with SODIMM (configured for KVR24S17S8/8), 1GBit Ethernet, speed grade -1 and extended temperature grade. Supported PCB Revisions: REV02.", 
+          "company": "trenz.biz", 
+          "company_display": "Trenz Electronic GmbH", 
+          "author": "trenz.biz", 
+          "contributors": [
+            {
+              "group": "Trenz Electronic GmbH", 
+              "url": "https://www.trenz-electronic.de/"
+            }
+          ], 
+          "category": "Single Part", 
+          "website": "trenz.org/tec0850-info", 
+          "search-keywords": [
+            "tec0850_15eg_1e", 
+            "trenz.biz", 
+            "board", 
+            "Single Part"
+          ]
+        }
+      }
+    ]
+  }, 
+  "_major": 1, 
+  "_minor": 0
+}

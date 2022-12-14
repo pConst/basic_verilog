@@ -1,0 +1,12 @@
+**********ZCU104 changelog **************
+
+1.1 
+Removed MIG IO attributes
+
+----Dec 13(2018.1) ---------
+Enabled PLDDR4 and FMC
+
+Int_1.0
+Internal support for ZCU104 with MPSoC, a PL clock, CPU reset interfaces
+
+

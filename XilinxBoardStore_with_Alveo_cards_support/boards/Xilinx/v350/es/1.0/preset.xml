@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<ip_presets schema="1.0">
+ 
+	<ip_preset preset_proc_name="versal_cips_preset"> 
+		<ip vendor="xilinx.com" library="ip" name="versal_cips" version="*"> 
+			<user_parameters>
+
+				<user_parameter name="CONFIG.PMC_BANK_1_IO_STANDARD" value="LVCMOS3.3"/>
+				<user_parameter name="CONFIG.PS_BANK_2_IO_STANDARD" value="LVCMOS3.3"/>			    
+
+				<user_parameter name="CONFIG.PS_USE_M_AXI_GP0" value="1"/>
+				<user_parameter name="CONFIG.PS_USE_M_AXI_GP0" value="1"/>	
+
+				<user_parameter name="CONFIG.PMC_OSPI_PERIPHERAL_ENABLE" value="1"/>
+				<user_parameter name="CONFIG.PMC_I2CPMC_PERIPHERAL_ENABLE" value="1"/>
+				<user_parameter name="CONFIG.PMC_I2CPMC_PERIPHERAL_IO" value="PMC_MIO 26 .. 27"/>	
+				
+			    <user_parameter name="CONFIG.PS_I2C0_PERIPHERAL_ENABLE" value="1"/>
+				<user_parameter name="CONFIG.PS_I2C0_PERIPHERAL_IO" value="PMC_MIO 30 .. 31"/>				
+
+				<user_parameter name="CONFIG.PS_I2C1_PERIPHERAL_ENABLE" value="1"/>	
+				<user_parameter name="CONFIG.PS_I2C1_PERIPHERAL_IO" value="PS_MIO 24 .. 25"/>		
+
+				<user_parameter name="CONFIG.PS_UART0_PERIPHERAL_ENABLE" value="1"/>	
+				<user_parameter name="CONFIG.PS_UART0_PERIPHERAL_IO" value="PS_MIO 16 .. 17"/>	
+				
+				<user_parameter name="CONFIG.PS_UART1_PERIPHERAL_ENABLE" value="1"/>	
+				<user_parameter name="CONFIG.PS_UART1_PERIPHERAL_IO" value="PS_MIO 20 .. 21"/>						
+				
+				<user_parameter name="CONFIG.PMC_GPIO0_MIO_PERIPHERAL_ENABLE" value="1"/>	
+				<user_parameter name="CONFIG.PMC_GPIO1_MIO_PERIPHERAL_ENABLE" value="1"/>										
+				<user_parameter name="CONFIG.PS_GPIO2_MIO_PERIPHERAL_ENABLE" value="1"/>	
+
+			    <user_parameter name="CONFIG.SMON_ENABLE_TEMP_MONITORING" value="1"/>	
+			 	<user_parameter name="CONFIG.SMON_ENABLE_VOLTAGE_MONITORING" value="1"/>					
+				
+				<user_parameter name="CONFIG.SMON_ENABLE_INT_VOLTAGE_MONITORING" value="1"/>									
+				<user_parameter name="CONFIG.SMON_INTERFACE_TO_USE" value="I2C"/>			
+				
+				<user_parameter name="CONFIG.PS_PCIE_RESET_ENABLE" value="1"/>
+				<user_parameter name="CONFIG.PS_PCIE_RESET_IO" value="PMC_MIO 38 .. 39"/>
+				<user_parameter name="CONFIG.PS_USE_PS_NOC_CCI" value="1"/>
+				<user_parameter name="CONFIG.PS_USE_PS_NOC_PCI_0" value="1"/>
+				<user_parameter name="CONFIG.PS_USE_NOC_PS_PCI_0" value="0"/>		
+				
+				<user_parameter name="CONFIG.PS_NUM_FABRIC_RESETS" value="1"/>	
+				
+				<user_parameter name="CONFIG.PS_USE_IRQ_0" value="1"/>												
+				<user_parameter name="CONFIG.PS_USE_IRQ_1" value="1"/>												
+				<user_parameter name="CONFIG.PS_USE_IRQ_2" value="1"/>												
+				
+				<user_parameter name="CONFIG.PMC_USE_NOC_PMC_AXI0" value="1"/>																
+				<user_parameter name="CONFIG.PMC_USE_PMC_NOC_AXI0" value="1"/>												 
+				
+				<user_parameter name="CONFIG.PS_I2CSYSMON_PERIPHERAL_IO" value="PMC_MIO 18 .. 20"/>					
+				
+			    <user_parameter name="CONFIG.CPM_PCIE0_TL_PF_ENABLE_REG" value="2"/>	
+				<user_parameter name="CONFIG.CPM_PCIE0_MODES" value="DMA"/>		
+
+				<user_parameter name="CONFIG.CPM_PCIE0_PL_LINK_CAP_MAX_LINK_WIDTH" value="X16"/>		
+				<user_parameter name="CONFIG.CPM_PCIE0_FUNCTIONAL_MODE" value="DMA"/>		
+				<user_parameter name="CONFIG.CPM_PCIE0_MAX_LINK_SPEED" value="8.0_GT/s"/>		
+				<user_parameter name="CONFIG.CPM_PCIE0_PF0_INTERRUPT_PIN" value="INTA"/>		
+				<user_parameter name="CONFIG.CPM_PCIE0_PF1_INTERRUPT_PIN" value="INTB"/>		
+				<user_parameter name="CONFIG.CPM_PCIE0_XDMA_AXILITE_SLAVE_IF" value="0"/>		
+				
+				<user_parameter name="CONFIG.CPM_PCIE0_XDMA_IRQ" value="16"/>		
+				<user_parameter name="CONFIG.CPM_PCIE0_NUM_USR_IRQ" value="16"/>		
+				<user_parameter name="CONFIG.CPM_PCIE0_COPY_XDMA_PF0_ENABLED" value="0"/>		
+				<user_parameter name="CONFIG.CPM_PCIE0_PF1_CFG_DEV_ID" value="1"/>		
+				<user_parameter name="CONFIG.CPM_PCIE0_PF0_BASE_CLASS_MENU" value="Simple_communication_controllers"/>		
+				<user_parameter name="CONFIG.CPM_PCIE0_PF1_BASE_CLASS_MENU" value="Simple_communication_controllers"/>		
+				
+				<user_parameter name="CONFIG.CPM_PCIE0_PF0_BASE_CLASS_VALUE" value="12"/>		
+				<user_parameter name="CONFIG.CPM_PCIE0_PF1_BASE_CLASS_VALUE" value="12"/>		
+				<user_parameter name="CONFIG.CPM_PCIE0_PF0_SUB_CLASS_INTF_MENU" value="16450_compatible_serial_controller"/>	
+				<user_parameter name="CONFIG.CPM_PCIE0_PF1_SUB_CLASS_INTF_MENU" value="16450_compatible_serial_controller"/>	
+				
+				<user_parameter name="CONFIG.CPM_PCIE0_PF0_BAR0_XDMA_64BIT" value="1"/>		
+				<user_parameter name="CONFIG.CPM_PCIE0_PF0_BAR0_XDMA_TYPE" value="AXI_Bridge_Master"/>						
+				
+				<user_parameter name="CONFIG.CPM_PCIE0_PF0_BAR0_XDMA_PREFETCHABLE" value="1"/>		
+				<user_parameter name="CONFIG.CPM_PCIE0_PF0_BAR0_XDMA_SCALE" value="Gigabytes"/>										
+
+				<user_parameter name="CONFIG.CPM_PCIE0_PF0_BAR0_XDMA_SIZE" value="2"/>		
+				<user_parameter name="CONFIG.CPM_PCIE0_PF0_BAR2_XDMA_ENABLED" value="1"/>
+				
+				<user_parameter name="CONFIG.CPM_PCIE0_PF0_BAR2_XDMA_64BIT" value="1"/>		
+				<user_parameter name="CONFIG.CPM_PCIE0_PF0_BAR2_XDMA_TYPE" value="AXI_Bridge_Master"/>				
+				
+				<user_parameter name="CONFIG.CPM_PCIE0_PF0_BAR2_XDMA_SCALE" value="Kilobytes"/>		
+				<user_parameter name="CONFIG.CPM_PCIE0_PF0_BAR2_XDMA_SIZE" value="128"/>								
+
+				<user_parameter name="CONFIG.CPM_PCIE0_PF0_BAR2_XDMA_PREFETCHABLE" value="1"/>		
+				<user_parameter name="CONFIG.CPM_PCIE0_PF1_BAR2_XDMA_ENABLED" value="1"/>			
+   
+				<user_parameter name="CONFIG.CPM_PCIE0_PF1_BAR4_XDMA_ENABLED" value="1"/>			   
+				<user_parameter name="CONFIG.CPM_PCIE0_PF1_BAR0_XDMA_64BIT" value="1"/>		
+				
+				<user_parameter name="CONFIG.CPM_PCIE0_PF1_BAR0_XDMA_TYPE" value="AXI_Bridge_Master"/>			   
+				<user_parameter name="CONFIG.CPM_PCIE0_PF1_BAR0_XDMA_SCALE" value="Gigabytes"/>			   		
+				<user_parameter name="CONFIG.CPM_PCIE0_PF1_BAR0_XDMA_SIZE" value="4"/>			   
+				<user_parameter name="CONFIG.CPM_PCIE0_PF1_BAR2_XDMA_64BIT" value="1"/>			   		
+				<user_parameter name="CONFIG.CPM_PCIE0_PF1_BAR2_XDMA_TYPE" value="AXI_Bridge_Master"/>	
+				
+				<user_parameter name="CONFIG.CPM_PCIE0_PF1_BAR2_XDMA_SCALE" value="Kilobytes"/>			   		
+				<user_parameter name="CONFIG.CPM_PCIE0_PF1_BAR2_XDMA_SIZE" value="64"/>			   
+				<user_parameter name="CONFIG.CPM_PCIE0_PF1_BAR4_XDMA_TYPE" value="DMA"/>			   						
+
+				<user_parameter name="CONFIG.CPM_PCIE0_PF1_BAR4_XDMA_64BIT" value="1"/>			   		
+				<user_parameter name="CONFIG.CPM_PCIE0_PF1_BAR4_XDMA_SCALE" value="Megabytes"/>			   
+				<user_parameter name="CONFIG.CPM_PCIE0_PF1_BAR4_XDMA_SIZE" value="256"/>			   			
+				
+				<user_parameter name="CONFIG.CPM_PCIE0_PF0_PCIEBAR2AXIBAR_XDMA_0" value="20100000000"/>			   
+				<user_parameter name="CONFIG.CPM_PCIE0_PF1_PCIEBAR2AXIBAR_XDMA_0" value="20180000000"/>		
+				
+				<user_parameter name="CONFIG.PMC_CRP_PL0_REF_CTRL_FREQMHZ" value="100"/>						
+				
+            </user_parameters>
+		</ip>
+	</ip_preset>	
+
+
+<!-- 	 <ip_preset preset_proc_name="ddr4_c0_preset">
+		<ip vendor="xilinx.com" library="ip" name="axi_noc" version="*" ip_interface="CH0_DDR4_0">
+			<user_parameters>
+				<user_parameter name="CONFIG.NUM_MC" value="1"/> 
+				<user_parameter name="CONFIG.MC_MEMORY_SPEEDGRADE" value="DDR4-3200AA(22-22-22)"/>	
+				<user_parameter name="CONFIG.MC_COMPONENT_WIDTH" value="x16"/> 
+				<user_parameter name="CONFIG.MC_DATAWIDTH" value="72"/>
+				<user_parameter name="CONFIG.MC_INPUT_FREQUENCY0" value="200.000"/>
+				<user_parameter name="CONFIG.MC_INPUTCLK0_PERIOD" value="5000"/>					
+			</user_parameters>
+		</ip>
+		<ip vendor="xilinx.com" library="ip" name="axi_noc" version="*" ip_interface="CH0_DDR4_1">
+			<user_parameters>
+				<user_parameter name="CONFIG.NUM_MC" value="2"/> 
+				<user_parameter name="CONFIG.MC_MEMORY_SPEEDGRADE" value="DDR4-3200AA(22-22-22)"/>	
+				<user_parameter name="CONFIG.MC_COMPONENT_WIDTH" value="x16"/> 
+				<user_parameter name="CONFIG.MC_DATAWIDTH" value="72"/>
+				<user_parameter name="CONFIG.MC_INPUT_FREQUENCY0" value="200.000"/>
+				<user_parameter name="CONFIG.MC_INPUTCLK0_PERIOD" value="5000"/>					
+			</user_parameters>
+		</ip>
+		<ip vendor="xilinx.com" library="ip" name="axi_noc" version="*" ip_interface="CH0_DDR4_2">
+			<user_parameters>
+				<user_parameter name="CONFIG.NUM_MC" value="4"/> 
+				<user_parameter name="CONFIG.MC_MEMORY_SPEEDGRADE" value="DDR4-3200AA(22-22-22)"/>	
+				<user_parameter name="CONFIG.MC_COMPONENT_WIDTH" value="x16"/> 
+				<user_parameter name="CONFIG.MC_DATAWIDTH" value="72"/>
+				<user_parameter name="CONFIG.MC_INPUT_FREQUENCY0" value="200.000"/>
+				<user_parameter name="CONFIG.MC_INPUTCLK0_PERIOD" value="5000"/>					
+			</user_parameters>
+		</ip>
+		<ip vendor="xilinx.com" library="ip" name="axi_noc" version="*" ip_interface="CH0_DDR4_3">
+			<user_parameters>
+			    <user_parameter name="CONFIG.NUM_MC" value="4"/>  
+				<user_parameter name="CONFIG.MC_MEMORY_SPEEDGRADE" value="DDR4-3200AA(22-22-22)"/>	
+				<user_parameter name="CONFIG.MC_COMPONENT_WIDTH" value="x16"/> 
+				<user_parameter name="CONFIG.MC_DATAWIDTH" value="72"/>
+				<user_parameter name="CONFIG.MC_INPUT_FREQUENCY0" value="200.000"/>
+				<user_parameter name="CONFIG.MC_INPUTCLK0_PERIOD" value="5000"/>		
+				<user_parameter name="CONFIG.MC_INTERLEAVE_SIZE" value="128"/>
+			</user_parameters>
+		</ip>
+	 </ip_preset> -->
+	 
+	 
+	 
+<!-- set axi_noc_mc_4int [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc -set_params \
+  [ list \
+   CONFIG.MC_INTERLEAVE_SIZE {128} \
+   CONFIG.MC_ADDR_BIT9 {BA0} \
+   CONFIG.MC_CHAN_REGION0 {DDR_LOW0} \
+   CONFIG.MC_CHAN_REGION1 {DDR_LOW2} \
+   CONFIG.NUM_CLKS {10} \
+   CONFIG.NUM_MC {4} \
+   CONFIG.NUM_MCP {4} \
+   CONFIG.NUM_SI {7} \
+   CONFIG.NUM_MI {8} \
+   CONFIG.NUM_NMI {1} \
+   CONFIG.NUM_NSI {2} \
+   CONFIG.MC_MEMORY_SPEEDGRADE {DDR4-3200AA(22-22-22)} \
+   CONFIG.MC_COMPONENT_WIDTH {x16} \
+   CONFIG.MC_DATAWIDTH {64} \
+   CONFIG.MC_INPUT_FREQUENCY0 {200.000} \
+   CONFIG.MC_INPUTCLK0_PERIOD {5000} \
+ ] axi_noc_mc_4int] -->
+ 
+
+
+	<ip_preset preset_proc_name="ddr4_c0_preset"> 
+		<ip vendor="xilinx.com" library="ip" name="axi_noc" version="*"> 
+			<user_parameters>
+			
+				<user_parameter name="CONFIG.CONTROLLERTYPE" value="DDR4_SDRAM"/>  
+				<user_parameter name="CONFIG.MC_NO_CHANNELS" value="Single"/>  
+				<user_parameter name="CONFIG.MC_SYSTEM_CLOCK" value="Differential"/>  
+			    <user_parameter name="CONFIG.NUM_MC" value="4"/>  
+				<user_parameter name="CONFIG.MC_MEMORY_SPEEDGRADE" value="DDR4-3200AA(22-22-22)"/>	
+				<user_parameter name="CONFIG.MC_COMPONENT_WIDTH" value="x16"/> 
+				<user_parameter name="CONFIG.MC_DATAWIDTH" value="64"/>  
+				<user_parameter name="CONFIG.MC_INPUTCLK0_PERIOD" value="5000"/>		
+				<user_parameter name="CONFIG.MC_INTERLEAVE_SIZE" value="128"/>
+				<user_parameter name="CONFIG.MC_STACKHEIGHT" value="1"/>
+                <user_parameter name="CONFIG.MC_MEMORY_DEVICETYPE" value="Components"/>
+                <user_parameter name="CONFIG.MC_ROWADDRESSWIDTH" value="17"/>
+                <user_parameter name="CONFIG.MC_RANK" value="1"/>     
+
+<!-- 			<user_parameter name="CONFIG.MC_ADDR_BIT9" value="BA0"/>
+				<user_parameter name="CONFIG.MC_CHAN_REGION0" value="DDR_LOW0"/>
+				<user_parameter name="CONFIG.MC_CHAN_REGION1" value="DDR_LOW2"/>	
+				<user_parameter name="CONFIG.NUM_CLKS" value="10"/>
+				<user_parameter name="CONFIG.NUM_MCP" value="4"/>
+				<user_parameter name="CONFIG.NUM_SI" value="7"/>	
+				<user_parameter name="CONFIG.NUM_MI" value="8"/>
+				<user_parameter name="CONFIG.NUM_NMI" value="1"/>
+				<user_parameter name="CONFIG.NUM_NSI" value="2"/> -->
+		   </user_parameters>
+		</ip>
+	</ip_preset>
+	
+	 
+	
+    <ip_preset preset_proc_name="qsfp0_ch0_preset">
+		<ip vendor="xilinx.com" library="ip" name="xxv_ethernet">
+		    <user_parameters>
+				<user_parameter name="CONFIG.GT_REF_CLK_FREQ" value="161.1328125" />
+				<user_parameter name="CONFIG.NUM_OF_CORES" value="1" />
+				<user_parameter name="CONFIG.GT_TYPE" value="GTY" />
+				<!-- <user_parameter name="CONFIG.LINE_RATE" value="10" /> -->
+				<!-- <user_parameter name="CONFIG.GT_GROUP_SELECT" value="Quad_X0Y10" /> -->
+				<user_parameter name="CONFIG.BASE_R_KR" value="BASE-R" />
+		    </user_parameters>
+		</ip>
+    </ip_preset>
+	 
+ 
+  
+	<ip_preset preset_proc_name="pcie_refclk_preset">
+		<ip vendor="xilinx.com" library="ip" name="util_ds_buf">
+		    <user_parameters>
+				<user_parameter name="CONFIG.C_BUF_TYPE" value="IBUFDSGTE" />
+				<user_parameter name="CONFIG.C_SIZE" value="1" />
+		    </user_parameters>
+		</ip>
+	</ip_preset>
+	  
+ 
+	<ip_preset preset_proc_name="pciex1_preset">
+		<ip vendor="xilinx.com" library="ip" name="pcie_versal">
+		    <user_parameters>
+				<user_parameter name="CONFIG.pl_link_cap_max_link_width" value="X1" />
+				<user_parameter name="CONFIG.pl_link_cap_max_link_speed" value="8.0_GT/s" />
+			</user_parameters>
+		</ip>
+	</ip_preset>
+	
+  
+	 <ip_preset preset_proc_name="pciex2_preset">
+	    <ip vendor="xilinx.com" library="ip" name="pcie_versal">
+		    <user_parameters>
+				<user_parameter name="CONFIG.pl_link_cap_max_link_speed" value="8.0_GT/s" />
+				<user_parameter name="CONFIG.pl_link_cap_max_link_width" value="X2" />
+		   </user_parameters>
+		</ip> 
+	</ip_preset>
+	
+  
+	<ip_preset preset_proc_name="pciex4_preset">
+		<ip vendor="xilinx.com" library="ip" name="pcie_versal">
+		    <user_parameters>
+				<user_parameter name="CONFIG.pl_link_cap_max_link_speed" value="8.0_GT/s" />
+				<user_parameter name="CONFIG.pl_link_cap_max_link_width" value="X4" />
+		    </user_parameters>
+		</ip>
+	</ip_preset>
+	
+  
+	<ip_preset preset_proc_name="pciex8_preset">
+		<ip vendor="xilinx.com" library="ip" name="pcie_versal">
+		    <user_parameters>
+				<user_parameter name="CONFIG.pl_link_cap_max_link_speed" value="8.0_GT/s" />
+				<user_parameter name="CONFIG.pl_link_cap_max_link_width" value="X8" />
+		    </user_parameters>
+		 </ip>
+	</ip_preset>
+	
+	
+  
+	<ip_preset preset_proc_name="pciex16_preset">
+		<ip vendor="xilinx.com" library="ip" name="pcie_versal">
+		    <user_parameters>
+				<user_parameter name="CONFIG.pl_link_cap_max_link_speed" value="8.0_GT/s" />
+				<user_parameter name="CONFIG.pl_link_cap_max_link_width" value="X16" />
+		    </user_parameters>
+		 </ip>
+    </ip_preset>
+	
+  
+	<ip_preset preset_proc_name="sysclk0_preset">
+	
+		<ip vendor="xilinx.com" library="ip" name="clk_wiz" ip_interface="CLK_IN1_D">
+			<user_parameters>
+			  <user_parameter name="CONFIG.PRIM_IN_FREQ" value="200"/> 
+			  <user_parameter name="CONFIG.PRIM_SOURCE" value="Differential_clock_capable_pin"/> 
+			</user_parameters>
+		</ip>
+		
+		<ip vendor="xilinx.com" library="ip" name="util_ds_buf">
+			<user_parameters>
+				<user_parameter name="CONFIG.C_BUF_TYPE" value="IBUFDS" />
+				<user_parameter name="CONFIG.C_SIZE" value="1" />
+			</user_parameters>
+		</ip>
+	</ip_preset>
+  
+	
+
+</ip_presets>

@@ -1,0 +1,7 @@
+######### VC707 Change log ##############
+1.4 
+Updated mig.prj to fix mrCasLatency and mr2CasLatency
+
+
+
+

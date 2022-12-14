@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!-- ##################################################################### -->
+<!-- ##TE File Version:1.0-->
+<!-- ##TE Last Modification:2017.09.18-->
+<!-- ##################################################################### -->
+<ip_presets schema="1.0">
+  <!--insert ip presets here, see ug895 or other board part files-->
+  <ip_preset preset_proc_name="uart_preset">
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="UART">
+      <user_parameters>
+        <user_parameter name="CONFIG.C_USE_UART_RX" value="1"/> 
+        <user_parameter name="CONFIG.C_USE_UART_TX" value="1"/> 
+      </user_parameters>
+    </ip>
+  </ip_preset>
+  <ip_preset preset_proc_name="ddr3_sdram_preset">
+    <ip vendor="xilinx.com" library="ip" name="mig_7series">
+      <user_parameters>
+        <user_parameter name="CONFIG.XML_INPUT_FILE" value="mig.prj" value_type="file"/> 
+      </user_parameters>
+    </ip>
+  </ip_preset>
+  
+  <ip_preset preset_proc_name="spi_flash_preset">
+    <ip vendor="xilinx.com" library="ip" name="axi_quad_spi">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_SPI_MEMORY" value="3"/> 
+          <user_parameter name="CONFIG.C_SPI_MODE" value="2"/> 
+          <user_parameter name="CONFIG.C_SCK_RATIO" value="2"/> 
+          <user_parameter name="CONFIG.C_FIFO_DEPTH" value="256"/> 
+          <user_parameter name="CONFIG.C_USE_STARTUP" value="1"/> 
+          <user_parameter name="CONFIG.C_USE_STARTUP_INT" value="1"/> 
+        </user_parameters>
+    </ip>
+  </ip_preset>  
+  
+  <ip_preset preset_proc_name="mgt_diff_clk_preset">
+    <ip vendor="xilinx.com" library="ip" name="util_ds_buf">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_BUF_TYPE" value="IBUFDSGTE"/> 
+          <user_parameter name="CONFIG.C_SIZE" value="1"/> 
+        </user_parameters>
+    </ip>
+  </ip_preset> 
+ <!-- Note ASIO do not work correctly at the moment -->
+  <ip_preset preset_proc_name="asio_preset">
+    <ip vendor="trenz.biz" library="ip" name="axis_asio_gpio">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_P0_BITS" value="160"/> 
+          <user_parameter name="CONFIG.P0_BOARD_INTERFACE" value="asio"/> 
+        </user_parameters>
+    </ip>
+  </ip_preset> 
+  
+</ip_presets>

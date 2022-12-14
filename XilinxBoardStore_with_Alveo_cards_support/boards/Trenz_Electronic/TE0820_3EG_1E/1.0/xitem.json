@@ -1,0 +1,33 @@
+{
+  "config": {
+    "items": [
+      {
+        "infra": {
+          "name": "te0820_3eg_1e", 
+          "display": "UltraSOM (ZYNQ-UltraScale+) TE0820-3EG-1E(_, 3, A, L  : 1 GB DDR). SPRT PCB: REV02", 
+          "revision": "1.0", 
+          "description": "Zynq UltraScale+ TE0820-3EG-1E(_, 3, A, L) Board (form factor 4x5 cm) with 2x 512MByte DDR4, 2x 32MByte Flash, speed grade -1 and extended temperature range. Supported PCB Revisions: REV02.", 
+          "company": "trenz.biz", 
+          "company_display": "Trenz Electronic GmbH", 
+          "author": "trenz.biz", 
+          "contributors": [
+            {
+              "group": "Trenz Electronic GmbH", 
+              "url": "https://www.trenz-electronic.de/"
+            }
+          ], 
+          "category": "Single Part", 
+          "website": "trenz.org/te0820-info", 
+          "search-keywords": [
+            "te0820_3eg_1e", 
+            "trenz.biz", 
+            "board", 
+            "Single Part"
+          ]
+        }
+      }
+    ]
+  }, 
+  "_major": 1, 
+  "_minor": 0
+}

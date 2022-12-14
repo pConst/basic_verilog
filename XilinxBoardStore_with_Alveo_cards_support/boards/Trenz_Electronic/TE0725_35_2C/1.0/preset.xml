@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!-- ##################################################################### -->
+<!-- ##TE File Version:1.0-->
+<!-- ##TE Last Modification:2018.03.09-->
+<!-- ##################################################################### -->
+<ip_presets schema="1.0">
+  <!--insert ip presets here, see ug895 or other board part files-->
+    <ip_preset preset_proc_name="spi_flash_preset">
+      <ip vendor="xilinx.com" library="ip" name="axi_quad_spi">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_SPI_MEMORY" value="3"/> 
+          <user_parameter name="CONFIG.C_SPI_MODE" value="2"/> 
+          <user_parameter name="CONFIG.C_SCK_RATIO" value="2"/> 
+          <user_parameter name="CONFIG.C_FIFO_DEPTH" value="256"/> 
+          <user_parameter name="CONFIG.C_USE_STARTUP" value="1"/> 
+          <user_parameter name="CONFIG.C_USE_STARTUP_INT" value="1"/> 
+        </user_parameters>
+    </ip>
+  </ip_preset>  
+</ip_presets>

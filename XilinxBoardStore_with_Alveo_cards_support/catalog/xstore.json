@@ -1,0 +1,39 @@
+{
+   "catalog": {
+       "current_branch": "master",
+       "supported_products": [    
+        {
+          "product_name": "vivado",
+          "supported_releases": [
+            {
+              "version": "2018.1",
+              "xitem_catalogue_file": "catalog/vivado_2018.1.json",
+              "remote_repo_branch_to_sync": "2018.1"
+            },
+            {
+              "version": "2018.2",
+              "xitem_catalogue_file": "catalog/vivado_2018.2.json",
+              "remote_repo_branch_to_sync": "2018.2"
+            },
+            {
+              "version": "2018.3",
+              "xitem_catalogue_file": "catalog/vivado_2018.3.json",
+              "remote_repo_branch_to_sync": "2018.3"
+            },
+            {
+              "version": "2019.1",
+              "xitem_catalogue_file": "catalog/vivado_2019.1.json",
+              "remote_repo_branch_to_sync": "2019.1"
+            },
+            {
+              "version": "2019.2",
+              "xitem_catalogue_file": "catalog/vivado_2019.2.json",
+              "remote_repo_branch_to_sync": "master"
+            }            
+         ]
+        }
+      ]
+   },
+   "_major": 1,
+   "_minor": 0
+}

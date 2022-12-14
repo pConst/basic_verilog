@@ -1,0 +1,17 @@
+######### KCU1500 change log ##############
+1.2
+Added GT location for XDMA IP
+
+2018.3 Updates
+Enabled System monitor board support 
+
+2018.1 Updates
+DDR4 controller size parameter modified  
+SLR parameter added for DDR4 components  
+
+1.1
+Avoiding upper case attributes
+
+1.0
+KCU1500 initial board support
+

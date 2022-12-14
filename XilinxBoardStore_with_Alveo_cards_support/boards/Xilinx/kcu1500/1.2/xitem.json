@@ -1,0 +1,33 @@
+{
+  "config": {
+    "items": [
+      {
+        "infra": {
+          "name": "KCU1500", 
+          "display": "Kintex UltraScale KCU1500 Acceleration Development Board", 
+          "revision": "1.2", 
+          "description": "Kintex UltraScale KCU1500 Acceleration Development Board", 
+          "company": "xilinx.com", 
+          "company_display": "Xilinx", 
+          "author": "Vanitha", 
+          "contributors": [
+            {
+              "group": "Xilinx", 
+              "url": "www.xilinx.com"
+            }
+          ], 
+          "category": "Single Part", 
+          "website": "https://www.xilinx.com/products/boards-and-kits/dk-u1-kcu1500-g.html", 
+          "search-keywords": [
+            "KCU1500", 
+            "xilinx.com", 
+            "board", 
+            "Single Part"
+          ]
+        }
+      }
+    ]
+  }, 
+  "_major": 1, 
+  "_minor": 0
+}

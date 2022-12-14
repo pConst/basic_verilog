@@ -1,0 +1,19 @@
+######### VCU1525 change log ############
+1.3
+Added GT quad location for XDMA IP
+Enabled support for pcie4_uscale_plus IP
+Updated DDR4 system clock IO attributes. Using LVDS and DQS_BIAS now (2019.1)  
+
+1.2
+DIMM functionality enabled
+QDMA support is added 
+
+1.1
+FPPGA part change, 1.0 is deprecated
+
+1.0
+Added SLR parameter to DDR4 components(Vivado 2018.1)
+
+1.0
+VCU1525 Initial board support(Vivado 2017.4)
+

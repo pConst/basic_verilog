@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<part_info part_name="xc7k325tffg900-2">
+	<pins>
+		<pin index="0" name ="GPIO_DIP_SW0" iostandard="LVCMOS25" loc="Y29"/>
+		<pin index="1" name ="GPIO_DIP_SW1" iostandard="LVCMOS25" loc="W29"/>
+		<pin index="2" name ="GPIO_DIP_SW2" iostandard="LVCMOS25" loc="AA28"/>
+		<pin index="3" name ="GPIO_DIP_SW3" iostandard="LVCMOS25" loc="Y28"/>
+		
+		<pin index="4" name ="PHY_RXCTL_RXDV" iostandard="LVCMOS25" loc="R28"/>
+		<pin index="5" name ="PHY_RXER" iostandard="LVCMOS25" loc="V26"/>
+		<pin index="6" name ="PHY_RXCLK" iostandard="LVCMOS25" loc="U27"/>
+		<pin index="7" name ="PHY_MDC" iostandard="LVCMOS25" loc="R23"/>	
+		<pin index="8" name ="PHY_CRS" iostandard="LVCMOS25" loc="R30"/>
+		<pin index="9" name ="PHY_COL" iostandard="LVCMOS25" loc="W19"/>
+		<pin index="10" name ="PHY_RXD0" iostandard="LVCMOS25" loc="U30"/>
+		<pin index="11" name ="PHY_RXD1" iostandard="LVCMOS25" loc="U25"/>
+		<pin index="12" name ="PHY_RXD2" iostandard="LVCMOS25" loc="T25"/>
+		<pin index="13" name ="PHY_RXD3" iostandard="LVCMOS25" loc="U28"/>
+		<pin index="14" name ="PHY_RXD4" iostandard="LVCMOS25" loc="R19"/>
+		<pin index="15" name ="PHY_RXD5" iostandard="LVCMOS25" loc="T27"/>
+		<pin index="16" name ="PHY_RXD6" iostandard="LVCMOS25" loc="T26"/>
+		<pin index="17" name ="PHY_RXD7" iostandard="LVCMOS25" loc="T28"/>
+		<pin index="18" name ="PHY_INT" iostandard="LVCMOS25" loc="N30"/>
+		<pin index="19" name ="PHY_TXER" iostandard="LVCMOS25" loc="N29" slew="FAST"/>
+		<pin index="20" name ="PHY_TXCTL_TXEN" iostandard="LVCMOS25" loc="M27"/>
+		<pin index="21" name ="PHY_TXCLK" iostandard="LVCMOS25" loc="M28"/>
+		<pin index="22" name ="PHY_TXC_GTXCLK" iostandard="LVCMOS25" loc="K30"/> 
+		<pin index="23" name ="PHY_RESET" iostandard="LVCMOS25" loc="L20"/> 
+		<pin index="24" name ="PHY_MDIO" iostandard="LVCMOS25" loc="J21"/>
+		<pin index="25" name ="IIC_MUX_RESET_B" iostandard="LVCMOS25" loc="P23"/>
+		<pin index="26" name ="IIC_SCL_MAIN" iostandard="LVCMOS25" loc="K21" drive="8" slew="SLOW"/>
+		<pin index="27" name ="IIC_SDA_MAIN" iostandard="LVCMOS25" loc="L21" drive="8" slew="SLOW"/>
+
+		<pin index="28" name ="GPIO_LED_0_LS" iostandard="LVCMOS15" loc="AB8"/>
+		<pin index="29" name ="GPIO_LED_1_LS" iostandard="LVCMOS15" loc="AA8"/>
+		<pin index="30" name ="GPIO_LED_2_LS" iostandard="LVCMOS15" loc="AC9"/>
+		<pin index="31" name ="GPIO_LED_3_LS" iostandard="LVCMOS15" loc="AB9"/>
+		<pin index="32" name ="GPIO_LED_4_LS" iostandard="LVCMOS25" loc="AE26"/>
+		<pin index="33" name ="GPIO_LED_5_LS" iostandard="LVCMOS25" loc="G19"/>
+		<pin index="34" name ="GPIO_LED_6_LS" iostandard="LVCMOS25" loc="E18"/>
+		<pin index="35" name ="GPIO_LED_7_LS" iostandard="LVCMOS25" loc="F16"/>
+
+		<pin index="36" name ="LCD_E_LS" iostandard="LVCMOS15" loc="AB10"/>
+		<pin index="37" name ="LCD_RS_LS" iostandard="LVCMOS15" loc="Y11"/>
+		<pin index="38" name ="LCD_RW_LS" iostandard="LVCMOS15" loc="AB13"/>
+		<pin index="39" name ="LCD_DB7_LS" iostandard="LVCMOS15" loc="Y10"/>
+		<pin index="40" name ="LCD_DB6_LS" iostandard="LVCMOS15" loc="AA11"/>
+		<pin index="41" name ="LCD_DB5_LS" iostandard="LVCMOS15" loc="AA10"/>
+		<pin index="42" name ="LCD_DB4_LS" iostandard="LVCMOS15" loc="AA13"/>
+
+
+		<pin index="43" name ="FLASH_A0" iostandard="LVCMOS25" loc="W22"/>
+		<pin index="44" name ="FLASH_A1" iostandard="LVCMOS25" loc="W21"/>
+		<pin index="45" name ="FLASH_A2" iostandard="LVCMOS25" loc="V24"/>
+		<pin index="46" name ="FLASH_A3" iostandard="LVCMOS25" loc="U24"/>
+		<pin index="47" name ="FLASH_A4" iostandard="LVCMOS25" loc="V22"/>
+		<pin index="48" name ="FLASH_A5" iostandard="LVCMOS25" loc="V21"/>
+		<pin index="49" name ="FLASH_A6" iostandard="LVCMOS25" loc="U23"/>
+		<pin index="50" name ="FLASH_A7" iostandard="LVCMOS25" loc="W24"/> 
+		<pin index="51" name ="FLASH_A8" iostandard="LVCMOS25" loc="W23"/> 
+		<pin index="52" name ="FLASH_A9" iostandard="LVCMOS25" loc="V20"/> 
+		<pin index="53" name ="FLASH_A10" iostandard="LVCMOS25" loc="V19"/> 
+		<pin index="54" name ="FLASH_A11" iostandard="LVCMOS25" loc="W26"/> 
+		<pin index="55" name ="FLASH_A12" iostandard="LVCMOS25" loc="V25"/> 
+		<pin index="56" name ="FLASH_A13" iostandard="LVCMOS25" loc="V30"/> 
+		<pin index="57" name ="FLASH_A14" iostandard="LVCMOS25" loc="V29"/> 
+		<pin index="58" name ="FLASH_A15" iostandard="LVCMOS25" loc="V27"/> 
+		<pin index="59" name ="FLASH_A16" iostandard="LVCMOS25" loc="P22"/> 
+		<pin index="60" name ="FLASH_A17" iostandard="LVCMOS25" loc="P21"/>
+		<pin index="61" name ="FLASH_A18" iostandard="LVCMOS25" loc="N24"/> 
+		<pin index="62" name ="FLASH_A19" iostandard="LVCMOS25" loc="N22"/> 
+		<pin index="63" name ="FLASH_A20" iostandard="LVCMOS25" loc="N21"/> 
+		<pin index="64" name ="FLASH_A21" iostandard="LVCMOS25" loc="N20"/> 
+		<pin index="65" name ="FLASH_A22" iostandard="LVCMOS25" loc="N19"/> 
+		<pin index="66" name ="FLASH_A23" iostandard="LVCMOS25" loc="N26"/> 
+		<pin index="67" name ="FLASH_A24" iostandard="LVCMOS25" loc="M23"/>
+		<pin index="68" name ="FLASH_A25" iostandard="LVCMOS25" loc="M22"/>
+
+		<pin index="69" name ="FLASH_D15" iostandard="LVCMOS25" loc="R26"/> 
+		<pin index="70" name ="FLASH_D14" iostandard="LVCMOS25" loc="P26"/> 
+		<pin index="71" name ="FLASH_D13" iostandard="LVCMOS25" loc="T30"/> 
+		<pin index="72" name ="FLASH_D12" iostandard="LVCMOS25" loc="P28"/> 
+		<pin index="73" name ="FLASH_D11" iostandard="LVCMOS25" loc="P27"/> 
+		<pin index="74" name ="FLASH_D10" iostandard="LVCMOS25" loc="R29"/> 
+		<pin index="75" name ="FLASH_D9" iostandard="LVCMOS25" loc="P29"/> 
+		<pin index="76" name ="FLASH_D8" iostandard="LVCMOS25" loc="U20"/> 
+		<pin index="77" name ="FLASH_D7" iostandard="LVCMOS25" loc="T23"/> 
+		<pin index="78" name ="FLASH_D6" iostandard="LVCMOS25" loc="T22"/> 
+		<pin index="79" name ="FLASH_D5" iostandard="LVCMOS25" loc="T21"/> 
+		<pin index="80" name ="FLASH_D4" iostandard="LVCMOS25" loc="T20"/>
+		<pin index="81" name ="FLASH_D3" iostandard="LVCMOS25" loc="R21"/> 
+		<pin index="82" name ="FLASH_D2" iostandard="LVCMOS25" loc="R20"/> 
+		<pin index="83" name ="FLASH_D1" iostandard="LVCMOS25" loc="R25"/> 
+		<pin index="84" name ="FLASH_D0" iostandard="LVCMOS25" loc="P24"/> 
+
+		<pin index="85" name ="FLASH_ADV_B" iostandard="LVCMOS25" loc="M30"/>
+		<pin index="86" name ="FLASH_FWE_B" iostandard="LVCMOS25" loc="M25"/>
+		<pin index="87" name ="FLASH_OE_B" iostandard="LVCMOS25" loc="M24"/> 
+
+
+		<pin index="88" name ="GPIO_SW_C" iostandard="LVCMOS25" loc="G12"/>		
+		<pin index="89" name ="GPIO_SW_W" iostandard="LVCMOS15" loc="AC6"/>
+		<pin index="90" name ="GPIO_SW_S" iostandard="LVCMOS15" loc="AB12"/>
+		<pin index="91" name ="GPIO_SW_E" iostandard="LVCMOS15" loc="AG5"/>
+		<pin index="92" name ="GPIO_SW_N" iostandard="LVCMOS15" loc="AA12"/>
+
+		<pin index="93" name ="USB_CTS" iostandard="LVDS" loc="L27"/>
+		<!-- NOTE for pin index 94 & 95 iostandard is defined in component rs232_uart 
+		iostandard is optional attribute for fpga pins & it will be always overwritten by component(non fpga) level pin attributes -->
+		<pin index="94" name ="USB_TX" loc="K24"/>
+		<pin index="95" name ="USB_RX" loc="M19"/>
+		<pin index="96" name ="USB_RTS" iostandard="LVCMOS25" loc="K23"/>
+
+		<pin index="97" name ="SFP_TX_DISABLE" iostandard="LVDS" loc="Y20"/>
+		<pin index="98" name ="SFP_LOS_LS" iostandard="LVDS" loc="P19"/>
+		<pin index="99" name ="SFP_TX_N" iostandard="LVDS" loc="H1"/>
+		<pin index="100" name ="SFP_TX_P" iostandard="LVDS" loc="H2"/>
+		<pin index="101" name ="SFP_RX_N" iostandard="LVDS" loc="G4"/>
+		<pin index="102" name ="SFP_RX_P" iostandard="LVDS" loc="G3"/>
+
+		<pin index="103" name ="USER_SMA_GPIO_N" iostandard="LVDS_25" loc="Y24"/>
+		<pin index="104" name ="USER_SMA_GPIO_P" iostandard="LVDS_25" loc="Y23"/>
+		<pin index="105" name ="USER_SMA_CLOCK_N" iostandard="LVDS_25" loc="K25"/>
+		<pin index="106" name ="USER_SMA_CLOCK_P" iostandard="LVDS_25" loc="L25"/>
+		<pin index="107" name ="SMA_MGT_REFCLK_P" iostandard="LVDS" loc="J8"/>
+		<pin index="108" name ="SMA_MGT_REFCLK_N" iostandard="LVDS" loc="J7"/>
+		<pin index="109" name ="SMA_MGT_TX_P" iostandard="LVDS" loc="K2"/>
+		<pin index="110" name ="SMA_MGT_TX_N" iostandard="LVDS" loc="K1"/>
+		<pin index="111" name ="SMA_MGT_RX_P" iostandard="LVDS" loc="K6"/>
+		<pin index="112" name ="SMA_MGT_RX_N" iostandard="LVDS" loc="K5"/>
+
+		<pin index="113" name ="PHY_TXD0" iostandard="LVCMOS25" loc="N27"/>
+		<pin index="114" name ="PHY_TXD1" iostandard="LVCMOS25" loc="N25"/>
+		<pin index="115" name ="PHY_TXD2" iostandard="LVCMOS25" loc="M29"/>
+		<pin index="116" name ="PHY_TXD3" iostandard="LVCMOS25" loc="L28"/>
+		<pin index="117" name ="PHY_TXD4" iostandard="LVCMOS25" loc="J26"/> 
+		<pin index="118" name ="PHY_TXD5" iostandard="LVCMOS25" loc="K26"/> 
+		<pin index="119" name ="PHY_TXD6" iostandard="LVCMOS25" loc="L30"/> 
+		<pin index="120" name ="PHY_TXD7" iostandard="LVCMOS25" loc="J28"/>
+
+		<pin index="121" name ="SGMII_TX_N" iostandard="LVDS" loc="J3"/>
+		<pin index="122" name ="SGMII_TX_P" iostandard="LVDS" loc="J4"/>
+		<pin index="123" name ="SGMII_RX_N" iostandard="LVDS" loc="H5"/>
+		<pin index="124" name ="SGMII_RX_P" iostandard="LVDS" loc="H6"/>
+		<pin index="125" name ="ROTARY_INCA" iostandard="LVCMOS25" loc="Y26"/>
+		<pin index="126" name ="ROTARY_PUSH" iostandard="LVCMOS25" loc="AA26"/>
+		<pin index="127" name ="ROTARY_INCB" iostandard="LVCMOS25" loc="Y25"/>
+		<pin index="128" name ="SGMIICLK_Q0_P" iostandard="LVDS" loc="G8"/>
+		<pin index="129" name ="SGMIICLK_Q0_N" iostandard="LVDS" loc="G7"/>
+		<pin index="130" name ="SYSCLK_P" iostandard="DIFF_SSTL15" loc="AD12"/>
+		<pin index="131" name ="SYSCLK_N" iostandard="DIFF_SSTL15" loc="AD11" diff_term="true"/>
+		<pin index="132" name ="CPU_RESET" iostandard="LVCMOS15" loc="AB7"/>
+		
+		<pin index="133" name="FMC_LPC_LA09_P" iostandard="LVCMOS25" loc="AK23"/>
+		<pin index="134" name="FMC_LPC_LA09_N" iostandard="LVCMOS25" loc="AK24"/>
+		<pin index="135" name="FMC_LPC_LA10_P" iostandard="LVCMOS25" loc="AJ24"/>
+		<pin index="136" name="FMC_LPC_LA10_N" iostandard="LVCMOS25" loc="AK25"/>
+		<pin index="137" name="FMC_LPC_LA11_P" iostandard="LVCMOS25" loc="AE25"/>
+		<pin index="138" name="FMC_LPC_LA11_N" iostandard="LVCMOS25" loc="AF25"/>
+		<pin index="139" name="FMC_LPC_LA12_P" iostandard="LVCMOS25" loc="AA20"/>
+		<pin index="140" name="FMC_LPC_LA12_N" iostandard="LVCMOS25" loc="AB20"/>
+		<pin index="141" name="FMC_LPC_LA13_P" iostandard="LVCMOS25" loc="AB24"/>
+		<pin index="142" name="FMC_LPC_LA13_N" iostandard="LVCMOS25" loc="AC25"/>
+		<pin index="143" name="FMC_LPC_LA14_P" iostandard="LVCMOS25" loc="AD21"/>
+		<pin index="144" name="FMC_LPC_LA14_N" iostandard="LVCMOS25" loc="AE21"/>
+		<pin index="145" name="FMC_LPC_LA15_P" iostandard="LVCMOS25" loc="AC24"/>
+		<pin index="146" name="FMC_LPC_LA15_N" iostandard="LVCMOS25" loc="AD24"/>
+		<pin index="147" name="FMC_LPC_LA16_P" iostandard="LVCMOS25" loc="AC22"/>
+		<pin index="148" name="FMC_LPC_LA16_N" iostandard="LVCMOS25" loc="AD22"/>
+		<pin index="149" name="FPGA_FCS" iostandard="LVCMOS25" loc="U19"/>
+	    <pin index="150" name="fmc_hpc_prsnt_m2c_b_ls" iostandard="LVCMOS25" loc="M20"/>
+    <pin index="151" name="fmc_hpc_pg_m2c_ls" iostandard="LVCMOS25" loc="J29"/>
+    <pin index="152" name="fmc_hpc_la16_p" iostandard="LVCMOS25" loc="B27"/>
+    <pin index="153" name="fmc_hpc_la16_n" iostandard="LVCMOS25" loc="A27"/>
+    <pin index="154" name="fmc_hpc_la15_p" iostandard="LVCMOS25" loc="C24"/>
+    <pin index="155" name="fmc_hpc_la15_n" iostandard="LVCMOS25" loc="B24"/>
+    <pin index="156" name="fmc_hpc_la14_p" iostandard="LVCMOS25" loc="B28"/>
+    <pin index="157" name="fmc_hpc_la14_n" iostandard="LVCMOS25" loc="A28"/>
+    <pin index="158" name="fmc_hpc_la13_p" iostandard="LVCMOS25" loc="A25"/>
+    <pin index="159" name="fmc_hpc_la13_n" iostandard="LVCMOS25" loc="A26"/>
+    <pin index="160" name="fmc_hpc_la01_p" iostandard="LVCMOS25" loc="D26"/>
+    <pin index="161" name="fmc_hpc_la01_n" iostandard="LVCMOS25" loc="C26"/>
+    <pin index="162" name="fmc_hpc_la00_p" iostandard="LVCMOS25" loc="C25"/>
+    <pin index="163" name="fmc_hpc_la00_n" iostandard="LVCMOS25" loc="B25"/>
+    <pin index="164" name="fmc_hpc_clk0_m2c_p" iostandard="LVCMOS25" loc="D27"/>
+    <pin index="165" name="fmc_hpc_clk0_m2c_n" iostandard="LVCMOS25" loc="C27"/>
+    <pin index="166" name="fmc_hpc_la07_p" iostandard="LVCMOS25" loc="E28"/>
+    <pin index="167" name="fmc_hpc_la07_n" iostandard="LVCMOS25" loc="D28"/>
+    <pin index="168" name="fmc_hpc_la12_p" iostandard="LVCMOS25" loc="C29"/>
+    <pin index="169" name="fmc_hpc_la12_n" iostandard="LVCMOS25" loc="B29"/>
+    <pin index="170" name="fmc_hpc_la10_p" iostandard="LVCMOS25" loc="D29"/>
+    <pin index="171" name="fmc_hpc_la10_n" iostandard="LVCMOS25" loc="C30"/>
+    <pin index="172" name="fmc_hpc_la09_p" iostandard="LVCMOS25" loc="B30"/>
+    <pin index="173" name="fmc_hpc_la09_n" iostandard="LVCMOS25" loc="A30"/>
+    <pin index="174" name="fmc_hpc_la08_p" iostandard="LVCMOS25" loc="E29"/>
+    <pin index="175" name="fmc_hpc_la08_n" iostandard="LVCMOS25" loc="E30"/>
+    <pin index="176" name="fmc_hpc_la02_p" iostandard="LVCMOS25" loc="H24"/>
+    <pin index="177" name="fmc_hpc_la02_n" iostandard="LVCMOS25" loc="H25"/>
+    <pin index="178" name="fmc_hpc_la04_p" iostandard="LVCMOS25" loc="G28"/>
+    <pin index="179" name="fmc_hpc_la04_n" iostandard="LVCMOS25" loc="F28"/>
+    <pin index="180" name="fmc_hpc_la11_p" iostandard="LVCMOS25" loc="G27"/>
+    <pin index="181" name="fmc_hpc_la11_n" iostandard="LVCMOS25" loc="F27"/>
+    <pin index="182" name="fmc_hpc_la05_p" iostandard="LVCMOS25" loc="G29"/>
+    <pin index="183" name="fmc_hpc_la05_n" iostandard="LVCMOS25" loc="F30"/>
+    <pin index="184" name="fmc_hpc_la03_p" iostandard="LVCMOS25" loc="H26"/>
+    <pin index="185" name="fmc_hpc_la03_n" iostandard="LVCMOS25" loc="H27"/>
+    <pin index="186" name="fmc_hpc_la06_p" iostandard="LVCMOS25" loc="H30"/>
+    <pin index="187" name="fmc_hpc_la06_n" iostandard="LVCMOS25" loc="G30"/>
+    <pin index="188" name="fmc_hpc_la33_p" iostandard="LVCMOS25" loc="H21"/>
+    <pin index="189" name="fmc_hpc_la33_n" iostandard="LVCMOS25" loc="H22"/>
+    <pin index="190" name="fmc_hpc_la32_p" iostandard="LVCMOS25" loc="D21"/>
+    <pin index="191" name="fmc_hpc_la32_n" iostandard="LVCMOS25" loc="C21"/>
+    <pin index="192" name="fmc_hpc_la31_p" iostandard="LVCMOS25" loc="G22"/>
+    <pin index="193" name="fmc_hpc_la31_n" iostandard="LVCMOS25" loc="F22"/>
+    <pin index="194" name="fmc_hpc_la30_p" iostandard="LVCMOS25" loc="D22"/>
+    <pin index="195" name="fmc_hpc_la30_n" iostandard="LVCMOS25" loc="C22"/>
+    <pin index="196" name="fmc_hpc_la18_p" iostandard="LVCMOS25" loc="F21"/>
+    <pin index="197" name="fmc_hpc_la18_n" iostandard="LVCMOS25" loc="E21"/>
+    <pin index="198" name="fmc_hpc_la17_p" iostandard="LVCMOS25" loc="F20"/>
+    <pin index="199" name="fmc_hpc_la17_n" iostandard="LVCMOS25" loc="E20"/>
+    <pin index="200" name="fmc_hpc_clk1_m2c_p" iostandard="LVCMOS25" loc="D17"/>
+    <pin index="201" name="fmc_hpc_clk1_m2c_n" iostandard="LVCMOS25" loc="D18"/>
+    <pin index="202" name="fmc_hpc_la20_p" iostandard="LVCMOS25" loc="E19"/>
+    <pin index="203" name="fmc_hpc_la20_n" iostandard="LVCMOS25" loc="D19"/>
+    <pin index="204" name="fmc_hpc_la28_p" iostandard="LVCMOS25" loc="D16"/>
+    <pin index="205" name="fmc_hpc_la28_n" iostandard="LVCMOS25" loc="C16"/>
+    <pin index="206" name="fmc_hpc_la19_p" iostandard="LVCMOS25" loc="G18"/>
+    <pin index="207" name="fmc_hpc_la19_n" iostandard="LVCMOS25" loc="F18"/>
+    <pin index="208" name="fmc_hpc_la29_p" iostandard="LVCMOS25" loc="C17"/>
+    <pin index="209" name="fmc_hpc_la29_n" iostandard="LVCMOS25" loc="B17"/>
+    <pin index="210" name="fmc_hpc_la25_p" iostandard="LVCMOS25" loc="G17"/>
+    <pin index="211" name="fmc_hpc_la25_n" iostandard="LVCMOS25" loc="F17"/>
+    <pin index="212" name="fmc_hpc_la22_p" iostandard="LVCMOS25" loc="C20"/>
+    <pin index="213" name="fmc_hpc_la22_n" iostandard="LVCMOS25" loc="B20"/>
+    <pin index="214" name="fmc_hpc_la24_p" iostandard="LVCMOS25" loc="A16"/>
+    <pin index="215" name="fmc_hpc_la24_n" iostandard="LVCMOS25" loc="A17"/>
+    <pin index="216" name="fmc_hpc_la21_p" iostandard="LVCMOS25" loc="A20"/>
+    <pin index="217" name="fmc_hpc_la21_n" iostandard="LVCMOS25" loc="A21"/>
+    <pin index="218" name="fmc_hpc_la26_p" iostandard="LVCMOS25" loc="B18"/>
+    <pin index="219" name="fmc_hpc_la26_n" iostandard="LVCMOS25" loc="A18"/>
+    <pin index="220" name="fmc_hpc_la23_p" iostandard="LVCMOS25" loc="B22"/>
+    <pin index="221" name="fmc_hpc_la23_n" iostandard="LVCMOS25" loc="A22"/>
+    <pin index="222" name="fmc_hpc_la27_p" iostandard="LVCMOS25" loc="C19"/>
+    <pin index="223" name="fmc_hpc_la27_n" iostandard="LVCMOS25" loc="B19"/>
+    <pin index="224" name="fmc_hpc_ha13_p" iostandard="LVCMOS25" loc="L16"/>
+    <pin index="225" name="fmc_hpc_ha13_n" iostandard="LVCMOS25" loc="K16"/>
+    <pin index="226" name="fmc_hpc_ha16_p" iostandard="LVCMOS25" loc="L15"/>
+    <pin index="227" name="fmc_hpc_ha16_n" iostandard="LVCMOS25" loc="K15"/>
+    <pin index="228" name="fmc_hpc_ha23_p" iostandard="LVCMOS25" loc="L12"/>
+    <pin index="229" name="fmc_hpc_ha23_n" iostandard="LVCMOS25" loc="L13"/>
+    <pin index="230" name="fmc_hpc_ha20_p" iostandard="LVCMOS25" loc="K13"/>
+    <pin index="231" name="fmc_hpc_ha20_n" iostandard="LVCMOS25" loc="J13"/>
+    <pin index="232" name="fmc_hpc_ha18_p" iostandard="LVCMOS25" loc="K14"/>
+    <pin index="233" name="fmc_hpc_ha18_n" iostandard="LVCMOS25" loc="J14"/>
+    <pin index="234" name="fmc_hpc_ha22_p" iostandard="LVCMOS25" loc="L11"/>
+    <pin index="235" name="fmc_hpc_ha22_n" iostandard="LVCMOS25" loc="K11"/>
+    <pin index="236" name="fmc_hpc_ha15_p" iostandard="LVCMOS25" loc="H15"/>
+    <pin index="237" name="fmc_hpc_ha15_n" iostandard="LVCMOS25" loc="G15"/>
+    <pin index="238" name="fmc_hpc_ha21_p" iostandard="LVCMOS25" loc="J11"/>
+    <pin index="239" name="fmc_hpc_ha21_n" iostandard="LVCMOS25" loc="J12"/>
+    <pin index="240" name="fmc_hpc_ha14_p" iostandard="LVCMOS25" loc="J16"/>
+    <pin index="241" name="fmc_hpc_ha14_n" iostandard="LVCMOS25" loc="H16"/>
+    <pin index="242" name="fmc_hpc_ha19_p" iostandard="LVCMOS25" loc="H11"/>
+    <pin index="243" name="fmc_hpc_ha19_n" iostandard="LVCMOS25" loc="H12"/>
+    <pin index="244" name="fmc_hpc_ha01_p" iostandard="LVCMOS25" loc="H14"/>
+    <pin index="245" name="fmc_hpc_ha01_n" iostandard="LVCMOS25" loc="G14"/>
+    <pin index="246" name="fmc_hpc_ha17_p" iostandard="LVCMOS25" loc="G13"/>
+    <pin index="247" name="fmc_hpc_ha17_n" iostandard="LVCMOS25" loc="F13"/>
+    <pin index="248" name="fmc_hpc_ha00_p" iostandard="LVCMOS25" loc="D12"/>
+    <pin index="249" name="fmc_hpc_ha00_n" iostandard="LVCMOS25" loc="D13"/>
+    <pin index="250" name="fmc_hpc_ha09_p" iostandard="LVCMOS25" loc="F12"/>
+    <pin index="251" name="fmc_hpc_ha09_n" iostandard="LVCMOS25" loc="E13"/>
+    <pin index="252" name="fmc_hpc_ha03_p" iostandard="LVCMOS25" loc="C12"/>
+    <pin index="253" name="fmc_hpc_ha03_n" iostandard="LVCMOS25" loc="B12"/>
+    <pin index="254" name="fmc_hpc_ha04_p" iostandard="LVCMOS25" loc="F11"/>
+    <pin index="255" name="fmc_hpc_ha04_n" iostandard="LVCMOS25" loc="E11"/>
+    <pin index="256" name="fmc_hpc_ha10_p" iostandard="LVCMOS25" loc="A11"/>
+    <pin index="257" name="fmc_hpc_ha10_n" iostandard="LVCMOS25" loc="A12"/>
+    <pin index="258" name="fmc_hpc_ha02_p" iostandard="LVCMOS25" loc="D11"/>
+    <pin index="259" name="fmc_hpc_ha02_n" iostandard="LVCMOS25" loc="C11"/>
+    <pin index="260" name="fmc_hpc_ha05_p" iostandard="LVCMOS25" loc="F15"/>
+    <pin index="261" name="fmc_hpc_ha05_n" iostandard="LVCMOS25" loc="E16"/>
+    <pin index="262" name="fmc_hpc_ha08_p" iostandard="LVCMOS25" loc="E14"/>
+    <pin index="263" name="fmc_hpc_ha08_n" iostandard="LVCMOS25" loc="E15"/>
+    <pin index="264" name="fmc_hpc_ha06_p" iostandard="LVCMOS25" loc="D14"/>
+    <pin index="265" name="fmc_hpc_ha06_n" iostandard="LVCMOS25" loc="C14"/>
+    <pin index="266" name="fmc_hpc_ha11_p" iostandard="LVCMOS25" loc="B13"/>
+    <pin index="267" name="fmc_hpc_ha11_n" iostandard="LVCMOS25" loc="A13"/>
+    <pin index="268" name="fmc_hpc_ha12_p" iostandard="LVCMOS25" loc="C15"/>
+    <pin index="269" name="fmc_hpc_ha12_n" iostandard="LVCMOS25" loc="B15"/>
+    <pin index="270" name="fmc_hpc_ha07_p" iostandard="LVCMOS25" loc="B14"/>
+    <pin index="271" name="fmc_hpc_ha07_n" iostandard="LVCMOS25" loc="A15"/>
+    <pin index="272" name="fmc_hpc_dp3_c2m_p"  loc="A4"/>
+    <pin index="273" name="fmc_hpc_dp3_m2c_p"  loc="A8"/>
+    <pin index="274" name="fmc_hpc_dp3_c2m_n"  loc="A3"/>
+    <pin index="275" name="fmc_hpc_dp3_m2c_n"  loc="A7"/>
+    <pin index="276" name="fmc_hpc_dp2_c2m_p"  loc="B2"/>
+    <pin index="277" name="fmc_hpc_dp2_m2c_p"  loc="B6"/>
+    <pin index="278" name="fmc_hpc_dp2_c2m_n"  loc="B1"/>
+    <pin index="279" name="fmc_hpc_gbtclk0_m2c_p"  loc="C8"/>
+    <pin index="280" name="fmc_hpc_dp2_m2c_n"  loc="B5"/>
+    <pin index="281" name="fmc_hpc_gbtclk0_m2c_n"  loc="C7"/>
+    <pin index="282" name="fmc_hpc_gbtclk1_m2c_n"  loc="E7"/>
+    <pin index="283" name="fmc_hpc_gbtclk1_m2c_p"  loc="E8"/>
+    <pin index="284" name="fmc_hpc_dp1_c2m_p"  loc="C4"/>
+    <pin index="285" name="fmc_hpc_dp1_m2c_p"  loc="D6"/>
+    <pin index="286" name="fmc_hpc_dp1_c2m_n"  loc="C3"/>
+    <pin index="287" name="fmc_hpc_dp1_m2c_n"  loc="D5"/>
+    <pin index="288" name="fmc_hpc_dp0_c2m_p"  loc="D2"/>
+    <pin index="289" name="fmc_hpc_dp0_m2c_p"  loc="E4"/>
+    <pin index="290" name="fmc_hpc_dp0_c2m_n"  loc="D1"/>
+    <pin index="291" name="fmc_hpc_dp0_m2c_n"  loc="E3"/>
+    <pin index="292" name="fmc_lpc_la12_p" iostandard="LVCMOS25" loc="AA20"/>
+    <pin index="293" name="fmc_lpc_la12_n" iostandard="LVCMOS25" loc="AB20"/>
+    <pin index="294" name="fmc_lpc_la13_p" iostandard="LVCMOS25" loc="AB24"/>
+    <pin index="295" name="fmc_lpc_la13_n" iostandard="LVCMOS25" loc="AC25"/>
+    <pin index="296" name="fmc_lpc_la16_p" iostandard="LVCMOS25" loc="AC22"/>
+    <pin index="297" name="fmc_lpc_la16_n" iostandard="LVCMOS25" loc="AD22"/>
+    <pin index="298" name="fmc_lpc_la15_p" iostandard="LVCMOS25" loc="AC24"/>
+    <pin index="299" name="fmc_lpc_la15_n" iostandard="LVCMOS25" loc="AD24"/>
+    <pin index="300" name="fmc_lpc_la14_p" iostandard="LVCMOS25" loc="AD21"/>
+    <pin index="301" name="fmc_lpc_la14_n" iostandard="LVCMOS25" loc="AE21"/>
+    <pin index="302" name="fmc_lpc_la01_p" iostandard="LVCMOS25" loc="AE23"/>
+    <pin index="303" name="fmc_lpc_la01_n" iostandard="LVCMOS25" loc="AF23"/>
+    <pin index="304" name="fmc_lpc_la00_p" iostandard="LVCMOS25" loc="AD23"/>
+    <pin index="305" name="fmc_lpc_la00_n" iostandard="LVCMOS25" loc="AE24"/>
+    <pin index="306" name="fmc_lpc_clk0_m2c_p" iostandard="LVCMOS25" loc="AF22"/>
+    <pin index="307" name="fmc_lpc_clk0_m2c_n" iostandard="LVCMOS25" loc="AG23"/>
+    <pin index="308" name="fmc_lpc_la10_p" iostandard="LVCMOS25" loc="AJ24"/>
+    <pin index="309" name="fmc_lpc_la10_n" iostandard="LVCMOS25" loc="AK25"/>
+    <pin index="310" name="fmc_lpc_la11_p" iostandard="LVCMOS25" loc="AE25"/>
+    <pin index="311" name="fmc_lpc_la11_n" iostandard="LVCMOS25" loc="AF25"/>
+    <pin index="312" name="fmc_lpc_la09_p" iostandard="LVCMOS25" loc="AK23"/>
+    <pin index="313" name="fmc_lpc_la09_n" iostandard="LVCMOS25" loc="AK24"/>
+    <pin index="314" name="fmc_lpc_la07_p" iostandard="LVCMOS25" loc="AG25"/>
+    <pin index="315" name="fmc_lpc_la07_n" iostandard="LVCMOS25" loc="AH25"/>
+    <pin index="316" name="fmc_lpc_la02_p" iostandard="LVCMOS25" loc="AF20"/>
+    <pin index="317" name="fmc_lpc_la02_n" iostandard="LVCMOS25" loc="AF21"/>
+    <pin index="318" name="fmc_lpc_la05_p" iostandard="LVCMOS25" loc="AG22"/>
+    <pin index="319" name="fmc_lpc_la05_n" iostandard="LVCMOS25" loc="AH22"/>
+    <pin index="320" name="fmc_lpc_la08_p" iostandard="LVCMOS25" loc="AJ22"/>
+    <pin index="321" name="fmc_lpc_la08_n" iostandard="LVCMOS25" loc="AJ23"/>
+    <pin index="322" name="fmc_lpc_la03_p" iostandard="LVCMOS25" loc="AG20"/>
+    <pin index="323" name="fmc_lpc_la03_n" iostandard="LVCMOS25" loc="AH20"/>
+    <pin index="324" name="fmc_lpc_la04_p" iostandard="LVCMOS25" loc="AH21"/>
+    <pin index="325" name="fmc_lpc_la04_n" iostandard="LVCMOS25" loc="AJ21"/>
+    <pin index="326" name="fmc_lpc_la06_p" iostandard="LVCMOS25" loc="AK20"/>
+    <pin index="327" name="fmc_lpc_la06_n" iostandard="LVCMOS25" loc="AK21"/>
+    <pin index="328" name="fmc_lpc_la33_p" iostandard="LVCMOS25" loc="AC29"/>
+    <pin index="329" name="fmc_lpc_la33_n" iostandard="LVCMOS25" loc="AC30"/>
+    <pin index="330" name="fmc_lpc_la32_p" iostandard="LVCMOS25" loc="Y30"/>
+    <pin index="331" name="fmc_lpc_la32_n" iostandard="LVCMOS25" loc="AA30"/>
+    <pin index="332" name="fmc_lpc_la31_p" iostandard="LVCMOS25" loc="AD29"/>
+    <pin index="333" name="fmc_lpc_la31_n" iostandard="LVCMOS25" loc="AE29"/>
+    <pin index="334" name="fmc_lpc_la30_p" iostandard="LVCMOS25" loc="AB29"/>
+    <pin index="335" name="fmc_lpc_la30_n" iostandard="LVCMOS25" loc="AB30"/>
+    <pin index="336" name="fmc_lpc_la18_p" iostandard="LVCMOS25" loc="AD27"/>
+    <pin index="337" name="fmc_lpc_la18_n" iostandard="LVCMOS25" loc="AD28"/>
+    <pin index="338" name="fmc_lpc_la17_p" iostandard="LVCMOS25" loc="AB27"/>
+    <pin index="339" name="fmc_lpc_la17_n" iostandard="LVCMOS25" loc="AC27"/>
+    <pin index="340" name="fmc_lpc_clk1_m2c_p" iostandard="LVCMOS25" loc="AG29"/>
+    <pin index="341" name="fmc_lpc_clk1_m2c_n" iostandard="LVCMOS25" loc="AH29"/>
+    <pin index="342" name="fmc_lpc_la29_p" iostandard="LVCMOS25" loc="AE28"/>
+    <pin index="343" name="fmc_lpc_la29_n" iostandard="LVCMOS25" loc="AF28"/>
+    <pin index="344" name="fmc_lpc_la26_p" iostandard="LVCMOS25" loc="AK29"/>
+    <pin index="345" name="fmc_lpc_la26_n" iostandard="LVCMOS25" loc="AK30"/>
+    <pin index="346" name="fmc_lpc_la28_p" iostandard="LVCMOS25" loc="AE30"/>
+    <pin index="347" name="fmc_lpc_la28_n" iostandard="LVCMOS25" loc="AF30"/>
+    <pin index="348" name="fmc_lpc_la27_p" iostandard="LVCMOS25" loc="AJ28"/>
+    <pin index="349" name="fmc_lpc_la27_n" iostandard="LVCMOS25" loc="AJ29"/>
+    <pin index="350" name="fmc_lpc_la24_p" iostandard="LVCMOS25" loc="AG30"/>
+    <pin index="351" name="fmc_lpc_la24_n" iostandard="LVCMOS25" loc="AH30"/>
+    <pin index="352" name="fmc_lpc_la25_p" iostandard="LVCMOS25" loc="AC26"/>
+    <pin index="353" name="fmc_lpc_la25_n" iostandard="LVCMOS25" loc="AD26"/>
+    <pin index="354" name="fmc_lpc_la22_p" iostandard="LVCMOS25" loc="AJ27"/>
+    <pin index="355" name="fmc_lpc_la22_n" iostandard="LVCMOS25" loc="AK28"/>
+    <pin index="356" name="fmc_lpc_la21_p" iostandard="LVCMOS25" loc="AG27"/>
+    <pin index="357" name="fmc_lpc_la21_n" iostandard="LVCMOS25" loc="AG28"/>
+    <pin index="358" name="fmc_lpc_la23_p" iostandard="LVCMOS25" loc="AH26"/>
+    <pin index="359" name="fmc_lpc_la23_n" iostandard="LVCMOS25" loc="AH27"/>
+    <pin index="360" name="fmc_lpc_la20_p" iostandard="LVCMOS25" loc="AF26"/>
+    <pin index="361" name="fmc_lpc_la20_n" iostandard="LVCMOS25" loc="AF27"/>
+    <pin index="362" name="fmc_lpc_la19_p" iostandard="LVCMOS25" loc="AJ26"/>
+    <pin index="363" name="fmc_lpc_la19_n" iostandard="LVCMOS25" loc="AK26"/>
+    <pin index="364" name="fmc_lpc_prsnt_m2c_b_ls" iostandard="LVCMOS25" loc="J22"/>
+    <pin index="365" name="fmc_lpc_gbtclk0_m2c_n"  loc="N7"/>
+    <pin index="366" name="fmc_lpc_gbtclk0_m2c_p"  loc="N8"/>
+    <pin index="367" name="fmc_lpc_dp0_c2m_p"  loc="F2"/>
+    <pin index="368" name="fmc_lpc_dp0_m2c_p"  loc="F6"/>
+    <pin index="369" name="fmc_lpc_dp0_c2m_n"  loc="F1"/>
+    <pin index="370" name="fmc_lpc_dp0_m2c_n"  loc="F5"/>
+	
+	<pin index="371" name ="pcie_mgt_clkn" loc="U7"/>
+    <pin index="372" name ="pcie_mgt_clkp" loc="U8"/>
+    <pin index="373" name ="pcie_perstn_rst" iostandard="LVCMOS25" loc="G25"/>
+    <pin index="374" name ="pcie_rx0_n" loc="M5"/>
+    <pin index="375" name ="pcie_rx1_n" loc="P5"/>
+    <pin index="376" name ="pcie_rx2_n" loc="R3"/>
+    <pin index="377" name ="pcie_rx3_n" loc="T5"/>
+    <pin index="378" name ="pcie_rx4_n" loc="V5"/>
+    <pin index="379" name ="pcie_rx5_n" loc="W3"/>
+    <pin index="380" name ="pcie_rx6_n" loc="Y5"/>
+    <pin index="381" name ="pcie_rx7_n" loc="AA3"/>
+    <pin index="382" name ="pcie_rx0_p" loc="M6"/>
+    <pin index="383" name ="pcie_rx1_p" loc="P6"/>
+    <pin index="384" name ="pcie_rx2_p" loc="R4"/>
+    <pin index="385" name ="pcie_rx3_p" loc="T6"/>
+    <pin index="386" name ="pcie_rx4_p" loc="V6"/>
+    <pin index="387" name ="pcie_rx5_p" loc="W4"/>
+    <pin index="388" name ="pcie_rx6_p" loc="Y6"/>
+    <pin index="389" name ="pcie_rx7_p" loc="AA4"/>
+    <pin index="390" name ="pcie_tx0_n" loc="L3"/>
+    <pin index="391" name ="pcie_tx1_n" loc="M1"/>
+    <pin index="392" name ="pcie_tx2_n" loc="N3"/>
+    <pin index="393" name ="pcie_tx3_n" loc="P1"/>
+    <pin index="394" name ="pcie_tx4_n" loc="T1"/>
+    <pin index="395" name ="pcie_tx5_n" loc="U3"/>
+    <pin index="396" name ="pcie_tx6_n" loc="V1"/>
+    <pin index="397" name ="pcie_tx7_n" loc="Y1"/>
+    <pin index="398" name ="pcie_tx0_p" loc="L4"/>
+    <pin index="399" name ="pcie_tx1_p" loc="M2"/>
+    <pin index="400" name ="pcie_tx2_p" loc="N4"/>
+    <pin index="401" name ="pcie_tx3_p" loc="P2"/>
+    <pin index="402" name ="pcie_tx4_p" loc="T2"/>
+    <pin index="403" name ="pcie_tx5_p" loc="U4"/>
+    <pin index="404" name ="pcie_tx6_p" loc="V2"/>
+    <pin index="405" name ="pcie_tx7_p" loc="Y2"/>
+	
+	
+</pins>
+</part_info>

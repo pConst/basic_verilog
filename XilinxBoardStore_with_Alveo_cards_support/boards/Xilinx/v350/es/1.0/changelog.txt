@@ -1,0 +1,8 @@
+######### V350 Initial change log ##############
+1.0
+
+V350_es Initial board support.
+
+Features:
+CIPS block automation
+AXI_NOC X4 Interleaved Memory Controllers

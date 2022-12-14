@@ -1,0 +1,14 @@
+######### VCU128 change log ##############
+1.1
+VCU128 Vivado board support(Vivado 2019.1)
+Removed qsfp2_si5328 and qsfp3_si5328 clocks
+Changed default frequency for si570 qsfp clocks from 161.132812 Mhz to 156.25 Mhz 
+
+1.0
+VCU128 Initial board support(Vivado 2018.3 web)
+
+
+
+
+
+

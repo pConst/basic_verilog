@@ -1,0 +1,33 @@
+{
+  "config": {
+    "items": [
+      {
+        "infra": {
+          "name": "teb0911_9eg_1e", 
+          "display": "ZYNQ-UltraScale+ TEB0911-09EG-1E. SPRT PCB: REV03,REV02.", 
+          "revision": "1.0", 
+          "description": "ZYNQ-UltraScale+ TEB0911-09EG-1E Board (form factor 40.6 x 23.1 cm) with six FMC-Connectors,  DDR SODIMM (for 8GB DDR4-2400 CT8G4SFS824A), speed grade -1 and extended temperature range. Supported PCB Revisions:REV03, REV02.", 
+          "company": "trenz.biz", 
+          "company_display": "Trenz Electronic GmbH", 
+          "author": "trenz.biz", 
+          "contributors": [
+            {
+              "group": "Trenz Electronic GmbH", 
+              "url": "https://www.trenz-electronic.de/"
+            }
+          ], 
+          "category": "Single Part", 
+          "website": "trenz.org/teb0911-info", 
+          "search-keywords": [
+            "teb0911_9eg_1e", 
+            "trenz.biz", 
+            "board", 
+            "Single Part"
+          ]
+        }
+      }
+    ]
+  }, 
+  "_major": 1, 
+  "_minor": 0
+}

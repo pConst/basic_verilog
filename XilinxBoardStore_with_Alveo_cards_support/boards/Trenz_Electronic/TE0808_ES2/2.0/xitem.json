@@ -1,0 +1,33 @@
+{
+  "config": {
+    "items": [
+      {
+        "infra": {
+          "name": "te0808_es2_tebf0808", 
+          "display": "UltraSOM (ZYNQ-UltraScale+) TE0808-ES2 with TEBF0808. SPRT Module PCB: REV03,REV04.", 
+          "revision": "2.0", 
+          "description": "Zynq UltraScale+ TE0808-ES2 Board (form factor 5.2x7.6 cm) with 4x 512 MByte DDR4 and industrial temperature range. Supported PCB Revisions: REV03, REV04. Board Part is for usage with carrier-board TEBF0808.", 
+          "company": "trenz.biz", 
+          "company_display": "Trenz Electronic GmbH", 
+          "author": "trenz.biz", 
+          "contributors": [
+            {
+              "group": "Trenz Electronic GmbH", 
+              "url": "https://www.trenz-electronic.de/"
+            }
+          ], 
+          "category": "Single Part", 
+          "website": "trenz.org/te0808-info", 
+          "search-keywords": [
+            "te0808_es2_tebf0808", 
+            "trenz.biz", 
+            "board", 
+            "Single Part"
+          ]
+        }
+      }
+    ]
+  }, 
+  "_major": 1, 
+  "_minor": 0
+}

@@ -1,0 +1,6 @@
+######### AU280 change log ##############
+1.0
+AU280 ES Initial board support for 2018.3_web
+Enabled XXV_Ethernet and L_Ethernet board support for QSFP 
+Unified the name, its now au280_es1
+

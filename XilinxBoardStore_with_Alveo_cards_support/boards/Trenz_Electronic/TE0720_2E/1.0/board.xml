@@ -1,0 +1,723 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?> 
+<!-- ##################################################################### -->
+<!-- ##TE File Version:1.2-->
+<!-- ##Vivado Version:2018.2-->
+<!-- ##TE Last Modification:2018.08.09-->
+<!-- ##################################################################### -->
+<!-- ##general board part description-->
+<!-- ##Info: board part name: board_vendor:board_name:part0:file_version  , use all lower case-->
+<board schema_version="2.1" vendor="trenz.biz" name="te0720_2e" display_name="ZYNQ-7 TE0720_2EF. SPRT PCB: REV02, REV03" url="trenz.org/te0720-info" preset_file="preset.xml">
+  <images>
+    <image name="te0720_board.png" display_name="ZYNQ-7 TE0720 BOARD" sub_type="board">
+      <description>ZYNQ-7 TE0720 Board File Image</description>
+    </image>
+  </images>
+<!-- ##################################################################### -->
+<!-- ##Board PCB Revision -->
+<!-- ##Currently revision with highest id is only displayed in Vivado. Write supported revisions to description too!-->
+  <compatible_board_revisions>
+    <!--insert supported revisions-->
+    <revision id="1">0.3</revision>
+    <revision id="0">0.2</revision>
+  </compatible_board_revisions>
+<!-- ##################################################################### -->
+<!-- ##Board File Revision -->
+<!-- ##Description, see https://wiki.trenz-electronic.de/display/PD/TE+Board+Part+Files -->
+  <file_version>1.0</file_version>
+<!-- ##################################################################### -->
+<!-- ##Board descriptions -->
+  <description>ZYNQ-7 TE0720_2EF Board (form factor 4x5 cm) with 1GB DDR, 1GBit Ethernet, Speed Grade -2 and extended temperature grade. Supported PCB Revisions: REV02, REV03.</description>
+<!-- ##################################################################### -->
+<!-- ##Board components. Special component part0=fpga -->
+<!-- ##set display_name and correct part_name for fpga-->
+<!-- ##add part interfaces and corresponding component here -->
+  <components>
+    <component name="part0" display_name="ZYNQ-7 TE0720_2EF" type="fpga" part_name="xc7z020clg484-2" pin_map_file="part0_pins.xml" vendor="xilinx" spec_url="www.xilinx.com">
+      <description>FPGA part on the board</description>
+      <interfaces>
+        <!--insert fpga interfaces here, see ug895 or other board part files-->
+        <interface mode="master" name="ps7_fixedio" type="xilinx.com:display_processing_system7:fixedio_rtl:1.0" of_component="ps7_fixedio" preset_proc="ps7_preset"> 
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="processing_system7" order="0"/>
+          </preferred_ips>
+        </interface>	  
+
+        <interface mode="master" name="p1a" type="xilinx.com:interface:gpio_rtl:1.0" of_component="p1a" preset_proc="p1a_preset">
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_gpio" order="0"/>
+          </preferred_ips>
+          <port_maps>
+            <port_map logical_port="TRI_O" physical_port="p1a_tri_o" dir="out" left="21" right="0">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="JM1_31"/>
+                <pin_map port_index="1" component_pin="JM1_33"/>
+                <pin_map port_index="2" component_pin="JM1_35"/>
+                <pin_map port_index="3" component_pin="JM1_37"/>
+                <pin_map port_index="4" component_pin="JM1_41"/>
+                <pin_map port_index="5" component_pin="JM1_43"/>
+                <pin_map port_index="6" component_pin="JM1_45"/>
+                <pin_map port_index="7" component_pin="JM1_47"/>
+                <pin_map port_index="8" component_pin="JM1_49"/>
+                <pin_map port_index="9" component_pin="JM1_51"/>
+                <pin_map port_index="10" component_pin="JM1_55"/>
+                <pin_map port_index="11" component_pin="JM1_57"/>
+                <pin_map port_index="12" component_pin="JM1_59"/>
+                <pin_map port_index="13" component_pin="JM1_61"/>
+                <pin_map port_index="14" component_pin="JM1_65"/>
+                <pin_map port_index="15" component_pin="JM1_67"/>
+                <pin_map port_index="16" component_pin="JM1_69"/>
+                <pin_map port_index="17" component_pin="JM1_71"/>
+                <pin_map port_index="18" component_pin="JM1_75"/>
+                <pin_map port_index="19" component_pin="JM1_77"/>
+                <pin_map port_index="20" component_pin="JM1_81"/>
+                <pin_map port_index="21" component_pin="JM1_83"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="TRI_T" physical_port="p1a_tri_t" dir="out" left="21" right="0">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="JM1_31"/>
+                <pin_map port_index="1" component_pin="JM1_33"/>
+                <pin_map port_index="2" component_pin="JM1_35"/>
+                <pin_map port_index="3" component_pin="JM1_37"/>
+                <pin_map port_index="4" component_pin="JM1_41"/>
+                <pin_map port_index="5" component_pin="JM1_43"/>
+                <pin_map port_index="6" component_pin="JM1_45"/>
+                <pin_map port_index="7" component_pin="JM1_47"/>
+                <pin_map port_index="8" component_pin="JM1_49"/>
+                <pin_map port_index="9" component_pin="JM1_51"/>
+                <pin_map port_index="10" component_pin="JM1_55"/>
+                <pin_map port_index="11" component_pin="JM1_57"/>
+                <pin_map port_index="12" component_pin="JM1_59"/>
+                <pin_map port_index="13" component_pin="JM1_61"/>
+                <pin_map port_index="14" component_pin="JM1_65"/>
+                <pin_map port_index="15" component_pin="JM1_67"/>
+                <pin_map port_index="16" component_pin="JM1_69"/>
+                <pin_map port_index="17" component_pin="JM1_71"/>
+                <pin_map port_index="18" component_pin="JM1_75"/>
+                <pin_map port_index="19" component_pin="JM1_77"/>
+                <pin_map port_index="20" component_pin="JM1_81"/>
+                <pin_map port_index="21" component_pin="JM1_83"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="TRI_I" physical_port="p1a_tri_i" dir="in" left="21" right="0">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="JM1_31"/>
+                <pin_map port_index="1" component_pin="JM1_33"/>
+                <pin_map port_index="2" component_pin="JM1_35"/>
+                <pin_map port_index="3" component_pin="JM1_37"/>
+                <pin_map port_index="4" component_pin="JM1_41"/>
+                <pin_map port_index="5" component_pin="JM1_43"/>
+                <pin_map port_index="6" component_pin="JM1_45"/>
+                <pin_map port_index="7" component_pin="JM1_47"/>
+                <pin_map port_index="8" component_pin="JM1_49"/>
+                <pin_map port_index="9" component_pin="JM1_51"/>
+                <pin_map port_index="10" component_pin="JM1_55"/>
+                <pin_map port_index="11" component_pin="JM1_57"/>
+                <pin_map port_index="12" component_pin="JM1_59"/>
+                <pin_map port_index="13" component_pin="JM1_61"/>
+                <pin_map port_index="14" component_pin="JM1_65"/>
+                <pin_map port_index="15" component_pin="JM1_67"/>
+                <pin_map port_index="16" component_pin="JM1_69"/>
+                <pin_map port_index="17" component_pin="JM1_71"/>
+                <pin_map port_index="18" component_pin="JM1_75"/>
+                <pin_map port_index="19" component_pin="JM1_77"/>
+                <pin_map port_index="20" component_pin="JM1_81"/>
+                <pin_map port_index="21" component_pin="JM1_83"/>
+              </pin_maps>
+            </port_map>
+          </port_maps>
+        </interface>
+
+        <interface mode="master" name="p1b" type="xilinx.com:interface:gpio_rtl:1.0" of_component="p1b" preset_proc="p1b_preset">
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_gpio" order="0"/>
+          </preferred_ips>
+          <port_maps>
+            <port_map logical_port="TRI_O" physical_port="p1b_tri_o" dir="out" left="25" right="0">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="JM1_36"/>
+                <pin_map port_index="1" component_pin="JM1_38"/>
+                <pin_map port_index="2" component_pin="JM1_40"/>
+                <pin_map port_index="3" component_pin="JM1_42"/>
+                <pin_map port_index="4" component_pin="JM1_46"/>
+                <pin_map port_index="5" component_pin="JM1_48"/>
+                <pin_map port_index="6" component_pin="JM1_50"/>
+                <pin_map port_index="7" component_pin="JM1_52"/>
+                <pin_map port_index="8" component_pin="JM1_56"/>
+                <pin_map port_index="9" component_pin="JM1_58"/>
+                <pin_map port_index="10" component_pin="JM1_60"/>
+                <pin_map port_index="11" component_pin="JM1_62"/>
+                <pin_map port_index="12" component_pin="JM1_66"/>
+                <pin_map port_index="13" component_pin="JM1_68"/>
+                <pin_map port_index="14" component_pin="JM1_70"/>
+                <pin_map port_index="15" component_pin="JM1_72"/>
+                <pin_map port_index="16" component_pin="JM1_76"/>
+                <pin_map port_index="17" component_pin="JM1_78"/>
+                <pin_map port_index="18" component_pin="JM1_80"/>
+                <pin_map port_index="19" component_pin="JM1_82"/>
+                <pin_map port_index="20" component_pin="JM1_86"/>
+                <pin_map port_index="21" component_pin="JM1_88"/>
+                <pin_map port_index="22" component_pin="JM1_94"/>
+                <pin_map port_index="23" component_pin="JM1_96"/>
+                <pin_map port_index="24" component_pin="JM1_98"/>
+                <pin_map port_index="25" component_pin="JM1_100"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="TRI_T" physical_port="p1b_tri_t" dir="out" left="25" right="0">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="JM1_36"/>
+                <pin_map port_index="1" component_pin="JM1_38"/>
+                <pin_map port_index="2" component_pin="JM1_40"/>
+                <pin_map port_index="3" component_pin="JM1_42"/>
+                <pin_map port_index="4" component_pin="JM1_46"/>
+                <pin_map port_index="5" component_pin="JM1_48"/>
+                <pin_map port_index="6" component_pin="JM1_50"/>
+                <pin_map port_index="7" component_pin="JM1_52"/>
+                <pin_map port_index="8" component_pin="JM1_56"/>
+                <pin_map port_index="9" component_pin="JM1_58"/>
+                <pin_map port_index="10" component_pin="JM1_60"/>
+                <pin_map port_index="11" component_pin="JM1_62"/>
+                <pin_map port_index="12" component_pin="JM1_66"/>
+                <pin_map port_index="13" component_pin="JM1_68"/>
+                <pin_map port_index="14" component_pin="JM1_70"/>
+                <pin_map port_index="15" component_pin="JM1_72"/>
+                <pin_map port_index="16" component_pin="JM1_76"/>
+                <pin_map port_index="17" component_pin="JM1_78"/>
+                <pin_map port_index="18" component_pin="JM1_80"/>
+                <pin_map port_index="19" component_pin="JM1_82"/>
+                <pin_map port_index="20" component_pin="JM1_86"/>
+                <pin_map port_index="21" component_pin="JM1_88"/>
+                <pin_map port_index="22" component_pin="JM1_94"/>
+                <pin_map port_index="23" component_pin="JM1_96"/>
+                <pin_map port_index="24" component_pin="JM1_98"/>
+                <pin_map port_index="25" component_pin="JM1_100"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="TRI_I" physical_port="p1b_tri_i" dir="in" left="25" right="0">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="JM1_36"/>
+                <pin_map port_index="1" component_pin="JM1_38"/>
+                <pin_map port_index="2" component_pin="JM1_40"/>
+                <pin_map port_index="3" component_pin="JM1_42"/>
+                <pin_map port_index="4" component_pin="JM1_46"/>
+                <pin_map port_index="5" component_pin="JM1_48"/>
+                <pin_map port_index="6" component_pin="JM1_50"/>
+                <pin_map port_index="7" component_pin="JM1_52"/>
+                <pin_map port_index="8" component_pin="JM1_56"/>
+                <pin_map port_index="9" component_pin="JM1_58"/>
+                <pin_map port_index="10" component_pin="JM1_60"/>
+                <pin_map port_index="11" component_pin="JM1_62"/>
+                <pin_map port_index="12" component_pin="JM1_66"/>
+                <pin_map port_index="13" component_pin="JM1_68"/>
+                <pin_map port_index="14" component_pin="JM1_70"/>
+                <pin_map port_index="15" component_pin="JM1_72"/>
+                <pin_map port_index="16" component_pin="JM1_76"/>
+                <pin_map port_index="17" component_pin="JM1_78"/>
+                <pin_map port_index="18" component_pin="JM1_80"/>
+                <pin_map port_index="19" component_pin="JM1_82"/>
+                <pin_map port_index="20" component_pin="JM1_86"/>
+                <pin_map port_index="21" component_pin="JM1_88"/>
+                <pin_map port_index="22" component_pin="JM1_94"/>
+                <pin_map port_index="23" component_pin="JM1_96"/>
+                <pin_map port_index="24" component_pin="JM1_98"/>
+                <pin_map port_index="25" component_pin="JM1_100"/>
+              </pin_maps>
+            </port_map>
+          </port_maps>
+        </interface>
+        
+        <interface mode="master" name="p2a" type="xilinx.com:interface:gpio_rtl:1.0" of_component="p2a" preset_proc="p2a_preset">
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_gpio" order="0"/>
+          </preferred_ips>
+          <port_maps>
+            <port_map logical_port="TRI_O" physical_port="p2a_tri_o" dir="out" left="19" right="0">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="JM2_41"/>
+                <pin_map port_index="1" component_pin="JM2_43"/>
+                <pin_map port_index="2" component_pin="JM2_45"/>
+                <pin_map port_index="3" component_pin="JM2_47"/>
+                <pin_map port_index="4" component_pin="JM2_51"/>
+                <pin_map port_index="5" component_pin="JM2_53"/>
+                <pin_map port_index="6" component_pin="JM2_55"/>
+                <pin_map port_index="7" component_pin="JM2_57"/>
+                <pin_map port_index="8" component_pin="JM2_61"/>
+                <pin_map port_index="9" component_pin="JM2_63"/>
+                <pin_map port_index="10" component_pin="JM2_65"/>
+                <pin_map port_index="11" component_pin="JM2_67"/>
+                <pin_map port_index="12" component_pin="JM2_71"/>
+                <pin_map port_index="13" component_pin="JM2_73"/>
+                <pin_map port_index="14" component_pin="JM2_75"/>
+                <pin_map port_index="15" component_pin="JM2_77"/>
+                <pin_map port_index="16" component_pin="JM2_81"/>
+                <pin_map port_index="17" component_pin="JM2_83"/>
+                <pin_map port_index="18" component_pin="JM2_85"/>
+                <pin_map port_index="19" component_pin="JM2_87"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="TRI_T" physical_port="p2a_tri_t" dir="out" left="19" right="0">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="JM2_41"/>
+                <pin_map port_index="1" component_pin="JM2_43"/>
+                <pin_map port_index="2" component_pin="JM2_45"/>
+                <pin_map port_index="3" component_pin="JM2_47"/>
+                <pin_map port_index="4" component_pin="JM2_51"/>
+                <pin_map port_index="5" component_pin="JM2_53"/>
+                <pin_map port_index="6" component_pin="JM2_55"/>
+                <pin_map port_index="7" component_pin="JM2_57"/>
+                <pin_map port_index="8" component_pin="JM2_61"/>
+                <pin_map port_index="9" component_pin="JM2_63"/>
+                <pin_map port_index="10" component_pin="JM2_65"/>
+                <pin_map port_index="11" component_pin="JM2_67"/>
+                <pin_map port_index="12" component_pin="JM2_71"/>
+                <pin_map port_index="13" component_pin="JM2_73"/>
+                <pin_map port_index="14" component_pin="JM2_75"/>
+                <pin_map port_index="15" component_pin="JM2_77"/>
+                <pin_map port_index="16" component_pin="JM2_81"/>
+                <pin_map port_index="17" component_pin="JM2_83"/>
+                <pin_map port_index="18" component_pin="JM2_85"/>
+                <pin_map port_index="19" component_pin="JM2_87"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="TRI_I" physical_port="p2a_tri_i" dir="in" left="19" right="0">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="JM2_41"/>
+                <pin_map port_index="1" component_pin="JM2_43"/>
+                <pin_map port_index="2" component_pin="JM2_45"/>
+                <pin_map port_index="3" component_pin="JM2_47"/>
+                <pin_map port_index="4" component_pin="JM2_51"/>
+                <pin_map port_index="5" component_pin="JM2_53"/>
+                <pin_map port_index="6" component_pin="JM2_55"/>
+                <pin_map port_index="7" component_pin="JM2_57"/>
+                <pin_map port_index="8" component_pin="JM2_61"/>
+                <pin_map port_index="9" component_pin="JM2_63"/>
+                <pin_map port_index="10" component_pin="JM2_65"/>
+                <pin_map port_index="11" component_pin="JM2_67"/>
+                <pin_map port_index="12" component_pin="JM2_71"/>
+                <pin_map port_index="13" component_pin="JM2_73"/>
+                <pin_map port_index="14" component_pin="JM2_75"/>
+                <pin_map port_index="15" component_pin="JM2_77"/>
+                <pin_map port_index="16" component_pin="JM2_81"/>
+                <pin_map port_index="17" component_pin="JM2_83"/>
+                <pin_map port_index="18" component_pin="JM2_85"/>
+                <pin_map port_index="19" component_pin="JM2_87"/>
+              </pin_maps>
+            </port_map>
+          </port_maps>
+        </interface>
+        
+        <interface mode="master" name="p2b" type="xilinx.com:interface:gpio_rtl:1.0" of_component="p2b" preset_proc="p2b_preset">
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_gpio" order="0"/>
+          </preferred_ips>
+            <port_maps>
+              <port_map logical_port="TRI_O" physical_port="p2b_tri_o" dir="out" left="29" right="0">
+                <pin_maps>
+                  <pin_map port_index="0" component_pin="JM2_32"/>
+                  <pin_map port_index="1" component_pin="JM2_34"/>
+                  <pin_map port_index="2" component_pin="JM2_36"/>
+                  <pin_map port_index="3" component_pin="JM2_38"/>
+                  <pin_map port_index="4" component_pin="JM2_42"/>
+                  <pin_map port_index="5" component_pin="JM2_44"/>
+                  <pin_map port_index="6" component_pin="JM2_46"/>
+                  <pin_map port_index="7" component_pin="JM2_48"/>
+                  <pin_map port_index="8" component_pin="JM2_52"/>
+                  <pin_map port_index="9" component_pin="JM2_54"/>
+                  <pin_map port_index="10" component_pin="JM2_56"/>
+                  <pin_map port_index="11" component_pin="JM2_58"/>
+                  <pin_map port_index="12" component_pin="JM2_62"/>
+                  <pin_map port_index="13" component_pin="JM2_64"/>
+                  <pin_map port_index="14" component_pin="JM2_66"/>
+                  <pin_map port_index="15" component_pin="JM2_68"/>
+                  <pin_map port_index="16" component_pin="JM2_72"/>
+                  <pin_map port_index="17" component_pin="JM2_74"/>
+                  <pin_map port_index="18" component_pin="JM2_76"/>
+                  <pin_map port_index="19" component_pin="JM2_78"/>
+                  <pin_map port_index="20" component_pin="JM2_82"/>
+                  <pin_map port_index="21" component_pin="JM2_84"/>
+                  <pin_map port_index="22" component_pin="JM2_86"/>
+                  <pin_map port_index="23" component_pin="JM2_88"/>
+                  <pin_map port_index="24" component_pin="JM2_92"/>
+                  <pin_map port_index="25" component_pin="JM2_94"/>
+                  <pin_map port_index="26" component_pin="JM2_96"/>
+                  <pin_map port_index="27" component_pin="JM2_98"/>
+                  <pin_map port_index="28" component_pin="JM2_100"/>
+                  <pin_map port_index="29" component_pin="JM2_89"/>
+                </pin_maps>
+              </port_map>
+              <port_map logical_port="TRI_T" physical_port="p2b_tri_t" dir="out" left="29" right="0">
+                <pin_maps>
+                  <pin_map port_index="0" component_pin="JM2_32"/>
+                  <pin_map port_index="1" component_pin="JM2_34"/>
+                  <pin_map port_index="2" component_pin="JM2_36"/>
+                  <pin_map port_index="3" component_pin="JM2_38"/>
+                  <pin_map port_index="4" component_pin="JM2_42"/>
+                  <pin_map port_index="5" component_pin="JM2_44"/>
+                  <pin_map port_index="6" component_pin="JM2_46"/>
+                  <pin_map port_index="7" component_pin="JM2_48"/>
+                  <pin_map port_index="8" component_pin="JM2_52"/>
+                  <pin_map port_index="9" component_pin="JM2_54"/>
+                  <pin_map port_index="10" component_pin="JM2_56"/>
+                  <pin_map port_index="11" component_pin="JM2_58"/>
+                  <pin_map port_index="12" component_pin="JM2_62"/>
+                  <pin_map port_index="13" component_pin="JM2_64"/>
+                  <pin_map port_index="14" component_pin="JM2_66"/>
+                  <pin_map port_index="15" component_pin="JM2_68"/>
+                  <pin_map port_index="16" component_pin="JM2_72"/>
+                  <pin_map port_index="17" component_pin="JM2_74"/>
+                  <pin_map port_index="18" component_pin="JM2_76"/>
+                  <pin_map port_index="19" component_pin="JM2_78"/>
+                  <pin_map port_index="20" component_pin="JM2_82"/>
+                  <pin_map port_index="21" component_pin="JM2_84"/>
+                  <pin_map port_index="22" component_pin="JM2_86"/>
+                  <pin_map port_index="23" component_pin="JM2_88"/>
+                  <pin_map port_index="24" component_pin="JM2_92"/>
+                  <pin_map port_index="25" component_pin="JM2_94"/>
+                  <pin_map port_index="26" component_pin="JM2_96"/>
+                  <pin_map port_index="27" component_pin="JM2_98"/>
+                  <pin_map port_index="28" component_pin="JM2_100"/>
+                  <pin_map port_index="29" component_pin="JM2_89"/>
+                </pin_maps>
+              </port_map>
+              <port_map logical_port="TRI_I" physical_port="p2b_tri_i" dir="in" left="29" right="0">
+                <pin_maps>
+                  <pin_map port_index="0" component_pin="JM2_32"/>
+                  <pin_map port_index="1" component_pin="JM2_34"/>
+                  <pin_map port_index="2" component_pin="JM2_36"/>
+                  <pin_map port_index="3" component_pin="JM2_38"/>
+                  <pin_map port_index="4" component_pin="JM2_42"/>
+                  <pin_map port_index="5" component_pin="JM2_44"/>
+                  <pin_map port_index="6" component_pin="JM2_46"/>
+                  <pin_map port_index="7" component_pin="JM2_48"/>
+                  <pin_map port_index="8" component_pin="JM2_52"/>
+                  <pin_map port_index="9" component_pin="JM2_54"/>
+                  <pin_map port_index="10" component_pin="JM2_56"/>
+                  <pin_map port_index="11" component_pin="JM2_58"/>
+                  <pin_map port_index="12" component_pin="JM2_62"/>
+                  <pin_map port_index="13" component_pin="JM2_64"/>
+                  <pin_map port_index="14" component_pin="JM2_66"/>
+                  <pin_map port_index="15" component_pin="JM2_68"/>
+                  <pin_map port_index="16" component_pin="JM2_72"/>
+                  <pin_map port_index="17" component_pin="JM2_74"/>
+                  <pin_map port_index="18" component_pin="JM2_76"/>
+                  <pin_map port_index="19" component_pin="JM2_78"/>
+                  <pin_map port_index="20" component_pin="JM2_82"/>
+                  <pin_map port_index="21" component_pin="JM2_84"/>
+                  <pin_map port_index="22" component_pin="JM2_86"/>
+                  <pin_map port_index="23" component_pin="JM2_88"/>
+                  <pin_map port_index="24" component_pin="JM2_92"/>
+                  <pin_map port_index="25" component_pin="JM2_94"/>
+                  <pin_map port_index="26" component_pin="JM2_96"/>
+                  <pin_map port_index="27" component_pin="JM2_98"/>
+                  <pin_map port_index="28" component_pin="JM2_100"/>
+                  <pin_map port_index="29" component_pin="JM2_89"/>
+                </pin_maps>
+              </port_map>
+            </port_maps>
+          </interface>
+          
+          <interface mode="master" name="p2c" type="xilinx.com:interface:gpio_rtl:1.0" of_component="p2c" preset_proc="p2c_preset">
+            <preferred_ips>
+              <preferred_ip vendor="xilinx.com" library="ip" name="axi_gpio" order="0"/>
+            </preferred_ips>
+            <port_maps>
+              <port_map logical_port="TRI_O" physical_port="p2c_tri_o" dir="out" left="17" right="0">
+                <pin_maps>
+                  <pin_map port_index="0" component_pin="JM2_11"/>
+                  <pin_map port_index="1" component_pin="JM2_13"/>
+                  <pin_map port_index="2" component_pin="JM2_15"/>
+                  <pin_map port_index="3" component_pin="JM2_17"/>
+                  <pin_map port_index="4" component_pin="JM2_21"/>
+                  <pin_map port_index="5" component_pin="JM2_23"/>
+                  <pin_map port_index="6" component_pin="JM2_25"/>
+                  <pin_map port_index="7" component_pin="JM2_27"/>
+                  <pin_map port_index="8" component_pin="JM2_31"/>
+                  <pin_map port_index="9" component_pin="JM2_33"/>
+                  <pin_map port_index="10" component_pin="JM2_35"/>
+                  <pin_map port_index="11" component_pin="JM2_37"/>
+                  <pin_map port_index="12" component_pin="JM2_14"/>
+                  <pin_map port_index="13" component_pin="JM2_16"/>
+                  <pin_map port_index="14" component_pin="JM2_22"/>
+                  <pin_map port_index="15" component_pin="JM2_24"/>
+                  <pin_map port_index="16" component_pin="JM2_26"/>
+                  <pin_map port_index="17" component_pin="JM2_28"/>
+                </pin_maps>
+              </port_map>
+              <port_map logical_port="TRI_T" physical_port="p2c_tri_t" dir="out" left="17" right="0">
+                <pin_maps>
+                  <pin_map port_index="0" component_pin="JM2_11"/>
+                  <pin_map port_index="1" component_pin="JM2_13"/>
+                  <pin_map port_index="2" component_pin="JM2_15"/>
+                  <pin_map port_index="3" component_pin="JM2_17"/>
+                  <pin_map port_index="4" component_pin="JM2_21"/>
+                  <pin_map port_index="5" component_pin="JM2_23"/>
+                  <pin_map port_index="6" component_pin="JM2_25"/>
+                  <pin_map port_index="7" component_pin="JM2_27"/>
+                  <pin_map port_index="8" component_pin="JM2_31"/>
+                  <pin_map port_index="9" component_pin="JM2_33"/>
+                  <pin_map port_index="10" component_pin="JM2_35"/>
+                  <pin_map port_index="11" component_pin="JM2_37"/>
+                  <pin_map port_index="12" component_pin="JM2_14"/>
+                  <pin_map port_index="13" component_pin="JM2_16"/>
+                  <pin_map port_index="14" component_pin="JM2_22"/>
+                  <pin_map port_index="15" component_pin="JM2_24"/>
+                  <pin_map port_index="16" component_pin="JM2_26"/>
+                  <pin_map port_index="17" component_pin="JM2_28"/>
+                </pin_maps>
+              </port_map>
+              <port_map logical_port="TRI_I" physical_port="p2c_tri_i" dir="in" left="17" right="0">
+                <pin_maps>
+                  <pin_map port_index="0" component_pin="JM2_11"/>
+                  <pin_map port_index="1" component_pin="JM2_13"/>
+                  <pin_map port_index="2" component_pin="JM2_15"/>
+                  <pin_map port_index="3" component_pin="JM2_17"/>
+                  <pin_map port_index="4" component_pin="JM2_21"/>
+                  <pin_map port_index="5" component_pin="JM2_23"/>
+                  <pin_map port_index="6" component_pin="JM2_25"/>
+                  <pin_map port_index="7" component_pin="JM2_27"/>
+                  <pin_map port_index="8" component_pin="JM2_31"/>
+                  <pin_map port_index="9" component_pin="JM2_33"/>
+                  <pin_map port_index="10" component_pin="JM2_35"/>
+                  <pin_map port_index="11" component_pin="JM2_37"/>
+                  <pin_map port_index="12" component_pin="JM2_14"/>
+                  <pin_map port_index="13" component_pin="JM2_16"/>
+                  <pin_map port_index="14" component_pin="JM2_22"/>
+                  <pin_map port_index="15" component_pin="JM2_24"/>
+                  <pin_map port_index="16" component_pin="JM2_26"/>
+                  <pin_map port_index="17" component_pin="JM2_28"/>
+                </pin_maps>
+              </port_map>
+            </port_maps>
+          </interface>
+
+          <interface mode="master" name="p3a" type="xilinx.com:interface:gpio_rtl:1.0" of_component="p3a" preset_proc="p3a_preset">
+            <preferred_ips>
+              <preferred_ip vendor="xilinx.com" library="ip" name="axi_gpio" order="0"/>
+            </preferred_ips>
+            <port_maps>
+              <port_map logical_port="TRI_O" physical_port="p3a_tri_o" dir="out" left="15" right="0">
+                <pin_maps>
+                  <pin_map port_index="0" component_pin="JM3_7"/>
+                  <pin_map port_index="1" component_pin="JM3_9"/>
+                  <pin_map port_index="2" component_pin="JM3_13"/>
+                  <pin_map port_index="3" component_pin="JM3_15"/>
+                  <pin_map port_index="4" component_pin="JM3_19"/>
+                  <pin_map port_index="5" component_pin="JM3_21"/>
+                  <pin_map port_index="6" component_pin="JM3_25"/>
+                  <pin_map port_index="7" component_pin="JM3_27"/>
+                  <pin_map port_index="8" component_pin="JM3_31"/>
+                  <pin_map port_index="9" component_pin="JM3_33"/>
+                  <pin_map port_index="10" component_pin="JM3_37"/>
+                  <pin_map port_index="11" component_pin="JM3_39"/>
+                  <pin_map port_index="12" component_pin="JM3_41"/>
+                  <pin_map port_index="13" component_pin="JM3_43"/>
+                  <pin_map port_index="14" component_pin="JM3_57"/>
+                  <pin_map port_index="15" component_pin="JM3_59"/>
+                </pin_maps>
+              </port_map>
+              <port_map logical_port="TRI_T" physical_port="p3a_tri_t" dir="out" left="15" right="0">
+                <pin_maps>
+                  <pin_map port_index="0" component_pin="JM3_7"/>
+                  <pin_map port_index="1" component_pin="JM3_9"/>
+                  <pin_map port_index="2" component_pin="JM3_13"/>
+                  <pin_map port_index="3" component_pin="JM3_15"/>
+                  <pin_map port_index="4" component_pin="JM3_19"/>
+                  <pin_map port_index="5" component_pin="JM3_21"/>
+                  <pin_map port_index="6" component_pin="JM3_25"/>
+                  <pin_map port_index="7" component_pin="JM3_27"/>
+                  <pin_map port_index="8" component_pin="JM3_31"/>
+                  <pin_map port_index="9" component_pin="JM3_33"/>
+                  <pin_map port_index="10" component_pin="JM3_37"/>
+                  <pin_map port_index="11" component_pin="JM3_39"/>
+                  <pin_map port_index="12" component_pin="JM3_41"/>
+                  <pin_map port_index="13" component_pin="JM3_43"/>
+                  <pin_map port_index="14" component_pin="JM3_57"/>
+                  <pin_map port_index="15" component_pin="JM3_59"/>
+                </pin_maps>
+              </port_map>
+              <port_map logical_port="TRI_I" physical_port="p3a_tri_i" dir="in" left="15" right="0">
+                <pin_maps>
+                  <pin_map port_index="0" component_pin="JM3_7"/>
+                  <pin_map port_index="1" component_pin="JM3_9"/>
+                  <pin_map port_index="2" component_pin="JM3_13"/>
+                  <pin_map port_index="3" component_pin="JM3_15"/>
+                  <pin_map port_index="4" component_pin="JM3_19"/>
+                  <pin_map port_index="5" component_pin="JM3_21"/>
+                  <pin_map port_index="6" component_pin="JM3_25"/>
+                  <pin_map port_index="7" component_pin="JM3_27"/>
+                  <pin_map port_index="8" component_pin="JM3_31"/>
+                  <pin_map port_index="9" component_pin="JM3_33"/>
+                  <pin_map port_index="10" component_pin="JM3_37"/>
+                  <pin_map port_index="11" component_pin="JM3_39"/>
+                  <pin_map port_index="12" component_pin="JM3_41"/>
+                  <pin_map port_index="13" component_pin="JM3_43"/>
+                  <pin_map port_index="14" component_pin="JM3_57"/>
+                  <pin_map port_index="15" component_pin="JM3_59"/>
+                </pin_maps>
+              </port_map>
+            </port_maps>
+          </interface>
+
+         <interface mode="master" name="p3b" type="xilinx.com:interface:gpio_rtl:1.0" of_component="p3b" preset_proc="p3b_preset">
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_gpio" order="0"/>
+          </preferred_ips>
+          <port_maps>
+            <port_map logical_port="TRI_O" physical_port="p3b_tri_o" dir="out" left="19" right="0">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="JM3_8"/>
+                <pin_map port_index="1" component_pin="JM3_10"/>
+                <pin_map port_index="2" component_pin="JM3_14"/>
+                <pin_map port_index="3" component_pin="JM3_16"/>
+                <pin_map port_index="4" component_pin="JM3_20"/>
+                <pin_map port_index="5" component_pin="JM3_22"/>
+                <pin_map port_index="6" component_pin="JM3_26"/>
+                <pin_map port_index="7" component_pin="JM3_28"/>
+                <pin_map port_index="8" component_pin="JM3_32"/>
+                <pin_map port_index="9" component_pin="JM3_34"/>
+                <pin_map port_index="10" component_pin="JM3_38"/>
+                <pin_map port_index="11" component_pin="JM3_40"/>
+                <pin_map port_index="12" component_pin="JM3_42"/>
+                <pin_map port_index="13" component_pin="JM3_44"/>
+                <pin_map port_index="14" component_pin="JM3_48"/>
+                <pin_map port_index="15" component_pin="JM3_50"/>
+                <pin_map port_index="16" component_pin="JM3_52"/>
+                <pin_map port_index="17" component_pin="JM3_54"/>
+                <pin_map port_index="18" component_pin="JM3_58"/>
+                <pin_map port_index="19" component_pin="JM3_60"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="TRI_T" physical_port="p3b_tri_t" dir="out" left="19" right="0">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="JM3_8"/>
+                <pin_map port_index="1" component_pin="JM3_10"/>
+                <pin_map port_index="2" component_pin="JM3_14"/>
+                <pin_map port_index="3" component_pin="JM3_16"/>
+                <pin_map port_index="4" component_pin="JM3_20"/>
+                <pin_map port_index="5" component_pin="JM3_22"/>
+                <pin_map port_index="6" component_pin="JM3_26"/>
+                <pin_map port_index="7" component_pin="JM3_28"/>
+                <pin_map port_index="8" component_pin="JM3_32"/>
+                <pin_map port_index="9" component_pin="JM3_34"/>
+                <pin_map port_index="10" component_pin="JM3_38"/>
+                <pin_map port_index="11" component_pin="JM3_40"/>
+                <pin_map port_index="12" component_pin="JM3_42"/>
+                <pin_map port_index="13" component_pin="JM3_44"/>
+                <pin_map port_index="14" component_pin="JM3_48"/>
+                <pin_map port_index="15" component_pin="JM3_50"/>
+                <pin_map port_index="16" component_pin="JM3_52"/>
+                <pin_map port_index="17" component_pin="JM3_54"/>
+                <pin_map port_index="18" component_pin="JM3_58"/>
+                <pin_map port_index="19" component_pin="JM3_60"/>
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="TRI_I" physical_port="p3b_tri_i" dir="in" left="19" right="0">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="JM3_8"/>
+                <pin_map port_index="1" component_pin="JM3_10"/>
+                <pin_map port_index="2" component_pin="JM3_14"/>
+                <pin_map port_index="3" component_pin="JM3_16"/>
+                <pin_map port_index="4" component_pin="JM3_20"/>
+                <pin_map port_index="5" component_pin="JM3_22"/>
+                <pin_map port_index="6" component_pin="JM3_26"/>
+                <pin_map port_index="7" component_pin="JM3_28"/>
+                <pin_map port_index="8" component_pin="JM3_32"/>
+                <pin_map port_index="9" component_pin="JM3_34"/>
+                <pin_map port_index="10" component_pin="JM3_38"/>
+                <pin_map port_index="11" component_pin="JM3_40"/>
+                <pin_map port_index="12" component_pin="JM3_42"/>
+                <pin_map port_index="13" component_pin="JM3_44"/>
+                <pin_map port_index="14" component_pin="JM3_48"/>
+                <pin_map port_index="15" component_pin="JM3_50"/>
+                <pin_map port_index="16" component_pin="JM3_52"/>
+                <pin_map port_index="17" component_pin="JM3_54"/>
+                <pin_map port_index="18" component_pin="JM3_58"/>
+                <pin_map port_index="19" component_pin="JM3_60"/>
+              </pin_maps>
+            </port_map>
+          </port_maps>
+        </interface>
+		
+      </interfaces>
+
+    </component>
+    <!--insert interface components here, see ug895 or other board part files-->
+    <component name="p1a" display_name="JM1:P1A" type="chip" sub_type="fixed_io" major_group="General Purpose Input or Output">
+      <description>p1a (22 bits ) in JM1 odd pins from/to FPGA-Bank 35</description>
+    </component>	
+	
+    <component name="p1b" display_name="JM1:P1B" type="chip" sub_type="fixed_io" major_group="General Purpose Input or Output">
+      <description>p1b (26 bits) in JM1 even pins from/to FPGA-Bank 35</description>
+    </component>
+	
+    <component name="p2a" display_name="JM2:P2A" type="chip" sub_type="fixed_io" major_group="General Purpose Input or Output">
+      <description>p2a (20 bits) in JM2 odd pins from/to FPGA-Bank 13</description>
+    </component>	
+	
+    <component name="p2b" display_name="JM2:P2B" type="chip" sub_type="fixed_io" major_group="General Purpose Input or Output">
+      <description>p2b (30 bits) in JM2 even pins from/to FPGA-Bank 13</description>
+    </component>		
+
+    <component name="p2c" display_name="JM2:P2C" type="chip" sub_type="fixed_io" major_group="General Purpose Input or Output">
+      <description>p2c (18 bits) in JM2 even and odd pins from/to FPGA-Bank 33</description>
+    </component>	
+
+    <component name="p3a" display_name="JM3:P3A" type="chip" sub_type="fixed_io" major_group="General Purpose Input or Output">
+      <description>p3a (16 bits) in JM3 odd pins from/to FPGA-Bank 34</description>
+    </component>	
+	
+    <component name="p3b" display_name="JM3:P3B" type="chip" sub_type="fixed_io" major_group="General Purpose Input or Output">
+      <description>p3b (20 bits) in JM3 even pins from/to FPGA-Bank 34</description>
+    </component>
+	
+    <component name="ps7_fixedio" display_name="PS7 fixed IO" type="chip" sub_type="fixed_io" major_group=""/>	
+  </components>
+<!-- ##################################################################### -->
+<!-- ##Board jtag chains for partx  -->
+  <jtag_chains>
+    <jtag_chain name="chain1">
+      <position name="0" component="part0"/>
+    </jtag_chain>
+  </jtag_chains>
+<!-- ##################################################################### -->
+<!-- ##connections between interfaces definition and part0_pins.xml  -->
+  <connections>
+    <!--insert interface connections here, see ug895 or other board part files-->
+    <connection name="part0_p1a" component1="part0" component2="p1a">
+      <connection_map name="part0_p1a_1" c1_st_index="0" c1_end_index="21" c2_st_index="0" c2_end_index="21"/>
+    </connection>
+
+    <connection name="part0_p1b" component1="part0" component2="p1b">
+      <connection_map name="part0_p1b_1" c1_st_index="22" c1_end_index="47" c2_st_index="0" c2_end_index="25"/>
+    </connection>
+
+    <connection name="part0_p2a" component1="part0" component2="p2a">
+      <connection_map name="part0_p2a_1" c1_st_index="66" c1_end_index="85" c2_st_index="0" c2_end_index="19"/>
+    </connection>
+
+    <connection name="part0_p2b" component1="part0" component2="p2b">
+      <connection_map name="part0_p2b_1" c1_st_index="86" c1_end_index="115" c2_st_index="0" c2_end_index="29"/>
+    </connection>
+
+    <connection name="part0_p2c" component1="part0" component2="p2c">
+      <connection_map name="part0_p2c_1" c1_st_index="48" c1_end_index="65" c2_st_index="0" c2_end_index="17"/>
+    </connection>
+
+    <connection name="part0_p3a" component1="part0" component2="p3a">
+      <connection_map name="part0_p3a_1" c1_st_index="116" c1_end_index="131" c2_st_index="0" c2_end_index="15"/>
+    </connection>
+
+    <connection name="part0_p3b" component1="part0" component2="p3b">
+      <connection_map name="part0_p3b_1" c1_st_index="132" c1_end_index="151" c2_st_index="0" c2_end_index="19"/>
+    </connection>
+	
+  </connections>
+<!-- ##################################################################### -->
+<!-- ##Additional IO interface rules-->
+  <ip_associated_rules>
+    <ip_associated_rule name="default">
+      <!--insert interface ip rules here, see ug895 or other board part files-->
+    </ip_associated_rule>
+  </ip_associated_rules>
+<!-- ##################################################################### -->
+</board>

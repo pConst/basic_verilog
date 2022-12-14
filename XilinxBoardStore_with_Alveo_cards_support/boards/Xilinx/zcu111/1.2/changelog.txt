@@ -1,0 +1,10 @@
+######### ZCU111 change log ############
+1.2
+Increaed DDDR4 frequency from 1200 to 1333Mhz 
+
+1.1
+Viavdo Board Support for Rev 1.0, Production Silicon
+
+1.0
+ZCU111 initial board support for Rev B, Pre production Silicon 
+

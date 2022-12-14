@@ -1,0 +1,33 @@
+######### ZCU106 changelog ############
+2.4
+Enabled support for pcie4_uscale_plus IP
+Added PSU_DYNAMIC_DDR_CONFIG_EN to MPSoC preset 
+
+2.3 
+Added GT Quad locations for XDMA 
+
+2.2
+Swapped PL UART pins and updated DIP switch IO-Standards
+
+2.1
+Removed MIG IO attributes
+
+2.0 
+Production Silicon Support
+
+1.2(June 23 2017)
+Enabled FMC Support 
+
+1.1(June 23 2017)
+2017.2_web release 
+PSS_REF_CLK__FREQMHZ changed from 33.333 to 33.330 to match with board UG
+
+
+1.0(April 28 2017) 
+2017.1_web release
+Updated DP and other clocking parameters to match with ZCU102 board
+Moved LED3 location from AP8 to AE15 and increased PL DDR4 frequency from 1066Mhz to 1200Mhz
+
+1.0
+ZCU106 es2 board support
+

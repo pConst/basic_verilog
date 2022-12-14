@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?> 
+<ip_presets schema="1.0">
+
+	<ip_preset preset_proc_name="pcie_refclk_preset">
+		<ip vendor="xilinx.com" library="ip" name="util_ds_buf">
+		  <user_parameters>
+			<user_parameter name="CONFIG.C_BUF_TYPE" value="IBUFDSGTE" />
+			<user_parameter name="CONFIG.C_SIZE" value="1" />
+		  </user_parameters>
+		</ip>
+	</ip_preset>
+	
+    <ip_preset preset_proc_name="pciex1_preset">
+	
+		<ip vendor="xilinx.com" library="ip" name="xdma">
+         <user_parameters>
+			<user_parameter name="CONFIG.pl_link_cap_max_link_width" value="X1" />
+			<user_parameter name="CONFIG.mode_selection" value="Advanced" />
+			<user_parameter name="CONFIG.en_gt_selection" value="true" />
+			<user_parameter name="CONFIG.select_quad" value="GTH_Quad_224" />
+         </user_parameters>
+		</ip>
+		
+		<ip vendor="xilinx.com" library="ip" name="axi_pcie3">
+		  <user_parameters>
+			<user_parameter name="CONFIG.pl_link_cap_max_link_width" value="X1" />
+		  </user_parameters>
+		</ip>
+	
+		<ip vendor="xilinx.com" library="ip" name="pcie4_uscale_plus">
+			<user_parameters>
+				<user_parameter name="CONFIG.pl_link_cap_max_link_width" value="X1" />
+				<user_parameter name="CONFIG.mode_selection" value="Advanced" />
+				<user_parameter name="CONFIG.en_gt_selection" value="true" />
+				<user_parameter name="CONFIG.select_quad" value="GTH_Quad_224" />
+			</user_parameters>
+		</ip>
+	
+	</ip_preset>
+	
+  <ip_preset preset_proc_name="pciex2_preset">
+  
+	<ip vendor="xilinx.com" library="ip" name="xdma">
+      <user_parameters>
+        <user_parameter name="CONFIG.pl_link_cap_max_link_width" value="X2" />
+		<user_parameter name="CONFIG.mode_selection" value="Advanced" />
+		<user_parameter name="CONFIG.en_gt_selection" value="true" />
+		<user_parameter name="CONFIG.select_quad" value="GTH_Quad_224" />
+      </user_parameters>
+    </ip>
+	
+    <ip vendor="xilinx.com" library="ip" name="axi_pcie3">
+      <user_parameters>
+        <user_parameter name="CONFIG.pl_link_cap_max_link_width" value="X2" />
+        <user_parameter name="CONFIG.pf0_device_id" value="8012" />
+      </user_parameters>
+    </ip>
+	
+		<ip vendor="xilinx.com" library="ip" name="pcie4_uscale_plus">
+			<user_parameters>
+				<user_parameter name="CONFIG.pl_link_cap_max_link_width" value="X2" />
+				<user_parameter name="CONFIG.mode_selection" value="Advanced" />
+				<user_parameter name="CONFIG.en_gt_selection" value="true" />
+				<user_parameter name="CONFIG.select_quad" value="GTH_Quad_224" />
+			</user_parameters>
+		</ip>	
+	
+   </ip_preset>
+  
+    <ip_preset preset_proc_name="pciex4_preset">
+  
+		<ip vendor="xilinx.com" library="ip" name="xdma">
+		  <user_parameters>
+			<user_parameter name="CONFIG.pl_link_cap_max_link_width" value="X4" />
+		    <user_parameter name="CONFIG.mode_selection" value="Advanced" />
+		    <user_parameter name="CONFIG.en_gt_selection" value="true" />
+		    <user_parameter name="CONFIG.select_quad" value="GTH_Quad_224" />
+		  </user_parameters>
+		</ip>
+	
+		<ip vendor="xilinx.com" library="ip" name="axi_pcie3">
+		  <user_parameters>
+			<user_parameter name="CONFIG.pl_link_cap_max_link_width" value="X4" />
+			<user_parameter name="CONFIG.pf0_device_id" value="8014" />
+		  </user_parameters>
+		</ip>
+
+		<ip vendor="xilinx.com" library="ip" name="pcie4_uscale_plus">
+			<user_parameters>
+				<user_parameter name="CONFIG.pl_link_cap_max_link_width" value="X4" />
+				<user_parameter name="CONFIG.mode_selection" value="Advanced" />
+				<user_parameter name="CONFIG.en_gt_selection" value="true" />
+				<user_parameter name="CONFIG.select_quad" value="GTH_Quad_224" />
+			</user_parameters>
+		</ip>
+		
+    </ip_preset>
+  
+  <ip_preset preset_proc_name="pciex8_preset">
+  
+	<ip vendor="xilinx.com" library="ip" name="xdma">
+      <user_parameters>
+        <user_parameter name="CONFIG.pl_link_cap_max_link_width" value="X8" />
+		<user_parameter name="CONFIG.mode_selection" value="Advanced" />
+		<user_parameter name="CONFIG.en_gt_selection" value="true" />
+		<user_parameter name="CONFIG.select_quad" value="GTH_Quad_224" />
+      </user_parameters>
+    </ip>
+	
+    <ip vendor="xilinx.com" library="ip" name="axi_pcie3">
+      <user_parameters>
+        <user_parameter name="CONFIG.pl_link_cap_max_link_width" value="X8" />
+		<user_parameter name="CONFIG.pf0_device_id" value="8018" />
+      </user_parameters>
+    </ip>
+
+		<ip vendor="xilinx.com" library="ip" name="pcie4_uscale_plus">
+			<user_parameters>
+				<user_parameter name="CONFIG.pl_link_cap_max_link_width" value="X8" />
+				<user_parameter name="CONFIG.mode_selection" value="Advanced" />
+				<user_parameter name="CONFIG.en_gt_selection" value="true" />
+				<user_parameter name="CONFIG.select_quad" value="GTH_Quad_224" />
+			</user_parameters>
+		</ip>
+	
+  </ip_preset>	
+
+
+
+  <ip_preset preset_proc_name="ddr4_sdram_preset">
+    <ip vendor="xilinx.com" library="ip" name="ddr4">
+      <user_parameters>
+        <user_parameter name="CONFIG.C0.DDR4_MemoryPart" value="MT40A256M16GE-075E" />
+        <user_parameter name="CONFIG.C0.DDR4_DataWidth" value="64" />
+        <user_parameter name="CONFIG.C0.DDR4_TimePeriod" value="833" />
+        <user_parameter name="CONFIG.C0.DDR4_InputClockPeriod" value="3332" />
+<!-- 		<user_parameter name="CONFIG.C0.DDR4_TimePeriod" value="833" />
+        <user_parameter name="CONFIG.C0.DDR4_InputClockPeriod" value="3332" /> -->
+        <user_parameter name="CONFIG.ADDN_UI_CLKOUT1_FREQ_HZ" value="100" />
+      </user_parameters>
+    </ip>
+  </ip_preset>
+  
+  <ip_preset preset_proc_name="uart2_PL_preset">
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="UART">
+      <user_parameters>
+        <user_parameter name="CONFIG.C_USE_UART_RX" value="1"/> 
+        <user_parameter name="CONFIG.C_USE_UART_TX" value="1"/> 
+      </user_parameters>
+    </ip>
+	<ip vendor="xilinx.com" library="ip" name="microblaze_mcs" ip_interface="UART">
+        <user_parameters>
+          <user_parameter name="CONFIG.USE_UART_RX" value="1"/> 
+          <user_parameter name="CONFIG.USE_UART_RX" value="1"/> 
+        </user_parameters>
+    </ip>
+  </ip_preset>
+  
+
+ <ip_preset preset_proc_name="zynq_ultra_ps_e_preset"> 
+  <ip vendor="xilinx.com" library="ip" name="zynq_ultra_ps_e" version="*"> 
+    <user_parameters>
+		<user_parameter name="CONFIG.PSU_DYNAMIC_DDR_CONFIG_EN" value="1" />
+		<user_parameter name="CONFIG.PSU__PRESET_APPLIED" value="1"/> 
+		<user_parameter name="CONFIG.PSU_BANK_0_IO_STANDARD" value="LVCMOS18"/>
+		<user_parameter name="CONFIG.PSU_BANK_1_IO_STANDARD" value="LVCMOS18"/>
+		<user_parameter name="CONFIG.PSU_BANK_2_IO_STANDARD" value="LVCMOS18"/>
+		<user_parameter name="CONFIG.PSU__CAN1__PERIPHERAL__ENABLE" value="1"/>
+		<user_parameter name="CONFIG.PSU__CAN1__PERIPHERAL__IO" value="MIO 24 .. 25"/>
+		<user_parameter name="CONFIG.PSU__ENET3__GRP_MDIO__ENABLE" value="1"/>
+		<user_parameter name="CONFIG.PSU__ENET3__GRP_MDIO__IO" value="MIO 76 .. 77"/>
+		<user_parameter name="CONFIG.PSU__ENET3__PERIPHERAL__ENABLE" value="1"/>
+		<user_parameter name="CONFIG.PSU__ENET3__PERIPHERAL__IO" value="MIO 64 .. 75"/>
+		<user_parameter name="CONFIG.PSU__GPIO0_MIO__IO" value="MIO 0 .. 25"/>
+		<user_parameter name="CONFIG.PSU__GPIO0_MIO__PERIPHERAL__ENABLE" value="1"/>
+		<user_parameter name="CONFIG.PSU__GPIO1_MIO__IO" value="MIO 26 .. 51"/>
+		<user_parameter name="CONFIG.PSU__GPIO1_MIO__PERIPHERAL__ENABLE" value="1"/>
+		<user_parameter name="CONFIG.PSU__I2C0__PERIPHERAL__ENABLE" value="1"/>
+		<user_parameter name="CONFIG.PSU__I2C0__PERIPHERAL__IO" value="MIO 14 .. 15"/>
+		<user_parameter name="CONFIG.PSU__I2C1__PERIPHERAL__ENABLE" value="1"/>
+		<user_parameter name="CONFIG.PSU__I2C1__PERIPHERAL__IO" value="MIO 16 .. 17"/>
+		<user_parameter name="CONFIG.PSU__QSPI__PERIPHERAL__ENABLE" value="1"/>
+		<user_parameter name="CONFIG.PSU__QSPI__GRP_FBCLK__ENABLE" value="1"/>
+		<user_parameter name="CONFIG.PSU__QSPI__GRP_FBCLK__IO" value="MIO 6"/>
+		<user_parameter name="CONFIG.PSU__QSPI__PERIPHERAL__DATA_MODE" value="x4"/>
+		<user_parameter name="CONFIG.PSU__QSPI__PERIPHERAL__IO" value="MIO 0 .. 12"/>
+		<user_parameter name="CONFIG.PSU__QSPI__PERIPHERAL__MODE" value="Dual Parallel"/>
+		<user_parameter name="CONFIG.PSU__SD1__GRP_CD__ENABLE" value="1"/>
+		<user_parameter name="CONFIG.PSU__SD1__GRP_CD__IO" value="MIO 45"/>
+		<user_parameter name="CONFIG.PSU__SD1__GRP_POW__ENABLE" value="1"/>
+		<user_parameter name="CONFIG.PSU__SD1__GRP_POW__IO" value="MIO 43"/>
+		<user_parameter name="CONFIG.PSU__SD1__GRP_WP__ENABLE" value="1"/>
+		<user_parameter name="CONFIG.PSU__SD1__GRP_WP__IO" value="MIO 44"/>
+		<user_parameter name="CONFIG.PSU__SD1__PERIPHERAL__ENABLE" value="1"/>
+		<user_parameter name="CONFIG.PSU__SD1__DATA_TRANSFER_MODE" value="8Bit"/> 
+		<user_parameter name="CONFIG.PSU__SD1__PERIPHERAL__IO" value="MIO 39 .. 51"/>
+		<user_parameter name="CONFIG.PSU__SD1__SLOT_TYPE" value="SD 3.0"/>
+		<user_parameter name="CONFIG.PSU__UART0__PERIPHERAL__ENABLE" value="1"/>
+		<user_parameter name="CONFIG.PSU__UART0__PERIPHERAL__IO" value="MIO 18 .. 19"/>
+		<user_parameter name="CONFIG.PSU__UART1__PERIPHERAL__ENABLE" value="1"/>
+		<user_parameter name="CONFIG.PSU__UART1__PERIPHERAL__IO" value="MIO 20 .. 21"/>
+		<user_parameter name="CONFIG.PSU__USB0__PERIPHERAL__ENABLE" value="1"/>
+		<user_parameter name="CONFIG.PSU__USB0__PERIPHERAL__IO" value="MIO 52 .. 63"/>
+		<user_parameter name="CONFIG.PSU__USE__IRQ0" value="1"/>
+		<user_parameter name="CONFIG.PSU__USE__M_AXI_GP0" value="1"/>
+		<user_parameter name="CONFIG.PSU__USE__M_AXI_GP1" value="1"/>
+		<user_parameter name="CONFIG.PSU__USE__M_AXI_GP2" value="0"/>
+		<user_parameter name="CONFIG.PSU__SATA__PERIPHERAL__ENABLE" value="1"/>
+		<user_parameter name="CONFIG.PSU__SATA__LANE1__ENABLE" value="1"/>
+		<user_parameter name="CONFIG.PSU__SATA__LANE1__IO" value="GT Lane3"/>
+		<user_parameter name="CONFIG.PSU__USB3_0__PERIPHERAL__ENABLE" value="1"/>
+		<user_parameter name="CONFIG.PSU__USB3_0__PERIPHERAL__IO" value="GT Lane2"/>
+		<user_parameter name="CONFIG.PSU__PMU__PERIPHERAL__ENABLE" value="1"/>
+		<user_parameter name="CONFIG.PSU__PMU__GPI0__ENABLE" value="0"/>
+		<user_parameter name="CONFIG.PSU__PMU__GPI1__ENABLE" value="0"/>
+		<user_parameter name="CONFIG.PSU__PMU__GPI2__ENABLE" value="0"/>
+		<user_parameter name="CONFIG.PSU__PMU__GPI3__ENABLE" value="0"/>
+		<user_parameter name="CONFIG.PSU__PMU__GPI4__ENABLE" value="0"/>
+		<user_parameter name="CONFIG.PSU__PMU__GPI5__ENABLE" value="0"/>
+		<user_parameter name="CONFIG.PSU__DDRC__VREF" value="1"/>
+		<user_parameter name="CONFIG.PSU__DDRC__ECC" value="Disabled"/>
+		<user_parameter name="CONFIG.PSU__DDRC__BUS_WIDTH" value="64 Bit"/>
+		<user_parameter name="CONFIG.PSU__DDRC__DRAM_WIDTH" value="8 Bits"/>
+		<user_parameter name="CONFIG.PSU__DDRC__MEMORY_TYPE" value="DDR 4"/>
+		<user_parameter name="CONFIG.PSU__DDRC__COMPONENTS" value="UDIMM"/>
+		<user_parameter name="CONFIG.PSU__DDRC__SPEED_BIN" value="DDR4_2133P"/>
+		<user_parameter name="CONFIG.PSU__CRF_APB__DDR_CTRL__FREQMHZ" value="1067"/>
+		<user_parameter name="CONFIG.PSU__DDRC__DEVICE_CAPACITY" value="4096 MBits"/>
+		<user_parameter name="CONFIG.PSU__DDRC__RANK_ADDR_COUNT" value="0"/>
+		<user_parameter name="CONFIG.PSU__DDRC__BG_ADDR_COUNT" value="2"/>
+		<user_parameter name="CONFIG.PSU__DDRC__BANK_ADDR_COUNT" value="2"/>
+		<user_parameter name="CONFIG.PSU__DDRC__ROW_ADDR_COUNT" value="15"/>
+		<user_parameter name="CONFIG.PSU__DDRC__COL_ADDR_COUNT" value="10"/>
+		<user_parameter name="CONFIG.PSU__DDRC__CL" value="15"/>
+		<user_parameter name="CONFIG.PSU__DDRC__CWL" value="14"/>
+		<user_parameter name="CONFIG.PSU__DDRC__T_RCD" value="15"/>
+		<user_parameter name="CONFIG.PSU__DDRC__T_RP" value="15"/>
+		<user_parameter name="CONFIG.PSU__DDRC__T_RC" value="47.06"/>
+		<user_parameter name="CONFIG.PSU__DDRC__T_RAS_MIN" value="33"/>
+		<user_parameter name="CONFIG.PSU__DDRC__T_FAW" value="30.0"/>
+		<user_parameter name="CONFIG.PSU__DDRC__DDR4_T_REF_MODE" value="0"/>
+		<user_parameter name="CONFIG.PSU__DDRC__DDR4_T_REF_RANGE" value="Normal (0-85)"/>
+		<user_parameter name="CONFIG.PSU__DDRC__PHY_DBI_MODE" value="0"/>
+		<user_parameter name="CONFIG.PSU__DDRC__PARITY_ENABLE" value="0"/>
+		<user_parameter name="CONFIG.PSU__DDRC__CLOCK_STOP_EN" value="0"/>
+		<user_parameter name="CONFIG.PSU__DDRC__DDR4_CAL_MODE_ENABLE" value="0"/>
+		<user_parameter name="CONFIG.PSU__DDRC__DDR4_CRC_CONTROL" value="0"/>
+		<user_parameter name="CONFIG.PSU__DDRC__TRAIN_DATA_EYE" value="1"/>
+		<user_parameter name="CONFIG.PSU__DDRC__TRAIN_READ_GATE" value="1"/>
+		<user_parameter name="CONFIG.PSU__DDRC__TRAIN_WRITE_LEVEL" value="1"/>
+		<user_parameter name="CONFIG.PSU__DDRC__DDR4_ADDR_MAPPING" value="0"/>
+		<user_parameter name="CONFIG.PSU__DDRC__BRC_MAPPING" value="ROW_BANK_COL"/>
+		<user_parameter name="CONFIG.PSU__DDRC__DM_DBI" value="DM_NO_DBI"/>
+		<user_parameter name="CONFIG.PSU__DDRC__PER_BANK_REFRESH" value="0"/>
+		<user_parameter name="CONFIG.PSU__DDRC__FGRM" value="1X"/>
+		<user_parameter name="CONFIG.PSU__DDRC__LP_ASR" value="manual normal"/>
+		<user_parameter name="CONFIG.PSU__DDRC__DIMM_ADDR_MIRROR" value="0"/>
+		<user_parameter name="CONFIG.PSU__DDRC__STATIC_RD_MODE" value="0"/>
+		<user_parameter name="CONFIG.PSU__DDRC__SELF_REF_ABORT" value="0"/>
+		<user_parameter name="CONFIG.PSU__DISPLAYPORT__LANE0__ENABLE" value="1"/>
+		<user_parameter name="CONFIG.PSU__DISPLAYPORT__LANE0__IO" value="GT Lane1"/>
+		<user_parameter name="CONFIG.PSU__DISPLAYPORT__LANE1__ENABLE" value="1"/>
+		<user_parameter name="CONFIG.PSU__DISPLAYPORT__LANE1__IO" value="GT Lane0"/>
+		<user_parameter name="CONFIG.PSU__DISPLAYPORT__PERIPHERAL__ENABLE" value="1"/>
+		<user_parameter name="CONFIG.PSU__DPAUX__PERIPHERAL__ENABLE" value="1"/>
+		<user_parameter name="CONFIG.PSU__DPAUX__PERIPHERAL__IO" value="MIO 27 .. 30"/>
+		<user_parameter name="CONFIG.PSU__DP__LANE_SEL" value="Dual Lower"/>
+		<user_parameter name="CONFIG.PSU__DP__REF_CLK_FREQ" value="27"/>
+		<user_parameter name="CONFIG.PSU__DP__REF_CLK_SEL" value="Ref Clk3"/>
+		<user_parameter name="CONFIG.PSU__PSS_REF_CLK__FREQMHZ" value="33.330"/>
+		<user_parameter name="CONFIG.PSU__SATA__REF_CLK_SEL" value="Ref Clk1"/>
+		<user_parameter name="CONFIG.PSU__USB0__REF_CLK_SEL" value="Ref Clk2"/>
+		<user_parameter name="CONFIG.PSU__SATA__REF_CLK_FREQ" value="125"/>
+		<user_parameter name="CONFIG.PSU__USB0__REF_CLK_FREQ" value="26"/>
+		<user_parameter name="CONFIG.PSU__OVERRIDE__BASIC_CLOCK" value="0"/>
+		<user_parameter name="CONFIG.PSU__CRF_APB__APLL_CTRL__SRCSEL" value="PSS_REF_CLK"/>
+		<user_parameter name="CONFIG.PSU__CRF_APB__DPLL_CTRL__SRCSEL" value="PSS_REF_CLK"/>
+		<user_parameter name="CONFIG.PSU__CRF_APB__VPLL_CTRL__SRCSEL" value="PSS_REF_CLK"/>
+		<user_parameter name="CONFIG.PSU__CRL_APB__IOPLL_CTRL__SRCSEL" value="PSS_REF_CLK"/>
+		<user_parameter name="CONFIG.PSU__CRL_APB__RPLL_CTRL__SRCSEL" value="PSS_REF_CLK"/>
+		<user_parameter name="CONFIG.PSU__CRL_APB__CPU_R5_CTRL__SRCSEL" value="IOPLL"/>
+		<user_parameter name="CONFIG.PSU__CRL_APB__CPU_R5_CTRL__FREQMHZ" value="500"/>
+		<user_parameter name="CONFIG.PSU__CRL_APB__QSPI_REF_CTRL__SRCSEL" value="IOPLL"/>
+		<user_parameter name="CONFIG.PSU__CRL_APB__QSPI_REF_CTRL__FREQMHZ" value="125"/>
+		<user_parameter name="CONFIG.PSU__CRL_APB__SDIO1_REF_CTRL__SRCSEL" value="IOPLL"/>
+		<user_parameter name="CONFIG.PSU__CRL_APB__SDIO1_REF_CTRL__FREQMHZ" value="200"/>
+		<user_parameter name="CONFIG.PSU__CRL_APB__UART0_REF_CTRL__SRCSEL" value="IOPLL"/>
+		<user_parameter name="CONFIG.PSU__CRL_APB__UART0_REF_CTRL__FREQMHZ" value="100"/>
+		<user_parameter name="CONFIG.PSU__CRL_APB__UART1_REF_CTRL__SRCSEL" value="IOPLL"/>
+		<user_parameter name="CONFIG.PSU__CRL_APB__UART1_REF_CTRL__FREQMHZ" value="100"/>
+		<user_parameter name="CONFIG.PSU__CRL_APB__I2C0_REF_CTRL__SRCSEL" value="IOPLL"/>
+		<user_parameter name="CONFIG.PSU__CRL_APB__I2C0_REF_CTRL__FREQMHZ" value="100"/>
+		<user_parameter name="CONFIG.PSU__CRL_APB__I2C1_REF_CTRL__SRCSEL" value="IOPLL"/>
+		<user_parameter name="CONFIG.PSU__CRL_APB__I2C1_REF_CTRL__FREQMHZ" value="100"/>
+		<user_parameter name="CONFIG.PSU__CRL_APB__CAN1_REF_CTRL__SRCSEL" value="IOPLL"/>
+		<user_parameter name="CONFIG.PSU__CRL_APB__CAN1_REF_CTRL__FREQMHZ" value="100"/>
+		<user_parameter name="CONFIG.PSU__SWDT0__PERIPHERAL__ENABLE" value="1"/>
+		<user_parameter name="CONFIG.PSU__SWDT1__PERIPHERAL__ENABLE" value="1"/>
+		<user_parameter name="CONFIG.PSU__TTC0__PERIPHERAL__ENABLE" value="1"/>
+		<user_parameter name="CONFIG.PSU__IOU_SLCR__IOU_TTC_APB_CLK__TTC0_SEL" value="APB"/>
+		<user_parameter name="CONFIG.PSU__TTC1__PERIPHERAL__ENABLE" value="1"/>
+		<user_parameter name="CONFIG.PSU__IOU_SLCR__IOU_TTC_APB_CLK__TTC1_SEL" value="APB"/>
+		<user_parameter name="CONFIG.PSU__TTC2__PERIPHERAL__ENABLE" value="1"/>
+		<user_parameter name="CONFIG.PSU__IOU_SLCR__IOU_TTC_APB_CLK__TTC2_SEL" value="APB"/>
+		<user_parameter name="CONFIG.PSU__TTC3__PERIPHERAL__ENABLE" value="1"/>
+		<user_parameter name="CONFIG.PSU__IOU_SLCR__IOU_TTC_APB_CLK__TTC3_SEL" value="APB"/>
+		<user_parameter name="CONFIG.PSU__CRL_APB__USB0_BUS_REF_CTRL__SRCSEL" value="IOPLL"/>
+		<user_parameter name="CONFIG.PSU__CRL_APB__USB0_BUS_REF_CTRL__FREQMHZ" value="250"/>
+		<user_parameter name="CONFIG.PSU__CRL_APB__USB3_DUAL_REF_CTRL__SRCSEL" value="IOPLL"/>
+		<user_parameter name="CONFIG.PSU__CRL_APB__USB3_DUAL_REF_CTRL__FREQMHZ" value="20"/>
+		<user_parameter name="CONFIG.PSU__CRL_APB__GEM3_REF_CTRL__SRCSEL" value="IOPLL"/>
+		<user_parameter name="CONFIG.PSU__CRL_APB__GEM3_REF_CTRL__FREQMHZ" value="125"/>
+		<user_parameter name="CONFIG.PSU__FPGA_PL0_ENABLE" value="1"/>
+		<user_parameter name="CONFIG.PSU__CRL_APB__PL0_REF_CTRL__SRCSEL" value="IOPLL"/>
+		<user_parameter name="CONFIG.PSU__CRL_APB__PL0_REF_CTRL__FREQMHZ" value="100"/>
+		<user_parameter name="CONFIG.PSU__CRL_APB__DBG_LPD_CTRL__SRCSEL" value="IOPLL"/>
+		<user_parameter name="CONFIG.PSU__CRL_APB__DBG_LPD_CTRL__FREQMHZ" value="250"/>
+		<user_parameter name="CONFIG.PSU__CRF_APB__ACPU_CTRL__SRCSEL" value="APLL"/>
+		<user_parameter name="CONFIG.PSU__CRF_APB__ACPU_CTRL__FREQMHZ" value="1200"/>
+		<user_parameter name="CONFIG.PSU__CRF_APB__GPU_REF_CTRL__SRCSEL" value="IOPLL"/>
+		<user_parameter name="CONFIG.PSU__CRF_APB__GPU_REF_CTRL__FREQMHZ" value="500"/>
+		<user_parameter name="CONFIG.PSU__CRF_APB__DDR_CTRL__SRCSEL" value="DPLL"/>
+		<user_parameter name="CONFIG.PSU__CRF_APB__PCIE_REF_CTRL__SRCSEL" value="IOPLL"/>
+		<user_parameter name="CONFIG.PSU__CRF_APB__PCIE_REF_CTRL__FREQMHZ" value="250"/>
+		<user_parameter name="CONFIG.PSU__CRF_APB__SATA_REF_CTRL__SRCSEL" value="IOPLL"/>
+		<user_parameter name="CONFIG.PSU__CRF_APB__SATA_REF_CTRL__FREQMHZ" value="250"/>
+		<user_parameter name="CONFIG.PSU__CRF_APB__DBG_FPD_CTRL__SRCSEL" value="IOPLL"/>
+		<user_parameter name="CONFIG.PSU__CRF_APB__DBG_FPD_CTRL__FREQMHZ" value="250"/>
+		<user_parameter name="CONFIG.PSU__CRF_APB__DBG_TRACE_CTRL__SRCSEL" value="IOPLL"/>
+		<user_parameter name="CONFIG.PSU__CRF_APB__DBG_TRACE_CTRL__FREQMHZ" value="250"/>
+		<user_parameter name="CONFIG.PSU__CRF_APB__DBG_TSTMP_CTRL__SRCSEL" value="IOPLL"/>
+		<user_parameter name="CONFIG.PSU__CRF_APB__DBG_TSTMP_CTRL__FREQMHZ" value="250"/>
+		<user_parameter name="CONFIG.PSU__CRL_APB__IOU_SWITCH_CTRL__SRCSEL" value="IOPLL"/>
+		<user_parameter name="CONFIG.PSU__CRL_APB__IOU_SWITCH_CTRL__FREQMHZ" value="250"/>
+		<user_parameter name="CONFIG.PSU__CRL_APB__LPD_SWITCH_CTRL__SRCSEL" value="IOPLL"/>
+		<user_parameter name="CONFIG.PSU__CRL_APB__LPD_SWITCH_CTRL__FREQMHZ" value="500"/>
+		<user_parameter name="CONFIG.PSU__CRL_APB__LPD_LSBUS_CTRL__SRCSEL" value="IOPLL"/>
+		<user_parameter name="CONFIG.PSU__CRL_APB__LPD_LSBUS_CTRL__FREQMHZ" value="100"/>
+		<user_parameter name="CONFIG.PSU__CRL_APB__TIMESTAMP_REF_CTRL__SRCSEL" value="IOPLL"/>
+		<user_parameter name="CONFIG.PSU__CRL_APB__TIMESTAMP_REF_CTRL__FREQMHZ" value="100"/>
+		<user_parameter name="CONFIG.PSU__CRL_APB__PCAP_CTRL__SRCSEL" value="IOPLL"/>
+		<user_parameter name="CONFIG.PSU__CRF_APB__DP_STC_REF_CTRL__SRCSEL" value="RPLL"/>
+		<user_parameter name="CONFIG.PSU__CRF_APB__DP_AUDIO_REF_CTRL__SRCSEL" value="RPLL"/>
+		<user_parameter name="CONFIG.PSU__CRL_APB__PCAP_CTRL__FREQMHZ" value="200"/>
+		<user_parameter name="CONFIG.PSU__CRL_APB__ADMA_REF_CTRL__SRCSEL" value="IOPLL"/>
+		<user_parameter name="CONFIG.PSU__CRL_APB__ADMA_REF_CTRL__FREQMHZ" value="500"/>
+		<user_parameter name="CONFIG.PSU__CRF_APB__GDMA_REF_CTRL__SRCSEL" value="APLL"/>
+		<user_parameter name="CONFIG.PSU__CRF_APB__GDMA_REF_CTRL__FREQMHZ" value="600"/>
+		<user_parameter name="CONFIG.PSU__CRF_APB__DPDMA_REF_CTRL__SRCSEL" value="APLL"/>
+		<user_parameter name="CONFIG.PSU__CRF_APB__DPDMA_REF_CTRL__FREQMHZ" value="600"/>
+		<user_parameter name="CONFIG.PSU__CRF_APB__TOPSW_MAIN_CTRL__SRCSEL" value="DPLL"/>
+		<user_parameter name="CONFIG.PSU__CRF_APB__TOPSW_MAIN_CTRL__FREQMHZ" value="533.33"/>
+		<user_parameter name="CONFIG.PSU__CRF_APB__TOPSW_LSBUS_CTRL__SRCSEL" value="IOPLL"/>
+		<user_parameter name="CONFIG.PSU__CRF_APB__TOPSW_LSBUS_CTRL__FREQMHZ" value="100"/>
+		<user_parameter name="CONFIG.PSU__CRF_APB__DP_VIDEO_REF_CTRL__SRCSEL" value="VPLL"/>
+	</user_parameters>
+   </ip>
+   </ip_preset>
+ 
+    <ip_preset preset_proc_name="dip_switches_8bits_preset">
+	
+     <ip vendor="xilinx.com" library="ip" name="axi_gpio" ip_interface="GPIO">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_GPIO_WIDTH" value="8"/> 
+          <user_parameter name="CONFIG.C_ALL_INPUTS" value="1"/> 
+	  <user_parameter name="CONFIG.C_ALL_OUTPUTS" value="0"/>
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="axi_gpio" ip_interface="GPIO2">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_IS_DUAL" value="1"/> 
+          <user_parameter name="CONFIG.C_GPIO2_WIDTH" value="8"/> 
+          <user_parameter name="CONFIG.C_ALL_INPUTS_2" value="1"/> 
+	  <user_parameter name="CONFIG.C_ALL_OUTPUTS_2" value="0"/>
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO1">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_USE_GPI1" value="1"/> 
+          <user_parameter name="CONFIG.C_GPI1_SIZE" value="8"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO2">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_USE_GPI2" value="1"/> 
+          <user_parameter name="CONFIG.C_GPI2_SIZE" value="8"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO3">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_USE_GPI3" value="1"/> 
+          <user_parameter name="CONFIG.C_GPI3_SIZE" value="8"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO4">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_USE_GPI4" value="1"/> 
+          <user_parameter name="CONFIG.C_GPI4_SIZE" value="8"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="microblaze_mcs" ip_interface="GPIO1">
+        <user_parameters>
+          <user_parameter name="CONFIG.USE_GPI1" value="1"/> 
+          <user_parameter name="CONFIG.GPI1_SIZE" value="8"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="microblaze_mcs" ip_interface="GPIO2">
+        <user_parameters>
+          <user_parameter name="CONFIG.USE_GPI2" value="1"/> 
+          <user_parameter name="CONFIG.GPI2_SIZE" value="8"/> 
+        </user_parameters>
+    </ip>
+     <ip vendor="xilinx.com" library="ip" name="microblaze_mcs" ip_interface="GPIO3">
+        <user_parameters>
+          <user_parameter name="CONFIG.USE_GPI3" value="1"/> 
+          <user_parameter name="CONFIG.GPI1_SIZE" value="8"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="microblaze_mcs" ip_interface="GPIO4">
+        <user_parameters>
+          <user_parameter name="CONFIG.USE_GPI4" value="1"/> 
+          <user_parameter name="CONFIG.GPI2_SIZE" value="8"/> 
+        </user_parameters>
+    </ip>
+  </ip_preset>
+  
+  <ip_preset preset_proc_name="led_8bits_preset">
+    <ip vendor="xilinx.com" library="ip" name="axi_gpio" ip_interface="GPIO">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_GPIO_WIDTH" value="8"/> 
+          <user_parameter name="CONFIG.C_ALL_OUTPUTS" value="1"/> 
+	  <user_parameter name="CONFIG.C_ALL_INPUTS" value="0"/>
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="axi_gpio" ip_interface="GPIO2">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_IS_DUAL" value="1"/> 
+          <user_parameter name="CONFIG.C_GPIO2_WIDTH" value="8"/> 
+          <user_parameter name="CONFIG.C_ALL_OUTPUTS_2" value="1"/> 
+	  <user_parameter name="CONFIG.C_ALL_INPUTS_2" value="0"/>
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO1">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_USE_GPO1" value="1"/> 
+          <user_parameter name="CONFIG.C_GPO1_SIZE" value="8"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO2">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_USE_GPO2" value="1"/> 
+          <user_parameter name="CONFIG.C_GPO2_SIZE" value="8"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO3">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_USE_GPO3" value="1"/> 
+          <user_parameter name="CONFIG.C_GPO3_SIZE" value="8"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO4">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_USE_GPO4" value="1"/> 
+          <user_parameter name="CONFIG.C_GPO4_SIZE" value="8"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="microblaze_mcs" ip_interface="GPIO1">
+        <user_parameters>
+          <user_parameter name="CONFIG.USE_GPO1" value="1"/> 
+          <user_parameter name="CONFIG.GPO1_SIZE" value="8"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="microblaze_mcs" ip_interface="GPIO2">
+        <user_parameters>
+          <user_parameter name="CONFIG.USE_GPO2" value="1"/> 
+          <user_parameter name="CONFIG.GPO2_SIZE" value="8"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="microblaze_mcs" ip_interface="GPIO3">
+        <user_parameters>
+          <user_parameter name="CONFIG.USE_GPO3" value="1"/> 
+          <user_parameter name="CONFIG.GPO3_SIZE" value="8"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="microblaze_mcs" ip_interface="GPIO4">
+        <user_parameters>
+          <user_parameter name="CONFIG.USE_GPO4" value="1"/> 
+          <user_parameter name="CONFIG.GPO4_SIZE" value="8"/> 
+        </user_parameters>
+    </ip>
+  </ip_preset>
+  
+  <ip_preset preset_proc_name="push_buttons_5bits_preset">
+    <ip vendor="xilinx.com" library="ip" name="axi_gpio" ip_interface="GPIO">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_GPIO_WIDTH" value="5"/> 
+          <user_parameter name="CONFIG.C_ALL_INPUTS" value="1"/> 
+	  <user_parameter name="CONFIG.C_ALL_OUTPUTS" value="0"/>
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="axi_gpio" ip_interface="GPIO2">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_IS_DUAL" value="1"/> 
+          <user_parameter name="CONFIG.C_GPIO2_WIDTH" value="5"/> 
+          <user_parameter name="CONFIG.C_ALL_INPUTS_2" value="1"/> 
+	  <user_parameter name="CONFIG.C_ALL_OUTPUTS_2" value="0"/>
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO1">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_USE_GPI1" value="1"/> 
+          <user_parameter name="CONFIG.C_GPI1_SIZE" value="5"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO2">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_USE_GPI2" value="1"/> 
+          <user_parameter name="CONFIG.C_GPI2_SIZE" value="5"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO3">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_USE_GPI3" value="1"/> 
+          <user_parameter name="CONFIG.C_GPI3_SIZE" value="5"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO4">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_USE_GPI4" value="1"/> 
+          <user_parameter name="CONFIG.C_GPI4_SIZE" value="5"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="microblaze_mcs" ip_interface="GPIO1">
+        <user_parameters>
+          <user_parameter name="CONFIG.USE_GPI1" value="1"/> 
+          <user_parameter name="CONFIG.GPI1_SIZE" value="5"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="microblaze_mcs" ip_interface="GPIO2">
+        <user_parameters>
+          <user_parameter name="CONFIG.USE_GPI2" value="1"/> 
+          <user_parameter name="CONFIG.GPI2_SIZE" value="5"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="microblaze_mcs" ip_interface="GPIO3">
+        <user_parameters>
+          <user_parameter name="CONFIG.USE_GPI3" value="1"/> 
+          <user_parameter name="CONFIG.GPI3_SIZE" value="5"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="microblaze_mcs" ip_interface="GPIO4">
+        <user_parameters>
+          <user_parameter name="CONFIG.USE_GPI4" value="1"/> 
+          <user_parameter name="CONFIG.GPI4_SIZE" value="5"/> 
+        </user_parameters>
+    </ip>
+  </ip_preset>
+
+</ip_presets>

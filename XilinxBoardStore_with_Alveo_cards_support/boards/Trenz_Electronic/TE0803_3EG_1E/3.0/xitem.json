@@ -1,0 +1,33 @@
+{
+  "config": {
+    "items": [
+      {
+        "infra": {
+          "name": "te0803_3eg_1e", 
+          "display": "UltraSOM (ZYNQ-UltraScale+) TE0803-3EG-1E(B: 4GB DDR). SPRT PCB: REV01", 
+          "revision": "3.0", 
+          "description": "Zynq UltraScale+ TE0803-3EG-1E(B: 4GB DDR) Board (form factor 5.2x7.6 cm) with 4x 1 GByte DDR4, speed grade -1 and extended temperature range. Supported PCB Revisions: REV01. Board Part is only with minimum PS-Setup. Use for own carrier or simple SDK debugging. User must configure B2B MIOs manually, depending on his carrier board connection. Without user PS configuration only JTAG and QSPI boot is possible with this board part file.", 
+          "company": "trenz.biz", 
+          "company_display": "Trenz Electronic GmbH", 
+          "author": "trenz.biz", 
+          "contributors": [
+            {
+              "group": "Trenz Electronic GmbH", 
+              "url": "https://www.trenz-electronic.de/"
+            }
+          ], 
+          "category": "Single Part", 
+          "website": "trenz.org/te0803-info", 
+          "search-keywords": [
+            "te0803_3eg_1e", 
+            "trenz.biz", 
+            "board", 
+            "Single Part"
+          ]
+        }
+      }
+    ]
+  }, 
+  "_major": 1, 
+  "_minor": 0
+}

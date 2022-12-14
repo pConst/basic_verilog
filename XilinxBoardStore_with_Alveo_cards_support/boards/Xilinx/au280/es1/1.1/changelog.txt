@@ -1,0 +1,15 @@
+######### AU280 change log ##############
+1.1
+Updated PCIE Quad from X1Y1 to X1Y0 to have tandem support 
+Fixed pcie ref clock locations
+Changed QSFP clock names to reflect frequency.  Modified preset for xxv_ethernet and l_ethernet IP
+Added low speed QSFP interface 
+Enabled VBS for usxgmii
+Enabled DIMM support 
+Unified the board part, its now au280_es1
+Added more component modes with clock selection for QSFP Connectors
+
+1.0
+AU280 ES Initial board support for 2018.3_web
+Enabled XXV_Ethernet and L_Ethernet board support for QSFP 
+

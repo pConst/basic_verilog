@@ -1,0 +1,7 @@
+######### KC705 Change log ##############
+1.6 
+Updated mig.prj to fix mrCasLatency and mr2CasLatency
+
+1.5
+Added FMC support
+

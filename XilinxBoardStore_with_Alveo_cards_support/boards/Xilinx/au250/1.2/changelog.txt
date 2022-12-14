@@ -1,0 +1,17 @@
+######### AU250 change log ##############
+1.2
+Added more component modes with clock selection for QSFP Connectors
+Enhanced DDR4 preset to optimize for AXI/Acceleration workloads
+
+1.1
+Enabled QSFP Support with Ethernet IPs(xxv_ethernet and l_ethernet)
+Fixed clock frequencies for qsfp and updated preset to use 10G and 40G as default speed for XXV and L_ethernet IPs
+Made BASE_R as default option
+Added Lowspeed QSFP Signals
+Enabled QDMA Support
+Enabled VBS for usxgmii
+Updated DDR4 system clock IO attributes. Using LVDS and DQS_BIAS now  
+
+1.0
+AU250 Initial board support(Vivado 2018.2 XDF)
+

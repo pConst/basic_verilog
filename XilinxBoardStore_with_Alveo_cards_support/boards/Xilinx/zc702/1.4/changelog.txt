@@ -1,0 +1,6 @@
+######### ZC702 Change log ##############
+1.4
+Enabled board support for push buttons  
+
+1.3
+Added FMC support

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?> 
+<!-- ##################################################################### -->
+<!-- ##TE File Version:1.0-->
+<!-- ##TE Last Modification:2017.06.07-->
+<!-- ##################################################################### -->
+<!-- ## replace part_name with correct FPGA PART from board.xml-->
+<part_info part_name="xc7z007sclg225-1">
+  <pins>
+    <!--insert ip pin settings and locations here, see ug895 or other board part files-->
+    <!-- ################################ RGB Pins 34 3.3V ###############################################-->
+    <pin index="0" name="RGB_R" iostandard="LVCMOS33" loc="L14"/>
+    <pin index="1" name="RGB_G" iostandard="LVCMOS33" loc="K12"/>
+    <pin index="2" name="RGB_B" iostandard="LVCMOS33" loc="J15"/>
+    <!-- ################################ P Pins 34/35 3.3V ###############################################-->
+    <pin index="3"  name="P0"  iostandard="LVCMOS33" loc="H13"/>
+    <pin index="4"  name="P1"  iostandard="LVCMOS33" loc="H12"/>
+    <pin index="5"  name="P2"  iostandard="LVCMOS33" loc="H11"/>
+    <pin index="6"  name="P3"  iostandard="LVCMOS33" loc="G11"/>
+    <pin index="7"  name="P4"  iostandard="LVCMOS33" loc="J14"/>
+    <pin index="8"  name="P5"  iostandard="LVCMOS33" loc="J13"/>
+    <pin index="9"  name="P6"  iostandard="LVCMOS33" loc="H14"/>
+    <pin index="10" name="P7"  iostandard="LVCMOS33" loc="G12"/>
+    <pin index="11" name="P8"  iostandard="LVCMOS33" loc="F15"/>
+    <pin index="12" name="P9"  iostandard="LVCMOS33" loc="G15"/>
+    <pin index="13" name="P10" iostandard="LVCMOS33" loc="F14"/> 
+    <pin index="14" name="P11" iostandard="LVCMOS33" loc="F13"/> 
+    <pin index="15" name="P12" iostandard="LVCMOS33" loc="E12"/> 
+    <pin index="16" name="P13" iostandard="LVCMOS33" loc="E11"/> 
+    <pin index="17" name="P14" iostandard="LVCMOS33" loc="E13"/> 
+    <pin index="18" name="P15" iostandard="LVCMOS33" loc="F12"/> 
+    <pin index="19" name="P16" iostandard="LVCMOS33" loc="N7"/> 
+    <pin index="20" name="P17" iostandard="LVCMOS33" loc="N8"/> 
+    <pin index="21" name="P18" iostandard="LVCMOS33" loc="R7"/> 
+    <pin index="22" name="P19" iostandard="LVCMOS33" loc="R8"/> 
+    <pin index="23" name="P20" iostandard="LVCMOS33" loc="N11"/> 
+    <pin index="24" name="P21" iostandard="LVCMOS33" loc="N12"/> 
+    <pin index="25" name="P22" iostandard="LVCMOS33" loc="R12"/> 
+    <pin index="26" name="P23" iostandard="LVCMOS33" loc="R13"/> 
+    <pin index="27" name="P24" iostandard="LVCMOS33" loc="P8"/>
+    <pin index="28" name="P25" iostandard="LVCMOS33" loc="P9"/>
+    <pin index="29" name="P26" iostandard="LVCMOS33" loc="M9"/>
+    <pin index="30" name="P27" iostandard="LVCMOS33" loc="R11"/>
+    <pin index="31" name="P28" iostandard="LVCMOS33" loc="R10"/>
+    <pin index="32" name="P29" iostandard="LVCMOS33" loc="R15"/>
+    <pin index="33" name="P30" iostandard="LVCMOS33" loc="P15"/>
+    <pin index="34" name="P31" iostandard="LVCMOS33" loc="P14"/>
+    <!-- ################################ JTAG UART 34 3.3V ###############################################-->
+    <pin index="35" name="JRXD" iostandard="LVCMOS33" loc="L13"/>
+    <pin index="36" name="JTXD" iostandard="LVCMOS33" loc="K15"/>
+    <!-- ################################ End file ###############################################-->
+  </pins>
+</part_info>

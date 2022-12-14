@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?> 
+ <board schema_version="2.0" vendor="digilentinc.com" name="cmod_a7-15t" display_name="Cmod A7-15t" url="https://reference.digilentinc.com/cmod_a7" preset_file="preset.xml">
+<compatible_board_revisions>
+  <revision id="0">B.0</revision>
+</compatible_board_revisions>
+<file_version>1.1</file_version>
+<description>Cmod A7-15t</description>
+<components>
+  <component name="part0" display_name="Cmod A7-15t" type="fpga" part_name="xc7a15tcpg236-1" pin_map_file="part0_pins.xml" vendor="xilinx" spec_url="https://reference.digilentinc.com/cmod_a7">
+    <interfaces>
+	<interface mode="master" name="cellular_ram" type="xilinx.com:interface:emc_rtl:1.0" of_component="cellular_ram" preset_proc="sram_preset">
+        <description>512KB SRAM</description>
+		<port_maps>
+          <port_map logical_port="ADDR" physical_port="cellular_ram_addr" dir="inout" left="18" right="0"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="cellular_ram_addr_0"/> 
+              <pin_map port_index="1" component_pin="cellular_ram_addr_1"/> 
+              <pin_map port_index="2" component_pin="cellular_ram_addr_2"/> 
+              <pin_map port_index="3" component_pin="cellular_ram_addr_3"/> 
+              <pin_map port_index="4" component_pin="cellular_ram_addr_4"/> 
+              <pin_map port_index="5" component_pin="cellular_ram_addr_5"/> 
+              <pin_map port_index="6" component_pin="cellular_ram_addr_6"/> 
+              <pin_map port_index="7" component_pin="cellular_ram_addr_7"/> 
+              <pin_map port_index="8" component_pin="cellular_ram_addr_8"/> 
+              <pin_map port_index="9" component_pin="cellular_ram_addr_9"/> 
+              <pin_map port_index="10" component_pin="cellular_ram_addr_10"/> 
+              <pin_map port_index="11" component_pin="cellular_ram_addr_11"/> 
+              <pin_map port_index="12" component_pin="cellular_ram_addr_12"/> 
+              <pin_map port_index="13" component_pin="cellular_ram_addr_13"/> 
+              <pin_map port_index="14" component_pin="cellular_ram_addr_14"/> 
+              <pin_map port_index="15" component_pin="cellular_ram_addr_15"/> 
+              <pin_map port_index="16" component_pin="cellular_ram_addr_16"/> 
+              <pin_map port_index="17" component_pin="cellular_ram_addr_17"/> 
+              <pin_map port_index="18" component_pin="cellular_ram_addr_18"/>
+            </pin_maps>
+          </port_map>
+          <port_map logical_port="DQ_O" physical_port="cellular_ram_dq_o" dir="out" left="7" right="0"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="cellular_ram_dq_0"/> 
+              <pin_map port_index="1" component_pin="cellular_ram_dq_1"/> 
+              <pin_map port_index="2" component_pin="cellular_ram_dq_2"/> 
+              <pin_map port_index="3" component_pin="cellular_ram_dq_3"/> 
+              <pin_map port_index="4" component_pin="cellular_ram_dq_4"/> 
+              <pin_map port_index="5" component_pin="cellular_ram_dq_5"/> 
+              <pin_map port_index="6" component_pin="cellular_ram_dq_6"/> 
+              <pin_map port_index="7" component_pin="cellular_ram_dq_7"/> 
+            </pin_maps>
+          </port_map>
+          <port_map logical_port="DQ_I" physical_port="cellular_ram_dq_i" dir="in" left="7" right="0"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="cellular_ram_dq_0"/> 
+              <pin_map port_index="1" component_pin="cellular_ram_dq_1"/> 
+              <pin_map port_index="2" component_pin="cellular_ram_dq_2"/> 
+              <pin_map port_index="3" component_pin="cellular_ram_dq_3"/> 
+              <pin_map port_index="4" component_pin="cellular_ram_dq_4"/> 
+              <pin_map port_index="5" component_pin="cellular_ram_dq_5"/> 
+              <pin_map port_index="6" component_pin="cellular_ram_dq_6"/> 
+              <pin_map port_index="7" component_pin="cellular_ram_dq_7"/> 
+            </pin_maps>
+          </port_map>
+          <port_map logical_port="DQ_T" physical_port="cellular_ram_dq_t" dir="out" left="7" right="0"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="cellular_ram_dq_0"/> 
+              <pin_map port_index="1" component_pin="cellular_ram_dq_1"/> 
+              <pin_map port_index="2" component_pin="cellular_ram_dq_2"/> 
+              <pin_map port_index="3" component_pin="cellular_ram_dq_3"/> 
+              <pin_map port_index="4" component_pin="cellular_ram_dq_4"/> 
+              <pin_map port_index="5" component_pin="cellular_ram_dq_5"/> 
+              <pin_map port_index="6" component_pin="cellular_ram_dq_6"/> 
+              <pin_map port_index="7" component_pin="cellular_ram_dq_7"/> 
+            </pin_maps>
+          </port_map>
+          <port_map logical_port="OEN" physical_port="cellular_ram_oen" dir="inout">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="cellular_ram_oen"/> 
+            </pin_maps>
+          </port_map>
+          <port_map logical_port="WEN" physical_port="cellular_ram_wen" dir="inout">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="cellular_ram_wen"/> 
+            </pin_maps>
+          </port_map>
+          <port_map logical_port="CE_N" physical_port="cellular_ram_ce_n" dir="inout">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="cellular_ram_ce_n"/> 
+            </pin_maps>
+          </port_map>
+        </port_maps>
+      </interface>
+      <interface mode="master" name="led_2bits" type="xilinx.com:interface:gpio_rtl:1.0" of_component="led_2bits" preset_proc="led_2bits_preset">
+        <port_maps>
+          <port_map logical_port="TRI_O" physical_port="led_2bits_tri_o" dir="out" left="1" right="0"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="led_2bits_tri_o_0"/> 
+              <pin_map port_index="1" component_pin="led_2bits_tri_o_1"/>
+            </pin_maps>
+          </port_map>
+		  <port_map logical_port="TRI_I" physical_port="led_2bits_tri_o" dir="in" left="1" right="0"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="led_2bits_tri_o_0"/> 
+              <pin_map port_index="1" component_pin="led_2bits_tri_o_1"/>
+            </pin_maps>
+          </port_map>
+		  <port_map logical_port="TRI_T" physical_port="led_2bits_tri_o" dir="out" left="1" right="0"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="led_2bits_tri_o_0"/> 
+              <pin_map port_index="1" component_pin="led_2bits_tri_o_1"/>
+            </pin_maps>
+          </port_map>
+        </port_maps>
+      </interface>
+	  <interface mode="master" name="rgb_led" type="xilinx.com:interface:gpio_rtl:1.0" of_component="rgb_led" preset_proc="output_3bits_preset">
+        <description>RGB LED</description>
+		<port_maps>
+          <port_map logical_port="TRI_O" physical_port="rgb_led_tri_o" dir="out" left="2" right="0"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="rgb_led_tri_o_0"/> 
+              <pin_map port_index="1" component_pin="rgb_led_tri_o_1"/>
+			  <pin_map port_index="2" component_pin="rgb_led_tri_o_2"/>
+            </pin_maps>
+          </port_map>
+		  <port_map logical_port="TRI_I" physical_port="rgb_led_tri_o" dir="in" left="2" right="0"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="rgb_led_tri_o_0"/> 
+              <pin_map port_index="1" component_pin="rgb_led_tri_o_1"/>
+			  <pin_map port_index="2" component_pin="rgb_led_tri_o_2"/>
+            </pin_maps>
+          </port_map>
+		  <port_map logical_port="TRI_T" physical_port="rgb_led_tri_o" dir="out" left="2" right="0"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="rgb_led_tri_o_0"/> 
+              <pin_map port_index="1" component_pin="rgb_led_tri_o_1"/>
+			  <pin_map port_index="2" component_pin="rgb_led_tri_o_2"/>
+            </pin_maps>
+          </port_map>
+        </port_maps>
+      </interface>
+      <interface mode="master" name="push_buttons_2bits" type="xilinx.com:interface:gpio_rtl:1.0" of_component="push_buttons_2bits" preset_proc="push_buttons_2bits_preset">
+        <port_maps>
+          <port_map logical_port="TRI_I" physical_port="push_buttons_2bits_tri_i" dir="in" left="1" right="0"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="push_buttons_2bits_tri_i_0"/> 
+              <pin_map port_index="1" component_pin="push_buttons_2bits_tri_i_1"/> 
+            </pin_maps>
+          </port_map>
+        </port_maps>
+      </interface>
+	  <interface mode="master" name="push_buttons_1bit" type="xilinx.com:interface:gpio_rtl:1.0" of_component="push_buttons_2bits" preset_proc="push_buttons_1bit_preset">
+        <port_maps>
+          <port_map logical_port="TRI_I" physical_port="push_buttons_2bits_tri_i" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="push_buttons_2bits_tri_i_1"/> 
+            </pin_maps>
+          </port_map>
+        </port_maps>
+      </interface>
+      <interface mode="master" name="qspi_flash" type="xilinx.com:interface:spi_rtl:1.0" of_component="qspi_flash" preset_proc="qspi_preset">
+        <description>Quad SPI Flash</description>
+		<preferred_ips>
+			<preferred_ip vendor="xilinx.com" library="ip" name="axi_quad_spi" order="0"/>
+		</preferred_ips>
+		<port_maps>
+          <port_map logical_port="IO0_I" physical_port="qspi_db0" dir="in">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="qspi_db0"/> 
+            </pin_maps>
+          </port_map>
+          <port_map logical_port="IO0_O" physical_port="qspi_db0" dir="out">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="qspi_db0"/> 
+            </pin_maps>
+          </port_map>
+          <port_map logical_port="IO0_T" physical_port="qspi_db0" dir="out">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="qspi_db0"/> 
+            </pin_maps>
+          </port_map>
+          <port_map logical_port="IO1_I" physical_port="qspi_db1" dir="in">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="qspi_db1"/> 
+            </pin_maps>
+          </port_map>
+          <port_map logical_port="IO1_O" physical_port="qspi_db1" dir="out">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="qspi_db1"/> 
+            </pin_maps>
+          </port_map>
+          <port_map logical_port="IO1_T" physical_port="qspi_db1" dir="out">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="qspi_db1"/> 
+            </pin_maps>
+          </port_map>
+          <port_map logical_port="IO2_I" physical_port="qspi_db2" dir="in">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="qspi_db2"/> 
+            </pin_maps>
+          </port_map>
+          <port_map logical_port="IO2_O" physical_port="qspi_db2" dir="out">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="qspi_db2"/> 
+            </pin_maps>
+          </port_map>
+          <port_map logical_port="IO2_T" physical_port="qspi_db2" dir="out">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="qspi_db2"/> 
+            </pin_maps>
+          </port_map>
+          <port_map logical_port="IO3_I" physical_port="qspi_db3" dir="in">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="qspi_db3"/> 
+            </pin_maps>
+          </port_map>
+          <port_map logical_port="IO3_O" physical_port="qspi_db3" dir="out">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="qspi_db3"/> 
+            </pin_maps>
+          </port_map>
+          <port_map logical_port="IO3_T" physical_port="qspi_db3" dir="out">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="qspi_db3"/> 
+            </pin_maps>
+          </port_map>
+          <port_map logical_port="SS_I" physical_port="qspi_csn" dir="in">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="qspi_csn"/> 
+            </pin_maps>
+          </port_map>
+          <port_map logical_port="SS_O" physical_port="qspi_csn" dir="out">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="qspi_csn"/> 
+            </pin_maps>
+          </port_map>
+          <port_map logical_port="SS_T" physical_port="qspi_csn" dir="out">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="qspi_csn"/> 
+            </pin_maps>
+          </port_map>
+        </port_maps>
+      </interface>
+      <interface mode="slave" name="reset" type="xilinx.com:signal:reset_rtl:1.0" of_component="reset">
+        <description>Use BTN0 as System Reset, active high</description>
+		<port_maps>
+          <port_map logical_port="RST" physical_port="reset_btn0" dir="in">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="push_buttons_2bits_tri_i_0"/> 
+            </pin_maps>
+          </port_map>
+        </port_maps>
+        <parameters>
+          <parameter name="rst_polarity" value="1" />
+       </parameters>
+      </interface>
+      <interface mode="slave" name="sys_clock" type="xilinx.com:signal:clock_rtl:1.0" of_component="sys_clock" preset_proc="sys_clock_preset">
+        <description>12 MHz Single-Ended System Clock</description>
+		<port_maps>
+          <port_map logical_port="CLK" physical_port="clk" dir="in">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="clk"/> 
+            </pin_maps>
+          </port_map>
+        </port_maps>
+        <parameters>
+          <parameter name="frequency" value="12000000" />
+       </parameters>
+      </interface>
+      <interface mode="master" name="usb_uart" type="xilinx.com:interface:uart_rtl:1.0" of_component="usb_uart" preset_proc="uart_preset">
+        <description>USB-to-UART Bridge, which allows a connection to a host computer with a USB port</description>
+		<port_maps>
+          <port_map logical_port="TxD" physical_port="usb_uart_txd" dir="out">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="usb_uart_txd"/> 
+            </pin_maps>
+          </port_map>
+          <port_map logical_port="RxD" physical_port="usb_uart_rxd" dir="in">
+            <pin_maps>
+              <pin_map port_index="0" component_pin="usb_uart_rxd"/> 
+            </pin_maps>
+          </port_map>
+        </port_maps>
+      </interface>
+      <interface mode="master" name="ja" type="digilentinc.com:interface:pmod_rtl:1.0" of_component="ja">
+        <port_maps>
+          <port_map logical_port="PIN1_I" physical_port="JA1" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA1"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN1_O" physical_port="JA1" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA1"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN1_T" physical_port="JA1" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA1"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN2_I" physical_port="JA2" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA2"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN2_O" physical_port="JA2" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA2"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN2_T" physical_port="JA2" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA2"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN3_I" physical_port="JA3" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA3"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN3_O" physical_port="JA3" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA3"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN3_T" physical_port="JA3" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA3"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN4_I" physical_port="JA4" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA4"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN4_O" physical_port="JA4" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA4"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN4_T" physical_port="JA4" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA4"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN7_I" physical_port="JA7" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA7"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN7_O" physical_port="JA7" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA7"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN7_T" physical_port="JA7" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA7"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN8_I" physical_port="JA8" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA8"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN8_O" physical_port="JA8" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA8"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN8_T" physical_port="JA8" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA8"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN9_I" physical_port="JA9" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA9"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN9_O" physical_port="JA9" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA9"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN9_T" physical_port="JA9" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA9"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN10_I" physical_port="JA10" dir="in"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA10"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN10_O" physical_port="JA10" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA10"/> 
+			</pin_maps>
+		  </port_map>
+		  <port_map logical_port="PIN10_T" physical_port="JA10" dir="out"> 
+            <pin_maps>
+              <pin_map port_index="0" component_pin="JA10"/> 
+			</pin_maps>
+		  </port_map>
+        </port_maps>
+      </interface>
+	</interfaces>
+  </component>
+  <component name="cellular_ram" display_name="Cell RAM" type="chip" sub_type="memory_flash_bpi" major_group="External Memory">
+	<description>512KB SRAM</description>
+  </component>
+  <component name="led_2bits" display_name="2 LEDs" type="chip" sub_type="led" major_group="GPIO">
+	<description>LEDs 1 to 0</description>
+  </component>
+  <component name="rgb_led" display_name="RGB LED" type="chip" sub_type="led" major_group="GPIO">
+	<description>RGB led 2 downto 0 [R G B]</description>
+  </component>
+  <component name="push_buttons_2bits" display_name="Push Buttons" type="chip" sub_type="push_button" major_group="GPIO">
+	<description>Push buttons 1 to 0</description>
+	<component_modes>
+        <component_mode name="2_btns" display_name="2 Buttons (No Reset)">
+		  <interfaces>
+            <interface name="push_buttons_2bits" order="0"/>
+          </interfaces>
+		</component_mode>
+		<component_mode name="1_btn" display_name="Just use BTN1">
+		  <interfaces>
+            <interface name="push_buttons_1bit" order="0"/>
+          </interfaces>
+		</component_mode>
+	 </component_modes>
+  </component>
+  <component name="qspi_flash" display_name="QSPI Flash" type="chip" sub_type="memory_flash_qspi" major_group="External Memory">
+	<description>QSPI Flash</description>
+  </component>
+  <component name="reset" display_name="Reset (BTN0)" type="chip" sub_type="reset" major_group="Reset">
+	<description>Configure BTN0 as System Reset button, active high</description>
+  </component>
+  <component name="sys_clock" display_name="System Clock" type="chip" sub_type="system_clock" major_group="Clocks">
+	<description>12 MHz System Clock</description>
+  </component>
+  <component name="usb_uart" display_name="USB UART" type="chip" sub_type="uart" major_group="UART">
+	<description>USB UART</description>
+  </component>
+  <component name="ja" display_name="Connector JA" type="chip" sub_type="chip" major_group="Pmod">
+	<description>Pmod Connector JA</description>
+  </component>
+</components>
+<jtag_chains>
+  <jtag_chain name="chain1">
+    <position name="0" component="part0"/>
+  </jtag_chain>
+</jtag_chains>
+<connections>
+  <connection name="part0_cellular_ram" component1="part0" component2="cellular_ram">
+    <connection_map name="part0_cellular_ram_1" c1_st_index="1" c1_end_index="30" c2_st_index="0" c2_end_index="29"/>
+  </connection>
+  <connection name="part0_led_2bits" component1="part0" component2="led_2bits">
+    <connection_map name="part0_led_16bits_1" c1_st_index="31" c1_end_index="32" c2_st_index="0" c2_end_index="1"/>
+  </connection>
+  <connection name="part0_rgb_led" component1="part0" component2="rgb_led">
+    <connection_map name="part0_rgb_led_1" c1_st_index="33" c1_end_index="35" c2_st_index="0" c2_end_index="2"/>
+  </connection>
+  <connection name="part0_push_buttons_2bits" component1="part0" component2="push_buttons_2bits">
+    <connection_map name="part0_push_buttons_2bits_1" c1_st_index="41" c1_end_index="42" c2_st_index="0" c2_end_index="1"/>
+  </connection>
+  <connection name="part0_qspi_flash" component1="part0" component2="qspi_flash">
+    <connection_map name="part0_qspi_flash_1" c1_st_index="36" c1_end_index="40" c2_st_index="0" c2_end_index="4"/>
+  </connection>
+  <connection name="part0_reset" component1="part0" component2="reset">
+    <connection_map name="part0_reset_1" c1_st_index="41" c1_end_index="41" c2_st_index="0" c2_end_index="0"/>
+  </connection>
+  <connection name="part0_sys_clock" component1="part0" component2="sys_clock">
+    <connection_map name="part0_sys_clock_1" c1_st_index="0" c1_end_index="0" c2_st_index="0" c2_end_index="0"/>
+  </connection>
+  <connection name="part0_usb_uart" component1="part0" component2="usb_uart">
+    <connection_map name="part0_usb_uart_1" c1_st_index="43" c1_end_index="44" c2_st_index="0" c2_end_index="1"/>
+  </connection>
+  <connection name="part0_ja" component1="part0" component2="ja">
+    <connection_map name="part0_ja_1" c1_st_index="45" c1_end_index="52" c2_st_index="0" c2_end_index="7"/>
+  </connection>
+</connections>
+</board>

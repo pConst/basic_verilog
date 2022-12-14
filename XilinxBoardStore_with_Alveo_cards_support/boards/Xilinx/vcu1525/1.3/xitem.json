@@ -1,0 +1,33 @@
+{
+  "config": {
+    "items": [
+      {
+        "infra": {
+          "name": "VCU1525", 
+          "display": "Virtex UltraScale+ VCU1525 Acceleration Development Board", 
+          "revision": "1.3", 
+          "description": "Virtex UltraScale+ VCU1525 Acceleration Development Board", 
+          "company": "xilinx.com", 
+          "company_display": "Xilinx", 
+          "author": "Vanitha", 
+          "contributors": [
+            {
+              "group": "Xilinx", 
+              "url": "www.xilinx.com"
+            }
+          ], 
+          "category": "Single Part", 
+          "website": "https://www.xilinx.com/products/boards-and-kits/vcu1525-a.html", 
+          "search-keywords": [
+            "VCU1525", 
+            "xilinx.com", 
+            "board", 
+            "Single Part"
+          ]
+        }
+      }
+    ]
+  }, 
+  "_major": 1, 
+  "_minor": 0
+}

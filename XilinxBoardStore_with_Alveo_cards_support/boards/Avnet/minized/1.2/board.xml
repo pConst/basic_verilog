@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?> 
+<board schema_version="2.0" vendor="em.avnet.com" name="minized" display_name="MiniZed" url="http://www.minized.org" preset_file="preset.xml" >
+  <images>
+    <image name="minized.jpg" display_name="MiniZed" sub_type="board">
+      <description>MiniZed Board File Image</description>
+    </image>
+  </images>
+<compatible_board_revisions>
+  <revision id="0">1.0</revision>
+</compatible_board_revisions>
+<file_version>1.2</file_version>
+<description>MiniZed</description>
+<components>
+  <component name="part0" display_name="MiniZed" type="fpga" part_name="xc7z007sclg225-1" pin_map_file="part0_pins.xml" vendor="xilinx" spec_url="http://www.minized.org">
+    <interfaces>
+        <interface mode="master" name="pl_sw_1bit" type="xilinx.com:interface:gpio_rtl:1.0" of_component="pl_sw_1bit" preset_proc="pl_sw_1bit_preset">
+        	<description>1 DIP switch</description>
+					<preferred_ips>
+						<preferred_ip vendor="xilinx.com" library="ip" name="axi_gpio" order="0"/>
+					</preferred_ips>
+          <port_maps>
+            <port_map logical_port="TRI_I" physical_port="pl_sw_1bit_tri_i" dir="in"> 
+              <pin_maps>
+                <pin_map port_index="0" component_pin="pl_sw_1bit_tri_i"/> 
+              </pin_maps>
+            </port_map>
+          </port_maps>
+        </interface>
+        <interface mode="master" name="pl_led_r" type="xilinx.com:interface:gpio_rtl:1.0" of_component="pl_led_r" preset_proc="pl_led_r_preset">
+        	<description>Red LED</description>
+					<preferred_ips>
+						<preferred_ip vendor="xilinx.com" library="ip" name="axi_gpio" order="0"/>
+					</preferred_ips>
+          <port_maps>
+            <port_map logical_port="TRI_O" physical_port="pl_led_r_tri_o" dir="out"> 
+              <pin_maps>
+                <pin_map port_index="0" component_pin="pl_led_r_tri_o"/> 
+              </pin_maps>
+            </port_map>
+          </port_maps>
+        </interface>
+        <interface mode="master" name="pl_led_g" type="xilinx.com:interface:gpio_rtl:1.0" of_component="pl_led_g" preset_proc="pl_led_g_preset">
+        	<description>Green LED</description>
+					<preferred_ips>
+						<preferred_ip vendor="xilinx.com" library="ip" name="axi_gpio" order="0"/>
+					</preferred_ips>
+          <port_maps>
+            <port_map logical_port="TRI_O" physical_port="pl_led_g_tri_o" dir="out"> 
+              <pin_maps>
+                <pin_map port_index="0" component_pin="pl_led_g_tri_o"/> 
+              </pin_maps>
+            </port_map>
+          </port_maps>
+        </interface>
+      <interface mode="master" name="ps7_fixedio" type="xilinx.com:display_processing_system7:fixedio_rtl:1.0" of_component="ps7_fixedio" preset_proc="ps7_preset"> 
+      </interface>
+    </interfaces>
+  </component>
+  <component name="pl_sw_1bit" display_name="pl_sw_1bit" type="chip" sub_type="switch" major_group="gpio"/>
+  <component name="pl_led_g" display_name="pl_led_g" type="chip" sub_type="led" major_group="gpio"/>
+  <component name="pl_led_r" display_name="pl_led_r" type="chip" sub_type="led" major_group="gpio"/>
+  <component name="ps7_fixedio" display_name="ps7_fixedio" type="chip" sub_type="fixed_io" major_group=""/>
+</components>
+<jtag_chains>
+  <jtag_chain name="chain1">
+    <position name="0" component="part0"/>
+  </jtag_chain>
+</jtag_chains>
+<connections>
+    <connection name="part0_pl_sw_1bit" component1="part0" component2="pl_sw_1bit">
+      <connection_map name="part0_pl_sw_1bit_1" c1_st_index="0" c1_end_index="0" c2_st_index="0" c2_end_index="0"/>
+    </connection>
+    <connection name="part0_pl_led_g" component1="part0" component2="pl_led_g">
+      <connection_map name="part0_pl_led_g_1" c1_st_index="0" c1_end_index="0" c2_st_index="0" c2_end_index="0"/>
+    </connection>
+    <connection name="part0_pl_led_r" component1="part0" component2="pl_led_r">
+      <connection_map name="part0_pl_led_r_1" c1_st_index="0" c1_end_index="0" c2_st_index="0" c2_end_index="0"/>
+    </connection>
+</connections>
+</board>

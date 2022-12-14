@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?> 
+<part_info part_name="xc7z010clg400-1">
+<pins>
+  <pin index="0" name ="pl_pb_1bit_tri_i" iostandard="LVCMOS18" loc="V13"/>
+  <pin index="1" name ="pl_led_1bit_tri_o" iostandard="LVCMOS18" loc="U13"/>
+</pins>
+</part_info>
+
+

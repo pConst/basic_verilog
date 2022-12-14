@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?> 
+<board schema_version="2.0" vendor="xilinx.com" name="zc702" display_name="ZYNQ-7 ZC702 Evaluation Board" url="www.xilinx.com/zc702" preset_file="preset.xml">
+  <images>
+    <image name="zc702_board.jpg" display_name="ZC702 BOARD" sub_type="board">
+      <description>ZC702 Board File Image</description>
+    </image>
+  </images>
+  <compatible_board_revisions>
+    <revision id="0">1.0</revision>
+  </compatible_board_revisions>
+  <file_version>1.4</file_version>
+  <description>ZYNQ-7 ZC702 Evaluation Board</description>
+  
+
+<components>
+  <component name="fmc2_lpc_connector" display_name="FMC2_LPC" type="connector" sub_type="fmc_lpc">
+  <pins>
+    <pin index="90" name="fmc2_lpc_la06_p"></pin> <!-- C10 -->
+    <pin index="91" name="fmc2_lpc_la06_n"></pin> <!-- C11 -->
+    <pin index="94" name="fmc2_lpc_la10_p"></pin> <!-- C14 -->
+    <pin index="95" name="fmc2_lpc_la10_n"></pin> <!-- C15 -->
+    <pin index="98" name="fmc2_lpc_la14_p"></pin> <!-- C18 -->
+    <pin index="99" name="fmc2_lpc_la14_n"></pin> <!-- C19 -->
+    <pin index="102" name="fmc2_lpc_la18_p"></pin> <!-- C22 -->
+    <pin index="103" name="fmc2_lpc_la18_n"></pin> <!-- C23 -->
+    <pin index="106" name="fmc2_lpc_la27_p"></pin> <!-- C26 -->
+    <pin index="107" name="fmc2_lpc_la27_n"></pin> <!-- C27 -->
+    <pin index="128" name="fmc2_lpc_la01_p"></pin> <!-- D8 -->
+    <pin index="129" name="fmc2_lpc_la01_n"></pin> <!-- D9 -->
+    <pin index="131" name="fmc2_lpc_la05_p"></pin> <!-- D11 -->
+    <pin index="132" name="fmc2_lpc_la05_n"></pin> <!-- D12 -->
+    <pin index="134" name="fmc2_lpc_la09_p"></pin> <!-- D14 -->
+    <pin index="135" name="fmc2_lpc_la09_n"></pin> <!-- D15 -->
+    <pin index="137" name="fmc2_lpc_la13_p"></pin> <!-- D17 -->
+    <pin index="138" name="fmc2_lpc_la13_n"></pin> <!-- D18 -->
+    <pin index="140" name="fmc2_lpc_la17_p"></pin> <!-- D20 -->
+    <pin index="141" name="fmc2_lpc_la17_n"></pin> <!-- D21 -->
+    <pin index="143" name="fmc2_lpc_la23_p"></pin> <!-- D23 -->
+    <pin index="144" name="fmc2_lpc_la23_n"></pin> <!-- D24 -->
+    <pin index="146" name="fmc2_lpc_la26_p"></pin> <!-- D26 -->
+    <pin index="147" name="fmc2_lpc_la26_n"></pin> <!-- D27 -->
+    <pin index="242" name="fmc2_lpc_clk1_m2c_p"></pin> <!-- G2 -->
+    <pin index="243" name="fmc2_lpc_clk1_m2c_n"></pin> <!-- G3 -->
+    <pin index="246" name="fmc2_lpc_la00_p"></pin> <!-- G6 -->
+    <pin index="247" name="fmc2_lpc_la00_n"></pin> <!-- G7 -->
+    <pin index="249" name="fmc2_lpc_la03_p"></pin> <!-- G9 -->
+    <pin index="250" name="fmc2_lpc_la03_n"></pin> <!-- G10 -->
+    <pin index="252" name="fmc2_lpc_la08_p"></pin> <!-- G12 -->
+    <pin index="253" name="fmc2_lpc_la08_n"></pin> <!-- G13 -->
+    <pin index="255" name="fmc2_lpc_la12_p"></pin> <!-- G15 -->
+    <pin index="256" name="fmc2_lpc_la12_n"></pin> <!-- G16 -->
+    <pin index="258" name="fmc2_lpc_la16_p"></pin> <!-- G18 -->
+    <pin index="259" name="fmc2_lpc_la16_n"></pin> <!-- G19 -->
+    <pin index="261" name="fmc2_lpc_la20_p"></pin> <!-- G21 -->
+    <pin index="262" name="fmc2_lpc_la20_n"></pin> <!-- G22 -->
+    <pin index="264" name="fmc2_lpc_la22_p"></pin> <!-- G24 -->
+    <pin index="265" name="fmc2_lpc_la22_n"></pin> <!-- G25 -->
+    <pin index="267" name="fmc2_lpc_la25_p"></pin> <!-- G27 -->
+    <pin index="268" name="fmc2_lpc_la25_n"></pin> <!-- G28 -->
+    <pin index="270" name="fmc2_lpc_la29_p"></pin> <!-- G30 -->
+    <pin index="271" name="fmc2_lpc_la29_n"></pin> <!-- G31 -->
+    <pin index="273" name="fmc2_lpc_la31_p"></pin> <!-- G33 -->
+    <pin index="274" name="fmc2_lpc_la31_n"></pin> <!-- G34 -->
+    <pin index="276" name="fmc2_lpc_la33_p"></pin> <!-- G36 -->
+    <pin index="277" name="fmc2_lpc_la33_n"></pin> <!-- G37 -->
+    <pin index="284" name="fmc2_lpc_clk0_m2c_p"></pin> <!-- H4 -->
+    <pin index="285" name="fmc2_lpc_clk0_m2c_n"></pin> <!-- H5 -->
+    <pin index="287" name="fmc2_lpc_la02_p"></pin> <!-- H7 -->
+    <pin index="288" name="fmc2_lpc_la02_n"></pin> <!-- H8 -->
+    <pin index="290" name="fmc2_lpc_la04_p"></pin> <!-- H10 -->
+    <pin index="291" name="fmc2_lpc_la04_n"></pin> <!-- H11 -->
+    <pin index="293" name="fmc2_lpc_la07_p"></pin> <!-- H13 -->
+    <pin index="294" name="fmc2_lpc_la07_n"></pin> <!-- H14 -->
+    <pin index="296" name="fmc2_lpc_la11_p"></pin> <!-- H16 -->
+    <pin index="297" name="fmc2_lpc_la11_n"></pin> <!-- H17 -->
+    <pin index="299" name="fmc2_lpc_la15_p"></pin> <!-- H19 -->
+    <pin index="300" name="fmc2_lpc_la15_n"></pin> <!-- H20 -->
+    <pin index="302" name="fmc2_lpc_la19_p"></pin> <!-- H22 -->
+    <pin index="303" name="fmc2_lpc_la19_n"></pin> <!-- H23 -->
+    <pin index="305" name="fmc2_lpc_la21_p"></pin> <!-- H25 -->
+    <pin index="306" name="fmc2_lpc_la21_n"></pin> <!-- H26 -->
+    <pin index="308" name="fmc2_lpc_la24_p"></pin> <!-- H28 -->
+    <pin index="309" name="fmc2_lpc_la24_n"></pin> <!-- H29 -->
+    <pin index="311" name="fmc2_lpc_la28_p"></pin> <!-- H31 -->
+    <pin index="312" name="fmc2_lpc_la28_n"></pin> <!-- H32 -->
+    <pin index="314" name="fmc2_lpc_la30_p"></pin> <!-- H34 -->
+    <pin index="315" name="fmc2_lpc_la30_n"></pin> <!-- H35 -->
+    <pin index="317" name="fmc2_lpc_la32_p"></pin> <!-- H37 -->
+    <pin index="318" name="fmc2_lpc_la32_n"></pin> <!-- H38 -->
+  </pins>
+  </component>
+
+  <component name="fmc1_lpc_connector" display_name="FMC1_LPC" type="connector" sub_type="fmc_lpc">
+  <pins>
+    <pin index="90"  name="fmc1_lpc_la06_p"></pin> <!-- C10 -->
+    <pin index="91"  name="fmc1_lpc_la06_n"></pin> <!-- C11 -->
+    <pin index="94"  name="fmc1_lpc_la10_p"></pin> <!-- C14 -->
+    <pin index="95"  name="fmc1_lpc_la10_n"></pin> <!-- C15 -->
+    <pin index="98"  name="fmc1_lpc_la14_p"></pin> <!-- C18 -->
+    <pin index="99"  name="fmc1_lpc_la14_n"></pin> <!-- C19 -->
+    <pin index="102" name="fmc1_lpc_la18_p"></pin> <!-- C22 -->
+    <pin index="103" name="fmc1_lpc_la18_n"></pin> <!-- C23 -->
+    <pin index="106" name="fmc1_lpc_la27_p"></pin> <!-- C26 -->
+    <pin index="107" name="fmc1_lpc_la27_n"></pin> <!-- C27 -->
+    <pin index="128" name="fmc1_lpc_la01_p"></pin> <!-- D8 -->
+    <pin index="129" name="fmc1_lpc_la01_n"></pin> <!-- D9 -->
+    <pin index="131" name="fmc1_lpc_la05_p"></pin> <!-- D11 -->
+    <pin index="132" name="fmc1_lpc_la05_n"></pin> <!-- D12 -->
+    <pin index="134" name="fmc1_lpc_la09_p"></pin> <!-- D14 -->
+    <pin index="135" name="fmc1_lpc_la09_n"></pin> <!-- D15 -->
+    <pin index="137" name="fmc1_lpc_la13_p"></pin> <!-- D17 -->
+    <pin index="138" name="fmc1_lpc_la13_n"></pin> <!-- D18 -->
+    <pin index="140" name="fmc1_lpc_la17_p"></pin> <!-- D20 -->
+    <pin index="141" name="fmc1_lpc_la17_n"></pin> <!-- D21 -->
+    <pin index="143" name="fmc1_lpc_la23_p"></pin> <!-- D23 -->
+    <pin index="144" name="fmc1_lpc_la23_n"></pin> <!-- D24 -->
+    <pin index="146" name="fmc1_lpc_la26_p"></pin> <!-- D26 -->
+    <pin index="147" name="fmc1_lpc_la26_n"></pin> <!-- D27 -->
+    <pin index="242" name="fmc1_lpc_clk1_m2c_p"></pin> <!-- G2 -->
+    <pin index="243" name="fmc1_lpc_clk1_m2c_n"></pin> <!-- G3 -->
+    <pin index="246" name="fmc1_lpc_la00_p"></pin> <!-- G6 -->
+    <pin index="247" name="fmc1_lpc_la00_n"></pin> <!-- G7 -->
+    <pin index="249" name="fmc1_lpc_la03_p"></pin> <!-- G9 -->
+    <pin index="250" name="fmc1_lpc_la03_n"></pin> <!-- G10 -->
+    <pin index="252" name="fmc1_lpc_la08_p"></pin> <!-- G12 -->
+    <pin index="253" name="fmc1_lpc_la08_n"></pin> <!-- G13 -->
+    <pin index="255" name="fmc1_lpc_la12_p"></pin> <!-- G15 -->
+    <pin index="256" name="fmc1_lpc_la12_n"></pin> <!-- G16 -->
+    <pin index="258" name="fmc1_lpc_la16_p"></pin> <!-- G18 -->
+    <pin index="259" name="fmc1_lpc_la16_n"></pin> <!-- G19 -->
+    <pin index="261" name="fmc1_lpc_la20_p"></pin> <!-- G21 -->
+    <pin index="262" name="fmc1_lpc_la20_n"></pin> <!-- G22 -->
+    <pin index="264" name="fmc1_lpc_la22_p"></pin> <!-- G24 -->
+    <pin index="265" name="fmc1_lpc_la22_n"></pin> <!-- G25 -->
+    <pin index="267" name="fmc1_lpc_la25_p"></pin> <!-- G27 -->
+    <pin index="268" name="fmc1_lpc_la25_n"></pin> <!-- G28 -->
+    <pin index="270" name="fmc1_lpc_la29_p"></pin> <!-- G30 -->
+    <pin index="271" name="fmc1_lpc_la29_n"></pin> <!-- G31 -->
+    <pin index="273" name="fmc1_lpc_la31_p"></pin> <!-- G33 -->
+    <pin index="274" name="fmc1_lpc_la31_n"></pin> <!-- G34 -->
+    <pin index="276" name="fmc1_lpc_la33_p"></pin> <!-- G36 -->
+    <pin index="277" name="fmc1_lpc_la33_n"></pin> <!-- G37 -->
+    <pin index="284" name="fmc1_lpc_clk0_m2c_p"></pin> <!-- H4 -->
+    <pin index="285" name="fmc1_lpc_clk0_m2c_n"></pin> <!-- H5 -->
+    <pin index="287" name="fmc1_lpc_la02_p"></pin> <!-- H7 -->
+    <pin index="288" name="fmc1_lpc_la02_n"></pin> <!-- H8 -->
+    <pin index="290" name="fmc1_lpc_la04_p"></pin> <!-- H10 -->
+    <pin index="291" name="fmc1_lpc_la04_n"></pin> <!-- H11 -->
+    <pin index="293" name="fmc1_lpc_la07_p"></pin> <!-- H13 -->
+    <pin index="294" name="fmc1_lpc_la07_n"></pin> <!-- H14 -->
+    <pin index="296" name="fmc1_lpc_la11_p"></pin> <!-- H16 -->
+    <pin index="297" name="fmc1_lpc_la11_n"></pin> <!-- H17 -->
+    <pin index="299" name="fmc1_lpc_la15_p"></pin> <!-- H19 -->
+    <pin index="300" name="fmc1_lpc_la15_n"></pin> <!-- H20 -->
+    <pin index="302" name="fmc1_lpc_la19_p"></pin> <!-- H22 -->
+    <pin index="303" name="fmc1_lpc_la19_n"></pin> <!-- H23 -->
+    <pin index="305" name="fmc1_lpc_la21_p"></pin> <!-- H25 -->
+    <pin index="306" name="fmc1_lpc_la21_n"></pin> <!-- H26 -->
+    <pin index="308" name="fmc1_lpc_la24_p"></pin> <!-- H28 -->
+    <pin index="309" name="fmc1_lpc_la24_n"></pin> <!-- H29 -->
+    <pin index="311" name="fmc1_lpc_la28_p"></pin> <!-- H31 -->
+    <pin index="312" name="fmc1_lpc_la28_n"></pin> <!-- H32 -->
+    <pin index="314" name="fmc1_lpc_la30_p"></pin> <!-- H34 -->
+    <pin index="315" name="fmc1_lpc_la30_n"></pin> <!-- H35 -->
+    <pin index="317" name="fmc1_lpc_la32_p"></pin> <!-- H37 -->
+    <pin index="318" name="fmc1_lpc_la32_n"></pin> <!-- H38 -->
+  </pins>
+  </component>
+
+    <component name="part0" display_name="ZYNQ-7 ZC702 Evaluation Board" type="fpga" part_name="xc7z020clg484-1" pin_map_file="part0_pins.xml" vendor="xilinx" spec_url="www.xilinx.com/zc702">
+      <description>FPGA part on the board</description>
+      <interfaces>
+        <interface mode="master" name="gpio_sw" type="xilinx.com:interface:gpio_rtl:1.0" of_component="gpio_sw" preset_proc="gpio_sw_preset">
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_gpio" order="0"/>
+          </preferred_ips>
+          <port_maps>
+            <port_map logical_port="TRI_I" physical_port="gpio_sw_tri_i" dir="in" left="1" right="0"> 
+              <pin_maps>
+                <pin_map port_index="0" component_pin="gpio_sw_tri_i_0"/> 
+                <pin_map port_index="1" component_pin="gpio_sw_tri_i_1"/> 
+              </pin_maps>
+            </port_map>
+          </port_maps>
+        </interface>
+        <interface mode="master" name="iic_main" type="xilinx.com:interface:iic_rtl:1.0" of_component="iic_main">
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_iic" order="0"/>
+          </preferred_ips>
+          <port_maps>
+            <port_map logical_port="SDA_I" physical_port="iic_main_sda_i" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="iic_main_sda_i"/> 
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="SDA_O" physical_port="iic_main_sda_o" dir="out">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="iic_main_sda_i"/> 
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="SDA_T" physical_port="iic_main_sda_t" dir="out">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="iic_main_sda_i"/> 
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="SCL_I" physical_port="iic_main_scl_i" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="iic_main_scl_i"/> 
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="SCL_O" physical_port="iic_main_scl_o" dir="out">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="iic_main_scl_i"/> 
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="SCL_T" physical_port="iic_main_scl_t" dir="out">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="iic_main_scl_i"/> 
+              </pin_maps>
+            </port_map>
+          </port_maps>
+        </interface>
+		
+        <interface mode="master" name="leds_4bits" type="xilinx.com:interface:gpio_rtl:1.0" of_component="leds_4bits" preset_proc="leds_4bits_preset">
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_gpio" order="0"/>
+          </preferred_ips>
+          <port_maps>
+            <port_map logical_port="TRI_O" physical_port="leds_4bits_tri_o" dir="out" left="3" right="0"> 
+              <pin_maps>
+                <pin_map port_index="0" component_pin="leds_4bits_tri_o_0"/> 
+                <pin_map port_index="1" component_pin="leds_4bits_tri_o_1"/> 
+                <pin_map port_index="2" component_pin="leds_4bits_tri_o_2"/> 
+                <pin_map port_index="3" component_pin="leds_4bits_tri_o_3"/> 
+              </pin_maps>
+            </port_map>
+          </port_maps>
+        </interface>
+		
+		<interface mode="master" name="push_buttons" type="xilinx.com:interface:gpio_rtl:1.0" of_component="push_buttons" preset_proc="push_buttons_preset">
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="axi_gpio" order="0"/>
+          </preferred_ips>
+          <port_maps>
+            <port_map logical_port="TRI_I" physical_port="push_buttons_tri" dir="in" left="1" right="0">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="GPIO_SW_N"/>
+                <pin_map port_index="1" component_pin="GPIO_SW_S"/>				
+              </pin_maps>
+            </port_map>
+          </port_maps>
+        </interface>		
+		
+		
+        <interface mode="master" name="ps7_fixedio" type="xilinx.com:display_processing_system7:fixedio_rtl:1.0" of_component="ps7_fixedio" preset_proc="ps7_preset"> 
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="processing_system7" order="0"/>
+          </preferred_ips>
+        </interface>
+        <interface mode="slave" name="sys_diff_clock" type="xilinx.com:interface:diff_clock_rtl:1.0" of_component="sys_diff_clock" preset_proc="sys_diff_clock_preset">
+          <preferred_ips>
+            <preferred_ip vendor="xilinx.com" library="ip" name="clk_wiz" order="0"/>
+          </preferred_ips>
+          <port_maps>
+            <port_map logical_port="CLK_P" physical_port="sys_clk_p" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="sys_clk_p"/> 
+              </pin_maps>
+            </port_map>
+            <port_map logical_port="CLK_N" physical_port="sys_clk_n" dir="in">
+              <pin_maps>
+                <pin_map port_index="0" component_pin="sys_clk_n"/> 
+              </pin_maps>
+            </port_map>
+          </port_maps>
+          <parameters>
+            <parameter name="frequency" value="200000000" />
+          </parameters>
+        </interface>
+      </interfaces>
+    </component>
+    <component name="gpio_sw" display_name="DIP switches" type="chip" sub_type="switch" major_group="General Purpose Input or Output" part_name="SDA02H1SBD" vendor="Mouser" spec_url="www.mouser.com">
+      <description>DIP Switches 1 to 0</description>
+    </component>
+	
+    <component name="push_buttons" display_name="Push buttons" type="chip" sub_type="push_button" major_group="General Purpose Input or Output" part_name="TL3301EP100QG" vendor="ESwitch">
+      <description>Push Buttons, S N, Active High</description>
+    </component>
+	
+    <component name="iic_main" display_name="IIC" type="chip" sub_type="mux" major_group="Miscellaneous">
+      <description>I2C</description>
+    </component>
+    <component name="leds_4bits" display_name="LED" type="chip" sub_type="led" major_group="General Purpose Input or Output">
+      <description>LEDs, 3 to 0, Active High</description>
+    </component>
+    <component name="ps7_fixedio" display_name="PS7 fixed IO" type="chip" sub_type="fixed_io" major_group=""/>
+    <component name="sys_diff_clock" display_name="System differential clock" type="chip" sub_type="system_clock" major_group="Clock Sources">
+      <description>2.5V LVDS differential 200 MHz oscillator used as system differential clock on the board</description>
+    </component>
+  </components>
+  <jtag_chains>
+    <jtag_chain name="chain1">
+      <position name="0" component="part0"/>
+    </jtag_chain>
+  </jtag_chains>
+  
+
+<connections>
+  <connection name="part0_fmc2_lpc" component1="part0" component2="fmc2_lpc_connector">
+    <connection_map name="part0_fmc2_lpc_la23_p" c1_st_index="82" c1_end_index="82" c2_st_index="143" c2_end_index="143" />
+    <connection_map name="part0_fmc2_lpc_la23_n" c1_st_index="83" c1_end_index="83" c2_st_index="144" c2_end_index="144" />
+    <connection_map name="part0_fmc2_lpc_la26_p" c1_st_index="84" c1_end_index="84" c2_st_index="146" c2_end_index="146" />
+    <connection_map name="part0_fmc2_lpc_la26_n" c1_st_index="85" c1_end_index="85" c2_st_index="147" c2_end_index="147" />
+    <connection_map name="part0_fmc2_lpc_la22_p" c1_st_index="86" c1_end_index="86" c2_st_index="264" c2_end_index="264" />
+    <connection_map name="part0_fmc2_lpc_la22_n" c1_st_index="87" c1_end_index="87" c2_st_index="265" c2_end_index="265" />
+    <connection_map name="part0_fmc2_lpc_la25_p" c1_st_index="88" c1_end_index="88" c2_st_index="267" c2_end_index="267" />
+    <connection_map name="part0_fmc2_lpc_la25_n" c1_st_index="89" c1_end_index="89" c2_st_index="268" c2_end_index="268" />
+    <connection_map name="part0_fmc2_lpc_la29_p" c1_st_index="90" c1_end_index="90" c2_st_index="270" c2_end_index="270" />
+    <connection_map name="part0_fmc2_lpc_la29_n" c1_st_index="91" c1_end_index="91" c2_st_index="271" c2_end_index="271" />
+    <connection_map name="part0_fmc2_lpc_la31_p" c1_st_index="92" c1_end_index="92" c2_st_index="273" c2_end_index="273" />
+    <connection_map name="part0_fmc2_lpc_la31_n" c1_st_index="93" c1_end_index="93" c2_st_index="274" c2_end_index="274" />
+    <connection_map name="part0_fmc2_lpc_la33_p" c1_st_index="94" c1_end_index="94" c2_st_index="276" c2_end_index="276" />
+    <connection_map name="part0_fmc2_lpc_la33_n" c1_st_index="95" c1_end_index="95" c2_st_index="277" c2_end_index="277" />
+    <connection_map name="part0_fmc2_lpc_la18_p" c1_st_index="96" c1_end_index="96" c2_st_index="102" c2_end_index="102" />
+    <connection_map name="part0_fmc2_lpc_la18_n" c1_st_index="97" c1_end_index="97" c2_st_index="103" c2_end_index="103" />
+    <connection_map name="part0_fmc2_lpc_clk1_m2c_p" c1_st_index="98" c1_end_index="98" c2_st_index="242" c2_end_index="242" />
+    <connection_map name="part0_fmc2_lpc_clk1_m2c_n" c1_st_index="99" c1_end_index="99" c2_st_index="243" c2_end_index="243" />
+    <connection_map name="part0_fmc2_lpc_la17_p" c1_st_index="100" c1_end_index="100" c2_st_index="140" c2_end_index="140" />
+    <connection_map name="part0_fmc2_lpc_la17_n" c1_st_index="101" c1_end_index="101" c2_st_index="141" c2_end_index="141" />
+    <connection_map name="part0_fmc2_lpc_la27_p" c1_st_index="102" c1_end_index="102" c2_st_index="106" c2_end_index="106" />
+    <connection_map name="part0_fmc2_lpc_la27_n" c1_st_index="103" c1_end_index="103" c2_st_index="107" c2_end_index="107" />
+    <connection_map name="part0_fmc2_lpc_la28_p" c1_st_index="104" c1_end_index="104" c2_st_index="311" c2_end_index="311" />
+    <connection_map name="part0_fmc2_lpc_la28_n" c1_st_index="105" c1_end_index="105" c2_st_index="312" c2_end_index="312" />
+    <connection_map name="part0_fmc2_lpc_la30_p" c1_st_index="106" c1_end_index="106" c2_st_index="314" c2_end_index="314" />
+    <connection_map name="part0_fmc2_lpc_la30_n" c1_st_index="107" c1_end_index="107" c2_st_index="315" c2_end_index="315" />
+    <connection_map name="part0_fmc2_lpc_la32_p" c1_st_index="108" c1_end_index="108" c2_st_index="317" c2_end_index="317" />
+    <connection_map name="part0_fmc2_lpc_la32_n" c1_st_index="109" c1_end_index="109" c2_st_index="318" c2_end_index="318" />
+    <connection_map name="part0_fmc2_lpc_la19_p" c1_st_index="110" c1_end_index="110" c2_st_index="302" c2_end_index="302" />
+    <connection_map name="part0_fmc2_lpc_la19_n" c1_st_index="111" c1_end_index="111" c2_st_index="303" c2_end_index="303" />
+    <connection_map name="part0_fmc2_lpc_la20_p" c1_st_index="112" c1_end_index="112" c2_st_index="261" c2_end_index="261" />
+    <connection_map name="part0_fmc2_lpc_la20_n" c1_st_index="113" c1_end_index="113" c2_st_index="262" c2_end_index="262" />
+    <connection_map name="part0_fmc2_lpc_la21_p" c1_st_index="114" c1_end_index="114" c2_st_index="305" c2_end_index="305" />
+    <connection_map name="part0_fmc2_lpc_la21_n" c1_st_index="115" c1_end_index="115" c2_st_index="306" c2_end_index="306" />
+    <connection_map name="part0_fmc2_lpc_la24_p" c1_st_index="116" c1_end_index="116" c2_st_index="308" c2_end_index="308" />
+    <connection_map name="part0_fmc2_lpc_la24_n" c1_st_index="117" c1_end_index="117" c2_st_index="309" c2_end_index="309" />
+    <connection_map name="part0_fmc2_lpc_la07_p" c1_st_index="118" c1_end_index="118" c2_st_index="293" c2_end_index="293" />
+    <connection_map name="part0_fmc2_lpc_la07_n" c1_st_index="119" c1_end_index="119" c2_st_index="294" c2_end_index="294" />
+    <connection_map name="part0_fmc2_lpc_la14_p" c1_st_index="120" c1_end_index="120" c2_st_index="98" c2_end_index="98" />
+    <connection_map name="part0_fmc2_lpc_la14_n" c1_st_index="121" c1_end_index="121" c2_st_index="99" c2_end_index="99" />
+    <connection_map name="part0_fmc2_lpc_la13_p" c1_st_index="122" c1_end_index="122" c2_st_index="137" c2_end_index="137" />
+    <connection_map name="part0_fmc2_lpc_la13_n" c1_st_index="123" c1_end_index="123" c2_st_index="138" c2_end_index="138" />
+    <connection_map name="part0_fmc2_lpc_la10_p" c1_st_index="124" c1_end_index="124" c2_st_index="94" c2_end_index="94" />
+    <connection_map name="part0_fmc2_lpc_la10_n" c1_st_index="125" c1_end_index="125" c2_st_index="95" c2_end_index="95" />
+    <connection_map name="part0_fmc2_lpc_la05_p" c1_st_index="126" c1_end_index="126" c2_st_index="131" c2_end_index="131" />
+    <connection_map name="part0_fmc2_lpc_la05_n" c1_st_index="127" c1_end_index="127" c2_st_index="132" c2_end_index="132" />
+    <connection_map name="part0_fmc2_lpc_la00_p" c1_st_index="128" c1_end_index="128" c2_st_index="246" c2_end_index="246" />
+    <connection_map name="part0_fmc2_lpc_la00_n" c1_st_index="129" c1_end_index="129" c2_st_index="247" c2_end_index="247" />
+    <connection_map name="part0_fmc2_lpc_clk0_m2c_p" c1_st_index="130" c1_end_index="130" c2_st_index="284" c2_end_index="284" />
+    <connection_map name="part0_fmc2_lpc_clk0_m2c_n" c1_st_index="131" c1_end_index="131" c2_st_index="285" c2_end_index="285" />
+    <connection_map name="part0_fmc2_lpc_la01_p" c1_st_index="132" c1_end_index="132" c2_st_index="128" c2_end_index="128" />
+    <connection_map name="part0_fmc2_lpc_la01_n" c1_st_index="133" c1_end_index="133" c2_st_index="129" c2_end_index="129" />
+    <connection_map name="part0_fmc2_lpc_la09_p" c1_st_index="134" c1_end_index="134" c2_st_index="134" c2_end_index="134" />
+    <connection_map name="part0_fmc2_lpc_la09_n" c1_st_index="135" c1_end_index="135" c2_st_index="135" c2_end_index="135" />
+    <connection_map name="part0_fmc2_lpc_la06_p" c1_st_index="136" c1_end_index="136" c2_st_index="90" c2_end_index="90" />
+    <connection_map name="part0_fmc2_lpc_la06_n" c1_st_index="137" c1_end_index="137" c2_st_index="91" c2_end_index="91" />
+    <connection_map name="part0_fmc2_lpc_la08_p" c1_st_index="138" c1_end_index="138" c2_st_index="252" c2_end_index="252" />
+    <connection_map name="part0_fmc2_lpc_la08_n" c1_st_index="139" c1_end_index="139" c2_st_index="253" c2_end_index="253" />
+    <connection_map name="part0_fmc2_lpc_la03_p" c1_st_index="140" c1_end_index="140" c2_st_index="249" c2_end_index="249" />
+    <connection_map name="part0_fmc2_lpc_la03_n" c1_st_index="141" c1_end_index="141" c2_st_index="250" c2_end_index="250" />
+    <connection_map name="part0_fmc2_lpc_la02_p" c1_st_index="142" c1_end_index="142" c2_st_index="287" c2_end_index="287" />
+    <connection_map name="part0_fmc2_lpc_la02_n" c1_st_index="143" c1_end_index="143" c2_st_index="288" c2_end_index="288" />
+    <connection_map name="part0_fmc2_lpc_la04_p" c1_st_index="144" c1_end_index="144" c2_st_index="290" c2_end_index="290" />
+    <connection_map name="part0_fmc2_lpc_la04_n" c1_st_index="145" c1_end_index="145" c2_st_index="291" c2_end_index="291" />
+    <connection_map name="part0_fmc2_lpc_la12_p" c1_st_index="146" c1_end_index="146" c2_st_index="255" c2_end_index="255" />
+    <connection_map name="part0_fmc2_lpc_la12_n" c1_st_index="147" c1_end_index="147" c2_st_index="256" c2_end_index="256" />
+    <connection_map name="part0_fmc2_lpc_la11_p" c1_st_index="148" c1_end_index="148" c2_st_index="296" c2_end_index="296" />
+    <connection_map name="part0_fmc2_lpc_la11_n" c1_st_index="149" c1_end_index="149" c2_st_index="297" c2_end_index="297" />
+    <connection_map name="part0_fmc2_lpc_la15_p" c1_st_index="150" c1_end_index="150" c2_st_index="299" c2_end_index="299" />
+    <connection_map name="part0_fmc2_lpc_la15_n" c1_st_index="151" c1_end_index="151" c2_st_index="300" c2_end_index="300" />
+    <connection_map name="part0_fmc2_lpc_la16_p" c1_st_index="152" c1_end_index="152" c2_st_index="258" c2_end_index="258" />
+    <connection_map name="part0_fmc2_lpc_la16_n" c1_st_index="153" c1_end_index="153" c2_st_index="259" c2_end_index="259" />
+  </connection>
+
+  <connection name="part0_fmc1_lpc" component1="part0" component2="fmc1_lpc_connector">
+    <connection_map name="part0_fmc1_lpc_la07_p" c1_st_index="10" c1_end_index="10" c2_st_index="293" c2_end_index="293" />
+    <connection_map name="part0_fmc1_lpc_la07_n" c1_st_index="11" c1_end_index="11" c2_st_index="294" c2_end_index="294" />
+    <connection_map name="part0_fmc1_lpc_la14_p" c1_st_index="12" c1_end_index="12" c2_st_index="98" c2_end_index="98" />
+    <connection_map name="part0_fmc1_lpc_la14_n" c1_st_index="13" c1_end_index="13" c2_st_index="99" c2_end_index="99" />
+    <connection_map name="part0_fmc1_lpc_la10_p" c1_st_index="14" c1_end_index="14" c2_st_index="94" c2_end_index="94" />
+    <connection_map name="part0_fmc1_lpc_la10_n" c1_st_index="15" c1_end_index="15" c2_st_index="95" c2_end_index="95" />
+    <connection_map name="part0_fmc1_lpc_la05_p" c1_st_index="16" c1_end_index="16" c2_st_index="131" c2_end_index="131" />
+    <connection_map name="part0_fmc1_lpc_la05_n" c1_st_index="17" c1_end_index="17" c2_st_index="132" c2_end_index="132" />
+    <connection_map name="part0_fmc1_lpc_la09_p" c1_st_index="18" c1_end_index="18" c2_st_index="134" c2_end_index="134" />
+    <connection_map name="part0_fmc1_lpc_la09_n" c1_st_index="19" c1_end_index="19" c2_st_index="135" c2_end_index="135" />
+    <connection_map name="part0_fmc1_lpc_la06_p" c1_st_index="20" c1_end_index="20" c2_st_index="90" c2_end_index="90" />
+    <connection_map name="part0_fmc1_lpc_la06_n" c1_st_index="21" c1_end_index="21" c2_st_index="91" c2_end_index="91" />
+    <connection_map name="part0_fmc1_lpc_la08_p" c1_st_index="22" c1_end_index="22" c2_st_index="252" c2_end_index="252" />
+    <connection_map name="part0_fmc1_lpc_la08_n" c1_st_index="23" c1_end_index="23" c2_st_index="253" c2_end_index="253" />
+    <connection_map name="part0_fmc1_lpc_la03_p" c1_st_index="24" c1_end_index="24" c2_st_index="249" c2_end_index="249" />
+    <connection_map name="part0_fmc1_lpc_la03_n" c1_st_index="25" c1_end_index="25" c2_st_index="250" c2_end_index="250" />
+    <connection_map name="part0_fmc1_lpc_la02_p" c1_st_index="26" c1_end_index="26" c2_st_index="287" c2_end_index="287" />
+    <connection_map name="part0_fmc1_lpc_la02_n" c1_st_index="27" c1_end_index="27" c2_st_index="288" c2_end_index="288" />
+    <connection_map name="part0_fmc1_lpc_la00_p" c1_st_index="28" c1_end_index="28" c2_st_index="246" c2_end_index="246" />
+    <connection_map name="part0_fmc1_lpc_la00_n" c1_st_index="29" c1_end_index="29" c2_st_index="247" c2_end_index="247" />
+    <connection_map name="part0_fmc1_lpc_clk0_m2c_p" c1_st_index="30" c1_end_index="30" c2_st_index="284" c2_end_index="284" />
+    <connection_map name="part0_fmc1_lpc_clk0_m2c_n" c1_st_index="31" c1_end_index="31" c2_st_index="285" c2_end_index="285" />
+    <connection_map name="part0_fmc1_lpc_clk1_m2c_p" c1_st_index="32" c1_end_index="32" c2_st_index="242" c2_end_index="242" />
+    <connection_map name="part0_fmc1_lpc_clk1_m2c_n" c1_st_index="33" c1_end_index="33" c2_st_index="243" c2_end_index="243" />
+    <connection_map name="part0_fmc1_lpc_la01_p" c1_st_index="34" c1_end_index="34" c2_st_index="128" c2_end_index="128" />
+    <connection_map name="part0_fmc1_lpc_la01_n" c1_st_index="35" c1_end_index="35" c2_st_index="129" c2_end_index="129" />
+    <connection_map name="part0_fmc1_lpc_la04_p" c1_st_index="36" c1_end_index="36" c2_st_index="290" c2_end_index="290" />
+    <connection_map name="part0_fmc1_lpc_la04_n" c1_st_index="37" c1_end_index="37" c2_st_index="291" c2_end_index="291" />
+    <connection_map name="part0_fmc1_lpc_la12_p" c1_st_index="38" c1_end_index="38" c2_st_index="255" c2_end_index="255" />
+    <connection_map name="part0_fmc1_lpc_la12_n" c1_st_index="39" c1_end_index="39" c2_st_index="256" c2_end_index="256" />
+    <connection_map name="part0_fmc1_lpc_la11_p" c1_st_index="40" c1_end_index="40" c2_st_index="296" c2_end_index="296" />
+    <connection_map name="part0_fmc1_lpc_la11_n" c1_st_index="41" c1_end_index="41" c2_st_index="297" c2_end_index="297" />
+    <connection_map name="part0_fmc1_lpc_la15_p" c1_st_index="42" c1_end_index="42" c2_st_index="299" c2_end_index="299" />
+    <connection_map name="part0_fmc1_lpc_la15_n" c1_st_index="43" c1_end_index="43" c2_st_index="300" c2_end_index="300" />
+    <connection_map name="part0_fmc1_lpc_la16_p" c1_st_index="44" c1_end_index="44" c2_st_index="258" c2_end_index="258" />
+    <connection_map name="part0_fmc1_lpc_la16_n" c1_st_index="45" c1_end_index="45" c2_st_index="259" c2_end_index="259" />
+    <connection_map name="part0_fmc1_lpc_la13_p" c1_st_index="46" c1_end_index="46" c2_st_index="137" c2_end_index="137" />
+    <connection_map name="part0_fmc1_lpc_la13_n" c1_st_index="47" c1_end_index="47" c2_st_index="138" c2_end_index="138" />
+    <connection_map name="part0_fmc1_lpc_la23_p" c1_st_index="48" c1_end_index="48" c2_st_index="143" c2_end_index="143" />
+    <connection_map name="part0_fmc1_lpc_la23_n" c1_st_index="49" c1_end_index="49" c2_st_index="144" c2_end_index="144" />
+    <connection_map name="part0_fmc1_lpc_la26_p" c1_st_index="50" c1_end_index="50" c2_st_index="146" c2_end_index="146" />
+    <connection_map name="part0_fmc1_lpc_la26_n" c1_st_index="51" c1_end_index="51" c2_st_index="147" c2_end_index="147" />
+    <connection_map name="part0_fmc1_lpc_la22_p" c1_st_index="52" c1_end_index="52" c2_st_index="264" c2_end_index="264" />
+    <connection_map name="part0_fmc1_lpc_la22_n" c1_st_index="53" c1_end_index="53" c2_st_index="265" c2_end_index="265" />
+    <connection_map name="part0_fmc1_lpc_la25_p" c1_st_index="54" c1_end_index="54" c2_st_index="267" c2_end_index="267" />
+    <connection_map name="part0_fmc1_lpc_la25_n" c1_st_index="55" c1_end_index="55" c2_st_index="268" c2_end_index="268" />
+    <connection_map name="part0_fmc1_lpc_la29_p" c1_st_index="56" c1_end_index="56" c2_st_index="270" c2_end_index="270" />
+    <connection_map name="part0_fmc1_lpc_la29_n" c1_st_index="57" c1_end_index="57" c2_st_index="271" c2_end_index="271" />
+    <connection_map name="part0_fmc1_lpc_la31_p" c1_st_index="58" c1_end_index="58" c2_st_index="273" c2_end_index="273" />
+    <connection_map name="part0_fmc1_lpc_la31_n" c1_st_index="59" c1_end_index="59" c2_st_index="274" c2_end_index="274" />
+    <connection_map name="part0_fmc1_lpc_la33_p" c1_st_index="60" c1_end_index="60" c2_st_index="276" c2_end_index="276" />
+    <connection_map name="part0_fmc1_lpc_la33_n" c1_st_index="61" c1_end_index="61" c2_st_index="277" c2_end_index="277" />
+    <connection_map name="part0_fmc1_lpc_la27_p" c1_st_index="62" c1_end_index="62" c2_st_index="106" c2_end_index="106" />
+    <connection_map name="part0_fmc1_lpc_la27_n" c1_st_index="63" c1_end_index="63" c2_st_index="107" c2_end_index="107" />
+    <connection_map name="part0_fmc1_lpc_la17_p" c1_st_index="64" c1_end_index="64" c2_st_index="140" c2_end_index="140" />
+    <connection_map name="part0_fmc1_lpc_la17_n" c1_st_index="65" c1_end_index="65" c2_st_index="141" c2_end_index="141" />
+    <connection_map name="part0_fmc1_lpc_la18_p" c1_st_index="66" c1_end_index="66" c2_st_index="102" c2_end_index="102" />
+    <connection_map name="part0_fmc1_lpc_la18_n" c1_st_index="67" c1_end_index="67" c2_st_index="103" c2_end_index="103" />
+    <connection_map name="part0_fmc1_lpc_la24_p" c1_st_index="68" c1_end_index="68" c2_st_index="308" c2_end_index="308" />
+    <connection_map name="part0_fmc1_lpc_la24_n" c1_st_index="69" c1_end_index="69" c2_st_index="309" c2_end_index="309" />
+    <connection_map name="part0_fmc1_lpc_la28_p" c1_st_index="70" c1_end_index="70" c2_st_index="311" c2_end_index="311" />
+    <connection_map name="part0_fmc1_lpc_la28_n" c1_st_index="71" c1_end_index="71" c2_st_index="312" c2_end_index="312" />
+    <connection_map name="part0_fmc1_lpc_la30_p" c1_st_index="72" c1_end_index="72" c2_st_index="314" c2_end_index="314" />
+    <connection_map name="part0_fmc1_lpc_la30_n" c1_st_index="73" c1_end_index="73" c2_st_index="315" c2_end_index="315" />
+    <connection_map name="part0_fmc1_lpc_la32_p" c1_st_index="74" c1_end_index="74" c2_st_index="317" c2_end_index="317" />
+    <connection_map name="part0_fmc1_lpc_la32_n" c1_st_index="75" c1_end_index="75" c2_st_index="318" c2_end_index="318" />
+    <connection_map name="part0_fmc1_lpc_la19_p" c1_st_index="76" c1_end_index="76" c2_st_index="302" c2_end_index="302" />
+    <connection_map name="part0_fmc1_lpc_la19_n" c1_st_index="77" c1_end_index="77" c2_st_index="303" c2_end_index="303" />
+    <connection_map name="part0_fmc1_lpc_la20_p" c1_st_index="78" c1_end_index="78" c2_st_index="261" c2_end_index="261" />
+    <connection_map name="part0_fmc1_lpc_la20_n" c1_st_index="79" c1_end_index="79" c2_st_index="262" c2_end_index="262" />
+    <connection_map name="part0_fmc1_lpc_la21_p" c1_st_index="80" c1_end_index="80" c2_st_index="305" c2_end_index="305" />
+    <connection_map name="part0_fmc1_lpc_la21_n" c1_st_index="81" c1_end_index="81" c2_st_index="306" c2_end_index="306" />
+  </connection>
+
+    <connection name="part0_gpio_sw" component1="part0" component2="gpio_sw">
+      <connection_map name="part0_gpio_sw_1" c1_st_index="0" c1_end_index="1" c2_st_index="0" c2_end_index="1"/>
+    </connection>
+    <connection name="part0_iic_main" component1="part0" component2="iic_main">
+      <connection_map name="part0_iic_main_1" c1_st_index="2" c1_end_index="3" c2_st_index="0" c2_end_index="1"/>
+    </connection>
+    <connection name="part0_leds_4bits" component1="part0" component2="leds_4bits">
+      <connection_map name="part0_leds_4bits_1" c1_st_index="4" c1_end_index="7" c2_st_index="0" c2_end_index="3"/>
+    </connection>
+    <connection name="part0_sys_diff_clock" component1="part0" component2="sys_diff_clock">
+      <connection_map name="part0_sys_diff_clock_1" c1_st_index="8" c1_end_index="9" c2_st_index="0" c2_end_index="1"/>
+    </connection>
+	
+	<connection name="part0_push_buttons" component1="part0" component2="push_buttons">
+      <connection_map name="part0_push_buttons_1" typical_delay="5" c1_st_index="100" c1_end_index="101" c2_st_index="0" c2_end_index="1"/>
+    </connection>
+	
+  </connections>
+</board>

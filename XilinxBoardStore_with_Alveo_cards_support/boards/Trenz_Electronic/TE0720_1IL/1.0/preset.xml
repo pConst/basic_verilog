@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?> 
+<!-- ##################################################################### -->
+<!-- ##TE File Version:1.0-->
+<!-- ##TE Last Modification:2018.08.23 -->
+<!-- ##################################################################### -->
+<ip_presets schema="1.0">
+  <!--insert ip presets here, see ug895 or other board part files-->
+  <ip_preset preset_proc_name="ps7_preset"> 
+    <ip vendor="xilinx.com" library="ip" name="processing_system7" version="*"> 
+      <user_parameters>
+        <user_parameter  name="CONFIG.PCW_PRESET_BANK0_VOLTAGE" value="LVCMOS 3.3V"/>
+        <user_parameter  name="CONFIG.PCW_PRESET_BANK1_VOLTAGE" value="LVCMOS 1.8V"/>
+        <user_parameter  name="CONFIG.PCW_CRYSTAL_PERIPHERAL_FREQMHZ" value="33.333333"/>
+        <user_parameter  name="CONFIG.PCW_QSPI_PERIPHERAL_ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PCW_QSPI_GRP_SINGLE_SS_ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PCW_SINGLE_QSPI_DATA_MODE" value="x4"/>
+        <user_parameter  name="CONFIG.PCW_QSPI_QSPI_IO" value="MIO 1 .. 6"/>
+        <user_parameter  name="CONFIG.PCW_QSPI_GRP_FBCLK_ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PCW_SD0_PERIPHERAL_ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PCW_SD0_SD0_IO" value="MIO 40 .. 45"/>
+        <user_parameter  name="CONFIG.PCW_MIO_40_PULLUP" value="disabled"/>
+        <user_parameter  name="CONFIG.PCW_MIO_41_PULLUP" value="disabled"/>
+        <user_parameter  name="CONFIG.PCW_MIO_42_PULLUP" value="disabled"/>
+        <user_parameter  name="CONFIG.PCW_MIO_43_PULLUP" value="disabled"/>
+        <user_parameter  name="CONFIG.PCW_MIO_44_PULLUP" value="disabled"/>
+        <user_parameter  name="CONFIG.PCW_MIO_45_PULLUP" value="disabled"/>
+        <user_parameter  name="CONFIG.PCW_SD1_PERIPHERAL_ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PCW_SD1_SD1_IO" value="MIO 46 .. 51"/>
+        <user_parameter  name="CONFIG.PCW_UART0_PERIPHERAL_ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PCW_UART0_UART0_IO" value="MIO 14 .. 15"/>
+        <user_parameter  name="CONFIG.PCW_UART1_PERIPHERAL_ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PCW_UART1_UART1_IO" value="MIO 12 .. 13"/>
+        <user_parameter  name="CONFIG.PCW_I2C0_PERIPHERAL_ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PCW_I2C0_I2C0_IO" value="MIO 10 .. 11"/>
+        <user_parameter  name="CONFIG.PCW_I2C1_PERIPHERAL_ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PCW_I2C1_I2C1_IO" value="EMIO"/>
+        <user_parameter  name="CONFIG.PCW_ENET0_PERIPHERAL_ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PCW_ENET0_ENET0_IO" value="MIO 16 .. 27"/>
+        <user_parameter  name="CONFIG.PCW_ENET0_GRP_MDIO_ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PCW_ENET0_GRP_MDIO_IO" value="MIO 52 .. 53"/>
+        <user_parameter  name="CONFIG.PCW_USB0_PERIPHERAL_ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PCW_USB0_USB0_IO" value="MIO 28 .. 39"/>
+        <user_parameter  name="CONFIG.PCW_WDT_PERIPHERAL_ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PCW_TTC0_PERIPHERAL_ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PCW_TTC1_PERIPHERAL_ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PCW_UIPARAM_DDR_MEMORY_TYPE" value="DDR 3"/>
+        <user_parameter  name="CONFIG.PCW_UIPARAM_DDR_PARTNO" value="MT41K256M16 RE-125"/>
+        <user_parameter  name="CONFIG.PCW_UIPARAM_DDR_BUS_WIDTH" value="16 Bit"/>
+        <user_parameter  name="CONFIG.PCW_GPIO_MIO_GPIO_ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PCW_ENET_RESET_ENABLE" value="0"/>
+        <user_parameter  name="CONFIG.PCW_USB_RESET_ENABLE" value="0"/>
+        <user_parameter  name="CONFIG.PCW_I2C_RESET_ENABLE" value="0"/>
+        <user_parameter  name="CONFIG.PCW_FPGA0_PERIPHERAL_FREQMHZ" value="100"/>
+      </user_parameters>
+    </ip>
+  </ip_preset>
+  <ip_preset preset_proc_name="gpio_sw_preset">
+    <ip vendor="xilinx.com" library="ip" name="axi_gpio" ip_interface="GPIO">
+      <user_parameters>
+        <user_parameter name="CONFIG.C_GPIO_WIDTH" value="2"/> 
+        <user_parameter name="CONFIG.C_ALL_OUTPUTS" value="1"/> 
+      </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="axi_gpio" ip_interface="GPIO2">
+      <user_parameters>
+        <user_parameter name="CONFIG.C_IS_DUAL" value="1"/> 
+        <user_parameter name="CONFIG.C_GPIO2_WIDTH" value="2"/> 
+        <user_parameter name="CONFIG.C_ALL_OUTPUTS" value="1"/> 
+      </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO1">
+      <user_parameters>
+        <user_parameter name="CONFIG.C_USE_GPI1" value="1"/> 
+        <user_parameter name="CONFIG.C_GPI1_SIZE" value="2"/> 
+      </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO2">
+      <user_parameters>
+        <user_parameter name="CONFIG.C_USE_GPI2" value="1"/> 
+        <user_parameter name="CONFIG.C_GPI2_SIZE" value="2"/> 
+      </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO3">
+      <user_parameters>
+        <user_parameter name="CONFIG.C_USE_GPI3" value="1"/> 
+        <user_parameter name="CONFIG.C_GPI3_SIZE" value="2"/> 
+      </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO4">
+      <user_parameters>
+        <user_parameter name="CONFIG.C_USE_GPI4" value="1"/> 
+        <user_parameter name="CONFIG.C_GPI4_SIZE" value="2"/> 
+      </user_parameters>
+    </ip>
+  </ip_preset>
+  <ip_preset preset_proc_name="leds_4bits_preset">
+    <ip vendor="xilinx.com" library="ip" name="axi_gpio" ip_interface="GPIO">
+      <user_parameters>
+        <user_parameter name="CONFIG.C_GPIO_WIDTH" value="4"/> 
+        <user_parameter name="CONFIG.C_ALL_OUTPUTS" value="1"/> 
+      </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="axi_gpio" ip_interface="GPIO2">
+      <user_parameters>
+        <user_parameter name="CONFIG.C_IS_DUAL" value="1"/> 
+        <user_parameter name="CONFIG.C_GPIO2_WIDTH" value="4"/> 
+        <user_parameter name="CONFIG.C_ALL_OUTPUTS" value="1"/> 
+      </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO1">
+      <user_parameters>
+        <user_parameter name="CONFIG.C_USE_GPO1" value="1"/> 
+        <user_parameter name="CONFIG.C_GPO1_SIZE" value="4"/> 
+      </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO2">
+      <user_parameters>
+        <user_parameter name="CONFIG.C_USE_GPO2" value="1"/> 
+        <user_parameter name="CONFIG.C_GPO2_SIZE" value="4"/> 
+      </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO3">
+      <user_parameters>
+        <user_parameter name="CONFIG.C_USE_GPO3" value="1"/> 
+        <user_parameter name="CONFIG.C_GPO3_SIZE" value="4"/> 
+      </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO4">
+      <user_parameters>
+        <user_parameter name="CONFIG.C_USE_GPO4" value="1"/> 
+        <user_parameter name="CONFIG.C_GPO4_SIZE" value="4"/> 
+      </user_parameters>
+    </ip>
+  </ip_preset>
+</ip_presets>

@@ -1,0 +1,33 @@
+{
+  "config": {
+    "items": [
+      {
+        "infra": {
+          "name": "te0729_20_2i", 
+          "display": "ZYNQ-7 TE0729_20_2I(R,RA). SPRT PCB: REV02, REV01", 
+          "revision": "2.0", 
+          "description": "ZYNQ-7 TE0729_20_2I(R,RA) Board (form factor 5 x 7 cm) with 512MB DDR3, 1 x 1GBit Ethernet, speed grade -2 and industrial temperature range.Supported PCB Revisions: REV02, REV01.", 
+          "company": "trenz.biz", 
+          "company_display": "Trenz Electronic GmbH", 
+          "author": "trenz.biz", 
+          "contributors": [
+            {
+              "group": "Trenz Electronic GmbH", 
+              "url": "https://www.trenz-electronic.de/"
+            }
+          ], 
+          "category": "Single Part", 
+          "website": "trenz.org/te0729-info", 
+          "search-keywords": [
+            "te0729_20_2i", 
+            "trenz.biz", 
+            "board", 
+            "Single Part"
+          ]
+        }
+      }
+    ]
+  }, 
+  "_major": 1, 
+  "_minor": 0
+}

@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?> 
+<ip_presets schema="1.0">
+  <ip_preset preset_proc_name="ps7_preset">
+    <ip vendor="xilinx.com" library="ip" name="processing_system7" version="*">
+      <user_parameters>
+        <user_parameter name="CONFIG.PCW_PRESET_BANK0_VOLTAGE" value="LVCMOS 3.3V"/> 
+        <user_parameter name="CONFIG.PCW_PRESET_BANK1_VOLTAGE" value="LVCMOS 1.8V"/> 
+        <user_parameter name="CONFIG.PCW_PACKAGE_NAME" value="clg400"/> 
+        <user_parameter name="CONFIG.PCW_USE_M_AXI_GP0" value="1"/> 
+        <user_parameter name="CONFIG.PCW_USE_M_AXI_GP1" value="0"/> 
+        <user_parameter name="CONFIG.PCW_CRYSTAL_PERIPHERAL_FREQMHZ" value="33.333333"/> 
+        <user_parameter name="CONFIG.PCW_APU_CLK_RATIO_ENABLE" value="6:2:1"/> 
+        <user_parameter name="CONFIG.PCW_CPU_PERIPHERAL_CLKSRC" value="ARM PLL"/> 
+        <user_parameter name="CONFIG.PCW_DDR_PERIPHERAL_CLKSRC" value="DDR PLL"/> 
+        <user_parameter name="CONFIG.PCW_QSPI_PERIPHERAL_CLKSRC" value="IO PLL"/> 
+        <user_parameter name="CONFIG.PCW_ENET0_PERIPHERAL_CLKSRC" value="IO PLL"/> 
+        <user_parameter name="CONFIG.PCW_SDIO_PERIPHERAL_CLKSRC" value="IO PLL"/> 
+        <user_parameter name="CONFIG.PCW_UART_PERIPHERAL_CLKSRC" value="IO PLL"/> 
+        <user_parameter name="CONFIG.PCW_TTC0_CLK0_PERIPHERAL_CLKSRC" value="CPU_1X"/> 
+        <user_parameter name="CONFIG.PCW_TTC0_CLK1_PERIPHERAL_CLKSRC" value="CPU_1X"/> 
+        <user_parameter name="CONFIG.PCW_TTC0_CLK2_PERIPHERAL_CLKSRC" value="CPU_1X"/> 
+        <user_parameter name="CONFIG.PCW_APU_PERIPHERAL_FREQMHZ" value="667"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_ACT_DDR_FREQ_MHZ" value="533.333333"/> 
+        <user_parameter name="CONFIG.PCW_ENET0_PERIPHERAL_FREQMHZ" value="1000 Mbps"/> 
+        <user_parameter name="CONFIG.PCW_SDIO_PERIPHERAL_FREQMHZ" value="25"/> 
+        <user_parameter name="CONFIG.PCW_QSPI_PERIPHERAL_FREQMHZ" value="200.000000"/> 
+        <user_parameter name="CONFIG.PCW_UART_PERIPHERAL_FREQMHZ" value="50"/> 
+        <user_parameter name="CONFIG.PCW_USB0_PERIPHERAL_FREQMHZ" value="60"/> 
+        <user_parameter name="CONFIG.PCW_TTC0_CLK0_PERIPHERAL_FREQMHZ" value="111.111115"/> 
+        <user_parameter name="CONFIG.PCW_TTC0_CLK1_PERIPHERAL_FREQMHZ" value="111.111115"/> 
+        <user_parameter name="CONFIG.PCW_TTC0_CLK2_PERIPHERAL_FREQMHZ" value="111.111115"/> 
+        <user_parameter name="CONFIG.PCW_FCLK0_PERIPHERAL_CLKSRC" value="IO PLL"/> 
+        <user_parameter name="CONFIG.PCW_FCLK1_PERIPHERAL_CLKSRC" value="IO PLL"/> 
+        <user_parameter name="CONFIG.PCW_FCLK2_PERIPHERAL_CLKSRC" value="IO PLL"/> 
+        <user_parameter name="CONFIG.PCW_FCLK3_PERIPHERAL_CLKSRC" value="IO PLL"/> 
+        <user_parameter name="CONFIG.PCW_FCLK_CLK0_BUF" value="true"/> 
+        <user_parameter name="CONFIG.PCW_FCLK_CLK1_BUF" value="false"/> 
+        <user_parameter name="CONFIG.PCW_FCLK_CLK2_BUF" value="false"/> 
+        <user_parameter name="CONFIG.PCW_FCLK_CLK3_BUF" value="false"/> 
+        <user_parameter name="CONFIG.PCW_FPGA0_PERIPHERAL_FREQMHZ" value="100"/> 
+        <user_parameter name="CONFIG.PCW_FPGA1_PERIPHERAL_FREQMHZ" value="100"/> 
+        <user_parameter name="CONFIG.PCW_FPGA2_PERIPHERAL_FREQMHZ" value="33.333333"/> 
+        <user_parameter name="CONFIG.PCW_FPGA3_PERIPHERAL_FREQMHZ" value="50"/> 
+        <user_parameter name="CONFIG.PCW_EN_CLK0_PORT" value="1"/> 
+        <user_parameter name="CONFIG.PCW_EN_CLK1_PORT" value="0"/> 
+        <user_parameter name="CONFIG.PCW_EN_CLK2_PORT" value="0"/> 
+        <user_parameter name="CONFIG.PCW_EN_CLK3_PORT" value="0"/> 
+        <user_parameter name="CONFIG.PCW_EN_RST0_PORT" value="1"/> 
+        <user_parameter name="CONFIG.PCW_EN_RST1_PORT" value="0"/> 
+        <user_parameter name="CONFIG.PCW_EN_RST2_PORT" value="0"/> 
+        <user_parameter name="CONFIG.PCW_EN_RST3_PORT" value="0"/> 
+        <user_parameter name="CONFIG.PCW_EN_DDR" value="1"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_MEMORY_TYPE" value="DDR 3 (Low Voltage)"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_PARTNO" value="MT41K256M16 RE-125"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_DEVICE_CAPACITY" value="4096 MBits"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_BUS_WIDTH" value="32 Bit" />
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_BL" value="8" />
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_T_FAW" value="40.0"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_T_RC" value="48.75"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_CWL" value="6"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_DRAM_WIDTH" value="16 Bits"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_T_RAS_MIN" value="35.0"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_SPEED_BIN" value="DDR3_1066F"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_CLOCK_0_LENGTH_MM" value="39.7"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_CLOCK_1_LENGTH_MM" value="39.7"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_CLOCK_2_LENGTH_MM" value="54.14"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_CLOCK_3_LENGTH_MM" value="54.14"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_DQ_0_LENGTH_MM" value="49.59"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_DQ_1_LENGTH_MM" value="51.74"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_DQ_2_LENGTH_MM" value="50.32"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_DQ_3_LENGTH_MM" value="48.55"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_DQS_0_LENGTH_MM" value="50.05"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_DQS_1_LENGTH_MM" value="50.43"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_DQS_2_LENGTH_MM" value="50.10"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_DQS_3_LENGTH_MM" value="50.01"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_TRAIN_DATA_EYE" value="1"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_TRAIN_WRITE_LEVEL" value="1"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_TRAIN_READ_GATE" value="1"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_0" value="-0.073"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_1" value="-0.072"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_2" value="0.024"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_3" value="0.023"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_BOARD_DELAY0" value="0.294"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_BOARD_DELAY1" value="0.298"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_BOARD_DELAY2" value="0.338"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_BOARD_DELAY3" value="0.334"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_USE_INTERNAL_VREF" value="0"/> 
+        <user_parameter name="CONFIG.PCW_QSPI_GRP_SINGLE_SS_IO" value="MIO 1 .. 6"/> 
+        <user_parameter name="CONFIG.PCW_USB0_RESET_IO" value="MIO 7"/> 
+        <user_parameter name="CONFIG.PCW_QSPI_GRP_FBCLK_IO" value="MIO 8"/> 
+        <user_parameter name="CONFIG.PCW_SD1_SD1_IO" value="MIO 10 .. 15"/> 
+        <user_parameter name="CONFIG.PCW_ENET0_ENET0_IO" value="MIO 16 .. 27"/> 
+        <user_parameter name="CONFIG.PCW_USB0_USB0_IO" value="MIO 28 .. 39"/> 
+        <user_parameter name="CONFIG.PCW_SD0_SD0_IO" value="MIO 40 .. 45"/> 
+        <user_parameter name="CONFIG.PCW_SD0_GRP_CD_IO" value="MIO 46"/> 
+        <user_parameter name="CONFIG.PCW_UART1_UART1_IO" value="MIO 48 .. 49"/> 
+        <user_parameter name="CONFIG.PCW_ENET0_GRP_MDIO_IO" value="MIO 52 .. 53"/> 
+        <user_parameter name="CONFIG.PCW_TTC0_TTC0_IO" value="EMIO"/> 
+        <user_parameter name="CONFIG.PCW_QSPI_PERIPHERAL_ENABLE" value="1"/> 
+        <user_parameter name="CONFIG.PCW_QSPI_GRP_FBCLK_ENABLE" value="1"/> 
+        <user_parameter name="CONFIG.PCW_QSPI_GRP_SINGLE_SS_ENABLE" value="1"/> 
+        <user_parameter name="CONFIG.PCW_USB0_PERIPHERAL_ENABLE" value="1"/> 
+        <user_parameter name="CONFIG.PCW_USB0_RESET_ENABLE" value="1"/>         
+        <user_parameter name="CONFIG.PCW_ENET0_PERIPHERAL_ENABLE" value="1"/> 
+        <user_parameter name="CONFIG.PCW_ENET0_GRP_MDIO_ENABLE" value="1"/> 
+        <user_parameter name="CONFIG.PCW_ENET0_RESET_ENABLE" value="0"/> 
+        <user_parameter name="CONFIG.PCW_SD0_PERIPHERAL_ENABLE" value="1"/> 
+        <user_parameter name="CONFIG.PCW_SD0_GRP_CD_ENABLE" value="1"/> 
+        <user_parameter name="CONFIG.PCW_SD0_GRP_WP_ENABLE" value="0"/> 
+        <user_parameter name="CONFIG.PCW_SD1_PERIPHERAL_ENABLE" value="1"/> 
+        <user_parameter name="CONFIG.PCW_SD1_GRP_CD_ENABLE" value="0"/> 
+        <user_parameter name="CONFIG.PCW_SD1_GRP_WP_ENABLE" value="0"/> 
+        <user_parameter name="CONFIG.PCW_UART1_PERIPHERAL_ENABLE" value="1"/> 
+        <user_parameter name="CONFIG.PCW_GPIO_PERIPHERAL_ENABLE" value="1"/> 
+        <user_parameter name="CONFIG.PCW_GPIO_MIO_GPIO_ENABLE" value="1"/> 
+        <user_parameter name="CONFIG.PCW_GPIO_EMIO_GPIO_ENABLE" value="0"/> 
+        <user_parameter name="CONFIG.PCW_TTC0_PERIPHERAL_ENABLE" value="1"/> 
+        <user_parameter name="CONFIG.PCW_I2C_RESET_ENABLE" value="0" />
+        <user_parameter name="CONFIG.PCW_MIO_0_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_1_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_2_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_3_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_4_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_5_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_6_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_7_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_8_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_9_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_10_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_11_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_12_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_13_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_14_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_15_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_16_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_17_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_18_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_19_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_20_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_21_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_22_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_23_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_24_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_25_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_26_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_27_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_28_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_29_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_30_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_31_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_32_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_33_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_34_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_35_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_36_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_37_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_38_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_39_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_40_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_41_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_42_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_43_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_44_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_45_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_46_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_47_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_48_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_49_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_50_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_51_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_52_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_53_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_0_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_1_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_2_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_3_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_4_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_5_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_6_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_7_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_8_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_9_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_10_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_11_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_12_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_13_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_14_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_15_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_16_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_17_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_18_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_19_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_20_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_21_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_22_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_23_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_24_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_25_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_26_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_27_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_28_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_29_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_30_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_31_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_32_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_33_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_34_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_35_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_36_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_37_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_38_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_39_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_40_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_41_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_42_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_43_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_44_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_45_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_46_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_47_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_48_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_49_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_50_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_51_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_52_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_53_SLEW" value="slow"/> 
+      </user_parameters>
+    </ip>
+  </ip_preset>
+  
+  <ip_preset preset_proc_name="pl_led_1bit_preset">
+    <ip vendor="xilinx.com" library="ip" name="axi_gpio" ip_interface="GPIO">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_GPIO_WIDTH" value="1"/> 
+          <user_parameter name="CONFIG.C_ALL_OUTPUTS" value="1"/> 
+	  <user_parameter name="CONFIG.C_ALL_INPUTS" value="0"/>
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="axi_gpio" ip_interface="GPIO2">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_IS_DUAL" value="1"/> 
+          <user_parameter name="CONFIG.C_GPIO2_WIDTH" value="1"/> 
+          <user_parameter name="CONFIG.C_ALL_OUTPUTS_2" value="1"/> 
+	  <user_parameter name="CONFIG.C_ALL_INPUTS_2" value="0"/>
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO1">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_USE_GPO1" value="1"/> 
+          <user_parameter name="CONFIG.C_GPO1_SIZE" value="1"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO2">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_USE_GPO2" value="1"/> 
+          <user_parameter name="CONFIG.C_GPO2_SIZE" value="1"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO3">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_USE_GPO3" value="1"/> 
+          <user_parameter name="CONFIG.C_GPO3_SIZE" value="1"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO4">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_USE_GPO4" value="1"/> 
+          <user_parameter name="CONFIG.C_GPO4_SIZE" value="1"/> 
+        </user_parameters>
+     </ip>
+    <ip vendor="xilinx.com" library="ip" name="microblaze_mcs" ip_interface="GPIO1">
+        <user_parameters>
+          <user_parameter name="CONFIG.USE_GPO1" value="1"/> 
+          <user_parameter name="CONFIG.GPO1_SIZE" value="1"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="microblaze_mcs" ip_interface="GPIO2">
+        <user_parameters>
+          <user_parameter name="CONFIG.USE_GPO2" value="1"/> 
+          <user_parameter name="CONFIG.GPO2_SIZE" value="1"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="microblaze_mcs" ip_interface="GPIO3">
+        <user_parameters>
+          <user_parameter name="CONFIG.USE_GPO3" value="1"/> 
+          <user_parameter name="CONFIG.GPO3_SIZE" value="1"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="microblaze_mcs" ip_interface="GPIO4">
+        <user_parameters>
+          <user_parameter name="CONFIG.USE_GPO4" value="1"/> 
+          <user_parameter name="CONFIG.GPO4_SIZE" value="1"/> 
+        </user_parameters>
+    </ip>
+  </ip_preset>
+
+  <ip_preset preset_proc_name="pl_pb_1bit_preset">
+    <ip vendor="xilinx.com" library="ip" name="axi_gpio" ip_interface="GPIO">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_GPIO_WIDTH" value="1"/> 
+          <user_parameter name="CONFIG.C_ALL_INPUTS" value="1"/> 
+          <user_parameter name="CONFIG.C_ALL_OUTPUTS" value="0"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="axi_gpio" ip_interface="GPIO2">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_IS_DUAL" value="1"/> 
+          <user_parameter name="CONFIG.C_GPIO2_WIDTH" value="1"/> 
+          <user_parameter name="CONFIG.C_ALL_INPUTS_2" value="1"/> 
+          <user_parameter name="CONFIG.C_ALL_OUTPUTS_2" value="0"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO1">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_USE_GPI1" value="1"/> 
+          <user_parameter name="CONFIG.C_GPI1_SIZE" value="1"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO2">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_USE_GPI2" value="1"/> 
+          <user_parameter name="CONFIG.C_GPI2_SIZE" value="1"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO3">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_USE_GPI3" value="1"/> 
+          <user_parameter name="CONFIG.C_GPI3_SIZE" value="1"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO4">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_USE_GPI4" value="1"/> 
+          <user_parameter name="CONFIG.C_GPI4_SIZE" value="1"/> 
+        </user_parameters>
+        </ip>
+    <ip vendor="xilinx.com" library="ip" name="microblaze_mcs" ip_interface="GPIO1">
+        <user_parameters>
+          <user_parameter name="CONFIG.USE_GPI1" value="1"/> 
+          <user_parameter name="CONFIG.GPI1_SIZE" value="1"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="microblaze_mcs" ip_interface="GPIO2">
+        <user_parameters>
+          <user_parameter name="CONFIG.USE_GPI2" value="1"/> 
+          <user_parameter name="CONFIG.GPI2_SIZE" value="1"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="microblaze_mcs" ip_interface="GPIO3">
+        <user_parameters>
+          <user_parameter name="CONFIG.USE_GPI3" value="1"/> 
+          <user_parameter name="CONFIG.GPI3_SIZE" value="1"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="microblaze_mcs" ip_interface="GPIO4">
+        <user_parameters>
+          <user_parameter name="CONFIG.USE_GPI4" value="1"/> 
+          <user_parameter name="CONFIG.GPI4_SIZE" value="1"/> 
+        </user_parameters>
+  </ip>
+</ip_preset>
+  
+</ip_presets>

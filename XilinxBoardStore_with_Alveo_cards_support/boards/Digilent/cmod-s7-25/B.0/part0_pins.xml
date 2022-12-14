@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?> 
+<part_info part_name="xc7s25csga225-1">
+    <pins>
+        <pin index="0"  name="clk"                        iostandard="LVCMOS33" loc="M9"/> <!-- Schematic Name: GCLK -->
+
+        <pin index="1"  name="led_4bits_tri_io_0"         iostandard="LVCMOS33" loc="E2"/> <!-- Schematic Name: LED1 -->
+        <pin index="2"  name="led_4bits_tri_io_1"         iostandard="LVCMOS33" loc="K1"/> <!-- Schematic Name: LED2 -->
+        <pin index="3"  name="led_4bits_tri_io_2"         iostandard="LVCMOS33" loc="J1"/> <!-- Schematic Name: LED3 -->
+        <pin index="4"  name="led_4bits_tri_io_3"         iostandard="LVCMOS33" loc="E1"/> <!-- Schematic Name: LED4 -->
+
+        <pin index="5"  name="rgb_led_3bits_tri_io_0"     iostandard="LVCMOS33" loc="F1"/> <!-- Schematic Name: LED0_B -->
+        <pin index="6"  name="rgb_led_3bits_tri_io_1"     iostandard="LVCMOS33" loc="D3"/> <!-- Schematic Name: LED0_G -->
+        <pin index="7"  name="rgb_led_3bits_tri_io_2"     iostandard="LVCMOS33" loc="F2"/> <!-- Schematic Name: LED0_R -->
+
+        <pin index="8"  name="push_buttons_2bits_tri_i_0" iostandard="LVCMOS33" loc="D2"/> <!-- Schematic Name: BTN0 -->
+        <pin index="9"  name="push_buttons_2bits_tri_i_1" iostandard="LVCMOS33" loc="D1"/> <!-- Schematic Name: BTN1 -->
+
+        <pin index="10" name="usb_uart_txd"               iostandard="LVCMOS33" loc="L12"/> <!-- Schematic Name: UART_RXD_OUT -->
+        <pin index="11" name="usb_uart_rxd"               iostandard="LVCMOS33" loc="K15"/> <!-- Schematic Name: UART_TXD_IN -->
+
+        <pin index="12" name="qspi_db0"                   iostandard="LVCMOS33" loc="H14"/> <!-- Schematic Name: QSPI_DQ0 -->
+        <pin index="13" name="qspi_db1"                   iostandard="LVCMOS33" loc="H15"/> <!-- Schematic Name: QSPI_DQ1 -->
+        <pin index="14" name="qspi_db2"                   iostandard="LVCMOS33" loc="J12"/> <!-- Schematic Name: QSPI_DQ2 -->
+        <pin index="15" name="qspi_db3"                   iostandard="LVCMOS33" loc="K13"/> <!-- Schematic Name: QSPI_DQ3 -->
+        <pin index="16" name="qspi_csn"                   iostandard="LVCMOS33" loc="L11"/> <!-- Schematic Name: QSPI_CS -->
+        <pin index="17" name="qspi_sck"                   iostandard="LVCMOS33" loc="K12"/> <!-- Schematic Name: QSPI_CS -->
+                            
+        <pin index="18" name="JA1"                        iostandard="LVCMOS33" loc="J2"/> <!-- Schematic Name: JA1 -->
+        <pin index="19" name="JA2"                        iostandard="LVCMOS33" loc="H2"/> <!-- Schematic Name: JA2 -->
+        <pin index="20" name="JA3"                        iostandard="LVCMOS33" loc="H4"/> <!-- Schematic Name: JA3 -->
+        <pin index="21" name="JA4"                        iostandard="LVCMOS33" loc="F3"/> <!-- Schematic Name: JA4 -->
+        <pin index="22" name="JA7"                        iostandard="LVCMOS33" loc="H3"/> <!-- Schematic Name: JA7 -->
+        <pin index="23" name="JA8"                        iostandard="LVCMOS33" loc="H1"/> <!-- Schematic Name: JA8 -->
+        <pin index="24" name="JA9"                        iostandard="LVCMOS33" loc="G1"/> <!-- Schematic Name: JA9 -->
+        <pin index="25" name="JA10"                       iostandard="LVCMOS33" loc="F4"/> <!-- Schematic Name: JA10 -->
+    </pins>
+</part_info>

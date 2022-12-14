@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?> 
+<!-- ##################################################################### -->
+<!-- ##TE File Version:1.0-->
+<!-- ##TE Last Modification:2018.01.29 -->
+<!-- ##################################################################### -->
+<ip_presets schema="1.0">
+  <!--insert ip presets here, see ug895 or other board part files-->
+  <ip_preset preset_proc_name="ps7_preset"> 
+    <ip vendor="xilinx.com" library="ip" name="processing_system7" version="*"> 
+      <user_parameters>
+        <user_parameter  name="CONFIG.PCW_PRESET_BANK0_VOLTAGE" value="LVCMOS 3.3V"/>
+        <user_parameter  name="CONFIG.PCW_PRESET_BANK1_VOLTAGE" value="LVCMOS 3.3V"/>
+        <user_parameter  name="CONFIG.PCW_CRYSTAL_PERIPHERAL_FREQMHZ" value="33.33333"/>
+        <user_parameter  name="CONFIG.PCW_QSPI_PERIPHERAL_ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PCW_QSPI_GRP_SINGLE_SS_ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PCW_SINGLE_QSPI_DATA_MODE" value="x4"/>
+        <user_parameter  name="CONFIG.PCW_QSPI_QSPI_IO" value="MIO 1 .. 6"/>
+        <user_parameter  name="CONFIG.PCW_UART1_PERIPHERAL_ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PCW_UART1_UART1_IO" value="MIO 8 .. 9"/>
+        <user_parameter  name="CONFIG.PCW_I2C1_PERIPHERAL_ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PCW_I2C1_I2C1_IO" value="MIO 48 .. 49"/>
+        <user_parameter  name="CONFIG.PCW_SD1_PERIPHERAL_ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PCW_SD1_SD1_IO" value="MIO 10 .. 15"/>
+        <user_parameter  name="CONFIG.PCW_SD1_GRP_CD_ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PCW_SD1_GRP_CD_IO" value="0"/>
+        <user_parameter  name="CONFIG.PCW_MIO_10_PULLUP" value="disabled"/>
+        <user_parameter  name="CONFIG.PCW_MIO_11_PULLUP" value="disabled"/>
+        <user_parameter  name="CONFIG.PCW_MIO_12_PULLUP" value="disabled"/>
+        <user_parameter  name="CONFIG.PCW_MIO_13_PULLUP" value="disabled"/>
+        <user_parameter  name="CONFIG.PCW_MIO_14_PULLUP" value="disabled"/>
+        <user_parameter  name="CONFIG.PCW_MIO_15_PULLUP" value="disabled"/>
+        <user_parameter  name="CONFIG.PCW_USB0_PERIPHERAL_ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PCW_USB0_USB0_IO" value="MIO 28 .. 39"/>
+        <user_parameter  name="CONFIG.PCW_WDT_PERIPHERAL_ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PCW_TTC0_PERIPHERAL_ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PCW_TTC1_PERIPHERAL_ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PCW_UIPARAM_DDR_MEMORY_TYPE" value="DDR 3 (Low Voltage)"/>
+        <user_parameter  name="CONFIG.PCW_UIPARAM_DDR_PARTNO" value="MT41J256M16 RE-125"/>
+        <user_parameter  name="CONFIG.PCW_USB0_RESET_ENABLE" value="1"/>
+        <user_parameter  name="CONFIG.PCW_USB0_RESET_IO" value="MIO 7"/>
+        <user_parameter  name="CONFIG.PCW_I2C_RESET_ENABLE" value="0"/>
+        <user_parameter  name="CONFIG.PCW_GPIO_MIO_GPIO_ENABLE" value="1"/>
+      </user_parameters>
+    </ip>
+  </ip_preset>
+ 
+   
+</ip_presets>

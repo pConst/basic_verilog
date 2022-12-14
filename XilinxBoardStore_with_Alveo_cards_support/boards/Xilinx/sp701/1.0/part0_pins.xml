@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?> 
+<part_info part_name="xc7s100fgga676-2">
+<pins>
+  <pin index="0"  name ="dip_switches_tri_i_0"  iostandard="LVCMOS18" loc="AD21"/>
+  <pin index="1"  name ="dip_switches_tri_i_1"  iostandard="LVCMOS18" loc="AF22"/>
+  <pin index="2"  name ="dip_switches_tri_i_2"  iostandard="LVCMOS18" loc="AE22"/>
+  <pin index="3"  name ="dip_switches_tri_i_3"  iostandard="LVCMOS18" loc="AE23"/>
+  <pin index="4"  name ="dip_switches_tri_i_4"  iostandard="LVCMOS18" loc="AF25"/>
+  <pin index="5"  name ="dip_switches_tri_i_5"  iostandard="LVCMOS18" loc="AE25"/>
+  <pin index="6"  name ="dip_switches_tri_i_6"  iostandard="LVCMOS18" loc="AD25"/>
+  <pin index="7"  name ="dip_switches_tri_i_7"  iostandard="LVCMOS18" loc="AC24"/>
+  <pin index="8"  name ="dip_switches_tri_i_8"  iostandard="LVCMOS18" loc="AC23"/>
+  <pin index="9"  name ="dip_switches_tri_i_9"  iostandard="LVCMOS18" loc="AD23"/>
+  <pin index="10" name ="dip_switches_tri_i_10" iostandard="LVCMOS18" loc="AC21"/>
+  <pin index="11" name ="dip_switches_tri_i_11" iostandard="LVCMOS18" loc="AB21"/>
+  <pin index="12" name ="dip_switches_tri_i_12" iostandard="LVCMOS18" loc="AA19"/>
+  <pin index="13" name ="dip_switches_tri_i_13" iostandard="LVCMOS18" loc="AB19"/>
+  <pin index="14" name ="dip_switches_tri_i_14" iostandard="LVCMOS18" loc="AE17"/>
+  <pin index="15" name ="dip_switches_tri_i_15" iostandard="LVCMOS18" loc="AF15"/>  
+  
+  <pin index="16" name ="led_8bits_tri_o_0" iostandard="LVCMOS33" loc="J25"/>
+  <pin index="17" name ="led_8bits_tri_o_1" iostandard="LVCMOS33" loc="M24"/>
+  <pin index="18" name ="led_8bits_tri_o_2" iostandard="LVCMOS33" loc="L24"/>
+  <pin index="19" name ="led_8bits_tri_o_3" iostandard="LVCMOS33" loc="K25"/>
+  <pin index="20" name ="led_8bits_tri_o_4" iostandard="LVCMOS33" loc="K26"/>
+  <pin index="21" name ="led_8bits_tri_o_5" iostandard="LVCMOS33" loc="M25"/>
+  <pin index="22" name ="led_8bits_tri_o_6" iostandard="LVCMOS33" loc="L25"/>  
+  <pin index="23" name ="led_8bits_tri_o_7" iostandard="LVCMOS33" loc="H22"/>    
+  
+  <pin index="24" name ="push_buttons_5bits_tri_i_0" iostandard="LVCMOS18" loc="AF23"/>
+  <pin index="25" name ="push_buttons_5bits_tri_i_1" iostandard="LVCMOS18" loc="AA20"/>
+  <pin index="26" name ="push_buttons_5bits_tri_i_2" iostandard="LVCMOS18" loc="AB20"/>
+  <pin index="27" name ="push_buttons_5bits_tri_i_3" iostandard="LVCMOS18" loc="AB22"/>
+  <pin index="28" name ="push_buttons_5bits_tri_i_4" iostandard="LVCMOS18" loc="AC22"/>  
+  
+  <pin index="29" name ="RESET" iostandard="LVCMOS18" loc="AE15"/>  
+  
+  <pin index="30" name ="mdc_1" iostandard="LVCMOS25" loc="AE1"/>
+  <pin index="31" name ="mdio_i_1" iostandard="LVCMOS25" loc="AC7"/>
+  <pin index="32" name ="phy_rst_out_1" iostandard="LVCMOS25" loc="AD1"/>
+  
+  <pin index="33" name ="rgmii_1_rd_0"   iostandard="LVCMOS25" loc="AE3" />
+  <pin index="34" name ="rgmii_1_rd_1"   iostandard="LVCMOS25" loc="AF2" />
+  <pin index="35" name ="rgmii_1_rd_2"   iostandard="LVCMOS25" loc="AF3" />
+  <pin index="36" name ="rgmii_1_rd_3"   iostandard="LVCMOS25" loc="AC2" />
+  <pin index="37" name ="rgmii_1_rxc"    iostandard="LVCMOS25" loc="AF8" />
+  <pin index="38" name ="rgmii_1_rx_ctl" iostandard="LVCMOS25" loc="AF7" />
+  <pin index="39" name ="rgmii_1_td_0"   iostandard="LVCMOS25" loc="AF4" />
+  <pin index="40" name ="rgmii_1_td_1"   iostandard="LVCMOS25" loc="AD3" />
+  <pin index="41" name ="rgmii_1_td_2"   iostandard="LVCMOS25" loc="AF5" />
+  <pin index="42" name ="rgmii_1_td_3"   iostandard="LVCMOS25" loc="AC4" />
+  <pin index="43" name ="rgmii_1_txc"    iostandard="LVCMOS25" loc="AC3" />
+  <pin index="44" name ="rgmii_1_tx_ctl" iostandard="LVCMOS25" loc="AD4" />  
+ 
+  <pin index="50" name ="mdc_2" iostandard="LVCMOS25"         loc="AB6"/>
+  <pin index="51" name ="mdio_i_2" iostandard="LVCMOS25"      loc="AC6"/>
+  <pin index="52" name ="phy_rst_out_2" iostandard="LVCMOS25" loc="AF14"/>
+  
+  <pin index="53" name ="rgmii_2_rd_0"   iostandard="LVCMOS25" loc="AA8" />
+  <pin index="54" name ="rgmii_2_rd_1"   iostandard="LVCMOS25" loc="AE6" />
+  <pin index="55" name ="rgmii_2_rd_2"   iostandard="LVCMOS25" loc="AD6" />
+  <pin index="56" name ="rgmii_2_rd_3"   iostandard="LVCMOS25" loc="AE5" />
+  <pin index="57" name ="rgmii_2_rxc"    iostandard="LVCMOS25" loc="AC8" />
+  <pin index="58" name ="rgmii_2_rx_ctl" iostandard="LVCMOS25" loc="AB7" />
+  <pin index="59" name ="rgmii_2_td_0"   iostandard="LVCMOS25" loc="AC11" />
+  <pin index="60" name ="rgmii_2_td_1"   iostandard="LVCMOS25" loc="AB11" />
+  <pin index="61" name ="rgmii_2_td_2"   iostandard="LVCMOS25" loc="AF13" />
+  <pin index="62" name ="rgmii_2_td_3"   iostandard="LVCMOS25" loc="AD14" />
+  <pin index="63" name ="rgmii_2_txc"    iostandard="LVCMOS25" loc="AE10" />
+  <pin index="64" name ="rgmii_2_tx_ctl" iostandard="LVCMOS25" loc="AD5" />  
+  
+  <pin index="72" name ="spi_io0_i" iostandard="LVCMOS33"  loc="N23"/>
+  <pin index="73" name ="spi_io1_i" iostandard="LVCMOS33"  loc="N24"/>
+  <pin index="74" name ="spi_io2_i" iostandard="LVCMOS33"  loc="P23"/>
+  <pin index="75" name ="spi_io3_i" iostandard="LVCMOS33"  loc="R23"/>
+  <pin index="76" name ="spi_ss_i_0" iostandard="LVCMOS33" loc="R20"/>
+  
+  <pin index="77" name ="SYSCLK_N" iostandard="LVDS_25" loc="AE7"/>
+  <pin index="78" name ="SYSCLK_P" iostandard="LVDS_25" loc="AE8"/>
+  
+  <pin index="80" name ="rs232_uart_rxd" iostandard="LVCMOS33" loc="Y22"/>
+  <pin index="81" name ="rs232_uart_txd" iostandard="LVCMOS33" loc="Y21"/>  
+  
+  <pin index="82"  name ="IIC0_SCL_MAIN" iostandard="LVCMOS33" loc="F17" drive="8" slew="SLOW"/>
+  <pin index="83"  name ="IIC0_SDA_MAIN" iostandard="LVCMOS33" loc="F18" drive="8" slew="SLOW"/>  
+  
+</pins>
+</part_info>

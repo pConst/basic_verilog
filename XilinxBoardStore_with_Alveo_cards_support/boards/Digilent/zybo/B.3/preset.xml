@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?> 
+<ip_presets schema="1.0">
+  <ip_preset preset_proc_name="ps7_preset">
+    <ip vendor="xilinx.com" library="ip" name="processing_system7" version="*">
+      <user_parameters>
+        <user_parameter name="CONFIG.PCW_APU_PERIPHERAL_FREQMHZ" value="650"/> 
+        <user_parameter name="CONFIG.PCW_CRYSTAL_PERIPHERAL_FREQMHZ" value="50.000000"/> 
+        <user_parameter name="CONFIG.PCW_ENET0_ENET0_IO" value="MIO 16 .. 27"/> 
+        <user_parameter name="CONFIG.PCW_ENET0_GRP_MDIO_ENABLE" value="1"/> 
+        <user_parameter name="CONFIG.PCW_ENET0_PERIPHERAL_ENABLE" value="1"/> 
+        <user_parameter name="CONFIG.PCW_ENET0_RESET_ENABLE" value="0"/> 
+        <user_parameter name="CONFIG.PCW_FPGA0_PERIPHERAL_FREQMHZ" value="100"/> 
+        <user_parameter name="CONFIG.PCW_GPIO_MIO_GPIO_ENABLE" value="1"/> 
+        <user_parameter name="CONFIG.PCW_MIO_0_PULLUP" value="enabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_10_PULLUP" value="enabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_11_PULLUP" value="enabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_12_PULLUP" value="enabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_16_IOTYPE" value="HSTL 1.8V"/> 
+        <user_parameter name="CONFIG.PCW_MIO_16_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_16_SLEW" value="fast"/> 
+        <user_parameter name="CONFIG.PCW_MIO_17_IOTYPE" value="HSTL 1.8V"/> 
+        <user_parameter name="CONFIG.PCW_MIO_17_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_17_SLEW" value="fast"/> 
+        <user_parameter name="CONFIG.PCW_MIO_18_IOTYPE" value="HSTL 1.8V"/> 
+        <user_parameter name="CONFIG.PCW_MIO_18_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_18_SLEW" value="fast"/> 
+        <user_parameter name="CONFIG.PCW_MIO_19_IOTYPE" value="HSTL 1.8V"/> 
+        <user_parameter name="CONFIG.PCW_MIO_19_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_19_SLEW" value="fast"/> 
+        <user_parameter name="CONFIG.PCW_MIO_1_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_1_SLEW" value="fast"/> 
+        <user_parameter name="CONFIG.PCW_MIO_20_IOTYPE" value="HSTL 1.8V"/> 
+        <user_parameter name="CONFIG.PCW_MIO_20_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_20_SLEW" value="fast"/> 
+        <user_parameter name="CONFIG.PCW_MIO_21_IOTYPE" value="HSTL 1.8V"/> 
+        <user_parameter name="CONFIG.PCW_MIO_21_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_21_SLEW" value="fast"/> 
+        <user_parameter name="CONFIG.PCW_MIO_22_IOTYPE" value="HSTL 1.8V"/> 
+        <user_parameter name="CONFIG.PCW_MIO_22_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_22_SLEW" value="fast"/> 
+        <user_parameter name="CONFIG.PCW_MIO_23_IOTYPE" value="HSTL 1.8V"/> 
+        <user_parameter name="CONFIG.PCW_MIO_23_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_23_SLEW" value="fast"/> 
+        <user_parameter name="CONFIG.PCW_MIO_24_IOTYPE" value="HSTL 1.8V"/> 
+        <user_parameter name="CONFIG.PCW_MIO_24_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_24_SLEW" value="fast"/> 
+        <user_parameter name="CONFIG.PCW_MIO_25_IOTYPE" value="HSTL 1.8V"/> 
+        <user_parameter name="CONFIG.PCW_MIO_25_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_25_SLEW" value="fast"/> 
+        <user_parameter name="CONFIG.PCW_MIO_26_IOTYPE" value="HSTL 1.8V"/> 
+        <user_parameter name="CONFIG.PCW_MIO_26_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_26_SLEW" value="fast"/> 
+        <user_parameter name="CONFIG.PCW_MIO_27_IOTYPE" value="HSTL 1.8V"/> 
+        <user_parameter name="CONFIG.PCW_MIO_27_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_27_SLEW" value="fast"/> 
+        <user_parameter name="CONFIG.PCW_MIO_28_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_28_SLEW" value="fast"/> 
+        <user_parameter name="CONFIG.PCW_MIO_29_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_29_SLEW" value="fast"/> 
+        <user_parameter name="CONFIG.PCW_MIO_2_SLEW" value="fast"/> 
+        <user_parameter name="CONFIG.PCW_MIO_30_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_30_SLEW" value="fast"/> 
+        <user_parameter name="CONFIG.PCW_MIO_31_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_31_SLEW" value="fast"/> 
+        <user_parameter name="CONFIG.PCW_MIO_32_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_32_SLEW" value="fast"/> 
+        <user_parameter name="CONFIG.PCW_MIO_33_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_33_SLEW" value="fast"/> 
+        <user_parameter name="CONFIG.PCW_MIO_34_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_34_SLEW" value="fast"/> 
+        <user_parameter name="CONFIG.PCW_MIO_35_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_35_SLEW" value="fast"/> 
+        <user_parameter name="CONFIG.PCW_MIO_36_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_36_SLEW" value="fast"/> 
+        <user_parameter name="CONFIG.PCW_MIO_37_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_37_SLEW" value="fast"/> 
+        <user_parameter name="CONFIG.PCW_MIO_38_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_38_SLEW" value="fast"/> 
+        <user_parameter name="CONFIG.PCW_MIO_39_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_39_SLEW" value="fast"/> 
+        <user_parameter name="CONFIG.PCW_MIO_3_SLEW" value="fast"/> 
+        <user_parameter name="CONFIG.PCW_MIO_40_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_40_SLEW" value="fast"/> 
+        <user_parameter name="CONFIG.PCW_MIO_41_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_41_SLEW" value="fast"/> 
+        <user_parameter name="CONFIG.PCW_MIO_42_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_42_SLEW" value="fast"/> 
+        <user_parameter name="CONFIG.PCW_MIO_43_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_43_SLEW" value="fast"/> 
+        <user_parameter name="CONFIG.PCW_MIO_44_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_44_SLEW" value="fast"/> 
+        <user_parameter name="CONFIG.PCW_MIO_45_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_45_SLEW" value="fast"/> 
+        <user_parameter name="CONFIG.PCW_MIO_47_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_48_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_49_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_4_SLEW" value="fast"/> 
+        <user_parameter name="CONFIG.PCW_MIO_50_DIRECTION" value="inout"/> 
+        <user_parameter name="CONFIG.PCW_MIO_50_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_51_DIRECTION" value="inout"/> 
+        <user_parameter name="CONFIG.PCW_MIO_51_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_52_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_52_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_53_PULLUP" value="disabled"/> 
+        <user_parameter name="CONFIG.PCW_MIO_53_SLEW" value="slow"/> 
+        <user_parameter name="CONFIG.PCW_MIO_5_SLEW" value="fast"/> 
+        <user_parameter name="CONFIG.PCW_MIO_6_SLEW" value="fast"/> 
+        <user_parameter name="CONFIG.PCW_MIO_8_SLEW" value="fast"/> 
+        <user_parameter name="CONFIG.PCW_MIO_9_PULLUP" value="enabled"/> 
+        <user_parameter name="CONFIG.PCW_PRESET_BANK1_VOLTAGE" value="LVCMOS 1.8V"/> 
+        <user_parameter name="CONFIG.PCW_QSPI_GRP_FBCLK_ENABLE" value="1"/> 
+        <user_parameter name="CONFIG.PCW_QSPI_GRP_SINGLE_SS_ENABLE" value="1"/> 
+        <user_parameter name="CONFIG.PCW_QSPI_PERIPHERAL_ENABLE" value="1"/> 
+        <user_parameter name="CONFIG.PCW_SD0_GRP_CD_ENABLE" value="1"/> 
+        <user_parameter name="CONFIG.PCW_SD0_GRP_CD_IO" value="MIO 47"/> 
+        <user_parameter name="CONFIG.PCW_SD0_GRP_WP_ENABLE" value="1"/> 
+        <user_parameter name="CONFIG.PCW_SD0_PERIPHERAL_ENABLE" value="1"/> 
+        <user_parameter name="CONFIG.PCW_SDIO_PERIPHERAL_FREQMHZ" value="50"/> 
+        <user_parameter name="CONFIG.PCW_TTC0_PERIPHERAL_ENABLE" value="1"/> 
+        <user_parameter name="CONFIG.PCW_UART1_PERIPHERAL_ENABLE" value="1"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_BOARD_DELAY0" value="0.176"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_BOARD_DELAY1" value="0.159"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_BOARD_DELAY2" value="0.162"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_BOARD_DELAY3" value="0.187"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_0" value="-0.073"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_1" value="-0.034"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_2" value="-0.03"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_3" value="-0.082"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_FREQ_MHZ" value="525"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_PARTNO" value="MT41K128M16 JT-125"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_TRAIN_DATA_EYE" value="1"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_TRAIN_READ_GATE" value="1"/> 
+        <user_parameter name="CONFIG.PCW_UIPARAM_DDR_TRAIN_WRITE_LEVEL" value="1"/> 
+        <user_parameter name="CONFIG.PCW_USB0_PERIPHERAL_ENABLE" value="1"/> 
+        <user_parameter name="CONFIG.PCW_USB0_RESET_ENABLE" value="1"/> 
+        <user_parameter name="CONFIG.PCW_USB0_RESET_IO" value="MIO 46"/> 
+      </user_parameters>
+    </ip>
+  </ip_preset>
+  
+  <ip_preset preset_proc_name="dip_switches_4bits_preset">
+    <ip vendor="xilinx.com" library="ip" name="axi_gpio" ip_interface="GPIO">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_GPIO_WIDTH" value="4"/> 
+          <user_parameter name="CONFIG.C_ALL_INPUTS" value="1"/> 
+	  <user_parameter name="CONFIG.C_ALL_OUTPUTS" value="0"/>
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="axi_gpio" ip_interface="GPIO2">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_IS_DUAL" value="1"/> 
+          <user_parameter name="CONFIG.C_GPIO2_WIDTH" value="4"/> 
+          <user_parameter name="CONFIG.C_ALL_INPUTS_2" value="1"/> 
+	  <user_parameter name="CONFIG.C_ALL_OUTPUTS_2" value="0"/>
+        </user_parameters>
+    </ip>
+	<ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO1">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_USE_GPI1" value="1"/> 
+          <user_parameter name="CONFIG.C_GPI1_SIZE" value="4"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO2">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_USE_GPI2" value="1"/> 
+          <user_parameter name="CONFIG.C_GPI2_SIZE" value="4"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO3">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_USE_GPI3" value="1"/> 
+          <user_parameter name="CONFIG.C_GPI3_SIZE" value="4"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO4">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_USE_GPI4" value="1"/> 
+          <user_parameter name="CONFIG.C_GPI4_SIZE" value="4"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="microblaze_mcs" ip_interface="GPIO1">
+        <user_parameters>
+          <user_parameter name="CONFIG.USE_GPI1" value="1"/> 
+          <user_parameter name="CONFIG.GPI1_SIZE" value="4"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="microblaze_mcs" ip_interface="GPIO2">
+        <user_parameters>
+          <user_parameter name="CONFIG.USE_GPI2" value="1"/> 
+          <user_parameter name="CONFIG.GPI2_SIZE" value="4"/> 
+        </user_parameters>
+    </ip>
+     <ip vendor="xilinx.com" library="ip" name="microblaze_mcs" ip_interface="GPIO3">
+        <user_parameters>
+          <user_parameter name="CONFIG.USE_GPI3" value="1"/> 
+          <user_parameter name="CONFIG.GPI1_SIZE" value="4"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="microblaze_mcs" ip_interface="GPIO4">
+        <user_parameters>
+          <user_parameter name="CONFIG.USE_GPI4" value="1"/> 
+          <user_parameter name="CONFIG.GPI2_SIZE" value="4"/> 
+        </user_parameters>
+    </ip>
+  </ip_preset>
+  
+  <ip_preset preset_proc_name="push_buttons_4bits_preset">
+    <ip vendor="xilinx.com" library="ip" name="axi_gpio" ip_interface="GPIO">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_GPIO_WIDTH" value="4"/> 
+          <user_parameter name="CONFIG.C_ALL_INPUTS" value="1"/> 
+	  <user_parameter name="CONFIG.C_ALL_OUTPUTS" value="0"/>
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="axi_gpio" ip_interface="GPIO2">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_IS_DUAL" value="1"/> 
+          <user_parameter name="CONFIG.C_GPIO2_WIDTH" value="4"/> 
+          <user_parameter name="CONFIG.C_ALL_INPUTS_2" value="1"/> 
+	  <user_parameter name="CONFIG.C_ALL_OUTPUTS_2" value="0"/>
+        </user_parameters>
+    </ip>
+	<ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO1">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_USE_GPI1" value="1"/> 
+          <user_parameter name="CONFIG.C_GPI1_SIZE" value="4"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO2">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_USE_GPI2" value="1"/> 
+          <user_parameter name="CONFIG.C_GPI2_SIZE" value="4"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO3">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_USE_GPI3" value="1"/> 
+          <user_parameter name="CONFIG.C_GPI3_SIZE" value="4"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO4">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_USE_GPI4" value="1"/> 
+          <user_parameter name="CONFIG.C_GPI4_SIZE" value="4"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="microblaze_mcs" ip_interface="GPIO1">
+        <user_parameters>
+          <user_parameter name="CONFIG.USE_GPI1" value="1"/> 
+          <user_parameter name="CONFIG.GPI1_SIZE" value="4"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="microblaze_mcs" ip_interface="GPIO2">
+        <user_parameters>
+          <user_parameter name="CONFIG.USE_GPI2" value="1"/> 
+          <user_parameter name="CONFIG.GPI2_SIZE" value="4"/> 
+        </user_parameters>
+    </ip>
+     <ip vendor="xilinx.com" library="ip" name="microblaze_mcs" ip_interface="GPIO3">
+        <user_parameters>
+          <user_parameter name="CONFIG.USE_GPI3" value="1"/> 
+          <user_parameter name="CONFIG.GPI1_SIZE" value="4"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="microblaze_mcs" ip_interface="GPIO4">
+        <user_parameters>
+          <user_parameter name="CONFIG.USE_GPI4" value="1"/> 
+          <user_parameter name="CONFIG.GPI2_SIZE" value="4"/> 
+        </user_parameters>
+    </ip>
+  </ip_preset>
+  
+  <ip_preset preset_proc_name="led_4bits_preset">
+    <ip vendor="xilinx.com" library="ip" name="axi_gpio" ip_interface="GPIO">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_GPIO_WIDTH" value="4"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="axi_gpio" ip_interface="GPIO2">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_IS_DUAL" value="1"/> 
+          <user_parameter name="CONFIG.C_GPIO2_WIDTH" value="4"/> 
+        </user_parameters>
+    </ip>
+	<ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO1">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_USE_GPI1" value="1"/> 
+          <user_parameter name="CONFIG.C_GPI1_SIZE" value="4"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO2">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_USE_GPI2" value="1"/> 
+          <user_parameter name="CONFIG.C_GPI2_SIZE" value="4"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO3">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_USE_GPI3" value="1"/> 
+          <user_parameter name="CONFIG.C_GPI3_SIZE" value="4"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO4">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_USE_GPI4" value="1"/> 
+          <user_parameter name="CONFIG.C_GPI4_SIZE" value="4"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="microblaze_mcs" ip_interface="GPIO1">
+        <user_parameters>
+          <user_parameter name="CONFIG.USE_GPI1" value="1"/> 
+          <user_parameter name="CONFIG.GPI1_SIZE" value="4"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="microblaze_mcs" ip_interface="GPIO2">
+        <user_parameters>
+          <user_parameter name="CONFIG.USE_GPI2" value="1"/> 
+          <user_parameter name="CONFIG.GPI2_SIZE" value="4"/> 
+        </user_parameters>
+    </ip>
+     <ip vendor="xilinx.com" library="ip" name="microblaze_mcs" ip_interface="GPIO3">
+        <user_parameters>
+          <user_parameter name="CONFIG.USE_GPI3" value="1"/> 
+          <user_parameter name="CONFIG.GPI1_SIZE" value="4"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="microblaze_mcs" ip_interface="GPIO4">
+        <user_parameters>
+          <user_parameter name="CONFIG.USE_GPI4" value="1"/> 
+          <user_parameter name="CONFIG.GPI2_SIZE" value="4"/> 
+        </user_parameters>
+    </ip>
+  </ip_preset>
+  
+  <ip_preset preset_proc_name="output_1bit_preset">
+    <ip vendor="xilinx.com" library="ip" name="axi_gpio" ip_interface="GPIO">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_GPIO_WIDTH" value="1"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="axi_gpio" ip_interface="GPIO2">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_IS_DUAL" value="1"/> 
+          <user_parameter name="CONFIG.C_GPIO2_WIDTH" value="1"/> 
+        </user_parameters>
+    </ip>
+	<ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO1">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_USE_GPI1" value="1"/> 
+          <user_parameter name="CONFIG.C_GPI1_SIZE" value="1"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO2">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_USE_GPI2" value="1"/> 
+          <user_parameter name="CONFIG.C_GPI2_SIZE" value="1"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO3">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_USE_GPI3" value="1"/> 
+          <user_parameter name="CONFIG.C_GPI3_SIZE" value="1"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="GPIO4">
+        <user_parameters>
+          <user_parameter name="CONFIG.C_USE_GPI4" value="1"/> 
+          <user_parameter name="CONFIG.C_GPI4_SIZE" value="1"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="microblaze_mcs" ip_interface="GPIO1">
+        <user_parameters>
+          <user_parameter name="CONFIG.USE_GPI1" value="1"/> 
+          <user_parameter name="CONFIG.GPI1_SIZE" value="1"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="microblaze_mcs" ip_interface="GPIO2">
+        <user_parameters>
+          <user_parameter name="CONFIG.USE_GPI2" value="1"/> 
+          <user_parameter name="CONFIG.GPI2_SIZE" value="1"/> 
+        </user_parameters>
+    </ip>
+     <ip vendor="xilinx.com" library="ip" name="microblaze_mcs" ip_interface="GPIO3">
+        <user_parameters>
+          <user_parameter name="CONFIG.USE_GPI3" value="1"/> 
+          <user_parameter name="CONFIG.GPI1_SIZE" value="1"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="microblaze_mcs" ip_interface="GPIO4">
+        <user_parameters>
+          <user_parameter name="CONFIG.USE_GPI4" value="1"/> 
+          <user_parameter name="CONFIG.GPI2_SIZE" value="1"/> 
+        </user_parameters>
+    </ip>
+  </ip_preset>
+  
+  <ip_preset preset_proc_name="sys_clock_preset">
+    <ip vendor="xilinx.com" library="ip" name="clk_wiz" ip_interface="clk_in1">
+        <user_parameters>
+          <user_parameter name="CONFIG.PRIM_IN_FREQ" value="125"/> 
+          <user_parameter name="CONFIG.PRIM_SOURCE" value="Single_ended_clock_capable_pin"/> 
+		  <user_parameter name="CONFIG.RESET_TYPE" value="ACTIVE_LOW"/> 
+        </user_parameters>
+    </ip>
+    <ip vendor="xilinx.com" library="ip" name="clk_wiz" ip_interface="clk_in2">
+        <user_parameters>
+	<user_parameter name="CONFIG.USE_INCLK_SWITCHOVER" value="true"/>
+        <user_parameter name="CONFIG.SECONDARY_IN_FREQ" value="125"/>
+        <user_parameter name="CONFIG.SECONDARY_SOURCE" value="Single_ended_clock_capable_pin"/> 
+		<user_parameter name="CONFIG.RESET_TYPE" value="ACTIVE_LOW"/> 
+        </user_parameters>
+    </ip>
+  </ip_preset>
+</ip_presets>

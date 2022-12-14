@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?> 
+<part_info part_name="xczu29dr-ffvf1760-2-e">
+<pins>
+  
+  <pin index="0" name ="uart2_PL_TX" iostandard="LVCMOS18" loc="BB22"/>
+  <pin index="1" name ="uart2_PL_RX" iostandard="LVCMOS18" loc="BB23"/>
+  
+  <!-- <pin index="121" name ="CPU_RESET" iostandard="LVCMOS12" loc="G13"/>
+  <pin index="122" name ="user_si570_sysclk_p" iostandard="DIFF_SSTL12" loc="AH12"/>
+  <pin index="123" name ="user_si570_sysclk_n" iostandard="DIFF_SSTL12" loc="AJ12"/>  -->
+  
+  <pin index="2" name ="USER_SW0" iostandard="LVCMOS18" loc="AV25"/>
+  <pin index="3" name ="USER_SW1" iostandard="LVCMOS18" loc="AU25"/>
+  <pin index="4" name ="USER_SW2" iostandard="LVCMOS18" loc="AV23"/>
+  <pin index="5" name ="USER_SW3" iostandard="LVCMOS18" loc="AU23"/>
+  <pin index="6" name ="USER_SW4" iostandard="LVCMOS18" loc="AW24"/>
+  <pin index="7" name ="USER_SW5" iostandard="LVCMOS18" loc="AV24"/>
+  <pin index="8" name ="USER_SW6" iostandard="LVCMOS18" loc="BA22"/>
+  <pin index="9" name ="USER_SW7" iostandard="LVCMOS18" loc="AY22"/>
+  
+  <pin index="10" name ="APP_0_LS" iostandard="LVCMOS18" loc="AM25"/>
+  <pin index="11" name ="APP_1_LS" iostandard="LVCMOS18" loc="AL24"/>
+  <pin index="12" name ="APP_2_LS" iostandard="LVCMOS18" loc="AK22"/>
+  <pin index="13" name ="APP_3_LS" iostandard="LVCMOS18" loc="AJ22"/> 
+  <pin index="14" name ="APP_4_LS" iostandard="LVCMOS18" loc="AN25"/>
+  <pin index="15" name ="APP_5_LS" iostandard="LVCMOS18" loc="AN24"/>
+  <pin index="16" name ="APP_6_LS" iostandard="LVCMOS18" loc="AM23"/>
+  <pin index="17" name ="APP_7_LS" iostandard="LVCMOS18" loc="AL23"/>
+
+<!--   <pin index="140" name ="GPIO_SW_C" iostandard="LVCMOS12" loc="AL10"/>		
+  <pin index="141" name ="GPIO_SW_W" iostandard="LVCMOS12" loc="AK12"/>
+  <pin index="142" name ="GPIO_SW_S" iostandard="LVCMOS12" loc="AP20"/>
+  <pin index="143" name ="GPIO_SW_E" iostandard="LVCMOS12" loc="AC14"/>
+  <pin index="144" name ="GPIO_SW_N" iostandard="LVCMOS12" loc="AG13"/> -->
+ 
+</pins>
+
+</part_info>

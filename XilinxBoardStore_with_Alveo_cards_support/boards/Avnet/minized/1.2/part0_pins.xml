@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?> 
+<part_info part_name="xc7z007sclg225-1">
+<pins>
+  <pin index="0" name ="pl_sw_1bit_tri_i" iostandard="LVCMOS33" loc="E11"/>
+  <pin index="0" name ="pl_led_r_tri_o" iostandard="LVCMOS33" loc="E12"/>
+  <pin index="0" name ="pl_led_g_tri_o" iostandard="LVCMOS33" loc="E13"/>
+</pins>
+</part_info>

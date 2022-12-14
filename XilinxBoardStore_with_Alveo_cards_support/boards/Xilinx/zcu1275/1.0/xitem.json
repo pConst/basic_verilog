@@ -1,0 +1,33 @@
+{
+  "config": {
+    "items": [
+      {
+        "infra": {
+          "name": "zcu1275", 
+          "display": "Xilinx Zynq UltraScale+ RFSoC ZCU1275 Characterization Kit", 
+          "revision": "1.0", 
+          "description": "Xilinx Zynq UltraScale+ RFSoC ZCU1275 Characterization Kit", 
+          "company": "xilinx.com", 
+          "company_display": "Xilinx", 
+          "author": "Vanitha", 
+          "contributors": [
+            {
+              "group": "Xilinx", 
+              "url": "www.xilinx.com"
+            }
+          ], 
+          "category": "Single Part", 
+          "website": "www.xilinx.com/zcu1254", 
+          "search-keywords": [
+            "zcu1275", 
+            "xilinx.com", 
+            "board", 
+            "Single Part"
+          ]
+        }
+      }
+    ]
+  }, 
+  "_major": 1, 
+  "_minor": 0
+}

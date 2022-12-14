@@ -1,0 +1,19 @@
+######### KCU116 change log ############
+1.4
+Added GT locations for XDMA IP
+Updated IOSTANDARD constraints for sysclk_125_p/n from LVDS to LVDS_25
+Enabled support for pcie4_uscale_plus IP 
+Removed 125 Mhz system clock since correponding pins were part of HD IO bank
+
+1.3
+Enabled FMC Support in 2017.4
+
+1.2
+Avoiding upper case attributes 
+
+1.1
+Enabled SGMII over LVDS support 
+
+1.0
+KCU116 production board support
+

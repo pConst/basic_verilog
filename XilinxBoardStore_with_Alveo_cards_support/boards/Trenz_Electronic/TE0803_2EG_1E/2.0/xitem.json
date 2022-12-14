@@ -1,0 +1,33 @@
+{
+  "config": {
+    "items": [
+      {
+        "infra": {
+          "name": "te0803_2eg_1e_tebf0808", 
+          "display": "UltraSOM (ZYNQ-UltraScale+) TE0803-2EG-1E(_, A: 2GB DDR) with TEBF0808. SPRT PCB: REV01", 
+          "revision": "2.0", 
+          "description": "Zynq UltraScale+ TE0803-2EG-1E(_, A: 2GB DDR) Board (form factor 5.2x7.6 cm) with 4x 512 MByte DDR4, speed grade -1 and extended temperature range. Supported PCB Revisions: REV01. Board Part is for usage with carrier-board TEBF0808.", 
+          "company": "trenz.biz", 
+          "company_display": "Trenz Electronic GmbH", 
+          "author": "trenz.biz", 
+          "contributors": [
+            {
+              "group": "Trenz Electronic GmbH", 
+              "url": "https://www.trenz-electronic.de/"
+            }
+          ], 
+          "category": "Single Part", 
+          "website": "trenz.org/te0803-info", 
+          "search-keywords": [
+            "te0803_2eg_1e_tebf0808", 
+            "trenz.biz", 
+            "board", 
+            "Single Part"
+          ]
+        }
+      }
+    ]
+  }, 
+  "_major": 1, 
+  "_minor": 0
+}

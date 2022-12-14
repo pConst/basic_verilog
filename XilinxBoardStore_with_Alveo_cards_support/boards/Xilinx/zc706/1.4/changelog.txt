@@ -1,0 +1,5 @@
+######### ZC706 Change log ##############
+
+1.4
+Added FMC support
+

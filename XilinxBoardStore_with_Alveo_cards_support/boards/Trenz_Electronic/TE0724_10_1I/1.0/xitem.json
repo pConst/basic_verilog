@@ -1,0 +1,33 @@
+{
+  "config": {
+    "items": [
+      {
+        "infra": {
+          "name": "te0724_10_1i", 
+          "display": "ZYNQ-7 TE0724_10_1I( : 1GB DDR3L). SPRT PCB: REV02", 
+          "revision": "1.0", 
+          "description": "ZYNQ-7 TE0724_10_1I Board (form factor 4x6cm) with 1GB DDR3L, 1GBit Ethernet, speed grade -1 and industrial temperature grade. Supported PCB Revisions: REV02.", 
+          "company": "trenz.biz", 
+          "company_display": "Trenz Electronic GmbH", 
+          "author": "trenz.biz", 
+          "contributors": [
+            {
+              "group": "Trenz Electronic GmbH", 
+              "url": "https://www.trenz-electronic.de/"
+            }
+          ], 
+          "category": "Single Part", 
+          "website": "trenz.org/te0724-info", 
+          "search-keywords": [
+            "te0724_10_1i", 
+            "trenz.biz", 
+            "board", 
+            "Single Part"
+          ]
+        }
+      }
+    ]
+  }, 
+  "_major": 1, 
+  "_minor": 0
+}

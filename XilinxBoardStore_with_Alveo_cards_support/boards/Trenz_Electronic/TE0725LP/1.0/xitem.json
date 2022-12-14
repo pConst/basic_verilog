@@ -1,0 +1,33 @@
+{
+  "config": {
+    "items": [
+      {
+        "infra": {
+          "name": "te0725lp_100", 
+          "display": "Artix-7 TE0725LP_100_2(C, D, L). SPRT PCB: REV01", 
+          "revision": "1.0", 
+          "description": "TE0725LP_100_2(C, D, L) Board (form factor 3.5x7.3 cm) with optional HyperRAM and commercial temperature grade. Supported PCB Revisions: REV01. Important Note: C, D, L assembly option use different external power supply!", 
+          "company": "trenz.biz", 
+          "company_display": "Trenz Electronic GmbH", 
+          "author": "trenz.biz", 
+          "contributors": [
+            {
+              "group": "Trenz Electronic GmbH", 
+              "url": "https://www.trenz-electronic.de/"
+            }
+          ], 
+          "category": "Single Part", 
+          "website": "trenz.org/te0725LP-info", 
+          "search-keywords": [
+            "te0725lp_100", 
+            "trenz.biz", 
+            "board", 
+            "Single Part"
+          ]
+        }
+      }
+    ]
+  }, 
+  "_major": 1, 
+  "_minor": 0
+}
