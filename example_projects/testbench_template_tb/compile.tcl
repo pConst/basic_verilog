@@ -4,7 +4,7 @@
 #------------------------------------------------------------------------------
 
 # INFO ------------------------------------------------------------------------
-# Modelsim compile script
+# Modelsim/Questa compile script
 # based on "ModelSimSE general compile script version 1.1" by Doulos
 
 # launch the script by "vsim -do compile.tcl" command on linux
@@ -71,7 +71,7 @@ foreach {library file_list} $library_file_list {
 set last_compile_time $time_now
 
 # Load the simulation
-eval vsim $vsim_params $top_level
+eval vsim -voptargs=+acc $vsim_params $top_level
 
 # Load saved wave patterns
 do wave.do
