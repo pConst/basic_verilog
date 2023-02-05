@@ -103,16 +103,22 @@ end
 // Module under test ===========================================================
 
 logic [15:0] detected;
+logic [15:0][9:0] detected_mask;
+
 pattern_detect #(
   .DEPTH( 5 ),
   .WIDTH( 2 ),
-  .PATTERN( 10'b10_01_11_00_11 )
+
+  .PAT_WIDTH( 7 ),
+  .PAT( 7'b1_11_00_11 )
 ) pd [15:0] (
   .clk( {16{clk200}} ),
   .nrst( {16{nrst_once}} ),
   .ena( '1 ),
   .data( rnd_data[31:0] ),
-  .detected( detected[15:0] )
+
+  .detected( detected[15:0] ),
+  .detected_mask( detected_mask )
 );
 
 
