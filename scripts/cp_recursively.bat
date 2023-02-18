@@ -24,6 +24,9 @@ for /R /d %%D in (*) do (
   if exist clean_vivado.bat cp -dv j:\basic_verilog\scripts\clean_vivado.bat .\clean_vivado.bat
   if exist clean_gowin.bat cp -dv j:\basic_verilog\scripts\clean_gowin.bat .\clean_gowin.bat
   if exist clean_modelsim.bat cp -dv j:\basic_verilog\scripts\clean_modelsim.bat .\clean_modelsim.bat
+
+  if exist delay.sv cp -dv j:\basic_verilog\scripts\delay.sv .\delay.sv
+  if exist edge_detect.sv cp -dv j:\basic_verilog\scripts\edge_detect.sv .\edge_detect.sv
 )
 
 pause
