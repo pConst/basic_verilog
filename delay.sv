@@ -26,17 +26,17 @@
 /* --- INSTANTIATION TEMPLATE BEGIN ---
 
 delay #(
-    .LENGTH( 2 ),
-    .WIDTH( 1 ),
-    .TYPE( "CELLS" ),
-    .REGISTER_OUTPUTS( "FALSE" )
+  .LENGTH( 2 ),
+  .WIDTH( 1 ),
+  .TYPE( "CELLS" ),
+  .REGISTER_OUTPUTS( "FALSE" )
 ) S1 (
-    .clk( clk ),
-    .nrst( 1'b1 ),
-    .ena( 1'b1 ),
+  .clk( clk ),
+  .nrst( 1'b1 ),
+  .ena( 1'b1 ),
 
-    .in(  ),
-    .out(  )
+  .in(  ),
+  .out(  )
 );
 
 --- INSTANTIATION TEMPLATE END ---*/
@@ -209,3 +209,4 @@ generate
 endgenerate
 
 endmodule
+
