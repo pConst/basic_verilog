@@ -75,18 +75,18 @@ module uart_debug_printer #( parameter
     end else begin
       case ( seq_cntr[7:0] )
 
-        7'd0: begin
+        8'd0: begin
           if( ~empty && ~tx_busy ) begin
-            tx_char[7:0] <= (r_rnw)?(7'd82):(7'd87); //  "R"/"W" symbol
+            tx_char[7:0] <= (r_rnw)?(8'd82):(8'd87); //  "R"/"W" symbol
             seq_cntr[7:0] <= seq_cntr[7:0] + 1'b1;
             tx_start <= 1'b1;
           end else begin
             tx_start <= 1'b0;
           end
         end
-        7'd1: begin
+        8'd1: begin
           if( ~tx_start && ~tx_busy ) begin
-            tx_char[7:0] <= 7'd32; // "_" divider symbol =======================
+            tx_char[7:0] <= 8'd32; // "_" divider symbol =======================
             seq_cntr[7:0] <= seq_cntr[7:0] + 1'b1;
             tx_start <= 1'b1;
           end else begin
@@ -95,7 +95,7 @@ module uart_debug_printer #( parameter
         end
 
 
-        7'd2: begin
+        8'd2: begin
           if( ~tx_start && ~tx_busy ) begin
             tx_char[7:0] <= hex2ascii(r_addr[31:28]);
             seq_cntr[7:0] <= seq_cntr[7:0] + 1'b1;
@@ -104,7 +104,7 @@ module uart_debug_printer #( parameter
             tx_start <= 1'b0;
           end
         end
-        7'd3: begin
+        8'd3: begin
           if( ~tx_start && ~tx_busy ) begin
             tx_char[7:0] <= hex2ascii(r_addr[27:24]);
             seq_cntr[7:0] <= seq_cntr[7:0] + 1'b1;
@@ -113,7 +113,7 @@ module uart_debug_printer #( parameter
             tx_start <= 1'b0;
           end
         end
-        7'd4: begin
+        8'd4: begin
           if( ~tx_start && ~tx_busy ) begin
             tx_char[7:0] <= hex2ascii(r_addr[23:20]);
             seq_cntr[7:0] <= seq_cntr[7:0] + 1'b1;
@@ -122,7 +122,7 @@ module uart_debug_printer #( parameter
             tx_start <= 1'b0;
           end
         end
-        7'd5: begin
+        8'd5: begin
           if( ~tx_start && ~tx_busy ) begin
             tx_char[7:0] <= hex2ascii(r_addr[19:16]);
             seq_cntr[7:0] <= seq_cntr[7:0] + 1'b1;
@@ -131,16 +131,16 @@ module uart_debug_printer #( parameter
             tx_start <= 1'b0;
           end
         end
-        7'd6: begin
+        8'd6: begin
           if( ~tx_start && ~tx_busy ) begin
-            tx_char[7:0] <= 7'd95; // "_" symbol
+            tx_char[7:0] <= 8'd95; // "_" symbol
             seq_cntr[7:0] <= seq_cntr[7:0] + 1'b1;
             tx_start <= 1'b1;
           end else begin
             tx_start <= 1'b0;
           end
         end
-        7'd7: begin
+        8'd7: begin
           if( ~tx_start && ~tx_busy ) begin
             tx_char[7:0] <= hex2ascii(r_addr[15:12]);
             seq_cntr[7:0] <= seq_cntr[7:0] + 1'b1;
@@ -149,7 +149,7 @@ module uart_debug_printer #( parameter
             tx_start <= 1'b0;
           end
         end
-        7'd8: begin
+        8'd8: begin
           if( ~tx_start && ~tx_busy ) begin
             tx_char[7:0] <= hex2ascii(r_addr[11:8]);
             seq_cntr[7:0] <= seq_cntr[7:0] + 1'b1;
@@ -158,7 +158,7 @@ module uart_debug_printer #( parameter
             tx_start <= 1'b0;
           end
         end
-        7'd9: begin
+        8'd9: begin
           if( ~tx_start && ~tx_busy ) begin
             tx_char[7:0] <= hex2ascii(r_addr[7:4]);
             seq_cntr[7:0] <= seq_cntr[7:0] + 1'b1;
@@ -167,7 +167,7 @@ module uart_debug_printer #( parameter
             tx_start <= 1'b0;
           end
         end
-        7'd10: begin
+        8'd10: begin
           if( ~tx_start && ~tx_busy ) begin
             tx_char[7:0] <= hex2ascii(r_addr[3:0]);
             seq_cntr[7:0] <= seq_cntr[7:0] + 1'b1;
@@ -177,9 +177,9 @@ module uart_debug_printer #( parameter
           end
         end
 
-        7'd11: begin
+        8'd11: begin
           if( ~tx_start && ~tx_busy ) begin
-            tx_char[7:0] <= 7'd32; // "-" divider symbol =======================
+            tx_char[7:0] <= 8'd32; // "-" divider symbol =======================
             seq_cntr[7:0] <= seq_cntr[7:0] + 1'b1;
             tx_start <= 1'b1;
           end else begin
@@ -187,7 +187,7 @@ module uart_debug_printer #( parameter
           end
         end
 
-        7'd12: begin
+        8'd12: begin
           if( ~tx_start && ~tx_busy ) begin
             tx_char[7:0] <= hex2ascii(r_data[31:28]);
             seq_cntr[7:0] <= seq_cntr[7:0] + 1'b1;
@@ -196,7 +196,7 @@ module uart_debug_printer #( parameter
             tx_start <= 1'b0;
           end
         end
-        7'd13: begin
+        8'd13: begin
           if( ~tx_start && ~tx_busy ) begin
             tx_char[7:0] <= hex2ascii(r_data[27:24]);
             seq_cntr[7:0] <= seq_cntr[7:0] + 1'b1;
@@ -205,7 +205,7 @@ module uart_debug_printer #( parameter
             tx_start <= 1'b0;
           end
         end
-        7'd14: begin
+        8'd14: begin
           if( ~tx_start && ~tx_busy ) begin
             tx_char[7:0] <= hex2ascii(r_data[23:20]);
             seq_cntr[7:0] <= seq_cntr[7:0] + 1'b1;
@@ -214,7 +214,7 @@ module uart_debug_printer #( parameter
             tx_start <= 1'b0;
           end
         end
-        7'd15: begin
+        8'd15: begin
           if( ~tx_start && ~tx_busy ) begin
             tx_char[7:0] <= hex2ascii(r_data[19:16]);
             seq_cntr[7:0] <= seq_cntr[7:0] + 1'b1;
@@ -223,16 +223,16 @@ module uart_debug_printer #( parameter
             tx_start <= 1'b0;
           end
         end
-        7'd16: begin
+        8'd16: begin
           if( ~tx_start && ~tx_busy ) begin
-            tx_char[7:0] <= 7'd95; // "_" symbol
+            tx_char[7:0] <= 8'd95; // "_" symbol
             seq_cntr[7:0] <= seq_cntr[7:0] + 1'b1;
             tx_start <= 1'b1;
           end else begin
             tx_start <= 1'b0;
           end
         end
-        7'd17: begin
+        8'd17: begin
           if( ~tx_start && ~tx_busy ) begin
             tx_char[7:0] <= hex2ascii(r_data[15:12]);
             seq_cntr[7:0] <= seq_cntr[7:0] + 1'b1;
@@ -241,7 +241,7 @@ module uart_debug_printer #( parameter
             tx_start <= 1'b0;
           end
         end
-        7'd18: begin
+        8'd18: begin
           if( ~tx_start && ~tx_busy ) begin
             tx_char[7:0] <= hex2ascii(r_data[11:8]);
             seq_cntr[7:0] <= seq_cntr[7:0] + 1'b1;
@@ -250,7 +250,7 @@ module uart_debug_printer #( parameter
             tx_start <= 1'b0;
           end
         end
-        7'd19: begin
+        8'd19: begin
           if( ~tx_start && ~tx_busy ) begin
             tx_char[7:0] <= hex2ascii(r_data[7:4]);
             seq_cntr[7:0] <= seq_cntr[7:0] + 1'b1;
@@ -259,7 +259,7 @@ module uart_debug_printer #( parameter
             tx_start <= 1'b0;
           end
         end
-        7'd20: begin
+        8'd20: begin
           if( ~tx_start && ~tx_busy ) begin
             tx_char[7:0] <= hex2ascii(r_data[3:0]);
             seq_cntr[7:0] <= seq_cntr[7:0] + 1'b1;
@@ -269,9 +269,9 @@ module uart_debug_printer #( parameter
           end
         end
 
-        7'd21: begin
+        8'd21: begin
           if( ~tx_start && ~tx_busy ) begin
-            tx_char[7:0] <= 7'd13; // "CR" symbol
+            tx_char[7:0] <= 8'd13; // "CR" symbol
             seq_cntr[7:0] <= seq_cntr[7:0] + 1'b1;
             r_req <= 1'b1;  // fifo data ack begin
             tx_start <= 1'b1;
@@ -280,7 +280,7 @@ module uart_debug_printer #( parameter
           end
         end
 
-        7'd22: begin
+        8'd22: begin
           if( ~tx_busy ) begin
             tx_start <= 1'b0;
             seq_cntr[7:0] <= '0;
@@ -317,9 +317,9 @@ module uart_debug_printer #( parameter
     input [3:0] hex
   );
     if( hex[3:0] < 4'hA ) begin
-      hex2ascii[7:0] = hex[3:0] + 7'd48; // 0 hex -> 48 ascii
+      hex2ascii[7:0] = hex[3:0] + 8'd48; // 0 hex -> 48 ascii
     end else begin
-      hex2ascii[7:0] = hex[3:0] + 7'd55; // A hex -> 65 ascii
+      hex2ascii[7:0] = hex[3:0] + 8'd55; // A hex -> 65 ascii
     end // if
   endfunction
 
