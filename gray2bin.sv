@@ -1,5 +1,6 @@
 //------------------------------------------------------------------------------
 // gray2bin.sv
+// published as part of https://github.com/pConst/basic_verilog
 // Konstantin Pavlov, pavlovconst@gmail.com
 //------------------------------------------------------------------------------
 
@@ -23,15 +24,16 @@ module gray2bin #( parameter
    WIDTH = 32
 )(
    input [WIDTH-1:0] gray_in,
-   output [WIDTH-1:0] bin_out
+   output logic [WIDTH-1:0] bin_out
 );
 
-genvar i;
-generate
-   for( i=0; i<WIDTH; i++ ) begin
-      assign bin_out[i] = ^gray_in[WIDTH-1:i];
+   always_comb begin
+      bin_out[WIDTH-1:0] = '0;
+
+      for( integer i=0; i<WIDTH; i++ ) begin
+         bin_out[WIDTH-1:0] ^= gray_in[WIDTH-1:0] >> i;
+      end
    end
-endgenerate
 
 endmodule
 
