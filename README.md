@@ -26,7 +26,7 @@ For your convinience I`ve tagged some sources by their "difficulty":
 If you are a beginner in HW design - you may want to start exploring :green_circle: code first.   
 Almost every source file in the repository contains detailed description and instantiation template!   
    
-| USAGE         | DIRECTORY    | DESCRIPTION |
+|               | DIRECTORY    | DESCRIPTION |
 |---------------|--------------|-------------|
 |               | Advanced Synthesis Cookbook/ | useful code from Altera's cookbook |
 |               | KCPSM6_Release9_30Sept14/ | Xilinx's Picoblaze soft processor sources |
@@ -43,64 +43,64 @@ Almost every source file in the repository contains detailed description and ins
 | :red_circle:  | scripts_for_xilinx_hls/ | useful scripts for compiling for Xilinx HLS |
 |               | xpm | Xilinx parametrizable macros sources |
    
-| USAGE          | FILE               | DESCRIPTION |
-|----------------|--------------------|-------------|
-|                | adder_tree.sv      | adding multiple values together in parallel |
-|                | axi4l_logger.sv    |  |
-| :green_circle: | bin2gray.sv        | combinational Gray code to binary converter |
-|                | bin2pos.sv         | converts binary coded value to positional (one-hot) code |
-|                | cdc_data.sv        |  |
-|                | cdc_strobe.sv      |  |
-| :green_circle: | clk_divider.sv     | wide reference clock divider |
-|                | clogb2.svh         |  |
-| :green_circle: | debounce.v         | two-cycle debounce for input buttons |
-| :green_circle: | delay.sv           | useful module to make static delays or to synchronize across clock domains |
-|                | delayed_event.sv   |  |
-|                | dynamic_delay.sv   | dynamic delay for arbitrary input signal |
-| :green_circle: | edge_detect.sv     | combinational edge detector, gives one-tick pulses on every signal edge |
-|                | encoder.v          | digital encoder input logic module |
-| :red_circle:   | fast_counter.sv    |  |
-|                | fifo_combiner.sv   |  |
-|                | fifo_operator.sv   |  |
+|                | FILE                       | DESCRIPTION |
+|----------------|--------------------        |-------------|
+|                | adder_tree.sv              | adding multiple values together in parallel |
+|                | axi4l_logger.sv            | sniffs all AXI transactions and stores address and data to fifo |
+| :green_circle: | bin2gray.sv                | combinational Gray code to binary converter |
+|                | bin2pos.sv                 | converts binary coded value to positional (one-hot) code |
+|                | cdc_data.sv                | standard two-stage data synchronizer |
+|                | cdc_strobe.sv              | clock crossing synchronizer for one-cycle strobes |
+| :green_circle: | clk_divider.sv             | wide reference clock divider |
+|                | clogb2.svh                 | calculates counter/address width based on specified vector/RAM depth |
+| :green_circle: | debounce.v                 | two-cycle debounce for input buttons |
+| :green_circle: | delay.sv                   | useful module to make static delays or to synchronize across clock domains |
+|                | delayed_event.sv           | generates delayed pulse one clock width |
+|                | dynamic_delay.sv           | dynamic delay for arbitrary input signal |
+| :green_circle: | edge_detect.sv             | combinational edge detector, gives one-tick pulses on every signal edge |
+|                | encoder.v                  | digital encoder input logic module |
+| :red_circle:   | fast_counter.sv            | synthetic counter |
+|                | fifo_combiner.sv           | accumulates data words from multiple FIFOs to a single output FIFO |
+|                | fifo_operator.sv           | performs custom operation on data words from multiple FIFOs and stores result to a single output FIFO |
 | :red_circle:   | fifo_single_clock_ram_*.sv | single-clock FIFO buffer (queue) implementation |
 | :red_circle:   | fifo_single_clock_reg_*.sv | single-clock FIFO buffer (queue) implementation |
-| :green_circle: | gray2bin.sv        | combinational binary to Gray code converter |
-| :red_circle:   | gray_functions.vh  |  |
-| :green_circle: | hex2ascii.sv       |  |
-|                | leave_one_hot.sv   | combinational module that leaves only lowest hot bit |
-|                | lifo.sv            | single-clock LIFO buffer (stack) implementation |
-|                | main_tb.sv         | basic testbench template |
-|                | moving_average.sv  |  |
-|                | pack_unpack_array.v |  |
-|                | pattern_detect.sv  |  |
-|                | pdm_modulator.sv   |  |
-|                | pos2bin.sv         | converts positional (one-hot) value to binary representation |
-|                | prbs_gen_chk.sv    | PRBS pattern generator or checker |
-|                | preview_fifo.sv    |  |
-|                | priority_enc.sv    |  |
-|                | pulse_gen.sv       | generates pulses with given width and delay |
-|                | pulse_stretch.sv   | configurable pulse stretcher/extender module |
-|                | pwm_modulator.sv   |  |
-| :red_circle:   | read_ahead_buf.sv  |  |
-|                | reset_set.sv       | SR trigger variant w/o metastable state, set dominates here |
-|                | reset_set_comb.sv  |  |
-|                | reverse_bytes.sv   | reverses bytes order within multi-byte array |
-|                | reverse_dimensions.sv |  |
-|                | reverse_vector.sv  | reverses signal order within multi-bit bus |
-|                | round_robin_enc.sv |  |
-|                | round_robin_performance_enc.sv |  |
-|                | set_reset.sv       | SR trigger variant w/o metastable state, reset dominates here |
-|                | set_reset_comb.sv  |  |
-|                | sim_clk_gen.sv     |  |
-| :red_circle:   | soft_latch.sv      |  |
-|                | spi_master.sv      | universal spi master module |
-| :red_circle:   | true_dual_port_write_first_2_clock_ram.sv |  |
-| :red_circle:   | true_single_port_write_first_ram.sv |  |
-|                | uart_debug_printer.sv |  |
-| :green_circle: | uart_rx.sv         | straightforward yet simple UART receiver |
-|                | uart_rx_shifter.sv | UART-like receiver shifter for simple synchronous messaging inside the FPGA or between FPGAs |
-| :green_circle: | uart_tx.sv         | straightforward yet simple UART transmitter |
-|                | uart_tx_shifter.sv | UART-like transmitter shifter for simple synchronous messaging inside the FPGA or between FPGAs |
+| :green_circle: | gray2bin.sv                | combinational binary to Gray code converter |
+| :red_circle:   | gray_functions.vh          | Gray code parametrizable converter functions |
+| :green_circle: | hex2ascii.sv               | converts 4-bit binary nibble to 8-bit human-readable ASCII char |
+|                | leave_one_hot.sv           | combinational module that leaves only lowest hot bit |
+|                | lifo.sv                    | single-clock LIFO buffer (stack) implementation |
+|                | main_tb.sv                 | basic testbench template |
+|                | moving_average.sv          | Simple moving average implementation |
+|                | pack_unpack_array.v        | macros for packing and unpacking 2D and 3D vectors in Verilog-2001 |
+|                | pattern_detect.sv          | detects data pattern specified |
+|                | pdm_modulator.sv           | pulse density modulation generator module |
+|                | pos2bin.sv                 | converts positional (one-hot) value to binary representation |
+|                | prbs_gen_chk.sv            | PRBS pattern generator or checker |
+|                | preview_fifo.sv            | FIFO with an ability to be read 0, 1 or 2 words at once |
+|                | priority_enc.sv            | combinational priority_encoder |
+|                | pulse_gen.sv               | generates pulses with given width and delay |
+|                | pulse_stretch.sv           | configurable pulse stretcher/extender module |
+|                | pwm_modulator.sv           | pulse width modulation generator |
+| :red_circle:   | read_ahead_buf.sv          | substitutes fifo read port and performs fifo data update at the same clock cycle |
+|                | reset_set.sv               | SR trigger variant w/o metastable state, set dominates here |
+|                | reset_set_comb.sv          | synchronous SR trigger, but has a combinational output |
+|                | reverse_bytes.sv           | reverses bytes order within multi-byte array |
+|                | reverse_dimensions.sv      | reverses dimension order in SystemVerilog 2D vector |
+|                | reverse_vector.sv          | reverses signal order within multi-bit bus |
+|                | round_robin_enc.sv         | round robin combinational encoder |
+|                | round_robin_performance_enc.sv | performance improved round robin encoder |
+|                | set_reset.sv               | SR trigger variant w/o metastable state, reset dominates here |
+|                | set_reset_comb.sv          | synchronous SR trigger, but has a combinational output |
+|                | sim_clk_gen.sv             | testbench clock generator |
+| :red_circle:   | soft_latch.sv              | combinational data hold circuit |
+|                | spi_master.sv              | universal spi master module |
+| :red_circle:   | true_dual_port_write_first_2_clock_ram.sv | double port RAM/ROM module |
+| :red_circle:   | true_single_port_write_first_ram.sv | single port RAM/ROM module |
+|                | uart_debug_printer.sv      | debug data printer to UART terminal |
+| :green_circle: | uart_rx.sv                 | straightforward yet simple UART receiver |
+|                | uart_rx_shifter.sv         | UART-like receiver shifter for simple synchronous messaging inside the FPGA or between FPGAs |
+| :green_circle: | uart_tx.sv                 | straightforward yet simple UART transmitter |
+|                | uart_tx_shifter.sv         | UART-like transmitter shifter for simple synchronous messaging inside the FPGA or between FPGAs |
    
 Also added testbenches for selected modules.   
    
