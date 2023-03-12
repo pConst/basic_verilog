@@ -1,13 +1,16 @@
 #! /usr/bin/env bash
+
 #------------------------------------------------------------------------------
 # published as part of https://github.com/pConst/basic_verilog
 # Konstantin Pavlov, pavlovconst@gmail.com
 #------------------------------------------------------------------------------
 
-# Script to clean Vitis HLS project
+# Script to perform HLS component simulation
 # see ../example_projects/vitis_hls_prj_template_v1/ for complete example
 
-rm -rf proj
+if [ ! -d "./prj" ]; then
+  source vitis_hls_csynth.sh
+fi
 
-rm vitis_hls.log
+vitis_hls -eval 'csim_design'
 

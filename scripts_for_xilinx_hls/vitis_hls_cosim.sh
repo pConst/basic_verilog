@@ -8,7 +8,7 @@
 # Script to perform HLS component co-simulation
 # see ../example_projects/vitis_hls_prj_template_v1/ for complete example
 
-if [ ! -d "./proj" ]; then
+if [ ! -d "./prj" ]; then
   source vitis_hls_csynth.sh
 fi
 

@@ -4,9 +4,9 @@
 #------------------------------------------------------------------------------
 
 # Create a project
-open_project proj -reset
-add_files hls_operator.cpp
-add_files -tb hls_operator_tb.cpp
+open_project prj -reset
+add_files src/hls_operator.cpp
+add_files -tb src/hls_operator_tb.cpp
 set_top hls_operator
 
 # Create a solution

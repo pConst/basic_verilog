@@ -1,13 +1,14 @@
-#! /usr/bin/env bash
 #------------------------------------------------------------------------------
+# .gitignore for Vitis HLS projects
 # published as part of https://github.com/pConst/basic_verilog
 # Konstantin Pavlov, pavlovconst@gmail.com
 #------------------------------------------------------------------------------
 
-# Script to clean Vitis HLS project
-# see ../example_projects/vitis_hls_prj_template_v1/ for complete example
+# INFO ------------------------------------------------------------------------
+# rename the file to ".gitignore" and place into your HLS project directory
+#
 
-rm -rf prj
+/prj
 
-rm vitis_hls.log
+vitis_hls.log
 

@@ -1,16 +1,14 @@
-#! /usr/bin/env bash
-
 #------------------------------------------------------------------------------
+# .gitignore for Vitis HLS projects
 # published as part of https://github.com/pConst/basic_verilog
 # Konstantin Pavlov, pavlovconst@gmail.com
 #------------------------------------------------------------------------------
 
-# Script to open Vitis HLS GUI
-# see ../example_projects/vitis_hls_prj_template_v1/ for complete example
+# INFO ------------------------------------------------------------------------
+# rename the file to ".gitignore" and place into your HLS project directory
+#
 
-if [ ! -d "./proj" ]; then
-  source vitis_hls_csynth.sh
-fi
+/prj
 
-vitis_hls -p proj
+vitis_hls.log
 
