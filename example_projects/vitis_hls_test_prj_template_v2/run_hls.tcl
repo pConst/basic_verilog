@@ -6,13 +6,15 @@
 # Create a project
 open_project prj -reset
 add_files src/hls_operator.cpp
-add_files -tb src/hls_operator_tb.cpp
+add_files -tb src/hls_operator_tb.cpp -cflags "-Wno-unknown-pragmas" -csimflags "-Wno-unknown-pragmas"
 set_top hls_operator
 
 # Create a solution
 open_solution -reset sol1 -flow_target vitis
 set_part {xcvu9p-flga2104-2-i}
 create_clock -period 5 -name default
+
+#source "./prj/sol1/directives.tcl"
 
 #csim_design
 csynth_design

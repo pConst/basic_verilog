@@ -12,5 +12,14 @@ if [ ! -d "./prj" ]; then
   source vitis_hls_csynth.sh
 fi
 
-vitis_hls -eval 'export_design -flow impl -rtl verilog -format ip_catalog'
+if (vitis_hls -eval 'export_design -flow impl -rtl verilog -format ip_catalog' | grep --color -P "ERROR:|") ; then
+
+    # open top Verilog
+    subl ./prj/sol1/syn/verilog/hls_operator.v
+
+    # open main report
+    subl ./prj/sol1/impl/report/verilog/hls_operator_export.rpt
+    subl ./prj/sol1/impl/report/verilog/export_syn.rpt
+    subl ./prj/sol1/impl/report/verilog/export_impl.rpt
+fi
 

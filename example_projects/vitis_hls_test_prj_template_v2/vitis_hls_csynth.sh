@@ -12,11 +12,13 @@
 rm -rf ./prj/sol1/syn
 rm -rf ./prj/sol1/impl
 
-vitis_hls -f run_hls.tcl
+if (vitis_hls -f run_hls.tcl | grep --color -P "ERROR:|") ; then
 
-# open top Verilog
-subl ./prj/sol1/syn/verilog/hls_operator.v
+    # open top Verilog
+    subl ./prj/sol1/syn/verilog/hls_operator.v
 
-# open main report
-subl ./prj/sol1/syn/report/csynth.rpt
+    # open main report
+    subl ./prj/sol1/syn/report/csynth.rpt
+    subl ./prj/sol1/syn/report/hls_operator_csynth.rpt
+fi
 
