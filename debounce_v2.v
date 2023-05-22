@@ -47,7 +47,7 @@ module debounce_v2 #( parameter
   input ena,
 
   input  [WIDTH-1:0] in,
-  output reg [WIDTH-1:0] out
+  output reg [WIDTH-1:0] out = 0
 );
 
 

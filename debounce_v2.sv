@@ -47,7 +47,7 @@ module debounce_v2 #( parameter
   input ena,
 
   input  [WIDTH-1:0] in,
-  output logic [WIDTH-1:0] out
+  output logic [WIDTH-1:0] out = '0
 );
 
 
@@ -78,15 +78,15 @@ module debounce_v2 #( parameter
   assign do_sample = s_clk_rise[SAMPLING_FACTOR];
 
 
-  logic [WIDTH-1:0] in_is_high = 0;
-  logic [WIDTH-1:0] in_is_low = 0;
+  logic [WIDTH-1:0] in_is_high = '0;
+  logic [WIDTH-1:0] in_is_low = '0;
 
   always_ff @(posedge clk) begin
     if (~nrst) begin
-      out[WIDTH-1:0] <= 0;
+      out[WIDTH-1:0] <= '0;
 
-      in_is_high[WIDTH-1:0] <= 0;
-      in_is_low[WIDTH-1:0] <= 0;
+      in_is_high[WIDTH-1:0] <= '0;
+      in_is_low[WIDTH-1:0] <= '0;
     end else if (ena && do_sample) begin
 
       // making decisions for outputs
@@ -105,8 +105,8 @@ module debounce_v2 #( parameter
       end // for
 
       // resetting flags to initialize new sample window
-      in_is_high[WIDTH-1:0] <= 0;
-      in_is_low[WIDTH-1:0] <= 0;
+      in_is_high[WIDTH-1:0] <= '0;
+      in_is_low[WIDTH-1:0] <= '0;
 
     end else begin
 
