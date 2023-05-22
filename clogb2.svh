@@ -5,9 +5,22 @@
 //------------------------------------------------------------------------------
 
 // INFO ------------------------------------------------------------------------
-//  Calculates counter/address width based on specified vector/RAM depth
-//
+//  Calculates counter width based on specified vector/RAM depth
 //  see also: http://www.sunburst-design.com/papers/CummingsHDLCON2001_Verilog2001.pdf
+//
+//  WARNING:
+//  ========
+//  - clogb2() usage is a quite obsolete technique, left from Verilog-2001 era
+//    when system function $clog2() was not supported or was implemented falcely
+//
+//  - don`t use clogb2() for new designs! Instead:
+//
+//  - use $clog2(DEPTH) when declaring wr_addr[] pointer, which can refer any
+//    RAM element from 0 to DEPTH-1
+//
+//  - use $clog2(DEPTH+1) to declare counters, which should hold any walue from
+//    0 up to the DEPTH (inclusive)
+//
 //
 //  Compared with system function $clog2():
 //  =======================================
