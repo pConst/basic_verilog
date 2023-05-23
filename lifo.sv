@@ -47,8 +47,6 @@ module lifo #( parameter
                                   // "FALSE" - normal fifo mode
 
   DEPTH = 8,                      // max elements count == DEPTH, DEPTH MUST be power of 2
-  DEPTH_W = $clog2(DEPTH)+1,      // elements counter width, extra bit to store
-                                  // "fifo full" state, see cnt[] variable comments
 
   DATA_W = 32                     // data field width
 )(
@@ -72,76 +70,82 @@ module lifo #( parameter
   output logic fail
 );
 
-// lifo data
-logic [DEPTH-1:0][DATA_W-1:0] data = '0;
-
-// data output buffer for normal fifo mode
-logic [DATA_W-1:0] data_buf = '0;
-
-// cnt[] vector always holds lifo elements count
-// data[cnt[]] points to the first empty lifo slot
-// when lifo is full data[cnt[]] points "outside" of data[]
-
-// filtered requests
-logic w_req_f;
-assign w_req_f = w_req && ~full;
-
-logic r_req_f;
-assign r_req_f = r_req && ~empty;
+  // elements counter width, extra bit to store
+  // "fifo full" state, see cnt[] variable comments
+  localparam DEPTH_W = $clog2(DEPTH+1);
 
 
-integer i;
-always_ff @(posedge clk) begin
-  if ( ~nrst ) begin
-    data <= '0;
-    cnt[DEPTH_W-1:0] <= '0;
-    data_buf[DATA_W-1:0] <= '0;
-  end else begin
-    unique case ({w_req_f, r_req_f})
-      2'b00: ; // nothing
+  // lifo data
+  logic [DEPTH-1:0][DATA_W-1:0] data = '0;
 
-      2'b01  : begin  // reading out
-        for ( i = (DEPTH-1); i > 0; i-- ) begin
-          data[i-1] <= data[i];
-        end
-        cnt[DEPTH_W-1:0] <= cnt[DEPTH_W-1:0] - 1'b1;
-      end
+  // data output buffer for normal fifo mode
+  logic [DATA_W-1:0] data_buf = '0;
 
-      2'b10  : begin  // writing in
-        data[cnt[DEPTH_W-1:0]] <= w_data[DATA_W-1:0];
-        cnt[DEPTH_W-1:0] <= cnt[DEPTH_W-1:0] + 1'b1;
-      end
+  // cnt[] vector always holds lifo elements count
+  // data[cnt[]] points to the first empty lifo slot
+  // when lifo is full data[cnt[]] points "outside" of data[]
 
-      2'b11  : begin  // simultaneously reading and writing
-        data[cnt[DEPTH_W-1:0]-1] <= w_data[DATA_W-1:0];
-        // data counter does not change here
-      end
-    endcase
+  // filtered requests
+  logic w_req_f;
+  assign w_req_f = w_req && ~full;
 
-    // data buffer works only for normal lifo mode
-    if( r_req_f ) begin
-      data_buf[DATA_W-1:0] <= data[0];
-    end
-  end
-end
+  logic r_req_f;
+  assign r_req_f = r_req && ~empty;
 
 
-always_comb begin
-  empty = ( cnt[DEPTH_W-1:0] == '0 );
-  full = ( cnt[DEPTH_W-1:0] == DEPTH );
-
-  if( FWFT_MODE == "TRUE" ) begin
-    if (~empty) begin
-      r_data[DATA_W-1:0] = data[0]; // first-word fall-through mode
+  integer i;
+  always_ff @(posedge clk) begin
+    if ( ~nrst ) begin
+      data <= '0;
+      cnt[DEPTH_W-1:0] <= '0;
+      data_buf[DATA_W-1:0] <= '0;
     end else begin
-      r_data[DATA_W-1:0] = '0;
+      unique case ({w_req_f, r_req_f})
+        2'b00: ; // nothing
+
+        2'b01  : begin  // reading out
+          for ( i = (DEPTH-1); i > 0; i-- ) begin
+            data[i-1] <= data[i];
+          end
+          cnt[DEPTH_W-1:0] <= cnt[DEPTH_W-1:0] - 1'b1;
+        end
+
+        2'b10  : begin  // writing in
+          data[cnt[DEPTH_W-1:0]] <= w_data[DATA_W-1:0];
+          cnt[DEPTH_W-1:0] <= cnt[DEPTH_W-1:0] + 1'b1;
+        end
+
+        2'b11  : begin  // simultaneously reading and writing
+          data[cnt[DEPTH_W-1:0]-1] <= w_data[DATA_W-1:0];
+          // data counter does not change here
+        end
+      endcase
+
+      // data buffer works only for normal lifo mode
+      if( r_req_f ) begin
+        data_buf[DATA_W-1:0] <= data[0];
+      end
     end
-  end else begin
-    r_data[DATA_W-1:0] = data_buf[DATA_W-1:0];   // normal mode
   end
 
-  fail = ( empty && r_req ) ||
-         ( full && w_req );
-end
+
+  always_comb begin
+    empty = ( cnt[DEPTH_W-1:0] == '0 );
+    full = ( cnt[DEPTH_W-1:0] == DEPTH );
+
+    if( FWFT_MODE == "TRUE" ) begin
+      if (~empty) begin
+        r_data[DATA_W-1:0] = data[0]; // first-word fall-through mode
+      end else begin
+        r_data[DATA_W-1:0] = '0;
+      end
+    end else begin
+      r_data[DATA_W-1:0] = data_buf[DATA_W-1:0];   // normal mode
+    end
+
+    fail = ( empty && r_req ) ||
+           ( full && w_req );
+  end
 
 endmodule
+
