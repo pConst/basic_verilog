@@ -7,7 +7,7 @@
 // INFO ------------------------------------------------------------------------
 // Button debounce v1
 //
-// - sampling inputs using configurable divided clock (ithis is the
+// - sampling inputs using configurable divided clock (this is the
 //   simplest form of low-pass filter)
 // - switching output only when both samples have equal level
 //   (this gives some form of hysteresis in case we sample unstable data)

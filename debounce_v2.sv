@@ -7,7 +7,7 @@
 // INFO ------------------------------------------------------------------------
 // Button debounce v2, SystemVerilog version
 //
-// - sampling inputs using configurable divided clock (ithis is the
+// - sampling inputs using configurable divided clock (this is the
 //   simplest form of low-pass filter)
 //
 // - in contrast with debounce_v1.v this implementation is switching output only
