@@ -22,10 +22,10 @@
 
 /* --- INSTANTIATION TEMPLATE BEGIN ---
 
-delay S1 #(
+delay #(
   .LENGTH( 2 ),
   .WIDTH( 1 )
-)(
+) S1 (
   .clk( clk ),
   .nrst( 1'b1 ),
   .ena( 1'b1 ),
