@@ -17,17 +17,19 @@ interface axis_if #( parameter
 );
 
 
-  logic [ DATA_W-1:0   ] tdata;
-  logic [ ID_W-1:0     ] tdest;
-  logic [ ID_W-1:0     ] tid;
-  logic [ DATA_W/8-1:0 ] tkeep;
-  logic                  tlast;
-  logic                  tready;
-  logic [ USER_W-1:0   ] tuser;
-  logic                  tvalid;
+  localparam KEEP_W = DATA_W/8;
+
+  logic [DATA_W-1:0] tdata;
+  logic [  ID_W-1:0] tdest;
+  logic [  ID_W-1:0] tid;
+  logic [KEEP_W-1:0] tkeep;
+  logic              tlast;
+  logic              tready;
+  logic [USER_W-1:0] tuser;
+  logic              tvalid;
 
 
-  modport master(
+  modport master_mp(
 
     input  tready,
 
@@ -41,7 +43,7 @@ interface axis_if #( parameter
   );
 
 
-  modport slave(
+  modport slave_mp(
 
     input tdata,
     input tdest,

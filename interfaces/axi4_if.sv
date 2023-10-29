@@ -77,7 +77,7 @@ interface axi4_if #( parameter
   logic                wvalid;
 
 
-  modport master(
+  modport master_mp(
 
     input arready,
     input awready,
@@ -128,7 +128,7 @@ interface axi4_if #( parameter
   );
 
 
-  modport slave(
+  modport slave_mp(
 
     input araddr,
     input arburst,
