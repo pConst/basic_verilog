@@ -43,12 +43,13 @@ quartus_benchmark - 2m 34s  ( Quartus Lite 20.1.1 )
 vivado_benchmark  - 3m 47s  ( Vivado 2022.1 )
 
 
-AMD Ryzen 9 7900X, DDR5 2x32GB (на частоте 5200 МГц), MB на чипсете B650, NMVe (1000 ГБ SSD M.2 Samsung 970 EVO Plus)
+AMD Ryzen 9 7900X, DDR5 2x32GB 5200 МГц, MB B650, NMVe (1000 ГБ SSD M.2 Samsung 970 EVO Plus)
 ------------------------------------
 vivado_benchmark  - 1m 39s  ( Vivado 2023.1.2 ) - by dxp from electronix.ru forum
 
 
-Laptop Core i7-8750H CPU @ 2.20GHz, 32Gb RAM, SSD Samsung 990, Windows 10
+Laptop Core i7-8750H CPU @ 2.20GHz, 32GB RAM, SSD Samsung 990, Windows 10
 ------------------------------------
+quartus_benchmark - 4m 01s  ( Quartus Lite 20.1.0 )
 vivado_benchmark  - 5m 18s  ( Vivado 2023.2 )
 gowin_benchmark   - 3m 01s  ( Gowin_V1.9.9 )
