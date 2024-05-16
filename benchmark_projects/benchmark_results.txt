@@ -51,4 +51,4 @@ vivado_benchmark  - 1m 39s  ( Vivado 2023.1.2 ) - by dxp from electronix.ru foru
 Laptop Core i7-8750H CPU @ 2.20GHz, 32Gb RAM, SSD Samsung 990, Windows 10
 ------------------------------------
 vivado_benchmark  - 5m 18s  ( Vivado 2023.2 )
-
+gowin_benchmark   - 3m 01s  ( Gowin_V1.9.9 )
