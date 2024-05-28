@@ -17,11 +17,6 @@
 *.sim
 .Xil
 
-*.srcs/sources*/bd/**
-!*.srcs/sources*/bd/**/*.xci
-*.srcs/sources*/ip/**
-!*.srcs/sources*/ip/**/*.xci
-
 .ioplanning
 *.jou
 *.log
