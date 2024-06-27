@@ -47,6 +47,9 @@ AMD Ryzen 9 7900X, DDR5 2x32GB 5200 МГц, MB B650, NMVe (1000 ГБ SSD M.2 Sam
 ------------------------------------
 vivado_benchmark  - 1m 39s  ( Vivado 2023.1.2 ) - by dxp from electronix.ru forum
 
+Intel Xeon W-2145, DDR4 32GB, Platform: LENOVO ThinStation P520
+------------------------------------
+vivado_benchmark  - 6m 38s  ( Vivado 2021.1 ) - by dtmf73 from electronix.ru forum
 
 Laptop Core i7-8750H CPU @ 2.20GHz, 32GB RAM, SSD Samsung 990, Windows 10
 ------------------------------------
