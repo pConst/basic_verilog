@@ -69,12 +69,12 @@ module main(
   input [5:0] ck_an_n,
 
   // Digital I/O On Outer Analog Header
-  output [5:0] ck_a,
+  inout [5:0] ck_a,
   // Digital I/O On Inner Analog Header
   //
 
   // Digital I/O Low
-  output [13:0] ck_io_low,
+  input [13:0] ck_io_low,
 
   // Digital I/O High
   output [41:26] ck_io_high,
@@ -87,8 +87,15 @@ module main(
   output ck_ioa
 );
 
-`VIVADO_MODULE_HEADER
+//`VIVADO_MODULE_HEADER
 
+
+// convinience rename ==========================================================
+  logic [13:0] hdr_in;
+  assign hdr_in[13:0] = ck_io_low[13:0];
+
+  logic [15:0] hdr_out;
+  assign ck_io_high[41:26] = hdr_out[15:0];
 
 // clocks ======================================================================
 
