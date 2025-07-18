@@ -53,16 +53,16 @@ generate
     if( stage == '0 ) begin
       // stege 0 is actually module inputs
       for( adder = 0; adder < ST_OUT_NUM; adder++ ) begin: inputs_gen
-
-        always_comb begin
-          if( adder < INPUTS_NUM ) begin
-            data[stage][adder][ST_WIDTH-1:0] <= idata[adder][ST_WIDTH-1:0];
-            data[stage][adder][ODATA_WIDTH-1:ST_WIDTH] <= '0;
-          end else begin
+        if( adder < INPUTS_NUM ) begin
+          always_comb begin
+              data[stage][adder][ST_WIDTH-1:0] <= idata[adder][ST_WIDTH-1:0];
+              data[stage][adder][ODATA_WIDTH-1:ST_WIDTH] <= '0;
+          end
+        end else begin
+          always_comb begin
             data[stage][adder][ODATA_WIDTH-1:0] <= '0;
           end
-        end // always_comb
-
+        end
       end // for
     end else begin
       // all other stages hold adders outputs
