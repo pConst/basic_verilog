@@ -42,17 +42,22 @@ module comb_repeater #( parameter
   generate
     for( i=0; i<LENGTH; i=i+1 ) begin
 
-      always_comb begin
-
-        if( i==(LENGTH-1) ) begin
+      if( i==(LENGTH-1) ) begin
+        always_comb begin
           s1[i][WIDTH-1:0] <= ~in[WIDTH-1:0];
-        end else begin
+        end
+      end else begin
+        always_comb begin
           s1[i][WIDTH-1:0] <= ~s2[i+1][WIDTH-1:0];
         end
+      end
 
-        if( i==0 ) begin
+      if( i==0 ) begin
+        always_comb begin
           out[WIDTH-1:0] <= ~s1[i][WIDTH-1:0];
-        end else begin
+        end
+      end else begin
+        always_comb begin
           s2[i][WIDTH-1:0] <= ~s1[i][WIDTH-1:0];
         end
       end
