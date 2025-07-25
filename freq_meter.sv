@@ -43,7 +43,7 @@ module freq_meter (
     .clk( clk ),
     .nrst( nrst ),
     .ena( 1'b1 ),
-    .out(  )
+    .out( clk_div )
   );
 
   // synchronizing into test frequency time domain
